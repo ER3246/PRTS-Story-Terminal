@@ -14,7 +14,7 @@ import { InfoLicenseModal } from './components/InfoLicenseModal';
 import { ScrollNavButtons } from './components/ScrollNavButtons';
 import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
 import type { CharacterRef, GlossaryTerm } from './types/story';
-import { PanelLeftOpen, Menu, Info } from 'lucide-react';
+import { PanelLeftOpen, Menu, Info, ChevronDown } from 'lucide-react';
 import { 
   setSoundEnabled, 
   playOpenSound, 
@@ -30,6 +30,7 @@ export function App() {
   const [currentView, setCurrentView] = useState<MainViewMode>('home');
   const [isSidebarOpenMobile, setIsSidebarOpenMobile] = useState<boolean>(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [isHeaderCollapsed, setIsHeaderCollapsed] = useState<boolean>(false);
   const [isSoundOn, setIsSoundOn] = useState<boolean>(false);
   const [isReviewExportOpen, setIsReviewExportOpen] = useState<boolean>(false);
   const [isInfoLicenseOpen, setIsInfoLicenseOpen] = useState<boolean>(false);
@@ -186,21 +187,41 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-[#0e0f12] text-zinc-100 flex flex-col font-sans relative prts-grid-subtle">
+      {/* 꽉 찬 화면 상태에서 상단 메뉴 복원 플로팅 버튼 */}
+      {isHeaderCollapsed && (
+        <div className="fixed top-2.5 left-1/2 -translate-x-1/2 z-50 animate-fadeIn pointer-events-auto">
+          <button
+            onClick={() => {
+              playClickSound();
+              setIsHeaderCollapsed(false);
+            }}
+            title="상단 메뉴 다시 열기"
+            className="h-7 px-3.5 rounded-full bg-[#0a0d16]/92 hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/20 hover:border-[#ffe600] font-sans text-xs font-semibold flex items-center gap-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.7)] backdrop-blur-md cursor-pointer transition-all hover:scale-105 group"
+          >
+            <ChevronDown className="w-3.5 h-3.5 text-[#ffe600] group-hover:text-black group-hover:translate-y-0.5 transition-transform" />
+            <span>상단 메뉴 열기</span>
+          </button>
+        </div>
+      )}
+
       {/* Top Header with 4 Main View Tabs & [ⓘ INFO / LICENSE] */}
-      <Header
-        currentView={currentView}
-        onChangeView={(view) => setCurrentView(view)}
-        isSoundOn={isSoundOn}
-        onToggleSound={handleToggleSound}
-        onOpenReviewExport={() => {
-          setIsReviewExportOpen(true);
-          playOpenSound();
-        }}
-        onOpenInfoLicense={() => {
-          setIsInfoLicenseOpen(true);
-          playOpenSound();
-        }}
-      />
+      {!isHeaderCollapsed && (
+        <Header
+          currentView={currentView}
+          onChangeView={(view) => setCurrentView(view)}
+          isSoundOn={isSoundOn}
+          onToggleSound={handleToggleSound}
+          onOpenReviewExport={() => {
+            setIsReviewExportOpen(true);
+            playOpenSound();
+          }}
+          onOpenInfoLicense={() => {
+            setIsInfoLicenseOpen(true);
+            playOpenSound();
+          }}
+          onToggleCollapseHeader={() => setIsHeaderCollapsed(true)}
+        />
+      )}
 
       {/* Mobile Index Trigger Button (Only in Report view, hidden when drawer is open) */}
       {currentView === 'report' && !isSidebarOpenMobile && (
@@ -303,6 +324,8 @@ export function App() {
           {currentView === 'chronicle' && (
             <ChronicleRoadmapView
               onSelectStory={handleSelectStoryFromMapOrChronicle}
+              isHeaderCollapsed={isHeaderCollapsed}
+              onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
             />
           )}
 
@@ -310,31 +333,35 @@ export function App() {
           {currentView === 'map' && (
             <TerraMapView
               onSelectStory={handleSelectStoryFromMapOrChronicle}
+              isHeaderCollapsed={isHeaderCollapsed}
+              onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
             />
           )}
         </main>
       </div>
 
-      {/* Global Bottom Footer Bar with [ⓘ INFO / LICENSE] Button */}
-      <footer className="z-30 bg-[#07090e] border-t border-white/[0.08] px-4 lg:px-8 py-2.5 text-[11px] text-zinc-400 select-none">
-        <div className="w-full max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span className="font-mono font-bold text-zinc-300">© HYPERGRYPH / STUDIO MONTAGNE / YOSTAR</span>
-            <span className="text-zinc-600 hidden sm:inline">|</span>
-            <span className="text-zinc-400">비공식·비영리 팬 아카이브 · AI 요약 2차 가공물</span>
+      {/* Global Bottom Footer Bar (Hidden in full screen mode for edge-to-edge view) */}
+      {!isHeaderCollapsed && (
+        <footer className="z-30 bg-[#07090e] border-t border-white/[0.08] px-4 lg:px-8 py-2.5 text-[11px] text-zinc-400 select-none">
+          <div className="w-full max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-mono font-bold text-zinc-300">© HYPERGRYPH / STUDIO MONTAGNE / YOSTAR</span>
+              <span className="text-zinc-600 hidden sm:inline">|</span>
+              <span className="text-zinc-400">비공식·비영리 팬 아카이브 · AI 요약 2차 가공물</span>
+            </div>
+            <button
+              onClick={() => {
+                playOpenSound();
+                setIsInfoLicenseOpen(true);
+              }}
+              className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#ffe600] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+            >
+              <Info className="w-3 h-3 text-[#ffe600] group-hover:text-black" />
+              <span>ⓘ INFO / LICENSE</span>
+            </button>
           </div>
-          <button
-            onClick={() => {
-              playOpenSound();
-              setIsInfoLicenseOpen(true);
-            }}
-            className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#ffe600] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            <Info className="w-3 h-3 text-[#ffe600] group-hover:text-black" />
-            <span>ⓘ INFO / LICENSE</span>
-          </button>
-        </div>
-      </footer>
+        </footer>
+      )}
 
       {/* Slide Drawer */}
       <SideDrawer

@@ -1059,7 +1059,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <div className="space-y-1 sm:border-r border-white/[0.07] sm:pr-4">
                   <div className="text-[11px] font-semibold text-zinc-400 flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-[#ffe600]" />
-                    <span>작전 일시</span>
+                    <span>배경 시점</span>
                   </div>
                   <div className="text-zinc-100 font-medium text-xs sm:text-[13px] [word-break:keep-all] break-words leading-snug pl-5">
                     {story.meta.timeline}
@@ -1069,7 +1069,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <div className="space-y-1 sm:border-r border-white/[0.07] sm:pr-4">
                   <div className="text-[11px] font-semibold text-zinc-400 flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-[#ffe600]" />
-                    <span>작전 구역</span>
+                    <span>배경 지역</span>
                   </div>
                   <div className="text-zinc-100 font-medium text-xs sm:text-[13px] [word-break:keep-all] break-words leading-snug pl-5">
                     {story.meta.location}
@@ -1124,10 +1124,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               >
                 <span>
                   {isOmnibus
-                    ? '수록 단편 & 개요'
+                    ? '수록 단편'
                     : isMultiPart
-                    ? '파트 챕터 & 개요'
-                    : '서사 타임라인'}
+                    ? '챕터 목록'
+                    : '줄거리 요약'}
                 </span>
                 <span className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.07] font-mono text-[10.5px] text-[#ffe600]">
                   {isOmnibus
@@ -1152,7 +1152,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
                 }`}
               >
-                <span>작전 관계자 명부</span>
+                <span>등장인물</span>
                 <span className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300">
                   {story.characters.length}
                 </span>
@@ -1172,7 +1172,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
                 }`}
               >
-                <span>관련 용어 사전</span>
+                <span>용어 사전</span>
                 <span className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300">
                   {story.glossary.length}
                 </span>
@@ -1639,7 +1639,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 </div>
               )}
 
-              {/* Post-Operation Tactical Analysis Box */}
+              {/* Post-Operation Analysis Box */}
               <div className="rounded-[4px] border border-white/[0.07] bg-[#0d1018]/90 overflow-hidden shadow-xl">
                 <button
                   onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
@@ -1648,10 +1648,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <div className="flex items-center gap-2.5 min-w-0 font-sans">
                     <span className="w-1.5 h-3.5 rounded-[1px] bg-[#ffe600] flex-shrink-0" />
                     <span className="font-bold text-white text-sm sm:text-base [word-break:keep-all] break-words">
-                      작전 사후 전술 분석 보고서
+                      스토리 분석 및 해설
                     </span>
                     <span className="hidden sm:inline text-[11px] font-mono text-zinc-500">
-                      POST-OPERATION EVALUATION
+                      STORY COMMENTARY
                     </span>
                   </div>
                   <div className="w-7 h-7 rounded-[3px] bg-white/[0.04] border border-white/[0.08] text-zinc-400 flex items-center justify-center flex-shrink-0">
@@ -1668,7 +1668,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     <div className="space-y-2">
                       <div className="text-xs font-bold text-[#ffe600] flex items-center gap-2">
                         <span className="font-mono">01</span>
-                        <span>핵심 테마 및 서사적 메시지</span>
+                        <span>핵심 주제 및 서사적 메시지</span>
                       </div>
                       <p className="text-zinc-200 leading-[1.8] text-sm sm:text-[15px] [word-break:keep-all] break-words">
                         {story.content.analysis.theme}
@@ -1678,7 +1678,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     <div className="pt-5 space-y-2">
                       <div className="text-xs font-bold text-[#ffe600] flex items-center gap-2">
                         <span className="font-mono">02</span>
-                        <span>로도스 아일랜드 전술 손실 및 성과 평가</span>
+                        <span>로도스 아일랜드 영향 및 성과</span>
                       </div>
                       <p className="text-zinc-200 leading-[1.8] text-sm sm:text-[15px] [word-break:keep-all] break-words">
                         {story.content.analysis.tacticalEvaluation}

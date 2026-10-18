@@ -28,6 +28,8 @@ import { CopyrightBadge } from './CopyrightedImage';
 
 interface ChronicleRoadmapViewProps {
   onSelectStory: (id: string) => void;
+  isHeaderCollapsed?: boolean;
+  onToggleHeaderCollapse?: () => void;
 }
 
 export type ChronicleBrowseMode = 'story_line' | 'chronological' | 'release';
@@ -377,7 +379,11 @@ function buildSmartConnectionPath(
   return { d, startX, startY, endX, endY };
 }
 
-export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSelectStory }) => {
+export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
+  onSelectStory,
+  isHeaderCollapsed,
+  onToggleHeaderCollapse
+}) => {
   const [browseMode, setBrowseMode] = useState<ChronicleBrowseMode>('chronological');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'available' | 'overview_only'>('all');
@@ -796,7 +802,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
   const isSemanticCompact = zoomLevel < 0.7;
 
   return (
-    <div className="relative flex-1 w-full h-[calc(100vh-3.5rem)] bg-[#06080e] overflow-hidden select-none flex flex-col font-sans animate-fadeIn">
+    <div className={`relative flex-1 w-full ${isHeaderCollapsed ? 'h-screen' : 'h-[calc(100vh-3.5rem)]'} bg-[#06080e] overflow-hidden select-none flex flex-col font-sans animate-fadeIn`}>
       {/* =========================================================================
           1. TOP MASTER COMMAND HUD BAR (Unified Glass Design System)
       ========================================================================= */}
@@ -807,15 +813,15 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
             <span className="w-1.5 h-4 bg-[#ffe600] rounded-[1px] shadow-[0_0_8px_rgba(255,230,0,0.4)]" />
             <div className="flex items-center gap-2.5">
               <h1 className="text-sm sm:text-[15px] font-extrabold text-white tracking-tight font-sans">
-                테라 전략 연대기 & 서사 계통도
+                스토리 연대기 & 분류
               </h1>
               <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-bold bg-white/[0.04] text-zinc-400 border border-white/[0.08] rounded-[3px]">
-                CHRONICLE MATRIX
+                CHRONICLE
               </span>
             </div>
           </div>
 
-          {/* Right: 3 View Mode Tabs + Search + Status Filter */}
+          {/* Right: 3 View Mode Tabs + Search + Status Filter + Fullscreen Toggle */}
           <div className="flex flex-wrap items-center gap-2">
             {/* 3대 브라우징 모드 전환 (Header GNB와 동일한 글래스 세그먼트 디자인) */}
             <div className="flex items-center gap-1 p-1 rounded-[4px] bg-white/[0.03] border border-white/[0.07] text-xs font-sans">
@@ -835,7 +841,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
                     browseMode === 'chronological' ? 'text-[#ffe600]' : 'text-zinc-500'
                   }`}
                 />
-                <span>시간대별 노선도</span>
+                <span>시간순 (연대기)</span>
                 {browseMode === 'chronological' && (
                   <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
                 )}
@@ -857,7 +863,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
                     browseMode === 'story_line' ? 'text-[#ffe600]' : 'text-zinc-500'
                   }`}
                 />
-                <span>서사별 계통도</span>
+                <span>서사별 (시리즈)</span>
                 {browseMode === 'story_line' && (
                   <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
                 )}
@@ -879,7 +885,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
                     browseMode === 'release' ? 'text-[#ffe600]' : 'text-zinc-500'
                   }`}
                 />
-                <span>연차별 출시순</span>
+                <span>출시순</span>
                 {browseMode === 'release' && (
                   <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
                 )}
@@ -887,14 +893,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
             </div>
 
             {/* Instant Search */}
-            <div className="relative w-48 sm:w-56">
+            <div className="relative w-44 sm:w-52">
               <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="작전명, 코드, 연도 검색..."
-                className="w-full h-9 pl-8 pr-7 bg-white/[0.03] hover:bg-white/[0.05] focus:bg-black/60 border border-white/[0.08] focus:border-[#ffe600]/60 rounded-[4px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none transition-colors"
+                placeholder="스토리명, 코드, 연도 검색..."
+                className="w-full h-8 pl-8 pr-7 bg-white/[0.03] hover:bg-white/[0.05] focus:bg-black/60 border border-white/[0.08] focus:border-[#ffe600]/60 rounded-[3px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none transition-colors"
               />
               {searchQuery && (
                 <button
@@ -928,7 +934,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
                 }`}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
-                <span>전문</span>
+                <span>요약본</span>
                 <span className="font-mono text-[11px] opacity-85">{availableCount}</span>
               </button>
               <button
@@ -944,6 +950,25 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
                 <span className="font-mono text-[11px] opacity-85">{overviewOnlyCount}</span>
               </button>
             </div>
+
+            {/* 꽉 찬 화면 토글 버튼 */}
+            {onToggleHeaderCollapse && (
+              <button
+                onClick={() => {
+                  playClickSound();
+                  onToggleHeaderCollapse();
+                }}
+                className={`h-7 px-2.5 rounded-[3px] transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium border ${
+                  isHeaderCollapsed
+                    ? 'bg-[#ffe600] text-black border-[#ffe600] font-bold'
+                    : 'bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border-white/[0.1]'
+                }`}
+                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (꽉 찬 화면)'}
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -954,7 +979,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
               <span className="text-[11px] font-semibold text-zinc-400 mr-1 flex items-center gap-1.5 flex-shrink-0">
                 <Compass className="w-3.5 h-3.5 text-[#ffe600]" />
-                <span>시대 워프</span>
+                <span>시대 이동</span>
               </span>
               {TIMELINE_ERAS.map((era) => (
                 <button
@@ -975,7 +1000,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
             <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
               <span className="text-[11px] font-semibold text-zinc-400 mr-1 flex items-center gap-1.5 flex-shrink-0">
                 <Filter className="w-3.5 h-3.5 text-[#38bdf8]" />
-                <span>서사 강조</span>
+                <span>시리즈 강조</span>
               </span>
               <button
                 onClick={() => {
@@ -1536,6 +1561,20 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({ onSe
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
+
+              {onToggleHeaderCollapse && (
+                <>
+                  <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
+                  <button
+                    onClick={onToggleHeaderCollapse}
+                    className="px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-300 hover:text-black flex items-center gap-1 text-[10.5px] cursor-pointer transition-colors"
+                    title={isHeaderCollapsed ? '상단 메뉴 다시 열기' : '상단 메뉴 접기 (꽉 찬 화면)'}
+                  >
+                    <Maximize2 className="w-3 h-3" />
+                    <span className="hidden md:inline">{isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}

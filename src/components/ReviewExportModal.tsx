@@ -111,10 +111,10 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
               <div className="space-y-2">
                 <div className="flex items-center gap-1.5 font-bold text-white text-sm">
                   <FileText className="w-4 h-4 text-[#ffe600]" />
-                  <span>선택 스토리 다운로드</span>
+                  <span>스토리 요약본 (개별)</span>
                 </div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-sans">
-                  선택한 개별 에피소드의 상세 서사 전문과 인물 명부, 전술 분석 보고서입니다.
+                  선택한 스토리 하나의 요약 대본과 등장인물 정보를 다운로드합니다.
                 </p>
                 <div className="pt-1">
                   <select
@@ -136,7 +136,7 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
                 className="w-full py-2.5 px-3 bg-[#1e2436] hover:bg-[#ffe600] text-zinc-100 hover:text-black border border-[#303c58] hover:border-[#ffe600] text-xs font-bold font-mono transition-all cursor-pointer flex items-center justify-center gap-2 shadow"
               >
                 <FolderDown className="w-4 h-4" />
-                <span>개별 다운로드</span>
+                <span>개별 다운로드 (.md)</span>
               </button>
             </div>
 
@@ -145,10 +145,10 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
               <div className="space-y-2">
                 <div className="flex items-center gap-1.5 font-bold text-white text-sm">
                   <Layers className="w-4 h-4 text-[#ffe600]" />
-                  <span>전체 마스터 보고서</span>
+                  <span>스토리 요약집 (전체)</span>
                 </div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-sans">
-                  스토리 수록 상태, 서사 분류 및 연대기 타임라인을 총망라한 마스터 종합 보고서입니다.
+                  수록된 모든 스토리의 요약 대본과 등장인물 정보가 정리된 종합 마크다운 문서입니다.
                 </p>
                 <div className="p-2 bg-[#181c2b] border border-[#232a3d] text-[11px] font-mono text-zinc-400 truncate">
                   PRTS_Story_Archive_Status_Master.md
@@ -160,7 +160,7 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
                 className="w-full py-2.5 px-3 bg-[#ffe600] hover:bg-[#fff04d] text-black font-bold font-mono text-xs transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,230,0,0.2)]"
               >
                 <Download className="w-4 h-4" />
-                <span>마스터 다운로드</span>
+                <span>전체 다운로드 (.md)</span>
               </button>
             </div>
           </div>

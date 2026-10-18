@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info } from 'lucide-react';
+import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2 } from 'lucide-react';
 import { playTabSwitchSound, playClickSound } from '../utils/soundEffects';
 
 export type MainViewMode = 'home' | 'report' | 'chronicle' | 'map';
@@ -11,6 +11,7 @@ interface HeaderProps {
   isSoundOn?: boolean;
   onOpenReviewExport?: () => void;
   onOpenInfoLicense?: () => void;
+  onToggleCollapseHeader?: () => void;
 }
 
 const NAV_ITEMS: { mode: MainViewMode; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -27,6 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
   isSoundOn = false,
   onOpenReviewExport,
   onOpenInfoLicense,
+  onToggleCollapseHeader,
 }) => {
   const handleNav = (mode: MainViewMode) => {
     playTabSwitchSound();
@@ -83,6 +85,21 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right: Minimal Utility Actions & [ⓘ INFO / LICENSE] */}
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          {/* 꽉 찬 화면 토글 버튼 */}
+          {onToggleCollapseHeader && (
+            <button
+              onClick={() => {
+                playClickSound();
+                onToggleCollapseHeader();
+              }}
+              title="상단 메뉴 접기 (꽉 찬 화면으로 보기)"
+              className="h-8 px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/60 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium"
+            >
+              <Maximize2 className="w-3.5 h-3.5 text-[#ffe600]" />
+              <span className="hidden sm:inline">꽉 찬 화면</span>
+            </button>
+          )}
+
           {onOpenInfoLicense && (
             <button
               onClick={() => {

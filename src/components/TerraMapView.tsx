@@ -28,13 +28,16 @@ import {
   Search,
   Map as MapIcon,
   HelpCircle,
-  Keyboard
+  Keyboard,
+  Maximize2
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
 
 interface TerraMapViewProps {
   onSelectStory: (id: string) => void;
+  isHeaderCollapsed?: boolean;
+  onToggleHeaderCollapse?: () => void;
 }
 
 // Refined Tactical Mineral & Biome Palette (Rich, Cohesive Wargame Aesthetic)
@@ -553,7 +556,11 @@ interface MobilePreviewCardData {
   badgeColor?: string;
 }
 
-export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => {
+export const TerraMapView: React.FC<TerraMapViewProps> = ({
+  onSelectStory,
+  isHeaderCollapsed,
+  onToggleHeaderCollapse,
+}) => {
   const [pinnedRegionId, setPinnedRegionId] = useState<string | null>(null);
   const [hoveredRegionId, setHoveredRegionId] = useState<string | null>(null);
   const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
@@ -573,7 +580,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
     if (typeof window === 'undefined') return false;
     return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
   });
-  const [mobileTouchOrbit, setMobileTouchOrbit] = useState<boolean>(false);
   const [mobilePreviewCard, setMobilePreviewCard] = useState<MobilePreviewCardData | null>(null);
 
   useEffect(() => {
@@ -610,13 +616,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
   const keysDownRef = useRef<Set<string>>(new Set());
   const legendOpenRef = useRef<boolean>(false);
   const splashStoryRef = useRef<StoryListItem | null>(null);
-  const mobileTouchOrbitRef = useRef<boolean>(false);
 
   // Telemetry DOM Direct Refs (Zero React Re-render at 144Hz)
   const telemetryCoordRef = useRef<HTMLSpanElement>(null);
   const telemetryAngleRef = useRef<HTMLSpanElement>(null);
   const telemetryZoomRef = useRef<HTMLSpanElement>(null);
   const telemetrySectorRef = useRef<HTMLSpanElement>(null);
+  const telemetryYawSliderRef = useRef<HTMLInputElement>(null);
+  const telemetryYawTextRef = useRef<HTMLSpanElement>(null);
 
   // Camera State Ref (Spherical Orbit around Target)
   const camStateRef = useRef({
@@ -640,9 +647,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
   const showRoutesRef = useRef<boolean>(showRoutes);
   const routeFilterRef = useRef<'all' | RouteCategory>(routeFilter);
 
-  useEffect(() => {
-    mobileTouchOrbitRef.current = mobileTouchOrbit;
-  }, [mobileTouchOrbit]);
+  const handleSetAzimuthDegrees = (degrees: number) => {
+    camStateRef.current.targetAzimuth = (degrees * Math.PI) / 180;
+  };
 
   useEffect(() => {
     legendOpenRef.current = isLegendOpen;
@@ -1161,9 +1168,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
     let lastPointerY = 0;
     let dragDistance = 0;
 
-    // Multi-touch tracking for smooth 2-finger pinch zoom & tilt
+    // Multi-touch tracking for smooth 2-finger pinch zoom, 360° twist rotation, and drag orbit
     const activeTouchPoints = new Map<number, { x: number; y: number }>();
     let lastPinchDist = 0;
+    let lastPinchAngle = 0;
+    let lastMidX = 0;
+    let lastMidY = 0;
     let wasMultiTouchSession = false;
 
     const updateHoveredRegion = (nextRegId: string | null) => {
@@ -1175,7 +1185,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
           const rObj = activeId ? regionLookup.get(activeId) : null;
           telemetrySectorRef.current.textContent = rObj
             ? `${rObj.nameKo} (${rObj.nameEn.toUpperCase()})`
-            : '대륙 중립 구역';
+            : '중립 지역';
         }
       }
     };
@@ -1199,6 +1209,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
           wasMultiTouchSession = true;
           const pts = Array.from(activeTouchPoints.values());
           lastPinchDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+          lastPinchAngle = Math.atan2(pts[1].y - pts[0].y, pts[1].x - pts[0].x);
+          lastMidX = (pts[0].x + pts[1].x) / 2;
+          lastMidY = (pts[0].y + pts[1].y) / 2;
           return;
         }
       }
@@ -1221,18 +1234,49 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
         return;
       }
 
-      // Two-finger pinch zoom & two-finger tilt handling
+      // Two-finger smooth pinch zoom & 360° twist rotation / drag orbit
       if (e.pointerType === 'touch' && activeTouchPoints.has(e.pointerId)) {
         activeTouchPoints.set(e.pointerId, { x: e.clientX, y: e.clientY });
         if (activeTouchPoints.size >= 2) {
           const pts = Array.from(activeTouchPoints.values());
           const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+          const currentAngle = Math.atan2(pts[1].y - pts[0].y, pts[1].x - pts[0].x);
+          const midX = (pts[0].x + pts[1].x) / 2;
+          const midY = (pts[0].y + pts[1].y) / 2;
+          const cam = camStateRef.current;
+
           if (lastPinchDist > 0) {
+            // 1. Pinch zoom
             const deltaDist = dist - lastPinchDist;
-            const cam = camStateRef.current;
             cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius - deltaDist * 1.45));
+
+            // 2. Twist rotation (fingers rotating around each other)
+            let deltaAngle = currentAngle - lastPinchAngle;
+            while (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
+            while (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
+            if (Math.abs(deltaAngle) > 0.01) {
+              cam.targetAzimuth -= deltaAngle * 1.35;
+            }
+
+            // 3. Two-finger horizontal translation rotation
+            const deltaMidX = midX - lastMidX;
+            if (Math.abs(deltaMidX) > 1.0) {
+              cam.targetAzimuth -= deltaMidX * 0.0055;
+            }
+
+            // 4. Two-finger vertical pitch adjustment
+            const deltaMidY = midY - lastMidY;
+            if (Math.abs(deltaMidY) > 1.0) {
+              cam.targetPolar = Math.max(
+                (8 * Math.PI) / 180,
+                Math.min((72 * Math.PI) / 180, cam.targetPolar - deltaMidY * 0.0035)
+              );
+            }
           }
           lastPinchDist = dist;
+          lastPinchAngle = currentAngle;
+          lastMidX = midX;
+          lastMidY = midY;
           return;
         }
       }
@@ -1255,8 +1299,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
           pointerButton === 1 ||
           (e.buttons & 2) !== 0 ||
           (e.buttons & 4) !== 0 ||
-          e.shiftKey ||
-          (e.pointerType === 'touch' && mobileTouchOrbitRef.current);
+          e.shiftKey;
 
         if (isOrbitAction) {
           cam.targetAzimuth -= dx * 0.0055;
@@ -1327,11 +1370,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
           lastPointerX = remaining.x;
           lastPointerY = remaining.y;
           lastPinchDist = 0;
+          lastPinchAngle = 0;
+          lastMidX = 0;
+          lastMidY = 0;
           return;
         }
         if (activeTouchPoints.size === 0 && wasMultiTouchSession) {
           wasMultiTouchSession = false;
           lastPinchDist = 0;
+          lastPinchAngle = 0;
+          lastMidX = 0;
+          lastMidY = 0;
           isPointerDown = false;
           return;
         }
@@ -1426,6 +1475,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
       activeTouchPoints.clear();
       wasMultiTouchSession = false;
       lastPinchDist = 0;
+      lastPinchAngle = 0;
+      lastMidX = 0;
+      lastMidY = 0;
       container.style.cursor = 'grab';
       keysDownRef.current.clear();
     };
@@ -1509,14 +1561,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
       camera.lookAt(cam.currentX, 0, cam.currentZ);
       camera.updateMatrixWorld();
 
+      const rawYawDeg = Math.round((cam.currentAzimuth * 180) / Math.PI);
+      const normalizedYaw = ((rawYawDeg % 360) + 360) % 360;
+
       if (telemetryAngleRef.current) {
         const pitchDeg = Math.round((cam.currentPolar * 180) / Math.PI);
-        const yawDeg = Math.round(((cam.currentAzimuth * 180) / Math.PI) % 360);
-        telemetryAngleRef.current.textContent = `${pitchDeg}° / ${yawDeg}°`;
+        telemetryAngleRef.current.textContent = `${pitchDeg}° / ${normalizedYaw}°`;
       }
       if (telemetryZoomRef.current) {
         const zoomPct = Math.round((550 / cam.currentRadius) * 100);
         telemetryZoomRef.current.textContent = `${zoomPct}%`;
+      }
+      if (telemetryYawSliderRef.current && document.activeElement !== telemetryYawSliderRef.current) {
+        telemetryYawSliderRef.current.value = String(normalizedYaw);
+      }
+      if (telemetryYawTextRef.current) {
+        telemetryYawTextRef.current.textContent = `${normalizedYaw}°`;
       }
 
       radarSweep.rotation.y -= 0.008;
@@ -1722,7 +1782,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
   }, [regionLookup, handleSelectRegion]);
 
   return (
-    <div className="relative flex-1 w-full h-[calc(100vh-3.5rem)] bg-[#06090f] overflow-hidden select-none">
+    <div className={`relative flex-1 w-full ${isHeaderCollapsed ? 'h-screen' : 'h-[calc(100vh-3.5rem)]'} bg-[#06090f] overflow-hidden select-none`}>
       {/* =========================================================================
           1. WEBGL 3D CANVAS VIEWPORT & PROJECTED SCREEN-SPACE PINS
       ========================================================================= */}
@@ -1985,7 +2045,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
                   }}
                   className="flex-1 h-8 px-3 rounded-[2px] bg-[#ffe600] hover:bg-[#ffe600]/90 text-black font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
-                  <span>작전 기록 열람</span>
+                  <span>스토리 열람</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               )}
@@ -2214,7 +2274,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
                   playClickSound();
                   setIsLegendOpen(true);
                 }}
-                title="아이콘 설명도"
+                title="지도 범례"
                 className={`h-7 px-2 rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
                   isLegendOpen
                     ? 'bg-[#ffe600] text-black font-bold'
@@ -2222,23 +2282,46 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
                 }`}
               >
                 <HelpCircle className="w-3.5 h-3.5 text-[#ffe600]" />
-                <span className="hidden sm:inline text-xs font-semibold">설명도</span>
+                <span className="hidden sm:inline text-xs font-semibold">범례</span>
               </button>
             </div>
+
+            {/* Fullscreen / Collapse Header Toggle Button */}
+            {onToggleHeaderCollapse && (
+              <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center shadow-xl">
+                <button
+                  onClick={() => {
+                    playClickSound();
+                    onToggleHeaderCollapse();
+                  }}
+                  title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (꽉 찬 화면)'}
+                  className={`h-7 px-2 rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
+                    isHeaderCollapsed
+                      ? 'bg-amber-400/20 text-amber-300 border border-amber-400/50'
+                      : 'text-zinc-400 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <Maximize2 className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline text-xs font-semibold">
+                    {isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Route Category Filter Bar (Only visible when showRoutes is active) */}
           {showRoutes && (
             <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center gap-1 text-[11px] shadow-xl">
               <span className="px-2 text-[10px] font-mono text-zinc-400 hidden sm:inline">
-                ROUTE FILTER
+                경로 필터
               </span>
               {(
                 [
                   { id: 'all', label: '전체', count: TACTICAL_ROUTES.length },
                   {
                     id: 'main',
-                    label: '메인 대서사',
+                    label: '메인 스토리',
                     count: TACTICAL_ROUTES.filter((r) => r.category === 'main').length,
                   },
                   {
@@ -2297,7 +2380,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
             <div className="flex items-center gap-2 pr-2 border-r border-white/10">
               <span className="w-2 h-2 rounded-[1px] bg-[#ffe600]" />
               <span ref={telemetrySectorRef} className="text-white font-semibold">
-                대륙 중립 구역
+                중립 지역
               </span>
               <span ref={telemetryCoordRef} className="text-zinc-500 font-mono text-[10px] hidden sm:inline">
                 X:410 Y:512 · 450M
@@ -2307,24 +2390,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
             {isTouchOrMobile ? (
               /* Mobile / Touch Mode Banner */
               <div className="flex flex-wrap items-center gap-2 text-zinc-200 text-[11px]">
-                <span>👆 한 손가락 드래그: 지도 이동</span>
+                <span>👆 1손가락: 지도 이동</span>
                 <span className="text-zinc-600">|</span>
-                <span>🤏 두 손가락 핀치: 확대 · 축소</span>
+                <span>🤏 2손가락: 확대/축소 및 360° 회전</span>
                 <span className="text-zinc-600 hidden sm:inline">|</span>
-                <span className="hidden sm:inline">📍 거점 · 경로 탭: 상세 정보</span>
-                <button
-                  onClick={() => {
-                    playClickSound();
-                    setMobileTouchOrbit(!mobileTouchOrbit);
-                  }}
-                  className={`px-2 py-0.5 rounded-[2px] font-mono text-[10px] font-bold border transition-colors cursor-pointer ${
-                    mobileTouchOrbit
-                      ? 'bg-[#00d8ff] text-black border-white'
-                      : 'bg-white/10 text-zinc-300 border-white/15'
-                  }`}
-                >
-                  {mobileTouchOrbit ? '3D 회전 모드 ON' : '터치: 이동 모드'}
-                </button>
+                <span className="hidden sm:inline">📍 거점·경로: 탭하여 상세 정보</span>
               </div>
             ) : (
               /* PC Mode Banner */
@@ -2335,7 +2405,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
                 <span className="text-zinc-600 hidden md:inline">|</span>
                 <span className="hidden md:inline">⌨️ 방향키: 지도 이동</span>
                 <span className="text-zinc-600 hidden lg:inline">|</span>
-                <span className="hidden lg:inline">핀 클릭: 작전 열람</span>
+                <span className="hidden lg:inline">핀 클릭: 스토리 열람</span>
 
                 <div className="w-[1px] h-3.5 bg-white/10" />
 
@@ -2344,24 +2414,46 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
                     playClickSound();
                     setIsLegendOpen(true);
                   }}
-                  title="지도 아이콘 범례 및 조작 설명도"
+                  title="지도 범례 및 조작 안내"
                   className="flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] hover:bg-[#ffe600] text-[#ffe600] hover:text-black font-semibold transition-colors cursor-pointer text-[11px]"
                 >
                   <HelpCircle className="w-3.5 h-3.5" />
-                  <span>아이콘 설명도</span>
+                  <span>지도 범례</span>
                 </button>
               </div>
             )}
           </div>
 
-          {/* Right: Compact Icon Camera Controls (+ / - / Reset Floating Touch Buttons) */}
-          <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center gap-0.5 font-mono text-xs shadow-xl">
+          {/* Right: Compact Icon Camera Controls (+ / - / 360 Rotation Slider / Reset) */}
+          <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center gap-1 font-mono text-xs shadow-xl">
             <span
               ref={telemetryAngleRef}
               className="px-2 text-[10px] text-zinc-400 hidden lg:inline border-r border-white/10 mr-0.5"
             >
               52° / 0°
             </span>
+
+            {/* 360° Horizontal Rotation Slider */}
+            <div
+              className="flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] bg-white/[0.04] border border-white/[0.08]"
+              title="360° 수평 회전 바"
+            >
+              <Compass className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+              <input
+                ref={telemetryYawSliderRef}
+                type="range"
+                min="0"
+                max="359"
+                defaultValue="0"
+                onChange={(e) => handleSetAzimuthDegrees(Number(e.target.value))}
+                className="w-16 sm:w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#ffe600]"
+                title="지도 360도 회전 각도 조절"
+              />
+              <span ref={telemetryYawTextRef} className="text-[10px] text-zinc-300 font-mono w-7 text-right">
+                0°
+              </span>
+            </div>
+
             <button
               onClick={() => handleRotateYaw(-Math.PI / 8)}
               title="좌측 회전"
@@ -2400,7 +2492,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
             <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
             <button
               onClick={handleResetCamera}
-              title="[⟳] 전체 지도 초기화"
+              title="지도 시점 초기화"
               className="w-7 h-7 rounded-[2px] text-zinc-300 hover:text-black hover:bg-[#ffe600] flex items-center justify-center transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -2461,7 +2553,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
 
               {pinnedRegion.capital && (
                 <div className="mt-3 pt-2.5 border-t border-white/8 flex items-center justify-between text-xs">
-                  <span className="text-zinc-400">핵심 거점 / 수도</span>
+                  <span className="text-zinc-400">수도 / 거점</span>
                   <span className="text-[#ffe600] font-semibold">{pinnedRegion.capital}</span>
                 </div>
               )}
@@ -2472,7 +2564,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
               {/* Geopolitical Overview */}
               <div className="space-y-1.5">
                 <div className="text-[11px] font-bold text-zinc-400">
-                  지역 개요
+                  지역 소개
                 </div>
                 <p className="text-xs sm:text-[13px] text-zinc-200 leading-relaxed bg-white/[0.03] border border-white/[0.06] rounded-[3px] p-3">
                   {pinnedRegion.description}
@@ -2483,7 +2575,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
               {pinnedRegionCities.length > 0 && (
                 <div className="space-y-2">
                   <div className="text-[11px] font-bold text-zinc-400 flex items-center justify-between">
-                    <span>주요 이동도시 · 거점</span>
+                    <span>주요 도시 · 거점</span>
                     <span className="font-mono text-[10px] text-[#00d8ff]">{pinnedRegionCities.length}곳</span>
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -2525,8 +2617,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
               {pinnedRegionRoutes.length > 0 && (
                 <div className="space-y-2">
                   <div className="text-[11px] font-bold text-zinc-400 flex items-center justify-between">
-                    <span>연계 작전 기동 경로</span>
-                    <span className="font-mono text-[10px] text-amber-400">{pinnedRegionRoutes.length}개 궤적</span>
+                    <span>스토리 이동 경로</span>
+                    <span className="font-mono text-[10px] text-amber-400">{pinnedRegionRoutes.length}개</span>
                   </div>
                   <div className="space-y-1.5">
                     {pinnedRegionRoutes.map((rt) => (
@@ -2573,7 +2665,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({ onSelectStory }) => 
 
                 {pinnedRegionStories.length === 0 ? (
                   <div className="p-4 text-center text-xs text-zinc-500 border border-white/[0.06] rounded-[3px] bg-white/[0.02]">
-                    등록된 직접 연관 스토리가 없습니다.
+                    관련 스토리가 없습니다.
                   </div>
                 ) : (
                   <div className="space-y-1.5">
@@ -2707,14 +2799,14 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-base sm:text-lg font-black tracking-tight text-white">
-                  테라 전술 지도 범례 및 조작 설명도
+                  테라 지도 안내 & 범례
                 </h3>
                 <span className="px-1.5 py-0.5 rounded-[2px] bg-white/10 text-[#ffe600] text-[10px] font-mono font-bold">
-                  PRTS SPEC v2.5
+                  안내
                 </span>
               </div>
               <p className="text-[11px] font-mono text-zinc-400 mt-0.5">
-                TERRA TACTICAL MAP LEGEND & CONTROL SCHEME
+                TERRA MAP GUIDE & CONTROLS
               </p>
             </div>
           </div>
@@ -2738,16 +2830,16 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
 
         {/* Modal Body (Scrollable) */}
         <div className="flex-1 overflow-y-auto p-5 space-y-6 divide-y divide-white/10 text-xs sm:text-[13px]">
-          {/* Section 1: 지도 심볼 및 마커 범례 */}
+          {/* Section 1: 지도 심볼 및 마커 */}
           <div>
             <div className="flex items-center justify-between mb-3.5">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#ffe600]" />
                 <h4 className="text-sm font-bold text-white tracking-wide">
-                  전술 지도 심볼 & 마커 범례
+                  지도 심볼 및 마커 안내
                 </h4>
               </div>
-              <span className="text-[11px] font-mono text-zinc-500">MAP ICONS & SYMBOLS</span>
+              <span className="text-[11px] font-mono text-zinc-500">MAP SYMBOLS</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -2766,7 +2858,7 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                     <span className="text-[9px] font-mono text-[#ffe600]">CAPITAL</span>
                   </div>
                   <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    각 국가의 수도 이동도시(런디니움, 디에티 그라이퍼부르크, 카발레리에키 등) 및 로도스 아일랜드 본함 위치. 클릭 시 시점이 즉시 줌인 포커스되며 영토 상세 정보가 우측 패널에 열립니다.
+                    각 국가의 수도 이동도시와 로도스 아일랜드 본함 위치입니다. 클릭하면 해당 거점으로 이동하며 우측 패널에서 상세 정보를 확인할 수 있습니다.
                   </p>
                 </div>
               </div>
@@ -2779,11 +2871,11 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <span>주요 이동도시 및 작전 거점 (27곳)</span>
+                    <span>주요 도시 및 거점 (27곳)</span>
                     <span className="text-[9px] font-mono text-zinc-400">OUTPOST</span>
                   </div>
                   <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    체르노보그, 용문, 트리마운츠, 볼시니, 옥문, 그란파로 등 주요 서사의 무대가 되는 27개 핵심 거점. 줌인 시 상세 노출되며 클릭 시 해당 거점으로 이동합니다.
+                    체르노보그, 용문, 트리마운츠, 볼시니 등 스토리의 주 무대가 되는 27개 핵심 도시입니다. 클릭 시 해당 위치로 시점이 이동합니다.
                   </p>
                 </div>
               </div>
@@ -2807,7 +2899,7 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                     <span className="text-[9px] font-mono text-[#00d8ff]">18 NATIONS</span>
                   </div>
                   <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    18개 주요 국가/세력의 영토 중심 마크. 클릭 시 우측 드로어에 국가 프로필, 소속 거점, 연계 작전 기동 경로 및 모든 관련 스토리를 확인합니다.
+                    18개 국가 및 세력의 중심 마크입니다. 클릭 시 우측 서랍 패널에서 지역 소개와 소속 거점, 관련 스토리를 열람할 수 있습니다.
                   </p>
                 </div>
               </div>
@@ -2824,11 +2916,11 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <span>작전 이동 경로 (18개 핵심 궤적)</span>
+                    <span>스토리 이동 경로 (18개)</span>
                     <span className="text-[9px] font-mono text-amber-400">TRAJECTORY</span>
                   </div>
                   <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    실제 도시·국가 간 장거리 이동이 발생한 18개 핵심 작전 궤적. 상단 서브 필터(메인 대서사 / 세력 연작 / 대륙 원정)로 분류 조회가 가능하며, 클릭 시 스토리 팝업을 호출합니다.
+                    도시나 국가 간 장거리 이동이 일어난 18개 주요 경로입니다. 상단 필터로 분류해 볼 수 있으며, 클릭 시 스토리 요약 팝업이 열립니다.
                   </p>
                 </div>
               </div>
@@ -2845,23 +2937,23 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                     <span className="text-[9px] font-mono text-zinc-400">ELEVATION & BORDERS</span>
                   </div>
                   <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    테라 대륙의 해양·평원·고원 지형 릴리프와 세력권 경계망. 상단 툴바의 '고저차' 버튼으로 평면과 입체 지형을 토글할 수 있으며, 마우스를 올린 지역은 부드럽게 융기되어 강조됩니다.
+                    테라 대륙의 해양·평원·고원 지형 릴리프와 세력권 경계망입니다. 상단 툴바의 '고저차' 버튼으로 평면과 입체 지형을 전환할 수 있습니다.
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Section 2: 전술 조작 가이드 */}
+          {/* Section 2: 조작 가이드 */}
           <div className="pt-5">
             <div className="flex items-center justify-between mb-3.5">
               <div className="flex items-center gap-2">
                 <Keyboard className="w-4 h-4 text-[#00d8ff]" />
                 <h4 className="text-sm font-bold text-white tracking-wide">
-                  전술 조작 가이드 (키보드 & 마우스)
+                  지도 조작 가이드
                 </h4>
               </div>
-              <span className="text-[11px] font-mono text-zinc-500">CONTROLS & KEYBINDS</span>
+              <span className="text-[11px] font-mono text-zinc-500">CONTROLS</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -2880,45 +2972,45 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                   </div>
                 </div>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  카메라가 바라보는 방향을 기준으로 전술 지도 상·하·좌·우를 매끄럽게 이동합니다.
+                  바라보는 방향을 기준으로 지도를 상·하·좌·우로 부드럽게 이동합니다.
                 </p>
                 <div className="pt-1 flex items-center gap-1.5 text-[10px] text-zinc-400 font-mono">
                   <kbd className="px-1 py-0.2 bg-white/10 rounded-[2px] text-[#ffe600] font-bold">
                     SHIFT
                   </kbd>
-                  <span>동시 입력 시 2.4배 고속 부스트 이동</span>
+                  <span>동시 입력 시 고속 부스트 이동</span>
                 </div>
               </div>
 
-              {/* 2. 마우스 평면 이동 */}
+              {/* 2. 마우스 / 터치 이동 */}
               <div className="p-3 rounded-[3px] bg-white/[0.03] border border-white/[0.08] space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-xs">마우스 이동</span>
-                  <kbd className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                    좌클릭 드래그
-                  </kbd>
+                  <span className="font-bold text-white text-xs">지도 이동</span>
+                  <span className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
+                    드래그 (1손가락)
+                  </span>
                 </div>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  지도 바닥을 마우스로 직접 잡고 드래그하여 원하는 위치로 자유롭게 이동합니다.
+                  지도를 마우스 좌클릭 또는 1손가락으로 드래그하여 자유롭게 이동합니다.
                 </p>
               </div>
 
-              {/* 3. 3D 회전 및 각도(틸트) 조절 */}
+              {/* 3. 3D 회전 및 각도 조절 */}
               <div className="p-3 rounded-[3px] bg-white/[0.03] border border-white/[0.08] space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-xs">3D 회전 및 각도 (Orbit & Tilt)</span>
+                  <span className="font-bold text-white text-xs">360° 회전 및 시점 각도</span>
                   <div className="flex items-center gap-1">
                     <kbd className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
                       우클릭 드래그
                     </kbd>
                     <span className="text-zinc-500">/</span>
-                    <kbd className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      Shift+드래그
-                    </kbd>
+                    <span className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
+                      2손가락 회전
+                    </span>
                   </div>
                 </div>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  3D 시점을 360° 회전하거나 지형을 수평~수직으로 기울여 관측합니다. 하단 우측의 ↺ ↻ 버튼으로 45° 단위 단계별 회전도 가능합니다.
+                  우클릭 드래그나 하단 360° 바, 모바일 2손가락 비틀기 제스처로 지도를 360도 회전하고 시점 각도를 조절할 수 있습니다.
                 </p>
               </div>
 
@@ -2928,25 +3020,25 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                   <span className="font-bold text-white text-xs">확대 및 축소 (Zoom)</span>
                   <div className="flex items-center gap-1">
                     <kbd className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      마우스 휠
+                      휠 스크롤
                     </kbd>
                     <span className="text-zinc-500">/</span>
-                    <kbd className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      + - 버튼
-                    </kbd>
+                    <span className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
+                      2손가락 핀치
+                    </span>
                   </div>
                 </div>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  줌인하여 세부 거점과 도시명을 확인하거나 줌아웃하여 테라 대륙 전체를 조망합니다.
+                  마우스 휠이나 +/- 버튼, 모바일 두 손가락 핀치 제스처로 지도를 확대·축소합니다.
                 </p>
               </div>
 
               {/* 5. 뷰 모드 및 레이어 필터 */}
               <div className="md:col-span-2 p-3 rounded-[3px] bg-white/[0.03] border border-white/[0.08] flex flex-wrap items-center justify-between gap-2">
                 <div className="space-y-0.5">
-                  <div className="font-bold text-white text-xs">시점 모드 & 레이어 필터링</div>
+                  <div className="font-bold text-white text-xs">시점 모드 & 레이어 필터</div>
                   <div className="text-zinc-300 text-[11px]">
-                    3D 입체 투시도(52°) ↔ 2D 정밀 평면도(8°) 즉시 전환 및 고저차·엠블럼·거점·경로 개별 토글 지원
+                    3D 입체 시점(52°)과 2D 평면도(8°) 전환 및 고저차·국가 마크·거점·경로를 개별 표시할 수 있습니다.
                   </div>
                 </div>
                 <div className="flex items-center gap-1 font-mono text-[10px]">
@@ -2963,7 +3055,7 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
 
         {/* Modal Footer */}
         <div className="px-5 py-3 border-t border-white/10 bg-white/[0.02] flex items-center justify-between text-xs font-mono">
-          <span className="text-zinc-500">PRTS TACTICAL MAP INTERFACE · RHODES ISLAND CENTRAL</span>
+          <span className="text-zinc-500">PRTS TACTICAL MAP</span>
           <button
             onClick={() => {
               playCloseSound();
