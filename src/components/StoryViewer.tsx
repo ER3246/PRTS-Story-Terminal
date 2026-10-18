@@ -99,7 +99,6 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   const arcTitle = currentArc?.partTitleKo || currentSubPage?.label || '챕터 상세';
   const arcTitleEn = currentArc?.partTitleEn || '';
   const arcCode = currentArc?.code || currentSubPage?.code || 'CHAPTER';
-  const arcFocal = currentArc?.focalCharacter || currentSubPage?.focalCharacter;
 
   // 에피소드 전환 시 모든 국면 및 스테이지 기본 펼침 상태로 초기화
   useEffect(() => {
@@ -229,15 +228,6 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 </span>
               ) : null}
               <span>{cleanLabel}</span>
-              {sp.focalCharacter && (
-                <span
-                  className={`text-[10.5px] px-1.5 py-0.2 rounded-[2px] hidden md:inline ${
-                    isSelected ? 'bg-white/[0.12] text-zinc-200' : 'bg-white/[0.04] text-zinc-500'
-                  }`}
-                >
-                  {sp.focalCharacter}
-                </span>
-              )}
               {isSelected && (
                 <span className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
               )}
@@ -573,13 +563,6 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   {story.titleKo} <span className="font-mono text-zinc-500">({story.code})</span>
                 </span>
               </div>
-              {arcFocal && (
-                <span className="px-2.5 py-1 rounded-[3px] bg-white/[0.04] border border-white/[0.08] text-zinc-200 text-xs font-medium flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
-                  <span className="text-zinc-400">중심 인물:</span>
-                  <span className="font-bold text-white">{arcFocal}</span>
-                </span>
-              )}
             </div>
 
             <div className="space-y-1">
@@ -1285,11 +1268,6 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600]/15 border border-[#ffe600]/40 text-[#ffe600] font-mono font-bold text-[11px]">
                               {sp.code || 'PART'}
                             </span>
-                            {sp.focalCharacter && (
-                              <span className="text-zinc-400 text-[11px]">
-                                초점 인물: <span className="text-zinc-200 font-semibold">{sp.focalCharacter}</span>
-                              </span>
-                            )}
                           </div>
                           <h3 className="text-lg font-extrabold text-white group-hover:text-[#ffe600] transition-colors font-sans">
                             {sp.label}

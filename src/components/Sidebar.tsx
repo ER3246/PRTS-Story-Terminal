@@ -512,11 +512,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                                   )}
                                                   <span className="truncate">{sp.label}</span>
                                                 </div>
-                                                {sp.focalCharacter && (
-                                                  <span className="text-[9px] font-sans text-zinc-500 truncate ml-1">
-                                                    {sp.focalCharacter.split('&')[0].trim()}
-                                                  </span>
-                                                )}
                                               </div>
                                             );
                                           })}

@@ -43,10 +43,10 @@ export const sidLoneTrail: StoryArchive = {
   ],
   subPages: [
     { id: 'overview', label: '전체 서사 개요', isOverview: true },
-    { id: 'part_1', label: 'Part 1: 트리마운츠의 암운', code: 'CW-01', focalCharacter: '사일런스 & 뮤엘시스' },
-    { id: 'part_2', label: 'Part 2: 닫힌 문의 비밀', code: 'CW-02', focalCharacter: '로즈몬티스 & 이프리트' },
-    { id: 'part_3', label: 'Part 3: 프로젝트 호라이즌 아크', code: 'CW-03', focalCharacter: '퍼디낸드 & 사리아' },
-    { id: 'part_4', label: 'Part 4: 별하늘의 문을 열어', code: 'CW-04', focalCharacter: '크리스틴 & 켈시' }
+    { id: 'part_1', label: 'Part 1: 트리마운츠의 암운', code: 'CW-01' },
+    { id: 'part_2', label: 'Part 2: 닫힌 문의 비밀', code: 'CW-02' },
+    { id: 'part_3', label: 'Part 3: 프로젝트 호라이즌 아크', code: 'CW-03' },
+    { id: 'part_4', label: 'Part 4: 별하늘의 문을 열어', code: 'CW-04' }
   ],
   multiPartArcs: [
     {
@@ -55,7 +55,6 @@ export const sidLoneTrail: StoryArchive = {
       partTitleKo: 'Part 1: 트리마운츠의 암운',
       partTitleEn: 'The Gathering Storm over Trimounts',
       code: 'CW-01',
-      focalCharacter: '사일런스 & 뮤엘시스',
       location: '컬럼비아 트리마운츠 라인 랩 본부 및 맥스 특별구',
       timeline: '테라력 1099년 11월 초순',
       cgUrl: '/images/cgs/38_i07.png',
@@ -249,7 +248,6 @@ export const sidLoneTrail: StoryArchive = {
       partTitleKo: 'Part 2: 닫힌 문의 비밀',
       partTitleEn: 'Secrets Behind Closed Doors',
       code: 'CW-02',
-      focalCharacter: '로즈몬티스 & 이프리트',
       location: '라인 랩 생태과 지하 특수 구역 및 도심 외곽 골목',
       timeline: '테라력 1099년 11월 중순',
       cgUrl: '/images/cgs/38_i03.png',
@@ -451,7 +449,6 @@ export const sidLoneTrail: StoryArchive = {
       partTitleKo: 'Part 3: 프로젝트 호라이즌 아크',
       partTitleEn: 'Project Horizon Arc',
       code: 'CW-03',
-      focalCharacter: '퍼디낸드 & 사리아',
       location: '트리마운츠 지하 제1통제구역 및 5,000m 상공',
       timeline: '테라력 1099년 11월 21일',
       cgUrl: '/images/cgs/38_i10.png',
@@ -680,7 +677,6 @@ export const sidLoneTrail: StoryArchive = {
       partTitleKo: 'Part 4: 별하늘의 문을 열어',
       partTitleEn: 'Breaking the Starlight Sky',
       code: 'CW-04',
-      focalCharacter: '크리스틴 & 켈시',
       location: '스텔라리아 통제탑 및 상공 6,000m 차단층 너머',
       timeline: '테라력 1099년 11월 21일 심야 ~ 12월',
       cgUrl: '/images/cgs/38_i13.png',

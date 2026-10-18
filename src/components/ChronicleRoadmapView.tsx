@@ -2754,11 +2754,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                           className="px-2.5 py-1.5 rounded-[2px] bg-white/[0.03] hover:bg-[#ffe600]/15 border border-white/[0.06] hover:border-[#ffe600]/40 cursor-pointer flex items-center justify-between text-[11px]"
                         >
                           <span className="text-zinc-200 font-medium truncate">{sp.label}</span>
-                          {sp.focalCharacter && (
-                            <span className="text-[10px] font-mono text-zinc-400 ml-2 flex-shrink-0">
-                              {sp.focalCharacter}
-                            </span>
-                          )}
                         </div>
                       ))}
                     </div>

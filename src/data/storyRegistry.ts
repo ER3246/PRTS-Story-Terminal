@@ -1242,9 +1242,9 @@ export const storyRegistry: StoryListItem[] = [
     splashVisualUrl: '/images/story_covers/sid_ancient_forge.png',
     subPages: [
       { id: 'overview', label: '개요 (전체 줄거리)', isOverview: true },
-      { id: 'af_01', label: '01. 대장장이의 등장과 B급 시나리오', code: 'AF-01', focalCharacter: '니엔 & 라바' },
-      { id: 'af_02', label: '02. 용문 시가지의 취권과 활극', code: 'AF-02', focalCharacter: '첸 & 호시구마' },
-      { id: 'af_03', label: '03. 천년의 신수와 인간의 칼날', code: 'AF-03', focalCharacter: '니엔 & 레이즈' },
+      { id: 'af_01', label: '01. 대장장이의 등장과 B급 시나리오', code: 'AF-01' },
+      { id: 'af_02', label: '02. 용문 시가지의 취권과 활극', code: 'AF-02' },
+      { id: 'af_03', label: '03. 천년의 신수와 인간의 칼날', code: 'AF-03' },
     ],
     omnibusSubEpisodes: [
       { id: 'af_01', order: 1, titleKo: '[AF-01] 대장장이의 등장과 B급 시나리오', mainCharacter: '니엔 & 라바', synopsis: '로도스에 난입한 괴짜 대장장이 니엔. 라바를 강제로 주연으로 캐스팅해 실제 불꽃과 칼날이 난무하는 무협 영화 촬영을 시작한다.' },
@@ -1506,10 +1506,10 @@ export const storyRegistry: StoryListItem[] = [
     splashVisualUrl: '/images/story_covers/sid_dorothys_vision.png',
     subPages: [
       { id: 'overview', label: '전체 서사 개요', isOverview: true },
-      { id: 'part_1', label: 'Part 1: 개척지의 어둠', code: 'DV-01', focalCharacter: '사일런스 & 메커니스트' },
-      { id: 'part_2', label: 'Part 2: 기갑 속의 목소리', code: 'DV-02', focalCharacter: '박사 & 사리아 (뮤엘시스 구출)' },
-      { id: 'part_3', label: 'Part 3: 꿈과 기만', code: 'DV-03', focalCharacter: '도로시 & 퍼디낸드' },
-      { id: 'part_4', label: 'Part 4: 진정한 연결', code: 'DV-04', focalCharacter: '도로시 & 아스트젠' }
+      { id: 'part_1', label: 'Part 1: 개척지의 어둠', code: 'DV-01' },
+      { id: 'part_2', label: 'Part 2: 기갑 속의 목소리', code: 'DV-02' },
+      { id: 'part_3', label: 'Part 3: 꿈과 기만', code: 'DV-03' },
+      { id: 'part_4', label: 'Part 4: 진정한 연결', code: 'DV-04' }
     ],
     releaseOrder: 22,
     releaseYear: 3,
@@ -1538,10 +1538,10 @@ export const storyRegistry: StoryListItem[] = [
     splashVisualUrl: '/images/story_covers/sid_lone_trail.png',
     subPages: [
       { id: 'overview', label: '전체 서사 개요', isOverview: true },
-      { id: 'part_1', label: 'Part 1: 트리마운츠의 암운', code: 'CW-01', focalCharacter: '사일런스 & 뮤엘시스' },
-      { id: 'part_2', label: 'Part 2: 닫힌 문의 비밀', code: 'CW-02', focalCharacter: '로즈몬티스 & 이프리트' },
-      { id: 'part_3', label: 'Part 3: 프로젝트 호라이즌 아크', code: 'CW-03', focalCharacter: '퍼디낸드 & 사리아' },
-      { id: 'part_4', label: 'Part 4: 별하늘의 문을 열어', code: 'CW-04', focalCharacter: '크리스틴 & 켈시' }
+      { id: 'part_1', label: 'Part 1: 트리마운츠의 암운', code: 'CW-01' },
+      { id: 'part_2', label: 'Part 2: 닫힌 문의 비밀', code: 'CW-02' },
+      { id: 'part_3', label: 'Part 3: 프로젝트 호라이즌 아크', code: 'CW-03' },
+      { id: 'part_4', label: 'Part 4: 별하늘의 문을 열어', code: 'CW-04' }
     ],
     releaseOrder: 30,
     releaseYear: 4,
@@ -2075,12 +2075,12 @@ export const storyRegistry: StoryListItem[] = [
     splashVisualUrl: '/images/story_covers/sid_stories_of_afternoon.png',
     subPages: [
       { id: 'overview', label: '개요 (일상의 기록)', isOverview: true },
-      { id: 'sa_01', label: '01. 오늘의 식단', code: 'SA-01', focalCharacter: '케오베 & 벌컨' },
-      { id: 'sa_02', label: '02. 일기장', code: 'SA-02', focalCharacter: '도베르만' },
-      { id: 'sa_03', label: '03. 케식의 밤', code: 'SA-03', focalCharacter: '헬라그' },
-      { id: 'sa_04', label: '04. 차 한 잔', code: 'SA-04', focalCharacter: '이스투카' },
-      { id: 'sa_05', label: '05. 깊은 잠', code: 'SA-05', focalCharacter: '프라마닉스' },
-      { id: 'sa_06', label: '06. 한낮의 빛', code: 'SA-06', focalCharacter: '그라니' },
+      { id: 'sa_01', label: '01. 오늘의 식단', code: 'SA-01' },
+      { id: 'sa_02', label: '02. 일기장', code: 'SA-02' },
+      { id: 'sa_03', label: '03. 케식의 밤', code: 'SA-03' },
+      { id: 'sa_04', label: '04. 차 한 잔', code: 'SA-04' },
+      { id: 'sa_05', label: '05. 깊은 잠', code: 'SA-05' },
+      { id: 'sa_06', label: '06. 한낮의 빛', code: 'SA-06' },
     ],
     omnibusSubEpisodes: [
       { id: 'sa_01', order: 1, titleKo: '오늘의 식단', mainCharacter: '케오베 & 벌컨', synopsis: '무기를 들고 로도스에 도착한 순수한 소녀의 따뜻한 식사.' },
