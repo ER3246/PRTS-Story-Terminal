@@ -8,14 +8,18 @@ import {
   X,
   CheckCircle2,
   AlertTriangle,
-  MousePointer
+  MousePointer,
+  History
 } from 'lucide-react';
 import { playClickSound, playCloseSound, playTabSwitchSound } from '../utils/soundEffects';
+import { APP_VERSION_CODE, APP_RELEASE_STAGE, CHANGELOG_DATA } from '../version';
+
+export type InfoModalTab = 'license' | 'ai_disclaimer' | 'controls' | 'changelog';
 
 interface InfoLicenseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialTab?: 'license' | 'ai_disclaimer' | 'controls';
+  initialTab?: InfoModalTab;
 }
 
 export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
@@ -23,7 +27,7 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
   onClose,
   initialTab = 'license',
 }) => {
-  const [activeTab, setActiveTab] = useState<'license' | 'ai_disclaimer' | 'controls'>(initialTab);
+  const [activeTab, setActiveTab] = useState<InfoModalTab>(initialTab);
 
   useEffect(() => {
     if (isOpen) {
@@ -144,7 +148,22 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
             }`}
           >
             <Keyboard className="w-3.5 h-3.5" />
-            <span>3. PC · 모바일 조작 가이드</span>
+            <span>3. 조작 가이드</span>
+          </button>
+
+          <button
+            onClick={() => {
+              playTabSwitchSound();
+              setActiveTab('changelog');
+            }}
+            className={`h-8 px-3.5 rounded-[3px] text-xs flex items-center gap-1.5 cursor-pointer transition-all ${
+              activeTab === 'changelog'
+                ? 'bg-[#ffe600] text-black font-bold shadow'
+                : 'bg-white/[0.04] text-zinc-300 hover:text-white hover:bg-white/[0.08] border border-white/[0.07]'
+            }`}
+          >
+            <History className="w-3.5 h-3.5" />
+            <span>4. 버전 기록 및 연혁 ({APP_VERSION_CODE})</span>
           </button>
         </div>
 
@@ -311,6 +330,137 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                     </li>
                   </ul>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: 버전 기록 및 연혁 (Changelog & Milestones) */}
+          {activeTab === 'changelog' && (
+            <div className="space-y-5 animate-fadeIn">
+              {/* Version Policy Notice Banner */}
+              <div className="p-4 rounded-[3px] bg-[#00d8ff]/[0.06] border border-[#00d8ff]/30 space-y-2">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <History className="w-4 h-4 text-[#00d8ff]" />
+                    <span className="text-sm font-bold text-white">
+                      PRTS 터미널 버전 릴리스 정책 및 연혁 안내
+                    </span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-[2px] bg-[#ffe600] text-black font-mono font-bold text-[11px]">
+                    CURRENT {APP_VERSION_CODE} ({APP_RELEASE_STAGE})
+                  </span>
+                </div>
+                <div className="text-zinc-300 text-xs space-y-1 pl-6">
+                  <p>
+                    • <strong>정식 공개 기준</strong>: 정식 공개는 <strong>v1.0.0</strong> 이후에 진행될 예정이며, 현재는 기능 완성도와 모바일 UX 안정성을 검증하는 <strong>사전 공개(Pre-Release) 단계</strong>입니다.
+                  </p>
+                  <p>
+                    • <strong>이전 빌드 기록</strong>: 첫 프로토타입부터 다수의 기능이 추가되었으나 초기 빌드 바이너리는 보존되지 않았으므로, 주요 개발 마일스톤을 본 연혁 문서 및 <code>CHANGELOG.md</code>에 공식 기록으로 보존합니다.
+                  </p>
+                  <p>
+                    • <strong>버전 관리 체계</strong>: 향후 모든 배포 및 업데이트는 깃허브(GitHub) 저장소의 Releases 및 Git Tags 기반으로 투명하게 관리됩니다.
+                  </p>
+                </div>
+              </div>
+
+              {/* Timeline Container */}
+              <div className="relative pl-6 space-y-6 before:absolute before:left-[11px] before:top-3 before:bottom-3 before:w-[2px] before:bg-white/10">
+                {CHANGELOG_DATA.map((entry) => {
+                  const isCurrent = entry.isCurrent;
+                  const isPlanned = entry.isPlanned;
+
+                  return (
+                    <div key={entry.version} className="relative group">
+                      {/* Timeline Node Icon / Dot */}
+                      <div
+                        className={`absolute -left-6 top-1 w-5 h-5 rounded-full flex items-center justify-center border transition-all ${
+                          isCurrent
+                            ? 'bg-[#ffe600] border-white text-black shadow-[0_0_12px_rgba(255,230,0,0.6)]'
+                            : isPlanned
+                            ? 'bg-[#00d8ff]/20 border-[#00d8ff] text-[#00d8ff]'
+                            : 'bg-[#121622] border-zinc-600 text-zinc-400 group-hover:border-zinc-400'
+                        }`}
+                      >
+                        {isCurrent ? (
+                          <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
+                        ) : isPlanned ? (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#00d8ff]" />
+                        ) : (
+                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+                        )}
+                      </div>
+
+                      {/* Content Card */}
+                      <div
+                        className={`p-4 rounded-[3px] border transition-all ${
+                          isCurrent
+                            ? 'bg-white/[0.04] border-[#ffe600]/40 shadow-lg'
+                            : isPlanned
+                            ? 'bg-[#00d8ff]/[0.03] border-[#00d8ff]/20'
+                            : 'bg-white/[0.02] border-white/[0.06] hover:border-white/15'
+                        }`}
+                      >
+                        {/* Header: Version badge, Date, Stage */}
+                        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`px-2 py-0.5 rounded-[2px] font-mono font-bold text-xs ${
+                                isCurrent
+                                  ? 'bg-[#ffe600] text-black'
+                                  : isPlanned
+                                  ? 'bg-[#00d8ff]/20 text-[#00d8ff] border border-[#00d8ff]/40'
+                                  : 'bg-white/10 text-zinc-300'
+                              }`}
+                            >
+                              {entry.version}
+                            </span>
+                            {isCurrent && (
+                              <span className="px-1.5 py-0.5 rounded-[2px] bg-red-500/20 text-red-400 border border-red-500/40 text-[10px] font-mono font-bold">
+                                CURRENT
+                              </span>
+                            )}
+                            {isPlanned && (
+                              <span className="px-1.5 py-0.5 rounded-[2px] bg-[#00d8ff]/20 text-[#00d8ff] text-[10px] font-mono font-bold">
+                                PLANNED
+                              </span>
+                            )}
+                            <span className="text-zinc-400 text-[11px] font-mono">
+                              ({entry.stage})
+                            </span>
+                          </div>
+                          <span className="text-zinc-500 font-mono text-[11px]">
+                            {entry.date}
+                          </span>
+                        </div>
+
+                        {/* Title */}
+                        <h4 className="text-sm font-bold text-zinc-100 mb-2">
+                          {entry.title}
+                        </h4>
+
+                        {/* Highlights List */}
+                        <ul className="space-y-1 text-xs text-zinc-300">
+                          {entry.highlights.map((item, idx) => (
+                            <li key={idx} className="flex items-start gap-2">
+                              <span
+                                className={`text-[11px] leading-relaxed flex-shrink-0 mt-0.5 ${
+                                  isCurrent
+                                    ? 'text-[#ffe600]'
+                                    : isPlanned
+                                    ? 'text-[#00d8ff]'
+                                    : 'text-zinc-500'
+                                }`}
+                              >
+                                ▹
+                              </span>
+                              <span className="leading-relaxed">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

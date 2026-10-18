@@ -10,8 +10,9 @@ import { TerraMapView } from './components/TerraMapView';
 import { SideDrawer } from './components/SideDrawer';
 import { LightboxModal } from './components/LightboxModal';
 import { ReviewExportModal } from './components/ReviewExportModal';
-import { InfoLicenseModal } from './components/InfoLicenseModal';
+import { InfoLicenseModal, type InfoModalTab } from './components/InfoLicenseModal';
 import { ScrollNavButtons } from './components/ScrollNavButtons';
+import { APP_VERSION_CODE, APP_RELEASE_STAGE } from './version';
 import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
 import type { CharacterRef, GlossaryTerm } from './types/story';
 import { PanelLeftOpen, Menu, Info, ChevronDown } from 'lucide-react';
@@ -34,6 +35,7 @@ export function App() {
   const [isSoundOn, setIsSoundOn] = useState<boolean>(false);
   const [isReviewExportOpen, setIsReviewExportOpen] = useState<boolean>(false);
   const [isInfoLicenseOpen, setIsInfoLicenseOpen] = useState<boolean>(false);
+  const [infoModalTab, setInfoModalTab] = useState<InfoModalTab>('license');
 
   const handleToggleSound = () => {
     const next = !isSoundOn;
@@ -215,7 +217,8 @@ export function App() {
             setIsReviewExportOpen(true);
             playOpenSound();
           }}
-          onOpenInfoLicense={() => {
+          onOpenInfoLicense={(tab) => {
+            setInfoModalTab(tab || 'license');
             setIsInfoLicenseOpen(true);
             playOpenSound();
           }}
@@ -347,18 +350,45 @@ export function App() {
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="font-mono font-bold text-zinc-300">© HYPERGRYPH / STUDIO MONTAGNE / YOSTAR</span>
               <span className="text-zinc-600 hidden sm:inline">|</span>
-              <span className="text-zinc-400">비공식·비영리 팬 아카이브 · AI 요약 2차 가공물</span>
+              <span className="text-zinc-400">비공식·비영리 팬 아카이브</span>
+              <span className="text-zinc-600 hidden sm:inline">|</span>
+              <button
+                onClick={() => {
+                  setInfoModalTab('changelog');
+                  setIsInfoLicenseOpen(true);
+                  playOpenSound();
+                }}
+                className="font-mono text-[11px] text-zinc-400 hover:text-[#ffe600] flex items-center gap-1.5 transition-colors cursor-pointer group"
+                title="버전 연혁 및 변경점 보기"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00d8ff] group-hover:bg-[#ffe600] transition-colors" />
+                <span>PRTS Story Terminal <strong className="text-zinc-200 group-hover:text-[#ffe600] transition-colors">{APP_VERSION_CODE}</strong> ({APP_RELEASE_STAGE})</span>
+              </button>
             </div>
-            <button
-              onClick={() => {
-                playOpenSound();
-                setIsInfoLicenseOpen(true);
-              }}
-              className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#ffe600] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
-            >
-              <Info className="w-3 h-3 text-[#ffe600] group-hover:text-black" />
-              <span>ⓘ INFO / LICENSE</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setInfoModalTab('changelog');
+                  setIsInfoLicenseOpen(true);
+                  playOpenSound();
+                }}
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-300 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                title="버전 연혁 (Changelog) 열기"
+              >
+                <span>CHANGELOG</span>
+              </button>
+              <button
+                onClick={() => {
+                  setInfoModalTab('license');
+                  setIsInfoLicenseOpen(true);
+                  playOpenSound();
+                }}
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#ffe600] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+              >
+                <Info className="w-3 h-3 text-[#ffe600] group-hover:text-black" />
+                <span>ⓘ INFO / LICENSE</span>
+              </button>
+            </div>
           </div>
         </footer>
       )}
@@ -391,6 +421,7 @@ export function App() {
       <InfoLicenseModal
         isOpen={isInfoLicenseOpen}
         onClose={() => setIsInfoLicenseOpen(false)}
+        initialTab={infoModalTab}
       />
 
       {/* Floating Scroll-to-Top and Bottom Navigation Buttons */}

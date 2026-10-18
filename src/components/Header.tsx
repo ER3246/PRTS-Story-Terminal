@@ -1,6 +1,7 @@
 import React from 'react';
 import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2 } from 'lucide-react';
 import { playTabSwitchSound, playClickSound } from '../utils/soundEffects';
+import { APP_VERSION_CODE } from '../version';
 
 export type MainViewMode = 'home' | 'report' | 'chronicle' | 'map';
 
@@ -10,7 +11,7 @@ interface HeaderProps {
   onToggleSound?: () => void;
   isSoundOn?: boolean;
   onOpenReviewExport?: () => void;
-  onOpenInfoLicense?: () => void;
+  onOpenInfoLicense?: (initialTab?: 'license' | 'ai_disclaimer' | 'controls' | 'changelog') => void;
   onToggleCollapseHeader?: () => void;
 }
 
@@ -42,14 +43,14 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top Header Bar: Slim Utility Bar on Mobile (h-11) / Full GNB on Desktop (md:h-14) */}
       <header className="sticky top-0 z-40 h-11 md:h-14 bg-[#090b10]/94 backdrop-blur-xl border-b border-white/[0.08] px-3 sm:px-4 lg:px-8 flex items-center select-none">
         <div className="w-full max-w-[1600px] mx-auto flex items-center justify-between gap-2 sm:gap-4">
-          {/* Left: PRTS Brand Identity + Mobile Current Section Indicator */}
+          {/* Left: PRTS Brand Identity + Version Tag + Mobile Current Section Indicator */}
           <div className="flex items-center gap-2 min-w-0">
             <div
               onClick={() => {
                 playClickSound();
                 onChangeView('home');
               }}
-              className="flex items-center gap-2 cursor-pointer group flex-shrink-0"
+              className="flex items-center gap-1.5 sm:gap-2 cursor-pointer group flex-shrink-0"
               title="메인으로 이동"
             >
               <div className="h-5 px-2 bg-[#ffe600] group-hover:bg-white text-black font-display font-bold text-[11px] tracking-wider rounded-[2px] flex items-center justify-center transition-colors">
@@ -58,6 +59,18 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="text-xs sm:text-sm font-bold text-zinc-100 group-hover:text-[#ffe600] tracking-tight transition-colors">
                 스토리 아카이브
               </span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  playClickSound();
+                  onOpenInfoLicense?.('changelog');
+                }}
+                className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.06] hover:bg-[#ffe600] hover:text-black text-zinc-400 border border-white/[0.1] hover:border-[#ffe600] text-[9.5px] sm:text-[10px] font-mono font-bold transition-all cursor-pointer"
+                title={`PRTS Story Terminal ${APP_VERSION_CODE} (클릭하여 버전 연혁 열람)`}
+              >
+                {APP_VERSION_CODE}
+              </button>
             </div>
 
             <span className="md:hidden text-zinc-600 text-xs">/</span>

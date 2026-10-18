@@ -6,6 +6,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound } from '../utils/soundEffects';
+import { APP_VERSION_CODE } from '../version';
 
 interface HomeDashboardProps {
   onNavigateToStory: (storyId: string) => void;
@@ -39,7 +40,13 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
       {/* Main Hero Container */}
       <div className="relative z-10 w-full max-w-2xl flex flex-col items-center text-center space-y-9">
         {/* Title & Concise Subtitle */}
-        <div className="space-y-3">
+        <div className="space-y-3 flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10.5px] font-mono text-zinc-400 select-none">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600] animate-pulse" />
+            <span className="text-zinc-300 font-bold">PRTS TERMINAL SYSTEM</span>
+            <span className="text-zinc-600">·</span>
+            <span className="text-[#ffe600] font-semibold">{APP_VERSION_CODE}</span>
+          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black text-white tracking-tight leading-tight">
             PRTS 스토리 아카이브
           </h1>
