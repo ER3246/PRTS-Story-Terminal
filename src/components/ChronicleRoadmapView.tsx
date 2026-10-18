@@ -398,6 +398,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   // 우측 전술 브리핑 도크 선택 상태 (초기 진입 시 닫힌 상태로 시작하여 화면 전체 조망 보장)
   const [inspectedStory, setInspectedStory] = useState<StoryListItem | null>(null);
   const [hoveredStoryId, setHoveredStoryId] = useState<string | null>(null);
+  const [sheetDragY, setSheetDragY] = useState<number>(0);
+  const sheetTouchStartY = useRef<number | null>(null);
 
   // 상세 스플래시 모달 상태 (도크에서 크게 보기 원할 때)
   const [selectedModalStory, setSelectedModalStory] = useState<StoryListItem | null>(null);
@@ -931,14 +933,15 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playClickSound();
                 onToggleHeaderCollapse();
               }}
-              className={`w-8 h-8 rounded-[5px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
+              className={`h-8 rounded-[5px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
                 isHeaderCollapsed
-                  ? 'bg-[#ffe600] text-black border-[#ffe600] font-bold'
-                  : 'bg-white/[0.04] border-white/[0.08] text-zinc-300'
+                  ? 'bg-amber-400/20 text-amber-300 border-amber-400/60 font-bold px-2 gap-1'
+                  : 'w-8 bg-white/[0.04] border-white/[0.08] text-zinc-300'
               }`}
-              title={isHeaderCollapsed ? '메뉴 표시' : '꽉 찬 화면'}
+              title={isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}
             >
               <Maximize2 className="w-3.5 h-3.5" />
+              {isHeaderCollapsed && <span className="text-[11px] font-sans">복원</span>}
             </button>
           )}
         </div>
@@ -977,8 +980,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           </div>
         )}
 
-        {/* Row 2: Context-Sensitive Single-Line Horizontal Scroll Chips */}
-        {browseMode === 'chronological' && (
+        {/* Row 2: Context-Sensitive Single-Line Horizontal Scroll Chips (Hidden in Fullscreen to maximize content) */}
+        {!isHeaderCollapsed && browseMode === 'chronological' && (
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
             {/* 세로 타임라인 vs 2D 노선도 전환 칩 */}
             <button
@@ -1012,7 +1015,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           </div>
         )}
 
-        {browseMode === 'story_line' && (
+        {!isHeaderCollapsed && browseMode === 'story_line' && (
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
             {STORY_LINES.map((line) => {
               const isSelected = activeStoryLineHubId === line.id;
@@ -1043,7 +1046,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           </div>
         )}
 
-        {browseMode === 'release' && (
+        {!isHeaderCollapsed && browseMode === 'release' && (
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
             <button
               onClick={() => {
@@ -2576,16 +2579,40 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               className="md:hidden fixed inset-0 z-40 bg-black/65 backdrop-blur-xs animate-fadeIn"
             />
 
-            <aside className="fixed md:static inset-x-0 bottom-0 md:inset-auto w-full md:w-80 lg:w-96 max-h-[82dvh] md:max-h-none md:h-full flex-shrink-0 bg-[#090c15]/98 border-t md:border-t-0 md:border-l border-white/20 md:border-white/[0.1] rounded-t-2xl md:rounded-none flex flex-col z-50 md:z-30 shadow-2xl overflow-hidden animate-fadeIn">
+            <aside
+              style={
+                isMobile && sheetDragY > 0
+                  ? { transform: `translateY(${sheetDragY}px)`, transition: 'none' }
+                  : undefined
+              }
+              className="fixed md:static inset-x-0 bottom-0 md:inset-auto w-full md:w-80 lg:w-96 max-h-[82dvh] md:max-h-none md:h-full flex-shrink-0 bg-[#090c15]/98 border-t md:border-t-0 md:border-l border-white/20 md:border-white/[0.1] rounded-t-2xl md:rounded-none flex flex-col z-50 md:z-30 shadow-2xl overflow-hidden animate-fadeIn"
+            >
               {/* 모바일 바텀 시트 핸들 바 */}
               <div
+                onTouchStart={(e) => {
+                  sheetTouchStartY.current = e.touches[0].clientY;
+                }}
+                onTouchMove={(e) => {
+                  if (sheetTouchStartY.current === null) return;
+                  const dy = Math.max(0, e.touches[0].clientY - sheetTouchStartY.current);
+                  setSheetDragY(dy);
+                }}
+                onTouchEnd={() => {
+                  if (sheetDragY > 60) {
+                    playCloseSound();
+                    setInspectedStory(null);
+                  }
+                  setSheetDragY(0);
+                  sheetTouchStartY.current = null;
+                }}
                 onClick={() => {
                   playCloseSound();
                   setInspectedStory(null);
                 }}
-                className="md:hidden flex items-center justify-center py-2 bg-[#06080f] border-b border-white/[0.06] cursor-pointer flex-shrink-0"
+                className="md:hidden flex items-center justify-center py-2.5 bg-[#06080f] border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none active:bg-white/[0.08]"
+                title="잡아서 아래로 당겨 닫기"
               >
-                <div className="w-10 h-1 rounded-full bg-zinc-600" />
+                <div className="w-10 h-1.5 rounded-full bg-zinc-500" />
               </div>
 
               {/* 상단 커버 비주얼 헤더 */}

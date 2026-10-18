@@ -674,41 +674,47 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   {/* Accordion Header */}
                   <div
                     onClick={() => toggleStage(st.stageCode)}
-                    className="px-5 sm:px-6 py-3.5 bg-white/[0.025] hover:bg-white/[0.045] border-b border-white/[0.07] flex items-center justify-between gap-3 cursor-pointer select-none group transition-colors"
+                    className="px-4 sm:px-6 py-3 sm:py-3.5 bg-white/[0.025] hover:bg-white/[0.045] border-b border-white/[0.07] cursor-pointer select-none group transition-colors space-y-1.5"
                   >
-                    {/* Left: Stage Code Badge + Stage Title */}
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <span className="px-2 py-0.5 bg-[#ffe600] text-black font-mono font-black text-xs flex-shrink-0 rounded-[2px]">
-                        {st.stageCode}
-                      </span>
-                      <h2 className="text-base sm:text-[17px] font-bold text-white tracking-tight group-hover:text-[#ffe600] transition-colors truncate">
-                        {st.title}
-                      </h2>
-                    </div>
-
-                    {/* Right: Location & Chevron */}
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                      {st.timeMarker && (
-                        <div className="text-xs text-zinc-400 hidden xl:flex items-center gap-1.5 flex-shrink-0">
-                          <Clock className="w-3.5 h-3.5 text-[#ffe600]" />
-                          <span>{st.timeMarker}</span>
-                        </div>
-                      )}
-                      {st.location && (
-                        <div className="text-xs text-zinc-400 flex items-center gap-1.5 max-w-[160px] sm:max-w-[260px] md:max-w-[340px] truncate flex-shrink-0">
-                          <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
-                          <span className="truncate" title={st.location}>{st.location}</span>
-                        </div>
-                      )}
-
-                      <div className="w-7 h-7 rounded-[3px] bg-white/[0.04] group-hover:bg-white/[0.1] text-zinc-400 group-hover:text-[#ffe600] flex items-center justify-center transition-colors flex-shrink-0">
-                        {isExpanded ? (
-                          <ChevronUp className="w-4 h-4" />
-                        ) : (
-                          <ChevronDown className="w-4 h-4" />
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="px-2 py-0.5 bg-[#ffe600] text-black font-mono font-black text-xs flex-shrink-0 rounded-[2px]">
+                          {st.stageCode}
+                        </span>
+                        {st.timeMarker && (
+                          <span className="text-[11px] font-mono text-zinc-400 hidden sm:flex items-center gap-1 flex-shrink-0">
+                            <Clock className="w-3 h-3 text-[#ffe600]" />
+                            <span>{st.timeMarker}</span>
+                          </span>
                         )}
                       </div>
+
+                      {/* Right: Location & Chevron */}
+                      <div className="flex items-center gap-2.5 flex-shrink-0">
+                        {st.location && (
+                          <div
+                            className="text-xs font-sans text-zinc-400 flex items-center gap-1 max-w-[150px] sm:max-w-[260px] md:max-w-xs truncate"
+                            title={st.location}
+                          >
+                            <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                            <span className="truncate">{st.location}</span>
+                          </div>
+                        )}
+
+                        <div className="w-7 h-7 rounded-[3px] bg-white/[0.04] group-hover:bg-white/[0.1] text-zinc-400 group-hover:text-[#ffe600] flex items-center justify-center transition-colors flex-shrink-0">
+                          {isExpanded ? (
+                            <ChevronUp className="w-4 h-4" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4" />
+                          )}
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Title Row: Full-width allocation preventing cramped word wrapping */}
+                    <h2 className="text-base sm:text-[17px] font-bold text-white tracking-tight group-hover:text-[#ffe600] transition-colors [word-break:keep-all] break-keep leading-snug">
+                      {st.title}
+                    </h2>
                   </div>
 
                   {/* Collapsed State Summary Preview */}
@@ -1370,37 +1376,47 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             {/* Clickable Accordion Header */}
                             <div
                               onClick={() => toggleAct(act.step)}
-                              className="px-5 sm:px-7 py-4 bg-white/[0.02] hover:bg-white/[0.04] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-3 cursor-pointer select-none group transition-colors"
+                              className="px-4 sm:px-6 py-3.5 sm:py-4 bg-white/[0.02] hover:bg-white/[0.04] border-b border-white/[0.06] cursor-pointer select-none group transition-colors space-y-2"
                             >
-                              <div className="flex items-center gap-3 min-w-0 flex-1">
-                                <span className="lg:hidden h-6 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600] text-black font-mono font-bold text-xs flex-shrink-0">
-                                  0{act.step}
-                                </span>
-                                <span className="hidden lg:inline-flex h-6 px-2.5 items-center rounded-[2px] bg-white/[0.06] border border-white/[0.1] text-[#ffe600] text-xs font-sans font-bold group-hover:border-[#ffe600]/50 transition-colors flex-shrink-0">
-                                  {act.phase}
-                                  <span className="text-zinc-500 font-mono text-[10px] ml-1.5 font-normal">
-                                    {act.phaseEn.toUpperCase()}
+                              {/* Top Metadata Row: Step Badge + Phase Tag + Location + Chevron */}
+                              <div className="flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="lg:hidden h-5.5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600] text-black font-mono font-bold text-xs flex-shrink-0">
+                                    0{act.step}
                                   </span>
-                                </span>
-                                <h2 className="text-base sm:text-lg font-extrabold text-white tracking-tight group-hover:text-[#ffe600] transition-colors font-sans [word-break:keep-all] break-words">
-                                  {act.title}
-                                </h2>
-                              </div>
-
-                              <div className="flex items-center gap-3 flex-shrink-0 ml-auto">
-                                <div className="text-xs font-sans text-zinc-400 flex items-center gap-1.5">
-                                  <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
-                                  <span className="[word-break:keep-all]">{act.location}</span>
+                                  <span className="inline-flex h-5.5 px-2.5 items-center rounded-[2px] bg-white/[0.06] border border-white/[0.1] text-[#ffe600] text-xs font-sans font-bold group-hover:border-[#ffe600]/50 transition-colors flex-shrink-0">
+                                    {act.phase}
+                                    <span className="text-zinc-500 font-mono text-[10px] ml-1.5 font-normal">
+                                      {act.phaseEn.toUpperCase()}
+                                    </span>
+                                  </span>
                                 </div>
 
-                                <div className="w-7 h-7 rounded-[3px] bg-white/[0.04] border border-white/[0.08] text-zinc-400 group-hover:text-white flex items-center justify-center transition-colors flex-shrink-0">
-                                  {isExpanded ? (
-                                    <ChevronUp className="w-4 h-4" />
-                                  ) : (
-                                    <ChevronDown className="w-4 h-4" />
+                                <div className="flex items-center gap-2.5 flex-shrink-0">
+                                  {act.location && (
+                                    <div
+                                      className="text-xs font-sans text-zinc-400 flex items-center gap-1.5 max-w-[150px] sm:max-w-[260px] md:max-w-xs truncate"
+                                      title={act.location}
+                                    >
+                                      <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                                      <span className="truncate">{act.location}</span>
+                                    </div>
                                   )}
+
+                                  <div className="w-7 h-7 rounded-[3px] bg-white/[0.04] border border-white/[0.08] text-zinc-400 group-hover:text-white flex items-center justify-center transition-colors flex-shrink-0">
+                                    {isExpanded ? (
+                                      <ChevronUp className="w-4 h-4" />
+                                    ) : (
+                                      <ChevronDown className="w-4 h-4" />
+                                    )}
+                                  </div>
                                 </div>
                               </div>
+
+                              {/* Title Row: Full-width allocation preventing cramped multi-line word breaks */}
+                              <h2 className="text-base sm:text-lg font-extrabold text-white tracking-tight group-hover:text-[#ffe600] transition-colors font-sans [word-break:keep-all] break-keep leading-snug">
+                                {act.title}
+                              </h2>
                             </div>
 
                             {/* Collapsed State Quick Preview Bar */}
@@ -1538,19 +1554,21 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                           key={st.stageCode}
                                           className="p-5 rounded-[3px] bg-white/[0.02] border border-white/[0.06] space-y-4"
                                         >
-                                          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
-                                            <div className="flex items-center gap-2.5">
-                                              <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600] text-black font-mono font-bold text-xs">
+                                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
+                                            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                                              <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600] text-black font-mono font-bold text-xs flex-shrink-0">
                                                 {st.stageCode}
                                               </span>
-                                              <h3 className="text-sm sm:text-base font-bold text-white font-sans">
+                                              <h3 className="text-sm sm:text-base font-bold text-white font-sans [word-break:keep-all] break-keep leading-snug">
                                                 {st.title}
                                               </h3>
                                             </div>
-                                            <span className="text-xs font-sans text-zinc-400 flex items-center gap-1">
-                                              <MapPin className="w-3.5 h-3.5 text-[#ffe600]" />
-                                              <span>{st.location}</span>
-                                            </span>
+                                            {st.location && (
+                                              <span className="text-xs font-sans text-zinc-400 flex items-center gap-1 flex-shrink-0 max-w-[200px] sm:max-w-xs truncate" title={st.location}>
+                                                <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                                                <span className="truncate">{st.location}</span>
+                                              </span>
+                                            )}
                                           </div>
 
                                           {st.cgUrl && st.cgUrl.trim() !== '' && (
@@ -1578,11 +1596,11 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                             <div className="px-3.5 py-2.5 rounded-[2px] bg-[#00d8ff]/[0.05] border border-[#00d8ff]/20 border-l-2 border-l-[#00d8ff] text-xs font-sans text-zinc-200 flex items-start gap-2">
                                               <span className="text-[#00d8ff] font-bold flex-shrink-0">전술 요약</span>
                                               <span className="text-zinc-600 flex-shrink-0">|</span>
-                                              <span>{st.tacticalLog}</span>
+                                              <span className="[word-break:keep-all] break-keep leading-relaxed">{st.tacticalLog}</span>
                                             </div>
                                           )}
 
-                                          <div className="text-sm sm:text-[15px] text-zinc-200 leading-[1.85] font-sans space-y-3 [word-break:keep-all]">
+                                          <div className="text-sm sm:text-[15px] text-zinc-200 leading-[1.85] font-sans space-y-3 [word-break:keep-all] break-keep">
                                             {st.narrativeText.split('\n\n').map((p, idx) => (
                                               <p key={idx}>
                                                 <HighlightedText

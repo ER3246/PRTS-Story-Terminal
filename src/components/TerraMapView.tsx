@@ -581,6 +581,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
   });
   const [mobilePreviewCard, setMobilePreviewCard] = useState<MobilePreviewCardData | null>(null);
+  const [sheetDragY, setSheetDragY] = useState(0);
+  const sheetTouchStartY = useRef<number | null>(null);
 
   useEffect(() => {
     const checkTouchOrMobile = () => {
@@ -591,6 +593,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     window.addEventListener('resize', checkTouchOrMobile);
     return () => window.removeEventListener('resize', checkTouchOrMobile);
   }, []);
+
+  // Ensure Three.js and DOM overlays immediately adapt when Fullscreen/Header Collapse changes
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 50);
+    return () => window.clearTimeout(t);
+  }, [isHeaderCollapsed]);
 
   // Open StorySplashModal Popup for a given storyId
   const handleOpenStoryPopup = useCallback(
@@ -730,6 +740,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       playClickSound();
       setPinnedRegionId(regionId);
       setSelectedCityId(null);
+      setMobilePreviewCard(null);
+      setSheetDragY(0);
       if (window.innerWidth < 768) {
         setIsSectorListOpen(false);
       }
@@ -1768,8 +1780,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     };
     window.addEventListener('resize', handleResize);
 
+    // ResizeObserver ensures canvas always matches container when header expands/collapses
+    const resizeObserver = new ResizeObserver(() => {
+      handleResize();
+    });
+    resizeObserver.observe(container);
+
     return () => {
       cancelAnimationFrame(animFrameId);
+      resizeObserver.disconnect();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
@@ -1910,6 +1929,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     setSelectedCityId(isSelected ? null : city.id);
                     flyToPixelCoords(city.pixelCoords.x, city.pixelCoords.y, 260, viewMode === '2d' ? 10 : 42);
                     if (isTouchOrMobile) {
+                      setPinnedRegionId(null);
                       const reg = terraRegions.find((r) => r.id === city.regionId);
                       const firstStoryId = reg?.relatedStoryIds?.[0];
                       setMobilePreviewCard({
@@ -1924,6 +1944,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         badgeColor: isRhodes ? '#00d8ff' : '#ffe600',
                       });
                     } else {
+                      setMobilePreviewCard(null);
                       setPinnedRegionId(city.regionId);
                     }
                   }}
@@ -1972,6 +1993,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     e.stopPropagation();
                     if (isTouchOrMobile) {
                       playClickSound();
+                      setPinnedRegionId(null);
                       setMobilePreviewCard({
                         type: 'route',
                         id: rt.id,
@@ -2085,8 +2107,45 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           onPointerUp={(e) => e.stopPropagation()}
           className="md:hidden absolute top-2.5 left-2.5 right-2.5 z-30 flex flex-col gap-1.5 pointer-events-none"
         >
-          {/* Row 1: Search & Region Directory + 3D/2D + Legend + Fullscreen */}
-          <div className="pointer-events-auto prts-glass rounded-[5px] p-1 shadow-2xl flex items-center gap-1">
+          {isHeaderCollapsed ? (
+            /* Immersive Fullscreen Floating Pill (Allows full view of the map while easily restoring menus) */
+            <div className="pointer-events-auto self-end prts-glass rounded-full px-2.5 py-1 shadow-2xl flex items-center gap-1.5 border border-[#ffe600]/40 animate-fadeIn">
+              <button
+                onClick={() => handleToggleViewMode(viewMode === '3d' ? '2d' : '3d')}
+                className="h-6 px-2 rounded-full bg-[#ffe600] text-black font-mono font-extrabold text-[10px] flex items-center gap-1 cursor-pointer"
+                title="3D / 2D 시점 전환"
+              >
+                {viewMode === '3d' ? <Box className="w-3 h-3" /> : <MapIcon className="w-3 h-3" />}
+                <span>{viewMode.toUpperCase()}</span>
+              </button>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setIsLegendOpen(true);
+                }}
+                className="w-6 h-6 rounded-full bg-white/[0.08] text-[#ffe600] flex items-center justify-center cursor-pointer"
+                title="지도 범례"
+              >
+                <HelpCircle className="w-3.5 h-3.5" />
+              </button>
+              {onToggleHeaderCollapse && (
+                <button
+                  onClick={() => {
+                    playClickSound();
+                    onToggleHeaderCollapse();
+                  }}
+                  className="h-6 px-2.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/60 font-sans font-bold text-[10.5px] flex items-center gap-1 cursor-pointer"
+                  title="상단 메뉴 및 도구 복원"
+                >
+                  <Maximize2 className="w-3 h-3" />
+                  <span>메뉴 복원</span>
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
+              {/* Row 1: Search & Region Directory + 3D/2D + Legend + Fullscreen */}
+              <div className="pointer-events-auto prts-glass rounded-[5px] p-1 shadow-2xl flex items-center gap-1">
             <div className="relative flex-1 flex items-center min-w-0">
               <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
               <input
@@ -2293,6 +2352,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               </div>
             )}
           </div>
+            </>
+          )}
         </div>
 
         {/* =========================================================================
@@ -2605,7 +2666,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
           className={`absolute bottom-3 md:bottom-4 left-3 right-3 md:left-4 md:right-4 z-30 flex items-end justify-center md:justify-between pointer-events-none gap-3 ${
-            isTouchOrMobile && (pinnedRegion || mobilePreviewCard) ? 'hidden md:flex' : 'flex'
+            isTouchOrMobile && (pinnedRegion || mobilePreviewCard || isHeaderCollapsed) ? 'hidden md:flex' : 'flex'
           }`}
         >
           {/* Left: Compact Control Guide + Live Sector Readout (Desktop Only - Prevents Mobile 1-Char Vertical Wrap) */}
@@ -2735,16 +2796,41 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             data-hud-panel="true"
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
+            style={
+              isTouchOrMobile && sheetDragY > 0
+                ? { transform: `translateY(${sheetDragY}px)`, transition: 'none' }
+                : undefined
+            }
             className={`absolute inset-x-0 bottom-0 max-h-[56dvh] md:max-h-none md:inset-x-auto ${
               showRoutes ? 'md:top-24' : 'md:top-16'
             } md:right-4 md:bottom-16 md:w-84 lg:w-92 prts-glass rounded-t-2xl md:rounded-[4px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] md:shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
           >
-            {/* Mobile Drag Handle Bar */}
+            {/* Mobile Drag Handle Bar with touch gesture */}
             <div
-              onClick={() => setPinnedRegionId(null)}
-              className="md:hidden flex items-center justify-center py-2 bg-black/40 border-b border-white/[0.06] cursor-pointer flex-shrink-0"
+              onTouchStart={(e) => {
+                sheetTouchStartY.current = e.touches[0].clientY;
+              }}
+              onTouchMove={(e) => {
+                if (sheetTouchStartY.current === null) return;
+                const dy = Math.max(0, e.touches[0].clientY - sheetTouchStartY.current);
+                setSheetDragY(dy);
+              }}
+              onTouchEnd={() => {
+                if (sheetDragY > 60) {
+                  playCloseSound();
+                  setPinnedRegionId(null);
+                }
+                setSheetDragY(0);
+                sheetTouchStartY.current = null;
+              }}
+              onClick={() => {
+                playCloseSound();
+                setPinnedRegionId(null);
+              }}
+              className="md:hidden flex items-center justify-center py-2.5 bg-black/50 border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none active:bg-white/[0.08]"
+              title="잡아서 아래로 당겨 닫기"
             >
-              <div className="w-10 h-1 rounded-full bg-zinc-500" />
+              <div className="w-10 h-1.5 rounded-full bg-zinc-500" />
             </div>
 
             {/* Dossier Header */}

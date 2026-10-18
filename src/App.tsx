@@ -232,11 +232,11 @@ export function App() {
               setIsSidebarOpenMobile(true);
               playOpenSound();
             }}
-            className="h-9 px-3.5 rounded-[3px] prts-glass hover:border-[#ffe600]/60 text-white font-sans text-xs cursor-pointer shadow-2xl flex items-center gap-2 transition-all active:scale-95 group"
-            title="스토리 색인 목록 열기"
+            className="w-10 h-10 rounded-[4px] prts-glass border border-white/20 hover:border-[#ffe600]/60 text-white cursor-pointer shadow-2xl flex items-center justify-center transition-all active:scale-95 group"
+            title="스토리 색인 열기"
+            aria-label="스토리 색인 열기"
           >
-            <Menu className="w-4 h-4 text-[#ffe600] group-hover:rotate-90 transition-transform" />
-            <span className="font-bold tracking-tight">스토리 색인</span>
+            <Menu className="w-5 h-5 text-[#ffe600] group-hover:rotate-90 transition-transform" />
           </button>
         </div>
       )}
