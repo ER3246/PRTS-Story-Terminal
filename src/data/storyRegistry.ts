@@ -1492,7 +1492,7 @@ export const storyRegistry: StoryListItem[] = [
     id: 'sid_dorothys_vision',
     code: 'RH-02',
     titleKo: '도로시의 비전',
-    titleEn: 'Dorothys Vision',
+    titleEn: "Dorothy's Vision",
     category: 'side-story',
     categoryLabel: '사이드 스토리',
     actGroup: 'Act II: 석양',
@@ -1500,17 +1500,25 @@ export const storyRegistry: StoryListItem[] = [
     storyLineId: 'SL_RH',
     storyLineTitle: 'Story Line · RH 미래를 잡는 사람',
     seriesOrder: 2,
+    docFormat: 'multi_part',
     isOmnibus: false,
-    officialSynopsis: '개척지의 고독한 연구소와 공명 물질. 도로시의 이상주의와 컬럼비아 군부의 음모가 충돌하는 비극.',
+    officialSynopsis: '개척지의 고독한 연구소와 신경 공명 물질. 누구도 상처받지 않는 유토피아를 꿈꾼 도로시의 이상주의와 이를 군사 병기화하려는 퍼디낸드의 음모가 격돌하는 비극.',
     splashVisualUrl: '/images/story_covers/sid_dorothys_vision.png',
+    subPages: [
+      { id: 'overview', label: '전체 서사 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 개척지의 어둠', code: 'DV-01', focalCharacter: '사일런스 & 메커니스트' },
+      { id: 'part_2', label: 'Part 2: 기갑 속의 목소리', code: 'DV-02', focalCharacter: '박사 & 사리아 (뮤엘시스 구출)' },
+      { id: 'part_3', label: 'Part 3: 꿈과 기만', code: 'DV-03', focalCharacter: '도로시 & 퍼디낸드' },
+      { id: 'part_4', label: 'Part 4: 진정한 연결', code: 'DV-04', focalCharacter: '도로시 & 아스트젠' }
+    ],
     releaseOrder: 22,
     releaseYear: 3,
     chronologicalOrder: 31,
     timeline: '테라력 1098년 봄',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'sid_lone_trail',
