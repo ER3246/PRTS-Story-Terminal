@@ -25,8 +25,8 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // 메인 페이지(home) 및 전술 지도(map)는 스크롤 조작이 불필요하므로 이동 버튼 미표시
-  if (currentView === 'home' || currentView === 'map') {
+  // 메인 페이지(home), 연대기(chronicle), 전술 지도(map)는 독립 뷰포트이므로 윈도우 스크롤 이동 버튼 미표시
+  if (currentView === 'home' || currentView === 'map' || currentView === 'chronicle') {
     return null;
   }
 
@@ -44,7 +44,7 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
   };
 
   return (
-    <div className="fixed bottom-6 right-5 sm:right-6 z-40 flex flex-col items-center gap-1 select-none print:hidden">
+    <div className="fixed bottom-18 md:bottom-6 right-4 sm:right-6 z-40 flex flex-col items-center gap-1 select-none print:hidden">
       {/* 최상단 이동 버튼 */}
       <button
         onClick={scrollToTop}

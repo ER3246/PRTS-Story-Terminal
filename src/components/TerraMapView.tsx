@@ -730,6 +730,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       playClickSound();
       setPinnedRegionId(regionId);
       setSelectedCityId(null);
+      if (window.innerWidth < 768) {
+        setIsSectorListOpen(false);
+      }
       const reg = regionLookup.get(regionId);
       if (reg) {
         flyToPixelCoords(
@@ -1782,7 +1785,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   }, [regionLookup, handleSelectRegion]);
 
   return (
-    <div className={`relative flex-1 w-full ${isHeaderCollapsed ? 'h-screen' : 'h-[calc(100vh-3.5rem)]'} bg-[#06090f] overflow-hidden select-none`}>
+    <div
+      className={`relative flex-1 w-full ${
+        isHeaderCollapsed
+          ? 'h-[100dvh] md:h-screen'
+          : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)]'
+      } bg-[#06090f] overflow-hidden select-none`}
+    >
       {/* =========================================================================
           1. WEBGL 3D CANVAS VIEWPORT & PROJECTED SCREEN-SPACE PINS
       ========================================================================= */}
@@ -1834,7 +1843,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 >
                   {reg.logoUrl && (
                     <div
-                      className={`relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-opacity duration-150 ${
+                      className={`relative w-7 h-7 sm:w-10 sm:h-10 flex items-center justify-center transition-opacity duration-150 ${
                         isActive ? 'opacity-100' : 'opacity-85'
                       }`}
                     >
@@ -1848,7 +1857,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   )}
 
                   <div
-                    className={`mt-0.5 px-2 py-0.5 rounded-[2px] border font-mono transition-colors duration-150 flex items-center gap-1.5 backdrop-blur-md ${
+                    className={`mt-0.5 px-1.5 sm:px-2 py-0.5 rounded-[2px] border font-mono transition-colors duration-150 flex items-center gap-1 sm:gap-1.5 backdrop-blur-md ${
                       isPinned
                         ? 'bg-[#ffe600] text-black border-white font-extrabold shadow-[0_0_16px_rgba(255,230,0,0.45)]'
                         : isHovered
@@ -1856,12 +1865,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         : 'bg-[#0b0e16]/88 text-zinc-100 border-white/15'
                     }`}
                   >
-                    <span className="text-[11px] tracking-tight whitespace-nowrap font-sans font-semibold">
+                    <span className="text-[10px] sm:text-[11px] tracking-tight whitespace-nowrap font-sans font-semibold">
                       {reg.nameKo}
                     </span>
                     {reg.relatedStoryIds.length > 0 && (
                       <span
-                        className={`text-[9px] px-1 rounded-[1px] font-mono ${
+                        className={`text-[8.5px] sm:text-[9px] px-1 rounded-[1px] font-mono ${
                           isPinned || isHovered
                             ? 'bg-black/20 text-black font-black'
                             : 'bg-white/10 text-[#ffe600]'
@@ -1921,7 +1930,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   className="absolute top-0 left-0 pointer-events-auto cursor-pointer z-20 group"
                 >
                   <div
-                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[10px] font-mono border backdrop-blur-sm transition-colors ${
+                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[9.5px] sm:text-[10px] font-mono border backdrop-blur-sm transition-colors ${
                       isRhodes
                         ? 'bg-[#071924]/95 border-[#00d8ff] text-[#00d8ff] font-bold shadow-[0_0_10px_rgba(0,216,255,0.3)]'
                         : isSelected
@@ -1983,7 +1992,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     isRelevant ? 'z-20 opacity-100' : 'z-10 opacity-20 hover:opacity-100'
                   }`}
                 >
-                  <div className="px-1.5 py-0.5 rounded-[2px] bg-[#090c14]/92 backdrop-blur-md border border-white/15 group-hover:border-[#ffe600] text-[10px] font-mono flex items-center gap-1.5 shadow-lg transition-all">
+                  <div className="px-1.5 py-0.5 rounded-[2px] bg-[#090c14]/92 backdrop-blur-md border border-white/15 group-hover:border-[#ffe600] text-[9.5px] sm:text-[10px] font-mono flex items-center gap-1 sm:gap-1.5 shadow-lg transition-all">
                     <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: rt.color }} />
                     <span className="text-[#ffe600] font-bold tracking-tight">{rt.code}</span>
                     <span
@@ -2010,7 +2019,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             data-hud-panel="true"
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
-            className="absolute bottom-18 left-3 right-3 sm:left-auto sm:right-4 sm:w-88 z-40 prts-glass rounded-[4px] border border-[#ffe600]/40 p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.85)] animate-fadeIn pointer-events-auto"
+            className="absolute bottom-14 left-3 right-3 sm:left-auto sm:right-4 sm:w-88 z-40 prts-glass rounded-[6px] sm:rounded-[4px] border border-[#ffe600]/40 p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.85)] animate-fadeIn pointer-events-auto"
           >
             <div className="flex items-start justify-between gap-2 mb-1.5">
               <div className="flex items-center gap-1.5 min-w-0">
@@ -2032,7 +2041,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             <div className="text-[11px] font-mono text-[#00d8ff] mb-1.5 truncate">
               {mobilePreviewCard.subtitle}
             </div>
-            <p className="text-xs text-zinc-300 leading-relaxed line-clamp-2 mb-3">
+            <p className="text-xs text-zinc-300 leading-relaxed line-clamp-2 mb-3 break-keep">
               {mobilePreviewCard.description}
             </p>
             <div className="flex items-center gap-2">
@@ -2043,7 +2052,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     setMobilePreviewCard(null);
                     handleOpenStoryPopup(targetStoryId);
                   }}
-                  className="flex-1 h-8 px-3 rounded-[2px] bg-[#ffe600] hover:bg-[#ffe600]/90 text-black font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                  className="flex-1 h-8 px-3 rounded-[3px] bg-[#ffe600] hover:bg-[#ffe600]/90 text-black font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
                   <span>스토리 열람</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -2056,7 +2065,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     setMobilePreviewCard(null);
                     setPinnedRegionId(targetRegId);
                   }}
-                  className="h-8 px-3 rounded-[2px] bg-white/10 hover:bg-white/20 text-zinc-100 font-semibold text-xs flex items-center justify-center cursor-pointer transition-colors"
+                  className="h-8 px-3 rounded-[3px] bg-white/10 hover:bg-white/20 text-zinc-100 font-semibold text-xs flex items-center justify-center cursor-pointer transition-colors"
                 >
                   <span>지역 상세</span>
                 </button>
@@ -2066,13 +2075,234 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         )}
 
         {/* =========================================================================
-            2. TOP-LEFT REGION SEARCH & DIRECTORY DOCK (SLEEK FLOATING GLASS)
+            2-A. MOBILE NATIVE UNIFIED TOP HUD (md:hidden)
+            - 1행: 지역 검색·목록 토글 + 3D/2D + 범례(?) + 꽉 찬 화면
+            - 2행: 가로 스크롤 레이어 토글 (고저차 / 국가 / 거점 / 경로 + 경로 필터)
         ========================================================================= */}
         <div
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          className="absolute top-4 left-4 z-30 flex flex-col w-68 sm:w-76 pointer-events-none"
+          className="md:hidden absolute top-2.5 left-2.5 right-2.5 z-30 flex flex-col gap-1.5 pointer-events-none"
+        >
+          {/* Row 1: Search & Region Directory + 3D/2D + Legend + Fullscreen */}
+          <div className="pointer-events-auto prts-glass rounded-[5px] p-1 shadow-2xl flex items-center gap-1">
+            <div className="relative flex-1 flex items-center min-w-0">
+              <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
+              <input
+                type="text"
+                value={sectorSearch}
+                onChange={(e) => {
+                  setSectorSearch(e.target.value);
+                  if (!isSectorListOpen) setIsSectorListOpen(true);
+                }}
+                placeholder="지역 · 국가 검색..."
+                className="w-full h-7 bg-white/[0.04] focus:bg-black/50 border border-transparent focus:border-[#ffe600]/60 rounded-[3px] text-xs text-zinc-100 placeholder:text-zinc-500 pl-7 pr-5 outline-none"
+              />
+              {sectorSearch && (
+                <button
+                  onClick={() => setSectorSearch('')}
+                  className="absolute right-1.5 p-0.5 text-zinc-400 hover:text-white cursor-pointer"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+
+            <button
+              onClick={() => {
+                playClickSound();
+                setIsSectorListOpen(!isSectorListOpen);
+              }}
+              className={`h-7 px-2 rounded-[3px] flex items-center gap-1 text-[11px] font-mono transition-colors cursor-pointer flex-shrink-0 ${
+                isSectorListOpen
+                  ? 'bg-[#ffe600]/20 text-[#ffe600] border border-[#ffe600]/50 font-bold'
+                  : 'bg-white/[0.06] text-zinc-200'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5 text-[#ffe600]" />
+              <span>{filteredRegions.length}</span>
+              {isSectorListOpen ? (
+                <ChevronUp className="w-3 h-3" />
+              ) : (
+                <ChevronDown className="w-3 h-3" />
+              )}
+            </button>
+
+            {/* 3D / 2D Single Toggle Pill on Mobile */}
+            <button
+              onClick={() => handleToggleViewMode(viewMode === '3d' ? '2d' : '3d')}
+              className="h-7 px-2 rounded-[3px] bg-[#ffe600] text-black font-mono font-extrabold text-[11px] flex items-center gap-1 flex-shrink-0 cursor-pointer"
+              title="3D / 2D 시점 전환"
+            >
+              {viewMode === '3d' ? <Box className="w-3 h-3" /> : <MapIcon className="w-3 h-3" />}
+              <span>{viewMode.toUpperCase()}</span>
+            </button>
+
+            {/* Legend Button */}
+            <button
+              onClick={() => {
+                playClickSound();
+                setIsLegendOpen(true);
+              }}
+              className="w-7 h-7 rounded-[3px] bg-white/[0.06] text-[#ffe600] flex items-center justify-center flex-shrink-0 cursor-pointer"
+              title="지도 범례 및 조작 안내"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Fullscreen Toggle Button */}
+            {onToggleHeaderCollapse && (
+              <button
+                onClick={() => {
+                  playClickSound();
+                  onToggleHeaderCollapse();
+                }}
+                className={`w-7 h-7 rounded-[3px] flex items-center justify-center flex-shrink-0 cursor-pointer ${
+                  isHeaderCollapsed
+                    ? 'bg-[#ffe600] text-black font-bold'
+                    : 'bg-white/[0.06] text-zinc-300'
+                }`}
+                title={isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Mobile Collapsible 22-Region Directory Dropdown */}
+          {isSectorListOpen && (
+            <div className="pointer-events-auto prts-glass rounded-[5px] overflow-hidden shadow-2xl animate-fadeIn">
+              <div className="overflow-y-auto divide-y divide-white/[0.05] max-h-56">
+                {filteredRegions.map((reg) => {
+                  const isPinned = pinnedRegionId === reg.id;
+                  return (
+                    <button
+                      key={reg.id}
+                      onClick={() => handleSelectRegion(reg.id)}
+                      className={`w-full px-3 py-2 text-left flex items-center justify-between transition-colors cursor-pointer ${
+                        isPinned
+                          ? 'bg-[#ffe600]/15 text-[#ffe600] border-l-2 border-l-[#ffe600]'
+                          : 'hover:bg-white/[0.05] text-zinc-200'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span
+                          className="w-2 h-2 rounded-[1px] flex-shrink-0"
+                          style={{ backgroundColor: reg.badgeColor }}
+                        />
+                        <div className="truncate">
+                          <span className="text-xs font-bold">{reg.nameKo}</span>
+                          <span className="text-[10px] font-mono text-zinc-400 uppercase ml-1.5">
+                            {reg.nameEn}
+                          </span>
+                        </div>
+                      </div>
+                      {reg.relatedStoryIds.length > 0 && (
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-white/[0.06] text-[#ffe600]">
+                          {reg.relatedStoryIds.length}편
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Row 2: Single-Line Horizontal Scroll Layer Toggles + Route Filter */}
+          <div className="pointer-events-auto flex items-center gap-1 overflow-x-auto no-scrollbar">
+            <div className="prts-glass rounded-[5px] p-1 flex items-center gap-1 text-[11px] flex-shrink-0 shadow-lg">
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setShowElevation(!showElevation);
+                }}
+                className={`h-6 px-2 rounded-[3px] flex items-center gap-1 cursor-pointer ${
+                  showElevation ? 'bg-white/[0.12] text-[#ffe600] font-bold' : 'text-zinc-500'
+                }`}
+              >
+                <Layers className="w-3 h-3" />
+                <span>고저차</span>
+              </button>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setShowLogos(!showLogos);
+                }}
+                className={`h-6 px-2 rounded-[3px] cursor-pointer ${
+                  showLogos ? 'bg-white/[0.12] text-[#ffe600] font-bold' : 'text-zinc-500'
+                }`}
+              >
+                <span>국가</span>
+              </button>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setShowCities(!showCities);
+                }}
+                className={`h-6 px-2 rounded-[3px] flex items-center gap-1 cursor-pointer ${
+                  showCities ? 'bg-white/[0.12] text-[#00d8ff] font-bold' : 'text-zinc-500'
+                }`}
+              >
+                <MapPin className="w-3 h-3" />
+                <span>거점</span>
+              </button>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setShowRoutes(!showRoutes);
+                }}
+                className={`h-6 px-2 rounded-[3px] flex items-center gap-1 cursor-pointer ${
+                  showRoutes ? 'bg-white/[0.12] text-amber-400 font-bold' : 'text-zinc-500'
+                }`}
+              >
+                <Route className="w-3 h-3" />
+                <span>경로</span>
+              </button>
+            </div>
+
+            {showRoutes && (
+              <div className="prts-glass rounded-[5px] p-1 flex items-center gap-1 text-[10.5px] flex-shrink-0 shadow-lg">
+                {(
+                  [
+                    { id: 'all', label: '전체' },
+                    { id: 'main', label: '메인' },
+                    { id: 'series', label: '연작' },
+                    { id: 'expedition', label: '원정' },
+                  ] as const
+                ).map((tab) => {
+                  const isActive = routeFilter === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => {
+                        playClickSound();
+                        setRouteFilter(tab.id);
+                      }}
+                      className={`h-6 px-2 rounded-[3px] cursor-pointer transition-all ${
+                        isActive
+                          ? 'bg-amber-400/25 border border-amber-400/60 text-amber-300 font-bold'
+                          : 'text-zinc-400'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* =========================================================================
+            2-B. DESKTOP TOP-LEFT REGION SEARCH & DIRECTORY DOCK (hidden md:flex)
+        ========================================================================= */}
+        <div
+          data-hud-panel="true"
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          className="hidden md:flex absolute top-4 left-4 z-30 flex-col w-68 sm:w-76 pointer-events-none"
         >
           {/* Unified Search + Collapse Toggle Bar */}
           <div className="pointer-events-auto prts-glass rounded-[3px] p-1.5 shadow-2xl flex items-center gap-1.5">
@@ -2166,13 +2396,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         </div>
 
         {/* =========================================================================
-            3. TOP-RIGHT UNIFIED VIEW & LAYER TOOLBAR
+            3. DESKTOP TOP-RIGHT UNIFIED VIEW & LAYER TOOLBAR (hidden md:flex)
         ========================================================================= */}
         <div
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          className="absolute top-4 right-4 z-30 flex flex-col items-end gap-1.5 pointer-events-none"
+          className="hidden md:flex absolute top-4 right-4 z-30 flex-col items-end gap-1.5 pointer-events-none"
         >
           <div className="flex flex-wrap items-center justify-end gap-1.5">
             {/* 3D / 2D View Switcher */}
@@ -2367,65 +2597,55 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
         {/* =========================================================================
             4. BOTTOM UNIFIED CONTROL GUIDE, STATUS READOUT & CAMERA BAR
+            - 모바일: 1글자 세로 줄바꿈을 유발하던 좌측 안내 박스를 제거하고 슬림한 360° 회전 바만 배치
+            - 데스크톱: 좌측 상태/조작 바 + 우측 전체 카메라 컨트롤 바 유지
         ========================================================================= */}
         <div
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          className="absolute bottom-4 left-4 right-4 z-30 flex items-end justify-between pointer-events-none gap-3"
+          className={`absolute bottom-3 md:bottom-4 left-3 right-3 md:left-4 md:right-4 z-30 flex items-end justify-center md:justify-between pointer-events-none gap-3 ${
+            isTouchOrMobile && (pinnedRegion || mobilePreviewCard) ? 'hidden md:flex' : 'flex'
+          }`}
         >
-          {/* Left: Compact Control Guide + Live Sector Readout (Auto-switches PC vs Mobile/Touch) */}
-          <div className="pointer-events-auto prts-glass rounded-[3px] px-3 py-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] shadow-xl">
+          {/* Left: Compact Control Guide + Live Sector Readout (Desktop Only - Prevents Mobile 1-Char Vertical Wrap) */}
+          <div className="hidden md:flex pointer-events-auto prts-glass rounded-[3px] px-3 py-2 flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] shadow-xl">
             {/* Active Sector Indicator */}
             <div className="flex items-center gap-2 pr-2 border-r border-white/10">
               <span className="w-2 h-2 rounded-[1px] bg-[#ffe600]" />
               <span ref={telemetrySectorRef} className="text-white font-semibold">
                 중립 지역
               </span>
-              <span ref={telemetryCoordRef} className="text-zinc-500 font-mono text-[10px] hidden sm:inline">
+              <span ref={telemetryCoordRef} className="text-zinc-500 font-mono text-[10px] hidden lg:inline">
                 X:410 Y:512 · 450M
               </span>
             </div>
 
-            {isTouchOrMobile ? (
-              /* Mobile / Touch Mode Banner */
-              <div className="flex flex-wrap items-center gap-2 text-zinc-200 text-[11px]">
-                <span>👆 1손가락: 지도 이동</span>
-                <span className="text-zinc-600">|</span>
-                <span>🤏 2손가락: 확대/축소 및 360° 회전</span>
-                <span className="text-zinc-600 hidden sm:inline">|</span>
-                <span className="hidden sm:inline">📍 거점·경로: 탭하여 상세 정보</span>
-              </div>
-            ) : (
-              /* PC Mode Banner */
-              <div className="flex flex-wrap items-center gap-2.5 text-zinc-300 text-[11px]">
-                <span>🖱️ 드래그: 이동 · 회전</span>
-                <span className="text-zinc-600">|</span>
-                <span>스크롤: 확대 · 축소</span>
-                <span className="text-zinc-600 hidden md:inline">|</span>
-                <span className="hidden md:inline">⌨️ 방향키: 지도 이동</span>
-                <span className="text-zinc-600 hidden lg:inline">|</span>
-                <span className="hidden lg:inline">핀 클릭: 스토리 열람</span>
+            <div className="flex flex-wrap items-center gap-2.5 text-zinc-300 text-[11px]">
+              <span>🖱️ 드래그: 이동 · 회전</span>
+              <span className="text-zinc-600">|</span>
+              <span>스크롤: 확대 · 축소</span>
+              <span className="text-zinc-600 hidden lg:inline">|</span>
+              <span className="hidden lg:inline">⌨️ 방향키: 지도 이동</span>
 
-                <div className="w-[1px] h-3.5 bg-white/10" />
+              <div className="w-[1px] h-3.5 bg-white/10" />
 
-                <button
-                  onClick={() => {
-                    playClickSound();
-                    setIsLegendOpen(true);
-                  }}
-                  title="지도 범례 및 조작 안내"
-                  className="flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] hover:bg-[#ffe600] text-[#ffe600] hover:text-black font-semibold transition-colors cursor-pointer text-[11px]"
-                >
-                  <HelpCircle className="w-3.5 h-3.5" />
-                  <span>지도 범례</span>
-                </button>
-              </div>
-            )}
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setIsLegendOpen(true);
+                }}
+                title="지도 범례 및 조작 안내"
+                className="flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] hover:bg-[#ffe600] text-[#ffe600] hover:text-black font-semibold transition-colors cursor-pointer text-[11px]"
+              >
+                <HelpCircle className="w-3.5 h-3.5" />
+                <span>지도 범례</span>
+              </button>
+            </div>
           </div>
 
-          {/* Right: Compact Icon Camera Controls (+ / - / 360 Rotation Slider / Reset) */}
-          <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center gap-1 font-mono text-xs shadow-xl">
+          {/* Right (Desktop) / Bottom Slim Bar (Mobile): 360° Rotation Slider & Camera Controls */}
+          <div className="pointer-events-auto w-full md:w-auto prts-glass rounded-[5px] md:rounded-[3px] p-1.5 md:p-1 flex items-center justify-between md:justify-end gap-1.5 md:gap-1 font-mono text-xs shadow-xl">
             <span
               ref={telemetryAngleRef}
               className="px-2 text-[10px] text-zinc-400 hidden lg:inline border-r border-white/10 mr-0.5"
@@ -2435,10 +2655,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
             {/* 360° Horizontal Rotation Slider */}
             <div
-              className="flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] bg-white/[0.04] border border-white/[0.08]"
+              className="flex-1 md:flex-initial flex items-center gap-2 px-2.5 py-1 md:py-0.5 rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08]"
               title="360° 수평 회전 바"
             >
               <Compass className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+              <span className="md:hidden text-[10.5px] font-sans text-zinc-300 flex-shrink-0">회전</span>
               <input
                 ref={telemetryYawSliderRef}
                 type="range"
@@ -2446,83 +2667,97 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 max="359"
                 defaultValue="0"
                 onChange={(e) => handleSetAzimuthDegrees(Number(e.target.value))}
-                className="w-16 sm:w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#ffe600]"
+                className="flex-1 md:w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#ffe600]"
                 title="지도 360도 회전 각도 조절"
               />
-              <span ref={telemetryYawTextRef} className="text-[10px] text-zinc-300 font-mono w-7 text-right">
+              <span ref={telemetryYawTextRef} className="text-[10.5px] text-[#ffe600] md:text-zinc-300 font-mono w-8 text-right flex-shrink-0">
                 0°
               </span>
             </div>
 
             <button
               onClick={() => handleRotateYaw(-Math.PI / 8)}
-              title="좌측 회전"
-              className="w-7 h-7 rounded-[2px] text-zinc-400 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer"
+              title="좌측 22.5° 회전"
+              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
             >
               ↺
             </button>
             <button
               onClick={() => handleRotateYaw(Math.PI / 8)}
-              title="우측 회전"
-              className="w-7 h-7 rounded-[2px] text-zinc-400 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer"
+              title="우측 22.5° 회전"
+              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
             >
               ↻
             </button>
-            <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
+
+            {/* Desktop Zoom Buttons (Hidden on mobile where 2-finger pinch zoom is native) */}
+            <div className="hidden md:block w-[1px] h-4 bg-white/10 mx-0.5" />
             <button
               onClick={() => handleZoom(90)}
               title="[-] 축소"
-              className="w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer"
+              className="hidden md:flex w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 items-center justify-center cursor-pointer"
             >
               <ZoomOut className="w-3.5 h-3.5" />
             </button>
             <span
               ref={telemetryZoomRef}
-              className="px-1.5 text-[11px] text-[#ffe600] font-bold min-w-[42px] text-center"
+              className="hidden md:inline-block px-1.5 text-[11px] text-[#ffe600] font-bold min-w-[42px] text-center"
             >
               100%
             </span>
             <button
               onClick={() => handleZoom(-90)}
               title="[+] 확대"
-              className="w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer"
+              className="hidden md:flex w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 items-center justify-center cursor-pointer"
             >
               <ZoomIn className="w-3.5 h-3.5" />
             </button>
+
             <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
             <button
               onClick={handleResetCamera}
               title="지도 시점 초기화"
-              className="w-7 h-7 rounded-[2px] text-zinc-300 hover:text-black hover:bg-[#ffe600] flex items-center justify-center transition-colors cursor-pointer"
+              className="h-7 px-2 md:w-7 md:px-0 rounded-[3px] md:rounded-[2px] text-zinc-200 hover:text-black bg-white/[0.06] md:bg-transparent hover:bg-[#ffe600] flex items-center justify-center gap-1 transition-colors cursor-pointer flex-shrink-0"
             >
               <RotateCcw className="w-3.5 h-3.5" />
+              <span className="md:hidden text-[10.5px] font-sans font-semibold">초기화</span>
             </button>
           </div>
         </div>
 
         {/* =========================================================================
-            5. RIGHT REGION DETAILS & ASSOCIATED STORIES DRAWER (FLOATING GLASS)
+            5. REGION DETAILS & ASSOCIATED STORIES DRAWER
+            - 모바일: 상단 44%의 3D 지도를 가리지 않는 하단 바텀 시트 (max-h-[56dvh])
+            - 데스크톱: 우측 플로팅 글래스 서랍 패널
         ========================================================================= */}
         {pinnedRegion && (
           <aside
             data-hud-panel="true"
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
-            className={`absolute ${
-              showRoutes ? 'top-24' : 'top-16'
-            } right-4 bottom-16 w-80 sm:w-92 prts-glass rounded-[4px] flex flex-col z-40 shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-slideInRight transition-all`}
+            className={`absolute inset-x-0 bottom-0 max-h-[56dvh] md:max-h-none md:inset-x-auto ${
+              showRoutes ? 'md:top-24' : 'md:top-16'
+            } md:right-4 md:bottom-16 md:w-84 lg:w-92 prts-glass rounded-t-2xl md:rounded-[4px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] md:shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
           >
+            {/* Mobile Drag Handle Bar */}
+            <div
+              onClick={() => setPinnedRegionId(null)}
+              className="md:hidden flex items-center justify-center py-2 bg-black/40 border-b border-white/[0.06] cursor-pointer flex-shrink-0"
+            >
+              <div className="w-10 h-1 rounded-full bg-zinc-500" />
+            </div>
+
             {/* Dossier Header */}
-            <div className="p-4 sm:p-5 border-b border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.04] to-transparent">
+            <div className="px-4 py-3 sm:p-5 border-b border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.04] to-transparent flex-shrink-0">
               {pinnedRegion.logoUrl && (
                 <img
                   src={resolveAssetUrl(pinnedRegion.logoUrl)}
                   alt=""
-                  className="absolute -right-3 -bottom-3 w-28 h-28 object-contain opacity-12 pointer-events-none"
+                  className="absolute -right-3 -bottom-3 w-24 h-24 sm:w-28 sm:h-28 object-contain opacity-12 pointer-events-none"
                 />
               )}
 
-              <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2.5">
                 <div className="flex items-center gap-2">
                   <span
                     className="w-2.5 h-2.5 rounded-[1px]"
@@ -2547,12 +2782,19 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 </button>
               </div>
 
-              <h2 className="text-xl font-black text-white tracking-tight">
-                {pinnedRegion.nameKo}
-              </h2>
+              <div className="flex items-baseline justify-between gap-2">
+                <h2 className="text-lg sm:text-xl font-black text-white tracking-tight">
+                  {pinnedRegion.nameKo}
+                </h2>
+                {pinnedRegion.capital && (
+                  <span className="md:hidden text-[11px] text-[#ffe600] font-semibold truncate">
+                    수도: {pinnedRegion.capital}
+                  </span>
+                )}
+              </div>
 
               {pinnedRegion.capital && (
-                <div className="mt-3 pt-2.5 border-t border-white/8 flex items-center justify-between text-xs">
+                <div className="hidden md:flex mt-3 pt-2.5 border-t border-white/8 items-center justify-between text-xs">
                   <span className="text-zinc-400">수도 / 거점</span>
                   <span className="text-[#ffe600] font-semibold">{pinnedRegion.capital}</span>
                 </div>
@@ -2560,13 +2802,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             </div>
 
             {/* Geopolitical Summary & Associated Operations */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-5">
+            <div className="flex-1 overflow-y-auto p-3.5 sm:p-5 space-y-4 sm:space-y-5">
               {/* Geopolitical Overview */}
               <div className="space-y-1.5">
                 <div className="text-[11px] font-bold text-zinc-400">
                   지역 소개
                 </div>
-                <p className="text-xs sm:text-[13px] text-zinc-200 leading-relaxed bg-white/[0.03] border border-white/[0.06] rounded-[3px] p-3">
+                <p className="text-xs sm:text-[13px] text-zinc-200 leading-relaxed bg-white/[0.03] border border-white/[0.06] rounded-[3px] p-3 break-keep">
                   {pinnedRegion.description}
                 </p>
               </div>
