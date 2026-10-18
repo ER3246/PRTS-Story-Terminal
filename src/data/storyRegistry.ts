@@ -12,6 +12,7 @@ import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
 import { sidLoneTrail } from './stories/sid_lone_trail';
+import { sidDorothysVision } from './stories/sid_dorothys_vision';
 
 export interface StoryLineMeta {
   id: string;
@@ -2571,6 +2572,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
   sid_lone_trail: sidLoneTrail,
+  sid_dorothys_vision: sidDorothysVision,
 };
 
 export type StoryAccessState = 'available' | 'overview_only' | 'locked';
