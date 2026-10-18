@@ -1,0 +1,93 @@
+import React from 'react';
+import {
+  GitBranch,
+  Map as MapIcon,
+  ArrowRight,
+  BookOpen
+} from 'lucide-react';
+import { playClickSound, playTabSwitchSound } from '../utils/soundEffects';
+
+interface HomeDashboardProps {
+  onNavigateToStory: (storyId: string) => void;
+  onNavigateToView: (view: 'report' | 'chronicle' | 'map') => void;
+  onOpenReviewExport?: () => void;
+}
+
+export const HomeDashboard: React.FC<HomeDashboardProps> = ({
+  onNavigateToStory,
+  onNavigateToView,
+}) => {
+  return (
+    <div className="flex-1 w-full min-h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-16 animate-fadeIn relative overflow-hidden select-none">
+      {/* Subtle High-Tech Ambient Backdrop */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[340px] bg-[#ffe600]/[0.025] rounded-full blur-[130px]" />
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+            backgroundSize: '36px 36px'
+          }}
+        />
+        {/* Subtle Precision Frame Marks */}
+        <div className="absolute top-10 left-10 w-12 h-12 border-t border-l border-white/[0.08] hidden md:block" />
+        <div className="absolute top-10 right-10 w-12 h-12 border-t border-r border-white/[0.08] hidden md:block" />
+        <div className="absolute bottom-10 left-10 w-12 h-12 border-b border-l border-white/[0.08] hidden md:block" />
+        <div className="absolute bottom-10 right-10 w-12 h-12 border-b border-r border-white/[0.08] hidden md:block" />
+      </div>
+
+      {/* Main Hero Container */}
+      <div className="relative z-10 w-full max-w-2xl flex flex-col items-center text-center space-y-9">
+        {/* Title & Concise Subtitle */}
+        <div className="space-y-3">
+          <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black text-white tracking-tight leading-tight">
+            PRTS 스토리 아카이브
+          </h1>
+          <p className="text-sm sm:text-base text-zinc-400 font-normal tracking-wide">
+            명일방주 스토리 요약 모음
+          </p>
+        </div>
+
+        {/* 3 Entry Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+          {/* 스토리 상세 */}
+          <button
+            onClick={() => {
+              playClickSound();
+              onNavigateToStory('ep00');
+            }}
+            className="h-11 px-6 rounded-[3px] bg-[#ffe600] hover:bg-[#fff04d] text-black font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-[0_0_24px_rgba(255,230,0,0.16)] hover:shadow-[0_0_28px_rgba(255,230,0,0.28)] cursor-pointer group whitespace-nowrap min-w-[156px]"
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>스토리 상세</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+
+          {/* 스토리 목록 */}
+          <button
+            onClick={() => {
+              playTabSwitchSound();
+              onNavigateToView('chronicle');
+            }}
+            className="h-11 px-6 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.09] text-zinc-200 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/60 font-semibold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer group whitespace-nowrap min-w-[144px] backdrop-blur-md"
+          >
+            <GitBranch className="w-4 h-4 text-[#ffe600]" />
+            <span>스토리 목록</span>
+          </button>
+
+          {/* 테라 지도 */}
+          <button
+            onClick={() => {
+              playTabSwitchSound();
+              onNavigateToView('map');
+            }}
+            className="h-11 px-6 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.09] text-zinc-200 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/60 font-semibold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer group whitespace-nowrap min-w-[144px] backdrop-blur-md"
+          >
+            <MapIcon className="w-4 h-4 text-[#ffe600]" />
+            <span>테라 지도</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

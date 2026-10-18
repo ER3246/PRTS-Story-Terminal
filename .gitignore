@@ -1,0 +1,63 @@
+# Logs & Process PIDs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.prts_server.log
+.prts_server.pid
+
+# Build, Dependencies & Environment Variables
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env*
+
+# Editor & OS Files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bak
+
+# AI Prompts, Internal Design Docs & Agent Configs
+docs/
+STORY_AUTHORING_PIPELINE.md
+STORY_ARCHIVE_PROMPT_TEMPLATE.md
+KR_CANON_GLOSSARY.md
+VISUAL_RESOURCE_CATALOG.md
+TERRA_TACTICAL_MAP_SPEC.md
+PRTS_Story_Archive_Status_Master.md
+[PRTS]_*.md
+PRTS_*.md
+exports/
+.cursor*
+.antigravity*
+.gemini*
+CLAUDE.md
+AGENTS.md
+
+# Raw Game Scripts, Fact Sheets & Intermediate Data
+raw_data/
+
+# Local Scripts, Python Utilities & Temporary Dumps
+scripts/
+*.py
+*.pyc
+*.npy
+__pycache__/
+archive_screenshots/
+파일 첨부/
+scratch/
+scratch_*.png
+npc_mapping_result.txt
+PRTS_Terminal.bat

@@ -1,0 +1,3022 @@
+[
+  {
+    "id": "hex_1",
+    "col": 13,
+    "row": 1,
+    "x": 279.0,
+    "y": 35.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_2",
+    "col": 17,
+    "row": 1,
+    "x": 358.0,
+    "y": 35.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_3",
+    "col": 12,
+    "row": 2,
+    "x": 250.0,
+    "y": 52.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_4",
+    "col": 19,
+    "row": 2,
+    "x": 387.0,
+    "y": 52.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_5",
+    "col": 20,
+    "row": 2,
+    "x": 407.0,
+    "y": 52.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_6",
+    "col": 11,
+    "row": 3,
+    "x": 240.0,
+    "y": 69.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_7",
+    "col": 14,
+    "row": 3,
+    "x": 299.0,
+    "y": 69.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_8",
+    "col": 15,
+    "row": 3,
+    "x": 318.0,
+    "y": 69.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_9",
+    "col": 16,
+    "row": 3,
+    "x": 338.0,
+    "y": 69.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_10",
+    "col": 20,
+    "row": 3,
+    "x": 416.0,
+    "y": 69.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_11",
+    "col": 11,
+    "row": 4,
+    "x": 230.0,
+    "y": 86.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_12",
+    "col": 14,
+    "row": 4,
+    "x": 289.0,
+    "y": 86.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_13",
+    "col": 15,
+    "row": 4,
+    "x": 309.0,
+    "y": 86.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_14",
+    "col": 16,
+    "row": 4,
+    "x": 328.0,
+    "y": 86.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_15",
+    "col": 17,
+    "row": 4,
+    "x": 348.0,
+    "y": 86.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_16",
+    "col": 18,
+    "row": 4,
+    "x": 367.0,
+    "y": 86.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_17",
+    "col": 13,
+    "row": 5,
+    "x": 279.0,
+    "y": 103.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_18",
+    "col": 14,
+    "row": 5,
+    "x": 299.0,
+    "y": 103.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_19",
+    "col": 15,
+    "row": 5,
+    "x": 318.0,
+    "y": 103.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_20",
+    "col": 16,
+    "row": 5,
+    "x": 338.0,
+    "y": 103.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_21",
+    "col": 17,
+    "row": 5,
+    "x": 358.0,
+    "y": 103.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_22",
+    "col": 20,
+    "row": 5,
+    "x": 416.0,
+    "y": 103.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_23",
+    "col": 21,
+    "row": 5,
+    "x": 436.0,
+    "y": 103.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_24",
+    "col": 23,
+    "row": 5,
+    "x": 475.0,
+    "y": 103.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_25",
+    "col": 10,
+    "row": 6,
+    "x": 211.0,
+    "y": 120.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_26",
+    "col": 13,
+    "row": 6,
+    "x": 269.0,
+    "y": 120.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_27",
+    "col": 14,
+    "row": 6,
+    "x": 289.0,
+    "y": 120.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_28",
+    "col": 15,
+    "row": 6,
+    "x": 309.0,
+    "y": 120.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_29",
+    "col": 16,
+    "row": 6,
+    "x": 328.0,
+    "y": 120.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_30",
+    "col": 17,
+    "row": 6,
+    "x": 348.0,
+    "y": 120.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_31",
+    "col": 18,
+    "row": 6,
+    "x": 367.0,
+    "y": 120.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_32",
+    "col": 23,
+    "row": 6,
+    "x": 465.0,
+    "y": 120.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_33",
+    "col": 24,
+    "row": 6,
+    "x": 485.0,
+    "y": 120.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_34",
+    "col": 25,
+    "row": 6,
+    "x": 505.0,
+    "y": 120.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_35",
+    "col": 26,
+    "row": 6,
+    "x": 524.0,
+    "y": 120.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_36",
+    "col": 9,
+    "row": 7,
+    "x": 201.0,
+    "y": 137.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_37",
+    "col": 12,
+    "row": 7,
+    "x": 260.0,
+    "y": 137.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_38",
+    "col": 13,
+    "row": 7,
+    "x": 279.0,
+    "y": 137.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_39",
+    "col": 14,
+    "row": 7,
+    "x": 299.0,
+    "y": 137.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_40",
+    "col": 15,
+    "row": 7,
+    "x": 318.0,
+    "y": 137.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_41",
+    "col": 17,
+    "row": 7,
+    "x": 358.0,
+    "y": 137.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_42",
+    "col": 18,
+    "row": 7,
+    "x": 377.0,
+    "y": 137.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_43",
+    "col": 23,
+    "row": 7,
+    "x": 475.0,
+    "y": 137.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_44",
+    "col": 24,
+    "row": 7,
+    "x": 495.0,
+    "y": 137.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_45",
+    "col": 25,
+    "row": 7,
+    "x": 514.0,
+    "y": 137.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_46",
+    "col": 26,
+    "row": 7,
+    "x": 534.0,
+    "y": 137.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_47",
+    "col": 10,
+    "row": 8,
+    "x": 211.0,
+    "y": 154.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_48",
+    "col": 13,
+    "row": 8,
+    "x": 269.0,
+    "y": 154.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_49",
+    "col": 14,
+    "row": 8,
+    "x": 289.0,
+    "y": 154.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_50",
+    "col": 15,
+    "row": 8,
+    "x": 309.0,
+    "y": 154.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_51",
+    "col": 16,
+    "row": 8,
+    "x": 328.0,
+    "y": 154.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_52",
+    "col": 17,
+    "row": 8,
+    "x": 348.0,
+    "y": 154.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_53",
+    "col": 18,
+    "row": 8,
+    "x": 367.0,
+    "y": 154.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_54",
+    "col": 21,
+    "row": 8,
+    "x": 426.0,
+    "y": 154.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_55",
+    "col": 23,
+    "row": 8,
+    "x": 465.0,
+    "y": 154.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_56",
+    "col": 24,
+    "row": 8,
+    "x": 485.0,
+    "y": 154.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_57",
+    "col": 25,
+    "row": 8,
+    "x": 505.0,
+    "y": 154.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_58",
+    "col": 26,
+    "row": 8,
+    "x": 524.0,
+    "y": 154.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_59",
+    "col": 10,
+    "row": 9,
+    "x": 220.0,
+    "y": 171.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_60",
+    "col": 13,
+    "row": 9,
+    "x": 279.0,
+    "y": 171.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_61",
+    "col": 14,
+    "row": 9,
+    "x": 299.0,
+    "y": 171.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_62",
+    "col": 15,
+    "row": 9,
+    "x": 318.0,
+    "y": 171.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_63",
+    "col": 16,
+    "row": 9,
+    "x": 338.0,
+    "y": 171.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_64",
+    "col": 17,
+    "row": 9,
+    "x": 358.0,
+    "y": 171.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_65",
+    "col": 18,
+    "row": 9,
+    "x": 377.0,
+    "y": 171.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_66",
+    "col": 21,
+    "row": 9,
+    "x": 436.0,
+    "y": 171.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_67",
+    "col": 22,
+    "row": 9,
+    "x": 456.0,
+    "y": 171.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_68",
+    "col": 23,
+    "row": 9,
+    "x": 475.0,
+    "y": 171.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_69",
+    "col": 25,
+    "row": 9,
+    "x": 514.0,
+    "y": 171.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_70",
+    "col": 10,
+    "row": 10,
+    "x": 211.0,
+    "y": 188.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_71",
+    "col": 11,
+    "row": 10,
+    "x": 230.0,
+    "y": 188.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_72",
+    "col": 14,
+    "row": 10,
+    "x": 289.0,
+    "y": 188.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_73",
+    "col": 15,
+    "row": 10,
+    "x": 309.0,
+    "y": 188.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_74",
+    "col": 16,
+    "row": 10,
+    "x": 328.0,
+    "y": 188.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_75",
+    "col": 17,
+    "row": 10,
+    "x": 348.0,
+    "y": 188.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_76",
+    "col": 18,
+    "row": 10,
+    "x": 367.0,
+    "y": 188.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_77",
+    "col": 21,
+    "row": 10,
+    "x": 426.0,
+    "y": 188.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_78",
+    "col": 22,
+    "row": 10,
+    "x": 446.0,
+    "y": 188.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_79",
+    "col": 25,
+    "row": 10,
+    "x": 505.0,
+    "y": 188.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_80",
+    "col": 26,
+    "row": 10,
+    "x": 524.0,
+    "y": 188.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_81",
+    "col": 27,
+    "row": 10,
+    "x": 544.0,
+    "y": 188.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_82",
+    "col": 9,
+    "row": 11,
+    "x": 201.0,
+    "y": 205.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_83",
+    "col": 10,
+    "row": 11,
+    "x": 220.0,
+    "y": 205.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_84",
+    "col": 11,
+    "row": 11,
+    "x": 240.0,
+    "y": 205.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_85",
+    "col": 15,
+    "row": 11,
+    "x": 318.0,
+    "y": 205.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_86",
+    "col": 16,
+    "row": 11,
+    "x": 338.0,
+    "y": 205.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_87",
+    "col": 17,
+    "row": 11,
+    "x": 358.0,
+    "y": 205.0,
+    "regionId": "north_stargate",
+    "color": "#0b131f",
+    "elevation": -3
+  },
+  {
+    "id": "hex_88",
+    "col": 20,
+    "row": 11,
+    "x": 416.0,
+    "y": 205.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_89",
+    "col": 21,
+    "row": 11,
+    "x": 436.0,
+    "y": 205.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_90",
+    "col": 23,
+    "row": 11,
+    "x": 475.0,
+    "y": 205.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_91",
+    "col": 24,
+    "row": 11,
+    "x": 495.0,
+    "y": 205.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_92",
+    "col": 26,
+    "row": 11,
+    "x": 534.0,
+    "y": 205.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_93",
+    "col": 27,
+    "row": 11,
+    "x": 554.0,
+    "y": 205.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_94",
+    "col": 10,
+    "row": 12,
+    "x": 211.0,
+    "y": 222.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_95",
+    "col": 11,
+    "row": 12,
+    "x": 230.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_96",
+    "col": 12,
+    "row": 12,
+    "x": 250.0,
+    "y": 222.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_97",
+    "col": 20,
+    "row": 12,
+    "x": 407.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_98",
+    "col": 21,
+    "row": 12,
+    "x": 426.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_99",
+    "col": 22,
+    "row": 12,
+    "x": 446.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_100",
+    "col": 23,
+    "row": 12,
+    "x": 465.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_101",
+    "col": 24,
+    "row": 12,
+    "x": 485.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_102",
+    "col": 25,
+    "row": 12,
+    "x": 505.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_103",
+    "col": 26,
+    "row": 12,
+    "x": 524.0,
+    "y": 222.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_104",
+    "col": 27,
+    "row": 12,
+    "x": 544.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_105",
+    "col": 28,
+    "row": 12,
+    "x": 563.0,
+    "y": 222.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_106",
+    "col": 31,
+    "row": 12,
+    "x": 622.0,
+    "y": 222.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_107",
+    "col": 10,
+    "row": 13,
+    "x": 220.0,
+    "y": 239.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_108",
+    "col": 11,
+    "row": 13,
+    "x": 240.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_109",
+    "col": 12,
+    "row": 13,
+    "x": 260.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_110",
+    "col": 13,
+    "row": 13,
+    "x": 279.0,
+    "y": 239.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_111",
+    "col": 19,
+    "row": 13,
+    "x": 397.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_112",
+    "col": 20,
+    "row": 13,
+    "x": 416.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_113",
+    "col": 21,
+    "row": 13,
+    "x": 436.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_114",
+    "col": 22,
+    "row": 13,
+    "x": 456.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_115",
+    "col": 23,
+    "row": 13,
+    "x": 475.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_116",
+    "col": 24,
+    "row": 13,
+    "x": 495.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_117",
+    "col": 26,
+    "row": 13,
+    "x": 534.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_118",
+    "col": 27,
+    "row": 13,
+    "x": 554.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_119",
+    "col": 28,
+    "row": 13,
+    "x": 573.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_120",
+    "col": 29,
+    "row": 13,
+    "x": 593.0,
+    "y": 239.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_121",
+    "col": 11,
+    "row": 14,
+    "x": 230.0,
+    "y": 256.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_122",
+    "col": 12,
+    "row": 14,
+    "x": 250.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_123",
+    "col": 13,
+    "row": 14,
+    "x": 269.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_124",
+    "col": 14,
+    "row": 14,
+    "x": 289.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_125",
+    "col": 15,
+    "row": 14,
+    "x": 309.0,
+    "y": 256.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_126",
+    "col": 16,
+    "row": 14,
+    "x": 328.0,
+    "y": 256.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_127",
+    "col": 17,
+    "row": 14,
+    "x": 348.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_128",
+    "col": 18,
+    "row": 14,
+    "x": 367.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_129",
+    "col": 19,
+    "row": 14,
+    "x": 387.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_130",
+    "col": 20,
+    "row": 14,
+    "x": 407.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_131",
+    "col": 21,
+    "row": 14,
+    "x": 426.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_132",
+    "col": 22,
+    "row": 14,
+    "x": 446.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_133",
+    "col": 23,
+    "row": 14,
+    "x": 465.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_134",
+    "col": 24,
+    "row": 14,
+    "x": 485.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_135",
+    "col": 25,
+    "row": 14,
+    "x": 505.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_136",
+    "col": 26,
+    "row": 14,
+    "x": 524.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_137",
+    "col": 27,
+    "row": 14,
+    "x": 544.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_138",
+    "col": 28,
+    "row": 14,
+    "x": 563.0,
+    "y": 256.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_139",
+    "col": 11,
+    "row": 15,
+    "x": 240.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_140",
+    "col": 12,
+    "row": 15,
+    "x": 260.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_141",
+    "col": 13,
+    "row": 15,
+    "x": 279.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_142",
+    "col": 15,
+    "row": 15,
+    "x": 318.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_143",
+    "col": 16,
+    "row": 15,
+    "x": 338.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_144",
+    "col": 17,
+    "row": 15,
+    "x": 358.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_145",
+    "col": 18,
+    "row": 15,
+    "x": 377.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_146",
+    "col": 19,
+    "row": 15,
+    "x": 397.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_147",
+    "col": 20,
+    "row": 15,
+    "x": 416.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_148",
+    "col": 22,
+    "row": 15,
+    "x": 456.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_149",
+    "col": 23,
+    "row": 15,
+    "x": 475.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_150",
+    "col": 24,
+    "row": 15,
+    "x": 495.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_151",
+    "col": 25,
+    "row": 15,
+    "x": 514.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_152",
+    "col": 26,
+    "row": 15,
+    "x": 534.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_153",
+    "col": 27,
+    "row": 15,
+    "x": 554.0,
+    "y": 273.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_154",
+    "col": 11,
+    "row": 16,
+    "x": 230.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_155",
+    "col": 12,
+    "row": 16,
+    "x": 250.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_156",
+    "col": 13,
+    "row": 16,
+    "x": 269.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_157",
+    "col": 14,
+    "row": 16,
+    "x": 289.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_158",
+    "col": 15,
+    "row": 16,
+    "x": 309.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_159",
+    "col": 16,
+    "row": 16,
+    "x": 328.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_160",
+    "col": 17,
+    "row": 16,
+    "x": 348.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_161",
+    "col": 26,
+    "row": 16,
+    "x": 524.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_162",
+    "col": 27,
+    "row": 16,
+    "x": 544.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_163",
+    "col": 28,
+    "row": 16,
+    "x": 563.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_164",
+    "col": 31,
+    "row": 16,
+    "x": 622.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_165",
+    "col": 32,
+    "row": 16,
+    "x": 642.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_166",
+    "col": 33,
+    "row": 16,
+    "x": 661.0,
+    "y": 290.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_167",
+    "col": 9,
+    "row": 17,
+    "x": 201.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_168",
+    "col": 10,
+    "row": 17,
+    "x": 220.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_169",
+    "col": 11,
+    "row": 17,
+    "x": 240.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_170",
+    "col": 12,
+    "row": 17,
+    "x": 260.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_171",
+    "col": 13,
+    "row": 17,
+    "x": 279.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_172",
+    "col": 14,
+    "row": 17,
+    "x": 299.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_173",
+    "col": 15,
+    "row": 17,
+    "x": 318.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_174",
+    "col": 16,
+    "row": 17,
+    "x": 338.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_175",
+    "col": 17,
+    "row": 17,
+    "x": 358.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_176",
+    "col": 18,
+    "row": 17,
+    "x": 377.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_177",
+    "col": 19,
+    "row": 17,
+    "x": 397.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_178",
+    "col": 20,
+    "row": 17,
+    "x": 416.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_179",
+    "col": 22,
+    "row": 17,
+    "x": 456.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_180",
+    "col": 23,
+    "row": 17,
+    "x": 475.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_181",
+    "col": 24,
+    "row": 17,
+    "x": 495.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_182",
+    "col": 25,
+    "row": 17,
+    "x": 514.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_183",
+    "col": 26,
+    "row": 17,
+    "x": 534.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_184",
+    "col": 27,
+    "row": 17,
+    "x": 554.0,
+    "y": 307.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_185",
+    "col": 35,
+    "row": 17,
+    "x": 710.0,
+    "y": 307.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_186",
+    "col": 8,
+    "row": 18,
+    "x": 171.0,
+    "y": 324.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_187",
+    "col": 11,
+    "row": 18,
+    "x": 230.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_188",
+    "col": 12,
+    "row": 18,
+    "x": 250.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_189",
+    "col": 13,
+    "row": 18,
+    "x": 269.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_190",
+    "col": 14,
+    "row": 18,
+    "x": 289.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_191",
+    "col": 15,
+    "row": 18,
+    "x": 309.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_192",
+    "col": 16,
+    "row": 18,
+    "x": 328.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_193",
+    "col": 17,
+    "row": 18,
+    "x": 348.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_194",
+    "col": 18,
+    "row": 18,
+    "x": 367.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_195",
+    "col": 19,
+    "row": 18,
+    "x": 387.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_196",
+    "col": 20,
+    "row": 18,
+    "x": 407.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_197",
+    "col": 22,
+    "row": 18,
+    "x": 446.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_198",
+    "col": 23,
+    "row": 18,
+    "x": 465.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_199",
+    "col": 24,
+    "row": 18,
+    "x": 485.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_200",
+    "col": 25,
+    "row": 18,
+    "x": 505.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_201",
+    "col": 27,
+    "row": 18,
+    "x": 544.0,
+    "y": 324.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_202",
+    "col": 7,
+    "row": 19,
+    "x": 162.0,
+    "y": 341.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_203",
+    "col": 10,
+    "row": 19,
+    "x": 220.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_204",
+    "col": 11,
+    "row": 19,
+    "x": 240.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_205",
+    "col": 12,
+    "row": 19,
+    "x": 260.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_206",
+    "col": 13,
+    "row": 19,
+    "x": 279.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_207",
+    "col": 14,
+    "row": 19,
+    "x": 299.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_208",
+    "col": 15,
+    "row": 19,
+    "x": 318.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_209",
+    "col": 16,
+    "row": 19,
+    "x": 338.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_210",
+    "col": 17,
+    "row": 19,
+    "x": 358.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_211",
+    "col": 18,
+    "row": 19,
+    "x": 377.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_212",
+    "col": 19,
+    "row": 19,
+    "x": 397.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_213",
+    "col": 20,
+    "row": 19,
+    "x": 416.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_214",
+    "col": 23,
+    "row": 19,
+    "x": 475.0,
+    "y": 341.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_215",
+    "col": 6,
+    "row": 20,
+    "x": 132.0,
+    "y": 358.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_216",
+    "col": 11,
+    "row": 20,
+    "x": 230.0,
+    "y": 358.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_217",
+    "col": 12,
+    "row": 20,
+    "x": 250.0,
+    "y": 358.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_218",
+    "col": 13,
+    "row": 20,
+    "x": 269.0,
+    "y": 358.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_219",
+    "col": 18,
+    "row": 20,
+    "x": 367.0,
+    "y": 358.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_220",
+    "col": 19,
+    "row": 20,
+    "x": 387.0,
+    "y": 358.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_221",
+    "col": 38,
+    "row": 20,
+    "x": 759.0,
+    "y": 358.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_222",
+    "col": 10,
+    "row": 21,
+    "x": 220.0,
+    "y": 375.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_223",
+    "col": 11,
+    "row": 21,
+    "x": 240.0,
+    "y": 375.0,
+    "regionId": "infy_icefield",
+    "color": "#f8fafc",
+    "elevation": 1
+  },
+  {
+    "id": "hex_224",
+    "col": 16,
+    "row": 21,
+    "x": 338.0,
+    "y": 375.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_225",
+    "col": 9,
+    "row": 22,
+    "x": 191.0,
+    "y": 392.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_226",
+    "col": 32,
+    "row": 22,
+    "x": 642.0,
+    "y": 392.0,
+    "regionId": "higashi",
+    "color": "#6366f1",
+    "elevation": 1
+  },
+  {
+    "id": "hex_227",
+    "col": 35,
+    "row": 22,
+    "x": 701.0,
+    "y": 392.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_228",
+    "col": 38,
+    "row": 23,
+    "x": 769.0,
+    "y": 409.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_229",
+    "col": 39,
+    "row": 23,
+    "x": 789.0,
+    "y": 409.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_230",
+    "col": 3,
+    "row": 25,
+    "x": 83.0,
+    "y": 443.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_231",
+    "col": 19,
+    "row": 25,
+    "x": 397.0,
+    "y": 443.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_232",
+    "col": 29,
+    "row": 25,
+    "x": 593.0,
+    "y": 443.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_233",
+    "col": 31,
+    "row": 25,
+    "x": 632.0,
+    "y": 443.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_234",
+    "col": 33,
+    "row": 25,
+    "x": 671.0,
+    "y": 443.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_235",
+    "col": 12,
+    "row": 26,
+    "x": 250.0,
+    "y": 460.0,
+    "regionId": "columbia",
+    "color": "#1e3a8a",
+    "elevation": 1
+  },
+  {
+    "id": "hex_236",
+    "col": 30,
+    "row": 26,
+    "x": 603.0,
+    "y": 460.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_237",
+    "col": 32,
+    "row": 26,
+    "x": 642.0,
+    "y": 460.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_238",
+    "col": 33,
+    "row": 26,
+    "x": 661.0,
+    "y": 460.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_239",
+    "col": 34,
+    "row": 26,
+    "x": 681.0,
+    "y": 460.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_240",
+    "col": 8,
+    "row": 27,
+    "x": 181.0,
+    "y": 477.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_241",
+    "col": 12,
+    "row": 27,
+    "x": 260.0,
+    "y": 477.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_242",
+    "col": 14,
+    "row": 27,
+    "x": 299.0,
+    "y": 477.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_243",
+    "col": 33,
+    "row": 27,
+    "x": 671.0,
+    "y": 477.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_244",
+    "col": 4,
+    "row": 28,
+    "x": 93.0,
+    "y": 494.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_245",
+    "col": 19,
+    "row": 28,
+    "x": 387.0,
+    "y": 494.0,
+    "regionId": "victoria",
+    "color": "#7c3aed",
+    "elevation": 2
+  },
+  {
+    "id": "hex_246",
+    "col": 22,
+    "row": 28,
+    "x": 446.0,
+    "y": 494.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_247",
+    "col": 30,
+    "row": 28,
+    "x": 603.0,
+    "y": 494.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_248",
+    "col": 31,
+    "row": 28,
+    "x": 622.0,
+    "y": 494.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_249",
+    "col": 33,
+    "row": 28,
+    "x": 661.0,
+    "y": 494.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_250",
+    "col": 3,
+    "row": 29,
+    "x": 83.0,
+    "y": 511.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_251",
+    "col": 11,
+    "row": 29,
+    "x": 240.0,
+    "y": 511.0,
+    "regionId": "columbia",
+    "color": "#1e3a8a",
+    "elevation": 1
+  },
+  {
+    "id": "hex_252",
+    "col": 19,
+    "row": 29,
+    "x": 397.0,
+    "y": 511.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_253",
+    "col": 31,
+    "row": 29,
+    "x": 632.0,
+    "y": 511.0,
+    "regionId": "yan",
+    "color": "#eab308",
+    "elevation": 2
+  },
+  {
+    "id": "hex_254",
+    "col": 19,
+    "row": 30,
+    "x": 387.0,
+    "y": 528.0,
+    "regionId": "victoria",
+    "color": "#7c3aed",
+    "elevation": 2
+  },
+  {
+    "id": "hex_255",
+    "col": 20,
+    "row": 30,
+    "x": 407.0,
+    "y": 528.0,
+    "regionId": "victoria",
+    "color": "#7c3aed",
+    "elevation": 2
+  },
+  {
+    "id": "hex_256",
+    "col": 26,
+    "row": 30,
+    "x": 524.0,
+    "y": 528.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_257",
+    "col": 27,
+    "row": 30,
+    "x": 544.0,
+    "y": 528.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_258",
+    "col": 19,
+    "row": 31,
+    "x": 397.0,
+    "y": 545.0,
+    "regionId": "victoria",
+    "color": "#7c3aed",
+    "elevation": 2
+  },
+  {
+    "id": "hex_259",
+    "col": 19,
+    "row": 32,
+    "x": 387.0,
+    "y": 562.0,
+    "regionId": "victoria",
+    "color": "#7c3aed",
+    "elevation": 2
+  },
+  {
+    "id": "hex_260",
+    "col": 20,
+    "row": 32,
+    "x": 407.0,
+    "y": 562.0,
+    "regionId": "victoria",
+    "color": "#7c3aed",
+    "elevation": 2
+  },
+  {
+    "id": "hex_261",
+    "col": 7,
+    "row": 33,
+    "x": 162.0,
+    "y": 579.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_262",
+    "col": 8,
+    "row": 33,
+    "x": 181.0,
+    "y": 579.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_263",
+    "col": 9,
+    "row": 33,
+    "x": 201.0,
+    "y": 579.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_264",
+    "col": 19,
+    "row": 33,
+    "x": 397.0,
+    "y": 579.0,
+    "regionId": "victoria",
+    "color": "#7c3aed",
+    "elevation": 2
+  },
+  {
+    "id": "hex_265",
+    "col": 9,
+    "row": 34,
+    "x": 191.0,
+    "y": 596.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_266",
+    "col": 10,
+    "row": 34,
+    "x": 211.0,
+    "y": 596.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_267",
+    "col": 6,
+    "row": 35,
+    "x": 142.0,
+    "y": 613.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_268",
+    "col": 8,
+    "row": 35,
+    "x": 181.0,
+    "y": 613.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_269",
+    "col": 9,
+    "row": 35,
+    "x": 201.0,
+    "y": 613.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_270",
+    "col": 10,
+    "row": 35,
+    "x": 220.0,
+    "y": 613.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_271",
+    "col": 11,
+    "row": 35,
+    "x": 240.0,
+    "y": 613.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_272",
+    "col": 17,
+    "row": 35,
+    "x": 358.0,
+    "y": 613.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_273",
+    "col": 18,
+    "row": 35,
+    "x": 377.0,
+    "y": 613.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_274",
+    "col": 9,
+    "row": 36,
+    "x": 191.0,
+    "y": 630.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_275",
+    "col": 10,
+    "row": 36,
+    "x": 211.0,
+    "y": 630.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_276",
+    "col": 14,
+    "row": 36,
+    "x": 289.0,
+    "y": 630.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_277",
+    "col": 9,
+    "row": 37,
+    "x": 201.0,
+    "y": 647.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_278",
+    "col": 10,
+    "row": 37,
+    "x": 220.0,
+    "y": 647.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_279",
+    "col": 12,
+    "row": 37,
+    "x": 260.0,
+    "y": 647.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_280",
+    "col": 13,
+    "row": 37,
+    "x": 279.0,
+    "y": 647.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_281",
+    "col": 14,
+    "row": 37,
+    "x": 299.0,
+    "y": 647.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_282",
+    "col": 15,
+    "row": 37,
+    "x": 318.0,
+    "y": 647.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_283",
+    "col": 10,
+    "row": 38,
+    "x": 211.0,
+    "y": 664.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_284",
+    "col": 16,
+    "row": 38,
+    "x": 328.0,
+    "y": 664.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_285",
+    "col": 9,
+    "row": 39,
+    "x": 201.0,
+    "y": 681.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_286",
+    "col": 10,
+    "row": 39,
+    "x": 220.0,
+    "y": 681.0,
+    "regionId": "sargon",
+    "color": "#ca8a04",
+    "elevation": 1
+  },
+  {
+    "id": "hex_287",
+    "col": 14,
+    "row": 40,
+    "x": 289.0,
+    "y": 698.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_288",
+    "col": 8,
+    "row": 41,
+    "x": 181.0,
+    "y": 715.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_289",
+    "col": 9,
+    "row": 41,
+    "x": 201.0,
+    "y": 715.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_290",
+    "col": 15,
+    "row": 41,
+    "x": 318.0,
+    "y": 715.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_291",
+    "col": 13,
+    "row": 42,
+    "x": 269.0,
+    "y": 732.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_292",
+    "col": 18,
+    "row": 42,
+    "x": 367.0,
+    "y": 732.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_293",
+    "col": 3,
+    "row": 43,
+    "x": 83.0,
+    "y": 749.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_294",
+    "col": 7,
+    "row": 43,
+    "x": 162.0,
+    "y": 749.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_295",
+    "col": 12,
+    "row": 43,
+    "x": 260.0,
+    "y": 749.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_296",
+    "col": 13,
+    "row": 43,
+    "x": 279.0,
+    "y": 749.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_297",
+    "col": 14,
+    "row": 43,
+    "x": 299.0,
+    "y": 749.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_298",
+    "col": 15,
+    "row": 43,
+    "x": 318.0,
+    "y": 749.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_299",
+    "col": 14,
+    "row": 44,
+    "x": 289.0,
+    "y": 766.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_300",
+    "col": 5,
+    "row": 46,
+    "x": 113.0,
+    "y": 800.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_301",
+    "col": 10,
+    "row": 46,
+    "x": 211.0,
+    "y": 800.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  },
+  {
+    "id": "hex_302",
+    "col": 32,
+    "row": 50,
+    "x": 642.0,
+    "y": 868.0,
+    "regionId": "frontier",
+    "color": "#3a4454",
+    "elevation": 1
+  }
+]
