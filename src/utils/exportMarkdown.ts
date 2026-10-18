@@ -201,7 +201,9 @@ export function generateStoryMarkdown(story: StoryArchive): string {
     });
   }
 
-  md += `---\n\n`;
+  if (!md.endsWith('---\n\n')) {
+    md += `---\n\n`;
+  }
 
   // 3. 작전 관계자 명부
   md += `## 3. 작전 관계자 명부 (PERSONNEL DOSSIER: ${story.characters.length}명)\n\n`;
