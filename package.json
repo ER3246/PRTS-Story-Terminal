@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "validate:stories": "node scripts/validate_stories.cjs",
+    "normalize:avatars": "powershell -ExecutionPolicy Bypass -File scripts/normalize_character_avatars.ps1",
     "export:docs": "npx tsx scripts/export_docs.ts",
     "lint": "oxlint",
     "preview": "vite preview"

@@ -726,6 +726,28 @@ export const globalCharacterMap: Record<string, CharacterRef> = {
     description: '컬럼비아 국방부 소속 대령. 국가 군사력 강화를 위해 라인 랩의 기술과 슈퍼 무기를 손에 넣으려 특수부대를 이끌고 본부를 기습 점거한다.',
     statusInChapter: '라인 랩 본부 기습 점거 지휘',
     spoilerLevel: 2
+  },
+  astgenne: {
+    id: 'astgenne',
+    nameKo: '아스트젠 (엘레나 우르비카)',
+    nameEn: 'Astgenne (Elena Urbica)',
+    faction: '라인 랩 에너지과 (전) / 로도스 아일랜드',
+    role: '오퍼레이터 (전 에너지과 연구원)',
+    avatarUrl: '/images/characters/astgenne.png',
+    description: '아스테시아의 쌍둥이 동생이자 라인 랩 에너지과 출신 연구원(코드네임 아스트젠). 퍼디낸드의 제자였으나 스승의 비윤리적 야욕에 반발해 결별을 선언하고 로도스에 협력한다.',
+    statusInChapter: '퍼디낸드와의 결별 선언 및 로도스 협력',
+    spoilerLevel: 2
+  },
+  astrogenes: {
+    id: 'astrogenes',
+    nameKo: '아스트젠 (엘레나 우르비카)',
+    nameEn: 'Astgenne (Elena Urbica)',
+    faction: '라인 랩 에너지과 (전) / 로도스 아일랜드',
+    role: '오퍼레이터 (전 에너지과 연구원)',
+    avatarUrl: '/images/characters/astgenne.png',
+    description: '아스테시아의 쌍둥이 동생이자 라인 랩 에너지과 출신 연구원(코드네임 아스트젠). 퍼디낸드의 제자였으나 스승의 비윤리적 야욕에 반발해 결별을 선언하고 로도스에 협력한다.',
+    statusInChapter: '퍼디낸드와의 결별 선언 및 로도스 협력',
+    spoilerLevel: 2
   }
 };
 

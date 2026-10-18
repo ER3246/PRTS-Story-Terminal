@@ -100,12 +100,12 @@ export const sidDorothysVision: StoryArchive = {
             },
             {
               speaker: '아스트젠',
-              speakerId: 'astrogenes',
+              speakerId: 'astgenne',
               text: '조이스, 조금만 버텨줘…… 내가 반드시 주임님을 설득해서 널 이 비정상적인 실험에서 빼낼 테니까.',
               context: '359호 기지에서 떨고 있는 프틸롭시스를 간호하며'
             }
           ],
-          involvedCharacters: ['silence', 'mechanist', 'astrogenes', 'ptilopsis', 'kristen']
+          involvedCharacters: ['silence', 'mechanist', 'astgenne', 'ptilopsis', 'kristen']
         },
         {
           stageCode: 'DV-01',
@@ -369,12 +369,12 @@ export const sidDorothysVision: StoryArchive = {
             },
             {
               speaker: '아스트젠',
-              speakerId: 'astrogenes',
+              speakerId: 'astgenne',
               text: '주임님, 도로시 선생님…… 제발 멈춰주세요. 이 실험실 밖의 개척자들은 지금 영문도 모른 채 신경 역류로 쓰러져가고 있어요!',
               context: '두 사람 사이를 중재하며 외부의 위험을 알릴 때'
             }
           ],
-          involvedCharacters: ['dorothy', 'silence', 'astrogenes', 'doctor']
+          involvedCharacters: ['dorothy', 'silence', 'astgenne', 'doctor']
         },
         {
           stageCode: 'DV-06',
@@ -417,7 +417,7 @@ export const sidDorothysVision: StoryArchive = {
               context: '신경 동기화의 과부하 상태를 기계적으로 경고하며'
             }
           ],
-          involvedCharacters: ['ferdinand', 'dorothy', 'silence', 'astrogenes', 'ptilopsis']
+          involvedCharacters: ['ferdinand', 'dorothy', 'silence', 'astgenne', 'ptilopsis']
         }
       ]
     },
@@ -480,7 +480,7 @@ export const sidDorothysVision: StoryArchive = {
             },
             {
               speaker: '아스트젠',
-              speakerId: 'astrogenes',
+              speakerId: 'astgenne',
               text: '마지막 부탁이야…… 그 입 좀 다물어. 당신의 선물과 그 가식적인 친절을 가지고 내 눈앞에서 사라져. 오늘부터, 엘레나 우르비카는 당신이 마음대로 쥐락펴락할 수 있는 멍청한 조수가 아니야. 퍼디낸드 클루니, 당신과 난 이제 끝이야.',
               context: '퍼디낸드를 향해 지팡이를 겨누며 독립을 선언할 때'
             },
@@ -491,7 +491,7 @@ export const sidDorothysVision: StoryArchive = {
               context: '솟구쳐 오르는 거수를 향해 방패를 전개하며'
             }
           ],
-          involvedCharacters: ['ferdinand', 'astrogenes', 'saria', 'dorothy', 'mechanist']
+          involvedCharacters: ['ferdinand', 'astgenne', 'saria', 'dorothy', 'mechanist']
         },
         {
           stageCode: 'DV-08',
@@ -603,7 +603,7 @@ export const sidDorothysVision: StoryArchive = {
               context: '로도스 아일랜드와 동행을 결심하며'
             }
           ],
-          involvedCharacters: ['saria', 'silence', 'kristen', 'dorothy', 'ferdinand', 'astrogenes']
+          involvedCharacters: ['saria', 'silence', 'kristen', 'dorothy', 'ferdinand', 'astgenne']
         }
       ]
     }
@@ -684,12 +684,12 @@ export const sidDorothysVision: StoryArchive = {
           },
           {
             speaker: '아스트젠',
-            speakerId: 'astrogenes',
+            speakerId: 'astgenne',
             text: '당신의 가식적인 친절을 가지고 내 눈앞에서 사라져. 퍼디낸드 클루니, 당신과 난 이제 끝이야!',
             context: '자신을 회유하려는 퍼디낸드를 향해 지팡이를 겨누며'
           }
         ],
-        involvedCharacters: ['dorothy', 'silence', 'astrogenes', 'ferdinand', 'ptilopsis']
+        involvedCharacters: ['dorothy', 'silence', 'astgenne', 'ferdinand', 'ptilopsis']
       },
       {
         step: 4,
@@ -742,13 +742,13 @@ export const sidDorothysVision: StoryArchive = {
       description: '개척민 출신의 천재 과학자. 전달물질을 통해 누구도 고통받지 않는 평등한 유토피아를 꿈꿨으나 비극을 초래함.'
     },
     {
-      id: 'astrogenes',
+      id: 'astgenne',
       nameKo: '아스트젠 (엘레나 우르비카)',
       nameEn: 'Astgenne (Elena Urbica)',
       faction: '라인 랩 에너지과 (전) / 로도스 아일랜드',
       role: '오퍼레이터 (전 에너지과 연구원)',
       statusInChapter: '퍼디낸드와의 결별 선언 및 로도스 협력',
-      avatarUrl: '/images/characters/astrogenes.png',
+      avatarUrl: '/images/characters/astgenne.png',
       description: '아스테시아의 쌍둥이 동생이자 라인 랩 에너지과 출신 연구원(코드네임 아스트젠). 퍼디낸드의 제자였으나 스승의 비윤리적 야욕에 반발해 결별을 선언하고 로도스에 협력한다.'
     },
     {
