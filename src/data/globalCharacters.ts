@@ -748,6 +748,116 @@ export const globalCharacterMap: Record<string, CharacterRef> = {
     description: '아스테시아의 쌍둥이 동생이자 라인 랩 에너지과 출신 연구원(코드네임 아스트젠). 퍼디낸드의 제자였으나 스승의 비윤리적 야욕에 반발해 결별을 선언하고 로도스에 협력한다.',
     statusInChapter: '퍼디낸드와의 결별 선언 및 로도스 협력',
     spoilerLevel: 2
+  },
+  mountain: {
+    id: 'mountain',
+    nameKo: '마운틴 (앤소니 사이먼)',
+    nameEn: 'Mountain (Anthony Simon)',
+    faction: '사이먼 가문 / 로도스 아일랜드',
+    role: '수감자 ➔ 로도스 아일랜드 가드 오퍼레이터',
+    avatarUrl: '/images/characters/mountain.png',
+    description: '컬럼비아 유력 가문 사이먼가의 후계자. 하이드브로 사와 친족들의 음모로 누명을 쓰고 맨스필드 이동교도소에 투옥되었으나, 사일런스와 카프카의 도움으로 탈옥 후 로도스에 합류한다.',
+    statusInChapter: '탈옥 주도 및 제셀톤과의 결전',
+    spoilerLevel: 2
+  },
+  anthony: {
+    id: 'anthony',
+    nameKo: '마운틴 (앤소니 사이먼)',
+    nameEn: 'Mountain (Anthony Simon)',
+    faction: '사이먼 가문 / 로도스 아일랜드',
+    role: '수감자 ➔ 로도스 아일랜드 가드 오퍼레이터',
+    avatarUrl: '/images/characters/mountain.png',
+    description: '컬럼비아 유력 가문 사이먼가의 후계자. 하이드브로 사와 친족들의 음모로 누명을 쓰고 맨스필드 이동교도소에 투옥되었으나, 사일런스와 카프카의 도움으로 탈옥 후 로도스에 합류한다.',
+    statusInChapter: '탈옥 주도 및 제셀톤과의 결전',
+    spoilerLevel: 2
+  },
+  kafka: {
+    id: 'kafka',
+    nameKo: '카프카',
+    nameEn: 'Kafka',
+    faction: '로도스 아일랜드',
+    role: '스페셜리스트 오퍼레이터 (전 컬럼비아 갱단)',
+    avatarUrl: '/images/characters/kafka.png',
+    description: '컬럼비아 뒷골목 출신의 리베리 소녀. 과거 자신을 바른길로 이끌어준 사일런스의 부탁을 받고, 앤소니 탈옥을 돕기 위해 일부러 경범죄를 저질러 맨스필드에 위장 수감된다.',
+    statusInChapter: '감옥 내 잠입 및 교란 작전 수행',
+    spoilerLevel: 2
+  },
+  robin: {
+    id: 'robin',
+    nameKo: '로빈',
+    nameEn: 'Robin',
+    faction: '로도스 아일랜드 (전 프리랜서 용병)',
+    role: '스나이퍼 오퍼레이터 (전 맨스필드 수감자)',
+    avatarUrl: '/images/characters/robin.png',
+    description: '병든 아버지를 부양하기 위해 제셀톤에게 고용되어 앤소니를 암살하려 교도소에 들어온 저격수. 앤소니와 돔마의 인품에 감화되어 암살을 거두고 탈옥에 결정적 기여를 한다.',
+    statusInChapter: '암살 임무 포기 및 관제실 키 탈취',
+    spoilerLevel: 2
+  },
+  mayer: {
+    id: 'mayer',
+    nameKo: '메이어',
+    nameEn: 'Mayer',
+    faction: '라인 랩 엔지니어링과 / 로도스 아일랜드',
+    role: '엔지니어링과 연구원 (랩 루트라 대표)',
+    avatarUrl: '/images/characters/mayer.png',
+    description: '라인 랩 엔지니어링과의 천재 기계공학 연구원이자 기계 수달 미보(Meebo)의 개발자. 사일런스를 도와 외부에서 탈옥 지원 및 장비 조달을 맡는다.',
+    statusInChapter: '사일런스의 외부 탈옥 작전 및 장비 지원',
+    spoilerLevel: 2
+  },
+  pinecone: {
+    id: 'pinecone',
+    nameKo: '페인콘 (미나)',
+    nameEn: 'Pinecone (Mina)',
+    faction: '로도스 아일랜드',
+    role: '스나이퍼 오퍼레이터',
+    avatarUrl: '/images/characters/pinecone.png',
+    description: '카프카의 계략에 휘말려 맨스필드에 들어왔으나 카프카의 진심을 이해하고 도왔던 리베리 소녀. 이후 로도스 아일랜드에 정식 오퍼레이터로 영입된다.',
+    statusInChapter: '카프카와의 감옥 생활 및 탈출',
+    spoilerLevel: 2
+  },
+  jesselton: {
+    id: 'jesselton',
+    nameKo: '제셀톤 윌리엄스',
+    nameEn: 'Jesselton Williams',
+    faction: '라인 랩 보안과',
+    role: '보안과 주임 대행 (철피의 제셀톤)',
+    avatarUrl: '/images/characters/jesselton.png',
+    description: '라인 랩 보안과의 실세이자 하이드브로 사와 결탁한 냉혹한 암살 집행자. 신체 표면에 금속 피막을 두르는 강철 경화 아츠를 사용하나 사리아에게 완패한다.',
+    statusInChapter: '앤소니 암살 총지휘 및 사리아와의 격돌',
+    spoilerLevel: 3
+  },
+  domma: {
+    id: 'domma',
+    nameKo: '돔마',
+    nameEn: 'Domma',
+    faction: '맨스필드 이동교도소 / 감염자',
+    role: '맨스필드 영안실 겸 의무실 수석 의사',
+    avatarUrl: '/images/characters/domma.png',
+    description: '맨스필드 이동교도소 사체 안치실과 의무실을 지키는 감염자 의사. 앤소니의 신의를 깊이 믿고 교도소의 비밀 배수로와 통로 지도를 제공해 탈옥을 적극 돕는다.',
+    statusInChapter: '탈옥 비밀 통로 제공 및 앤소니 조력',
+    spoilerLevel: 2
+  },
+  barton: {
+    id: 'barton',
+    nameKo: '발톤',
+    nameEn: 'Barton',
+    faction: '맨스필드 이동교도소',
+    role: '맨스필드 경비대장',
+    avatarUrl: '/images/characters/barton.png',
+    description: '맨스필드 이동교도소의 경비대장이자 거구의 집행관. 죄수들의 폭동과 규율 위반에 극도로 엄격하지만 로빈에게 통제 키를 도난당하며 혼란에 빠진다.',
+    statusInChapter: '교도소 폭동 진압 및 보안 통제',
+    spoilerLevel: 2
+  },
+  mansfield_guard: {
+    id: 'mansfield_guard',
+    nameKo: '맨스필드 교도관',
+    nameEn: 'Mansfield Guard',
+    faction: '맨스필드 이동교도소',
+    role: '교도관',
+    avatarUrl: '/images/characters/mansfield_guard.png',
+    description: '맨스필드 이동교도소의 경비 및 수감자 감시를 맡은 교도관들. 죄수들의 세력 다툼을 방관하며 가혹한 통제를 일삼는다.',
+    statusInChapter: '수감자 통제 및 경비 순찰',
+    spoilerLevel: 1
   }
 };
 

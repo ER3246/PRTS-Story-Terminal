@@ -13,6 +13,7 @@ import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
 import { sidLoneTrail } from './stories/sid_lone_trail';
 import { sidDorothysVision } from './stories/sid_dorothys_vision';
+import { sidMansfieldBreak } from './stories/sid_mansfield_break';
 
 export interface StoryLineMeta {
   id: string;
@@ -1476,17 +1477,25 @@ export const storyRegistry: StoryListItem[] = [
     storyLineId: 'SL_RH',
     storyLineTitle: 'Story Line · RH 미래를 잡는 사람',
     seriesOrder: 1,
+    docFormat: 'multi_part',
     isOmnibus: false,
-    officialSynopsis: '컬럼비아의 철벽 교도소 맨스필드. 마운틴의 억울한 누명과 탈옥 작전, 그리고 라인 랩 보안과의 암투.',
+    officialSynopsis: '컬럼비아의 철벽 교도소 맨스필드. 사이몬 가문의 몰락과 하이드브로 사의 음모, 억울하게 수감된 앤소니(마운틴)를 구출하기 위한 사일런스·카프카의 기상천외한 탈옥 작전, 그리고 라인 랩 보안과 제셀톤 윌리엄스와 전 방위과 주임 사리아의 필연적인 격돌.',
     splashVisualUrl: '/images/story_covers/sid_mansfield_break.png',
+    subPages: [
+      { id: 'overview', label: '전체 서사 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 철창 안의 밀약', code: 'MB-01' },
+      { id: 'part_2', label: 'Part 2: 어둠 속의 칼날', code: 'MB-02' },
+      { id: 'part_3', label: 'Part 3: 교도소의 균열', code: 'MB-03' },
+      { id: 'part_4', label: 'Part 4: 자유를 향한 돌파', code: 'MB-04' }
+    ],
     releaseOrder: 9,
     releaseYear: 1,
     chronologicalOrder: 24.5,
     timeline: '테라력 1097년 겨울',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'sid_dorothys_vision',
@@ -2581,6 +2590,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
   sid_lone_trail: sidLoneTrail,
   sid_dorothys_vision: sidDorothysVision,
+  sid_mansfield_break: sidMansfieldBreak,
 };
 
 export type StoryAccessState = 'available' | 'overview_only' | 'locked';
