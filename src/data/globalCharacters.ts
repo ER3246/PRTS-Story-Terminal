@@ -919,6 +919,39 @@ export const globalCharacterMap: Record<string, CharacterRef> = {
     description: '맨스필드 이동교도소의 경비 및 수감자 감시를 맡은 교도관들. 죄수들의 세력 다툼을 방관하며 가혹한 통제를 일삼는다.',
     statusInChapter: '수감자 통제 및 경비 순찰',
     spoilerLevel: 1
+  },
+  sarkaz_messenger: {
+    id: 'sarkaz_messenger',
+    nameKo: '살카즈 전달자',
+    nameEn: 'Sarkaz Messenger',
+    faction: '살카즈 용병대',
+    role: '살카즈 통신 전달자',
+    avatarUrl: '/images/characters/guard.png',
+    description: '카즈델 전선과 용병 캠프 간의 정보와 군사위원회의 기밀 지령을 중계하는 살카즈 전달자. 런디니움에 연금된 외드레르의 비밀 지령을 카즈델 지하 송신소를 통해 W에게 타전한다.',
+    statusInChapter: '외드레르의 비밀 통신 중계',
+    spoilerLevel: 2
+  },
+  rublev: {
+    id: 'rublev',
+    nameKo: '루블레프',
+    nameEn: 'Rublev',
+    faction: '체르노보그 시민 / 감염자',
+    role: '체르노보그 감염자 소년 (강한 아이)',
+    avatarUrl: '/images/characters/guard.png',
+    description: '체르노보그 재앙 이후 폐허 속에서 살아남으려 발버둥 치는 우르수스 소년. 살카즈의 군용검을 쥐고 다리에 감염 상처를 입은 채 마족을 불신했으나, W로부터 신념과 생존에 대한 가르침과 살카즈의 검을 물려받는다.',
+    statusInChapter: '체르노보그 폐허에서 안드레이와 함께 생환',
+    spoilerLevel: 2
+  },
+  andrei: {
+    id: 'andrei',
+    nameKo: '안드레이',
+    nameEn: 'Andrei',
+    faction: '체르노보그 시민 / 감염자',
+    role: '체르노보그 감염자 소년 (약한 아이)',
+    avatarUrl: '/images/characters/guard.png',
+    description: '체르노보그 폐허에서 루블레프에게 구출된 소심한 소년. 풀네임은 "안드레이 표도르비치 오스트롭스키". 친구를 구하기 위해 폭도들이 점거한 병원 창고로 달려가 피투성이가 되면서도 구급상자를 통째로 들고 생환한다.',
+    statusInChapter: '체르노보그 폐허에서 구급상자를 탈환하여 생환',
+    spoilerLevel: 2
   }
 };
 

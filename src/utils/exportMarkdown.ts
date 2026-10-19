@@ -17,8 +17,22 @@ const GLOBAL_CHARACTER_NAME_MAP: Record<string, string> = {
   saria: '사리아',
   anthony: '앤소니',
   doctor: '박사',
+  amiya: '아미야',
   amiy: '아미야',
   ch_en: '첸',
+  chen: '첸',
+  patriot: '패트리어트',
+  sarkaz_messenger: '살카즈 전달자',
+  rublev: '루블레프 (강한 아이)',
+  andrei: '안드레이 (약한 아이)',
+  theresa: '테레시아',
+  hoederer: '외드레르',
+  ines: '이네스',
+  scout: '스카우트',
+  confessor: '고해신부',
+  closer: '클로저',
+  w: 'W',
+  talulah: '탈룰라',
 };
 
 /**
