@@ -4,6 +4,7 @@ import { X, Maximize2 } from 'lucide-react';
 import { resolveAssetUrl } from '../utils/assetUrl';
 import { getCharacterAvatarUrl, getCharacterIllustUrl } from '../utils/characterAssetHelper';
 import { CopyrightBadge } from './CopyrightedImage';
+import { TacticalAvatar } from './TacticalAvatar';
 
 interface SideDrawerProps {
   isOpen: boolean;
@@ -68,14 +69,16 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {/* Character Profile */}
           {selectedCharacter && (() => {
-            const resolvedIllustUrl = resolveAssetUrl(getCharacterIllustUrl(selectedCharacter));
-            const resolvedAvatarUrl = resolveAssetUrl(getCharacterAvatarUrl(selectedCharacter));
-            const showIllust = !illustError;
+            const rawIllustUrl = getCharacterIllustUrl(selectedCharacter);
+            const resolvedIllustUrl = rawIllustUrl ? resolveAssetUrl(rawIllustUrl) : '';
+            const rawAvatarUrl = getCharacterAvatarUrl(selectedCharacter);
+            const resolvedAvatarUrl = rawAvatarUrl ? resolveAssetUrl(rawAvatarUrl) : '';
+            const hasValidIllust = Boolean(resolvedIllustUrl && resolvedIllustUrl.trim() !== '' && !illustError);
 
             return (
               <div className="space-y-5">
-                {/* Full-Body Standing CG Showcase */}
-                {showIllust && (
+                {/* Full-Body Standing CG Showcase / Classified Placeholder */}
+                {hasValidIllust ? (
                   <div className="relative w-full h-[360px] sm:h-[400px] rounded-[6px] overflow-hidden bg-gradient-to-b from-white/[0.04] via-[#090c14] to-[#04060a] border border-white/[0.08] flex items-center justify-center p-3 group shadow-xl">
                     <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
                     
@@ -112,20 +115,52 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     {/* Copyright License Badge */}
                     <CopyrightBadge style={{ zIndex: 10, bottom: '8px', right: '10px' }} />
                   </div>
+                ) : (
+                  <div className="relative w-full h-[220px] sm:h-[250px] rounded-[6px] overflow-hidden bg-gradient-to-b from-[#10141f] via-[#090c14] to-[#04060a] border border-white/[0.08] flex flex-col items-center justify-center p-6 text-center select-none shadow-xl">
+                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none opacity-40" />
+                    
+                    {/* Corner Reticles */}
+                    <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[#ffe600]/40 pointer-events-none" />
+                    <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[#ffe600]/40 pointer-events-none" />
+                    <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[#ffe600]/40 pointer-events-none" />
+                    <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-[#ffe600]/40 pointer-events-none" />
+
+                    {/* PRTS Header */}
+                    <div className="absolute top-2.5 left-3 flex items-center gap-1.5 pointer-events-none">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
+                      <span className="text-[10px] font-mono tracking-widest text-zinc-500 font-bold uppercase">
+                        PRTS TACTICAL ARCHIVE // CLASSIFIED RECORD
+                      </span>
+                    </div>
+
+                    {/* Large Operator Silhouette */}
+                    <div className="w-16 h-16 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center mb-2.5">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-zinc-600">
+                        <path d="M12 2C9.243 2 7 4.243 7 7c0 2.222 1.455 4.108 3.473 4.743C6.398 12.355 3.5 15.82 3.5 20c0 .553.447 1 1 1h15c.553 0 1-.447 1-1 0-4.18-2.898-7.645-6.973-8.257C15.545 11.108 17 9.222 17 7c0-2.757-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0 9c3.318 0 6.095 2.502 6.453 5.75H5.547C5.905 14.502 8.682 12 12 12z" />
+                      </svg>
+                    </div>
+
+                    <div className="font-mono text-xs tracking-wider text-[#ffe600] font-bold uppercase">
+                      CLASSIFIED // NO VISUAL RECORD
+                    </div>
+                    <div className="text-[11px] text-zinc-500 mt-1 max-w-[280px]">
+                      현장 전술 데이터베이스에 등록된 고유 시각화 프로필이 존재하지 않는 인물입니다.
+                    </div>
+                  </div>
                 )}
 
                 {/* Profile Card */}
                 <div className="flex gap-4 items-center rounded-[4px] border border-white/[0.08] bg-white/[0.025] p-4">
                   {/* 1:1 Avatar */}
                   <div className="w-16 h-16 rounded-[4px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 shadow-md">
-                    <img
+                    <TacticalAvatar
                       src={resolvedAvatarUrl}
                       alt={selectedCharacter.nameKo}
-                      draggable={false}
-                      onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover select-none"
+                      className="w-full h-full"
+                      showBadge={true}
                     />
                   </div>
+
 
                   <div className="flex-1 min-w-0 space-y-0.5">
                     <div className="text-[11px] font-semibold text-[#ffe600] truncate">

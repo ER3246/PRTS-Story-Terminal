@@ -8,6 +8,7 @@ import { FilmReelIcon } from './StorySplashModal';
 import { CopyrightedImage, CopyrightBadge } from './CopyrightedImage';
 import { resolveAssetUrl } from '../utils/assetUrl';
 import { getCharacterAvatarUrl } from '../utils/characterAssetHelper';
+import { TacticalAvatar } from './TacticalAvatar';
 import { 
   ZoomIn, 
   ChevronDown, 
@@ -395,12 +396,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           className="w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors"
                           title={`${speakerChar.nameKo} 프로필 열람`}
                         >
-                          <img
-                            src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
+                          <TacticalAvatar
+                            src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
                             alt={q.speaker}
-                            draggable={false}
-                            onContextMenu={(e) => e.preventDefault()}
-                            className="w-full h-full object-cover select-none"
+                            className="w-full h-full"
                           />
                         </div>
                       )}
@@ -434,16 +433,35 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <span className="text-xs font-semibold text-zinc-500 mr-1">등장인물</span>
                 {currentEpisode.involvedCharacters.map((cId) => {
                   const char = getCharacterById(cId);
-                  if (!char) return null;
+                  if (char) {
+                    return (
+                      <button
+                        key={cId}
+                        onClick={() => {
+                          playClickSound();
+                          onSelectCharacter(char);
+                        }}
+                        className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                        title={`${char.nameKo} (${char.role}) 프로필 열람`}
+                      >
+                        <TacticalAvatar
+                          src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
+                          alt={char.nameKo}
+                          className="w-4.5 h-4.5 rounded-[2px]"
+                        />
+                        <span className="font-medium">{char.nameKo}</span>
+                      </button>
+                    );
+                  }
                   return (
-                    <button
+                    <span
                       key={cId}
-                      onClick={() => onSelectCharacter(char)}
-                      className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                      className="h-7 px-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-400 select-none cursor-default font-mono"
+                      title="인물 명부 미등재 단역"
                     >
-                      <img src={resolveAssetUrl(getCharacterAvatarUrl(char))} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-4.5 h-4.5 rounded-[2px] object-cover select-none" />
-                      <span className="font-medium">{char.nameKo}</span>
-                    </button>
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
+                      <span>{cId}</span>
+                    </span>
                   );
                 })}
               </div>
@@ -827,17 +845,19 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     className="w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors"
                                     title={`${speakerChar.nameKo} 프로필 열람`}
                                   >
-                                    <img
-                                      src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
+                                    <TacticalAvatar
+                                      src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
                                       alt={q.speaker}
-                                      draggable={false}
-                                      onContextMenu={(e) => e.preventDefault()}
-                                      className="w-full h-full object-cover select-none"
+                                      className="w-full h-full"
                                     />
                                   </div>
                                 ) : (
-                                  <div className="w-11 h-11 rounded-[3px] border border-white/10 bg-white/[0.04] flex items-center justify-center text-xs font-bold text-zinc-400 flex-shrink-0">
-                                    {q.speaker.slice(0, 2)}
+                                  <div className="w-11 h-11 rounded-[3px] border border-white/10 bg-white/[0.04] overflow-hidden flex-shrink-0">
+                                    <TacticalAvatar
+                                      src=""
+                                      alt={q.speaker}
+                                      className="w-full h-full"
+                                    />
                                   </div>
                                 )}
                                 <div className="flex-1 min-w-0 space-y-1">
@@ -875,20 +895,35 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           <span className="text-xs font-semibold text-zinc-500 mr-1">등장인물</span>
                           {st.involvedCharacters.map((cId) => {
                             const char = getCharacterById(cId);
-                            if (!char) return null;
+                            if (char) {
+                              return (
+                                <button
+                                  key={cId}
+                                  onClick={() => {
+                                    playClickSound();
+                                    onSelectCharacter(char);
+                                  }}
+                                  className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                                  title={`${char.nameKo} (${char.role}) 프로필 열람`}
+                                >
+                                  <TacticalAvatar
+                                    src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
+                                    alt={char.nameKo}
+                                    className="w-4.5 h-4.5 rounded-[2px]"
+                                  />
+                                  <span className="font-medium">{char.nameKo}</span>
+                                </button>
+                              );
+                            }
                             return (
-                              <button
+                              <span
                                 key={cId}
-                                onClick={() => {
-                                  playClickSound();
-                                  onSelectCharacter(char);
-                                }}
-                                className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
-                                title={`${char.nameKo} (${char.role}) 프로필 열람`}
+                                className="h-7 px-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-400 select-none cursor-default font-mono"
+                                title="인물 명부 미등재 단역"
                               >
-                                <img src={resolveAssetUrl(getCharacterAvatarUrl(char))} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-4.5 h-4.5 rounded-[2px] object-cover select-none" />
-                                <span className="font-medium">{char.nameKo}</span>
-                              </button>
+                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
+                                <span>{cId}</span>
+                              </span>
                             );
                           })}
                         </div>
@@ -1522,12 +1557,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                               className="w-11 h-11 rounded-[3px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors shadow"
                                               title={`${speakerChar.nameKo} 프로필 열람`}
                                             >
-                                              <img
-                                                src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
+                                              <TacticalAvatar
+                                                src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
                                                 alt={q.speaker}
-                                                draggable={false}
-                                                onContextMenu={(e) => e.preventDefault()}
-                                                className="w-full h-full object-cover select-none"
+                                                className="w-full h-full"
                                               />
                                             </div>
                                           )}
@@ -1685,12 +1718,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                          className="w-9 h-9 rounded-[2px] border border-white/[0.1] overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors"
                                                          title={`${speakerChar.nameKo} 프로필 열람`}
                                                        >
-                                                         <img
-                                                           src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
+                                                         <TacticalAvatar
+                                                           src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
                                                            alt={q.speaker}
-                                                           draggable={false}
-                                                           onContextMenu={(e) => e.preventDefault()}
-                                                           className="w-full h-full object-cover select-none"
+                                                           className="w-full h-full"
                                                          />
                                                        </div>
                                                      )}
@@ -1719,17 +1750,32 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                <span className="text-[11px] text-zinc-500 mr-1">등장:</span>
                                                {st.involvedCharacters.map((cId) => {
                                                  const char = getCharacterById(cId);
-                                                 if (!char) return null;
+                                                 if (char) {
+                                                   return (
+                                                     <button
+                                                       key={cId}
+                                                       onClick={() => onSelectCharacter(char)}
+                                                       className="h-6 pl-1 pr-2 rounded-[2px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-[#ffe600]/60 text-[11px] text-zinc-300 hover:text-white transition-all cursor-pointer"
+                                                       title={`${char.nameKo} (${char.role}) 프로필 열람`}
+                                                     >
+                                                       <TacticalAvatar
+                                                         src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
+                                                         alt={char.nameKo}
+                                                         className="w-3.5 h-3.5 rounded-[1px]"
+                                                       />
+                                                       <span>{char.nameKo}</span>
+                                                     </button>
+                                                   );
+                                                 }
                                                  return (
-                                                   <button
+                                                   <span
                                                      key={cId}
-                                                     onClick={() => onSelectCharacter(char)}
-                                                     className="h-6 pl-1 pr-2 rounded-[2px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-[#ffe600]/60 text-[11px] text-zinc-300 hover:text-white transition-all cursor-pointer"
-                                                     title={`${char.nameKo} (${char.role}) 프로필 열람`}
+                                                     className="h-6 px-1.5 rounded-[2px] flex items-center gap-1 bg-white/[0.02] border border-white/[0.05] text-[11px] text-zinc-400 select-none cursor-default font-mono"
+                                                     title="인물 명부 미등재 단역"
                                                    >
-                                                     <img src={resolveAssetUrl(getCharacterAvatarUrl(char))} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-3.5 h-3.5 rounded-[1px] object-cover select-none" />
-                                                     <span>{char.nameKo}</span>
-                                                   </button>
+                                                     <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                                                     <span>{cId}</span>
+                                                   </span>
                                                  );
                                                })}
                                              </div>
@@ -1748,22 +1794,31 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     </span>
                                     {act.involvedCharacters.map((cId) => {
                                       const char = getCharacterById(cId);
-                                      if (!char) return null;
+                                      if (char) {
+                                        return (
+                                          <button
+                                            key={cId}
+                                            onClick={() => onSelectCharacter(char)}
+                                            className="flex items-center gap-1.5 h-6 pl-1 pr-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                                          >
+                                            <TacticalAvatar
+                                              src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
+                                              alt={char.nameKo}
+                                              className="w-4 h-4 rounded-full"
+                                            />
+                                            <span className="font-medium">{char.nameKo}</span>
+                                          </button>
+                                        );
+                                      }
                                       return (
-                                        <button
+                                        <span
                                           key={cId}
-                                          onClick={() => onSelectCharacter(char)}
-                                          className="flex items-center gap-1.5 h-6 pl-1 pr-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                                          className="h-6 px-2 rounded-full flex items-center gap-1 bg-white/[0.02] border border-white/[0.05] text-xs text-zinc-400 select-none cursor-default font-mono"
+                                          title="인물 명부 미등재 단역"
                                         >
-                                          <img
-                                            src={resolveAssetUrl(getCharacterAvatarUrl(char))}
-                                            alt={char.nameKo}
-                                            draggable={false}
-                                            onContextMenu={(e) => e.preventDefault()}
-                                            className="w-4 h-4 rounded-full object-cover select-none"
-                                          />
-                                          <span className="font-medium">{char.nameKo}</span>
-                                        </button>
+                                          <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                                          <span>{cId}</span>
+                                        </span>
                                       );
                                     })}
                                   </div>
@@ -1873,12 +1928,11 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   >
                     <div className="flex gap-4 items-center">
                       <div className="w-14 h-14 rounded-[3px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 group-hover:border-[#ffe600] transition-colors shadow">
-                        <img
-                          src={resolveAssetUrl(getCharacterAvatarUrl(char))}
+                        <TacticalAvatar
+                          src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
                           alt={char.nameKo}
-                          draggable={false}
-                          onContextMenu={(e) => e.preventDefault()}
-                          className="w-full h-full object-cover select-none"
+                          className="w-full h-full"
+                          showBadge={true}
                         />
                       </div>
 

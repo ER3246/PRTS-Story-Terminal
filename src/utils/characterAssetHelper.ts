@@ -28,18 +28,25 @@ export const CHARACTER_ASSET_ALIASES: Record<string, string> = {
 /**
  * Resolves the 1:1 square avatar URL for a character.
  * Priority:
- * 1. Explicit story-level override (if customized or story-specific)
- * 2. Standard pattern: /images/characters/{id}.png
+ * 1. If explicit avatarUrl is provided as empty string (''), return '' (denotes Tactical Silhouette / No Record)
+ * 2. Explicit story-level override (if customized or story-specific)
+ * 3. Standard pattern: /images/characters/{id}.png
  */
 export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): string {
-  const charId = typeof char === 'string' ? char : char.id;
-  const explicitAvatar = typeof char === 'object' ? char.avatarUrl : undefined;
-
-  if (explicitAvatar && explicitAvatar.trim() !== '') {
-    return explicitAvatar;
+  if (typeof char === 'string') {
+    return `/images/characters/${char}.png`;
   }
 
-  return `/images/characters/${charId}.png`;
+  // If explicitly set to empty string (''), respect it as NO VISUAL RECORD!
+  if (char.avatarUrl !== undefined && char.avatarUrl.trim() === '') {
+    return '';
+  }
+
+  if (char.avatarUrl && char.avatarUrl.trim() !== '') {
+    return char.avatarUrl;
+  }
+
+  return `/images/characters/${char.id}.png`;
 }
 
 /**
@@ -47,16 +54,28 @@ export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): strin
  * Safeguard: Prevents cropped square avatars from ever leaking into the full-body visual showcase.
  * 
  * Priority:
- * 1. If explicit illustUrl is provided and is a valid illust path (contains '/illust/'), use it.
- * 2. If explicit illustUrl was erroneously set to an avatar path (/images/characters/{name}.png without /illust/),
+ * 1. If explicit illustUrl is empty string ('') or explicit avatarUrl is empty string (''), return ''
+ * 2. If explicit illustUrl is provided and is a valid illust path (contains '/illust/'), use it.
+ * 3. If explicit illustUrl was erroneously set to an avatar path (/images/characters/{name}.png without /illust/),
  *    safely redirect to /images/characters/illust/{name}.png.
- * 3. Standard pattern: /images/characters/illust/{id}.png
- * 4. Alias fallback (e.g. anthony -> mountain)
+ * 4. Standard pattern: /images/characters/illust/{id}.png
  */
 export function getCharacterIllustUrl(char: CharacterAssetQuery | string): string {
-  const charId = typeof char === 'string' ? char : char.id;
-  const explicitIllust = typeof char === 'object' ? char.illustUrl : undefined;
-  const explicitAvatar = typeof char === 'object' ? char.avatarUrl : undefined;
+  if (typeof char === 'string') {
+    return `/images/characters/illust/${char}.png`;
+  }
+
+  // If explicitly set to empty string (''), respect it as NO VISUAL RECORD
+  if (char.illustUrl !== undefined && char.illustUrl.trim() === '') {
+    return '';
+  }
+  // If character has no avatar at all, they also have no standing illust
+  if (char.avatarUrl !== undefined && char.avatarUrl.trim() === '') {
+    return '';
+  }
+
+  const explicitIllust = char.illustUrl;
+  const explicitAvatar = char.avatarUrl;
 
   // Case 1: Explicit illustUrl provided
   if (explicitIllust && explicitIllust.trim() !== '') {
@@ -74,5 +93,6 @@ export function getCharacterIllustUrl(char: CharacterAssetQuery | string): strin
   }
 
   // Case 2: Standard full standing illust path
-  return `/images/characters/illust/${charId}.png`;
+  return `/images/characters/illust/${char.id}.png`;
 }
+

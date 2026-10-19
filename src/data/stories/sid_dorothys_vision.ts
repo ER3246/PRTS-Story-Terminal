@@ -72,15 +72,9 @@ export const sidDorothysVision: StoryArchive = {
           visuals: [
             {
               url: '/images/backgrounds/29_g8_alley_n.png',
-              caption: '어둠과 빗줄기에 젖어든 트리마운츠 번화가 뒷골목. 뮤엘시스가 오올헤약의 기습에 납치된 장소',
+              caption: '[배경] 트리마운츠 번화가 뒷골목',
               type: 'bg',
-              triggerLine: 'Stage ST-01 Beat 1: 봄비가 쏟아지는 트리마운츠 도심의 번화가 뒷골목. 총괄실의 불이 꺼진 채 묵묵부답인 크리스틴에게 음성 메시지를 남긴 뮤엘시스는 사리아를 만나러 가던 길이었다.'
-            },
-            {
-              url: '/images/backgrounds/29_g10_senioroffice.png',
-              caption: '불이 꺼진 채 기이한 적막이 감도는 라인 랩 총괄 크리스틴 라이트의 개인 집무실',
-              type: 'bg',
-              triggerLine: 'Stage ST-01 Beat 3: 총괄실 집무실의 방대한 천구의와 서류들은 기이한 적막 속에 잠겨 있었고, 크리스틴은 누구의 연락도 받지 않은 채 침묵하고 있었다.'
+              triggerLine: 'Stage ST-01 Beat 1: 봄비가 쏟아지는 트리마운츠 도심의 번화가 뒷골목.'
             }
           ],
           summary: '트리마운츠 도심 뒷골목에서 오올헤약의 기습으로 납치된 뮤엘시스와, 359호 개척기지에서 동료들의 실종을 밝히기 위해 프틸롭시스와 엘레나를 인질로 납치하는 사니의 거사.',
@@ -123,7 +117,7 @@ export const sidDorothysVision: StoryArchive = {
           visuals: [
             {
               url: '/images/backgrounds/29_g2_edgeofbase.png',
-              caption: '개척지 359호 기지로 이어지는 황량한 가도 외곽 경계선 및 보안 감시소',
+              caption: '[배경] 개척지 359호 기지 외곽 감시소',
               type: 'bg',
               triggerLine: 'Stage DV-01 Beat 5: 359호 기지 외곽 감시소에 도착한 사일런스와 그레이는 바리케이드를 친 트리마운츠 경찰 보안관 메리 배너와 마주친다.'
             }
@@ -168,7 +162,7 @@ export const sidDorothysVision: StoryArchive = {
           visuals: [
             {
               url: '/images/backgrounds/29_g3_cottage.png',
-              caption: '단전된 채 추위와 광석병에 신음하는 359호 기지 개척자 오두막 전경',
+              caption: '[배경] 개척지 359호 기지 개척자 오두막',
               type: 'bg',
               triggerLine: 'Stage DV-02 Beat 2: 전기가 끊겨 얼어붙은 개척자 오두막 안에는 중증 광석병 환자들이 가쁜 숨을 몰아쉬며 신음하고 있었다.'
             }
@@ -228,7 +222,7 @@ export const sidDorothysVision: StoryArchive = {
           visuals: [
             {
               url: '/images/backgrounds/29_g4_corridor.png',
-              caption: '불안정한 신경 펄스가 흐르는 359호 기지 실험 구역 통로',
+              caption: '[배경] 359호 기지 실험 구역 통로',
               type: 'bg',
               triggerLine: 'Stage DV-03 Beat 6: 359호 기지 지하 복도를 전진하는 사일런스와 엘레나의 곁으로 미세한 진동과 신경 펄스가 흘러넘치고 있었다.'
             }
@@ -337,7 +331,7 @@ export const sidDorothysVision: StoryArchive = {
           visuals: [
             {
               url: '/images/backgrounds/29_g5_laboratory.png',
-              caption: '수천 미터의 케이블과 신경 전달물질이 응집된 도로시의 지하 핵심 실험실',
+              caption: '[배경] 도로시의 지하 핵심 실험실',
               type: 'bg',
               triggerLine: 'Stage DV-05 Beat 4: 수천 가닥의 전선과 유리관이 거대한 식물 뿌리처럼 얽혀 있었고, 은색의 액체 오리지늄 전달물질이 기괴한 맥동을 일으키고 있었다.'
             }
@@ -868,7 +862,8 @@ export const sidDorothysVision: StoryArchive = {
       faction: '359호 개척기지 개척대',
       role: '359호 개척기지 개척대 대장',
       statusInChapter: '프틸롭시스 인질극 주도, 도로시 암살 시도 및 참회',
-      avatarUrl: '/images/characters/sonny.png',
+      avatarUrl: '',
+      illustUrl: '',
       description: '실종된 동료들을 찾기 위해 인질극을 벌이고 도로시를 암살하려 했던 개척대장. 피실험자들의 진심을 깨닫고 참회하며 새로운 개척의 길을 걷는다.'
     },
     {
@@ -878,7 +873,8 @@ export const sidDorothysVision: StoryArchive = {
       faction: '트리마운츠 경찰서',
       role: '트리마운츠 경찰서 보안관 (경장)',
       statusInChapter: '기지 외곽 감시소 경비 및 사니와의 화해',
-      avatarUrl: '/images/characters/mary.png',
+      avatarUrl: '',
+      illustUrl: '',
       description: '사니의 중학교 소꿉친구이자 인질극 진압을 위해 파견된 보안관. 4년 전의 비극적인 상처를 딛고 사니의 진심을 이해하며 배웅한다.'
     },
     {
@@ -888,7 +884,8 @@ export const sidDorothysVision: StoryArchive = {
       faction: '라인 랩 구조과',
       role: '라인 랩 구조과 주임',
       statusInChapter: '퍼디낸드 견제 및 사리아 일행 본부 침입 묵인',
-      avatarUrl: '/images/characters/parvis.png',
+      avatarUrl: '',
+      illustUrl: '',
       description: '사일런스의 옛 스승이자 노회한 구조과 주임. 퍼디낸드의 군사적 야심을 경계하며, 본부에 침투한 사리아 일행을 모른 척 통과시켜 준다.'
     },
     {
