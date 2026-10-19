@@ -679,10 +679,22 @@ export const storyRegistry: StoryListItem[] = [
     storyLineId: 'SL_RL',
     storyLineTitle: 'Story Line · RL 방주',
     seriesOrder: 1,
-    docFormat: 'single',
+    docFormat: 'multi_part',
     isOmnibus: false,
     officialSynopsis: '바벨의 창설과 과거 카즈델 내전의 그림자. W와 이네스, 외드레르의 만남, 그리고 테레시아 암살 사건의 진실을 향한 비극적인 서곡.',
     splashVisualUrl: '/images/story_covers/sid_darknights_memoir.png',
+    seriesTabs: [
+      { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 전장의 탄생과 만남', code: 'DM-01' },
+      { id: 'part_2', label: 'Part 2: 바벨의 이상과 비극', code: 'DM-02' },
+      { id: 'part_3', label: 'Part 3: 분열과 체르노보그의 여명', code: 'DM-03' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 서사 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 전장의 탄생과 만남', code: 'DM-01', focalCharacter: 'W & 외드레르 & 이네스' },
+      { id: 'part_2', label: 'Part 2: 바벨의 이상과 비극', code: 'DM-02', focalCharacter: '테레시아 & 켈시' },
+      { id: 'part_3', label: 'Part 3: 분열과 체르노보그의 여명', code: 'DM-03', focalCharacter: 'W & 탈룰라' }
+    ],
     releaseOrder: 4,
     releaseYear: 1,
     chronologicalOrder: 3,

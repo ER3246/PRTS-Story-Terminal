@@ -1261,35 +1261,64 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {subPages.filter((p) => !p.isOverview).map((sp) => (
-                      <div
-                        key={sp.id}
-                        className="p-6 rounded-[4px] border border-white/[0.07] hover:border-[#ffe600]/60 bg-[#0d1018]/90 hover:bg-[#111520] transition-all flex flex-col justify-between group space-y-5 shadow-lg"
-                      >
-                        <div className="space-y-2.5">
-                          <div className="flex items-center justify-between text-xs font-sans">
-                            <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600]/15 border border-[#ffe600]/40 text-[#ffe600] font-mono font-bold text-[11px]">
-                              {sp.code || 'PART'}
-                            </span>
-                          </div>
-                          <h3 className="text-lg font-extrabold text-white group-hover:text-[#ffe600] transition-colors font-sans">
-                            {sp.label}
-                          </h3>
-                        </div>
+                    {subPages.filter((p) => !p.isOverview).map((sp) => {
+                      const arc = story.multiPartArcs?.find((a) => a.id === sp.id);
+                      const focalChar = sp.focalCharacter || arc?.focalCharacter;
+                      const stagesCount = arc?.stages?.length || 0;
+                      const stageCodeRange = arc?.stages && arc.stages.length > 0
+                        ? `${arc.stages[0].stageCode} ~ ${arc.stages[arc.stages.length - 1].stageCode}`
+                        : '';
 
-                        <button
-                          onClick={() => {
-                            playClickSound();
-                            onChangeSubPage?.(sp.id);
-                            window.scrollTo({ top: 0, behavior: 'instant' });
-                          }}
-                          className="w-full h-9 rounded-[3px] bg-white/[0.04] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.08] hover:border-[#ffe600] text-xs font-sans font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      return (
+                        <div
+                          key={sp.id}
+                          className="p-5 sm:p-6 rounded-[4px] border border-white/[0.07] hover:border-[#ffe600]/60 bg-[#0d1018]/90 hover:bg-[#111520] transition-all flex flex-col justify-between group space-y-4 shadow-lg"
                         >
-                          <span>해당 파트 본문 읽기</span>
-                          <ChevronRight className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ))}
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between text-xs font-sans">
+                              <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600]/15 border border-[#ffe600]/40 text-[#ffe600] font-mono font-bold text-[11px]">
+                                {sp.code || arc?.code || 'PART'}
+                              </span>
+                              {stagesCount > 0 && (
+                                <span className="text-[11px] font-mono text-zinc-400 bg-white/[0.04] px-2 py-0.5 rounded-[2px] border border-white/[0.06]">
+                                  {stagesCount}개 스테이지 {stageCodeRange && `(${stageCodeRange})`}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="space-y-1">
+                              <h3 className="text-base sm:text-lg font-extrabold text-white group-hover:text-[#ffe600] transition-colors font-sans">
+                                {sp.label}
+                              </h3>
+                              {focalChar && (
+                                <p className="text-xs font-sans text-zinc-400 flex items-center gap-1.5">
+                                  <span className="text-zinc-500 font-medium">주요 인물:</span>
+                                  <span className="text-zinc-300 font-semibold">{focalChar}</span>
+                                </p>
+                              )}
+                            </div>
+
+                            {arc?.synopsis && (
+                              <p className="text-xs text-zinc-400 font-sans line-clamp-2 leading-relaxed [word-break:keep-all]">
+                                {arc.synopsis}
+                              </p>
+                            )}
+                          </div>
+
+                          <button
+                            onClick={() => {
+                              playClickSound();
+                              onChangeSubPage?.(sp.id);
+                              window.scrollTo({ top: 0, behavior: 'instant' });
+                            }}
+                            className="w-full h-9 rounded-[3px] bg-white/[0.04] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.08] hover:border-[#ffe600] text-xs font-sans font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                            <span>해당 파트 본문 읽기</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
