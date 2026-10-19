@@ -58,6 +58,7 @@ export interface CharacterRef {
   faction: string;
   role: string;
   avatarUrl: string;
+  illustUrl?: string; // 전신 일러스트 / 스탠딩 CG (상세 팝업용)
   description: string; // 현재 챕터 시점까지 밝혀진 설정 (스포일러 차단)
   quote?: string;
   statusInChapter: string; // e.g. "탈출 작전 지휘", "최후 방어선 사수 중 전사"

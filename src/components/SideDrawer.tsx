@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { CharacterRef, GlossaryTerm } from '../types/story';
-import { X } from 'lucide-react';
+import { X, Maximize2 } from 'lucide-react';
 import { resolveAssetUrl } from '../utils/assetUrl';
 
 interface SideDrawerProps {
@@ -8,6 +8,7 @@ interface SideDrawerProps {
   onClose: () => void;
   selectedCharacter: CharacterRef | null;
   selectedGlossary: GlossaryTerm | null;
+  onOpenLightbox?: (imgUrl: string, caption?: string, title?: string) => void;
 }
 
 export const SideDrawer: React.FC<SideDrawerProps> = ({
@@ -15,7 +16,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onClose,
   selectedCharacter,
   selectedGlossary,
+  onOpenLightbox,
 }) => {
+  const [illustError, setIllustError] = useState(false);
+
+  useEffect(() => {
+    setIllustError(false);
+  }, [selectedCharacter?.id]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -37,7 +45,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
       />
 
       {/* Drawer Panel */}
-      <div className="fixed top-0 right-0 h-full w-full max-w-md bg-[#0b0e16]/95 backdrop-blur-2xl border-l border-white/[0.08] z-50 shadow-2xl flex flex-col font-sans">
+      <div className="fixed top-0 right-0 h-full w-full max-w-lg bg-[#0b0e16]/95 backdrop-blur-2xl border-l border-white/[0.08] z-50 shadow-2xl flex flex-col font-sans">
         {/* Drawer Header */}
         <div className="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between bg-[#080a10]/90">
           <div className="flex items-center gap-2 text-xs text-zinc-400">
@@ -57,36 +65,78 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         {/* Content Body */}
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {/* Character Profile */}
-          {selectedCharacter && (
-            <div className="space-y-5">
-              {/* Profile Card */}
-              <div className="flex gap-4 items-center rounded-[4px] border border-white/[0.08] bg-white/[0.025] p-4">
-                {/* 1:1 Avatar */}
-                <div className="w-20 h-20 rounded-[4px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 shadow-md">
-                  <img
-                    src={resolveAssetUrl(selectedCharacter.avatarUrl)}
-                    alt={selectedCharacter.nameKo}
-                    draggable={false}
-                    onContextMenu={(e) => e.preventDefault()}
-                    className="w-full h-full object-cover select-none"
-                  />
-                </div>
+          {selectedCharacter && (() => {
+            const illustPath = selectedCharacter.illustUrl || `/images/characters/illust/${selectedCharacter.id}.png`;
+            const resolvedIllustUrl = resolveAssetUrl(illustPath);
+            const showIllust = !illustError;
 
-                <div className="flex-1 min-w-0 space-y-0.5">
-                  <div className="text-[11px] font-semibold text-[#ffe600] truncate">
-                    {selectedCharacter.faction}
+            return (
+              <div className="space-y-5">
+                {/* Full-Body Standing CG Showcase */}
+                {showIllust && (
+                  <div className="relative w-full h-[360px] sm:h-[400px] rounded-[6px] overflow-hidden bg-gradient-to-b from-white/[0.04] via-[#090c14] to-[#04060a] border border-white/[0.08] flex items-center justify-center p-3 group shadow-xl">
+                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+                    
+                    {/* PRTS Spec Overlay Header */}
+                    <div className="absolute top-2.5 left-3 flex items-center gap-1.5 z-10 pointer-events-none">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600] animate-pulse" />
+                      <span className="text-[10px] font-mono tracking-widest text-zinc-400 font-bold uppercase">
+                        PRTS ARCHIVE // FULL-BODY VISUAL
+                      </span>
+                    </div>
+
+                    {/* Lightbox Zoom Button */}
+                    {onOpenLightbox && (
+                      <button
+                        onClick={() => onOpenLightbox(resolvedIllustUrl, `${selectedCharacter.nameKo} (${selectedCharacter.nameEn}) 전신 일러스트`, selectedCharacter.nameKo)}
+                        className="absolute top-2.5 right-3 z-10 px-2.5 py-1 rounded-[3px] bg-black/65 hover:bg-black/90 border border-white/15 hover:border-[#ffe600] text-[11px] text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all cursor-pointer backdrop-blur-xs"
+                        title="원화 확대"
+                      >
+                        <Maximize2 className="w-3 h-3 text-[#ffe600]" />
+                        <span>원화 확대</span>
+                      </button>
+                    )}
+
+                    {/* Standing CG Image */}
+                    <img
+                      src={resolvedIllustUrl}
+                      alt={selectedCharacter.nameKo}
+                      onError={() => setIllustError(true)}
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] select-none transition-transform duration-300 group-hover:scale-[1.02]"
+                    />
                   </div>
-                  <h3 className="text-xl font-extrabold text-white tracking-tight truncate">
-                    {selectedCharacter.nameKo}
-                  </h3>
-                  <div className="text-xs font-mono text-zinc-500 truncate">
-                    {selectedCharacter.nameEn}
+                )}
+
+                {/* Profile Card */}
+                <div className="flex gap-4 items-center rounded-[4px] border border-white/[0.08] bg-white/[0.025] p-4">
+                  {/* 1:1 Avatar */}
+                  <div className="w-16 h-16 rounded-[4px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 shadow-md">
+                    <img
+                      src={resolveAssetUrl(selectedCharacter.avatarUrl)}
+                      alt={selectedCharacter.nameKo}
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="w-full h-full object-cover select-none"
+                    />
                   </div>
-                  <div className="pt-1 text-xs text-zinc-300 font-medium truncate">
-                    {selectedCharacter.role}
+
+                  <div className="flex-1 min-w-0 space-y-0.5">
+                    <div className="text-[11px] font-semibold text-[#ffe600] truncate">
+                      {selectedCharacter.faction}
+                    </div>
+                    <h3 className="text-xl font-extrabold text-white tracking-tight truncate">
+                      {selectedCharacter.nameKo}
+                    </h3>
+                    <div className="text-xs font-mono text-zinc-500 truncate">
+                      {selectedCharacter.nameEn}
+                    </div>
+                    <div className="pt-0.5 text-xs text-zinc-300 font-medium truncate">
+                      {selectedCharacter.role}
+                    </div>
                   </div>
                 </div>
-              </div>
 
               {/* Status in Operation */}
               <div className="p-4 rounded-[4px] bg-white/[0.02] border border-white/[0.06] space-y-1.5">
@@ -117,7 +167,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 </p>
               </div>
             </div>
-          )}
+          );
+        })()}
 
           {/* Glossary Term */}
           {selectedGlossary && (

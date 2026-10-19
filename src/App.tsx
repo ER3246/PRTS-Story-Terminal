@@ -399,6 +399,7 @@ export function App() {
         onClose={handleCloseDrawer}
         selectedCharacter={selectedCharacter}
         selectedGlossary={selectedGlossary}
+        onOpenLightbox={handleOpenLightbox}
       />
 
       {/* CG Lightbox */}
