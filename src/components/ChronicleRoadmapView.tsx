@@ -660,7 +660,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     };
   }, [browseMode]);
 
-  // 휠 스크롤 및 Ctrl+휠 줌
+  // 마우스 휠 줌 (커서 중심)
   useEffect(() => {
     if (browseMode !== 'chronological') return;
     const container = containerRef.current;
@@ -672,25 +672,19 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      if (e.ctrlKey || e.metaKey) {
-        const zoomFactor = Math.exp(-e.deltaY * 0.0022);
-        setZoomLevel((prevScale) => {
-          const nextScale = Math.min(1.6, Math.max(0.45, Number((prevScale * zoomFactor).toFixed(2))));
-          if (nextScale !== prevScale) {
-            const ratio = nextScale / prevScale;
-            setPanPos((prevPan) => ({
-              x: mouseX - (mouseX - prevPan.x) * ratio,
-              y: mouseY - (mouseY - prevPan.y) * ratio,
-            }));
-          }
-          return nextScale;
-        });
-      } else {
-        setPanPos((prevPan) => ({
-          x: prevPan.x - (Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.shiftKey ? e.deltaY : e.deltaY * 0.85),
-          y: e.shiftKey ? prevPan.y : prevPan.y - e.deltaY * 0.45,
-        }));
-      }
+      // 마우스 휠 스크롤은 커서 중심 확대/축소(줌 인/아웃)로 동작하며 캔버스 이동은 드래그로만 수행
+      const zoomFactor = Math.exp(-e.deltaY * 0.002);
+      setZoomLevel((prevScale) => {
+        const nextScale = Math.min(1.6, Math.max(0.45, Number((prevScale * zoomFactor).toFixed(2))));
+        if (nextScale !== prevScale) {
+          const ratio = nextScale / prevScale;
+          setPanPos((prevPan) => ({
+            x: mouseX - (mouseX - prevPan.x) * ratio,
+            y: mouseY - (mouseY - prevPan.y) * ratio,
+          }));
+        }
+        return nextScale;
+      });
     };
 
     container.addEventListener('wheel', onWheel, { passive: false });
@@ -832,7 +826,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       {/* =========================================================================
           1-A. MOBILE NATIVE COMPACT 2-ROW COMMAND BAR (md:hidden)
       ========================================================================= */}
-      <div className="md:hidden flex-shrink-0 z-30 bg-[#090b10]/95 backdrop-blur-xl border-b border-white/[0.08] px-3 py-2 space-y-2 shadow-lg">
+      {!isHeaderCollapsed && (
+        <div className="md:hidden flex-shrink-0 z-30 bg-[#090b10]/95 backdrop-blur-xl border-b border-white/[0.08] px-3 py-2 space-y-2 shadow-lg">
         {/* Row 1: 3 Mode Segmented Tabs + Search Icon + Status Cycle + Fullscreen */}
         <div className="flex items-center gap-1.5">
           <div className="flex-1 grid grid-cols-3 p-0.5 rounded-[5px] bg-white/[0.04] border border-white/[0.08] text-[11px] font-sans">
@@ -1081,11 +1076,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           </div>
         )}
       </div>
+      )}
 
       {/* =========================================================================
           1-B. DESKTOP MASTER COMMAND HUD BAR (hidden md:block)
       ========================================================================= */}
-      <div className="hidden md:block flex-shrink-0 z-30 bg-[#090b10]/92 backdrop-blur-xl border-b border-white/[0.08] px-4 lg:px-8 py-2.5 space-y-2 shadow-xl">
+      {!isHeaderCollapsed && (
+        <div className="hidden md:block flex-shrink-0 z-30 bg-[#090b10]/92 backdrop-blur-xl border-b border-white/[0.08] px-4 lg:px-8 py-2.5 space-y-2 shadow-xl">
         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
           {/* Left: Title & Archive Metrics */}
           <div className="flex items-center gap-2.5">
@@ -1344,6 +1341,119 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           </div>
         )}
       </div>
+      )}
+
+      {/* =========================================================================
+          1-C. FULLSCREEN IMMERSIVE MINIMAL FLOATING HUD PILL (When isHeaderCollapsed)
+      ========================================================================= */}
+      {isHeaderCollapsed && (
+        <div className="absolute top-3 right-3 sm:right-6 z-40 flex items-center gap-2 pointer-events-auto animate-fadeIn select-none">
+          {/* Mode Segmented Pill */}
+          <div className="flex items-center gap-0.5 p-1 rounded-full bg-[#090c14]/92 backdrop-blur-md border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.6)] text-xs font-sans">
+            <button
+              onClick={() => {
+                playTabSwitchSound();
+                setBrowseMode('chronological');
+              }}
+              className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 transition-all cursor-pointer ${
+                browseMode === 'chronological'
+                  ? 'bg-[#ffe600] text-black font-extrabold shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+              title="시간순 (연대기 노선도)"
+            >
+              <Clock className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">시간순</span>
+            </button>
+            <button
+              onClick={() => {
+                playTabSwitchSound();
+                setBrowseMode('story_line');
+              }}
+              className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 transition-all cursor-pointer ${
+                browseMode === 'story_line'
+                  ? 'bg-[#ffe600] text-black font-extrabold shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+              title="서사별 (시리즈 분류)"
+            >
+              <GitBranch className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">서사별</span>
+            </button>
+            <button
+              onClick={() => {
+                playTabSwitchSound();
+                setBrowseMode('release');
+              }}
+              className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 transition-all cursor-pointer ${
+                browseMode === 'release'
+                  ? 'bg-[#ffe600] text-black font-extrabold shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+              title="출시순 (연도별)"
+            >
+              <Calendar className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">출시순</span>
+            </button>
+          </div>
+
+          {/* Search Toggle / Compact Field */}
+          <div className="relative flex items-center">
+            {isMobileSearchOpen ? (
+              <div className="flex items-center gap-1 bg-[#090c14]/95 backdrop-blur-md border border-white/20 rounded-full px-2.5 py-1 shadow-2xl">
+                <Search className="w-3 h-3 text-zinc-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="스토리 검색..."
+                  autoFocus
+                  className="w-28 sm:w-40 h-5 bg-transparent text-xs text-white placeholder:text-zinc-500 outline-none"
+                />
+                <button
+                  onClick={() => {
+                    setIsMobileSearchOpen(false);
+                    setSearchQuery('');
+                  }}
+                  className="text-zinc-400 hover:text-white cursor-pointer"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setIsMobileSearchOpen(true);
+                }}
+                className={`h-7 w-7 rounded-full flex items-center justify-center cursor-pointer transition-colors shadow-xl ${
+                  searchQuery
+                    ? 'bg-[#ffe600] text-black font-bold'
+                    : 'bg-[#090c14]/92 backdrop-blur-md border border-white/15 text-zinc-300 hover:text-white hover:border-white/30'
+                }`}
+                title="스토리 검색"
+              >
+                <Search className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Fullscreen Restore Button */}
+          {onToggleHeaderCollapse && (
+            <button
+              onClick={() => {
+                playClickSound();
+                onToggleHeaderCollapse();
+              }}
+              className="h-7 px-3 rounded-full bg-[#ffe600] hover:bg-yellow-400 text-black font-sans font-bold text-xs flex items-center gap-1.5 shadow-[0_4px_16px_rgba(255,230,0,0.35)] cursor-pointer transition-all"
+              title="상단 메뉴 다시 열기"
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+              <span>메뉴 복원</span>
+            </button>
+          )}
+        </div>
+      )}
 
       {/* =========================================================================
           2. MAIN WORKSPACE AREA (LEFT/CENTER VIEWPORT + RIGHT BRIEFING DOCK)
@@ -2019,7 +2129,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             <div className="absolute bottom-4 left-4 z-30 flex items-center gap-1.5 p-1.5 rounded-[4px] bg-[#090c14]/95 backdrop-blur-md border border-white/[0.12] shadow-2xl font-mono text-xs">
               <div className="hidden sm:flex items-center gap-1.5 px-2 text-[10px] text-zinc-400 border-r border-white/10">
                 <Move className="w-3 h-3 text-[#ffe600]" />
-                <span>드래그: 이동 · Ctrl+휠: 줌 · 더블클릭: 즉시 열람</span>
+                <span>드래그: 이동 · 마우스 휠: 줌 · 더블클릭: 즉시 열람</span>
               </div>
 
               <button
