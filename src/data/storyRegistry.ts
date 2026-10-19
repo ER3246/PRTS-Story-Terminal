@@ -14,6 +14,7 @@ import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
 import { sidLoneTrail } from './stories/sid_lone_trail';
 import { sidDorothysVision } from './stories/sid_dorothys_vision';
 import { sidMansfieldBreak } from './stories/sid_mansfield_break';
+import { sidDarknightsMemoir } from './stories/sid_darknights_memoir';
 
 export interface StoryLineMeta {
   id: string;
@@ -679,7 +680,7 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: 'Story Line · RL 방주',
     seriesOrder: 1,
     isOmnibus: false,
-    officialSynopsis: '바벨의 창설과 과거 카즈델 내전의 그림자. W와 이네스, 호더의 만남, 그리고 테레시아 암살 사건의 진실을 향한 비극적인 서곡.',
+    officialSynopsis: '바벨의 창설과 과거 카즈델 내전의 그림자. W와 이네스, 외드레르의 만남, 그리고 테레시아 암살 사건의 진실을 향한 비극적인 서곡.',
     splashVisualUrl: '/images/story_covers/sid_darknights_memoir.png',
     releaseOrder: 4,
     releaseYear: 1,
@@ -687,8 +688,8 @@ export const storyRegistry: StoryListItem[] = [
     timeline: '테라력 1091년 ~ 1096년',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'sid_walk_in_dust',
@@ -2591,6 +2592,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   sid_lone_trail: sidLoneTrail,
   sid_dorothys_vision: sidDorothysVision,
   sid_mansfield_break: sidMansfieldBreak,
+  sid_darknights_memoir: sidDarknightsMemoir,
 };
 
 export type StoryAccessState = 'available' | 'overview_only' | 'locked';
