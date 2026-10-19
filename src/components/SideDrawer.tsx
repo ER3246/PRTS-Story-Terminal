@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { CharacterRef, GlossaryTerm } from '../types/story';
 import { X, Maximize2 } from 'lucide-react';
 import { resolveAssetUrl } from '../utils/assetUrl';
+import { CopyrightBadge } from './CopyrightedImage';
 
 interface SideDrawerProps {
   isOpen: boolean;
@@ -106,6 +107,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                       onContextMenu={(e) => e.preventDefault()}
                       className="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] select-none transition-transform duration-300 group-hover:scale-[1.02]"
                     />
+
+                    {/* Copyright License Badge */}
+                    <CopyrightBadge style={{ zIndex: 10, bottom: '8px', right: '10px' }} />
                   </div>
                 )}
 
