@@ -183,7 +183,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
     const md = generateStoryMarkdown(story);
     const safeCode = story.code.replace(/[\s/\\:]+/g, '_');
     const safeTitle = story.titleKo.replace(/[\s/\\:]+/g, '_');
-    downloadFile(`[PRTS_검수용]_${safeCode}_${safeTitle}.md`, md);
+    downloadFile(`[PRTS]_${safeCode}_${safeTitle}.md`, md);
   };
 
   // 하위 페이지 네비게이션 바 컴포넌트 (멀티파트 / 옴니버스 통합 글래스 세그먼트 탭 바)

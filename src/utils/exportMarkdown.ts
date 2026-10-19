@@ -3,45 +3,62 @@ import type { StoryListItem, StoryLineMeta } from '../data/storyRegistry';
 import { getStoryAccessState } from '../data/storyRegistry';
 
 /**
- * 단일 스토리 작전 보고서를 검수용 마크다운(.md) 문서로 변환
- * (Gemini 4 Argon 등 외부 AI 검수 프롬프트 및 원문 서사/대사/명부/전술분석 일체 포함)
+ * 캐릭터 ID 배열을 한국어 캐릭터명 목록 문자열로 변환
+ */
+function formatInvolvedCharacters(ids: string[] | undefined, characters: StoryArchive['characters']): string {
+  if (!ids || ids.length === 0) return '';
+  const charMap = new Map(characters.map((c) => [c.id.toLowerCase(), c.nameKo]));
+  return ids.map((id) => charMap.get(id.toLowerCase()) || id).join(', ');
+}
+
+/**
+ * 혹시 남아있을 수 있는 구형 시스템 브리핑 접두어를 정돈
+ */
+function cleanNarrativeText(text: string): string {
+  if (!text) return '';
+  return text.replace(/^\[PRTS\s+.*?브리핑\s*\/\/\s*.*?\]\s*\n*/i, '').trim();
+}
+
+/**
+ * 단일 스토리 아카이브를 검수용 마크다운(.md) 문서로 변환
+ * (Gemini 4 Argon 등 외부 AI 검수 프롬프트 및 원문 서사/대사/명부/사후분석 일체 포함)
  */
 export function generateStoryMarkdown(story: StoryArchive): string {
   const isMultiPart = Boolean(story.docFormat === 'multi_part' && story.multiPartArcs && story.multiPartArcs.length > 0);
   const isOmnibus = Boolean(story.isOmnibus && story.omnibusSubEpisodes && story.omnibusSubEpisodes.length > 0);
 
-  let md = `# [PRTS OPERATION REPORT] ${story.code} : ${story.titleKo} (${story.titleEn})\n\n`;
+  let md = `# [PRTS STORY ARCHIVE] ${story.code} : ${story.titleKo} (${story.titleEn})\n\n`;
 
-  // 메타데이터 요약 블록
-  md += `> **문서 식별:** RI-${story.code.replace(/\\s+/g, '-')}\n`;
-  md += `> **기록 일시:** ${story.systemMeta.recordedTime}\n`;
-  md += `> **보안 등급:** ${story.systemMeta.securityLevel}\n`;
-  md += `> **담당 시스템:** ${story.systemMeta.operatorInCharge}\n`;
-  md += `> **작전 분류:** ${story.categoryLabel} (${story.actGroup})\n`;
-  md += `> **작전 시기:** ${story.meta.timeline}\n`;
-  md += `> **작전 구역:** ${story.meta.location}\n`;
-  md += `> **확인 세력:** ${story.meta.factions.join(', ')}\n`;
-  md += `> **주요 인물:** ${story.meta.mainCharacters.join(', ')}\n\n`;
+  // 메타데이터 요약 블록 (담백한 정보 전달)
+  md += `> **스토리 코드:** ${story.code}\n`;
+  md += `> **스토리 분류:** ${story.categoryLabel} · ${story.actGroup}\n`;
+  md += `> **배경 시점:** ${story.meta.timeline}\n`;
+  md += `> **배경 장소:** ${story.meta.location}\n`;
+  md += `> **관련 세력:** ${story.meta.factions.join(' · ')}\n`;
+  if (story.meta.mainCharacters && story.meta.mainCharacters.length > 0) {
+    md += `> **주요 등장인물:** ${story.meta.mainCharacters.join(', ')}\n`;
+  }
+  md += `\n`;
 
   // AI 검수용 안내 프롬프트
   md += `---\n\n`;
   md += `## 📌 [AI 검수 가이드 / GEMINI 4 ARGON REVIEW PROMPT]\n`;
-  md += `> 아래 프롬프트를 복사하여 외부 AI(Gemini 4 Argon 등)에 질문하면 고증 및 서사 검수를 즉시 진행할 수 있습니다.\n\n`;
+  md += `> 아래 프롬프트를 복사하여 외부 AI(Gemini 4 Argon 등)에 전달하면 고증 및 서사 검수를 즉시 진행할 수 있습니다.\n\n`;
   md += `\`\`\`text\n`;
   md += `[명일방주(Arknights) 스토리 아카이브 검수 요청]\n`;
-  md += `이 문서는 명일방주 공식 스토리 [${story.code} : ${story.titleKo}]의 PRTS 작전 보고서입니다.\n`;
-  md += `다음 4가지 기준을 중점적으로 검토하고 구체적인 피드백과 개선안을 제시해 주세요:\n`;
-  md += `1. 공식 고증 일치성: 테라 대륙 연대기, 작전 구역 지리, 세력 간 역학 관계, 오퍼레이터 행적의 정확성.\n`;
-  md += `2. 서사 누락 여부: 원작의 핵심 컷신, 반전, 주요 인물 간 명대사, 떡밥이 생략되거나 왜곡되지 않았는지.\n`;
-  md += `3. 문체 및 어조: PRTS 시스템 특유의 건조하고 사실적인 군사 작전 보고서 톤앤매너 유지 여부.\n`;
-  md += `4. 전술 사후 평가: 핵심 테마, 로도스 전술 손실/성과, 테라 정세 영향, 미회수 복선의 타당성.\n`;
+  md += `이 문서는 명일방주 공식 스토리 [${story.code} : ${story.titleKo}]의 PRTS 스토리 아카이브 상세 정리본입니다.\n`;
+  md += `다음 5가지 기준을 중점적으로 검토하고 구체적인 피드백과 개선안을 제시해 주세요:\n`;
+  md += `1. 공식 고증 및 인과관계 일치성: 테라 대륙 연대기, 배경 지역, 세력 간 역학 관계, 인물들의 행적 및 사건 인과관계의 정확성.\n`;
+  md += `2. 서사 디테일 및 완성도: 원작의 핵심 사건, 반전, 인물 간 갈등과 심리 묘사, 배경 설명이 축약이나 누락 없이 충분히 담겼는지.\n`;
+  md += `3. 인게임 원문 대사 정합성: 캐릭터 고유의 어조와 한국어 인게임 실제 스크립트 대사가 왜곡 없이 정확하게 인용되었는지.\n`;
+  md += `4. 컷신 및 CG 묘사 일치성: 수록된 컷신/CG의 시각적 요소와 설명 캡션, 등장 타이밍이 실제 장면과 정확히 일치하는지.\n`;
+  md += `5. 스포일러 방지 및 사후 분석 타당성: 후속 이벤트에 대한 과도한 선행 스포일러 배제 여부 및 작품의 핵심 테마, 여운, 잔존 떡밥 정리의 적절성.\n`;
   md += `\`\`\`\n\n`;
 
   md += `---\n\n`;
 
-  // 1. 배경 개요
-  md += `## 1. 작전 배경 개요 (BACKGROUND & LOGLINE)\n\n`;
-  md += `**시스템 인트로:**\n> "${story.content.prtsGreeting}"\n\n`;
+  // 1. 스토리 배경 및 개요 (불필요한 시스템 인트로 롤플레잉 제거)
+  md += `## 1. 스토리 배경 및 개요 (Story Overview)\n\n`;
   md += `**핵심 로그라인:**\n${story.content.logline}\n\n`;
   md += `**상세 서사 배경:**\n${story.content.background}\n\n`;
 
@@ -49,35 +66,35 @@ export function generateStoryMarkdown(story: StoryArchive): string {
 
   // 2. 단계별 서사 국면 (MultiPart, Omnibus, or Acts)
   if (isMultiPart && story.multiPartArcs) {
-    md += `## 2. 멀티파트 챕터별 심층 작전 보고서 (MULTI-PART OPERATIONAL ARCS: ${story.multiPartArcs.length} PARTS)\n\n`;
+    md += `## 2. 챕터별 상세 서사 (Story Chapters: ${story.multiPartArcs.length} Parts)\n\n`;
     story.multiPartArcs.forEach((arc) => {
       md += `### [PART 0${arc.partNumber}] ${arc.code ? `[${arc.code}] ` : ''}${arc.partTitleKo}${arc.partTitleEn ? ` (${arc.partTitleEn})` : ''}\n`;
-      if (arc.focalCharacter) {
-        md += `- **주요 인물:** ${arc.focalCharacter}\n`;
-      }
       if (arc.location) {
-        md += `- **작전 구역:** ${arc.location}\n`;
+        md += `- **배경 장소:** ${arc.location}\n`;
       }
       if (arc.timeline) {
-        md += `- **작전 시기:** ${arc.timeline}\n`;
+        md += `- **배경 시점:** ${arc.timeline}\n`;
+      }
+      if (arc.focalCharacter) {
+        md += `- **중심 인물:** ${arc.focalCharacter}\n`;
       }
       if (arc.cgCaption) {
-        md += `- **현장 기록 영상:** ${arc.cgCaption} (${arc.cgUrl || '없음'})\n`;
+        md += `- **대표 CG:** ${arc.cgCaption} (${arc.cgUrl || '없음'})\n`;
       }
-      md += `- **파트 핵심 요약:** ${arc.synopsis}\n\n`;
+      md += `- **파트 요약:** ${arc.synopsis}\n\n`;
 
-      md += `#### 📖 파트 심층 서사 전문\n${arc.narrativeText || arc.synopsis}\n\n`;
+      md += `#### 📖 파트 줄거리\n${cleanNarrativeText(arc.narrativeText || arc.synopsis)}\n\n`;
 
       if (arc.visuals && arc.visuals.length > 0) {
-        md += `#### 🖼️ 현장 기록 비주얼 갤러리 (${arc.visuals.length} SCENES)\n`;
+        md += `#### 🖼️ 수록 컷신 및 CG (Visual Gallery: ${arc.visuals.length} Scenes)\n`;
         arc.visuals.forEach((vis, vIdx) => {
-          md += `- **씬 [${vIdx + 1}]:** ${vis.caption} (${vis.url})${vis.triggerLine ? `\n  - *트리거 맥락:* ${vis.triggerLine}` : ''}\n`;
+          md += `- **씬 [${vIdx + 1}]:** ${vis.caption} (${vis.url})${vis.triggerLine ? `\n  - *등장 맥락:* ${vis.triggerLine}` : ''}\n`;
         });
         md += `\n`;
       }
 
       if (arc.quotes && arc.quotes.length > 0) {
-        md += `#### 💬 통신 감청 및 핵심 발화 기록\n`;
+        md += `#### 💬 인게임 주요 대사 (Key Quotes)\n`;
         arc.quotes.forEach((q) => {
           md += `- **${q.speaker}**${q.context ? ` (${q.context})` : ''}: "${q.text}"\n`;
         });
@@ -85,86 +102,86 @@ export function generateStoryMarkdown(story: StoryArchive): string {
       }
 
       if (arc.stages && arc.stages.length > 0) {
-        md += `#### 🛰️ 파트 수록 세부 스테이지별 작전 기록 (${arc.stages.length} STAGES)\n\n`;
+        md += `#### 🛰️ 세부 스테이지별 상세 스토리 (${arc.stages.length} Stages)\n\n`;
         arc.stages.forEach((st) => {
           md += `##### ▶ [${st.stageCode}] ${st.title} (${st.location})\n`;
           if (st.timeMarker) {
-            md += `- **작전 시점:** ${st.timeMarker}\n`;
+            md += `- **시점:** ${st.timeMarker}\n`;
           }
           if (st.visuals && st.visuals.length > 0) {
-            md += `- **스테이지 현장 컷신 자료 (${st.visuals.length}개):**\n`;
+            md += `- **스테이지 컷신/CG (${st.visuals.length}개):**\n`;
             st.visuals.forEach((vis, vIdx) => {
-              md += `  * [씬 ${vIdx + 1}] ${vis.caption} (${vis.url})${vis.triggerLine ? ` — *트리거 맥락:* ${vis.triggerLine}` : ''}\n`;
+              md += `  * [씬 ${vIdx + 1}] ${vis.caption} (${vis.url})${vis.triggerLine ? ` — *등장 맥락:* ${vis.triggerLine}` : ''}\n`;
             });
           } else if (st.cgCaption) {
-            md += `- **스테이지 시각 자료:** ${st.cgCaption} (${st.cgUrl || '없음'})\n`;
+            md += `- **스테이지 컷신/CG:** ${st.cgCaption} (${st.cgUrl || '없음'})\n`;
           }
           md += `- **스테이지 요약:** ${st.summary}\n\n`;
-          md += `${st.narrativeText}\n\n`;
+          md += `${cleanNarrativeText(st.narrativeText)}\n\n`;
           if (st.quotes && st.quotes.length > 0) {
-            md += `*현장 핵심 발언:*\n`;
+            md += `*인게임 핵심 대사:*\n`;
             st.quotes.forEach((sq) => {
               md += `  * **${sq.speaker}**${sq.context ? ` (${sq.context})` : ''}: "${sq.text}"\n`;
             });
             md += `\n`;
           }
           if (st.involvedCharacters && st.involvedCharacters.length > 0) {
-            md += `- **관련 인물:** ${st.involvedCharacters.join(', ')}\n\n`;
+            md += `- **등장인물:** ${formatInvolvedCharacters(st.involvedCharacters, story.characters)}\n\n`;
           }
         });
       }
 
       if (arc.involvedCharacters && arc.involvedCharacters.length > 0) {
-        md += `- **파트 관련 인물 코드:** ${arc.involvedCharacters.join(', ')}\n\n`;
+        md += `- **파트 등장인물:** ${formatInvolvedCharacters(arc.involvedCharacters, story.characters)}\n\n`;
       }
       md += `---\n\n`;
     });
   } else if (isOmnibus && story.omnibusSubEpisodes) {
-    md += `## 2. 수록 단편 에피소드 전문 (OMNIBUS SUB-EPISODES: ${story.omnibusSubEpisodes.length}편)\n\n`;
+    md += `## 2. 수록 단편 에피소드 목록 (Omnibus Episodes: ${story.omnibusSubEpisodes.length}편)\n\n`;
     story.omnibusSubEpisodes.forEach((sub) => {
-      md += `### [단편 ${sub.order}] ${sub.titleKo}${sub.titleEn ? ` (${sub.titleEn})` : ''}\n`;
-      if (sub.mainCharacter) {
-        md += `- **주요 인물:** ${sub.mainCharacter}\n`;
-      }
+      md += `### [단편 0${sub.order}] ${sub.titleKo}${sub.titleEn ? ` (${sub.titleEn})` : ''}\n`;
       if (sub.location) {
-        md += `- **작전 위치:** ${sub.location}\n`;
+        md += `- **배경 장소:** ${sub.location}\n`;
       }
       if (sub.timeline) {
-        md += `- **작전 시기:** ${sub.timeline}\n`;
+        md += `- **배경 시점:** ${sub.timeline}\n`;
+      }
+      if (sub.mainCharacter) {
+        md += `- **중심 인물:** ${sub.mainCharacter}\n`;
       }
       if (sub.cgCaption) {
-        md += `- **대표 영상:** ${sub.cgCaption} (${sub.cgUrl || '없음'})\n`;
+        md += `- **대표 CG:** ${sub.cgCaption} (${sub.cgUrl || '없음'})\n`;
       }
-      md += `- **단편 핵심 요약:** ${sub.synopsis}\n\n`;
+      md += `- **에피소드 요약:** ${sub.synopsis}\n\n`;
       if (sub.narrativeText) {
-        md += `#### 📖 단편 서사 전문\n${sub.narrativeText}\n\n`;
+        md += `#### 📖 에피소드 상세 줄거리\n${cleanNarrativeText(sub.narrativeText)}\n\n`;
       }
       if (sub.quotes && sub.quotes.length > 0) {
-        md += `#### 💬 통신 감청 및 발화 기록\n`;
+        md += `#### 💬 인게임 주요 대사 (Key Quotes)\n`;
         sub.quotes.forEach((q) => {
           md += `- **${q.speaker}**${q.context ? ` (${q.context})` : ''}: "${q.text}"\n`;
         });
         md += `\n`;
       }
       if (sub.involvedCharacters && sub.involvedCharacters.length > 0) {
-        md += `- **관련 인물:** ${sub.involvedCharacters.join(', ')}\n\n`;
+        md += `- **등장인물:** ${formatInvolvedCharacters(sub.involvedCharacters, story.characters)}\n\n`;
       }
       md += `---\n\n`;
     });
   } else {
-    md += `## 2. 현장 작전 전개 보고 (OPERATIONAL PHASES: ${story.content.acts.length} ACTS)\n\n`;
+    md += `## 2. 스토리 전개 단계 (Story Acts: ${story.content.acts.length}단계)\n\n`;
     story.content.acts.forEach((act) => {
       md += `### [ACT 0${act.step}] ${act.phase} (${act.phaseEn}) : ${act.title}\n`;
-      md += `- **작전 위치:** ${act.location}\n`;
+      md += `- **배경 장소:** ${act.location}\n`;
       if (act.cgCaption) {
-        md += `- **현장 기록 영상:** ${act.cgCaption} (${act.cgUrl || '없음'})\n`;
+        md += `- **대표 CG:** ${act.cgCaption} (${act.cgUrl || '없음'})\n`;
       }
-      md += `- **핵심 요약:** ${act.summary}\n\n`;
+      md += `- **단계 요약:** ${act.summary}\n\n`;
 
-      md += `#### 📖 현장 작전 전개 전문\n${act.narrativeText}\n\n`;
+      md += `#### 📖 상세 줄거리\n${cleanNarrativeText(act.narrativeText)}\n\n`;
 
       if (act.quotes && act.quotes.length > 0) {
-        md += `#### 💬 통신 감청 및 발화 기록\n`;
+        md += `#### 💬 인게임 주요 대사 (Key Quotes)\n`;
         act.quotes.forEach((q) => {
           md += `- **${q.speaker}**${q.context ? ` (${q.context})` : ''}: "${q.text}"\n`;
         });
@@ -172,31 +189,32 @@ export function generateStoryMarkdown(story: StoryArchive): string {
       }
 
       if (act.stages && act.stages.length > 0) {
-        md += `#### 🛰️ 세부 스테이지별 작전 기록 (${act.stages.length} STAGES)\n\n`;
+        md += `#### 🛰️ 세부 스테이지별 상세 스토리 (${act.stages.length} Stages)\n\n`;
         act.stages.forEach((st) => {
           md += `##### ▶ [${st.stageCode}] ${st.title} (${st.location})\n`;
           if (st.cgCaption) {
-            md += `- **스테이지 시각 자료:** ${st.cgCaption} (${st.cgUrl || '없음'})\n`;
+            md += `- **스테이지 컷신/CG:** ${st.cgCaption} (${st.cgUrl || '없음'})\n`;
           }
           if (st.tacticalLog) {
-            md += `- **전술 상황 로그:** ${st.tacticalLog}\n`;
+            md += `- **상황 로그:** ${st.tacticalLog}\n`;
           }
           md += `- **요약:** ${st.summary}\n\n`;
-          md += `${st.narrativeText}\n\n`;
+          md += `${cleanNarrativeText(st.narrativeText)}\n\n`;
           if (st.quotes && st.quotes.length > 0) {
+            md += `*인게임 핵심 대사:*\n`;
             st.quotes.forEach((sq) => {
               md += `  * **${sq.speaker}**${sq.context ? ` (${sq.context})` : ''}: "${sq.text}"\n`;
             });
             md += `\n`;
           }
           if (st.involvedCharacters && st.involvedCharacters.length > 0) {
-            md += `- **관련 인물:** ${st.involvedCharacters.join(', ')}\n\n`;
+            md += `- **등장인물:** ${formatInvolvedCharacters(st.involvedCharacters, story.characters)}\n\n`;
           }
         });
       }
 
       if (act.involvedCharacters && act.involvedCharacters.length > 0) {
-        md += `- **관련 인물 코드:** ${act.involvedCharacters.join(', ')}\n\n`;
+        md += `- **등장인물:** ${formatInvolvedCharacters(act.involvedCharacters, story.characters)}\n\n`;
       }
     });
   }
@@ -205,23 +223,23 @@ export function generateStoryMarkdown(story: StoryArchive): string {
     md += `---\n\n`;
   }
 
-  // 3. 작전 관계자 명부
-  md += `## 3. 작전 관계자 명부 (PERSONNEL DOSSIER: ${story.characters.length}명)\n\n`;
+  // 3. 주요 등장인물 명부
+  md += `## 3. 주요 등장인물 명부 (Characters: ${story.characters.length}명)\n\n`;
   story.characters.forEach((char) => {
     md += `### ${char.nameKo} (${char.nameEn})\n`;
-    md += `- **소속:** ${char.faction} | **직책:** ${char.role}\n`;
-    md += `- **작전 내 행적:** ${char.statusInChapter}\n`;
+    md += `- **소속:** ${char.faction} | **역할/직책:** ${char.role}\n`;
+    md += `- **스토리 내 행적:** ${char.statusInChapter}\n`;
     if (char.quote) {
-      md += `- **대표 발화:** "${char.quote}"\n`;
+      md += `- **대표 대사:** "${char.quote}"\n`;
     }
-    md += `- **상세 정보:** ${char.description}\n\n`;
+    md += `- **인물 소개:** ${char.description}\n\n`;
   });
 
   md += `---\n\n`;
 
   // 4. 관련 용어 사전
   if (story.glossary && story.glossary.length > 0) {
-    md += `## 4. 관련 용어 사전 (CLASSIFIED GLOSSARY: ${story.glossary.length}건)\n\n`;
+    md += `## 4. 관련 용어 사전 (Glossary: ${story.glossary.length}건)\n\n`;
     story.glossary.forEach((item) => {
       md += `### ${item.term} [${item.typeLabel} // ${item.type.toUpperCase()}]\n`;
       md += `${item.description}\n\n`;
@@ -229,19 +247,19 @@ export function generateStoryMarkdown(story: StoryArchive): string {
     md += `---\n\n`;
   }
 
-  // 5. 작전 사후 전술 분석 보고서
-  md += `## 5. 작전 사후 전술 분석 보고서 (POST-OPERATION EVALUATION)\n\n`;
+  // 5. 스토리 사후 분석 및 해설
+  md += `## 5. 스토리 사후 분석 및 해설 (Story Evaluation & Lore Impact)\n\n`;
   md += `### 01. 핵심 테마 및 서사적 메시지\n${story.content.analysis.theme}\n\n`;
-  md += `### 02. 로도스 아일랜드 전술 손실 및 성과 평가\n${story.content.analysis.tacticalEvaluation}\n\n`;
-  md += `### 03. 테라 대륙 정세 영향\n${story.content.analysis.loreImpact}\n\n`;
-  md += `### 04. 미회수 복선 및 잔존 기록 (UNRESOLVED HOOKS)\n`;
+  md += `### 02. 로도스 아일랜드의 개입 및 전술적 영향\n${story.content.analysis.tacticalEvaluation}\n\n`;
+  md += `### 03. 테라 대륙 정세 및 세력 영향\n${story.content.analysis.loreImpact}\n\n`;
+  md += `### 04. 미회수 복선 및 잔존 떡밥 (Unresolved Hooks)\n`;
   story.content.analysis.unresolvedHooks.forEach((hook, idx) => {
     md += `${idx + 1}. ${hook}\n`;
   });
   md += `\n`;
 
   md += `---\n`;
-  md += `*PRTS ARCHIVE SYSTEM // DOCUMENT RESTORED VERSION 4.2*\n`;
+  md += `*PRTS STORY ARCHIVE // OFFICIAL STORY TERMINAL*\n`;
 
   return md;
 }
@@ -275,10 +293,10 @@ export function generateStatusMasterMarkdown(stories: StoryListItem[], storyLine
   md += `\`\`\`text\n`;
   md += `[명일방주 스토리 아카이브 전체 로드맵 및 고도화 검수]\n`;
   md += `이 문서는 명일방주 공식 스토리 89편의 전체 데이터베이스 현황 및 수록 목록입니다.\n`;
-  md += `현재 메인 테마 Act I (EP00~08)과 초기 이벤트 3편(에인션트 포지, 기병과 사냥꾼, 파란 불꽃의 마음) 등 총 12편이 4~5단계 상세 서사로 완전 수록되었습니다.\n`;
+  md += `현재 총 ${restored.length}편(메인 테마 Act I EP00~08 및 에인션트 포지, 기병과 사냥꾼, 파란 불꽃의 마음, 맨스필드 브레이크, 도로시의 비전, 론 트레일 등)이 상세 서사로 완전 수록되었습니다.\n`;
   md += `다음 사항에 대해 분석하고 우선순위 가이드를 제안해 주세요:\n`;
   md += `1. 서사 연계성 측면에서 다음으로 가장 우선해서 상세화해야 할 핵심 스토리 5편 추천 및 그 이유.\n`;
-  md += `   (예: 바벨, 다크링스 메모아, 론트레일, 니어 라이트, 빅토리아 Act II 등)\n`;
+  md += `   (예: 바벨, 다크링스 메모아, 니어 라이트, 일 구스토 델란테, 빅토리아 Act II 등)\n`;
   md += `2. 각 서사 라인(Story Line) 그룹화 및 시간대(테라력) 배치의 역사적 고증 정합성 점검.\n`;
   md += `3. 장편 소설급 분량을 가진 초대형 이벤트(예: 론트레일, 츠빌링슈튀르메)를 효과적으로 요약/정리하기 위한 구조적 권장 사항.\n`;
   md += `\`\`\`\n\n`;
@@ -311,8 +329,8 @@ export function generateStatusMasterMarkdown(stories: StoryListItem[], storyLine
 
   md += `---\n\n`;
 
-  // 2. 완전 수록된 12편 체크리스트
-  md += `## 2. 상세 수록 완료 스토리 체크리스트 (12편)\n\n`;
+  // 2. 완전 수록된 스토리 체크리스트
+  md += `## 2. 상세 수록 완료 스토리 체크리스트 (${restored.length}편)\n\n`;
   restored.forEach((s, idx) => {
     md += `${idx + 1}. **[${s.code}] ${s.titleKo}** (${s.titleEn})\n`;
     md += `   - **서사 라인:** ${s.storyLineTitle}\n`;
@@ -348,7 +366,7 @@ export function generateStatusMasterMarkdown(stories: StoryListItem[], storyLine
   });
 
   md += `---\n`;
-  md += `*PRTS MASTER REVISION // EXPORTED FOR EXTERNAL AI & HUMAN AUDIT*\n`;
+  md += `*PRTS MASTER STATUS REPORT // OFFICIAL STORY TERMINAL*\n`;
 
   return md;
 }
