@@ -409,10 +409,21 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   const [zoomLevel, setZoomLevel] = useState<number>(0.88);
   const [panPos, setPanPos] = useState<{ x: number; y: number }>({ x: 36, y: 24 });
   const [isDraggingCanvas, setIsDraggingCanvas] = useState<boolean>(false);
+  const [isKeyPanning, setIsKeyPanning] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  // 키보드(WASD / 방향키) 실시간 이동 조작 상태
+  const keysDownRef = useRef<Set<string>>(new Set());
+  const isKeyPanningRef = useRef<boolean>(false);
+  const rafIdRef = useRef<number | null>(null);
+  const isModalOpenRef = useRef<boolean>(isModalOpen);
+
+  useEffect(() => {
+    isModalOpenRef.current = isModalOpen;
+  }, [isModalOpen]);
 
   const dragTrackingRef = useRef<{
     isDown: boolean;
@@ -693,8 +704,186 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     };
   }, [browseMode]);
 
+  // 키보드(WASD 및 방향키) 실시간 캔버스 이동 (Shift 가속)
+  useEffect(() => {
+    if (browseMode !== 'chronological') return;
+
+    const MOVEMENT_KEY_CODES = new Set([
+      'KeyW',
+      'KeyA',
+      'KeyS',
+      'KeyD',
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+    ]);
+
+    const isInputActive = () => {
+      const el = document.activeElement;
+      if (!el) return false;
+      const tag = el.tagName;
+      return (
+        tag === 'INPUT' ||
+        tag === 'TEXTAREA' ||
+        tag === 'SELECT' ||
+        (el as HTMLElement).isContentEditable
+      );
+    };
+
+    const hasActiveMovementKey = () => {
+      for (const code of MOVEMENT_KEY_CODES) {
+        if (keysDownRef.current.has(code)) return true;
+      }
+      return false;
+    };
+
+    const stopLoop = () => {
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+      if (isKeyPanningRef.current) {
+        isKeyPanningRef.current = false;
+        setIsKeyPanning(false);
+      }
+    };
+
+    const updatePan = () => {
+      // 모달 활성화 또는 인풋 포커스 상태에서는 키 조작 중단
+      if (isModalOpenRef.current || isInputActive() || !!document.querySelector('[role="dialog"]')) {
+        keysDownRef.current.clear();
+        stopLoop();
+        return;
+      }
+
+      if (!hasActiveMovementKey()) {
+        stopLoop();
+        return;
+      }
+
+      const activeKeys = keysDownRef.current;
+      const isBoost = activeKeys.has('ShiftLeft') || activeKeys.has('ShiftRight');
+      const baseSpeed = isBoost ? 32 : 14;
+
+      let moveX = 0;
+      let moveY = 0;
+
+      // 카메라 이동 방향:
+      // W / ↑: 카메라 상향 이동 -> 캔버스 내용물 하향 이동 (panPos.y 증가)
+      // S / ↓: 카메라 하향 이동 -> 캔버스 내용물 상향 이동 (panPos.y 감소)
+      // A / ←: 카메라 좌향 이동 -> 캔버스 내용물 우향 이동 (panPos.x 증가)
+      // D / →: 카메라 우향 이동 -> 캔버스 내용물 좌향 이동 (panPos.x 감소)
+      if (activeKeys.has('KeyW') || activeKeys.has('ArrowUp')) moveY += baseSpeed;
+      if (activeKeys.has('KeyS') || activeKeys.has('ArrowDown')) moveY -= baseSpeed;
+      if (activeKeys.has('KeyA') || activeKeys.has('ArrowLeft')) moveX += baseSpeed;
+      if (activeKeys.has('KeyD') || activeKeys.has('ArrowRight')) moveX -= baseSpeed;
+
+      // 대각선 이동 시 속도 정규화
+      if (moveX !== 0 && moveY !== 0) {
+        moveX *= Math.SQRT1_2;
+        moveY *= Math.SQRT1_2;
+      }
+
+      if (moveX !== 0 || moveY !== 0) {
+        setPanPos((prev) => ({
+          x: prev.x + moveX,
+          y: prev.y + moveY,
+        }));
+      }
+
+      rafIdRef.current = requestAnimationFrame(updatePan);
+    };
+
+    const normalizeKeyCode = (e: KeyboardEvent): string | null => {
+      const code = e.code;
+      const keyLower = e.key ? e.key.toLowerCase() : '';
+
+      if (code === 'KeyW' || keyLower === 'w' || keyLower === 'ㅈ') return 'KeyW';
+      if (code === 'KeyA' || keyLower === 'a' || keyLower === 'ㅁ') return 'KeyA';
+      if (code === 'KeyS' || keyLower === 's' || keyLower === 'ㄴ') return 'KeyS';
+      if (code === 'KeyD' || keyLower === 'd' || keyLower === 'ㅇ') return 'KeyD';
+      if (code === 'ArrowUp' || e.key === 'ArrowUp') return 'ArrowUp';
+      if (code === 'ArrowDown' || e.key === 'ArrowDown') return 'ArrowDown';
+      if (code === 'ArrowLeft' || e.key === 'ArrowLeft') return 'ArrowLeft';
+      if (code === 'ArrowRight' || e.key === 'ArrowRight') return 'ArrowRight';
+      if (code === 'ShiftLeft' || code === 'ShiftRight' || e.key === 'Shift') {
+        return code === 'ShiftRight' ? 'ShiftRight' : 'ShiftLeft';
+      }
+      return null;
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isInputActive() || isModalOpenRef.current || !!document.querySelector('[role="dialog"]')) {
+        return;
+      }
+
+      const matchedCode = normalizeKeyCode(e);
+      if (!matchedCode) return;
+
+      // 방향키 스크롤 등 브라우저 기본 스크롤 동작 방지
+      if (matchedCode.startsWith('Arrow')) {
+        e.preventDefault();
+      }
+
+      keysDownRef.current.add(matchedCode);
+
+      if (hasActiveMovementKey()) {
+        if (!isKeyPanningRef.current) {
+          isKeyPanningRef.current = true;
+          setIsKeyPanning(true);
+        }
+        if (rafIdRef.current === null) {
+          rafIdRef.current = requestAnimationFrame(updatePan);
+        }
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      const matchedCode = normalizeKeyCode(e);
+      if (!matchedCode) return;
+
+      keysDownRef.current.delete(matchedCode);
+      if (matchedCode === 'ShiftLeft' || matchedCode === 'ShiftRight') {
+        keysDownRef.current.delete('ShiftLeft');
+        keysDownRef.current.delete('ShiftRight');
+      }
+
+      if (!hasActiveMovementKey()) {
+        stopLoop();
+      }
+    };
+
+    const handleBlur = () => {
+      keysDownRef.current.clear();
+      stopLoop();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('blur', handleBlur);
+      stopLoop();
+      keysDownRef.current.clear();
+    };
+  }, [browseMode]);
+
   const handleCanvasPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
+    // 마우스 드래그 시작 시 키보드 이동 루프 정리
+    keysDownRef.current.clear();
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
+    if (isKeyPanningRef.current) {
+      isKeyPanningRef.current = false;
+      setIsKeyPanning(false);
+    }
     dragTrackingRef.current = {
       isDown: true,
       startX: e.clientX,
@@ -1705,7 +1894,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               className="absolute left-0 top-0 origin-top-left will-change-transform"
               style={{
                 transform: `translate3d(${panPos.x}px, ${panPos.y}px, 0) scale(${zoomLevel})`,
-                transition: isDraggingCanvas ? 'none' : 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
+                transition: isDraggingCanvas || isKeyPanning ? 'none' : 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               {/* SVG CONSTELLATION OVERLAY (서사 직계 및 교차 인과 연결선 - z-30 반투명 상단 오버레이 + 행간 통로 우회 라우팅) */}
@@ -2127,9 +2316,19 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
             {/* Bottom-Left Floating Controls Dock (Zoom, Fit, Reset) */}
             <div className="absolute bottom-4 left-4 z-30 flex items-center gap-1.5 p-1.5 rounded-[4px] bg-[#090c14]/95 backdrop-blur-md border border-white/[0.12] shadow-2xl font-mono text-xs">
-              <div className="hidden sm:flex items-center gap-1.5 px-2 text-[10px] text-zinc-400 border-r border-white/10">
+              <div
+                className="hidden sm:flex items-center gap-1.5 px-2 text-[10px] text-zinc-400 border-r border-white/10 select-none"
+                title="연대기 노선도 조작: WASD 또는 방향키 (Shift 누를 시 고속 가속), 좌클릭 드래그로 이동, 마우스 휠로 줌, 더블클릭으로 스토리 즉시 열람"
+              >
                 <Move className="w-3 h-3 text-[#ffe600]" />
-                <span>드래그: 이동 · 마우스 휠: 줌 · 더블클릭: 즉시 열람</span>
+                <span>
+                  <strong className="text-zinc-200 font-semibold">WASD / 방향키 / 드래그</strong>: 이동
+                  <span className="text-[#ffe600]/90 text-[9px] ml-1 font-semibold">(Shift 가속)</span>
+                  <span className="text-zinc-500 mx-1">·</span>
+                  휠: 줌
+                  <span className="text-zinc-500 mx-1">·</span>
+                  더블클릭: 즉시 열람
+                </span>
               </div>
 
               <button

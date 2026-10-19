@@ -279,8 +279,8 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                   </div>
                   <ul className="space-y-2 text-zinc-300 text-xs [word-break:keep-all]">
                     <li className="flex items-center justify-between gap-2">
-                      <span className="text-zinc-400">지도 및 계보 이동</span>
-                      <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-white">좌클릭 드래그 / WASD · 방향키</kbd>
+                      <span className="text-zinc-400">전술 지도 · 연대기 노선도 이동</span>
+                      <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-white">좌클릭 드래그 / WASD · 방향키 (Shift 가속)</kbd>
                     </li>
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">3D 지도 회전 · 기울기</span>
@@ -289,6 +289,10 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">화면 확대 · 축소</span>
                       <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">마우스 휠 스크롤 / + - 버튼</kbd>
+                    </li>
+                    <li className="flex items-center justify-between gap-2">
+                      <span className="text-zinc-400">스토리 즉시 열람</span>
+                      <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">노드 더블클릭 / 카드 열람</kbd>
                     </li>
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">이전 · 다음 스토리 이동</span>
@@ -309,7 +313,7 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                   </div>
                   <ul className="space-y-2 text-zinc-300 text-xs [word-break:keep-all]">
                     <li className="flex items-center justify-between gap-2">
-                      <span className="text-zinc-400">지도 이동</span>
+                      <span className="text-zinc-400">지도 · 노선도 이동</span>
                       <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-white">👆 한 손가락 터치 드래그</span>
                     </li>
                     <li className="flex items-center justify-between gap-2">
@@ -317,12 +321,12 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                       <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">🤏 두 손가락 핀치 줌 / + - 버튼</span>
                     </li>
                     <li className="flex items-center justify-between gap-2">
-                      <span className="text-zinc-400">거점 · 경로 정보 확인</span>
+                      <span className="text-zinc-400">거점 · 경로 · 노드 확인</span>
                       <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#00d8ff]">📍 1회 탭: 요약 미니 카드 표시</span>
                     </li>
                     <li className="flex items-center justify-between gap-2">
-                      <span className="text-zinc-400">작전 기록 진입</span>
-                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-white">카드 내 [작전 기록 열람] 탭</span>
+                      <span className="text-zinc-400">작전 기록 즉시 열람</span>
+                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">노드 더블 탭 / [기록 열람] 탭</span>
                     </li>
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">모바일 스토리 색인</span>
