@@ -21,6 +21,7 @@ export const CHARACTER_ASSET_ALIASES: Record<string, string> = {
   astrogenes: 'astgenne',
   astgenne: 'astgenne',
   mefisto: 'mephisto',
+  cloer: 'carol',
   reunion_soldier_a: 'reunion_soldier',
   reunion_soldier_b: 'reunion_soldier_b',
 };
@@ -30,11 +31,12 @@ export const CHARACTER_ASSET_ALIASES: Record<string, string> = {
  * Priority:
  * 1. If explicit avatarUrl is provided as empty string (''), return '' (denotes Tactical Silhouette / No Record)
  * 2. Explicit story-level override (if customized or story-specific)
- * 3. Standard pattern: /images/characters/{id}.png
+ * 3. Standard pattern: /images/characters/{id}.png (with alias fallback)
  */
 export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): string {
   if (typeof char === 'string') {
-    return `/images/characters/${char}.png`;
+    const aliasId = CHARACTER_ASSET_ALIASES[char] || char;
+    return `/images/characters/${aliasId}.png`;
   }
 
   // If explicitly set to empty string (''), respect it as NO VISUAL RECORD!
@@ -46,7 +48,8 @@ export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): strin
     return char.avatarUrl;
   }
 
-  return `/images/characters/${char.id}.png`;
+  const aliasId = CHARACTER_ASSET_ALIASES[char.id] || char.id;
+  return `/images/characters/${aliasId}.png`;
 }
 
 /**
@@ -58,11 +61,12 @@ export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): strin
  * 2. If explicit illustUrl is provided and is a valid illust path (contains '/illust/'), use it.
  * 3. If explicit illustUrl was erroneously set to an avatar path (/images/characters/{name}.png without /illust/),
  *    safely redirect to /images/characters/illust/{name}.png.
- * 4. Standard pattern: /images/characters/illust/{id}.png
+ * 4. Standard pattern: /images/characters/illust/{id}.png (with alias fallback)
  */
 export function getCharacterIllustUrl(char: CharacterAssetQuery | string): string {
   if (typeof char === 'string') {
-    return `/images/characters/illust/${char}.png`;
+    const aliasId = CHARACTER_ASSET_ALIASES[char] || char;
+    return `/images/characters/illust/${aliasId}.png`;
   }
 
   // If explicitly set to empty string (''), respect it as NO VISUAL RECORD
@@ -93,6 +97,7 @@ export function getCharacterIllustUrl(char: CharacterAssetQuery | string): strin
   }
 
   // Case 2: Standard full standing illust path
-  return `/images/characters/illust/${char.id}.png`;
+  const aliasId = CHARACTER_ASSET_ALIASES[char.id] || char.id;
+  return `/images/characters/illust/${aliasId}.png`;
 }
 

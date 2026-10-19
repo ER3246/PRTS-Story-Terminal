@@ -774,8 +774,8 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Domma',
       faction: '맨스필드 이동교도소',
       role: '맨스필드 영안실 장의사 겸 의무실 담당',
-      avatarUrl: '',
-      illustUrl: '',
+      avatarUrl: '/images/characters/domma.png',
+      illustUrl: '/images/characters/illust/domma.png',
       description: '맨스필드 이동교도소 사체 안치실과 의무실을 지키는 비감염자 장의사 겸 의무실 담당자. 앤소니의 신의를 깊이 믿고 교도소의 비밀 배수로와 통로 지도를 제공해 탈옥을 적극 돕는다.',
       statusInChapter: '탈옥 비밀 통로 제공 및 앤소니 조력',
       spoilerLevel: 2
@@ -786,8 +786,8 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Barton',
       faction: '맨스필드 이동교도소',
       role: '맨스필드 경비대장',
-      avatarUrl: '',
-      illustUrl: '',
+      avatarUrl: '/images/characters/barton.png',
+      illustUrl: '/images/characters/illust/barton.png',
       description: '맨스필드 이동교도소의 경비대장이자 거구의 집행관. 죄수들의 폭동과 규율 위반에 극도로 엄격하지만 로빈에게 통제 키를 도난당하며 혼란에 빠진다.',
       statusInChapter: '교도소 폭동 진압 및 보안 통제',
       spoilerLevel: 2

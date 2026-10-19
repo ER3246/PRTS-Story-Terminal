@@ -281,7 +281,7 @@ export const episode02: StoryArchive = {
       nameEn: 'L.G.D. Officer',
       faction: '용문 근위국',
       role: '근위국 현장 치안 요원',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/lgd_officer.png',
       illustUrl: '',
       description: '용문 근위국의 정규 진압 대원. 첸 경사의 엄격한 지휘 아래 슬럼가 봉쇄선 구축과 리유니온 잠입 분견대 소탕에 투입된다.',
       quote: '총기류 불법 개조 확인! 전원, 발포 허가 대기!',

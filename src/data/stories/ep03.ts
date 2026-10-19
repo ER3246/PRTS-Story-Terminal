@@ -221,7 +221,7 @@ export const episode03: StoryArchive = {
       nameEn: 'Reunion Soldier',
       faction: '리유니온',
       role: '스컬슈레더 결사대 전투원',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/reunion_soldier_b.png',
       illustUrl: '',
       description: '스컬슈레더 남매를 결사 옹위하며 폐광산 고지대에서 자살 유탄 돌격을 감행하는 리유니온 감염자 부대원.',
       quote: '스컬슈레더 님을 지켜라! 용문의 개들을 쓸어버려라!',

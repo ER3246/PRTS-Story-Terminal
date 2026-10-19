@@ -227,7 +227,7 @@ export const episode06: StoryArchive = {
       nameEn: 'Yeti Squadron Member',
       faction: '리유니온 / 눈의 악마 소대',
       role: '프로스트노바 결사 호위 전사',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/yeti_member.png',
       illustUrl: '',
       description: '프로스트노바를 누나이자 지휘관으로 따르던 정예 감염자 전사들. 지하에서 로도스와 협력해 대장을 구출했으나, 지상에서 용문 검은 비옷의 습격으로 전원 산화한다.',
       quote: '누님을 혼자 둘 순 없다... 대원들, 돌격하라!',

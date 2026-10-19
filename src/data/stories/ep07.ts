@@ -233,7 +233,7 @@ export const episode07: StoryArchive = {
       nameEn: 'Guerrilla Shieldguard',
       faction: '리유니온 / 유격대',
       role: '패트리어트 직속 방패 위병 (디펜더)',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/shieldguard.png',
       illustUrl: '',
       description: '패트리어트를 주군으로 모셔온 백전노장의 감염자 방패병들. 사령관의 숭고한 최후 명령을 받들어 로도스에게 길을 열어주고 사령관의 유해를 호위한다.',
       quote: '사령관님의 뜻을 받들라! 방패를 세워라!',

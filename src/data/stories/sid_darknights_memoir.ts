@@ -589,8 +589,8 @@ export const sidDarknightsMemoir: StoryArchive = {
       nameEn: 'The Confessor',
       faction: '살카즈 군사위원회',
       role: '살카즈 군사위원회 특무 전령',
-      avatarUrl: '',
-      illustUrl: '',
+      avatarUrl: '/images/characters/confessor.png',
+      illustUrl: '/images/characters/illust/confessor.png',
       description: '섭정왕 테레시스의 뜻을 받들어 각지의 살카즈 군벌을 통제하고 제국 간 세계 대전을 기획하는 어둠의 전령. 런디니움에서 외드레르를 소환하여 연금하고 군사위원회의 체스말로 부린다.',
       quote: '이 전당에서 가치를 잃어버리는 건, 감염자만이 아닙니다. 알겠습니까? ……제 생각이 틀리지 않았다면, 로도스 아일랜드에는 지금쯤 그 불쾌한 사람이 돌아왔을 겁니다.',
       statusInChapter: '빅토리아 런디니움에서 암약'
