@@ -28,8 +28,8 @@ export const episode05: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[05-01 ~ 05-03] 함락된 본청, 역습의 맹세',
         location: '용문 외곽 로도스 본함 ~ 근위국 본청 진입로',
         cgUrl: '/images/cgs/ep05_incident.png',
@@ -54,8 +54,8 @@ export const episode05: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[05-04 ~ 05-06] 1층부터 옥상까지, 피로 물든 계단 돌파',
         location: '용문 근위국 본청 1층 로비 및 계단 복도',
         cgUrl: '/images/cgs/ep05_escalation.png',
@@ -86,8 +86,8 @@ export const episode05: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[05-07 ~ 05-09] 옥상의 함정, 침묵하는 적소',
         location: '용문 근위국 본청 옥상 헬리패드',
         cgUrl: '/images/cgs/ep05_climax.png',
@@ -112,8 +112,8 @@ export const episode05: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[05-10 ~ 05-11] 끓어오르는 폭열, 하늘에서 내린 구원',
         location: '용문 근위국 본청 옥상 상공 및 결전 구역',
         cgUrl: '/images/cgs/ep05_resolution.png',

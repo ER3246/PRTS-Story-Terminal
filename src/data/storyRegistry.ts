@@ -2663,8 +2663,8 @@ export function getStoryArchive(id: string): StoryArchive {
       background: meta.officialSynopsis,
       acts: meta.omnibusSubEpisodes ? meta.omnibusSubEpisodes.map((sub, idx) => ({
         step: idx + 1,
-        phase: (idx === 0 ? '발단' : idx === 1 ? '전개' : idx === 2 ? '위기' : '결말') as ('발단' | '전개' | '위기' | '결말'),
-        phaseEn: (idx === 0 ? 'Incident' : idx === 1 ? 'Escalation' : idx === 2 ? 'Climax' : 'Resolution') as ('Incident' | 'Escalation' | 'Climax' | 'Resolution'),
+        phase: `파트 ${idx + 1}`,
+        phaseEn: `Part ${idx + 1}`,
         title: sub.titleKo,
         location: meta.storyLineTitle,
         narrativeText: sub.narrativeText || sub.synopsis,
@@ -2674,8 +2674,8 @@ export function getStoryArchive(id: string): StoryArchive {
       })) : [
         {
           step: 1,
-          phase: '발단',
-          phaseEn: 'Incident',
+          phase: '파트 1',
+          phaseEn: 'Part 1',
           title: `${meta.titleKo} 공식 개요`,
           location: meta.storyLineTitle,
           narrativeText: meta.officialSynopsis,

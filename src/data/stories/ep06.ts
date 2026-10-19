@@ -28,8 +28,8 @@ export const episode06: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[06-01 ~ 06-03] 혹한의 대치, 얼어붙은 전장',
         location: '용문 시가지 결빙 전선',
         cgUrl: '/images/cgs/ep06_incident.png',
@@ -54,8 +54,8 @@ export const episode06: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[06-04 ~ 06-06] 마지막 저격, 파우스트의 산화',
         location: '용문 중심가 골목길 차단선',
         cgUrl: '/images/cgs/ep06_escalation.png',
@@ -86,8 +86,8 @@ export const episode06: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[06-07 ~ 06-15] 지하의 온기와 매운 사탕, 검은 비옷의 학살',
         location: '용문 지하 공동 ~ 외곽 결빙 공터',
         cgUrl: '/images/cgs/ep06_climax.png',
@@ -118,8 +118,8 @@ export const episode06: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[06-16 ~ 06-18] 품 안의 온기, 그리고 36시간의 충돌 경보',
         location: '눈보라가 멎은 잿빛 공터 ~ 용문 총독 집무실',
         cgUrl: '/images/cgs/ep06_resolution.png',

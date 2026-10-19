@@ -1297,7 +1297,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="w-1.5 h-3.5 rounded-[1px] bg-[#ffe600]" />
                       <span className="font-bold text-zinc-200 mr-1 text-[11px]">
-                        전개 구간 바로가기
+                        전개 파트 바로가기
                       </span>
                       <div className="flex items-center gap-1.5 flex-wrap">
                         {story.content.acts.map((act) => (
@@ -1345,7 +1345,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           <div 
                             onClick={() => toggleAct(act.step)}
                             className="hidden lg:flex absolute left-3 top-4 w-6 h-6 rounded-[3px] bg-[#0d1018] border border-[#ffe600]/70 items-center justify-center text-[11px] font-mono font-bold text-[#ffe600] z-10 shadow-md cursor-pointer hover:bg-[#ffe600] hover:text-black transition-colors"
-                            title={`ACT 0${act.step} 접기/펼치기`}
+                            title={`PART 0${act.step} 접기/펼치기`}
                           >
                             0{act.step}
                           </div>

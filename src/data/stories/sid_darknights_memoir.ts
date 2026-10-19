@@ -528,8 +528,8 @@ export const sidDarknightsMemoir: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '전장의 탄생과 자작나무 숲의 조우',
         location: '카즈델 전선 참호 ~ 북쪽 자작나무 숲',
         cgUrl: '/images/cgs/avg_ac9_4.png',
@@ -554,8 +554,8 @@ export const sidDarknightsMemoir: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '로도스 아일랜드 본함과 테레시아의 이상',
         location: '림 빌리턴 발굴지 바벨 본함 내부',
         cgUrl: '/images/cgs/avg_ac9_8.png',
@@ -580,8 +580,8 @@ export const sidDarknightsMemoir: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '바벨의 붕괴와 카즈델 이탈',
         location: '함락된 바벨 본함 ~ 카즈델 북방 국경',
         cgUrl: '/images/cgs/avg_ac9_6.png',
@@ -606,8 +606,8 @@ export const sidDarknightsMemoir: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '체르노보그의 두 그림자와 다가오는 여명',
         location: '우르수스 체르노보그 폐허 ~ 빅토리아 런디니움',
         cgUrl: '/images/cgs/avg_ac9_2.png',

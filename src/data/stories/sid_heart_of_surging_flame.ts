@@ -33,8 +33,8 @@ export const sidHeartOfSurgingFlame: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[OF-01 ~ OF-02] 흑요석 음악 축제와 은폐된 경보',
         location: '시에스타 해변 페스티벌 특설 무대 및 백사장',
         cgUrl: '/images/backgrounds/bg_beach_1.png',
@@ -59,8 +59,8 @@ export const sidHeartOfSurgingFlame: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[OF-03 ~ OF-04] 암살자의 그림자와 드러난 탐욕',
         location: '시에스타 외곽 번화가 뒷골목 및 흑요석 광산 입구',
         cgUrl: '/images/backgrounds/cg_siesta_report.png',
@@ -85,8 +85,8 @@ export const sidHeartOfSurgingFlame: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[OF-05 ~ OF-06] 화산 카운트다운과 반역자 크로닌의 몰락',
         location: '시에스타 시청 청사 집무실 및 관측 사령부',
         cgUrl: '/images/backgrounds/cg_siesta_volcano2.png',
@@ -117,8 +117,8 @@ export const sidHeartOfSurgingFlame: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[OF-07 ~ OF-08] 화산 심층부 결전과 거대 원석충 폼페이 격퇴',
         location: '시에스타 활화산 심층부 및 마그마 챔버',
         cgUrl: '/images/backgrounds/bg_siesta_volcano.png',
@@ -149,8 +149,8 @@ export const sidHeartOfSurgingFlame: StoryArchive = {
       },
       {
         step: 5,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 5',
+        phaseEn: 'Part 5',
         title: '[OF-ST1 & 후일담] 영원한 여름의 작별과 새로운 이동도시의 결단',
         location: '시에스타 항구 외곽 노을 지는 해변과 로도스 연락선',
         cgUrl: '/images/backgrounds/bg_siesta_sea.png',

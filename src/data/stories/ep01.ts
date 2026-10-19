@@ -28,8 +28,8 @@ export const episode01: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[01-01 ~ 01-04] 불타는 거리와 고립된 피난민 구호',
         location: '체르노보그 남부 상업구역 외곽 도로',
         cgUrl: '/images/cgs/ep01_incident.png',
@@ -54,8 +54,8 @@ export const episode01: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[01-05 ~ 01-08] 메피스토의 광기와 빛의 기사 니어의 합류',
         location: '체르노보그 중앙 광장 및 제3 대로',
         cgUrl: '/images/cgs/ep01_escalation.png',
@@ -86,8 +86,8 @@ export const episode01: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[01-09 ~ 01-11] 살카즈 용병 W와의 조우와 탈룰라의 강림',
         location: '제3 대피 구역 봉쇄 게이트 앞 잔해 회랑',
         cgUrl: '/images/cgs/ep01_climax.png',
@@ -118,8 +118,8 @@ export const episode01: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[01-12] 에이스의 최후 맹약, 피로 물든 여명',
         location: '도시 경계 구역 통로 ~ 이동도시 경계선',
         cgUrl: '/images/cgs/ep01_resolution.png',

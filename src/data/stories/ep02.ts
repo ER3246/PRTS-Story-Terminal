@@ -28,8 +28,8 @@ export const episode02: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[02-01 ~ 02-03] 용문 총독부의 회담과 슬럼가의 조우',
         location: '용문 총독부 집무실 및 하층 슬럼가 진입로',
         cgUrl: '/images/cgs/ep02_incident.png',
@@ -60,8 +60,8 @@ export const episode02: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[02-04 ~ 02-06] 미샤 호송전과 펭귄 로지스틱스의 원군',
         location: '용문 하층 슬럼가 복합 미로 및 옥상 구역',
         cgUrl: '/images/cgs/ep02_escalation.png',
@@ -92,8 +92,8 @@ export const episode02: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[02-07 ~ 02-09] 해골 가면의 포효, 스컬슈레더의 강습',
         location: '용문 슬럼가 폐수 정화 시설 및 옥상 광장',
         cgUrl: '/images/cgs/ep02_climax.png',
@@ -124,8 +124,8 @@ export const episode02: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[02-10] 미샤의 신병 인계와 무거운 동맹',
         location: '용문 근위국 사전 접선 관문',
         cgUrl: '/images/cgs/ep02_resolution.png',

@@ -33,8 +33,8 @@ export const sidGrani: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[GT-01 ~ GT-02] 무법의 마을과 어린 순경',
         location: '카시미어 변방 물방울 마을 입구',
         cgUrl: '/images/backgrounds/cg_grani_3.png',
@@ -65,8 +65,8 @@ export const sidGrani: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[GT-03 ~ GT-04] 폐광산의 전기톱과 리유니온 잔당의 꿈',
         location: '물방울 마을 북부 폐광산 갱도 깊은 곳',
         cgUrl: '/images/backgrounds/cg_grani_2.png',
@@ -91,8 +91,8 @@ export const sidGrani: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[GT-05 ~ GT-06] 유적 입구의 격돌과 스카디와의 대결',
         location: '고대 기사의 유적 수문 제단 광장',
         cgUrl: '/images/backgrounds/cg_grani_6.png',
@@ -123,8 +123,8 @@ export const sidGrani: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[GT-Ex] 고대 수문의 범람과 백 년의 황금',
         location: '물방울 마을 수로 광장 및 고대 수문 유적',
         cgUrl: '/images/backgrounds/cg_grani_5.png',
@@ -155,8 +155,8 @@ export const sidGrani: StoryArchive = {
       },
       {
         step: 5,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 5',
+        phaseEn: 'Part 5',
         title: '[GT-ST1 & 에필로그] 심해의 냄새와 켈시의 경고',
         location: '로도스 아일랜드 본함 중앙 복도 및 의료실',
         cgUrl: '/images/backgrounds/cg_grani_ex.png',

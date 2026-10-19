@@ -28,8 +28,8 @@ export const episode07: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[07-01 ~ 07-06] 황무지의 폭주, 코어 강습과 지하의 W',
         location: '황무지 상공 ~ 체르노보그 코어 지하 진입로',
         cgUrl: '/images/cgs/ep07_incident.png',
@@ -54,8 +54,8 @@ export const episode07: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[07-02 ~ 07-08] 빗속의 결별과 석관으로 향한 발걸음',
         location: '용문 외곽 비 내리는 계단 ~ 체르노보그 지하 연구소',
         cgUrl: '/images/cgs/ep07_escalation.png',
@@ -80,8 +80,8 @@ export const episode07: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[07-10 ~ 07-16] 대지를 가르는 방패, 로즈몬티스의 참전',
         location: '제어탑 앞 거대 기념 광장 결전 구역',
         cgUrl: '/images/cgs/ep07_climax.png',
@@ -112,8 +112,8 @@ export const episode07: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[07-17 ~ 07-18] 멎어버린 심장, 대지에 우뚝 선 최후',
         location: '제어탑 중앙 광장 기념비 앞',
         cgUrl: '/images/cgs/ep07_resolution.png',

@@ -633,8 +633,8 @@ export const sidMansfieldBreak: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '국경 지대의 밀회와 감옥의 정찰',
         location: '컬럼비아 국경 지대의 바 & 맨스필드 교도소 지하 공장',
         cgUrl: '/images/cgs/avg_ac15_2.png',
@@ -665,8 +665,8 @@ export const sidMansfieldBreak: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: 'C구역의 기습과 의무실의 관용',
         location: '맨스필드 C구역 감방 & 영안실 겸 의무실',
         cgUrl: '/images/cgs/avg_ac15_4.png',
@@ -697,8 +697,8 @@ export const sidMansfieldBreak: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '악마의 거래와 추락하는 수감탑',
         location: '맨스필드 A구역 감방 & 메인 관제실',
         cgUrl: '/images/cgs/avg_ac15_6_2.png',
@@ -729,8 +729,8 @@ export const sidMansfieldBreak: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '사리아의 철권과 새로운 지평선',
         location: '맨스필드 지하 영안실 & 국경 지대의 바',
         cgUrl: '/images/cgs/avg_ac15_10.png',

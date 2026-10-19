@@ -112,8 +112,8 @@ export interface StageNode {
 
 export interface ActTimeline {
   step: number;
-  phase: '발단' | '전개' | '위기' | '결말';
-  phaseEn: 'Incident' | 'Escalation' | 'Climax' | 'Resolution';
+  phase: string; // e.g. "파트 1", "파트 2", "파트 3", "파트 4"
+  phaseEn: string; // e.g. "Part 1", "Part 2", "Part 3", "Part 4"
   title: string;
   location: string;
   cgUrl?: string;

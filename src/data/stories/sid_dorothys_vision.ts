@@ -629,8 +629,8 @@ export const sidDorothysVision: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '개척지의 어둠과 도심의 납치극',
         location: '트리마운츠 번화가 뒷골목 및 359호 개척기지',
         cgUrl: '/images/backgrounds/29_g1_outdoorbase.png',
@@ -655,8 +655,8 @@ export const sidDorothysVision: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '기갑 속의 조종사와 뮤엘시스 구출',
         location: '트리마운츠 바 "딱 한 잔만 더" & 뒷골목 / 359호 기지 복도',
         cgUrl: '/images/cgs/29_i02.png',
@@ -681,8 +681,8 @@ export const sidDorothysVision: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '신경 물질의 실체와 은색 거수의 각성',
         location: '트리마운츠 라인 랩 본부 & 359호 기지 최하층 메인 실험실',
         cgUrl: '/images/cgs/29_i04.png',
@@ -707,8 +707,8 @@ export const sidDorothysVision: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '마음속 연결고리와 하늘을 향한 서막',
         location: '359호 기지 폐허 및 트리마운츠 도심 라인 랩 테라스',
         cgUrl: '/images/cgs/29_i10.png',

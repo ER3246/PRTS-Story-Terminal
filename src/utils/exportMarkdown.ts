@@ -188,14 +188,14 @@ export function generateStoryMarkdown(story: StoryArchive): string {
       md += `---\n\n`;
     });
   } else {
-    md += `## 2. 스토리 전개 단계 (Story Acts: ${story.content.acts.length}단계)\n\n`;
+    md += `## 2. 스토리 전개 단계 (Story Parts: ${story.content.acts.length}개 파트)\n\n`;
     story.content.acts.forEach((act) => {
-      md += `### [ACT 0${act.step}] ${act.phase} (${act.phaseEn}) : ${act.title}\n`;
+      md += `### [PART 0${act.step}] ${act.phase} (${act.phaseEn}) : ${act.title}\n`;
       md += `- **배경 장소:** ${act.location}\n`;
       if (act.cgCaption) {
         md += `- **대표 CG:** ${act.cgCaption} (${act.cgUrl || '없음'})\n`;
       }
-      md += `- **단계 요약:** ${act.summary}\n\n`;
+      md += `- **파트 요약:** ${act.summary}\n\n`;
 
       md += `#### 📖 상세 줄거리\n${cleanNarrativeText(act.narrativeText)}\n\n`;
 

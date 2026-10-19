@@ -909,8 +909,8 @@ export const sidLoneTrail: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '트리마운츠의 암운과 라인 랩의 균열',
         location: '컬럼비아 트리마운츠 라인 랩 본부 및 맥스 특별구',
         cgUrl: '/images/cgs/38_i07.png',
@@ -949,8 +949,8 @@ export const sidLoneTrail: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '로켄 수조의 유령과 고립된 생태원',
         location: '라인 랩 생태과 지하 특수 구역 및 도심 외곽 골목',
         cgUrl: '/images/cgs/38_i03.png',
@@ -995,8 +995,8 @@ export const sidLoneTrail: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '호라이즌 아크 발사와 제1통제구역의 보존자',
         location: '트리마운츠 지하 제1통제구역 및 5,000m 상공',
         cgUrl: '/images/cgs/38_i10.png',
@@ -1065,8 +1065,8 @@ export const sidLoneTrail: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '차단층의 붕괴와 열린 뭇별의 밤하늘',
         location: '스텔라리아 통제탑 및 상공 6,000m 차단층 너머',
         cgUrl: '/images/cgs/38_i13.png',

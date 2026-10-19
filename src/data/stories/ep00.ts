@@ -28,8 +28,8 @@ export const episode00: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[00-01] 눈을 뜬 심연, 망각의 지휘관',
         location: '체르노보그 지하 연구소 제0구역',
         cgUrl: '/images/cgs/ep00_incident.png',
@@ -54,8 +54,8 @@ export const episode00: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[00-02 ~ 00-03] 하늘의 분노와 땅의 폭도',
         location: '체르노보그 연구소 비상 탈출 통로',
         cgUrl: '/images/cgs/ep00_escalation.png',
@@ -80,8 +80,8 @@ export const episode00: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[00-04 ~ 00-06] 붉게 타오르는 체르노보그',
         location: '체르노보그 지상 시가지 출구',
         cgUrl: '/images/cgs/ep00_climax.png',
@@ -106,8 +106,8 @@ export const episode00: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[00-07 ~ 00-11] 에이스 소대 합류와 크라운슬레이어의 기습',
         location: '도시 남부 외곽 제4 잔해 집결지 및 연막 교전 구역',
         cgUrl: '/images/cgs/ep00_resolution.png',

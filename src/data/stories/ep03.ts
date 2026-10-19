@@ -28,8 +28,8 @@ export const episode03: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[03-01 ~ 03-02] 호송로 피습과 W의 미샤 납치',
         location: '용문 외곽 황야 고속도로 및 폐광산 진입로',
         cgUrl: '/images/cgs/ep03_incident.png',
@@ -54,8 +54,8 @@ export const episode03: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[03-03 ~ 03-04] 절벽의 기습, 알렉스의 비극적 추락사',
         location: '폐광산 채굴장 상층 절벽 능선',
         cgUrl: '/images/cgs/ep03_escalation.png',
@@ -80,8 +80,8 @@ export const episode03: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[03-05 ~ 03-07] W의 폭로와 깨진 가면의 계승',
         location: '폐광산 갱도 입구 리유니온 집결지',
         cgUrl: '/images/cgs/ep03_climax.png',
@@ -106,8 +106,8 @@ export const episode03: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[03-08] 비통한 결말, 깨진 가면을 쥔 손',
         location: '폐광산 채굴장 정상부 붕괴 광장',
         cgUrl: '/images/cgs/ep03_resolution.png',

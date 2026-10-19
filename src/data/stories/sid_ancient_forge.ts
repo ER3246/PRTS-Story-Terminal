@@ -129,8 +129,8 @@ export const sidAncientForge: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[AF-01] 대장장이의 등장과 B급 시나리오',
         location: '로도스 아일랜드 본함 생활 구역 및 복도',
         cgUrl: '/images/backgrounds/bg_corridor.png',
@@ -155,8 +155,8 @@ export const sidAncientForge: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[AF-02] 용문 시가지의 취권과 활극',
         location: '용문 중심가 춘절 야시장 및 노점 골목',
         cgUrl: '/images/cgs/ac5_2.png',
@@ -187,8 +187,8 @@ export const sidAncientForge: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[AF-03] 천년의 신수와 인간의 칼날',
         location: '용문 외곽 버려진 고대 폐사당',
         cgUrl: '/images/cgs/ac5_7.png',

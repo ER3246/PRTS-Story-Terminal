@@ -28,8 +28,8 @@ export const episode08: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[08-01 ~ 08-10] 눈밭의 비가, 타오르는 탈룰라의 과거',
         location: '우르수스 북원 눈밭 회상',
         cgUrl: '/images/cgs/ep08_incident.png',
@@ -54,8 +54,8 @@ export const episode08: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[08-11 ~ 08-14] 제어탑의 대치, 혈육의 칼끝',
         location: '체르노보그 제어탑 최상층 관제실',
         cgUrl: '/images/cgs/ep08_escalation.png',
@@ -80,8 +80,8 @@ export const episode08: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[08-15 ~ 08-16] 검은 왕관의 해방, 적소와 영소의 절영',
         location: '제어탑 최상층 중심 코어 제어대',
         cgUrl: '/images/cgs/ep08_climax.png',
@@ -112,8 +112,8 @@ export const episode08: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[08-17 ~ M8-8] 석관의 안식과 여명의 방랑, Act II의 서막',
         location: '체르노보그 관제탑 창밖 여명의 지평선 ~ 지하 연구소',
         cgUrl: '/images/cgs/ep08_resolution.png',

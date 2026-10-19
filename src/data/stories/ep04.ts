@@ -28,8 +28,8 @@ export const episode04: StoryArchive = {
     acts: [
       {
         step: 1,
-        phase: '발단',
-        phaseEn: 'Incident',
+        phase: '파트 1',
+        phaseEn: 'Part 1',
         title: '[04-01 ~ 04-03] 켈시의 경고와 제14구역의 침묵',
         location: '로도스 아일랜드 본함 의무 구역 ~ 체르노보그 제14구역 진입로',
         cgUrl: '/images/cgs/ep04_incident.png',
@@ -54,8 +54,8 @@ export const episode04: StoryArchive = {
       },
       {
         step: 2,
-        phase: '전개',
-        phaseEn: 'Escalation',
+        phase: '파트 2',
+        phaseEn: 'Part 2',
         title: '[04-04 ~ 04-07] 폐허의 눈물과 메피스토의 불타는 표식',
         location: '체르노보그 제14구역 폐허 시가지',
         cgUrl: '/images/cgs/ep04_escalation.png',
@@ -86,8 +86,8 @@ export const episode04: StoryArchive = {
       },
       {
         step: 3,
-        phase: '위기',
-        phaseEn: 'Climax',
+        phase: '파트 3',
+        phaseEn: 'Part 3',
         title: '[04-08 ~ 04-10] 절대영도의 강림과 결사의 지연전',
         location: '체르노보그 제14구역 중앙 잔해 광장',
         cgUrl: '/images/cgs/ep04_climax.png',
@@ -112,8 +112,8 @@ export const episode04: StoryArchive = {
       },
       {
         step: 4,
-        phase: '결말',
-        phaseEn: 'Resolution',
+        phase: '파트 4',
+        phaseEn: 'Part 4',
         title: '[04-10 ~ 04-11] 혹한의 탈출과 용문 기습의 비보',
         location: '체르노보그 외곽 황무지 ~ 용문 원경 능선',
         cgUrl: '/images/cgs/ep04_resolution.png',
