@@ -7,6 +7,7 @@ import { HighlightedText } from './HighlightedText';
 import { FilmReelIcon } from './StorySplashModal';
 import { CopyrightedImage, CopyrightBadge } from './CopyrightedImage';
 import { resolveAssetUrl } from '../utils/assetUrl';
+import { getCharacterAvatarUrl } from '../utils/characterAssetHelper';
 import { 
   ZoomIn, 
   ChevronDown, 
@@ -393,7 +394,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           title={`${speakerChar.nameKo} 프로필 열람`}
                         >
                           <img
-                            src={resolveAssetUrl(speakerChar.avatarUrl)}
+                            src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
                             alt={q.speaker}
                             draggable={false}
                             onContextMenu={(e) => e.preventDefault()}
@@ -438,7 +439,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onClick={() => onSelectCharacter(char)}
                       className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
                     >
-                      <img src={resolveAssetUrl(char.avatarUrl)} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-4.5 h-4.5 rounded-[2px] object-cover select-none" />
+                      <img src={resolveAssetUrl(getCharacterAvatarUrl(char))} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-4.5 h-4.5 rounded-[2px] object-cover select-none" />
                       <span className="font-medium">{char.nameKo}</span>
                     </button>
                   );
@@ -825,7 +826,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     title={`${speakerChar.nameKo} 프로필 열람`}
                                   >
                                     <img
-                                      src={resolveAssetUrl(speakerChar.avatarUrl)}
+                                      src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
                                       alt={q.speaker}
                                       draggable={false}
                                       onContextMenu={(e) => e.preventDefault()}
@@ -883,7 +884,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                 className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
                                 title={`${char.nameKo} (${char.role}) 프로필 열람`}
                               >
-                                <img src={resolveAssetUrl(char.avatarUrl)} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-4.5 h-4.5 rounded-[2px] object-cover select-none" />
+                                <img src={resolveAssetUrl(getCharacterAvatarUrl(char))} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-4.5 h-4.5 rounded-[2px] object-cover select-none" />
                                 <span className="font-medium">{char.nameKo}</span>
                               </button>
                             );
@@ -1491,7 +1492,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                               title={`${speakerChar.nameKo} 프로필 열람`}
                                             >
                                               <img
-                                                src={resolveAssetUrl(speakerChar.avatarUrl)}
+                                                src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
                                                 alt={q.speaker}
                                                 draggable={false}
                                                 onContextMenu={(e) => e.preventDefault()}
@@ -1613,7 +1614,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                           className="flex items-center gap-1.5 h-6 pl-1 pr-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
                                         >
                                           <img
-                                            src={resolveAssetUrl(char.avatarUrl)}
+                                            src={resolveAssetUrl(getCharacterAvatarUrl(char))}
                                             alt={char.nameKo}
                                             draggable={false}
                                             onContextMenu={(e) => e.preventDefault()}
@@ -1731,7 +1732,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     <div className="flex gap-4 items-center">
                       <div className="w-14 h-14 rounded-[3px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 group-hover:border-[#ffe600] transition-colors shadow">
                         <img
-                          src={resolveAssetUrl(char.avatarUrl)}
+                          src={resolveAssetUrl(getCharacterAvatarUrl(char))}
                           alt={char.nameKo}
                           draggable={false}
                           onContextMenu={(e) => e.preventDefault()}

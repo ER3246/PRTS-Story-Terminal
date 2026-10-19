@@ -680,7 +680,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '살카즈 용병대 / 바벨 / 리유니온',
       role: '살카즈 용병 지휘관',
       avatarUrl: '/images/characters/w.png',
-      illustUrl: '/images/characters/w.png',
+      illustUrl: '/images/characters/illust/w.png',
       description: '전임 용병의 이름과 무기를 계승하여 카즈델을 떠돌던 살카즈 여성. 테레시아 전하의 따스한 인품에 감화되어 바벨에 홀로 남았으나, 전하의 서거 후 테레시스 암살 가담자들을 사냥하다 리유니온에 잠입한다. 체르노보그 참극의 이면에서 탈룰라와의 최후 결전을 준비한다.',
       quote: '사람의 행동을 결정하는 건 뭐라고 생각해? 출신? 신분? 아니면 과거? 전부 아니야. 바로 살면서 받아왔던 영향이야. 시시각각 변하는 자신의 신념과 생각이지.',
       statusInChapter: '체르노보그에서 탈룰라와의 단독 결전 돌입'
@@ -692,7 +692,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '살카즈 용병대 / 바벨 / 살카즈 군사위원회',
       role: '살카즈 베테랑 용병 지휘관',
       avatarUrl: '/images/characters/hoederer.png',
-      illustUrl: '/images/characters/hoederer.png',
+      illustUrl: '/images/characters/illust/hoederer.png',
       description: '과묵하고 지적이며 전장의 본질을 꿰뚫어보는 베테랑 용병 지휘관. 내전의 피비린내와 박사의 비정한 전술에 지쳐 바벨을 떠났으나, 테레시아 사후 종족의 미래와 살카즈 군사위원회의 진의를 파악하기 위해 런디니움으로 향한다.',
       quote: '……미안하다. 푹 쉬도록, 오랜 친구여.',
       statusInChapter: '빅토리아 런디니움 군사위원회 잠입 및 비밀 송신'
@@ -704,7 +704,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '살카즈 용병대 / 바벨',
       role: '그림자 아츠 정찰병',
       avatarUrl: '/images/characters/ines.png',
-      illustUrl: '/images/characters/ines.png',
+      illustUrl: '/images/characters/illust/ines.png',
       description: '타인의 그림자와 영혼의 파동을 꿰뚫어보는 아츠를 지닌 정찰병. 겉으로는 살카즈 용병으로 행동하지만 실제로는 뿔을 살카즈 모양으로 다듬어 위장한 카프리니(비살카즈) 종족이다. 탈룰라의 내면에 도사린 코셰이의 사악한 두 번째 그림자를 간파하고 W에게 경고하려다 위장 사망 공작을 펼친다.',
       quote: '어서 가! 당장 W에게 알려야 해. 탈룰라는…… 리유니온을 파멸시키고 있어. 일부러!',
       statusInChapter: '체르노보그 도심에서 위장 사망 후 잠적'
@@ -716,7 +716,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '바벨 / 카즈델',
       role: '살카즈의 국왕 / 바벨의 최고 지도자',
       avatarUrl: '/images/characters/theresa.png',
-      illustUrl: '/images/characters/theresa.png',
+      illustUrl: '/images/characters/illust/theresa.png',
       description: '살카즈의 영원한 국왕이자 바벨의 온화한 영도자. 림 빌리턴에서 발굴된 로도스 아일랜드 본함 복도에서 고장 난 자동문을 직접 고치며 W에게 새로운 이름을 약속했으나, 군사위원회의 기습으로 비극적인 최후를 맞이한다.',
       quote: '카즈델의 운명이 정해질 때까지…… 네가 W로 살지 않아도 될 때가 온다면, 분명 우리가 다시 대화를 나눌 기회가 오겠지. 어쩌면 너 같은 살카즈에게 잘 어울리는 새로운 이름을 갖게 될지도 몰라.',
       statusInChapter: '바벨 본함 함락 중 서거'
@@ -728,7 +728,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '바벨 / 로도스 아일랜드',
       role: '바벨 최고 의료 책임자',
       avatarUrl: '/images/characters/kaltsit.png',
-      illustUrl: '/images/characters/kaltsit.png',
+      illustUrl: '/images/characters/illust/kaltsit.png',
       description: '바벨의 설립자이자 최고 의료 책임자. 살카즈가 아니면서도 전장에서 안색 하나 변하지 않는 담대함을 지녔다. 테레시아의 이상을 수호하기 위해 용병들의 과거와 위험성을 엄격히 경계한다.',
       quote: '여기에 있는 모두가 너를 환영하는 건 아니야. 네 이력을 훑어봤거든, 꽤 위험하더라.',
       statusInChapter: '로도스 아일랜드 재편 및 체르노보그 작전 지휘'
@@ -740,7 +740,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '바벨 / 로도스 아일랜드',
       role: '바벨 정예 정찰 오퍼레이터',
       avatarUrl: '/images/characters/scout.png',
-      illustUrl: '/images/characters/scout.png',
+      illustUrl: '/images/characters/illust/scout.png',
       description: '바벨 시절부터 테레시아와 켈시를 보좌한 고결한 살카즈 정찰병. 체르노보그에서 박사 구출팀의 탈출 시간을 벌기 위해 섭정왕의 지휘관 가르상을 처단하고, 12명의 팀원과 함께 장렬히 산화한다.',
       quote: '네 눈으로 진상을 보기 전까지, 헛되게 죽지 마라. 우리 살카즈는…… 계속 이렇게 이용당해서는 안 돼.',
       statusInChapter: '체르노보그 도심에서 가르상 처단 후 전사'
@@ -752,7 +752,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '살카즈 군사위원회',
       role: '살카즈 군사위원회 특무 전령',
       avatarUrl: '/images/characters/confessor.png',
-      illustUrl: '/images/characters/confessor.png',
+      illustUrl: '/images/characters/illust/confessor.png',
       description: '섭정왕 테레시스의 뜻을 받들어 각지의 살카즈 군벌을 통제하고 제국 간 세계 대전을 기획하는 어둠의 전령. 런디니움에서 외드레르를 소환하여 연금하고 군사위원회의 체스말로 부린다.',
       quote: '이 전당에서 가치를 잃어버리는 건, 감염자만이 아닙니다. 알겠습니까? 그 불쾌한 사람이…… 이미 로도스 아일랜드로 돌아왔습니다.',
       statusInChapter: '빅토리아 런디니움에서 암약'
@@ -764,7 +764,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '리유니온',
       role: '리유니온 무브먼트 총사령관',
       avatarUrl: '/images/characters/talulah.png',
-      illustUrl: '/images/characters/talulah.png',
+      illustUrl: '/images/characters/illust/talulah.png',
       description: '감염자 무장 봉기 조직 리유니온의 지도자. 우르수스 설원에서 외드레르 소대를 받아들였으나, 내면에 똬리를 튼 코셰이의 불사의 사념에 잠식당하여 리유니온을 파멸과 전쟁의 불길로 몰아넣는다.',
       quote: '……그래. 잘 왔다. 먼 곳에서 온 전사여.',
       statusInChapter: '체르노보그 코어 타워 통제'
@@ -776,7 +776,7 @@ export const sidDarknightsMemoir: StoryArchive = {
       faction: '바벨 / 로도스 아일랜드',
       role: '바벨 수석 수수께끼 엔지니어',
       avatarUrl: '/images/characters/closer.png',
-      illustUrl: '/images/characters/closer.png',
+      illustUrl: '/images/characters/illust/closer.png',
       description: '바벨 본함의 고대 기계 시스템 복원을 도맡은 천재 뱀파이어 엔지니어. 림 빌리턴 지하에서 발굴된 함선의 고장 난 자동문을 두고 테레시아와 투닥거리며 시스템 전면 교체를 주장한다.',
       quote: '일! 곱! 번! 째! 라고! 일곱 번째! 이건 천재 엔지니어에게 있어 엄청난 굴욕이라고! 그냥 문을 새로 사자! 그게 빠르겠어!',
       statusInChapter: '로도스 아일랜드 함내 시스템 정비'

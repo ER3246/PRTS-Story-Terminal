@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { CharacterRef, GlossaryTerm } from '../types/story';
 import { X, Maximize2 } from 'lucide-react';
 import { resolveAssetUrl } from '../utils/assetUrl';
+import { getCharacterAvatarUrl, getCharacterIllustUrl } from '../utils/characterAssetHelper';
 import { CopyrightBadge } from './CopyrightedImage';
 
 interface SideDrawerProps {
@@ -67,8 +68,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {/* Character Profile */}
           {selectedCharacter && (() => {
-            const illustPath = selectedCharacter.illustUrl || `/images/characters/illust/${selectedCharacter.id}.png`;
-            const resolvedIllustUrl = resolveAssetUrl(illustPath);
+            const resolvedIllustUrl = resolveAssetUrl(getCharacterIllustUrl(selectedCharacter));
+            const resolvedAvatarUrl = resolveAssetUrl(getCharacterAvatarUrl(selectedCharacter));
             const showIllust = !illustError;
 
             return (
@@ -118,7 +119,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   {/* 1:1 Avatar */}
                   <div className="w-16 h-16 rounded-[4px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 shadow-md">
                     <img
-                      src={resolveAssetUrl(selectedCharacter.avatarUrl)}
+                      src={resolvedAvatarUrl}
                       alt={selectedCharacter.nameKo}
                       draggable={false}
                       onContextMenu={(e) => e.preventDefault()}
