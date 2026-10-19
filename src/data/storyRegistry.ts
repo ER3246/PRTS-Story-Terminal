@@ -679,6 +679,7 @@ export const storyRegistry: StoryListItem[] = [
     storyLineId: 'SL_RL',
     storyLineTitle: 'Story Line · RL 방주',
     seriesOrder: 1,
+    docFormat: 'single',
     isOmnibus: false,
     officialSynopsis: '바벨의 창설과 과거 카즈델 내전의 그림자. W와 이네스, 외드레르의 만남, 그리고 테레시아 암살 사건의 진실을 향한 비극적인 서곡.',
     splashVisualUrl: '/images/story_covers/sid_darknights_memoir.png',

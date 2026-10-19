@@ -69,19 +69,21 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   const isMultiPart = docFormat === 'multi_part';
 
   // 하위 페이지 목록 구성
-  const subPages: StorySubPage[] | undefined = storyMeta?.subPages || (
-    isOmnibus && story.omnibusSubEpisodes && story.omnibusSubEpisodes.length > 0
-      ? [
-          { id: 'overview', label: '개요 (줄거리)', isOverview: true },
-          ...story.omnibusSubEpisodes.map((sub) => ({
-            id: sub.id,
-            label: sub.titleKo,
-            code: `EP.0${sub.order}`,
-            focalCharacter: sub.mainCharacter
-          }))
-        ]
-      : undefined
-  );
+  const subPages: StorySubPage[] | undefined = (docFormat === 'multi_part' || docFormat === 'omnibus')
+    ? (story.subPages || storyMeta?.subPages || (
+        isOmnibus && story.omnibusSubEpisodes && story.omnibusSubEpisodes.length > 0
+          ? [
+              { id: 'overview', label: '개요 (줄거리)', isOverview: true },
+              ...story.omnibusSubEpisodes.map((sub) => ({
+                id: sub.id,
+                label: sub.titleKo,
+                code: `EP.0${sub.order}`,
+                focalCharacter: sub.mainCharacter
+              }))
+            ]
+          : undefined
+      ))
+    : undefined;
 
   const currentSubPageId = activeSubPageId || 'overview';
   const isOverview = currentSubPageId === 'overview';
@@ -1550,49 +1552,160 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                             )}
                                           </div>
 
-                                          {st.cgUrl && st.cgUrl.trim() !== '' && (
-                                            <div className="rounded-[3px] border border-white/[0.08] bg-black overflow-hidden">
-                                              <CopyrightedImage
-                                                src={st.cgUrl}
-                                                alt={st.title}
-                                                className="w-full h-auto object-cover max-h-[380px]"
-                                              />
-                                              {st.cgCaption && (
-                                                <div className="px-3.5 py-2 bg-[#08090c] border-t border-white/[0.06] text-xs font-sans text-zinc-300 flex items-center justify-between">
-                                                  <span>{st.cgCaption}</span>
-                                                  <button
-                                                    onClick={() => onOpenLightbox(st.cgUrl!, st.cgCaption, st.title)}
-                                                    className="text-[11px] font-semibold text-[#ffe600] hover:underline cursor-pointer"
-                                                  >
-                                                    확대
-                                                  </button>
-                                                </div>
-                                              )}
-                                            </div>
-                                          )}
+                                          {/* Stage Summary Callout */}
+                                           {st.summary && (
+                                             <div className="px-4 py-2.5 rounded-[3px] bg-[#ffe600]/[0.04] border border-white/[0.06] border-l-2 border-l-[#ffe600] text-xs text-zinc-300 leading-relaxed [word-break:keep-all]">
+                                               {st.summary}
+                                             </div>
+                                           )}
 
-                                          {st.tacticalLog && (
-                                            <div className="px-3.5 py-2.5 rounded-[2px] bg-[#00d8ff]/[0.05] border border-[#00d8ff]/20 border-l-2 border-l-[#00d8ff] text-xs font-sans text-zinc-200 flex items-start gap-2">
-                                              <span className="text-[#00d8ff] font-bold flex-shrink-0">전술 요약</span>
-                                              <span className="text-zinc-600 flex-shrink-0">|</span>
-                                              <span className="[word-break:keep-all] break-keep leading-relaxed">{st.tacticalLog}</span>
-                                            </div>
-                                          )}
+                                           {/* Visuals Gallery / Stage CG */}
+                                           {st.visuals && st.visuals.length > 0 ? (
+                                             <div className="space-y-3">
+                                               {st.visuals.map((vis, vIdx) => (
+                                                 <div key={vIdx} className="group relative rounded-[3px] border border-white/[0.09] bg-black overflow-hidden shadow-md">
+                                                   <CopyrightedImage
+                                                     src={vis.url}
+                                                     alt={vis.caption}
+                                                     className="w-full h-auto object-cover max-h-[420px] transition-transform duration-500 group-hover:scale-[1.01]"
+                                                   />
+                                                   <div className="flex items-center justify-between px-3.5 py-2 bg-[#090b10] border-t border-white/[0.07] text-xs">
+                                                     <span className="text-zinc-300 truncate pr-3 flex items-center gap-2">
+                                                       <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                                                       <span>{vis.caption}</span>
+                                                       {vis.triggerLine && (
+                                                         <span className="text-zinc-500 text-[11px] hidden sm:inline truncate max-w-[280px]">
+                                                           · {vis.triggerLine}
+                                                         </span>
+                                                       )}
+                                                     </span>
+                                                     <button
+                                                       onClick={() => {
+                                                         playOpenSound();
+                                                         onOpenLightbox(vis.url, vis.caption, st.title);
+                                                       }}
+                                                       className="h-6 px-2 rounded-[2px] flex items-center gap-1 text-zinc-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0"
+                                                     >
+                                                       <ZoomIn className="w-3 h-3 text-[#ffe600]" />
+                                                       <span className="text-[10px]">확대</span>
+                                                     </button>
+                                                   </div>
+                                                 </div>
+                                               ))}
+                                             </div>
+                                           ) : st.cgUrl && st.cgUrl.trim() !== '' ? (
+                                             <div className="rounded-[3px] border border-white/[0.08] bg-black overflow-hidden">
+                                               <CopyrightedImage
+                                                 src={st.cgUrl}
+                                                 alt={st.title}
+                                                 className="w-full h-auto object-cover max-h-[380px]"
+                                               />
+                                               {st.cgCaption && (
+                                                 <div className="px-3.5 py-2 bg-[#08090c] border-t border-white/[0.06] text-xs font-sans text-zinc-300 flex items-center justify-between">
+                                                   <span>{st.cgCaption}</span>
+                                                   <button
+                                                     onClick={() => onOpenLightbox(st.cgUrl!, st.cgCaption, st.title)}
+                                                     className="text-[11px] font-semibold text-[#ffe600] hover:underline cursor-pointer"
+                                                   >
+                                                     확대
+                                                   </button>
+                                                 </div>
+                                               )}
+                                             </div>
+                                           ) : null}
 
-                                          <div className="text-sm sm:text-[15px] text-zinc-200 leading-[1.85] font-sans space-y-3 [word-break:keep-all] break-keep">
-                                            {st.narrativeText.split('\n\n').map((p, idx) => (
-                                              <p key={idx}>
-                                                <HighlightedText
-                                                  text={p}
-                                                  characters={story.characters}
-                                                  glossary={story.glossary}
-                                                  onSelectCharacter={onSelectCharacter}
-                                                  onSelectGlossary={onSelectGlossary}
-                                                />
-                                              </p>
-                                            ))}
-                                          </div>
-                                        </div>
+                                           {st.tacticalLog && (
+                                             <div className="px-3.5 py-2.5 rounded-[2px] bg-[#00d8ff]/[0.05] border border-[#00d8ff]/20 border-l-2 border-l-[#00d8ff] text-xs font-sans text-zinc-200 flex items-start gap-2">
+                                               <span className="text-[#00d8ff] font-bold flex-shrink-0">전술 요약</span>
+                                               <span className="text-zinc-600 flex-shrink-0">|</span>
+                                               <span className="[word-break:keep-all] break-keep leading-relaxed">{st.tacticalLog}</span>
+                                             </div>
+                                           )}
+
+                                           <div className="text-sm sm:text-[15px] text-zinc-200 leading-[1.85] font-sans space-y-3 [word-break:keep-all] break-keep">
+                                             {st.narrativeText.split('\n\n').map((p, idx) => (
+                                               <p key={idx}>
+                                                 <HighlightedText
+                                                   text={p}
+                                                   characters={story.characters}
+                                                   glossary={story.glossary}
+                                                   onSelectCharacter={onSelectCharacter}
+                                                   onSelectGlossary={onSelectGlossary}
+                                                 />
+                                               </p>
+                                             ))}
+                                           </div>
+
+                                           {/* Stage Quotes */}
+                                           {st.quotes && st.quotes.length > 0 && (
+                                             <div className="space-y-2.5 pt-2">
+                                               <div className="text-[11px] font-sans font-bold text-zinc-400 flex items-center gap-1.5">
+                                                 <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                                                 <span>인게임 핵심 대사</span>
+                                               </div>
+                                               {st.quotes.map((q, qIdx) => {
+                                                 const speakerChar = getCharacterById(q.speakerId);
+                                                 return (
+                                                   <div
+                                                     key={qIdx}
+                                                     className="p-3.5 rounded-[3px] bg-black/40 border border-white/[0.06] border-l-2 border-l-[#ffe600] flex gap-3.5 items-start text-xs"
+                                                   >
+                                                     {speakerChar && (
+                                                       <div
+                                                         onClick={() => onSelectCharacter(speakerChar)}
+                                                         className="w-9 h-9 rounded-[2px] border border-white/[0.1] overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors"
+                                                         title={`${speakerChar.nameKo} 프로필 열람`}
+                                                       >
+                                                         <img
+                                                           src={resolveAssetUrl(getCharacterAvatarUrl(speakerChar))}
+                                                           alt={q.speaker}
+                                                           draggable={false}
+                                                           onContextMenu={(e) => e.preventDefault()}
+                                                           className="w-full h-full object-cover select-none"
+                                                         />
+                                                       </div>
+                                                     )}
+                                                     <div className="flex-1 min-w-0 space-y-1">
+                                                       <div className="flex flex-wrap items-center justify-between gap-1.5">
+                                                         <span className="font-bold text-[#ffe600]">{q.speaker}</span>
+                                                         {q.context && (
+                                                           <span className="text-zinc-500 text-[10.5px] truncate max-w-[240px] sm:max-w-[320px]">
+                                                             {q.context}
+                                                           </span>
+                                                         )}
+                                                       </div>
+                                                       <p className="text-zinc-200 leading-relaxed font-sans font-medium [word-break:keep-all]">
+                                                         "{q.text}"
+                                                       </p>
+                                                     </div>
+                                                   </div>
+                                                 );
+                                               })}
+                                             </div>
+                                           )}
+
+                                           {/* Stage Involved Characters */}
+                                           {st.involvedCharacters && st.involvedCharacters.length > 0 && (
+                                             <div className="pt-2 flex flex-wrap items-center gap-1.5 text-xs font-sans">
+                                               <span className="text-[11px] text-zinc-500 mr-1">등장:</span>
+                                               {st.involvedCharacters.map((cId) => {
+                                                 const char = getCharacterById(cId);
+                                                 if (!char) return null;
+                                                 return (
+                                                   <button
+                                                     key={cId}
+                                                     onClick={() => onSelectCharacter(char)}
+                                                     className="h-6 pl-1 pr-2 rounded-[2px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-[#ffe600]/60 text-[11px] text-zinc-300 hover:text-white transition-all cursor-pointer"
+                                                     title={`${char.nameKo} (${char.role}) 프로필 열람`}
+                                                   >
+                                                     <img src={resolveAssetUrl(getCharacterAvatarUrl(char))} alt={char.nameKo} draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-3.5 h-3.5 rounded-[1px] object-cover select-none" />
+                                                     <span>{char.nameKo}</span>
+                                                   </button>
+                                                 );
+                                               })}
+                                             </div>
+                                           )}
+                                         </div>
                                       ))}
                                     </div>
                                   </div>
