@@ -2,13 +2,32 @@ import type { StoryArchive } from '../types/story';
 import type { StoryListItem, StoryLineMeta } from '../data/storyRegistry';
 import { getStoryAccessState } from '../data/storyRegistry';
 
+const GLOBAL_CHARACTER_NAME_MAP: Record<string, string> = {
+  kaltsit: '켈시',
+  mountain: '마운틴',
+  silence: '사일런스',
+  muelsyse: '뮤엘시스',
+  kafka: '카프카',
+  robin: '로빈',
+  mayer: '메이어',
+  pinecone: '파인콘',
+  jesselton: '제셀톤',
+  domma: '돔마',
+  barton: '발톤',
+  saria: '사리아',
+  anthony: '앤소니',
+  doctor: '박사',
+  amiy: '아미야',
+  ch_en: '첸',
+};
+
 /**
  * 캐릭터 ID 배열을 한국어 캐릭터명 목록 문자열로 변환
  */
 function formatInvolvedCharacters(ids: string[] | undefined, characters: StoryArchive['characters']): string {
   if (!ids || ids.length === 0) return '';
   const charMap = new Map(characters.map((c) => [c.id.toLowerCase(), c.nameKo]));
-  return ids.map((id) => charMap.get(id.toLowerCase()) || id).join(', ');
+  return ids.map((id) => charMap.get(id.toLowerCase()) || GLOBAL_CHARACTER_NAME_MAP[id.toLowerCase()] || id).join(', ');
 }
 
 /**
