@@ -8,6 +8,7 @@ import { episode05 } from './stories/ep05';
 import { episode06 } from './stories/ep06';
 import { episode07 } from './stories/ep07';
 import { episode08 } from './stories/ep08';
+import { episode09 } from './stories/ep09';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -452,8 +453,8 @@ export const storyRegistry: StoryListItem[] = [
     timeline: '테라력 1097년 10월',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep10',
@@ -2599,6 +2600,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep06: episode06,
   ep07: episode07,
   ep08: episode08,
+  ep09: episode09,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
