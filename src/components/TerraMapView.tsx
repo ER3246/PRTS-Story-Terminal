@@ -654,8 +654,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const hoveredPinRegionRef = useRef<string | null>(null);
   const pinnedRegionRef = useRef<string | null>(null);
   const showElevationRef = useRef<boolean>(showElevation);
+  const showCitiesRef = useRef<boolean>(showCities);
   const showRoutesRef = useRef<boolean>(showRoutes);
   const routeFilterRef = useRef<'all' | RouteCategory>(routeFilter);
+  const viewModeRef = useRef<'3d' | '2d'>(viewMode);
 
   const handleSetAzimuthDegrees = (degrees: number) => {
     camStateRef.current.targetAzimuth = (degrees * Math.PI) / 180;
@@ -682,12 +684,20 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   }, [showElevation]);
 
   useEffect(() => {
+    showCitiesRef.current = showCities;
+  }, [showCities]);
+
+  useEffect(() => {
     showRoutesRef.current = showRoutes;
   }, [showRoutes]);
 
   useEffect(() => {
     routeFilterRef.current = routeFilter;
   }, [routeFilter]);
+
+  useEffect(() => {
+    viewModeRef.current = viewMode;
+  }, [viewMode]);
 
   const regionLookup = useMemo(() => {
     const map = new Map<string, TerraRegion>();
@@ -732,7 +742,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     cam.targetX = px - MAP_CENTER_X;
     cam.targetZ = py - MAP_CENTER_Y;
     cam.targetRadius = zoomRadius;
-    cam.targetPolar = (pitchDeg * Math.PI) / 180;
+    cam.targetPolar = viewModeRef.current === '2d' ? 0.001 : (pitchDeg * Math.PI) / 180;
   }, []);
 
   const handleSelectRegion = useCallback(
@@ -751,7 +761,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           reg.emblemPixelCoords.x,
           reg.emblemPixelCoords.y,
           340,
-          viewMode === '2d' ? 10 : 46
+          viewMode === '2d' ? 0 : 46
         );
         if (telemetrySectorRef.current) {
           telemetrySectorRef.current.textContent = `${reg.nameKo} (${reg.nameEn.toUpperCase()})`;
@@ -769,7 +779,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       cam.targetPolar = (52 * Math.PI) / 180;
       cam.targetRadius = Math.min(560, cam.targetRadius);
     } else {
-      cam.targetPolar = (8 * Math.PI) / 180;
+      cam.targetPolar = 0.001;
       cam.targetAzimuth = 0;
       cam.targetRadius = 620;
     }
@@ -1282,10 +1292,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             // 4. Two-finger vertical pitch adjustment
             const deltaMidY = midY - lastMidY;
             if (Math.abs(deltaMidY) > 1.0) {
-              cam.targetPolar = Math.max(
-                (8 * Math.PI) / 180,
-                Math.min((72 * Math.PI) / 180, cam.targetPolar - deltaMidY * 0.0035)
-              );
+              if (viewModeRef.current !== '2d') {
+                cam.targetPolar = Math.max(
+                  (10 * Math.PI) / 180,
+                  Math.min((72 * Math.PI) / 180, cam.targetPolar - deltaMidY * 0.0035)
+                );
+              } else {
+                cam.targetPolar = 0.001;
+              }
             }
           }
           lastPinchDist = dist;
@@ -1317,11 +1331,20 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           e.shiftKey;
 
         if (isOrbitAction) {
-          cam.targetAzimuth -= dx * 0.0055;
-          cam.targetPolar = Math.max(
-            (8 * Math.PI) / 180,
-            Math.min((72 * Math.PI) / 180, cam.targetPolar - dy * 0.0045)
-          );
+          if (viewModeRef.current !== '2d') {
+            cam.targetAzimuth -= dx * 0.0055;
+            cam.targetPolar = Math.max(
+              (10 * Math.PI) / 180,
+              Math.min((72 * Math.PI) / 180, cam.targetPolar - dy * 0.0045)
+            );
+          } else {
+            cam.targetPolar = 0.001;
+            const panScale = cam.currentRadius * 0.0014;
+            const cosA = Math.cos(cam.currentAzimuth);
+            const sinA = Math.sin(cam.currentAzimuth);
+            cam.targetX = Math.max(-380, Math.min(380, cam.targetX + (-dx * cosA - dy * sinA) * panScale));
+            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + (dx * sinA - dy * cosA) * panScale));
+          }
         } else {
           const panScale = cam.currentRadius * 0.0014;
           const cosA = Math.cos(cam.currentAzimuth);
@@ -1594,15 +1617,23 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         telemetryYawTextRef.current.textContent = `${normalizedYaw}°`;
       }
 
+      const is2D = viewModeRef.current === '2d';
+      if (is2D) {
+        cam.targetPolar = 0.001;
+      }
+
       radarSweep.rotation.y -= 0.008;
       cityCrystals.forEach((cr) => {
         cr.rotation.y += 0.025;
       });
+      cityGroup.visible = !is2D && (showCitiesRef.current ?? true);
 
       const pinnedId = pinnedRegionRef.current;
 
       // Update Operational Trajectory Arcs (Context-aware filtering when a region is pinned or category filter active)
       routesGroup.visible = showRoutesRef.current;
+      routesGroup.scale.set(1, is2D ? 0.02 : 1.0, 1);
+      routesGroup.position.y = is2D ? 0.7 : 0;
       const activeRouteFilter = routeFilterRef.current;
       if (showRoutesRef.current) {
         routeEntries.forEach((re) => {
@@ -1618,8 +1649,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         });
       }
 
-      // Smoothly Animate 3D Hex Extrusion (Preserving Natural Intra-Region Relief + Uniform Lift!)
-      const elevScale = showElevationRef.current ? 1.0 : 0.22;
+      // Smoothly Animate 3D Hex Extrusion (2D 모드 시 고저차를 100% 제거하여 0.6 완전 평면화)
+      const effectiveShowElevation = !is2D && showElevationRef.current;
+      const elevScale = effectiveShowElevation ? 1.0 : 0.0;
       let matrixDirty = false;
       let colorDirty = false;
 
@@ -1629,12 +1661,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         const isCellHovered = Boolean(hoveredRegionRef.current && cell.regionId === hoveredRegionRef.current);
         const isCellActive = isCellPinned || isCellHovered;
 
-        const baseH = CELL_TERRAIN_HEIGHTS[i] * elevScale;
-        const uniformLift = isCellPinned ? 6.5 : isCellHovered ? 4.2 : 0;
+        const baseH = effectiveShowElevation ? CELL_TERRAIN_HEIGHTS[i] : 0.6;
+        const uniformLift = is2D ? 0 : (isCellPinned ? 6.5 : isCellHovered ? 4.2 : 0);
         const targetH = baseH + uniformLift;
         const diff = targetH - cellCurrentHeights[i];
 
-        if (Math.abs(diff) > 0.04) {
+        if (Math.abs(diff) > 0.02) {
           cellCurrentHeights[i] += diff * 0.22;
           dummy.position.set(cell.x - MAP_CENTER_X, 0, cell.y - MAP_CENTER_Y);
           dummy.scale.set(1, cellCurrentHeights[i], 1);
@@ -1656,13 +1688,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       if (matrixDirty) instancedHex.instanceMatrix.needsUpdate = true;
       if (colorDirty && instancedHex.instanceColor) instancedHex.instanceColor.needsUpdate = true;
 
-      // Update 3D Nation Perimeter Wireframes (Uniformly lifting with the region's terrain contour)
+      // Update 3D Nation Perimeter Wireframes (2D 모드에서는 균일한 0.65 평면 위치 유지)
       regionBorderMeshes.forEach((bObj, regId) => {
         const isPin = regId === pinnedId;
         const isHov = regId === hoveredRegionRef.current;
-        const lift = isPin ? 6.5 : isHov ? 4.2 : 0;
+        const lift = is2D ? 0 : (isPin ? 6.5 : isHov ? 4.2 : 0);
         bObj.line.scale.set(1, elevScale, 1);
-        bObj.line.position.y = lift;
+        bObj.line.position.y = is2D ? 0.65 : (effectiveShowElevation ? lift : 0.65 + lift);
         if (isPin) {
           bObj.mat.color.setHex(0xffe600);
           bObj.mat.opacity = 1.0;
@@ -1690,11 +1722,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         if (!pinEl) return;
         const wx = reg.emblemPixelCoords.x - MAP_CENTER_X;
         const wz = reg.emblemPixelCoords.y - MAP_CENTER_Y;
-        const localTerrainH = sampleTerrainHeightAtPixel(reg.emblemPixelCoords.x, reg.emblemPixelCoords.y);
+        const localTerrainH = is2D ? 0 : sampleTerrainHeightAtPixel(reg.emblemPixelCoords.x, reg.emblemPixelCoords.y);
         const isPin = reg.id === pinnedId;
         const isHov = reg.id === hoveredRegionRef.current;
-        const lift = isPin ? 6.5 : isHov ? 4.2 : 0;
-        const wy = localTerrainH * elevScale + lift + 9.5;
+        const lift = is2D ? 0 : (isPin ? 6.5 : isHov ? 4.2 : 0);
+        const wy = is2D ? 1.8 : (localTerrainH * elevScale + lift + 9.5);
 
         projVec.set(wx, wy, wz).project(camera);
         if (projVec.z > 1) {
@@ -1714,12 +1746,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         if (!cEl) return;
         const wx = city.pixelCoords.x - MAP_CENTER_X;
         const wz = city.pixelCoords.y - MAP_CENTER_Y;
-        const localTerrainH = sampleTerrainHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y);
+        const localTerrainH = is2D ? 0 : sampleTerrainHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y);
         const isCapitalOrRhodes = city.type === 'capital' || city.type === 'rhodes';
         const isPin = city.regionId === pinnedId;
         const isHov = city.regionId === hoveredRegionRef.current;
-        const lift = isPin ? 6.5 : isHov ? 4.2 : 0;
-        const wy = localTerrainH * elevScale + lift + (isCapitalOrRhodes ? 21 : 14);
+        const lift = is2D ? 0 : (isPin ? 6.5 : isHov ? 4.2 : 0);
+        const wy = is2D ? 2.0 : (localTerrainH * elevScale + lift + (isCapitalOrRhodes ? 21 : 14));
 
         projVec.set(wx, wy, wz).project(camera);
         if (projVec.z > 1) {
@@ -1751,7 +1783,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
         // Place capsule at the route's custom labelT (default 0.5) of the 3D Bezier curve
         re.curve.getPointAt(rt.labelT ?? 0.5, projVec);
-        projVec.y += 2.2;
+        if (is2D) {
+          projVec.y = 1.0;
+        } else {
+          projVec.y += 2.2;
+        }
 
         projVec.project(camera);
         if (projVec.z > 1) {
@@ -1927,7 +1963,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     e.stopPropagation();
                     playClickSound();
                     setSelectedCityId(isSelected ? null : city.id);
-                    flyToPixelCoords(city.pixelCoords.x, city.pixelCoords.y, 260, viewMode === '2d' ? 10 : 42);
+                    flyToPixelCoords(city.pixelCoords.x, city.pixelCoords.y, 260, viewMode === '2d' ? 0 : 42);
                     if (isTouchOrMobile) {
                       setPinnedRegionId(null);
                       const reg = terraRegions.find((r) => r.id === city.regionId);
@@ -2275,10 +2311,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               <button
                 onClick={() => {
                   playClickSound();
-                  setShowElevation(!showElevation);
+                  if (viewMode === '2d') {
+                    handleToggleViewMode('3d');
+                    setShowElevation(true);
+                  } else {
+                    setShowElevation(!showElevation);
+                  }
                 }}
-                className={`h-6 px-2 rounded-[3px] flex items-center gap-1 cursor-pointer ${
-                  showElevation ? 'bg-white/[0.12] text-[#ffe600] font-bold' : 'text-zinc-500'
+                className={`h-6 px-2 rounded-[3px] flex items-center gap-1 cursor-pointer transition-colors ${
+                  viewMode !== '2d' && showElevation ? 'bg-white/[0.12] text-[#ffe600] font-bold' : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
                 <Layers className="w-3 h-3" />
@@ -2497,11 +2538,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               <button
                 onClick={() => {
                   playClickSound();
-                  setShowElevation(!showElevation);
+                  if (viewMode === '2d') {
+                    handleToggleViewMode('3d');
+                    setShowElevation(true);
+                  } else {
+                    setShowElevation(!showElevation);
+                  }
                 }}
-                title="지형 고저차 토글"
+                title={viewMode === '2d' ? '3D 지형 고저차 켜기' : '지형 고저차 토글'}
                 className={`h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-colors ${
-                  showElevation
+                  viewMode !== '2d' && showElevation
                     ? 'bg-white/[0.1] text-[#ffe600] font-semibold'
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
@@ -2916,7 +2962,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                           e.stopPropagation();
                           playClickSound();
                           setSelectedCityId(c.id);
-                          flyToPixelCoords(c.pixelCoords.x, c.pixelCoords.y, 240, viewMode === '2d' ? 10 : 40);
+                          flyToPixelCoords(c.pixelCoords.x, c.pixelCoords.y, 240, viewMode === '2d' ? 0 : 40);
                         }}
                         className={`p-2 rounded-[2px] text-left border text-xs transition-colors cursor-pointer ${
                           selectedCityId === c.id
@@ -3366,7 +3412,7 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                 <div className="space-y-0.5">
                   <div className="font-bold text-white text-xs">시점 모드 & 레이어 필터</div>
                   <div className="text-zinc-300 text-[11px]">
-                    3D 입체 시점(52°)과 2D 평면도(8°) 전환 및 고저차·국가 마크·거점·경로를 개별 표시할 수 있습니다.
+                    3D 입체 시점(52°)과 2D 평면도(0° 완전 평면) 전환 및 지형 고저차·국가 마크·거점·경로를 개별 표시할 수 있습니다.
                   </div>
                 </div>
                 <div className="flex items-center gap-1 font-mono text-[10px]">
