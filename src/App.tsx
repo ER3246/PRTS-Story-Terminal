@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Header } from './components/Header';
 import type { MainViewMode } from './components/Header';
 import { Sidebar } from './components/Sidebar';
@@ -14,7 +14,8 @@ import { InfoLicenseModal, type InfoModalTab } from './components/InfoLicenseMod
 import { ScrollNavButtons } from './components/ScrollNavButtons';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE } from './version';
 import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
-import type { CharacterRef, GlossaryTerm } from './types/story';
+import type { CharacterRef, GlossaryTerm, StoryArchive } from './types/story';
+import { useHashRoute, buildHash } from './hooks/useHashRoute';
 import { PanelLeftOpen, Menu, Info, ChevronDown } from 'lucide-react';
 import { 
   setSoundEnabled, 
@@ -24,12 +25,116 @@ import {
   playClickSound 
 } from './utils/soundEffects';
 
+const DEFAULT_STORY_ID = 'ep00';
+const BASE_TITLE = 'PRTS 스토리 아카이브 // 명일방주 인터랙티브 터미널';
+
+const isKnownStoryId = (id: string | null | undefined): id is string =>
+  !!id && storyRegistry.some((s) => s.id === id);
+
+// 스토리에 실제로 존재하는 하위 페이지 ID 목록 (멀티파트 / 옴니버스)
+const getValidSubPageIds = (story: StoryArchive): Set<string> => {
+  const meta = storyRegistry.find((s) => s.id === story.id);
+  const ids = new Set<string>();
+  (story.subPages || meta?.subPages || []).forEach((sp) => ids.add(sp.id));
+  story.omnibusSubEpisodes?.forEach((ep) => ids.add(ep.id));
+  story.multiPartArcs?.forEach((arc) => ids.add(arc.id));
+  return ids;
+};
+
 export function App() {
-  const [activeStoryId, setActiveStoryId] = useState<string>('ep00');
-  const [activeSubPageId, setActiveSubPageId] = useState<string | null>(null);
-  // 새로고침 시 기본 페이지는 PRTS 종합 홈 대시보드
-  const [currentView, setCurrentView] = useState<MainViewMode>('home');
+  // SideDrawer State
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<CharacterRef | null>(null);
+  const [selectedGlossary, setSelectedGlossary] = useState<GlossaryTerm | null>(null);
   const [isSidebarOpenMobile, setIsSidebarOpenMobile] = useState<boolean>(false);
+
+  // Lightbox State
+  const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
+  const [lightboxData, setLightboxData] = useState<{
+    imageUrl: string | null;
+    caption?: string;
+    title?: string;
+  }>({
+    imageUrl: null,
+  });
+
+  // URL 해시 라우팅: 뷰 / 스토리 / 하위 파트는 URL이 단일 진실 공급원
+  // 브라우저 뒤로가기·앞으로가기 시 떠 있는 오버레이는 닫아 이전 화면이 바로 보이도록 처리
+  const { route, navType, navigate, getSavedScroll } = useHashRoute({
+    onPop: () => {
+      setIsDrawerOpen(false);
+      setIsLightboxOpen(false);
+      setIsSidebarOpenMobile(false);
+    },
+  });
+  const currentView = route.view;
+
+  // 보고서 외 뷰(홈/연대기/지도)에서도 마지막으로 열람한 스토리를 기억 (상단 '보고서' 탭 복귀용)
+  const [lastStoryId, setLastStoryId] = useState<string>(
+    isKnownStoryId(route.storyId) ? route.storyId : DEFAULT_STORY_ID
+  );
+  const routeStoryId = currentView === 'report' && isKnownStoryId(route.storyId) ? route.storyId : null;
+  const activeStoryId = routeStoryId ?? lastStoryId;
+  if (routeStoryId && routeStoryId !== lastStoryId) {
+    setLastStoryId(routeStoryId);
+  }
+
+  const currentStory = getStoryArchive(activeStoryId);
+  const validSubPageIds = getValidSubPageIds(currentStory);
+  const activeSubPageId =
+    currentView === 'report' &&
+    route.subPageId &&
+    route.subPageId !== 'overview' &&
+    validSubPageIds.has(route.subPageId)
+      ? route.subPageId
+      : null;
+
+  // 공통 내비게이션 헬퍼
+  const goToStory = useCallback((id: string, subPageId?: string | null) => {
+    navigate({ view: 'report', storyId: id, subPageId: subPageId || null });
+  }, [navigate]);
+
+  const goToSubPage = useCallback((subId: string) => {
+    navigate({ view: 'report', storyId: activeStoryId, subPageId: subId === 'overview' ? null : subId });
+  }, [navigate, activeStoryId]);
+
+  const goToView = useCallback((view: MainViewMode) => {
+    if (view === 'report') {
+      goToStory(activeStoryId);
+    } else {
+      navigate({ view, storyId: null, subPageId: null });
+    }
+  }, [goToStory, activeStoryId, navigate]);
+
+  // 잘못된/누락된 URL(존재하지 않는 스토리·파트)은 정규 URL로 교체 (히스토리 항목 추가 없음)
+  const canonicalRoute = {
+    view: currentView,
+    storyId: currentView === 'report' ? activeStoryId : null,
+    subPageId: currentView === 'report' ? activeSubPageId : null,
+  };
+  const canonicalHash = buildHash(canonicalRoute);
+  const routeHash = buildHash(route);
+  useEffect(() => {
+    if (canonicalHash !== routeHash) {
+      navigate(canonicalRoute, { replace: true });
+    }
+    // canonicalRoute는 canonicalHash로 완전히 표현됨
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canonicalHash, routeHash, navigate]);
+
+  // 브라우저 탭 제목 동기화 (히스토리 목록에서도 식별 가능)
+  useEffect(() => {
+    if (currentView === 'report') {
+      document.title = `${currentStory.code} ${currentStory.titleKo} // PRTS 스토리 아카이브`;
+    } else if (currentView === 'chronicle') {
+      document.title = `연대기 // PRTS 스토리 아카이브`;
+    } else if (currentView === 'map') {
+      document.title = `테라 지도 // PRTS 스토리 아카이브`;
+    } else {
+      document.title = BASE_TITLE;
+    }
+  }, [currentView, currentStory.code, currentStory.titleKo]);
+
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState<boolean>(false);
   const [isSoundOn, setIsSoundOn] = useState<boolean>(false);
@@ -80,34 +185,27 @@ export function App() {
       ? sortedNavStories[currentNavIndex + 1]
       : null;
 
-  // SideDrawer State
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<CharacterRef | null>(null);
-  const [selectedGlossary, setSelectedGlossary] = useState<GlossaryTerm | null>(null);
-
-  // Lightbox State
-  const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
-  const [lightboxData, setLightboxData] = useState<{
-    imageUrl: string | null;
-    caption?: string;
-    title?: string;
-  }>({
-    imageUrl: null,
-  });
-
-  const currentStory = getStoryArchive(activeStoryId);
-
-  // 브라우저 기본 스크롤 복원 비활성화 (새 페이지/뷰 진입 시 항상 최상단에서 시작하도록 보장)
+  // 브라우저 기본 스크롤 복원 비활성화 (스크롤 위치는 라우팅 훅이 직접 관리)
   useEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
   }, []);
 
-  // 뷰 전환(홈, 보고서, 연대기, 지도) 또는 열람 스토리 전환 시 스크롤 위치를 즉시 최상단(0, 0)으로 리셋
+  // 화면 전환 시 스크롤 처리
+  // - 일반 이동(push): 항상 최상단에서 시작
+  // - 뒤로/앞으로가기(pop): 해당 화면을 떠날 때의 스크롤 위치 복원
+  // (하위 컴포넌트의 최상단 리셋 effect보다 부모 effect가 나중에 실행되므로 복원이 우선 적용됨)
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentView, activeStoryId]);
+    if (navType === 'pop') {
+      const y = getSavedScroll(routeHash);
+      window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+      // 레이아웃이 늦게 확정되는 경우를 대비해 다음 프레임에 한 번 더 적용
+      requestAnimationFrame(() => window.scrollTo({ top: y, left: 0, behavior: 'instant' }));
+    } else if (navType === 'push') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+  }, [routeHash, navType, getSavedScroll]);
 
   // 전역 키보드 단축키 (ESC로 모달 닫기, 좌우 화살표로 스토리 이전/다음 이동)
   useEffect(() => {
@@ -137,10 +235,10 @@ export function App() {
         }
       } else if (currentView === 'report' && !isLightboxOpen && !isDrawerOpen && !isSidebarOpenMobile && !isReviewExportOpen && !isInfoLicenseOpen) {
         if (e.key === 'ArrowLeft' && previousStory) {
-          setActiveStoryId(previousStory.id);
+          goToStory(previousStory.id);
           playClickSound();
         } else if (e.key === 'ArrowRight' && nextStory) {
-          setActiveStoryId(nextStory.id);
+          goToStory(nextStory.id);
           playClickSound();
         }
       }
@@ -148,13 +246,11 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentView, isLightboxOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory]);
+  }, [currentView, isLightboxOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory, goToStory]);
 
   const handleSelectStoryFromMapOrChronicle = (id: string) => {
-    setActiveStoryId(id);
-    setCurrentView('report'); // 보고서 열람 뷰로 전환
+    goToStory(id);
     playClickSound();
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
   const handleSelectCharacter = (char: CharacterRef) => {
@@ -210,7 +306,7 @@ export function App() {
       {!isHeaderCollapsed && (
         <Header
           currentView={currentView}
-          onChangeView={(view) => setCurrentView(view)}
+          onChangeView={(view) => goToView(view)}
           isSoundOn={isSoundOn}
           onToggleSound={handleToggleSound}
           onOpenReviewExport={() => {
@@ -251,10 +347,7 @@ export function App() {
           <Sidebar
             activeStoryId={activeStoryId}
             activeSubPageId={activeSubPageId}
-            onSelectStory={(id, subPageId) => {
-              setActiveStoryId(id);
-              setActiveSubPageId(subPageId || null);
-            }}
+            onSelectStory={(id, subPageId) => goToStory(id, subPageId)}
             isOpenMobile={isSidebarOpenMobile}
             onCloseMobile={() => setIsSidebarOpenMobile(false)}
             isCollapsed={isSidebarCollapsed}
@@ -292,12 +385,8 @@ export function App() {
           {/* View 0: PRTS Home Terminal Dashboard */}
           {currentView === 'home' && (
             <HomeDashboard
-              onNavigateToStory={(id) => {
-                setActiveStoryId(id);
-                setActiveSubPageId(null);
-                setCurrentView('report');
-              }}
-              onNavigateToView={(view) => setCurrentView(view)}
+              onNavigateToStory={(id) => goToStory(id)}
+              onNavigateToView={(view) => goToView(view)}
               onOpenReviewExport={() => {
                 setIsReviewExportOpen(true);
                 playOpenSound();
@@ -310,16 +399,13 @@ export function App() {
             <StoryViewer
               story={currentStory}
               activeSubPageId={activeSubPageId}
-              onChangeSubPage={(subId) => setActiveSubPageId(subId)}
+              onChangeSubPage={(subId) => goToSubPage(subId)}
               onSelectCharacter={handleSelectCharacter}
               onSelectGlossary={handleSelectGlossary}
               onOpenLightbox={handleOpenLightbox}
               previousStory={previousStory}
               nextStory={nextStory}
-              onSelectStory={(id, subPageId) => {
-                setActiveStoryId(id);
-                setActiveSubPageId(subPageId || null);
-              }}
+              onSelectStory={(id, subPageId) => goToStory(id, subPageId)}
             />
           )}
 

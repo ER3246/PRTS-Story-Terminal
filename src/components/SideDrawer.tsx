@@ -22,10 +22,12 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onOpenLightbox,
 }) => {
   const [illustError, setIllustError] = useState(false);
+  const [prevCharId, setPrevCharId] = useState<string | undefined>(selectedCharacter?.id);
 
-  useEffect(() => {
+  if (selectedCharacter?.id !== prevCharId) {
+    setPrevCharId(selectedCharacter?.id);
     setIllustError(false);
-  }, [selectedCharacter?.id]);
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

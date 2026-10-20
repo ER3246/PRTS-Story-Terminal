@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { StoryArchive, CharacterRef, GlossaryTerm, StorySubPage } from '../types/story';
 import type { StoryListItem } from '../data/storyRegistry';
 import { globalCharacterMap } from '../data/globalCharacters';
@@ -104,23 +104,15 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   const arcTitleEn = currentArc?.partTitleEn || '';
   const arcCode = currentArc?.code || currentSubPage?.code || 'CHAPTER';
 
-  // 에피소드 전환 시 모든 국면 및 스테이지 기본 펼침 상태로 초기화
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    const initialActs: Record<number, boolean> = {};
-    story.content.acts.forEach((act) => {
-      initialActs[act.step] = true;
-    });
-    setExpandedActs(initialActs);
+  // 에피소드 또는 하위 페이지 전환 시 국면 및 스테이지 펼침 상태 초기화 (기본: 모두 펼침)
+  const currentKey = `${story.id}:${activeSubPageId || 'overview'}`;
+  const [prevStoryKey, setPrevStoryKey] = useState<string>(currentKey);
 
-    if (currentArc?.stages) {
-      const initialStages: Record<string, boolean> = {};
-      currentArc.stages.forEach((st) => {
-        initialStages[st.stageCode] = true;
-      });
-      setExpandedStages(initialStages);
-    }
-  }, [story.id, activeSubPageId, currentArc]);
+  if (currentKey !== prevStoryKey) {
+    setPrevStoryKey(currentKey);
+    setExpandedActs({});
+    setExpandedStages({});
+  }
 
   const isAllActsExpanded = story.content.acts.every((act) => expandedActs[act.step] !== false);
   const isAllStagesExpanded = currentArc?.stages

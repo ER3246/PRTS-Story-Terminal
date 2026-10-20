@@ -24,12 +24,12 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
   currentStory
 }) => {
   const [selectedStoryId, setSelectedStoryId] = useState<string>(currentStory?.id || 'ep00');
+  const [prevStoryId, setPrevStoryId] = useState<string | undefined>(currentStory?.id);
 
-  useEffect(() => {
-    if (currentStory) {
-      setSelectedStoryId(currentStory.id);
-    }
-  }, [currentStory]);
+  if (currentStory && currentStory.id !== prevStoryId) {
+    setPrevStoryId(currentStory.id);
+    setSelectedStoryId(currentStory.id);
+  }
 
   // ESC 키 닫기 핸들러
   useEffect(() => {

@@ -51,7 +51,7 @@ interface TreeMainFolder {
 }
 
 // 1. Curated Hierarchical Tree Taxonomy (인게임 스토리 목록의 서사별 분류와 100% 일치)
-export const buildFolderTaxonomy = (): TreeMainFolder[] => {
+const buildFolderTaxonomy = (): TreeMainFolder[] => {
   const mainActs: TreeSubFolder[] = [
     {
       id: 'MAIN_ACT_1',

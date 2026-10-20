@@ -47,7 +47,7 @@ export interface TimelineEra {
   maxOrder: number;
 }
 
-export const TIMELINE_ERAS: TimelineEra[] = [
+const TIMELINE_ERAS: TimelineEra[] = [
   {
     id: 'era_00',
     code: 'ERA 00',
@@ -854,8 +854,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       }
     };
 
+    const keysDown = keysDownRef.current;
+
     const handleBlur = () => {
-      keysDownRef.current.clear();
+      keysDown.clear();
       stopLoop();
     };
 
@@ -868,7 +870,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('blur', handleBlur);
       stopLoop();
-      keysDownRef.current.clear();
+      keysDown.clear();
     };
   }, [browseMode]);
 

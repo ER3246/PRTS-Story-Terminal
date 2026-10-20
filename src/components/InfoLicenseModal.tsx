@@ -28,12 +28,16 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
   initialTab = 'license',
 }) => {
   const [activeTab, setActiveTab] = useState<InfoModalTab>(initialTab);
+  const [prevOpen, setPrevOpen] = useState(isOpen);
+  const [prevInitialTab, setPrevInitialTab] = useState(initialTab);
 
-  useEffect(() => {
-    if (isOpen) {
-      setActiveTab(initialTab);
-    }
-  }, [isOpen, initialTab]);
+  if (isOpen && (!prevOpen || initialTab !== prevInitialTab)) {
+    setPrevOpen(isOpen);
+    setPrevInitialTab(initialTab);
+    setActiveTab(initialTab);
+  } else if (!isOpen && prevOpen) {
+    setPrevOpen(false);
+  }
 
   useEffect(() => {
     if (!isOpen) return;
