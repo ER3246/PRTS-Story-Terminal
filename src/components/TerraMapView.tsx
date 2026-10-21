@@ -580,18 +580,25 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     if (typeof window === 'undefined') return false;
     return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
   });
+  const [isLandscapeMobile, setIsLandscapeMobile] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerHeight <= 520 && window.innerWidth > window.innerHeight;
+  });
   const [mobilePreviewCard, setMobilePreviewCard] = useState<MobilePreviewCardData | null>(null);
   const [sheetDragY, setSheetDragY] = useState(0);
   const sheetTouchStartY = useRef<number | null>(null);
 
   useEffect(() => {
-    const checkTouchOrMobile = () => {
+    const handleWindowMetrics = () => {
       setIsTouchOrMobile(
         window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
       );
+      setIsLandscapeMobile(
+        window.innerHeight <= 520 && window.innerWidth > window.innerHeight
+      );
     };
-    window.addEventListener('resize', checkTouchOrMobile);
-    return () => window.removeEventListener('resize', checkTouchOrMobile);
+    window.addEventListener('resize', handleWindowMetrics);
+    return () => window.removeEventListener('resize', handleWindowMetrics);
   }, []);
 
   // Ensure Three.js and DOM overlays immediately adapt when Fullscreen/Header Collapse changes
@@ -1760,10 +1767,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       renderer.render(scene, camera);
 
       // Project 3D Coordinates to Screen-Space DOM Overlays
-      // Adaptive zoom scale: gracefully scales down at distance, expands cleanly up close
-      const zoomScale = THREE.MathUtils.clamp(520 / cam.currentRadius, 0.74, 1.25);
+      // Adaptive zoom scale: gracefully scales down at distance, and scales adaptively on compact viewports (mobile landscape)
       const cWidth = container.clientWidth;
       const cHeight = container.clientHeight;
+      const isShortViewport = cHeight <= 520;
+      const heightRatio = THREE.MathUtils.clamp(cHeight / 620, 0.52, 1.0);
+      const baseZoomScale = THREE.MathUtils.clamp(520 / cam.currentRadius, 0.65, 1.25);
+      const zoomScale = baseZoomScale * heightRatio;
       const halfW = cWidth / 2;
       const halfH = cHeight / 2;
 
@@ -1785,7 +1795,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         } else {
           const sx = projVec.x * halfW + halfW;
           const sy = -projVec.y * halfH + halfH;
-          pinEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${zoomScale})`;
+          const regScale = isShortViewport ? zoomScale * 0.88 : zoomScale;
+          pinEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${regScale})`;
           pinEl.style.opacity = '1';
           pinEl.style.pointerEvents = 'auto';
         }
@@ -1809,12 +1820,19 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         } else {
           const sx = projVec.x * halfW + halfW;
           const sy = -projVec.y * halfH + halfH;
-          const cityScale = isCapitalOrRhodes || isPin || isHov ? zoomScale : zoomScale * 0.92;
+          const cityScale = (isCapitalOrRhodes || isPin || isHov ? zoomScale : zoomScale * 0.92) * (isShortViewport ? 0.82 : 1.0);
           cEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${cityScale})`;
           if (pinnedId) {
             cEl.style.opacity = isPin ? '1' : '0.18';
           } else {
-            cEl.style.opacity = isCapitalOrRhodes || isHov || cam.currentRadius < 510 ? '1' : '0.78';
+            // When in compact landscape and camera is zoomed out, hide non-capital minor cities to prevent text soup
+            if (isShortViewport && cam.currentRadius > 430 && !isCapitalOrRhodes && !isHov) {
+              cEl.style.opacity = '0';
+              cEl.style.pointerEvents = 'none';
+            } else {
+              cEl.style.opacity = isCapitalOrRhodes || isHov || cam.currentRadius < 510 ? '1' : '0.78';
+              cEl.style.pointerEvents = 'auto';
+            }
           }
         }
       });
@@ -1846,7 +1864,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         } else {
           const sx = projVec.x * halfW + halfW;
           const sy = -projVec.y * halfH + halfH;
-          rEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${zoomScale})`;
+          const routeScale = zoomScale * (isShortViewport ? 0.85 : 1.0);
+          rEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${routeScale})`;
           rEl.style.opacity = '1';
           rEl.style.pointerEvents = 'auto';
         }
@@ -1948,7 +1967,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 >
                   {reg.logoUrl && (
                     <div
-                      className={`relative w-7 h-7 sm:w-10 sm:h-10 flex items-center justify-center transition-opacity duration-150 ${
+                      className={`relative ${
+                        isLandscapeMobile ? 'w-5 h-5' : 'w-7 h-7 sm:w-10 sm:h-10'
+                      } flex items-center justify-center transition-opacity duration-150 ${
                         isActive ? 'opacity-100' : 'opacity-85'
                       }`}
                     >
@@ -1962,7 +1983,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   )}
 
                   <div
-                    className={`mt-0.5 px-1.5 sm:px-2 py-0.5 rounded-[2px] border font-mono transition-colors duration-150 flex items-center gap-1 sm:gap-1.5 backdrop-blur-md ${
+                    className={`mt-0.5 ${
+                      isLandscapeMobile
+                        ? 'px-1 py-0 text-[8.5px]'
+                        : 'px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px]'
+                    } rounded-[2px] border font-mono transition-colors duration-150 flex items-center gap-1 sm:gap-1.5 backdrop-blur-md ${
                       isPinned
                         ? 'bg-[#ffe600] text-black border-white font-extrabold shadow-[0_0_16px_rgba(255,230,0,0.45)]'
                         : isHovered
@@ -1970,10 +1995,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         : 'bg-[#0b0e16]/88 text-zinc-100 border-white/15'
                     }`}
                   >
-                    <span className="text-[10px] sm:text-[11px] tracking-tight whitespace-nowrap font-sans font-semibold">
+                    <span className="tracking-tight whitespace-nowrap font-sans font-semibold">
                       {reg.nameKo}
                     </span>
-                    {reg.relatedStoryIds.length > 0 && (
+                    {reg.relatedStoryIds.length > 0 && !isLandscapeMobile && (
                       <span
                         className={`text-[8.5px] sm:text-[9px] px-1 rounded-[1px] font-mono ${
                           isPinned || isHovered
@@ -2037,7 +2062,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   className="absolute top-0 left-0 pointer-events-auto cursor-pointer z-20 group"
                 >
                   <div
-                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[9.5px] sm:text-[10px] font-mono border backdrop-blur-sm transition-colors ${
+                    className={`flex items-center gap-1 ${
+                      isLandscapeMobile
+                        ? 'px-1 py-0 text-[8.5px]'
+                        : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'
+                    } font-mono border backdrop-blur-sm transition-colors ${
                       isRhodes
                         ? 'bg-[#071924]/95 border-[#00d8ff] text-[#00d8ff] font-bold shadow-[0_0_10px_rgba(0,216,255,0.3)]'
                         : isSelected
@@ -2100,7 +2129,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     isRelevant ? 'z-20 opacity-100' : 'z-10 opacity-20 hover:opacity-100'
                   }`}
                 >
-                  <div className="px-1.5 py-0.5 rounded-[2px] bg-[#090c14]/92 backdrop-blur-md border border-white/15 group-hover:border-[#ffe600] text-[9.5px] sm:text-[10px] font-mono flex items-center gap-1 sm:gap-1.5 shadow-lg transition-all">
+                  <div className={`${isLandscapeMobile ? 'px-1 py-0.2 text-[8.5px]' : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'} rounded-[2px] bg-[#090c14]/92 backdrop-blur-md border border-white/15 group-hover:border-[#ffe600] font-mono flex items-center gap-1 sm:gap-1.5 shadow-lg transition-all`}>
                     <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: rt.color }} />
                     <span className="text-[#ffe600] font-bold tracking-tight">{rt.code}</span>
                     <span
@@ -2308,7 +2337,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     ? 'bg-[#ffe600] text-black font-bold'
                     : 'bg-white/[0.06] text-zinc-300'
                 }`}
-                title={isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}
+                title={isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}
               >
                 <Maximize2 className="w-3.5 h-3.5" />
               </button>
@@ -2454,7 +2483,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          className="hidden md:flex absolute top-4 left-4 z-30 flex-col w-68 sm:w-76 pointer-events-none"
+          className={`hidden md:flex absolute ${
+            isLandscapeMobile ? 'top-2 left-2 w-44' : 'top-4 left-4 w-68 sm:w-76'
+          } z-30 flex-col pointer-events-none`}
         >
           {/* Unified Search + Collapse Toggle Bar */}
           <div className="pointer-events-auto prts-glass rounded-[3px] p-1.5 shadow-2xl flex items-center gap-1.5">
@@ -2467,8 +2498,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setSectorSearch(e.target.value);
                   if (!isSectorListOpen) setIsSectorListOpen(true);
                 }}
-                placeholder="지역 · 국가 · 수도 검색..."
-                className="w-full h-7 bg-white/[0.04] hover:bg-white/[0.06] focus:bg-black/40 border border-transparent focus:border-[#ffe600]/60 rounded-[2px] text-xs text-zinc-100 placeholder:text-zinc-500 pl-8 pr-6 outline-none transition-colors"
+                placeholder={isLandscapeMobile ? "지역 · 국가 검색..." : "지역 · 국가 · 수도 검색..."}
+                className={`w-full ${
+                  isLandscapeMobile ? 'h-6 text-[11px] pl-7 pr-5' : 'h-7 text-xs pl-8 pr-6'
+                } bg-white/[0.04] hover:bg-white/[0.06] focus:bg-black/40 border border-transparent focus:border-[#ffe600]/60 rounded-[2px] text-zinc-100 placeholder:text-zinc-500 outline-none transition-colors`}
               />
               {sectorSearch && (
                 <button
@@ -2486,14 +2519,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 setIsSectorListOpen(!isSectorListOpen);
               }}
               title={isSectorListOpen ? '지역 목록 접기' : '지역 목록 펼치기'}
-              className="h-7 px-2 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-[11px] font-mono transition-colors cursor-pointer flex-shrink-0"
+              className={`${
+                isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-[11px]'
+              } rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 font-mono transition-colors cursor-pointer flex-shrink-0`}
             >
-              <Compass className="w-3.5 h-3.5 text-[#ffe600]" />
+              <Compass className={isLandscapeMobile ? "w-3 h-3 text-[#ffe600]" : "w-3.5 h-3.5 text-[#ffe600]"} />
               <span>{filteredRegions.length}</span>
               {isSectorListOpen ? (
-                <ChevronUp className="w-3.5 h-3.5 text-zinc-400" />
+                <ChevronUp className="w-3 h-3 text-zinc-400" />
               ) : (
-                <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
+                <ChevronDown className="w-3 h-3 text-zinc-400" />
               )}
             </button>
           </div>
@@ -2554,37 +2589,43 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          className="hidden md:flex absolute top-4 right-4 z-30 flex-col items-end gap-1.5 pointer-events-none"
+          className={`hidden md:flex absolute ${
+            isLandscapeMobile ? 'top-2 right-2 gap-1' : 'top-4 right-4 gap-1.5'
+          } z-30 flex-col items-end pointer-events-none`}
         >
-          <div className="flex flex-wrap items-center justify-end gap-1.5">
+          <div className="flex flex-wrap items-center justify-end gap-1 sm:gap-1.5">
             {/* 3D / 2D View Switcher */}
-            <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center gap-0.5 text-xs shadow-xl">
+            <div className="pointer-events-auto prts-glass rounded-[3px] p-0.5 sm:p-1 flex items-center gap-0.5 text-xs shadow-xl">
               <button
                 onClick={() => handleToggleViewMode('3d')}
-                className={`h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-all ${
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-2 text-[10px]' : 'h-7 px-2.5 text-xs'
+                } rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-all ${
                   viewMode === '3d'
                     ? 'bg-[#ffe600] text-black font-bold'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                <Box className="w-3.5 h-3.5" />
+                <Box className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
                 <span>3D</span>
               </button>
               <button
                 onClick={() => handleToggleViewMode('2d')}
-                className={`h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-all ${
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-2 text-[10px]' : 'h-7 px-2.5 text-xs'
+                } rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-all ${
                   viewMode === '2d'
                     ? 'bg-[#ffe600] text-black font-bold'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                <MapIcon className="w-3.5 h-3.5" />
+                <MapIcon className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
                 <span>2D</span>
               </button>
             </div>
 
             {/* Layer Filter Pills */}
-            <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center gap-1 text-xs shadow-xl">
+            <div className="pointer-events-auto prts-glass rounded-[3px] p-0.5 sm:p-1 flex items-center gap-0.5 sm:gap-1 text-xs shadow-xl">
               <button
                 onClick={() => {
                   playClickSound();
@@ -2596,14 +2637,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   }
                 }}
                 title={viewMode === '2d' ? '3D 지형 고저차 켜기' : '지형 고저차 토글'}
-                className={`h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-colors ${
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
                   viewMode !== '2d' && showElevation
                     ? 'bg-white/[0.1] text-[#ffe600] font-semibold'
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <Layers className="w-3.5 h-3.5" />
-                <span>고저차</span>
+                <Layers className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                <span>{isLandscapeMobile ? '고저' : '고저차'}</span>
               </button>
 
               <button
@@ -2612,13 +2655,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setShowLogos(!showLogos);
                 }}
                 title="국가 엠블럼 토글"
-                className={`h-7 px-2.5 rounded-[2px] cursor-pointer transition-colors ${
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                } rounded-[2px] cursor-pointer transition-colors ${
                   showLogos
                     ? 'bg-white/[0.1] text-[#ffe600] font-semibold'
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <span>국가 마크</span>
+                <span>{isLandscapeMobile ? '국가' : '국가 마크'}</span>
               </button>
 
               <button
@@ -2627,13 +2672,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setShowCities(!showCities);
                 }}
                 title="주요 거점 토글 (27개 핵심 거점)"
-                className={`h-7 px-2.5 rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
                   showCities
                     ? 'bg-white/[0.1] text-[#00d8ff] font-semibold'
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <MapPin className="w-3.5 h-3.5" />
+                <MapPin className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
                 <span>거점</span>
               </button>
 
@@ -2643,54 +2690,60 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setShowRoutes(!showRoutes);
                 }}
                 title="작전 이동 경로 토글 (18개 주요 기동 경로)"
-                className={`h-7 px-2.5 rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
                   showRoutes
                     ? 'bg-white/[0.1] text-amber-400 font-semibold'
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <Route className="w-3.5 h-3.5" />
+                <Route className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
                 <span>경로</span>
               </button>
             </div>
 
             {/* Top-Right Icon Legend Button */}
-            <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center shadow-xl">
+            <div className="pointer-events-auto prts-glass rounded-[3px] p-0.5 sm:p-1 flex items-center shadow-xl">
               <button
                 onClick={() => {
                   playClickSound();
                   setIsLegendOpen(true);
                 }}
                 title="지도 범례"
-                className={`h-7 px-2 rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
+                } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
                   isLegendOpen
                     ? 'bg-[#ffe600] text-black font-bold'
                     : 'text-zinc-400 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <HelpCircle className="w-3.5 h-3.5 text-[#ffe600]" />
-                <span className="hidden sm:inline text-xs font-semibold">범례</span>
+                <HelpCircle className={isLandscapeMobile ? "w-3 h-3 text-[#ffe600]" : "w-3.5 h-3.5 text-[#ffe600]"} />
+                <span className="hidden sm:inline font-semibold">범례</span>
               </button>
             </div>
 
             {/* Fullscreen / Collapse Header Toggle Button */}
             {onToggleHeaderCollapse && (
-              <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center shadow-xl">
+              <div className="pointer-events-auto prts-glass rounded-[3px] p-0.5 sm:p-1 flex items-center shadow-xl">
                 <button
                   onClick={() => {
                     playClickSound();
                     onToggleHeaderCollapse();
                   }}
-                  title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (꽉 찬 화면)'}
-                  className={`h-7 px-2 rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
+                  title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
+                  className={`${
+                    isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
+                  } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
                     isHeaderCollapsed
                       ? 'bg-amber-400/20 text-amber-300 border border-amber-400/50'
                       : 'text-zinc-400 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <Maximize2 className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline text-xs font-semibold">
-                    {isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}
+                  <Maximize2 className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                  <span className="hidden sm:inline font-semibold">
+                    {isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}
                   </span>
                 </button>
               </div>
@@ -2699,8 +2752,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
           {/* Route Category Filter Bar (Only visible when showRoutes is active) */}
           {showRoutes && (
-            <div className="pointer-events-auto prts-glass rounded-[3px] p-1 flex items-center gap-1 text-[11px] shadow-xl">
-              <span className="px-2 text-[10px] font-mono text-zinc-400 hidden sm:inline">
+            <div className="pointer-events-auto prts-glass rounded-[3px] p-0.5 sm:p-1 flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-[11px] shadow-xl">
+              <span className="px-1.5 text-[9.5px] font-mono text-zinc-400 hidden sm:inline">
                 경로 필터
               </span>
               {(
@@ -2708,17 +2761,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   { id: 'all', label: '전체', count: TACTICAL_ROUTES.length },
                   {
                     id: 'main',
-                    label: '메인 스토리',
+                    label: isLandscapeMobile ? '메인' : '메인 스토리',
                     count: TACTICAL_ROUTES.filter((r) => r.category === 'main').length,
                   },
                   {
                     id: 'series',
-                    label: '세력 연작',
+                    label: isLandscapeMobile ? '연작' : '세력 연작',
                     count: TACTICAL_ROUTES.filter((r) => r.category === 'series').length,
                   },
                   {
                     id: 'expedition',
-                    label: '대륙 원정',
+                    label: isLandscapeMobile ? '원정' : '대륙 원정',
                     count: TACTICAL_ROUTES.filter((r) => r.category === 'expedition').length,
                   },
                 ] as const
@@ -2731,7 +2784,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       playClickSound();
                       setRouteFilter(tab.id);
                     }}
-                    className={`h-6 px-2 rounded-[2px] flex items-center gap-1 cursor-pointer transition-all ${
+                    className={`${
+                      isLandscapeMobile ? 'h-5 px-1.5 text-[9.5px]' : 'h-6 px-2 text-xs'
+                    } rounded-[2px] flex items-center gap-1 cursor-pointer transition-all ${
                       isActive
                         ? 'bg-amber-400/20 border border-amber-400/60 text-amber-300 font-bold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.06] border border-transparent'
@@ -2739,7 +2794,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   >
                     <span>{tab.label}</span>
                     <span
-                      className={`font-mono text-[10px] ${
+                      className={`font-mono text-[9px] ${
                         isActive ? 'text-amber-200' : 'text-zinc-500'
                       }`}
                     >
@@ -2755,18 +2810,29 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         {/* =========================================================================
             4. BOTTOM UNIFIED CONTROL GUIDE, STATUS READOUT & CAMERA BAR
             - 모바일: 1글자 세로 줄바꿈을 유발하던 좌측 안내 박스를 제거하고 슬림한 360° 회전 바만 배치
+            - 모바일 가로: 세로 공간 확보를 위해 좌측 가이드 숨김 및 우측 바 컴팩트화
             - 데스크톱: 좌측 상태/조작 바 + 우측 전체 카메라 컨트롤 바 유지
         ========================================================================= */}
         <div
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          className={`absolute bottom-3 md:bottom-4 left-3 right-3 md:left-4 md:right-4 z-30 flex items-end justify-center md:justify-between pointer-events-none gap-3 ${
-            isTouchOrMobile && (pinnedRegion || mobilePreviewCard || isHeaderCollapsed) ? 'hidden md:flex' : 'flex'
+          className={`absolute ${
+            isLandscapeMobile
+              ? 'bottom-2 left-2 right-2 justify-end'
+              : 'bottom-3 md:bottom-4 left-3 right-3 md:left-4 md:right-4 justify-center md:justify-between'
+          } z-30 flex items-end pointer-events-none gap-2 md:gap-3 ${
+            (isTouchOrMobile || isLandscapeMobile) && (pinnedRegion || mobilePreviewCard || isHeaderCollapsed)
+              ? 'hidden'
+              : 'flex'
           }`}
         >
           {/* Left: Compact Control Guide + Live Sector Readout (Desktop Only - Prevents Mobile 1-Char Vertical Wrap) */}
-          <div className="hidden md:flex pointer-events-auto prts-glass rounded-[3px] px-3 py-2 flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] shadow-xl">
+          <div
+            className={`${
+              isLandscapeMobile ? 'hidden' : 'hidden md:flex'
+            } pointer-events-auto prts-glass rounded-[3px] px-3 py-2 flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] shadow-xl`}
+          >
             {/* Active Sector Indicator */}
             <div className="flex items-center gap-2 pr-2 border-r border-white/10">
               <span className="w-2 h-2 rounded-[1px] bg-[#ffe600]" />
@@ -2802,7 +2868,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           </div>
 
           {/* Right (Desktop) / Bottom Slim Bar (Mobile): 360° Rotation Slider & Camera Controls */}
-          <div className="pointer-events-auto w-full md:w-auto prts-glass rounded-[5px] md:rounded-[3px] p-1.5 md:p-1 flex items-center justify-between md:justify-end gap-1.5 md:gap-1 font-mono text-xs shadow-xl">
+          <div
+            className={`pointer-events-auto ${
+              isLandscapeMobile
+                ? 'w-auto p-1 text-[10px] gap-1'
+                : 'w-full md:w-auto p-1.5 md:p-1 text-xs gap-1.5 md:gap-1'
+            } prts-glass rounded-[5px] md:rounded-[3px] flex items-center justify-between md:justify-end font-mono shadow-xl`}
+          >
             <span
               ref={telemetryAngleRef}
               className="px-2 text-[10px] text-zinc-400 hidden lg:inline border-r border-white/10 mr-0.5"
@@ -2814,11 +2886,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             {viewMode === '3d' ? (
               <>
                 <div
-                  className="flex-1 md:flex-initial flex items-center gap-2 px-2.5 py-1 md:py-0.5 rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08]"
+                  className={`flex-1 md:flex-initial flex items-center ${
+                    isLandscapeMobile ? 'gap-1 px-1.5 py-0.5' : 'gap-2 px-2.5 py-1 md:py-0.5'
+                  } rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08]`}
                   title="360° 수평 회전 바"
                 >
-                  <Compass className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
-                  <span className="md:hidden text-[10.5px] font-sans text-zinc-300 flex-shrink-0">회전</span>
+                  <Compass
+                    className={`${isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} text-[#ffe600] flex-shrink-0`}
+                  />
+                  <span
+                    className={`${
+                      isLandscapeMobile ? 'hidden' : 'md:hidden'
+                    } text-[10.5px] font-sans text-zinc-300 flex-shrink-0`}
+                  >
+                    회전
+                  </span>
                   <input
                     ref={telemetryYawSliderRef}
                     type="range"
@@ -2826,10 +2908,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     max="359"
                     defaultValue="0"
                     onChange={(e) => handleSetAzimuthDegrees(Number(e.target.value))}
-                    className="flex-1 md:w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#ffe600]"
+                    className={`flex-1 ${
+                      isLandscapeMobile ? 'w-16 md:w-20' : 'md:w-24'
+                    } h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#ffe600]`}
                     title="지도 360도 회전 각도 조절"
                   />
-                  <span ref={telemetryYawTextRef} className="text-[10.5px] text-[#ffe600] md:text-zinc-300 font-mono w-8 text-right flex-shrink-0">
+                  <span
+                    ref={telemetryYawTextRef}
+                    className={`${
+                      isLandscapeMobile ? 'text-[9.5px] w-7' : 'text-[10.5px] w-8'
+                    } text-[#ffe600] md:text-zinc-300 font-mono text-right flex-shrink-0`}
+                  >
                     0°
                   </span>
                 </div>
@@ -2837,14 +2926,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 <button
                   onClick={() => handleRotateYaw(-Math.PI / 8)}
                   title="좌측 22.5° 회전"
-                  className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
+                  className={`${
+                    isLandscapeMobile ? 'w-6 h-6 text-xs' : 'w-7 h-7'
+                  } rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0`}
                 >
                   ↺
                 </button>
                 <button
                   onClick={() => handleRotateYaw(Math.PI / 8)}
                   title="우측 22.5° 회전"
-                  className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
+                  className={`${
+                    isLandscapeMobile ? 'w-6 h-6 text-xs' : 'w-7 h-7'
+                  } rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0`}
                 >
                   ↻
                 </button>
@@ -2852,11 +2945,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             ) : (
               /* In 2D Mode: Angle is restricted/locked to North 0°, show 2D Status Badge */
               <div
-                className="flex items-center gap-1.5 px-2.5 py-1 md:py-0.5 rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08] text-[11px] font-mono text-zinc-300 select-none"
+                className={`flex items-center ${
+                  isLandscapeMobile ? 'gap-1 px-1.5 py-0.5 text-[10px]' : 'gap-1.5 px-2.5 py-1 md:py-0.5 text-[11px]'
+                } rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08] font-mono text-zinc-300 select-none`}
                 title="2D 모드에서는 시점이 정북(0°)과 수직 평면(0°)으로 고정되어 각도 조절이 제한됩니다."
               >
-                <Compass className="w-3.5 h-3.5 text-[#ffe600]" />
-                <span className="font-sans font-bold text-white text-[11px]">2D 정북 고정</span>
+                <Compass className={`${isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} text-[#ffe600]`} />
+                <span className={`font-sans font-bold text-white ${isLandscapeMobile ? 'text-[10px]' : 'text-[11px]'}`}>
+                  2D 정북 고정
+                </span>
                 <span className="text-[10px] text-zinc-500 font-mono hidden sm:inline">(각도 조절 제한)</span>
               </div>
             )}
@@ -2866,38 +2963,50 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             <button
               onClick={() => handleZoom(90)}
               title="[-] 축소"
-              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.05] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0"
+              className={`${
+                isLandscapeMobile ? 'w-6 h-6' : 'w-7 h-7'
+              } rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.05] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0`}
             >
-              <ZoomOut className="w-3.5 h-3.5" />
+              <ZoomOut className={isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
             </button>
             <span
               ref={telemetryZoomRef}
-              className="inline-block px-1 text-[11px] text-[#ffe600] font-bold min-w-[36px] md:min-w-[42px] text-center select-none"
+              className={`inline-block px-1 ${
+                isLandscapeMobile ? 'text-[10px] min-w-[32px]' : 'text-[11px] min-w-[36px] md:min-w-[42px]'
+              } text-[#ffe600] font-bold text-center select-none`}
             >
               100%
             </span>
             <button
               onClick={() => handleZoom(-90)}
               title="[+] 확대"
-              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.05] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0"
+              className={`${
+                isLandscapeMobile ? 'w-6 h-6' : 'w-7 h-7'
+              } rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.05] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0`}
             >
-              <ZoomIn className="w-3.5 h-3.5" />
+              <ZoomIn className={isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
             </button>
 
             <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
             <button
               onClick={handleResetCamera}
               title="지도 시점 초기화"
-              className="h-7 px-2 md:w-7 md:px-0 rounded-[3px] md:rounded-[2px] text-zinc-200 hover:text-black bg-white/[0.06] md:bg-transparent hover:bg-[#ffe600] flex items-center justify-center gap-1 transition-colors cursor-pointer flex-shrink-0"
+              className={`${
+                isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 md:w-7 md:px-0 text-xs'
+              } rounded-[3px] md:rounded-[2px] text-zinc-200 hover:text-black bg-white/[0.06] md:bg-transparent hover:bg-[#ffe600] flex items-center justify-center gap-1 transition-colors cursor-pointer flex-shrink-0`}
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span className="md:hidden text-[10.5px] font-sans font-semibold">초기화</span>
+              <RotateCcw className={isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
+              <span
+                className={`${isLandscapeMobile ? 'hidden' : 'md:hidden'} text-[10.5px] font-sans font-semibold`}
+              >
+                초기화
+              </span>
             </button>
           </div>
         </div>
 
-        {/* Mobile Dedicated One-Handed Zoom Widget (Right Side Thumb Zone) */}
-        {!pinnedRegion && !mobilePreviewCard && (
+        {/* Mobile Dedicated One-Handed Zoom Widget (Right Side Thumb Zone - Hidden in Landscape to Prevent Map Occlusion) */}
+        {!pinnedRegion && !mobilePreviewCard && !isLandscapeMobile && (
           <div className="md:hidden fixed right-3 bottom-18 z-30 flex flex-col items-center gap-0.5 pointer-events-auto prts-glass rounded-[4px] p-1 border border-white/15 shadow-2xl animate-fadeIn">
             <button
               onClick={() => handleZoom(-90)}
@@ -2944,8 +3053,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 : undefined
             }
             className={`absolute inset-x-0 bottom-0 max-h-[56dvh] md:max-h-none md:inset-x-auto ${
-              showRoutes ? 'md:top-24' : 'md:top-16'
-            } md:right-4 md:bottom-16 md:w-84 lg:w-92 prts-glass rounded-t-2xl md:rounded-[4px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] md:shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
+              isLandscapeMobile
+                ? 'md:top-10 md:bottom-3 md:right-2 md:w-76'
+                : showRoutes
+                ? 'md:top-24 md:bottom-16 md:right-4 md:w-84 lg:w-92'
+                : 'md:top-16 md:bottom-16 md:right-4 md:w-84 lg:w-92'
+            } prts-glass rounded-t-2xl md:rounded-[4px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] md:shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
           >
             {/* Mobile Drag Handle Bar with touch gesture */}
             <div
@@ -2976,7 +3089,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             </div>
 
             {/* Dossier Header */}
-            <div className="px-4 py-3 sm:p-5 border-b border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.04] to-transparent flex-shrink-0">
+            <div className={`${isLandscapeMobile ? 'px-3 py-2' : 'px-4 py-3 sm:p-5'} border-b border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.04] to-transparent flex-shrink-0`}>
               {pinnedRegion.logoUrl && (
                 <img
                   src={resolveAssetUrl(pinnedRegion.logoUrl)}

@@ -1124,7 +1124,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   ? 'bg-amber-400/20 text-amber-300 border-amber-400/60 font-bold px-2 gap-1'
                   : 'w-8 bg-white/[0.04] border-white/[0.08] text-zinc-300'
               }`}
-              title={isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}
+              title={isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}
             >
               <Maximize2 className="w-3.5 h-3.5" />
               {isHeaderCollapsed && <span className="text-[11px] font-sans">복원</span>}
@@ -1418,7 +1418,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               </button>
             </div>
 
-            {/* 꽉 찬 화면 토글 버튼 */}
+            {/* UI 단축 토글 버튼 */}
             {onToggleHeaderCollapse && (
               <button
                 onClick={() => {
@@ -1430,10 +1430,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     ? 'bg-[#ffe600] text-black border-[#ffe600] font-bold'
                     : 'bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border-white/[0.1]'
                 }`}
-                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (꽉 찬 화면)'}
+                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
               >
                 <Maximize2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}</span>
+                <span className="hidden sm:inline">{isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}</span>
               </button>
             )}
           </div>
@@ -2378,10 +2378,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   <button
                     onClick={onToggleHeaderCollapse}
                     className="hidden md:flex px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-300 hover:text-black items-center gap-1 text-[10.5px] cursor-pointer transition-colors"
-                    title={isHeaderCollapsed ? '상단 메뉴 다시 열기' : '상단 메뉴 접기 (꽉 찬 화면)'}
+                    title={isHeaderCollapsed ? '상단 메뉴 다시 열기' : '상단 메뉴 접기 (UI 단축)'}
                   >
                     <Maximize2 className="w-3 h-3" />
-                    <span className="hidden md:inline">{isHeaderCollapsed ? '메뉴 복원' : '꽉 찬 화면'}</span>
+                    <span className="hidden md:inline">{isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}</span>
                   </button>
                 </>
               )}
