@@ -11,6 +11,7 @@ import { SideDrawer } from './components/SideDrawer';
 import { LightboxModal } from './components/LightboxModal';
 import { ReviewExportModal } from './components/ReviewExportModal';
 import { InfoLicenseModal, type InfoModalTab } from './components/InfoLicenseModal';
+import { ServiceNoticeModal } from './components/ServiceNoticeModal';
 import { ScrollNavButtons } from './components/ScrollNavButtons';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE } from './version';
 import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
@@ -30,6 +31,25 @@ const BASE_TITLE = 'PRTS 스토리 아카이브 // 명일방주 인터랙티브 
 
 const isKnownStoryId = (id: string | null | undefined): id is string =>
   !!id && storyRegistry.some((s) => s.id === id);
+
+// 당일 하루 공지 팝업 닫기 키 계산
+const getTodayDismissKey = (): string => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `prts_dismiss_notice_${year}-${month}-${day}`;
+};
+
+// 새로고침 시 메인 화면(홈)에서 팝업 노출 여부 판별
+const shouldShowNoticeOnMount = (initialView: string): boolean => {
+  if (initialView !== 'home') return false;
+  try {
+    return localStorage.getItem(getTodayDismissKey()) !== 'true';
+  } catch {
+    return true;
+  }
+};
 
 // 스토리에 실제로 존재하는 하위 페이지 ID 목록 (멀티파트 / 옴니버스)
 const getValidSubPageIds = (story: StoryArchive): Set<string> => {
@@ -65,6 +85,7 @@ export function App() {
       setIsDrawerOpen(false);
       setIsLightboxOpen(false);
       setIsSidebarOpenMobile(false);
+      setIsServiceNoticeOpen(false);
     },
   });
   const currentView = route.view;
@@ -141,6 +162,17 @@ export function App() {
   const [isReviewExportOpen, setIsReviewExportOpen] = useState<boolean>(false);
   const [isInfoLicenseOpen, setIsInfoLicenseOpen] = useState<boolean>(false);
   const [infoModalTab, setInfoModalTab] = useState<InfoModalTab>('license');
+  const [isServiceNoticeOpen, setIsServiceNoticeOpen] = useState<boolean>(() =>
+    shouldShowNoticeOnMount(route.view)
+  );
+
+  const handleDismissNoticeToday = useCallback(() => {
+    try {
+      localStorage.setItem(getTodayDismissKey(), 'true');
+    } catch {
+      // localStorage 접근 불가 환경(시크릿 모드 차단 등) 예외 무시
+    }
+  }, []);
 
   const handleToggleSound = () => {
     const next = !isSoundOn;
@@ -220,6 +252,9 @@ export function App() {
         if (isLightboxOpen) {
           setIsLightboxOpen(false);
           playCloseSound();
+        } else if (isServiceNoticeOpen) {
+          setIsServiceNoticeOpen(false);
+          playCloseSound();
         } else if (isInfoLicenseOpen) {
           setIsInfoLicenseOpen(false);
           playCloseSound();
@@ -233,7 +268,7 @@ export function App() {
           setIsSidebarOpenMobile(false);
           playCloseSound();
         }
-      } else if (currentView === 'report' && !isLightboxOpen && !isDrawerOpen && !isSidebarOpenMobile && !isReviewExportOpen && !isInfoLicenseOpen) {
+      } else if (currentView === 'report' && !isLightboxOpen && !isServiceNoticeOpen && !isDrawerOpen && !isSidebarOpenMobile && !isReviewExportOpen && !isInfoLicenseOpen) {
         if (e.key === 'ArrowLeft' && previousStory) {
           goToStory(previousStory.id);
           playClickSound();
@@ -246,7 +281,7 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentView, isLightboxOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory, goToStory]);
+  }, [currentView, isLightboxOpen, isServiceNoticeOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory, goToStory]);
 
   const handleSelectStoryFromMapOrChronicle = (id: string) => {
     goToStory(id);
@@ -391,6 +426,10 @@ export function App() {
                 setIsReviewExportOpen(true);
                 playOpenSound();
               }}
+              onOpenServiceNotice={() => {
+                setIsServiceNoticeOpen(true);
+                playOpenSound();
+              }}
             />
           )}
 
@@ -509,6 +548,13 @@ export function App() {
         isOpen={isInfoLicenseOpen}
         onClose={() => setIsInfoLicenseOpen(false)}
         initialTab={infoModalTab}
+      />
+
+      {/* Service Environment & Performance Notice Modal */}
+      <ServiceNoticeModal
+        isOpen={isServiceNoticeOpen}
+        onClose={() => setIsServiceNoticeOpen(false)}
+        onConfirmDismissToday={handleDismissNoticeToday}
       />
 
       {/* Floating Scroll-to-Top and Bottom Navigation Buttons */}

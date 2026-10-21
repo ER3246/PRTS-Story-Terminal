@@ -3,7 +3,8 @@ import {
   GitBranch,
   Map as MapIcon,
   ArrowRight,
-  BookOpen
+  BookOpen,
+  Info
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE } from '../version';
@@ -12,11 +13,13 @@ interface HomeDashboardProps {
   onNavigateToStory: (storyId: string) => void;
   onNavigateToView: (view: 'report' | 'chronicle' | 'map') => void;
   onOpenReviewExport?: () => void;
+  onOpenServiceNotice?: () => void;
 }
 
 export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   onNavigateToStory,
   onNavigateToView,
+  onOpenServiceNotice,
 }) => {
   return (
     <div className="flex-1 w-full min-h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-16 animate-fadeIn relative overflow-hidden select-none">
@@ -94,6 +97,22 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
             <span>테라 지도</span>
           </button>
         </div>
+
+        {/* Subtle Service Notice Link */}
+        {onOpenServiceNotice && (
+          <div className="pt-2 animate-fadeIn">
+            <button
+              onClick={() => {
+                playClickSound();
+                onOpenServiceNotice();
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/20 text-zinc-400 hover:text-zinc-200 text-xs font-mono transition-all cursor-pointer group"
+            >
+              <Info className="w-3.5 h-3.5 text-[#ffe600] group-hover:scale-110 transition-transform" />
+              <span>서비스 이용 안내 · 권장 환경</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
