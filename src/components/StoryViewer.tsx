@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import type { StoryArchive, CharacterRef, GlossaryTerm, StorySubPage } from '../types/story';
 import type { StoryListItem } from '../data/storyRegistry';
 import { globalCharacterMap } from '../data/globalCharacters';
@@ -195,6 +196,30 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   // 통합 하단 플로팅 네비게이션 독 (Floating Navigation Dock) 상태 및 연산
   // =========================================================================
   const [isPartDropupOpen, setIsPartDropupOpen] = useState<boolean>(false);
+  const dropupRef = useRef<HTMLDivElement>(null);
+
+  // 드롭업 팝오버 외부 클릭 및 ESC 키 감지 시 닫기
+  useEffect(() => {
+    if (!isPartDropupOpen) return;
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (dropupRef.current && !dropupRef.current.contains(e.target as Node)) {
+        setIsPartDropupOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsPartDropupOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('touchstart', handleOutsideClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('touchstart', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isPartDropupOpen]);
 
   // 멀티파트 유효 파트 목록 (개요 제외)
   const partList = useMemo(() => {
@@ -413,14 +438,18 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
   const renderFloatingDock = () => {
     return (
-      <div
-        className={`fixed ${
-          isHeaderCollapsed ? 'bottom-3 md:bottom-5' : 'bottom-16 sm:bottom-18 md:bottom-5'
-        } left-1/2 -translate-x-1/2 z-40 max-w-[96vw] sm:max-w-2xl select-none animate-fadeIn font-sans`}
+      <aside
+        ref={dropupRef}
+        aria-label="스토리 빠른 네비게이션 독"
+        className={`fixed left-1/2 -translate-x-1/2 z-50 select-none font-sans pointer-events-auto transition-all duration-200 ${
+          isHeaderCollapsed
+            ? 'bottom-3 md:bottom-6'
+            : 'bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] md:bottom-6'
+        }`}
       >
         {/* Dropup Quick Index Popover */}
         {isPartDropupOpen && (
-          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-[92vw] max-w-sm sm:max-w-md bg-[#090c14]/96 backdrop-blur-2xl border border-white/20 rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.85)] p-3 space-y-2 z-50 animate-fadeIn text-xs">
+          <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 w-[92vw] max-w-sm sm:max-w-md bg-[#0a0d16]/98 backdrop-blur-2xl border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] p-3 space-y-2 z-50 animate-fadeIn text-xs">
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-2 text-zinc-300">
               <span className="font-bold text-white flex items-center gap-1.5">
                 <BookOpen className="w-3.5 h-3.5 text-[#ffe600]" />
@@ -432,7 +461,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   setIsPartDropupOpen(false);
                 }}
                 className="w-5 h-5 rounded-[3px] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer hover:bg-white/10"
-                title="닫기"
+                title="닫기 (ESC)"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -585,22 +614,22 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
         )}
 
         {/* Main Dock Capsule */}
-        <div className="bg-[#090c14]/94 backdrop-blur-xl border border-white/[0.15] shadow-[0_12px_40px_rgba(0,0,0,0.75)] rounded-full px-2 py-1.5 flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 px-2.5 py-1.5 rounded-full bg-[#0a0d16]/95 backdrop-blur-2xl border border-white/20 shadow-[0_12px_44px_rgba(0,0,0,0.85)] ring-1 ring-white/10">
           {/* Previous Target Button */}
           {prevNav ? (
             <button
               onClick={() => handleExecuteNav(prevNav)}
-              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-xs cursor-pointer transition-colors flex-shrink-0"
+              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-white flex items-center gap-1 text-[11.5px] sm:text-xs cursor-pointer transition-colors flex-shrink-0"
               title={prevNav.label}
             >
               <ChevronLeft className="w-3.5 h-3.5 text-[#ffe600]" />
-              <span className="hidden xs:inline truncate max-w-[80px] sm:max-w-[120px] font-medium">
+              <span className="hidden xs:inline truncate max-w-[85px] sm:max-w-[130px] font-medium">
                 {prevNav.shortLabel}
               </span>
             </button>
           ) : (
             <div className="h-8 px-2 rounded-full text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
-              <ChevronLeft className="w-3.5 h-3.5 opacity-40 mr-0.5" />
+              <ChevronLeft className="w-3.5 h-3.5 opacity-30 mr-0.5" />
               <span className="hidden sm:inline">처음</span>
             </div>
           )}
@@ -611,27 +640,27 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               playClickSound();
               setIsPartDropupOpen(!isPartDropupOpen);
             }}
-            className={`h-8 px-2.5 sm:px-3.5 rounded-full border transition-all cursor-pointer flex items-center gap-1.5 text-xs font-bold shadow-xs min-w-0 flex-shrink ${
+            className={`h-8 px-3 sm:px-4 rounded-full border transition-all cursor-pointer flex items-center gap-1.5 text-xs font-bold shadow-xs min-w-0 flex-shrink ${
               isPartDropupOpen
                 ? 'bg-[#ffe600] text-black border-[#ffe600]'
-                : 'bg-white/[0.08] hover:bg-white/[0.14] text-zinc-100 border-[#ffe600]/30 hover:border-[#ffe600]/70'
+                : 'bg-[#ffe600]/10 hover:bg-[#ffe600]/20 text-[#ffe600] border-[#ffe600]/40 hover:border-[#ffe600]/80'
             }`}
             title="파트/색인 목록 펼치기 (클릭하여 다른 파트로 이동)"
           >
-            <span className="truncate max-w-[90px] sm:max-w-[150px] md:max-w-[200px]">
+            <span className="truncate max-w-[100px] sm:max-w-[160px] md:max-w-[220px]">
               {currentLocationLabel}
             </span>
-            <ChevronUp className={`w-3.5 h-3.5 transition-transform ${isPartDropupOpen ? 'rotate-180' : ''}`} />
+            <ChevronUp className={`w-3.5 h-3.5 transition-transform duration-200 ${isPartDropupOpen ? 'rotate-180' : ''}`} />
           </button>
 
           {/* Next Target Button */}
           {nextNav ? (
             <button
               onClick={() => handleExecuteNav(nextNav)}
-              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-xs cursor-pointer transition-colors flex-shrink-0"
+              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-white flex items-center gap-1 text-[11.5px] sm:text-xs cursor-pointer transition-colors flex-shrink-0"
               title={nextNav.label}
             >
-              <span className="hidden xs:inline truncate max-w-[80px] sm:max-w-[120px] font-medium">
+              <span className="hidden xs:inline truncate max-w-[85px] sm:max-w-[130px] font-medium">
                 {nextNav.shortLabel}
               </span>
               <ChevronRight className="w-3.5 h-3.5 text-[#ffe600]" />
@@ -639,7 +668,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           ) : (
             <div className="h-8 px-2 rounded-full text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
               <span className="hidden sm:inline">마지막</span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-40 ml-0.5" />
+              <ChevronRight className="w-3.5 h-3.5 opacity-30 ml-0.5" />
             </div>
           )}
 
@@ -648,7 +677,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           {/* Scroll To Top Button */}
           <button
             onClick={scrollToTop}
-            className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-[#ffe600] flex items-center justify-center cursor-pointer transition-colors flex-shrink-0"
+            className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-[#ffe600] flex items-center justify-center cursor-pointer transition-colors flex-shrink-0"
             title="페이지 최상단으로 이동"
           >
             <ArrowUp className="w-3.5 h-3.5" />
@@ -664,7 +693,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-colors flex-shrink-0 ${
                 isHeaderCollapsed
                   ? 'bg-[#ffe600] text-black font-bold shadow-[0_0_12px_rgba(255,230,0,0.4)]'
-                  : 'bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-[#ffe600]'
+                  : 'bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-[#ffe600]'
               }`}
               title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (독서 몰입)'}
             >
@@ -676,7 +705,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             </button>
           )}
         </div>
-      </div>
+      </aside>
     );
   };
 
@@ -2536,8 +2565,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
         )}
       </nav>
 
-      {/* Floating Bottom Navigation Dock (Scroll-Following) */}
-      {renderFloatingDock()}
+      {/* Scroll Safe Bottom Spacing to ensure the floating dock never collides with footer buttons */}
+      <div className="h-20 sm:h-24 md:h-28 pointer-events-none" aria-hidden="true" />
+
+      {/* Floating Bottom Navigation Dock (Mounted to document.body via Portal to guarantee true fixed tracking) */}
+      {typeof document !== 'undefined'
+        ? createPortal(renderFloatingDock(), document.body)
+        : renderFloatingDock()}
     </div>
   );
 };
