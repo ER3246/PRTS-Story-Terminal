@@ -13,6 +13,8 @@ import {
   ZoomOut,
   RotateCcw,
   Maximize2,
+  PanelTopClose,
+  PanelTopOpen,
   Move,
   Sparkles,
   ArrowRight,
@@ -1239,9 +1241,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   ? 'bg-amber-400/20 text-amber-300 border-amber-400/60 font-bold px-2 gap-1'
                   : 'w-8 bg-white/[0.04] border-white/[0.08] text-zinc-300'
               }`}
-              title={isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}
+              title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
             >
-              <Maximize2 className="w-3.5 h-3.5" />
+              {isHeaderCollapsed ? (
+                <PanelTopOpen className="w-3.5 h-3.5" />
+              ) : (
+                <PanelTopClose className="w-3.5 h-3.5" />
+              )}
               {isHeaderCollapsed && <span className="text-[11px] font-sans">복원</span>}
             </button>
           )}
@@ -1547,7 +1553,11 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 }`}
                 title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
               >
-                <Maximize2 className="w-3.5 h-3.5" />
+                {isHeaderCollapsed ? (
+                  <PanelTopOpen className="w-3.5 h-3.5" />
+                ) : (
+                  <PanelTopClose className="w-3.5 h-3.5" />
+                )}
                 <span className="hidden sm:inline">{isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}</span>
               </button>
             )}
@@ -1754,7 +1764,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               className="h-7 px-3 rounded-full bg-[#ffe600] hover:bg-yellow-400 text-black font-sans font-bold text-xs flex items-center gap-1.5 shadow-[0_4px_16px_rgba(255,230,0,0.35)] cursor-pointer transition-all"
               title="상단 메뉴 다시 열기"
             >
-              <Maximize2 className="w-3.5 h-3.5" />
+              <PanelTopOpen className="w-3.5 h-3.5" />
               <span>메뉴 복원</span>
             </button>
           )}
@@ -2495,7 +2505,11 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     className="hidden md:flex px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-300 hover:text-black items-center gap-1 text-[10.5px] cursor-pointer transition-colors"
                     title={isHeaderCollapsed ? '상단 메뉴 다시 열기' : '상단 메뉴 접기 (UI 단축)'}
                   >
-                    <Maximize2 className="w-3 h-3" />
+                    {isHeaderCollapsed ? (
+                      <PanelTopOpen className="w-3 h-3" />
+                    ) : (
+                      <PanelTopClose className="w-3 h-3" />
+                    )}
                     <span className="hidden md:inline">{isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}</span>
                   </button>
                 </>

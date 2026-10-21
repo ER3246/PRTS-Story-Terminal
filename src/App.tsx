@@ -370,7 +370,6 @@ export function App() {
             setIsInfoLicenseOpen(true);
             playOpenSound();
           }}
-          onToggleCollapseHeader={() => setIsHeaderCollapsed(true)}
           onToggleFullscreen={toggleFullscreen}
           isFullscreen={isFullscreen}
           onPromptInstall={promptInstall}
@@ -476,6 +475,8 @@ export function App() {
               previousStory={previousStory}
               nextStory={nextStory}
               onSelectStory={(id, subPageId) => goToStory(id, subPageId)}
+              isHeaderCollapsed={isHeaderCollapsed}
+              onToggleCollapseHeader={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
             />
           )}
 

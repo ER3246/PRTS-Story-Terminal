@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2, Minimize2, PanelTopClose, MonitorDown } from 'lucide-react';
+import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2, Minimize2, MonitorDown } from 'lucide-react';
 import { playTabSwitchSound, playClickSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE } from '../version';
 
@@ -12,7 +12,6 @@ interface HeaderProps {
   isSoundOn?: boolean;
   onOpenReviewExport?: () => void;
   onOpenInfoLicense?: (initialTab?: 'license' | 'ai_disclaimer' | 'controls' | 'changelog' | 'app_fullscreen') => void;
-  onToggleCollapseHeader?: () => void;
   onToggleFullscreen?: () => void;
   isFullscreen?: boolean;
   onPromptInstall?: () => void;
@@ -34,7 +33,6 @@ export const Header: React.FC<HeaderProps> = ({
   isSoundOn = false,
   onOpenReviewExport,
   onOpenInfoLicense,
-  onToggleCollapseHeader,
   onToggleFullscreen,
   isFullscreen = false,
   onPromptInstall,
@@ -156,20 +154,6 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* UI 단축 버튼 (상단 메뉴 접기) */}
-            {onToggleCollapseHeader && (
-              <button
-                onClick={() => {
-                  playClickSound();
-                  onToggleCollapseHeader();
-                }}
-                title="메뉴 숨기기 (UI 단축)"
-                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/60 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium"
-              >
-                <PanelTopClose className="w-3.5 h-3.5 text-[#ffe600]" />
-                <span className="hidden sm:inline">UI 단축</span>
-              </button>
-            )}
 
             {onOpenInfoLicense && (
               <button

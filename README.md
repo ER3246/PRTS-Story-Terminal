@@ -1,7 +1,7 @@
 # PRTS Story Terminal // 명일방주 전술 스토리 아카이브
 
 <p align="left">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v0.10.0--pre--release-ffe600.svg?style=flat-square&logo=git&logoColor=black" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v0.3.5--pre--release-ffe600.svg?style=flat-square&logo=git&logoColor=black" alt="Version"></a>
   <img src="https://img.shields.io/badge/license-Non--Profit%20Fan%20Archive-00d8ff.svg?style=flat-square" alt="Non-Profit Fan Archive">
   <img src="https://img.shields.io/badge/copyright-%C2%A9%20HYPERGRYPH%20%2F%20YOSTAR-27272a.svg?style=flat-square&logoColor=white" alt="Copyright">
   <img src="https://img.shields.io/badge/AI%20Summary-2nd%20Derivative-orange.svg?style=flat-square" alt="AI Summary">
@@ -134,7 +134,7 @@
 * **Styling & UI:** Tailwind CSS v4, Lucide React Icons
 * **3D Graphics & Map:** Three.js (WebGL Custom Hexagonal Terrain & Bezier Trajectory System)
 * **Build & Deployment:** Vite 8, GitHub Actions (GitHub Pages Automated CI/CD)
-* **Version & Changelog:** [CHANGELOG.md](CHANGELOG.md) (`v0.10.0` Pre-Release)
+* **Version & Changelog:** [CHANGELOG.md](CHANGELOG.md) (`v0.3.5` Pre-Release)
 
 ```bash
 # 1. 의존성 패키지 설치 (Install dependencies)

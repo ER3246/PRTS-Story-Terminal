@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import type { StoryArchive, CharacterRef, GlossaryTerm, StorySubPage } from '../types/story';
 import type { StoryListItem } from '../data/storyRegistry';
 import { globalCharacterMap } from '../data/globalCharacters';
@@ -25,7 +25,10 @@ import {
   Info,
   Download,
   FileText,
-  BookOpen
+  BookOpen,
+  PanelTopClose,
+  PanelTopOpen,
+  X
 } from 'lucide-react';
 import { playTabSwitchSound, playClickSound, playOpenSound } from '../utils/soundEffects';
 import { generateStoryMarkdown, downloadFile } from '../utils/exportMarkdown';
@@ -40,6 +43,8 @@ interface StoryViewerProps {
   previousStory?: StoryListItem | null;
   nextStory?: StoryListItem | null;
   onSelectStory?: (id: string, subPageId?: string) => void;
+  isHeaderCollapsed?: boolean;
+  onToggleCollapseHeader?: () => void;
 }
 
 export const StoryViewer: React.FC<StoryViewerProps> = ({
@@ -52,6 +57,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   previousStory,
   nextStory,
   onSelectStory,
+  isHeaderCollapsed = false,
+  onToggleCollapseHeader,
 }) => {
   const [activeTab, setActiveTab] = useState<'timeline' | 'dossier' | 'glossary'>('timeline');
   const [isAnalysisExpanded, setIsAnalysisExpanded] = useState<boolean>(true);
@@ -69,22 +76,24 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   const isOmnibus = docFormat === 'omnibus' || !!story.isOmnibus;
   const isMultiPart = docFormat === 'multi_part';
 
-  // 하위 페이지 목록 구성
-  const subPages: StorySubPage[] | undefined = (docFormat === 'multi_part' || docFormat === 'omnibus')
-    ? (story.subPages || storyMeta?.subPages || (
-        isOmnibus && story.omnibusSubEpisodes && story.omnibusSubEpisodes.length > 0
-          ? [
-              { id: 'overview', label: '개요 (줄거리)', isOverview: true },
-              ...story.omnibusSubEpisodes.map((sub) => ({
-                id: sub.id,
-                label: sub.titleKo,
-                code: `EP.0${sub.order}`,
-                focalCharacter: sub.mainCharacter
-              }))
-            ]
-          : undefined
-      ))
-    : undefined;
+  // 하위 페이지 목록 구성 (안정적인 참조 유지를 위해 useMemo 적용)
+  const subPages: StorySubPage[] | undefined = useMemo(() => {
+    if (docFormat !== 'multi_part' && docFormat !== 'omnibus') return undefined;
+    if (story.subPages) return story.subPages;
+    if (storyMeta?.subPages) return storyMeta.subPages;
+    if (isOmnibus && story.omnibusSubEpisodes && story.omnibusSubEpisodes.length > 0) {
+      return [
+        { id: 'overview', label: '개요 (줄거리)', isOverview: true },
+        ...story.omnibusSubEpisodes.map((sub) => ({
+          id: sub.id,
+          label: sub.titleKo,
+          code: `EP.0${sub.order}`,
+          focalCharacter: sub.mainCharacter
+        }))
+      ];
+    }
+    return undefined;
+  }, [docFormat, isOmnibus, story.subPages, storyMeta?.subPages, story.omnibusSubEpisodes]);
 
   const currentSubPageId = activeSubPageId || 'overview';
   const isOverview = currentSubPageId === 'overview';
@@ -180,6 +189,495 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
     const safeCode = story.code.replace(/[\s/\\:]+/g, '_');
     const safeTitle = story.titleKo.replace(/[\s/\\:]+/g, '_');
     downloadFile(`[PRTS]_${safeCode}_${safeTitle}.md`, md);
+  };
+
+  // =========================================================================
+  // 통합 하단 플로팅 네비게이션 독 (Floating Navigation Dock) 상태 및 연산
+  // =========================================================================
+  const [isPartDropupOpen, setIsPartDropupOpen] = useState<boolean>(false);
+
+  // 멀티파트 유효 파트 목록 (개요 제외)
+  const partList = useMemo(() => {
+    if (isMultiPart) {
+      return (subPages || []).filter((p) => !p.isOverview);
+    }
+    return [];
+  }, [isMultiPart, subPages]);
+
+  const pIdx = isMultiPart && !isOverview
+    ? partList.findIndex((p) => p.id === currentSubPageId)
+    : -1;
+
+  // 옴니버스 에피소드 목록
+  const epList = useMemo(() => {
+    return story.omnibusSubEpisodes || [];
+  }, [story.omnibusSubEpisodes]);
+
+  const epIdx = isOmnibus && !isOverview
+    ? epList.findIndex((ep) => ep.id === currentSubPageId)
+    : -1;
+
+  // 현재 위치 명칭 라벨
+  let currentLocationLabel = '전체 개요';
+  if (isMultiPart) {
+    if (!isOverview && pIdx >= 0 && partList[pIdx]) {
+      currentLocationLabel = partList[pIdx].label;
+    } else {
+      currentLocationLabel = '전체 개요';
+    }
+  } else if (isOmnibus) {
+    if (!isOverview && currentEpisode) {
+      currentLocationLabel = `EP.0${currentEpisode.order} ${currentEpisode.titleKo}`;
+    } else {
+      currentLocationLabel = '전체 개요';
+    }
+  } else {
+    currentLocationLabel = `${story.code} 전편`;
+  }
+
+  // 이전/다음 네비게이션 대상 구조체
+  interface NavTarget {
+    type: 'part' | 'story' | 'overview';
+    label: string;
+    shortLabel: string;
+    targetId?: string;
+  }
+
+  let prevNav: NavTarget | null = null;
+  let nextNav: NavTarget | null = null;
+
+  if (isMultiPart) {
+    if (isOverview) {
+      if (previousStory) {
+        prevNav = {
+          type: 'story',
+          targetId: previousStory.id,
+          label: `이전 작전: ${previousStory.code} ${previousStory.titleKo}`,
+          shortLabel: previousStory.code,
+        };
+      }
+      if (partList.length > 0) {
+        nextNav = {
+          type: 'part',
+          targetId: partList[0].id,
+          label: `${partList[0].label} 시작`,
+          shortLabel: 'Part 1 시작',
+        };
+      } else if (nextStory) {
+        nextNav = {
+          type: 'story',
+          targetId: nextStory.id,
+          label: `다음 작전: ${nextStory.code} ${nextStory.titleKo}`,
+          shortLabel: nextStory.code,
+        };
+      }
+    } else if (pIdx >= 0) {
+      if (pIdx > 0) {
+        prevNav = {
+          type: 'part',
+          targetId: partList[pIdx - 1].id,
+          label: `이전: ${partList[pIdx - 1].label}`,
+          shortLabel: `Part ${pIdx}`,
+        };
+      } else {
+        prevNav = {
+          type: 'overview',
+          label: '전체 개요로 이동',
+          shortLabel: '전체 개요',
+        };
+      }
+
+      if (pIdx < partList.length - 1) {
+        nextNav = {
+          type: 'part',
+          targetId: partList[pIdx + 1].id,
+          label: `다음: ${partList[pIdx + 1].label}`,
+          shortLabel: `Part ${pIdx + 2}`,
+        };
+      } else {
+        if (nextStory) {
+          nextNav = {
+            type: 'story',
+            targetId: nextStory.id,
+            label: `다음 작전: ${nextStory.code} ${nextStory.titleKo}`,
+            shortLabel: nextStory.code,
+          };
+        } else {
+          nextNav = {
+            type: 'overview',
+            label: '전체 개요로 이동',
+            shortLabel: '전체 개요',
+          };
+        }
+      }
+    }
+  } else if (isOmnibus) {
+    if (isOverview) {
+      if (previousStory) {
+        prevNav = {
+          type: 'story',
+          targetId: previousStory.id,
+          label: `이전 작전: ${previousStory.code} ${previousStory.titleKo}`,
+          shortLabel: previousStory.code,
+        };
+      }
+      if (epList.length > 0) {
+        nextNav = {
+          type: 'part',
+          targetId: epList[0].id,
+          label: `EP.01 ${epList[0].titleKo} 시작`,
+          shortLabel: 'EP.01 시작',
+        };
+      } else if (nextStory) {
+        nextNav = {
+          type: 'story',
+          targetId: nextStory.id,
+          label: `다음 작전: ${nextStory.code} ${nextStory.titleKo}`,
+          shortLabel: nextStory.code,
+        };
+      }
+    } else if (epIdx >= 0) {
+      if (epIdx > 0) {
+        prevNav = {
+          type: 'part',
+          targetId: epList[epIdx - 1].id,
+          label: `이전: EP.0${epList[epIdx - 1].order} ${epList[epIdx - 1].titleKo}`,
+          shortLabel: `EP.0${epList[epIdx - 1].order}`,
+        };
+      } else {
+        prevNav = {
+          type: 'overview',
+          label: '전체 개요로 이동',
+          shortLabel: '전체 개요',
+        };
+      }
+
+      if (epIdx < epList.length - 1) {
+        nextNav = {
+          type: 'part',
+          targetId: epList[epIdx + 1].id,
+          label: `다음: EP.0${epList[epIdx + 1].order} ${epList[epIdx + 1].titleKo}`,
+          shortLabel: `EP.0${epList[epIdx + 1].order}`,
+        };
+      } else {
+        if (nextStory) {
+          nextNav = {
+            type: 'story',
+            targetId: nextStory.id,
+            label: `다음 작전: ${nextStory.code} ${nextStory.titleKo}`,
+            shortLabel: nextStory.code,
+          };
+        } else {
+          nextNav = {
+            type: 'overview',
+            label: '전체 개요로 이동',
+            shortLabel: '전체 개요',
+          };
+        }
+      }
+    }
+  } else {
+    // 단일 스토리
+    if (previousStory) {
+      prevNav = {
+        type: 'story',
+        targetId: previousStory.id,
+        label: `이전 작전: ${previousStory.code} ${previousStory.titleKo}`,
+        shortLabel: previousStory.code,
+      };
+    }
+    if (nextStory) {
+      nextNav = {
+        type: 'story',
+        targetId: nextStory.id,
+        label: `다음 작전: ${nextStory.code} ${nextStory.titleKo}`,
+        shortLabel: nextStory.code,
+      };
+    }
+  }
+
+  const handleExecuteNav = (target: NavTarget | null) => {
+    if (!target) return;
+    playClickSound();
+    setIsPartDropupOpen(false);
+    if (target.type === 'part' && target.targetId) {
+      onChangeSubPage?.(target.targetId);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    } else if (target.type === 'overview') {
+      onChangeSubPage?.('overview');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    } else if (target.type === 'story' && target.targetId) {
+      handleNavigateStory(target.targetId);
+    }
+  };
+
+  const renderFloatingDock = () => {
+    return (
+      <div
+        className={`fixed ${
+          isHeaderCollapsed ? 'bottom-3 md:bottom-5' : 'bottom-16 sm:bottom-18 md:bottom-5'
+        } left-1/2 -translate-x-1/2 z-40 max-w-[96vw] sm:max-w-2xl select-none animate-fadeIn font-sans`}
+      >
+        {/* Dropup Quick Index Popover */}
+        {isPartDropupOpen && (
+          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-[92vw] max-w-sm sm:max-w-md bg-[#090c14]/96 backdrop-blur-2xl border border-white/20 rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.85)] p-3 space-y-2 z-50 animate-fadeIn text-xs">
+            <div className="flex items-center justify-between border-b border-white/[0.08] pb-2 text-zinc-300">
+              <span className="font-bold text-white flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-[#ffe600]" />
+                <span>작전 색인 및 파트 점프</span>
+              </span>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setIsPartDropupOpen(false);
+                }}
+                className="w-5 h-5 rounded-[3px] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer hover:bg-white/10"
+                title="닫기"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="max-h-64 overflow-y-auto divide-y divide-white/[0.04] space-y-1 pr-1">
+              {/* 멀티파트 또는 옴니버스인 경우: 전체 개요 및 파트 목록 */}
+              {(isMultiPart || isOmnibus) && (
+                <>
+                  <button
+                    onClick={() => {
+                      playClickSound();
+                      setIsPartDropupOpen(false);
+                      onChangeSubPage?.('overview');
+                      window.scrollTo({ top: 0, behavior: 'instant' });
+                    }}
+                    className={`w-full p-2.5 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                      isOverview
+                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
+                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <FileText className="w-3.5 h-3.5 text-[#ffe600]" />
+                      <span>전체 개요 (시놉시스 및 사후 분석)</span>
+                    </div>
+                    {isOverview && <span className="text-[10px] bg-[#ffe600] text-black px-1.5 py-0.2 rounded-[2px] font-bold">열람중</span>}
+                  </button>
+
+                  {isMultiPart &&
+                    partList.map((sp, idx) => {
+                      const isSelected = !isOverview && currentSubPageId === sp.id;
+                      const arc = story.multiPartArcs?.find((a) => a.id === sp.id);
+                      return (
+                        <button
+                          key={sp.id}
+                          onClick={() => {
+                            playClickSound();
+                            setIsPartDropupOpen(false);
+                            onChangeSubPage?.(sp.id);
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                          }}
+                          className={`w-full p-2.5 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                            isSelected
+                              ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
+                              : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2 truncate">
+                            <span className="font-mono text-[10.5px] px-1.5 py-0.5 rounded-[2px] bg-white/[0.06] text-[#ffe600] font-bold">
+                              Part {idx + 1}
+                            </span>
+                            <span className="truncate">{sp.label.replace(/^Part \d+:\s*/, '')}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 flex-shrink-0 text-[11px] text-zinc-500 font-mono">
+                            {arc?.stages && <span>{arc.stages.length}개 스테이지</span>}
+                            {isSelected && <span className="text-[10px] bg-[#ffe600] text-black px-1.5 py-0.2 rounded-[2px] font-bold">열람중</span>}
+                          </div>
+                        </button>
+                      );
+                    })}
+
+                  {isOmnibus &&
+                    epList.map((ep) => {
+                      const isSelected = !isOverview && currentSubPageId === ep.id;
+                      return (
+                        <button
+                          key={ep.id}
+                          onClick={() => {
+                            playClickSound();
+                            setIsPartDropupOpen(false);
+                            onChangeSubPage?.(ep.id);
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                          }}
+                          className={`w-full p-2.5 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                            isSelected
+                              ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
+                              : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2 truncate">
+                            <span className="font-mono text-[10.5px] px-1.5 py-0.5 rounded-[2px] bg-white/[0.06] text-[#ffe600] font-bold">
+                              EP.0{ep.order}
+                            </span>
+                            <span className="truncate">{ep.titleKo}</span>
+                          </div>
+                          {isSelected && <span className="text-[10px] bg-[#ffe600] text-black px-1.5 py-0.2 rounded-[2px] font-bold">열람중</span>}
+                        </button>
+                      );
+                    })}
+                </>
+              )}
+
+              {/* 단일 스토리인 경우: 작전 내 탭/섹션 바로가기 */}
+              {!isMultiPart && !isOmnibus && (
+                <div className="space-y-1">
+                  <div className="p-2 text-zinc-400 text-[11px]">
+                    단일 작전 기록입니다. 주요 탭과 섹션으로 바로 이동할 수 있습니다.
+                  </div>
+                  <button
+                    onClick={() => {
+                      playClickSound();
+                      setIsPartDropupOpen(false);
+                      setActiveTab('timeline');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`w-full p-2 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                      activeTab === 'timeline'
+                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
+                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                    }`}
+                  >
+                    <span>핵심 타임라인 (전편 서사 및 국면)</span>
+                    <span className="font-mono text-[11px] text-zinc-500">{story.content.acts.length}개 국면</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      playClickSound();
+                      setIsPartDropupOpen(false);
+                      setActiveTab('dossier');
+                    }}
+                    className={`w-full p-2 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                      activeTab === 'dossier'
+                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
+                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                    }`}
+                  >
+                    <span>작전 관계자 명부 (인물 도감)</span>
+                    <span className="font-mono text-[11px] text-zinc-500">{story.characters.length}명</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      playClickSound();
+                      setIsPartDropupOpen(false);
+                      setActiveTab('glossary');
+                    }}
+                    className={`w-full p-2 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                      activeTab === 'glossary'
+                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
+                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                    }`}
+                  >
+                    <span>관련 용어 사전</span>
+                    <span className="font-mono text-[11px] text-zinc-500">{story.glossary.length}건</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Main Dock Capsule */}
+        <div className="bg-[#090c14]/94 backdrop-blur-xl border border-white/[0.15] shadow-[0_12px_40px_rgba(0,0,0,0.75)] rounded-full px-2 py-1.5 flex items-center gap-1 sm:gap-2">
+          {/* Previous Target Button */}
+          {prevNav ? (
+            <button
+              onClick={() => handleExecuteNav(prevNav)}
+              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-xs cursor-pointer transition-colors flex-shrink-0"
+              title={prevNav.label}
+            >
+              <ChevronLeft className="w-3.5 h-3.5 text-[#ffe600]" />
+              <span className="hidden xs:inline truncate max-w-[80px] sm:max-w-[120px] font-medium">
+                {prevNav.shortLabel}
+              </span>
+            </button>
+          ) : (
+            <div className="h-8 px-2 rounded-full text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
+              <ChevronLeft className="w-3.5 h-3.5 opacity-40 mr-0.5" />
+              <span className="hidden sm:inline">처음</span>
+            </div>
+          )}
+
+          {/* Center Quick Part Index Trigger */}
+          <button
+            onClick={() => {
+              playClickSound();
+              setIsPartDropupOpen(!isPartDropupOpen);
+            }}
+            className={`h-8 px-2.5 sm:px-3.5 rounded-full border transition-all cursor-pointer flex items-center gap-1.5 text-xs font-bold shadow-xs min-w-0 flex-shrink ${
+              isPartDropupOpen
+                ? 'bg-[#ffe600] text-black border-[#ffe600]'
+                : 'bg-white/[0.08] hover:bg-white/[0.14] text-zinc-100 border-[#ffe600]/30 hover:border-[#ffe600]/70'
+            }`}
+            title="파트/색인 목록 펼치기 (클릭하여 다른 파트로 이동)"
+          >
+            <span className="truncate max-w-[90px] sm:max-w-[150px] md:max-w-[200px]">
+              {currentLocationLabel}
+            </span>
+            <ChevronUp className={`w-3.5 h-3.5 transition-transform ${isPartDropupOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {/* Next Target Button */}
+          {nextNav ? (
+            <button
+              onClick={() => handleExecuteNav(nextNav)}
+              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-xs cursor-pointer transition-colors flex-shrink-0"
+              title={nextNav.label}
+            >
+              <span className="hidden xs:inline truncate max-w-[80px] sm:max-w-[120px] font-medium">
+                {nextNav.shortLabel}
+              </span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#ffe600]" />
+            </button>
+          ) : (
+            <div className="h-8 px-2 rounded-full text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
+              <span className="hidden sm:inline">마지막</span>
+              <ChevronRight className="w-3.5 h-3.5 opacity-40 ml-0.5" />
+            </div>
+          )}
+
+          <div className="w-[1px] h-4 bg-white/10 hidden sm:block flex-shrink-0" />
+
+          {/* Scroll To Top Button */}
+          <button
+            onClick={scrollToTop}
+            className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-[#ffe600] flex items-center justify-center cursor-pointer transition-colors flex-shrink-0"
+            title="페이지 최상단으로 이동"
+          >
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
+
+          {/* UI Collapsed (Reading Immersion) Toggle Button */}
+          {onToggleCollapseHeader && (
+            <button
+              onClick={() => {
+                playClickSound();
+                onToggleCollapseHeader();
+              }}
+              className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-colors flex-shrink-0 ${
+                isHeaderCollapsed
+                  ? 'bg-[#ffe600] text-black font-bold shadow-[0_0_12px_rgba(255,230,0,0.4)]'
+                  : 'bg-white/[0.04] hover:bg-white/[0.12] text-zinc-300 hover:text-[#ffe600]'
+              }`}
+              title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (독서 몰입)'}
+            >
+              {isHeaderCollapsed ? (
+                <PanelTopOpen className="w-3.5 h-3.5" />
+              ) : (
+                <PanelTopClose className="w-3.5 h-3.5" />
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+    );
   };
 
   // 하위 페이지 네비게이션 바 컴포넌트 (멀티파트 / 옴니버스 통합 글래스 세그먼트 탭 바)
@@ -927,40 +1425,18 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             })}
           </div>
 
-          {/* Chapter Prev / Next Navigation Footer */}
+          {/* Chapter Milestone Complete Notice Card */}
           {(() => {
-            const partList = (subPages || []).filter((p) => !p.isOverview);
-            const pIdx = partList.findIndex((p) => p.id === currentSubPageId);
-            const prevP = pIdx > 0 ? partList[pIdx - 1] : null;
-            const nextP = pIdx < partList.length - 1 ? partList[pIdx + 1] : null;
+            const nextP = pIdx >= 0 && pIdx < partList.length - 1 ? partList[pIdx + 1] : null;
 
             return (
-              <div className="pt-4 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-                {prevP ? (
-                  <button
-                    onClick={() => {
-                      playClickSound();
-                      onChangeSubPage?.(prevP.id);
-                      window.scrollTo({ top: 0, behavior: 'instant' });
-                    }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-300 hover:text-white flex items-center gap-2 cursor-pointer transition-all font-medium"
-                  >
-                    <ChevronLeft className="w-4 h-4 text-[#ffe600]" />
-                    <span>이전 파트: {prevP.label}</span>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      playClickSound();
-                      onChangeSubPage?.('overview');
-                      window.scrollTo({ top: 0, behavior: 'instant' });
-                    }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-400 hover:text-white flex items-center gap-2 cursor-pointer transition-all font-medium"
-                  >
-                    <FileText className="w-4 h-4 text-[#ffe600]" />
-                    <span>전체 개요로 돌아가기</span>
-                  </button>
-                )}
+              <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans">
+                <div className="flex items-center gap-2 text-zinc-400">
+                  <span className="w-2 h-2 rounded-full bg-[#ffe600]" />
+                  <span>
+                    현재 파트 열람 완료 (<strong className="text-zinc-200">{currentArc?.partTitleKo || '챕터'}</strong>)
+                  </span>
+                </div>
 
                 {nextP ? (
                   <button
@@ -969,9 +1445,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.(nextP.id);
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-300 hover:text-white flex items-center justify-end gap-2 cursor-pointer transition-all ml-auto font-medium"
+                    className="w-full sm:w-auto h-10 px-5 rounded-[3px] bg-[#ffe600]/15 hover:bg-[#ffe600]/25 text-[#ffe600] border border-[#ffe600]/50 hover:border-[#ffe600] flex items-center justify-center gap-2 cursor-pointer transition-all font-bold shadow-md"
                   >
-                    <span>다음 파트: {nextP.label}</span>
+                    <span>다음 파트 계속 읽기: {nextP.label}</span>
                     <ChevronRight className="w-4 h-4 text-[#ffe600]" />
                   </button>
                 ) : (
@@ -981,9 +1457,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.('overview');
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-400 hover:text-white flex items-center justify-end gap-2 cursor-pointer transition-all ml-auto font-medium"
+                    className="w-full sm:w-auto h-10 px-5 rounded-[3px] bg-white/[0.05] hover:bg-white/[0.1] text-zinc-200 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/50 flex items-center justify-center gap-2 cursor-pointer transition-all font-medium"
                   >
-                    <span>전체 개요 및 사후 분석</span>
+                    <span>전체 개요 및 사후 분석으로 돌아가기</span>
                     <ChevronRight className="w-4 h-4 text-[#ffe600]" />
                   </button>
                 )}
@@ -2059,6 +2535,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           </div>
         )}
       </nav>
+
+      {/* Floating Bottom Navigation Dock (Scroll-Following) */}
+      {renderFloatingDock()}
     </div>
   );
 };

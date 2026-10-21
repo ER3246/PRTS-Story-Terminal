@@ -29,7 +29,8 @@ import {
   Map as MapIcon,
   HelpCircle,
   Keyboard,
-  Maximize2
+  PanelTopClose,
+  PanelTopOpen
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
@@ -2307,7 +2308,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   className="h-6 px-2.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/60 font-sans font-bold text-[10.5px] flex items-center gap-1 cursor-pointer"
                   title="상단 메뉴 및 도구 복원"
                 >
-                  <Maximize2 className="w-3 h-3" />
+                  <PanelTopOpen className="w-3 h-3" />
                   <span>메뉴 복원</span>
                 </button>
               )}
@@ -2392,9 +2393,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     ? 'bg-[#ffe600] text-black font-bold'
                     : 'bg-white/[0.06] text-zinc-300'
                 }`}
-                title={isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}
+                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
               >
-                <Maximize2 className="w-3.5 h-3.5" />
+                {isHeaderCollapsed ? (
+                  <PanelTopOpen className="w-3.5 h-3.5" />
+                ) : (
+                  <PanelTopClose className="w-3.5 h-3.5" />
+                )}
               </button>
             )}
           </div>
@@ -2796,7 +2801,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       : 'text-zinc-400 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <Maximize2 className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                  {isHeaderCollapsed ? (
+                    <PanelTopOpen className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                  ) : (
+                    <PanelTopClose className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                  )}
                   <span className="hidden sm:inline font-semibold">
                     {isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}
                   </span>
