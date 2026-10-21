@@ -114,7 +114,22 @@ export const sidMansfieldBreak: StoryArchive = {
             }
           ],
           involvedCharacters: ['silence', 'muelsyse', 'mayer', 'kafka', 'mountain', 'barton']
-        },
+        }
+      ]
+    },
+    {
+      id: 'part_2',
+      partNumber: 2,
+      partTitleKo: 'Part 2: 어둠 속의 칼날',
+      partTitleEn: 'Blades in the Dark',
+      code: 'MB-02',
+      location: '맨스필드 C구역 감방 & 영안실 겸 의무실',
+      timeline: '테라력 1097년 겨울 / 석 달 전 ~ 두 달 반 전',
+      cgUrl: '/images/cgs/avg_ac15_4.png',
+      cgCaption: 'C구역 복도에서 흉기를 든 B구역 암살자 죄수들을 홀로 가로막아서서 로빈을 비호하는 앤소니 사이몬',
+      synopsis: '청소 시간 위장 교도관 제셀톤과 B구역 자객들이 앤소니를 습격하지만 앤소니는 압도적인 무력으로 제압한다. 기절한 로빈을 의무실로 데려온 앤소니는 그녀가 암살자임을 알고도 관용을 베풀며 탈옥 협조의 선택권을 건넨다. 한편 카프카는 모범수 파인콘으로부터 내부 도면을 확보하고, 사일런스는 연구자의 윤리와 옳은 일에 대한 신념을 다진다.',
+      narrativeText: `C구역 청소 시간을 틈타 위장 교도관 제셀톤이 방조한 가운데 B구역 자객들이 앤소니의 감방을 기습하지만, 앤소니는 로빈을 등 뒤로 비호하며 압도적인 격투술로 자객들을 단숨에 제압한다. 자객들은 음독자살하고, 의무실에서 깨어난 로빈에게 앤소니는 관용을 베풀며 선택을 맡긴다. 카프카는 만기 출소를 앞둔 수감자 미나(파인콘)로부터 내부 도면을 확보하고, 사일런스는 연구자의 윤리를 곱씹으며 메이어를 주방으로 보내 앤소니와의 접선을 준비시킨다.`,
+      stages: [
         {
           stageCode: 'MB-02',
           title: '다른 시각',
