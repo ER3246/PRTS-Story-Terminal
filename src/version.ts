@@ -1,7 +1,7 @@
-export const APP_VERSION = '0.9.2';
-export const APP_VERSION_CODE = 'v0.9.2';
+export const APP_VERSION = '0.10.0';
+export const APP_VERSION_CODE = 'v0.10.0';
 export const APP_RELEASE_STAGE = 'Pre-Release';
-export const APP_BUILD_DATE = '2026.10.18';
+export const APP_BUILD_DATE = '2026.10.21';
 
 export interface ChangelogEntry {
   version: string;
@@ -22,13 +22,32 @@ export const CHANGELOG_DATA: ChangelogEntry[] = [
     highlights: [
       '전체 작전 요약본 수록 완결 및 공식 연대기 종합 검증 완료',
       '로컬 스토리지 기반 마지막 열람 위치 저장 및 독서 진행률(Progress Tracker) 기능',
-      '독립 커스텀 도메인 연동 및 PWA(프로그레시브 웹 앱) 오프라인 열람 지원',
+      '독립 커스텀 도메인 연동 및 오프라인 캐시 심화',
     ],
     isPlanned: true,
   },
   {
-    version: 'v0.9.2',
+    version: 'v0.10.0',
     stage: 'Current Pre-Release',
+    date: '2026.10.21',
+    title: '메인 테마 2부(EP 09) 개막 · PWA 웹 앱 & 모바일 제스처 혁신 대규모 통합 패치',
+    highlights: [
+      '메인 테마 Act II [EP 09 스톰워치] 신규 편입: 4개 파트, 12개 스테이지 전편 8,442자 심층 서사 및 14종 공식 CG·36종 명대사·21명 인물 수록',
+      'PWA 웹 앱 설치 지원: manifest.json 및 서비스 워커(sw.js) 구축으로 모바일·데스크톱 독립 앱 설치 및 구동 지원',
+      '브라우저 전체화면 시스템 탑재: 주소창/툴바 완전 숨김 전체화면 토글 및 iOS(홈 화면 추가)/Android 크롬 플랫폼별 안내 가이드 제공',
+      "상단 메뉴 접기 기능을 'UI 단축'으로 명칭 분리하여 전체화면 기능과의 UI/UX 직관성 대폭 향상",
+      '테라 연대기(Chronicle) 모바일 2손가락 핀치 줌(0.45배~1.6배) 및 핀치 중심 이동(Pan) 제스처 구현',
+      '테라 지도 2D 뷰 1:1 드래그 밀착: 원근 투영 픽셀-월드 환산 및 즉각 댐핑(damp=1.0)으로 미끄러짐/지연 현상 완전 해결',
+      '테라 지도 3D 뷰 제스처 우세 축 잠금(Threshold Locking): 구글 어스/애플 지도 표준 알고리즘 도입으로 줌 시 각도 틀어짐 원천 차단',
+      '모바일 가로(Landscape) 화면 최적화: 3D 엠블럼/라벨 52% 압축, 툴바 슬림화 및 줌아웃 시 마이너 거점 숨김 처리',
+      '맨스필드 브레이크 Part 2 아크 누락 복구 및 validate_stories 검증기 내 시리즈 탭-아크 자동 동기화 룰 추가',
+      '서비스 권장 환경(크로미움·하드웨어 가속·Wi-Fi) 안내 모달 및 브라우저 해시 히스토리(뒤로가기/앞으로가기) 연동',
+    ],
+    isCurrent: true,
+  },
+  {
+    version: 'v0.9.2',
+    stage: 'Pre-Release',
     date: '2026.10.18',
     title: '모바일 심화 최적화 & UX 결함 해결 통합 패치',
     highlights: [
@@ -40,7 +59,6 @@ export const CHANGELOG_DATA: ChangelogEntry[] = [
       "모바일 '스토리 색인' 플로팅 버튼을 독서 방해 없는 40×40px 컴팩트 햄버거 아이콘 버튼으로 교체",
       '사이트 전반 버전 표기 시스템(GNB 배지, 홈 대시보드, 푸터, 인앱 체인지로그 탭) 구축',
     ],
-    isCurrent: true,
   },
   {
     version: 'v0.9.1',
