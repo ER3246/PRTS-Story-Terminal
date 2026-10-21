@@ -41,9 +41,8 @@ const getTodayDismissKey = (): string => {
   return `prts_dismiss_notice_${year}-${month}-${day}`;
 };
 
-// 새로고침 시 메인 화면(홈)에서 팝업 노출 여부 판별
-const shouldShowNoticeOnMount = (initialView: string): boolean => {
-  if (initialView !== 'home') return false;
+// 새로고침/접속 시 안내 팝업 노출 여부 판별 (당일 닫기 여부 확인)
+const shouldShowNoticeOnMount = (): boolean => {
   try {
     return localStorage.getItem(getTodayDismissKey()) !== 'true';
   } catch {
@@ -163,7 +162,7 @@ export function App() {
   const [isInfoLicenseOpen, setIsInfoLicenseOpen] = useState<boolean>(false);
   const [infoModalTab, setInfoModalTab] = useState<InfoModalTab>('license');
   const [isServiceNoticeOpen, setIsServiceNoticeOpen] = useState<boolean>(() =>
-    shouldShowNoticeOnMount(route.view)
+    shouldShowNoticeOnMount()
   );
 
   const handleDismissNoticeToday = useCallback(() => {
@@ -491,6 +490,16 @@ export function App() {
               </button>
             </div>
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setIsServiceNoticeOpen(true);
+                  playOpenSound();
+                }}
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#ffe600]/20 text-zinc-400 hover:text-[#ffe600] border border-white/[0.08] hover:border-[#ffe600]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                title="서비스 이용 안내 및 권장 환경 열기"
+              >
+                <span>NOTICE</span>
+              </button>
               <button
                 onClick={() => {
                   setInfoModalTab('changelog');
