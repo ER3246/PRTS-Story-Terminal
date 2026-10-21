@@ -1212,6 +1212,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     let lastPinchAngle = 0;
     let lastMidX = 0;
     let lastMidY = 0;
+    let initialPinchDist = 0;
+    let initialPinchAngle = 0;
+    let initialMidX = 0;
+    let initialMidY = 0;
+    let multiTouchMode: 'undecided' | 'zoom' | 'tilt' | 'rotate' = 'undecided';
     let wasMultiTouchSession = false;
 
     const updateHoveredRegion = (nextRegId: string | null) => {
@@ -1269,6 +1274,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           lastPinchAngle = Math.atan2(pts[1].y - pts[0].y, pts[1].x - pts[0].x);
           lastMidX = (pts[0].x + pts[1].x) / 2;
           lastMidY = (pts[0].y + pts[1].y) / 2;
+          initialPinchDist = lastPinchDist;
+          initialPinchAngle = lastPinchAngle;
+          initialMidX = lastMidX;
+          initialMidY = lastMidY;
+          multiTouchMode = 'undecided';
           return;
         }
       }
@@ -1302,39 +1312,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           const midY = (pts[0].y + pts[1].y) / 2;
           const cam = camStateRef.current;
 
-          if (lastPinchDist > 0) {
-            // 1. Pinch zoom
-            const deltaDist = dist - lastPinchDist;
-            cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius - deltaDist * 1.45));
+          if (viewModeRef.current === '2d') {
+            // 2D 모드: 각도 조절 절대 제한 (정북 0° 및 수직 직하 0° 엄격 고정)
+            cam.targetPolar = 0.001;
+            cam.targetAzimuth = 0;
 
-            if (viewModeRef.current !== '2d') {
-              // 3D 모드에서만 비틀기 및 회전/기울기 허용
-              // 2. Twist rotation (fingers rotating around each other)
-              let deltaAngle = currentAngle - lastPinchAngle;
-              while (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
-              while (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
-              if (Math.abs(deltaAngle) > 0.01) {
-                cam.targetAzimuth -= deltaAngle * 1.35;
-              }
-
-              // 3. Two-finger horizontal translation rotation
-              const deltaMidX = midX - lastMidX;
-              if (Math.abs(deltaMidX) > 1.0) {
-                cam.targetAzimuth -= deltaMidX * 0.0055;
-              }
-
-              // 4. Two-finger vertical pitch adjustment
-              const deltaMidY = midY - lastMidY;
-              if (Math.abs(deltaMidY) > 1.0) {
-                cam.targetPolar = Math.max(
-                  (10 * Math.PI) / 180,
-                  Math.min((72 * Math.PI) / 180, cam.targetPolar - deltaMidY * 0.0035)
-                );
-              }
-            } else {
-              // 2D 모드: 각도 조절 절대 제한 (정북 0° 및 수직 직하 0° 엄격 고정)
-              cam.targetPolar = 0.001;
-              cam.targetAzimuth = 0;
+            if (lastPinchDist > 0) {
+              const deltaDist = dist - lastPinchDist;
+              cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius - deltaDist * 1.45));
 
               // 두 손가락 이동 시 회전 대신 자연스러운 1:1 평면 이동(Pan) 지원 (미끄러짐 현상 제거)
               const deltaMidX = midX - lastMidX;
@@ -1345,6 +1330,62 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - deltaMidY * unitsPerPixel));
               cam.currentX = cam.targetX;
               cam.currentZ = cam.targetZ;
+            }
+          } else {
+            // 3D 모드: 방안 A (제스처 우세 축 잠금 / Threshold Locking - Google Earth & Apple Maps 표준)
+            // 1. 초기 미결정 상태에서 터치 이동량(간격 변화 vs 상하 평행 이동 vs 비틀기)을 비교하여 단일 제스처로 잠금
+            if (multiTouchMode === 'undecided') {
+              const distDelta = Math.abs(dist - initialPinchDist);
+              const midYDelta = Math.abs(midY - initialMidY);
+              const midXDelta = Math.abs(midX - initialMidX);
+
+              let angleDiff = currentAngle - initialPinchAngle;
+              while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+              while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+              const angleDeltaPx = Math.abs(angleDiff) * (dist * 0.5); // 원호 궤적 거리(px)
+
+              // 잠금 확정 임계치: 10px
+              const maxDelta = Math.max(distDelta, midYDelta, midXDelta, angleDeltaPx);
+              if (maxDelta >= 10) {
+                if (distDelta >= midYDelta && distDelta >= angleDeltaPx && distDelta >= midXDelta) {
+                  // 손가락 간격 변화가 가장 크면: 줌 전용 잠금 (각도/회전 완전 동결)
+                  multiTouchMode = 'zoom';
+                } else if (midYDelta > distDelta && midYDelta >= angleDeltaPx) {
+                  // 두 손가락이 나란히 위/아래로 평행 이동하면: 틸트 각도 전용 잠금 (줌/회전 완전 동결)
+                  multiTouchMode = 'tilt';
+                } else {
+                  // 비틀기 또는 수평 이동이 가장 크면: 수평 회전 전용 잠금 (줌/틸트 완전 동결)
+                  multiTouchMode = 'rotate';
+                }
+              }
+            }
+
+            // 2. 잠금된 단일 우세 제스처만 독립 수행 (다른 축 조작 완전 분리/차단)
+            if (lastPinchDist > 0) {
+              if (multiTouchMode === 'zoom') {
+                // 줌 전용: 오직 시점 거리만 변경 (각도 및 회전각 불변)
+                const deltaDist = dist - lastPinchDist;
+                cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius - deltaDist * 1.45));
+              } else if (multiTouchMode === 'tilt') {
+                // 틸트 전용: 오직 수직 카메라 각도만 변경 (확대/축소 및 회전각 불변)
+                const deltaMidY = midY - lastMidY;
+                cam.targetPolar = Math.max(
+                  (10 * Math.PI) / 180,
+                  Math.min((72 * Math.PI) / 180, cam.targetPolar - deltaMidY * 0.0045)
+                );
+              } else if (multiTouchMode === 'rotate') {
+                // 회전 전용: 오직 수평 방위각만 변경 (확대/축소 및 틸트 각도 불변)
+                let deltaAngle = currentAngle - lastPinchAngle;
+                while (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
+                while (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
+                if (Math.abs(deltaAngle) > 0.005) {
+                  cam.targetAzimuth -= deltaAngle * 1.35;
+                }
+                const deltaMidX = midX - lastMidX;
+                if (Math.abs(deltaMidX) > 0.5) {
+                  cam.targetAzimuth -= deltaMidX * 0.0055;
+                }
+              }
             }
           }
           lastPinchDist = dist;
@@ -1468,6 +1509,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           lastPinchAngle = 0;
           lastMidX = 0;
           lastMidY = 0;
+          multiTouchMode = 'undecided';
           return;
         }
         if (activeTouchPoints.size === 0 && wasMultiTouchSession) {
@@ -1476,6 +1518,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           lastPinchAngle = 0;
           lastMidX = 0;
           lastMidY = 0;
+          multiTouchMode = 'undecided';
           isPointerDown = false;
           return;
         }
@@ -1582,6 +1625,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       lastPinchAngle = 0;
       lastMidX = 0;
       lastMidY = 0;
+      multiTouchMode = 'undecided';
       container.style.cursor = 'grab';
       keysDownRef.current.clear();
     };
