@@ -9,7 +9,8 @@ import {
   CheckCircle2,
   AlertTriangle,
   MousePointer,
-  History
+  History,
+  Type
 } from 'lucide-react';
 import { playClickSound, playCloseSound, playTabSwitchSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE, CHANGELOG_DATA } from '../version';
@@ -218,6 +219,56 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                 </ul>
               </div>
 
+              {/* 오픈소스 폰트 라이선스 고지 */}
+              <div className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.08] space-y-3">
+                <div className="flex items-center justify-between border-b border-white/[0.07] pb-2">
+                  <div className="flex items-center gap-2">
+                    <Type className="w-4 h-4 text-[#ffe600]" />
+                    <span className="font-bold text-white text-sm">오픈소스 서체(폰트) 라이선스 고지</span>
+                  </div>
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/10 text-[#ffe600] font-bold">
+                    OFL 1.1 / APACHE 2.0
+                  </span>
+                </div>
+
+                <p className="text-zinc-300 text-xs [word-break:keep-all]">
+                  본 웹사이트는 뛰어난 한글/영문 가독성과 PRTS 터미널 특유의 SF 전술 UI 감성을 구현하기 위해 검증된 오픈소스 웹폰트를 사용하고 있으며, 각 서체의 지식재산권은 원저작자에게 귀속됩니다.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+                  <div className="p-2.5 rounded-[3px] bg-black/40 border border-white/[0.06] space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-white text-xs font-sans">Pretendard</span>
+                      <span className="text-[10px] text-[#ffe600] font-mono font-bold">SIL OFL 1.1</span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400">© 2021 Kil Hyung-jin</div>
+                    <div className="text-[10.5px] text-zinc-500 leading-tight">본문 및 UI 전반 국문 기본 글꼴</div>
+                  </div>
+
+                  <div className="p-2.5 rounded-[3px] bg-black/40 border border-white/[0.06] space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-white text-xs font-mono">JetBrains Mono</span>
+                      <span className="text-[10px] text-[#00d8ff] font-mono font-bold">OFL / Apache 2.0</span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400">© JetBrains s.r.o.</div>
+                    <div className="text-[10.5px] text-zinc-500 leading-tight">코드, 타임라인 수치, 고정폭 글꼴</div>
+                  </div>
+
+                  <div className="p-2.5 rounded-[3px] bg-black/40 border border-white/[0.06] space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-white text-xs font-mono">Chakra Petch</span>
+                      <span className="text-[10px] text-[#ffe600] font-mono font-bold">SIL OFL 1.1</span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400">© Cadson Demak</div>
+                    <div className="text-[10.5px] text-zinc-500 leading-tight">PRTS 로고, 헤더, SF 테마 타이틀</div>
+                  </div>
+                </div>
+
+                <div className="p-2 rounded-[2px] bg-white/[0.02] border border-white/[0.04] text-[11px] font-mono text-zinc-400">
+                  All fonts utilized herein are distributed under the SIL Open Font License 1.1 or compatible open-source licenses.
+                </div>
+              </div>
+
               <div className="p-3.5 rounded-[3px] bg-black/50 border border-white/[0.06] font-mono text-[11px] text-zinc-400 space-y-1">
                 <div className="text-zinc-200 font-bold">ENGLISH COPYRIGHT NOTICE</div>
                 <p>
@@ -288,11 +339,11 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                     </li>
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">3D 지도 회전 · 기울기</span>
-                      <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#00d8ff]">우클릭 드래그 / Shift+드래그</kbd>
+                      <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#00d8ff]">우클릭 드래그 (3D 전용 / 2D는 정북 고정)</kbd>
                     </li>
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">화면 확대 · 축소</span>
-                      <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">마우스 휠 스크롤 / + - 버튼</kbd>
+                      <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">휠 스크롤 / +/- 키 / 더블클릭</kbd>
                     </li>
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">스토리 즉시 열람</span>
@@ -321,8 +372,8 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                       <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-white">👆 한 손가락 터치 드래그</span>
                     </li>
                     <li className="flex items-center justify-between gap-2">
-                      <span className="text-zinc-400">확대 · 축소</span>
-                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">🤏 두 손가락 핀치 줌 / + - 버튼</span>
+                      <span className="text-zinc-400">한 손 확대 · 축소</span>
+                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono text-[11px] text-[#ffe600]">우측 [+/-] 버튼 / 더블 탭 / 핀치 줌</span>
                     </li>
                     <li className="flex items-center justify-between gap-2">
                       <span className="text-zinc-400">거점 · 경로 · 노드 확인</span>

@@ -660,6 +660,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const viewModeRef = useRef<'3d' | '2d'>(viewMode);
 
   const handleSetAzimuthDegrees = (degrees: number) => {
+    if (viewModeRef.current === '2d') return; // 2D 모드에서는 각도 조절 제한
     camStateRef.current.targetAzimuth = (degrees * Math.PI) / 180;
   };
 
@@ -790,13 +791,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     setPinnedRegionId(null);
     setHoveredRegionId(null);
     setSelectedCityId(null);
-    setViewMode('3d');
     const cam = camStateRef.current;
     cam.targetX = 0;
     cam.targetZ = -20;
-    cam.targetRadius = 550;
-    cam.targetPolar = (52 * Math.PI) / 180;
     cam.targetAzimuth = 0;
+    if (viewMode === '2d') {
+      cam.targetRadius = 620;
+      cam.targetPolar = 0.001;
+    } else {
+      cam.targetRadius = 550;
+      cam.targetPolar = (52 * Math.PI) / 180;
+    }
   };
 
   const handleZoom = (delta: number) => {
@@ -806,6 +811,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   };
 
   const handleRotateYaw = (deltaRad: number) => {
+    if (viewModeRef.current === '2d') return; // 2D 모드에서는 회전 제한
     playClickSound();
     camStateRef.current.targetAzimuth += deltaRad;
   };
@@ -1215,6 +1221,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       }
     };
 
+    let lastTapTime = 0;
+    let lastTapX = 0;
+    let lastTapY = 0;
+
     const handlePointerDown = (e: PointerEvent) => {
       if (splashStoryRef.current !== null || legendOpenRef.current) return;
 
@@ -1227,6 +1237,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       ) {
         return;
       }
+
+      const now = performance.now();
+      const timeDiff = now - lastTapTime;
+      const distDiff = Math.hypot(e.clientX - lastTapX, e.clientY - lastTapY);
+      if (timeDiff < 320 && distDiff < 28 && (e.button === 0 || e.pointerType === 'touch')) {
+        // Double-tap / double-click: one-handed quick zoom in
+        lastTapTime = 0;
+        playClickSound();
+        const cam = camStateRef.current;
+        cam.targetRadius = Math.max(180, cam.targetRadius - 130);
+        return;
+      }
+      lastTapTime = now;
+      lastTapX = e.clientX;
+      lastTapY = e.clientY;
 
       if (e.pointerType === 'touch') {
         activeTouchPoints.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -1275,31 +1300,41 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             const deltaDist = dist - lastPinchDist;
             cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius - deltaDist * 1.45));
 
-            // 2. Twist rotation (fingers rotating around each other)
-            let deltaAngle = currentAngle - lastPinchAngle;
-            while (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
-            while (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
-            if (Math.abs(deltaAngle) > 0.01) {
-              cam.targetAzimuth -= deltaAngle * 1.35;
-            }
+            if (viewModeRef.current !== '2d') {
+              // 3D 모드에서만 비틀기 및 회전/기울기 허용
+              // 2. Twist rotation (fingers rotating around each other)
+              let deltaAngle = currentAngle - lastPinchAngle;
+              while (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
+              while (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
+              if (Math.abs(deltaAngle) > 0.01) {
+                cam.targetAzimuth -= deltaAngle * 1.35;
+              }
 
-            // 3. Two-finger horizontal translation rotation
-            const deltaMidX = midX - lastMidX;
-            if (Math.abs(deltaMidX) > 1.0) {
-              cam.targetAzimuth -= deltaMidX * 0.0055;
-            }
+              // 3. Two-finger horizontal translation rotation
+              const deltaMidX = midX - lastMidX;
+              if (Math.abs(deltaMidX) > 1.0) {
+                cam.targetAzimuth -= deltaMidX * 0.0055;
+              }
 
-            // 4. Two-finger vertical pitch adjustment
-            const deltaMidY = midY - lastMidY;
-            if (Math.abs(deltaMidY) > 1.0) {
-              if (viewModeRef.current !== '2d') {
+              // 4. Two-finger vertical pitch adjustment
+              const deltaMidY = midY - lastMidY;
+              if (Math.abs(deltaMidY) > 1.0) {
                 cam.targetPolar = Math.max(
                   (10 * Math.PI) / 180,
                   Math.min((72 * Math.PI) / 180, cam.targetPolar - deltaMidY * 0.0035)
                 );
-              } else {
-                cam.targetPolar = 0.001;
               }
+            } else {
+              // 2D 모드: 각도 조절 절대 제한 (정북 0° 및 수직 직하 0° 엄격 고정)
+              cam.targetPolar = 0.001;
+              cam.targetAzimuth = 0;
+
+              // 두 손가락 이동 시 회전 대신 자연스러운 평면 이동(Pan) 지원
+              const deltaMidX = midX - lastMidX;
+              const deltaMidY = midY - lastMidY;
+              const panScale = cam.currentRadius * 0.0014;
+              cam.targetX = Math.max(-380, Math.min(380, cam.targetX - deltaMidX * panScale));
+              cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - deltaMidY * panScale));
             }
           }
           lastPinchDist = dist;
@@ -1339,6 +1374,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             );
           } else {
             cam.targetPolar = 0.001;
+            cam.targetAzimuth = 0;
             const panScale = cam.currentRadius * 0.0014;
             const cosA = Math.cos(cam.currentAzimuth);
             const sinA = Math.sin(cam.currentAzimuth);
@@ -1485,6 +1521,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       }
 
       const code = e.code;
+      if (e.key === '+' || e.key === '=' || code === 'NumpadAdd' || code === 'KeyE') {
+        handleZoom(-90);
+        return;
+      }
+      if (e.key === '-' || e.key === '_' || code === 'NumpadSubtract' || code === 'KeyQ') {
+        handleZoom(90);
+        return;
+      }
+
       if (
         code === 'KeyW' ||
         code === 'KeyA' ||
@@ -1577,6 +1622,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           cam.targetX = Math.max(-380, Math.min(380, cam.targetX + moveX));
           cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + moveZ));
         }
+      }
+
+      if (viewModeRef.current === '2d') {
+        cam.targetPolar = 0.001;
+        cam.targetAzimuth = 0;
       }
 
       const damp = 0.12;
@@ -2760,62 +2810,76 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               52° / 0°
             </span>
 
-            {/* 360° Horizontal Rotation Slider */}
-            <div
-              className="flex-1 md:flex-initial flex items-center gap-2 px-2.5 py-1 md:py-0.5 rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08]"
-              title="360° 수평 회전 바"
-            >
-              <Compass className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
-              <span className="md:hidden text-[10.5px] font-sans text-zinc-300 flex-shrink-0">회전</span>
-              <input
-                ref={telemetryYawSliderRef}
-                type="range"
-                min="0"
-                max="359"
-                defaultValue="0"
-                onChange={(e) => handleSetAzimuthDegrees(Number(e.target.value))}
-                className="flex-1 md:w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#ffe600]"
-                title="지도 360도 회전 각도 조절"
-              />
-              <span ref={telemetryYawTextRef} className="text-[10.5px] text-[#ffe600] md:text-zinc-300 font-mono w-8 text-right flex-shrink-0">
-                0°
-              </span>
-            </div>
+            {/* In 3D Mode: Show 360° Horizontal Rotation Slider */}
+            {viewMode === '3d' ? (
+              <>
+                <div
+                  className="flex-1 md:flex-initial flex items-center gap-2 px-2.5 py-1 md:py-0.5 rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08]"
+                  title="360° 수평 회전 바"
+                >
+                  <Compass className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                  <span className="md:hidden text-[10.5px] font-sans text-zinc-300 flex-shrink-0">회전</span>
+                  <input
+                    ref={telemetryYawSliderRef}
+                    type="range"
+                    min="0"
+                    max="359"
+                    defaultValue="0"
+                    onChange={(e) => handleSetAzimuthDegrees(Number(e.target.value))}
+                    className="flex-1 md:w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#ffe600]"
+                    title="지도 360도 회전 각도 조절"
+                  />
+                  <span ref={telemetryYawTextRef} className="text-[10.5px] text-[#ffe600] md:text-zinc-300 font-mono w-8 text-right flex-shrink-0">
+                    0°
+                  </span>
+                </div>
 
-            <button
-              onClick={() => handleRotateYaw(-Math.PI / 8)}
-              title="좌측 22.5° 회전"
-              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
-            >
-              ↺
-            </button>
-            <button
-              onClick={() => handleRotateYaw(Math.PI / 8)}
-              title="우측 22.5° 회전"
-              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
-            >
-              ↻
-            </button>
+                <button
+                  onClick={() => handleRotateYaw(-Math.PI / 8)}
+                  title="좌측 22.5° 회전"
+                  className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
+                >
+                  ↺
+                </button>
+                <button
+                  onClick={() => handleRotateYaw(Math.PI / 8)}
+                  title="우측 22.5° 회전"
+                  className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.04] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
+                >
+                  ↻
+                </button>
+              </>
+            ) : (
+              /* In 2D Mode: Angle is restricted/locked to North 0°, show 2D Status Badge */
+              <div
+                className="flex items-center gap-1.5 px-2.5 py-1 md:py-0.5 rounded-[3px] md:rounded-[2px] bg-white/[0.04] border border-white/[0.08] text-[11px] font-mono text-zinc-300 select-none"
+                title="2D 모드에서는 시점이 정북(0°)과 수직 평면(0°)으로 고정되어 각도 조절이 제한됩니다."
+              >
+                <Compass className="w-3.5 h-3.5 text-[#ffe600]" />
+                <span className="font-sans font-bold text-white text-[11px]">2D 정북 고정</span>
+                <span className="text-[10px] text-zinc-500 font-mono hidden sm:inline">(각도 조절 제한)</span>
+              </div>
+            )}
 
-            {/* Desktop Zoom Buttons (Hidden on mobile where 2-finger pinch zoom is native) */}
-            <div className="hidden md:block w-[1px] h-4 bg-white/10 mx-0.5" />
+            {/* Zoom Buttons: Always visible on both Mobile and Desktop */}
+            <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
             <button
               onClick={() => handleZoom(90)}
               title="[-] 축소"
-              className="hidden md:flex w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 items-center justify-center cursor-pointer"
+              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.05] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0"
             >
               <ZoomOut className="w-3.5 h-3.5" />
             </button>
             <span
               ref={telemetryZoomRef}
-              className="hidden md:inline-block px-1.5 text-[11px] text-[#ffe600] font-bold min-w-[42px] text-center"
+              className="inline-block px-1 text-[11px] text-[#ffe600] font-bold min-w-[36px] md:min-w-[42px] text-center select-none"
             >
               100%
             </span>
             <button
               onClick={() => handleZoom(-90)}
               title="[+] 확대"
-              className="hidden md:flex w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 items-center justify-center cursor-pointer"
+              className="w-7 h-7 rounded-[3px] md:rounded-[2px] text-zinc-300 hover:text-white bg-white/[0.05] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0"
             >
               <ZoomIn className="w-3.5 h-3.5" />
             </button>
@@ -2831,6 +2895,38 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             </button>
           </div>
         </div>
+
+        {/* Mobile Dedicated One-Handed Zoom Widget (Right Side Thumb Zone) */}
+        {!pinnedRegion && !mobilePreviewCard && (
+          <div className="md:hidden fixed right-3 bottom-18 z-30 flex flex-col items-center gap-0.5 pointer-events-auto prts-glass rounded-[4px] p-1 border border-white/15 shadow-2xl animate-fadeIn">
+            <button
+              onClick={() => handleZoom(-90)}
+              title="지도 한 손 확대"
+              aria-label="지도 확대"
+              className="w-8 h-8 rounded-[3px] bg-white/[0.06] active:bg-[#ffe600] text-zinc-200 active:text-black flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <ZoomIn className="w-4 h-4" />
+            </button>
+            <div className="w-5 h-[1px] bg-white/15 my-0.5" />
+            <button
+              onClick={() => handleZoom(90)}
+              title="지도 한 손 축소"
+              aria-label="지도 축소"
+              className="w-8 h-8 rounded-[3px] bg-white/[0.06] active:bg-[#ffe600] text-zinc-200 active:text-black flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <ZoomOut className="w-4 h-4" />
+            </button>
+            <div className="w-5 h-[1px] bg-white/15 my-0.5" />
+            <button
+              onClick={handleResetCamera}
+              title="지도 시점 초기화"
+              aria-label="시점 초기화"
+              className="w-8 h-8 rounded-[3px] bg-white/[0.06] active:bg-[#ffe600] text-zinc-200 active:text-black flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
 
         {/* =========================================================================
             5. REGION DETAILS & ASSOCIATED STORIES DRAWER
@@ -3372,7 +3468,7 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
               {/* 3. 3D 회전 및 각도 조절 */}
               <div className="p-3 rounded-[3px] bg-white/[0.03] border border-white/[0.08] space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-xs">360° 회전 및 시점 각도</span>
+                  <span className="font-bold text-white text-xs">360° 회전 및 시점 각도 (3D 전용)</span>
                   <div className="flex items-center gap-1">
                     <kbd className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
                       우클릭 드래그
@@ -3384,7 +3480,7 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                   </div>
                 </div>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  우클릭 드래그나 하단 360° 바, 모바일 2손가락 비틀기 제스처로 지도를 360도 회전하고 시점 각도를 조절할 수 있습니다.
+                  우클릭 드래그나 하단 360° 바, 모바일 2손가락 비틀기 제스처로 지도를 360도 회전하고 시점 각도를 조절할 수 있습니다. (2D 평면 모드에서는 시점이 정북 0°로 고정되어 각도 조절이 자동 제한됩니다)
                 </p>
               </div>
 
@@ -3394,16 +3490,16 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
                   <span className="font-bold text-white text-xs">확대 및 축소 (Zoom)</span>
                   <div className="flex items-center gap-1">
                     <kbd className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      휠 스크롤
+                      +/- 키
                     </kbd>
                     <span className="text-zinc-500">/</span>
                     <span className="px-1.5 py-0.5 bg-white/10 rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      2손가락 핀치
+                      우측 줌 버튼 / 더블 탭
                     </span>
                   </div>
                 </div>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  마우스 휠이나 +/- 버튼, 모바일 두 손가락 핀치 제스처로 지도를 확대·축소합니다.
+                  마우스 휠, 키보드 +/- 및 Q/E 키, 화면 내 +/- 줌 버튼, 더블 클릭(더블 탭)으로 두 손을 쓰지 않고도 한 손으로 편리하게 확대·축소할 수 있습니다.
                 </p>
               </div>
 
