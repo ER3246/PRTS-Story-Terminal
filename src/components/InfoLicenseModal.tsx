@@ -10,12 +10,16 @@ import {
   AlertTriangle,
   MousePointer,
   History,
-  Type
+  Type,
+  Maximize2,
+  Share,
+  PlusSquare,
+  Monitor
 } from 'lucide-react';
 import { playClickSound, playCloseSound, playTabSwitchSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE, CHANGELOG_DATA } from '../version';
 
-export type InfoModalTab = 'license' | 'ai_disclaimer' | 'controls' | 'changelog';
+export type InfoModalTab = 'license' | 'ai_disclaimer' | 'controls' | 'changelog' | 'app_fullscreen';
 
 interface InfoLicenseModalProps {
   isOpen: boolean;
@@ -169,6 +173,21 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
           >
             <History className="w-3.5 h-3.5" />
             <span>4. 버전 기록 및 연혁 ({APP_VERSION_CODE})</span>
+          </button>
+
+          <button
+            onClick={() => {
+              playTabSwitchSound();
+              setActiveTab('app_fullscreen');
+            }}
+            className={`h-8 px-3.5 rounded-[3px] text-xs flex items-center gap-1.5 cursor-pointer transition-all ${
+              activeTab === 'app_fullscreen'
+                ? 'bg-[#ffe600] text-black font-bold shadow'
+                : 'bg-white/[0.04] text-zinc-300 hover:text-white hover:bg-white/[0.08] border border-white/[0.07]'
+            }`}
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+            <span>5. 전체 화면 및 웹 앱 설치 (PWA)</span>
           </button>
         </div>
 
@@ -520,6 +539,80 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: 전체 화면 및 웹 앱 설치 (PWA) 가이드 */}
+          {activeTab === 'app_fullscreen' && (
+            <div className="space-y-4 animate-fadeIn">
+              <div className="p-4 rounded-[3px] bg-[#ffe600]/[0.08] border border-[#ffe600]/30 space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-[#ffe600]" />
+                  <span className="text-sm font-bold text-white">
+                    전체 화면 (Fullscreen) 및 독립 웹 앱(PWA) 설치 가이드
+                  </span>
+                </div>
+                <p className="text-zinc-300 text-xs [word-break:keep-all]">
+                  모바일 및 데스크톱 환경에서 브라우저 주소창과 툴바를 숨겨 완전한 몰입형 전체 화면으로 이용할 수 있습니다. 기기 환경에 따라 아래 방법을 참고해 주세요.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Android & PC Chrome */}
+                <div className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.08] space-y-3">
+                  <div className="flex items-center gap-2 border-b border-white/[0.07] pb-2">
+                    <Monitor className="w-4 h-4 text-[#ffe600]" />
+                    <span className="font-bold text-white text-sm">Android / PC (Chrome · Edge · Whale)</span>
+                  </div>
+                  <ul className="space-y-2 text-zinc-300 text-xs [word-break:keep-all]">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#ffe600] font-mono font-bold mt-0.5">•</span>
+                      <span>
+                        <strong>상단 [전체 화면] 버튼:</strong> 헤더 우측의 <code>[전체 화면]</code> 버튼을 클릭하면 브라우저 주소창과 시스템 툴바가 즉시 숨겨집니다.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#ffe600] font-mono font-bold mt-0.5">•</span>
+                      <span>
+                        <strong>독립 웹 앱(PWA) 설치:</strong> 브라우저 주소창 우측의 [설치] 아이콘이나 헤더의 <code>[앱 설치]</code> 버튼을 눌러 데스크톱 또는 스마트폰 홈 화면에 독립 앱으로 설치할 수 있습니다.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#ffe600] font-mono font-bold mt-0.5">•</span>
+                      <span>
+                        <strong>[UI 단축] 기능:</strong> 브라우저는 그대로 두고 사이트 상단 메뉴만 접어 본문을 넓게 보고 싶을 때는 <code>[UI 단축]</code> 버튼을 이용하세요.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* iOS Safari */}
+                <div className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.08] space-y-3">
+                  <div className="flex items-center gap-2 border-b border-white/[0.07] pb-2">
+                    <Smartphone className="w-4 h-4 text-[#00d8ff]" />
+                    <span className="font-bold text-white text-sm">iOS (iPhone / iPad Safari)</span>
+                  </div>
+                  <div className="space-y-2 text-zinc-300 text-xs [word-break:keep-all]">
+                    <div className="p-2.5 rounded-[2px] bg-amber-500/10 border border-amber-500/20 text-amber-300/90 text-[11.5px]">
+                      애플 WebKit 정책상 사파리 브라우저 내부 버튼을 통한 전체 화면 확장은 제한됩니다. 홈 화면에 추가하여 앱 형태로 실행해 주세요.
+                    </div>
+                    <div className="space-y-1.5 pt-1 pl-1">
+                      <div className="flex items-center gap-2">
+                        <span className="w-4 h-4 rounded-full bg-white/10 text-white flex items-center justify-center font-mono text-[10px] shrink-0">1</span>
+                        <span>사파리 하단 툴바의 <strong>[공유]</strong> 버튼(<Share className="w-3.5 h-3.5 inline text-[#00d8ff]" />)을 탭합니다.</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-4 h-4 rounded-full bg-white/10 text-white flex items-center justify-center font-mono text-[10px] shrink-0">2</span>
+                        <span>메뉴를 아래로 스크롤하여 <strong>[홈 화면에 추가]</strong>(<PlusSquare className="w-3.5 h-3.5 inline text-[#ffe600]" />)를 선택합니다.</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-4 h-4 rounded-full bg-white/10 text-white flex items-center justify-center font-mono text-[10px] shrink-0">3</span>
+                        <span>생성된 <strong>PRTS 홈 아이콘</strong>으로 실행하면 상하단 주소창이 완전히 사라진 100% 전체 화면으로 구동됩니다.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}

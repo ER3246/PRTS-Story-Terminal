@@ -12,11 +12,14 @@ import { LightboxModal } from './components/LightboxModal';
 import { ReviewExportModal } from './components/ReviewExportModal';
 import { InfoLicenseModal, type InfoModalTab } from './components/InfoLicenseModal';
 import { ServiceNoticeModal } from './components/ServiceNoticeModal';
+import { FullscreenPwaGuideModal } from './components/FullscreenPwaGuideModal';
 import { ScrollNavButtons } from './components/ScrollNavButtons';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE } from './version';
 import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
 import type { CharacterRef, GlossaryTerm, StoryArchive } from './types/story';
 import { useHashRoute, buildHash } from './hooks/useHashRoute';
+import { useFullscreen } from './hooks/useFullscreen';
+import { usePwaInstall } from './hooks/usePwaInstall';
 import { PanelLeftOpen, Menu, Info, ChevronDown } from 'lucide-react';
 import { 
   setSoundEnabled, 
@@ -85,6 +88,7 @@ export function App() {
       setIsLightboxOpen(false);
       setIsSidebarOpenMobile(false);
       setIsServiceNoticeOpen(false);
+      setIsPwaGuideOpen(false);
     },
   });
   const currentView = route.view;
@@ -164,6 +168,17 @@ export function App() {
   const [isServiceNoticeOpen, setIsServiceNoticeOpen] = useState<boolean>(() =>
     shouldShowNoticeOnMount()
   );
+  const [isPwaGuideOpen, setIsPwaGuideOpen] = useState<boolean>(false);
+
+  // Fullscreen and PWA Hooks
+  const { isFullscreen, toggleFullscreen, isIOS, isStandalone } = useFullscreen({
+    onRequireIosGuide: () => {
+      setIsPwaGuideOpen(true);
+      playOpenSound();
+    },
+  });
+
+  const { isInstallable, promptInstall } = usePwaInstall();
 
   const handleDismissNoticeToday = useCallback(() => {
     try {
@@ -251,6 +266,9 @@ export function App() {
         if (isLightboxOpen) {
           setIsLightboxOpen(false);
           playCloseSound();
+        } else if (isPwaGuideOpen) {
+          setIsPwaGuideOpen(false);
+          playCloseSound();
         } else if (isServiceNoticeOpen) {
           setIsServiceNoticeOpen(false);
           playCloseSound();
@@ -267,7 +285,7 @@ export function App() {
           setIsSidebarOpenMobile(false);
           playCloseSound();
         }
-      } else if (currentView === 'report' && !isLightboxOpen && !isServiceNoticeOpen && !isDrawerOpen && !isSidebarOpenMobile && !isReviewExportOpen && !isInfoLicenseOpen) {
+      } else if (currentView === 'report' && !isLightboxOpen && !isPwaGuideOpen && !isServiceNoticeOpen && !isDrawerOpen && !isSidebarOpenMobile && !isReviewExportOpen && !isInfoLicenseOpen) {
         if (e.key === 'ArrowLeft' && previousStory) {
           goToStory(previousStory.id);
           playClickSound();
@@ -280,7 +298,7 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentView, isLightboxOpen, isServiceNoticeOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory, goToStory]);
+  }, [currentView, isLightboxOpen, isPwaGuideOpen, isServiceNoticeOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory, goToStory]);
 
   const handleSelectStoryFromMapOrChronicle = (id: string) => {
     goToStory(id);
@@ -353,6 +371,14 @@ export function App() {
             playOpenSound();
           }}
           onToggleCollapseHeader={() => setIsHeaderCollapsed(true)}
+          onToggleFullscreen={toggleFullscreen}
+          isFullscreen={isFullscreen}
+          onPromptInstall={promptInstall}
+          isInstallable={isInstallable}
+          onOpenFullscreenGuide={() => {
+            setIsPwaGuideOpen(true);
+            playOpenSound();
+          }}
         />
       )}
 
@@ -429,6 +455,12 @@ export function App() {
                 setIsServiceNoticeOpen(true);
                 playOpenSound();
               }}
+              onOpenFullscreenGuide={() => {
+                setIsPwaGuideOpen(true);
+                playOpenSound();
+              }}
+              onPromptInstall={promptInstall}
+              isInstallable={isInstallable}
             />
           )}
 
@@ -490,6 +522,16 @@ export function App() {
               </button>
             </div>
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setIsPwaGuideOpen(true);
+                  playOpenSound();
+                }}
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-400 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                title="전체 화면 및 웹 앱(PWA) 설치 안내 열기"
+              >
+                <span>APP / FULLSCREEN</span>
+              </button>
               <button
                 onClick={() => {
                   setIsServiceNoticeOpen(true);
@@ -564,6 +606,16 @@ export function App() {
         isOpen={isServiceNoticeOpen}
         onClose={() => setIsServiceNoticeOpen(false)}
         onConfirmDismissToday={handleDismissNoticeToday}
+      />
+
+      {/* Fullscreen & PWA Install Guide Modal */}
+      <FullscreenPwaGuideModal
+        isOpen={isPwaGuideOpen}
+        onClose={() => setIsPwaGuideOpen(false)}
+        isIOS={isIOS}
+        isInstallable={isInstallable}
+        isStandalone={isStandalone}
+        onPromptInstall={promptInstall}
       />
 
       {/* Floating Scroll-to-Top and Bottom Navigation Buttons */}

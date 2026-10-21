@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2 } from 'lucide-react';
+import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2, Minimize2, PanelTopClose, MonitorDown } from 'lucide-react';
 import { playTabSwitchSound, playClickSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE } from '../version';
 
@@ -11,8 +11,13 @@ interface HeaderProps {
   onToggleSound?: () => void;
   isSoundOn?: boolean;
   onOpenReviewExport?: () => void;
-  onOpenInfoLicense?: (initialTab?: 'license' | 'ai_disclaimer' | 'controls' | 'changelog') => void;
+  onOpenInfoLicense?: (initialTab?: 'license' | 'ai_disclaimer' | 'controls' | 'changelog' | 'app_fullscreen') => void;
   onToggleCollapseHeader?: () => void;
+  onToggleFullscreen?: () => void;
+  isFullscreen?: boolean;
+  onPromptInstall?: () => void;
+  isInstallable?: boolean;
+  onOpenFullscreenGuide?: () => void;
 }
 
 const NAV_ITEMS: { mode: MainViewMode; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -30,6 +35,10 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenReviewExport,
   onOpenInfoLicense,
   onToggleCollapseHeader,
+  onToggleFullscreen,
+  isFullscreen = false,
+  onPromptInstall,
+  isInstallable = false,
 }) => {
   const handleNav = (mode: MainViewMode) => {
     playTabSwitchSound();
@@ -109,18 +118,56 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right: Utility Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-            {/* 꽉 찬 화면 토글 버튼 */}
+            {/* 앱 설치 버튼 (PWA 설치 가능 시 노출) */}
+            {isInstallable && onPromptInstall && (
+              <button
+                onClick={() => {
+                  playClickSound();
+                  onPromptInstall();
+                }}
+                title="PRTS 터미널 웹 앱 설치"
+                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] bg-[#00d8ff]/15 hover:bg-[#00d8ff]/25 text-[#00d8ff] border border-[#00d8ff]/40 hover:border-[#00d8ff]/70 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-bold animate-pulse"
+              >
+                <MonitorDown className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">앱 설치</span>
+              </button>
+            )}
+
+            {/* 전체 화면 토글 버튼 (브라우저 주소창 숨김) */}
+            {onToggleFullscreen && (
+              <button
+                onClick={() => {
+                  playClickSound();
+                  onToggleFullscreen();
+                }}
+                title={isFullscreen ? '전체 화면 해제' : '전체 화면 (브라우저 주소창 숨김)'}
+                className={`h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] border transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium ${
+                  isFullscreen
+                    ? 'bg-[#ffe600]/15 text-[#ffe600] border-[#ffe600]/50'
+                    : 'bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border-white/[0.1] hover:border-[#ffe600]/60'
+                }`}
+              >
+                {isFullscreen ? (
+                  <Minimize2 className="w-3.5 h-3.5 text-[#ffe600]" />
+                ) : (
+                  <Maximize2 className="w-3.5 h-3.5 text-[#ffe600]" />
+                )}
+                <span className="hidden sm:inline">{isFullscreen ? '전체 해제' : '전체 화면'}</span>
+              </button>
+            )}
+
+            {/* UI 단축 버튼 (상단 메뉴 접기) */}
             {onToggleCollapseHeader && (
               <button
                 onClick={() => {
                   playClickSound();
                   onToggleCollapseHeader();
                 }}
-                title="메뉴 숨기기 (꽉 찬 화면)"
+                title="메뉴 숨기기 (UI 단축)"
                 className="h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/60 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium"
               >
-                <Maximize2 className="w-3.5 h-3.5 text-[#ffe600]" />
-                <span className="hidden sm:inline">꽉 찬 화면</span>
+                <PanelTopClose className="w-3.5 h-3.5 text-[#ffe600]" />
+                <span className="hidden sm:inline">UI 단축</span>
               </button>
             )}
 
@@ -178,7 +225,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Mobile Native Bottom Navigation Bar (4 Equal Tabs, Zero Clipping, One-Thumb Access) */}
       <nav
         aria-label="모바일 하단 메뉴"
-        className="md:hidden fixed bottom-0 inset-x-0 z-40 h-14 bg-[#080a10]/96 backdrop-blur-xl border-t border-white/[0.12] grid grid-cols-4 select-none shadow-[0_-8px_24px_rgba(0,0,0,0.75)]"
+        className="md:hidden fixed bottom-0 inset-x-0 z-40 h-[calc(3.5rem+env(safe-area-inset-bottom,0px))] pb-[env(safe-area-inset-bottom,0px)] bg-[#080a10]/96 backdrop-blur-xl border-t border-white/[0.12] grid grid-cols-4 select-none shadow-[0_-8px_24px_rgba(0,0,0,0.75)]"
       >
         {NAV_ITEMS.map(({ mode, label, icon: Icon }) => {
           const isActive = currentView === mode;
