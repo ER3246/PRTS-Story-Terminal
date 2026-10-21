@@ -1336,12 +1336,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               cam.targetPolar = 0.001;
               cam.targetAzimuth = 0;
 
-              // 두 손가락 이동 시 회전 대신 자연스러운 평면 이동(Pan) 지원
+              // 두 손가락 이동 시 회전 대신 자연스러운 1:1 평면 이동(Pan) 지원 (미끄러짐 현상 제거)
               const deltaMidX = midX - lastMidX;
               const deltaMidY = midY - lastMidY;
-              const panScale = cam.currentRadius * 0.0014;
-              cam.targetX = Math.max(-380, Math.min(380, cam.targetX - deltaMidX * panScale));
-              cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - deltaMidY * panScale));
+              const cHeight = container.clientHeight || 600;
+              const unitsPerPixel = (2 * cam.currentRadius * 0.36397023) / cHeight;
+              cam.targetX = Math.max(-380, Math.min(380, cam.targetX - deltaMidX * unitsPerPixel));
+              cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - deltaMidY * unitsPerPixel));
+              cam.currentX = cam.targetX;
+              cam.currentZ = cam.targetZ;
             }
           }
           lastPinchDist = dist;
@@ -1382,20 +1385,31 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           } else {
             cam.targetPolar = 0.001;
             cam.targetAzimuth = 0;
+            const cHeight = container.clientHeight || 600;
+            const unitsPerPixel = (2 * cam.currentRadius * 0.36397023) / cHeight;
+            cam.targetX = Math.max(-380, Math.min(380, cam.targetX - dx * unitsPerPixel));
+            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - dy * unitsPerPixel));
+            cam.currentX = cam.targetX;
+            cam.currentZ = cam.targetZ;
+          }
+        } else {
+          if (viewModeRef.current === '2d') {
+            // 2D 뷰 직관적 1:1 드래그: 시점 지연(미끄러짐 현상)을 제거하고 손가락/마우스 이동과 정확히 일치
+            const cHeight = container.clientHeight || 600;
+            const unitsPerPixel = (2 * cam.currentRadius * 0.36397023) / cHeight;
+            cam.targetX = Math.max(-380, Math.min(380, cam.targetX - dx * unitsPerPixel));
+            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - dy * unitsPerPixel));
+            cam.currentX = cam.targetX;
+            cam.currentZ = cam.targetZ;
+          } else {
             const panScale = cam.currentRadius * 0.0014;
             const cosA = Math.cos(cam.currentAzimuth);
             const sinA = Math.sin(cam.currentAzimuth);
-            cam.targetX = Math.max(-380, Math.min(380, cam.targetX + (-dx * cosA - dy * sinA) * panScale));
-            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + (dx * sinA - dy * cosA) * panScale));
+            const moveX = (-dx * cosA - dy * sinA) * panScale;
+            const moveZ = (dx * sinA - dy * cosA) * panScale;
+            cam.targetX = Math.max(-380, Math.min(380, cam.targetX + moveX));
+            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + moveZ));
           }
-        } else {
-          const panScale = cam.currentRadius * 0.0014;
-          const cosA = Math.cos(cam.currentAzimuth);
-          const sinA = Math.sin(cam.currentAzimuth);
-          const moveX = (-dx * cosA - dy * sinA) * panScale;
-          const moveZ = (dx * sinA - dy * cosA) * panScale;
-          cam.targetX = Math.max(-380, Math.min(380, cam.targetX + moveX));
-          cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + moveZ));
         }
         return;
       }
@@ -1631,12 +1645,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         }
       }
 
-      if (viewModeRef.current === '2d') {
+      const is2D = viewModeRef.current === '2d';
+      if (is2D) {
         cam.targetPolar = 0.001;
         cam.targetAzimuth = 0;
       }
 
-      const damp = 0.12;
+      // 2D 모드 드래그 시 1:1 직관적 반응을 위해 damp를 1.0으로 설정(미끄러짐 즉각 제거), 관성 이동/비행 시 0.28 적용
+      const damp = is2D && isPointerDown ? 1.0 : (is2D ? 0.28 : 0.12);
       cam.currentX += (cam.targetX - cam.currentX) * damp;
       cam.currentZ += (cam.targetZ - cam.currentZ) * damp;
       cam.currentRadius += (cam.targetRadius - cam.currentRadius) * damp;
@@ -1672,11 +1688,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       }
       if (telemetryYawTextRef.current) {
         telemetryYawTextRef.current.textContent = `${normalizedYaw}°`;
-      }
-
-      const is2D = viewModeRef.current === '2d';
-      if (is2D) {
-        cam.targetPolar = 0.001;
       }
 
       radarSweep.rotation.y -= 0.008;

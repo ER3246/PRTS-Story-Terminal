@@ -411,6 +411,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   const [isDraggingCanvas, setIsDraggingCanvas] = useState<boolean>(false);
   const [isKeyPanning, setIsKeyPanning] = useState<boolean>(false);
 
+  const zoomLevelRef = useRef<number>(zoomLevel);
+  useEffect(() => {
+    zoomLevelRef.current = zoomLevel;
+  }, [zoomLevel]);
+
+  const panPosRef = useRef<{ x: number; y: number }>(panPos);
+  useEffect(() => {
+    panPosRef.current = panPos;
+  }, [panPos]);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -704,6 +714,110 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     };
   }, [browseMode]);
 
+  // 모바일 두 손가락 핀치 줌 (Pinch-to-Zoom) 및 핀치 중심 캔버스 이동
+  useEffect(() => {
+    if (browseMode !== 'chronological') return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    let initialPinchDist = 0;
+    let initialZoom = 1;
+    let lastMidX = 0;
+    let lastMidY = 0;
+    let isPinching = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        const t0 = e.touches[0];
+        const t1 = e.touches[1];
+        initialPinchDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+        initialZoom = zoomLevelRef.current;
+        const rect = container.getBoundingClientRect();
+        lastMidX = (t0.clientX + t1.clientX) / 2 - rect.left;
+        lastMidY = (t0.clientY + t1.clientY) / 2 - rect.top;
+        isPinching = true;
+        dragTrackingRef.current.isDown = false;
+        dragTrackingRef.current.hasMoved = true;
+        dragTrackingRef.current.moveDistance = 999;
+        setIsDraggingCanvas(false);
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && isPinching) {
+        if (e.cancelable) e.preventDefault();
+        const t0 = e.touches[0];
+        const t1 = e.touches[1];
+        const currentDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+        if (initialPinchDist <= 0) {
+          initialPinchDist = currentDist;
+          initialZoom = zoomLevelRef.current;
+          return;
+        }
+
+        const rect = container.getBoundingClientRect();
+        const currentMidX = (t0.clientX + t1.clientX) / 2 - rect.left;
+        const currentMidY = (t0.clientY + t1.clientY) / 2 - rect.top;
+
+        const deltaMidX = currentMidX - lastMidX;
+        const deltaMidY = currentMidY - lastMidY;
+        lastMidX = currentMidX;
+        lastMidY = currentMidY;
+
+        const scaleMultiplier = currentDist / initialPinchDist;
+        const targetScale = Math.min(1.6, Math.max(0.45, Number((initialZoom * scaleMultiplier).toFixed(2))));
+
+        setZoomLevel((prevScale) => {
+          if (targetScale === prevScale) {
+            setPanPos((prevPan) => ({
+              x: prevPan.x + deltaMidX,
+              y: prevPan.y + deltaMidY,
+            }));
+            return prevScale;
+          }
+          const ratio = targetScale / prevScale;
+          setPanPos((prevPan) => ({
+            x: currentMidX - (currentMidX - prevPan.x) * ratio + deltaMidX,
+            y: currentMidY - (currentMidY - prevPan.y) * ratio + deltaMidY,
+          }));
+          return targetScale;
+        });
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2 && isPinching) {
+        isPinching = false;
+        initialPinchDist = 0;
+        if (e.touches.length === 1) {
+          const t = e.touches[0];
+          dragTrackingRef.current = {
+            isDown: true,
+            startX: t.clientX,
+            startY: t.clientY,
+            initialPanX: panPosRef.current.x,
+            initialPanY: panPosRef.current.y,
+            hasMoved: true,
+            moveDistance: 999,
+          };
+          setIsDraggingCanvas(true);
+        }
+      }
+    };
+
+    container.addEventListener('touchstart', onTouchStart, { passive: false });
+    container.addEventListener('touchmove', onTouchMove, { passive: false });
+    container.addEventListener('touchend', onTouchEnd);
+    container.addEventListener('touchcancel', onTouchEnd);
+
+    return () => {
+      container.removeEventListener('touchstart', onTouchStart);
+      container.removeEventListener('touchmove', onTouchMove);
+      container.removeEventListener('touchend', onTouchEnd);
+      container.removeEventListener('touchcancel', onTouchEnd);
+    };
+  }, [browseMode]);
+
   // 키보드(WASD 및 방향키) 실시간 캔버스 이동 (Shift 가속)
   useEffect(() => {
     if (browseMode !== 'chronological') return;
@@ -876,6 +990,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
   const handleCanvasPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
+    if (e.pointerType === 'touch' && !e.isPrimary) return;
     // 마우스 드래그 시작 시 키보드 이동 루프 정리
     keysDownRef.current.clear();
     if (rafIdRef.current !== null) {
