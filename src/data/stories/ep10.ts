@@ -80,8 +80,8 @@ export const episode10: StoryArchive = {
       focalCharacter: '시즈 & 아미야 & 하이디',
       location: '빅토리아 런디니움 외곽 성벽 및 지하 폐수로',
       timeline: '테라력 1098년 4월',
-      cgUrl: '/images/cgs/29_i01.png',
-      cgCaption: '안개와 장갑차량으로 둘러싸인 런디니움 외곽 성벽 아래로 은밀히 진입하는 로도스 아일랜드와 글래스고 패거리',
+      cgUrl: '/images/cgs/27_i01.png',
+      cgCaption: '살카즈 군사위원회의 거대 비행함 공사 현장을 내려다보는 테레시스와 런디니움으로 잠입하는 로도스 일행',
       synopsis: '힐록 카운티의 참극 이후 백파이프의 증언을 확보한 로도스 아일랜드는 빅토리아 제국의 심장 런디니움으로 진입한다. 그러나 런디니움은 이미 카즈델 살카즈 군사위원회의 철권통치 아래 놓여 있었고, 음유시인 하이디와의 비밀 접선을 통해 참혹한 실상이 드러난다. 한편 망명 생활을 끝내고 고향으로 돌아온 시즈는 슬럼가에서 살카즈 점령군에 맞서 싸우는 런디니움 시민 자위군과 조우한다.',
       narrativeText: '힐록 카운티의 참극 이후 백파이프의 증언을 확보한 로도스 아일랜드는 빅토리아 제국의 심장 런디니움으로 진입한다. 그러나 런디니움은 이미 카즈델 살카즈 군사위원회의 철권통치 아래 놓여 있었고, 음유시인 하이디와의 비밀 접선을 통해 참혹한 실상이 드러난다. 한편 망명 생활을 끝내고 고향으로 돌아온 시즈는 슬럼가에서 살카즈 점령군에 맞서 싸우는 런디니움 시민 자위군과 조우한다.',
       stages: [
@@ -90,14 +90,14 @@ export const episode10: StoryArchive = {
           title: '도성의 장막',
           location: '빅토리아 런디니움 외곽 방어벽 검문소 부근',
           timeMarker: '1098년 4월 런디니움 외곽',
-          cgUrl: '/images/cgs/29_i01.png',
-          cgCaption: '거대한 강철 장벽과 살카즈 보초병들이 지키고 있는 런디니움 외곽 전경',
+          cgUrl: '/images/cgs/27_i23.png',
+          cgCaption: '빅토리아의 결전 병기 성벽 주포 발사와 만프레드의 포위망에 맞서는 자위군과 글래스고 패거리',
           visuals: [
             {
-              url: '/images/cgs/29_i01.png',
+              url: '/images/cgs/27_i01.png',
               caption: '거대한 강철 장벽과 살카즈 보초병들이 지키고 있는 런디니움 외곽 전경',
               type: 'cg',
-              triggerLine: '이것이... 빅토리아의 수도 런디니움의 지금 모습인가요?'
+              triggerLine: '만약 살카즈에게 신생의 기회가 남아있다면, 지금이야말로 그 유일한 기회다.'
             }
           ],
           tacticalLog: '로도스 아일랜드 정찰 분대 작전 일지 // 런디니움 외곽 방어벽 4구역 진입로 확보 및 살카즈 순찰대 회피 완료',
@@ -134,14 +134,14 @@ export const episode10: StoryArchive = {
           title: '지하의 밀사',
           location: '런디니움 구 시가지 지하 수로 비밀 은신처',
           timeMarker: '1098년 4월 런디니움 지하',
-          cgUrl: '/images/cgs/29_i11.png',
-          cgCaption: '비밀 통신기를 조율하며 로도스 아일랜드와 글래스고 패거리를 맞이하는 음유시인 하이디',
+          cgUrl: '/images/cgs/27_i07.png',
+          cgCaption: '지하 감옥 깊숙한 곳에서 온몸의 결박을 풀고 강철 방패를 다시 들어 올리는 불굴의 혼 중위',
           visuals: [
             {
-              url: '/images/cgs/29_i11.png',
-              caption: '비밀 통신기를 조율하며 로도스 아일랜드와 글래스고 패거리를 맞이하는 음유시인 하이디',
+              url: '/images/cgs/27_i20.png',
+              caption: '런디니움 지하 깊숙이 뻗어 있는 거대하고 어둑한 하수 파이프라인 수로',
               type: 'cg',
-              triggerLine: '오랜만이에요, 켈시 선생님. 그리고... 어서 오세요, 빅토리아의 손님 여러분.'
+              triggerLine: '파이프라인. 깊고 어둑한, 끝이 보이지 않는 파이프라인.'
             }
           ],
           tacticalLog: '빅토리아 정보망 비밀 교신 기록 // 접선 코드 [나이팅게일의 서약] 정상 인증, 내부 저항 거점 인계',
@@ -178,11 +178,11 @@ export const episode10: StoryArchive = {
           title: '시민 자위군',
           location: '런디니움 하층 슬럼가 골목길',
           timeMarker: '1098년 4월 런디니움 슬럼가',
-          cgUrl: '/images/cgs/29_i02.png',
-          cgCaption: '급조된 바리케이드 뒤에서 살카즈 진압군에 맞서 사투를 벌이는 런디니움 시민 자위군 대원들',
+          cgUrl: '/images/cgs/27_i19.png',
+          cgCaption: '왕가의 검을 뽑아 들고 런디니움 시민들과 함께 왕권 수복 연합 전선을 선언하는 시즈',
           visuals: [
             {
-              url: '/images/cgs/29_i02.png',
+              url: '/images/cgs/27_i23.png',
               caption: '급조된 바리케이드 뒤에서 살카즈 진압군에 맞서 사투를 벌이는 런디니움 시민 자위군 대원들',
               type: 'cg',
               triggerLine: '우리는 물러서지 않는다! 여기가 우리 런디니움이다!'
@@ -228,8 +228,8 @@ export const episode10: StoryArchive = {
       focalCharacter: '만프레드 & 다그다 & 켈시',
       location: '런디니움 성벽 제3포대 및 중층 방어 지구',
       timeline: '테라력 1098년 4월',
-      cgUrl: '/images/cgs/29_i05.png',
-      cgCaption: '런디니움 작전 지도를 내려다보며 침투로를 완벽히 예측하고 포위망을 좁히는 살카즈 군사위원회 사령관 만프레드',
+      cgUrl: '/images/cgs/27_i23.png',
+      cgCaption: '빅토리아의 결전 병기 성벽 주포 발사와 만프레드의 포위망에 맞서는 자위군과 글래스고 패거리',
       synopsis: '살카즈 군사위원회의 냉혹하고 치밀한 젊은 사령관 만프레드는 로도스와 자위군의 침투를 눈치채고 대규모 소탕 작전을 개시한다. 시험 가동된 런디니움 성벽 주포의 가공할 화력이 시가지를 뒤흔드는 가운데, 글래스고 패거리의 거점이 노출되며 다그다와 자위군은 절체절명의 위기에 처한다.',
       narrativeText: '살카즈 군사위원회의 냉혹하고 치밀한 젊은 사령관 만프레드는 로도스와 자위군의 침투를 눈치채고 대규모 소탕 작전을 개시한다. 시험 가동된 런디니움 성벽 주포의 가공할 화력이 시가지를 뒤흔드는 가운데, 글래스고 패거리의 거점이 노출되며 다그다와 자위군은 절체절명의 위기에 처한다.',
       stages: [
@@ -238,11 +238,11 @@ export const episode10: StoryArchive = {
           title: '사령관 만프레드',
           location: '살카즈 군사위원회 런디니움 지휘소',
           timeMarker: '1098년 4월 군사위원회 작전실',
-          cgUrl: '/images/cgs/29_i05.png',
+          cgUrl: '/images/cgs/27_i15.png',
           cgCaption: '모니터에 투영된 런디니움 지하망을 분석하며 냉혹한 미소를 짓는 만프레드 장군',
           visuals: [
             {
-              url: '/images/cgs/29_i05.png',
+              url: '/images/cgs/27_i15.png',
               caption: '모니터에 투영된 런디니움 지하망을 분석하며 냉혹한 미소를 짓는 만프레드 장군',
               type: 'cg',
               triggerLine: '생쥐들이 하수구로 숨어들었군. 퇴로를 막고 통째로 수장시켜라.'
@@ -276,11 +276,11 @@ export const episode10: StoryArchive = {
           title: '성벽 주포의 굉음',
           location: '런디니움 중층 상업구 및 방어벽 포대 하부',
           timeMarker: '1098년 4월 런디니움 상공',
-          cgUrl: '/images/cgs/29_i07.png',
+          cgUrl: '/images/cgs/27_i03.png',
           cgCaption: '런디니움 성벽에서 발사된 거대한 에너지 빔이 도심 외곽 산맥과 건물을 분쇄하는 압도적 광경',
           visuals: [
             {
-              url: '/images/cgs/29_i07.png',
+              url: '/images/cgs/27_i03.png',
               caption: '런디니움 성벽에서 발사된 거대한 에너지 빔이 도심 외곽 산맥과 건물을 분쇄하는 압도적 광경',
               type: 'cg',
               triggerLine: '저것이... 도시 자체를 요새화했다는 런디니움 성벽 주포인가!'
@@ -321,11 +321,11 @@ export const episode10: StoryArchive = {
           title: '은신처 사수전',
           location: '런디니움 자위군 제2비밀 창고',
           timeMarker: '1098년 4월 저녁',
-          cgUrl: '/images/cgs/29_i02.png',
+          cgUrl: '/images/cgs/27_i23.png',
           cgCaption: '포위망을 뚫고 쏟아져 들어오는 살카즈 돌격대에 맞서 검을 겨누는 다그다와 자위군',
           visuals: [
             {
-              url: '/images/cgs/29_i02.png',
+              url: '/images/cgs/27_i14_1.png',
               caption: '포위망을 뚫고 쏟아져 들어오는 살카즈 돌격대에 맞서 검을 겨누는 다그다와 자위군',
               type: 'cg',
               triggerLine: '내가 방패가 되겠다. 비전투원들을 대피시켜라!'
@@ -371,8 +371,8 @@ export const episode10: StoryArchive = {
       focalCharacter: '혼 & 백파이프 & 미저리',
       location: '런디니움 제7군사 요새 지하 감옥',
       timeline: '테라력 1098년 4월',
-      cgUrl: '/images/cgs/29_i06.png',
-      cgCaption: '지하 감옥 깊숙한 곳에서 온몸이 결박된 채 고문을 견뎌내며 긍지를 잃지 않는 혼 중위',
+      cgUrl: '/images/cgs/27_i07.png',
+      cgCaption: '지하 감옥 깊숙한 곳에서 온몸의 결박을 풀고 강철 방패를 다시 들어 올리는 불굴의 혼 중위',
       synopsis: '힐록 카운티에서 아웃캐스트와 함께 전사한 줄 알았던 제2폭풍돌격대 지휘관 혼 중위가 런디니움 지하 군사 감옥에 생포되어 있다는 결정적인 첩보가 입수된다. 로도스 아일랜드의 정예 오퍼레이터 미저리의 공간 전이 능력과 글래스고 패거리의 기습을 통해 감옥 침투 작전이 개시된다.',
       narrativeText: '힐록 카운티에서 아웃캐스트와 함께 전사한 줄 알았던 제2폭풍돌격대 지휘관 혼 중위가 런디니움 지하 군사 감옥에 생포되어 있다는 결정적인 첩보가 입수된다. 로도스 아일랜드의 정예 오퍼레이터 미저리의 공간 전이 능력과 글래스고 패거리의 기습을 통해 감옥 침투 작전이 개시된다.',
       stages: [
@@ -381,14 +381,14 @@ export const episode10: StoryArchive = {
           title: '고독한 방패',
           location: '런디니움 제7요새 특수 심문실',
           timeMarker: '1098년 4월 지하 감옥',
-          cgUrl: '/images/cgs/29_i06.png',
+          cgUrl: '/images/cgs/27_i05_1.png',
           cgCaption: '피투성이가 된 채 묶여 있으면서도 살카즈 심문관을 똑바로 노려보는 혼 중위',
           visuals: [
             {
-              url: '/images/cgs/29_i06.png',
+              url: '/images/cgs/27_i05_1.png',
               caption: '피투성이가 된 채 묶여 있으면서도 살카즈 심문관을 똑바로 노려보는 혼 중위',
               type: 'cg',
-              triggerLine: '너희가 부러뜨릴 수 있는 건 내 뼈뿐이다. 빅토리아 군인의 긍지는 결코 꺾이지 않아.'
+              triggerLine: '타라인…… 날 타라인이라고 불러 주는구나.'
             }
           ],
           tacticalLog: '살카즈 군사위원회 기밀 심문 일지 // 수감 번호 0928 (빅토리아 중위 리타 스카만드로스) 심문 진척 0%, 군사 암호 자백 거부',
@@ -456,11 +456,11 @@ export const episode10: StoryArchive = {
           title: '부활한 기사도',
           location: '제7요새 지하 통로 및 탈출 수직구',
           timeMarker: '1098년 4월 새벽',
-          cgUrl: '/images/cgs/29_i06.png',
+          cgUrl: '/images/cgs/27_i07.png',
           cgCaption: '구출된 혼이 무기를 되찾고 부서진 몸을 일으켜 전열의 맨 앞에 서서 퇴로를 개척하는 모습',
           visuals: [
             {
-              url: '/images/cgs/29_i06.png',
+              url: '/images/cgs/27_i07.png',
               caption: '구출된 혼이 무기를 되찾고 부서진 몸을 일으켜 전열의 맨 앞에 서서 퇴로를 개척하는 모습',
               type: 'cg',
               triggerLine: '제2폭풍돌격대 지휘관 리타 스카만드로스, 전선에 복귀했다!'
@@ -507,8 +507,8 @@ export const episode10: StoryArchive = {
       focalCharacter: '시즈 & 테레시스 & 아미야',
       location: '런디니움 왕성 상공 및 비밀 저항군 집결지',
       timeline: '테라력 1098년 4월 말',
-      cgUrl: '/images/cgs/29_i10.png',
-      cgCaption: '런디니움 도심 상공으로 서서히 부상하는 고대 살카즈의 거대한 군사 비행함 Shard(비산)',
+      cgUrl: '/images/cgs/27_i19.png',
+      cgCaption: '왕가의 검을 뽑아 들고 런디니움 시민들과 함께 왕권 수복 연합 전선을 선언하는 시즈',
       synopsis: '런디니움 상공으로 떠오르는 고대 카즈델의 비행전함 비산(Shard). 섭정왕 테레시스는 전 테라를 향해 살카즈의 부활과 제국 지배를 선언한다. 한편 죽은 줄 알았던 테레시아의 불길한 존재감을 감지한 아미야는 경악하고, 시즈는 도망치던 과거의 깃발을 꺾고 빅토리아의 진정한 군주로서 런디니움을 되찾기 위한 결사항전을 선언한다.',
       narrativeText: '런디니움 상공으로 떠오르는 고대 카즈델의 비행전함 비산(Shard). 섭정왕 테레시스는 전 테라를 향해 살카즈의 부활과 제국 지배를 선언한다. 한편 죽은 줄 알았던 테레시아의 불길한 존재감을 감지한 아미야는 경악하고, 시즈는 도망치던 과거의 깃발을 꺾고 빅토리아의 진정한 군주로서 런디니움을 되찾기 위한 결사항전을 선언한다.',
       stages: [
@@ -517,11 +517,11 @@ export const episode10: StoryArchive = {
           title: '비상하는 군함 Shard',
           location: '런디니움 왕궁 중심부 상공',
           timeMarker: '1098년 4월 말 황혼',
-          cgUrl: '/images/cgs/29_i10.png',
+          cgUrl: '/images/cgs/27_i04.png',
           cgCaption: '런디니움 중심부를 뚫고 부상하는 거대한 검은 강철의 괴수 Shard 비행함',
           visuals: [
             {
-              url: '/images/cgs/29_i10.png',
+              url: '/images/cgs/27_i04.png',
               caption: '런디니움 중심부를 뚫고 부상하는 거대한 검은 강철의 괴수 Shard 비행함',
               type: 'cg',
               triggerLine: '저것이 살카즈가 빅토리아의 피를 빨아 만들어낸 괴물인가...'
@@ -555,11 +555,11 @@ export const episode10: StoryArchive = {
           title: '테레시아의 그림자',
           location: '살카즈 섭정왕부 최고 테라스',
           timeMarker: '1098년 4월 말',
-          cgUrl: '/images/cgs/29_i08.png',
+          cgUrl: '/images/cgs/27_i18_1.png',
           cgCaption: '런디니움을 내려다보는 섭정왕 테레시스와 그 곁에 서 있는 베일에 싸인 여인의 실루엣',
           visuals: [
             {
-              url: '/images/cgs/29_i08.png',
+              url: '/images/cgs/27_i18_1.png',
               caption: '런디니움을 내려다보는 섭정왕 테레시스와 그 곁에 서 있는 베일에 싸인 여인의 실루엣',
               type: 'cg',
               triggerLine: '아미야... 그 반지는 아직도 네 손에 있구나.'
@@ -600,11 +600,11 @@ export const episode10: StoryArchive = {
           title: '꺾이지 않은 깃발',
           location: '런디니움 지하 저항군 통합 사령부',
           timeMarker: '1098년 5월 전야',
-          cgUrl: '/images/cgs/29_i04.png',
+          cgUrl: '/images/cgs/27_i19.png',
           cgCaption: '왕가의 검을 뽑아 들고 빅토리아와 런디니움을 지키기 위해 일어서는 시즈(알렉산드리아)',
           visuals: [
             {
-              url: '/images/cgs/29_i04.png',
+              url: '/images/cgs/27_i19.png',
               caption: '왕가의 검을 뽑아 들고 빅토리아와 런디니움을 지키기 위해 일어서는 시즈(알렉산드리아)',
               type: 'cg',
               triggerLine: '나는 더 이상 도망치지 않는다. 런디니움의 왕관은 내가 되찾겠다.'
@@ -663,8 +663,8 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 1',
         title: '도성의 장막과 지하의 밀사',
         location: '빅토리아 런디니움 외곽 성벽 및 지하 수로',
-        cgUrl: '/images/cgs/29_i01.png',
-        cgCaption: '살카즈의 감시를 피해 런디니움 지하 수로로 은밀히 침투하는 로도스 아일랜드와 글래스고 패거리',
+        cgUrl: '/images/cgs/27_i01.png',
+        cgCaption: '살카즈 군사위원회의 거대 비행함 공사 현장을 내려다보는 테레시스와 런디니움으로 잠입하는 로도스 일행',
         summary: '살카즈 군사위원회의 통제 아래 놓인 런디니움에 잠입한 로도스 아일랜드. 음유시인 하이디와의 접선을 통해 도시의 비극을 파악하고 시민 자위군과 연대를 맺는다.',
         narrativeText: '힐록 카운티의 참극 이후 로도스 아일랜드와 글래스고 패거리는 카즈델 살카즈 군사위원회가 점령한 빅토리아의 수도 런디니움으로 잠입한다. 음유시인 하이디와의 비밀 접선을 통해 살카즈가 도시를 인질로 삼고 있음을 확인한 일행은, 슬럼가에서 살카즈 진압군에 맞서 싸우는 런디니움 시민 자위군을 구출하고 함께 싸우기로 맹세한다.',
         quotes: [
@@ -683,8 +683,8 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 2',
         title: '성벽 주포와 만프레드의 포위망',
         location: '런디니움 성벽 제3포대 및 중층 방어 지구',
-        cgUrl: '/images/cgs/29_i07.png',
-        cgCaption: '런디니움 성벽에서 발사된 거대한 에너지 빔이 도심 외곽 산맥과 건물을 분쇄하는 압도적 광경',
+        cgUrl: '/images/cgs/27_i23.png',
+        cgCaption: '빅토리아의 결전 병기 성벽 주포 발사와 만프레드의 포위망에 맞서는 자위군과 글래스고 패거리',
         summary: '살카즈 군사위원회의 명장 만프레드가 저항군 소탕에 나서고, 시험 가동된 런디니움 성벽 주포의 파멸적인 위력 앞에서 자위군 거점이 위기에 처한다.',
         narrativeText: '살카즈 군사위원회 사령관 만프레드는 침투 세력의 정체를 간파하고 성벽 주포를 시험 가동하여 압도적인 화력으로 저항군을 위협한다. 자위군의 거점이 노출되어 포위된 위기 속에서 타워브리지 호위대의 다그다가 육탄으로 적을 막아서고, W의 기습적인 폭격 지원으로 구사일생 탈출한다.',
         quotes: [
@@ -703,8 +703,8 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 3',
         title: '고독한 방패와 감옥 기습 작전',
         location: '런디니움 제7군사 요새 지하 감옥',
-        cgUrl: '/images/cgs/29_i06.png',
-        cgCaption: '지하 감옥 깊숙한 곳에서 온몸이 결박된 채 고문을 견뎌내며 긍지를 잃지 않는 혼 중위',
+        cgUrl: '/images/cgs/27_i07.png',
+        cgCaption: '지하 감옥 깊숙한 곳에서 온몸의 결박을 풀고 강철 방패를 다시 들어 올리는 불굴의 혼 중위',
         summary: '힐록 카운티에서 생포되어 지하 감옥에서 고문을 견뎌내던 폭풍돌격대 혼 중위를 구출하기 위해 로도스와 글래스고 패거리가 기습 침투를 감행한다.',
         narrativeText: '힐록 카운티에서 생포되어 제7요새 지하 감옥에 수감된 채 가혹한 고문을 버텨내던 제2폭풍돌격대 지휘관 혼 중위. 로도스 아일랜드 정예 오퍼레이터 미저리의 차원 공간 전이 아츠를 통해 감옥 깊숙이 침투한 구출팀은 마침내 혼을 구출해내고, 만신창이가 된 몸으로도 다시 강철 방패를 치켜든 혼이 선봉에 서서 적의 겹겹 포위망을 돌파한다.',
         quotes: [
@@ -723,8 +723,8 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 4',
         title: '비상하는 Shard와 꺾이지 않은 깃발',
         location: '런디니움 왕성 상공 및 비밀 저항군 집결지',
-        cgUrl: '/images/cgs/29_i10.png',
-        cgCaption: '런디니움 도심 상공으로 서서히 부상하는 고대 살카즈의 거대한 군사 비행함 Shard(비산)',
+        cgUrl: '/images/cgs/27_i19.png',
+        cgCaption: '왕가의 검을 뽑아 들고 런디니움 시민들과 함께 왕권 수복 연합 전선을 선언하는 시즈',
         summary: '공중 요새 Shard의 부상과 테레시스의 선전포고 속에서, 시즈가 왕가의 검을 뽑아 들고 런디니움 탈환 연합 전선을 결성하며 대전쟁의 서막을 연다.',
         narrativeText: '런디니움 상공으로 떠오르는 고대 살카즈의 거대한 군사 비행함 Shard. 섭정왕 테레시스는 전 테라를 향해 선전포고를 감행하고, 아미야는 테레시아의 불길한 존재감을 감지한다. 절망 속에서 시즈는 왕가의 검을 뽑아 들며 도망치던 과거를 버리고 런디니움을 되찾기 위한 연합 저항 전선을 결성한다.',
         quotes: [
@@ -760,8 +760,8 @@ export const episode10: StoryArchive = {
       description: '런디니움의 슬럼가에서 패거리를 이끌던 망명 군주. 고향의 참상을 목도하고 도망치던 과거를 딛고 빅토리아를 구하기 위해 왕가의 검을 뽑아 든다.',
       quote: '나는 더 이상 도망치지 않는다. 왕관의 무게가 피로 물들어 있다 해도, 런디니움은 내가 되찾겠다!',
       statusInChapter: '런디니움 귀환 및 저항군 지휘',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/siege.png',
+      illustUrl: '/images/characters/illust/siege.png'
     },
     {
       id: 'amiya',
@@ -796,8 +796,8 @@ export const episode10: StoryArchive = {
       description: '페일로슈 백작령 혈통의 젊은 살카즈 장군. 냉혹하고 치밀한 군사적 두뇌로 런디니움 성벽 주포와 방어망을 지휘한다.',
       quote: '생쥐들이 하수구로 숨어들었군. 퇴로를 막고 통째로 수장시켜라.',
       statusInChapter: '런디니움 방어 사령관 및 주포 지휘',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/manfred.png',
+      illustUrl: '/images/characters/illust/manfred.png'
     },
     {
       id: 'theresis',
@@ -808,8 +808,8 @@ export const episode10: StoryArchive = {
       description: '카즈델의 최고 군사 지도자. 빅토리아 대공작들의 분열을 틈타 런디니움을 장악하고 공중 요새 Shard를 통해 전 테라를 굴복시키려 한다.',
       quote: '살카즈의 자손들이여, 고개를 들어라. 수천 년의 방랑과 능욕은 오늘로 끝난다.',
       statusInChapter: '비행군함 Shard 부상 및 전 테라 선전포고',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/theresis.png',
+      illustUrl: '/images/characters/illust/theresis.png'
     },
     {
       id: 'heidi',
@@ -820,8 +820,8 @@ export const episode10: StoryArchive = {
       description: '켈시의 제자이자 빅토리아 사교계의 음유시인. 런디니움 내부의 기밀과 저항군 정보를 수집하여 로도스에 전달하는 핵심 연락책.',
       quote: '대공작들은 멍청하게도 살카즈가 자신들의 하수인 역할을 해줄 거라 믿었어요.',
       statusInChapter: '비밀 통신망 가동 및 첩보 제공',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/heidi.png',
+      illustUrl: '/images/characters/illust/heidi.png'
     },
     {
       id: 'kaltsit',
@@ -856,8 +856,8 @@ export const episode10: StoryArchive = {
       description: '빅토리아 왕실 타워브리지 호위대의 마지막 생존자. 시즈를 끝까지 보좌하며 시민들을 구하기 위해 자신의 몸을 던져 적을 막아선다.',
       quote: '내가 방패가 되겠다. 알렉산드리아 님께 손끝 하나 대지 못한다!',
       statusInChapter: '시민 보호 및 후방 결사항전',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/dagda.png',
+      illustUrl: '/images/characters/illust/dagda.png'
     },
     {
       id: 'indra',
@@ -868,8 +868,8 @@ export const episode10: StoryArchive = {
       description: '시즈의 오랜 전우이자 뒷골목 격투의 달인. 날카로운 쌍단검으로 살카즈 정예병들을 제압하며 슬럼가를 누빈다.',
       quote: '빌어먹을 뿔쟁이 자식들, 런디니움 골목길 싸움이 어떤 건지 똑똑히 가르쳐주지!',
       statusInChapter: '글래스고 행동대 돌격 지휘',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/indra.png',
+      illustUrl: '/images/characters/illust/indra.png'
     },
     {
       id: 'morgan',
@@ -880,8 +880,8 @@ export const episode10: StoryArchive = {
       description: '글래스고 패거리의 전략과 전술 도구를 담당하는 오퍼레이터. 특제 연막탄과 함정을 이용해 아군의 퇴로를 지킨다.',
       quote: '골목길에선 덩치 큰 녀석들이 제일 좋은 표적이지.',
       statusInChapter: '퇴로 확보 및 연막 교란 지원',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/morgan.png',
+      illustUrl: '/images/characters/illust/morgan.png'
     },
     {
       id: 'w',
@@ -904,8 +904,8 @@ export const episode10: StoryArchive = {
       description: '공간의 위상과 굴절을 다루는 로도스의 최정예 비밀 요원. 감옥 구출 작전에서 차원 통로를 개척하여 기적적인 침투를 성공시킨다.',
       quote: '공간의 문은 3분간 열려 있는다. 그 이상 지체되면 적들이 몰려올 것이다.',
       statusInChapter: '차원 위상 왜곡을 통한 감옥 침투 성공',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/misery.png',
+      illustUrl: '/images/characters/illust/misery.png'
     },
     {
       id: 'sanguinarch',
@@ -916,8 +916,8 @@ export const episode10: StoryArchive = {
       description: '살카즈 왕정군을 이끄는 잔혹하고 오만한 흡혈귀들의 군주. 혈액 아츠를 이용해 전장을 학살의 도가니로 물들인다.',
       quote: '필멸자들의 하찮은 피가 제단의 거름이 될 것이다.',
       statusInChapter: '살카즈 왕정군 지휘 및 테레시스 호위',
-      avatarUrl: '',
-      illustUrl: ''
+      avatarUrl: '/images/characters/sanguinarch.png',
+      illustUrl: '/images/characters/illust/sanguinarch.png'
     },
     {
       id: 'closer',
