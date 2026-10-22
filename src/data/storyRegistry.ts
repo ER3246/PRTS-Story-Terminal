@@ -9,6 +9,7 @@ import { episode06 } from './stories/ep06';
 import { episode07 } from './stories/ep07';
 import { episode08 } from './stories/ep08';
 import { episode09 } from './stories/ep09';
+import { episode10 } from './stories/ep10';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -484,16 +485,31 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act II 석양의 런디니움',
     seriesOrder: 10,
     isOmnibus: false,
+    docFormat: 'multi_part',
     officialSynopsis: '런디니움으로 잠입한 로도스와 글래스고 패거리. 살카즈 군사위원회의 도시 점령과 하이디의 비밀 통신, 그리고 런디니움 성벽 아래에서 벌어지는 은밀한 저항전.',
     splashVisualUrl: '/images/story_covers/ep10.png',
+    seriesTabs: [
+      { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 런디니움 잠입과 자위군의 조우', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 런디니움 주포와 강철의 포위망', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 비밀 감옥 잠입과 혼의 구출', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 섭정왕의 선전포고와 꺾인 깃발', code: 'PART 4' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 서사 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 런디니움 잠입과 자위군의 조우', code: 'PART 1', focalCharacter: '시즈 & 아미야 & 하이디' },
+      { id: 'part_2', label: 'Part 2: 런디니움 주포와 강철의 포위망', code: 'PART 2', focalCharacter: '만프레드 & 다그다 & 켈시' },
+      { id: 'part_3', label: 'Part 3: 비밀 감옥 잠입과 혼의 구출', code: 'PART 3', focalCharacter: '혼 & 백파이프 & 미저리' },
+      { id: 'part_4', label: 'Part 4: 섭정왕의 선전포고와 꺾인 깃발', code: 'PART 4', focalCharacter: '시즈 & 테레시스 & 아미야' }
+    ],
     releaseOrder: 23,
     releaseYear: 3,
     chronologicalOrder: 35,
     timeline: '테라력 1098년 봄',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep11',
@@ -2616,6 +2632,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep07: episode07,
   ep08: episode08,
   ep09: episode09,
+  ep10: episode10,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,

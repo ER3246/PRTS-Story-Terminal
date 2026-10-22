@@ -1,7 +1,7 @@
-export const APP_VERSION = '0.3.5';
-export const APP_VERSION_CODE = 'v0.3.5';
+export const APP_VERSION = '0.4.0';
+export const APP_VERSION_CODE = 'v0.4.0';
 export const APP_RELEASE_STAGE = 'Pre-Release';
-export const APP_BUILD_DATE = '2026.10.22';
+export const APP_BUILD_DATE = '2026.10.23';
 
 export interface ChangelogEntry {
   version: string;
@@ -27,8 +27,21 @@ export const CHANGELOG_DATA: ChangelogEntry[] = [
     isPlanned: true,
   },
   {
-    version: 'v0.3.5',
+    version: 'v0.4.0',
     stage: 'Current Pre-Release',
+    date: '2026.10.23',
+    title: '메인 테마 Act II [EP 10 섀터 포인트] 신규 편입 및 정밀 서사 아카이브 구축',
+    highlights: [
+      '메인 테마 Act II (석양의 런디니움) 2번째 에피소드 [EP 10 섀터 포인트] 전체 4개 파트, 12개 스테이지(10-01 ~ 10-12) 전편 편입',
+      '총 6,500자 이상의 고밀도 정사(Canon) 서사 및 12종 공식 16:9 와이드 인게임 씬 CG 연동',
+      '등장인물 15인(시즈, 아미야, 혼, 만프레드, 테레시스, 하이디 등) 상세 프로필 및 6대 핵심 세계관 용어 사전(성벽 주포, Shard 등) 탑재',
+      '데이터 무결성 검증 통과: 파트-아크 ID 동기화, CG 비율 및 존재 여부, 직함 35자 이하 룰 등 전 항목 100% 무결성 확보',
+    ],
+    isCurrent: true,
+  },
+  {
+    version: 'v0.3.5',
+    stage: 'Pre-Release',
     date: '2026.10.22',
     title: '스토리 통합 플로팅 네비게이션 독 & UI 단축 정리 및 버전 체계 합리화',
     highlights: [
@@ -39,7 +52,6 @@ export const CHANGELOG_DATA: ChangelogEntry[] = [
       '상단 헤더 중복 UI 단축 버튼 제거 및 아이콘 직관화: 전체화면(브라우저 창)과 UI 단축(상단 메뉴 접기/복원)의 역할 및 아이콘 분리',
       '버전 관리 체계 현실화 및 재조정: 기존 임의로 비약된 버전(v0.10.0)을 실제 개발 단계와 패치 번호에 맞추어 v0.3.5로 촘촘히 재정렬',
     ],
-    isCurrent: true,
   },
   {
     version: 'v0.3.4',
