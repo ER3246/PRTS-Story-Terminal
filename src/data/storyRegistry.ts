@@ -486,21 +486,21 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 10,
     isOmnibus: false,
     docFormat: 'multi_part',
-    officialSynopsis: '런디니움으로 잠입한 로도스와 글래스고 패거리. 살카즈 군사위원회의 도시 점령과 하이디의 비밀 통신, 그리고 런디니움 성벽 아래에서 벌어지는 은밀한 저항전.',
+    officialSynopsis: '빅토리아 수도 런디니움을 장악한 카즈델 살카즈 군사위원회와 섭정왕 테레시스. 더 샤드 빌딩 상공에 거대한 폭풍이 모여들고, 수디언구 309번 출입구에서 시작된 수성포의 포화 속에서 로도스 아일랜드와 런디니움 시민 자경단이 조우한다. 186일간 게릴라전을 버텨온 폭풍돌격대 혼 중위의 전우 구출, 화학 공장의 비밀 결전, 그리고 무너지는 성벽을 뚫고 폭풍 속으로 질주하는 장갑열차의 사투.',
     splashVisualUrl: '/images/story_covers/ep10.png',
     seriesTabs: [
       { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
-      { id: 'part_1', label: 'Part 1: 런디니움 잠입과 자위군의 조우', code: 'PART 1' },
-      { id: 'part_2', label: 'Part 2: 런디니움 주포와 강철의 포위망', code: 'PART 2' },
-      { id: 'part_3', label: 'Part 3: 비밀 감옥 잠입과 혼의 구출', code: 'PART 3' },
-      { id: 'part_4', label: 'Part 4: 섭정왕의 선전포고와 꺾인 깃발', code: 'PART 4' }
+      { id: 'part_1', label: 'Part 1: 폭풍이 모이는 탑과 수디언구의 포성', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 지하의 불씨와 옛 친구들의 그림자', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 부서진 석상과 가면 속의 배신자', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 무너지는 성벽과 폭풍 속으로 달리는 열차', code: 'PART 4' }
     ],
     subPages: [
       { id: 'overview', label: '전체 서사 개요', isOverview: true },
-      { id: 'part_1', label: 'Part 1: 런디니움 잠입과 자위군의 조우', code: 'PART 1', focalCharacter: '시즈 & 아미야 & 하이디' },
-      { id: 'part_2', label: 'Part 2: 런디니움 주포와 강철의 포위망', code: 'PART 2', focalCharacter: '만프레드 & 다그다 & 켈시' },
-      { id: 'part_3', label: 'Part 3: 비밀 감옥 잠입과 혼의 구출', code: 'PART 3', focalCharacter: '혼 & 백파이프 & 미저리' },
-      { id: 'part_4', label: 'Part 4: 섭정왕의 선전포고와 꺾인 깃발', code: 'PART 4', focalCharacter: '시즈 & 테레시스 & 아미야' }
+      { id: 'part_1', label: 'Part 1: 폭풍이 모이는 탑과 수디언구의 포성', code: 'PART 1', focalCharacter: '시즈 & 박사 & 피스트' },
+      { id: 'part_2', label: 'Part 2: 지하의 불씨와 옛 친구들의 그림자', code: 'PART 2', focalCharacter: '클로비시아 & 하이디 & 혼 & W' },
+      { id: 'part_3', label: 'Part 3: 부서진 석상과 가면 속의 배신자', code: 'PART 3', focalCharacter: '만드라고라 & 미저리 & 다마즈티' },
+      { id: 'part_4', label: 'Part 4: 무너지는 성벽과 폭풍 속으로 달리는 열차', code: 'PART 4', focalCharacter: '박사 & 아미야 & 혼 & 시즈' }
     ],
     releaseOrder: 23,
     releaseYear: 3,
