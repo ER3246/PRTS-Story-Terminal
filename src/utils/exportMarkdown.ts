@@ -33,6 +33,10 @@ const GLOBAL_CHARACTER_NAME_MAP: Record<string, string> = {
   closer: '클로저',
   w: 'W',
   talulah: '탈룰라',
+  kaschey: '코셀나 (카셰이)',
+  nine: '나인',
+  harmonie: '아르모니',
+  bagpipe: '백파이프',
 };
 
 /**
