@@ -6,7 +6,7 @@ export const episode12: StoryArchive = {
   category: 'main',
   categoryLabel: '메인 테마',
   actGroup: '메인 Act II: 석양의 런디니움',
-  titleKo: '올 콰이어트 언더 더 썬더',
+  titleKo: '천둥 속의 고요',
   titleEn: 'All Quiet Under the Thunder',
   order: 12,
   bannerImage: '/images/story_covers/ep12.png',

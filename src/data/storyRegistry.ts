@@ -555,7 +555,7 @@ export const storyRegistry: StoryListItem[] = [
   {
     id: 'ep12',
     code: 'EP 12',
-    titleKo: '올 콰이어트 언더 더 썬더',
+    titleKo: '천둥 속의 고요',
     titleEn: 'All Quiet Under the Thunder',
     category: 'main',
     categoryLabel: '메인 테마',
@@ -588,8 +588,8 @@ export const storyRegistry: StoryListItem[] = [
     timeline: '테라력 1098년 초여름',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep13',
