@@ -38,7 +38,7 @@ export const episode11: StoryArchive = {
       '하이버리 구 11번 군수 공장 근로자 연대',
       '카즈델 군사위원회',
       '뱀파이어 혈족',
-      '빅토리아 도시방위군 (제8사단)',
+      '런디니움 도시방위군',
       '탑의 기사',
       '빅토리아 증기기사단'
     ],
@@ -544,7 +544,7 @@ export const episode11: StoryArchive = {
           visuals: [],
           tacticalLog: '2-Track 전선 대치 // 지상 생귀나르-로고스 격돌, 지하 드라코의 열쇠 개방',
           summary: '지상 사령탑에서 생귀나르가 아미야를 덮치자 로고스가 피의 파도를 갈라버리고, 지하에서는 시즈가 드라코의 열쇠로 왕의 안식처 문을 연다.',
-          narrativeText: '사령탑 옥상에 뱀파이어 생귀나르가 등판해 아미야와 아스카론을 핏빛 장막으로 압박하지만, 밴시의 젊은 군주 로고스가 나타나 뼈 피리와 주문으로 생귀나르의 피의 파도를 양단한다. 같은 시각 지하에서는 시즈가 인드라와 모건을 통로 밖 경계로 남긴 채, 켈시에게 받은 \'드라코의 열쇠\'를 들어 올린다. 과거 아슬란이 드라코 왕을 시해하려 했던 역사의 빚을 짊어진 채, 시즈는 굳게 닫혀 있던 왕의 안식처 성문을 마침내 열어젖힌다.',
+          narrativeText: '사령탑 옥상에 뱀파이어 생귀나르가 등판해 아미야와 아스카론을 핏빛 장막으로 압박하지만, 밴시의 젊은 군주 로고스가 나타나 골필과 고대 주문으로 생귀나르의 피의 파도를 양단한다. 같은 시각 지하에서는 시즈가 인드라와 모건을 통로 밖 경계로 남긴 채, 켈시에게 받은 \'드라코의 열쇠\'를 들어 올린다. 과거 아슬란이 드라코 왕을 시해하려 했던 역사의 빚을 짊어진 채, 시즈는 굳게 닫혀 있던 왕의 안식처 성문을 마침내 열어젖힌다.',
           quotes: [
             {
               speaker: '로고스',
@@ -629,7 +629,7 @@ export const episode11: StoryArchive = {
             {
               speaker: '다그다',
               speakerId: 'dagda',
-              text: '이…… 이렇게 많은 갑옷이. 모두 여기서 전사했구나. 도대체…… 도대체…… 왜……',
+              text: '시즈가 첫날에 이미 너희한테 말했을 텐데. 자경단과 함께 할 사람들은 글래스고 패거리이지, 알렉산드리나 전하나 탑의 기사가 아니라고. ……이…… 이렇게 많은 갑옷이. 모두 여기서 전사했구나.',
               context: '대못에 꿰뚫린 증기 갑옷을 붙잡고 눈물을 쏟아낼 때'
             },
             {
@@ -841,7 +841,7 @@ export const episode11: StoryArchive = {
               context: '로도스 남부 사무소를 떠나며 남긴 편지에서'
             }
           ],
-          involvedCharacters: ['siege', 'clovicia', 'doctor', 'amiya', 'kaltsit', 'horn', 'totter', 'feist']
+          involvedCharacters: ['siege', 'clovicia', 'doctor', 'amiya', 'kaltsit', 'ascalon', 'horn', 'misery', 'totter', 'feist', 'paprika', 'manfred', 'chen', 'bagpipe', 'reed', 'wellington']
         }
       ]
     }
@@ -1030,7 +1030,7 @@ export const episode11: StoryArchive = {
       role: '카즈델 군사위원회 고용 살카즈 용병 소녀',
       faction: '카즈델 군사위원회 / 살카즈 용병',
       description: '수디언 구에서 전사한 고참 살카즈 용병 \'그림\'을 따라 컬럼비아에서 런디니움으로 온 어린 용병 소녀. 11번 군수 공장의 캐서린을 처형하려던 용병대에 속해 있었으나, 캐서린에게 그림의 유품 장갑을 돌려받고 마음에 깊은 동요를 겪으며 피스트 일행의 도움으로 살아 돌아간다.',
-      quote: '그림 아저씨가…… 이 장갑을 공장에 두고 왔다고 했어요. 아저씨는…… 이미 수디언 구에서 죽었어요.',
+      quote: '저랑 같이 있는 용병들 대부분은 사실 자기들이 뭐 때문에 싸우는지도 모를 거예요. 우리는 그냥 갈 곳이 없을 뿐이죠. 아무 데도 우리를 반겨주지 않으니까.',
       statusInChapter: '캐서린에게 그림의 유품 장갑 수령 및 구명',
       avatarUrl: '/images/characters/paprika.png',
       illustUrl: '/images/characters/illust/paprika.png'
@@ -1090,7 +1090,7 @@ export const episode11: StoryArchive = {
       role: '살카즈 십왕정 군주 · 뱀파이어 군주',
       faction: '카즈델 군사위원회 / 뱀파이어 혈족',
       description: '살카즈 뱀파이어 종족의 잔혹한 군주. 컴버랜드 저택을 기습 방화해 불바다로 만들고, 방위군 사령탑 옥상에서 병사들을 꼭두각시로 조종해 투신시키며 거대한 피의 파도를 일으켰으나 로고스에게 가로막힌다.',
-      quote: '우리의 만찬은 이제 막 시작되었을 뿐이다. 이 도시에 흐르는 모든 피가 나의 갈증을 채울 것이다.',
+      quote: '피는 생명이 끝났다고 마르지 않습니다. 피는 그저 당신의 헛된 움직임에 더 빨리 솟구칠 뿐이죠. ……살카즈가 티카즈로 불리고, 아직 터전이 있었던 시절…… 카즈델은 우리에게 전 세계나 다름없었습니다.',
       statusInChapter: '컴버랜드 저택 방화 및 사령탑 피의 해일 전개',
       avatarUrl: '/images/characters/sanguinarch.png',
       illustUrl: '/images/characters/illust/sanguinarch.png'
@@ -1158,11 +1158,11 @@ export const episode11: StoryArchive = {
     {
       id: 'letto',
       nameKo: '레토',
-      nameEn: 'Lt. Col. Letto',
-      role: '빅토리아 도시방위군 제8사단 중령',
-      faction: '빅토리아 도시방위군 / 가울 유민회',
+      nameEn: 'Lt. Col. Leto',
+      role: '런디니움 도시방위군 지휘관 (중령)',
+      faction: '런디니움 도시방위군 / 가울 유민회',
       description: '가울 유민 출신의 방위군 지휘관. 4년 전 내전 직후 부하들을 지키기 위해 테레시스에게 협력했으나, 살카즈의 만행과 생귀나르의 위협 속에서 군인으로서의 맹세와 양심 사이에서 처절하게 고뇌한다.',
-      quote: '군인은 명령에 복종한다. 하지만…… 그 명령이 우리의 백성들을 사지로 내모는 것이라면, 우리는 대체 무엇을 지키기 위해 군인이 되었단 말인가.',
+      quote: '군사위원회를 도와 런디니움을 관리하는 건 쉬운 일이 아니야. ……그 시대를 겪은 마지막 이가 죽으면 가울에 대한 우리 기억은 제국처럼 바람과 함께 사라지고 말 겁니다. 그래서 우리가 유일하게 할 수 있는 건 꺼져가는 잿불이라도 잡는 겁니다.',
       statusInChapter: '사령탑 대치 및 생귀나르 억압 속 고뇌',
       avatarUrl: '/images/characters/letto.png',
       illustUrl: '/images/characters/illust/letto.png'
@@ -1174,7 +1174,7 @@ export const episode11: StoryArchive = {
       role: '로도스 아일랜드 S.W.E.E.P. 총괄 책임자',
       faction: '로도스 아일랜드 / 바벨',
       description: '그림자 속에서 로도스를 호위하는 수장. 11번 군수 공장 처형장에서 피스트를 도와 캐서린을 구출하고, 사령탑 상층에서는 맨프레드와 정면으로 격돌하며 물러서지 않는 결의를 보인다.',
-      quote: '망설이지 않는다. 그것이 너와 나의 차이다, 맨프레드.',
+      quote: '……그렇다. 그리고, 너랑 다르게. 나는 망설이지 않는다. 그리고 지금, 너희는 그런 불명예스러운 방식으로 전하의 죽음을 더럽히고 있다.',
       statusInChapter: '처형장 기습 캐서린 구출 및 맨프레드 결투',
       avatarUrl: '/images/characters/ascalon.png',
       illustUrl: '/images/characters/illust/ascalon.png'
@@ -1198,7 +1198,7 @@ export const episode11: StoryArchive = {
       role: '탑의 기사단 기사 / 글래스고 패거리',
       faction: '탑의 기사 / 글래스고 패거리',
       description: '왕실 기사의 긍지를 잇는 무투가. 왕의 안식처에서 전멸한 증기기사단의 유해 앞에서 오열했으나, 시즈와 함께 마지막 증기기사를 상대로 결전에 임한다. 알레데일의 마지막 밀침으로 살아남아 성역 밖으로 탈출한다.',
-      quote: '이…… 이렇게 많은 갑옷이. 모두 여기서 전사했구나. 도대체…… 도대체…… 왜……',
+      quote: '시즈가 첫날에 이미 너희한테 말했을 텐데. 자경단과 함께 할 사람들은 글래스고 패거리이지, 알렉산드리나 전하나 탑의 기사가 아니라고. ……이…… 이렇게 많은 갑옷이. 모두 여기서 전사했구나.',
       statusInChapter: '왕의 안식처 증기기사단 참배 및 성역 탈출',
       avatarUrl: '/images/characters/dagda.png',
       illustUrl: '/images/characters/illust/dagda.png'
@@ -1210,7 +1210,7 @@ export const episode11: StoryArchive = {
       role: '글래스고 패거리 돌격대장',
       faction: '글래스고 패거리',
       description: '시즈의 오랜 충복. 왕의 안식처 입구 밖에서 모건과 함께 통로를 경계하던 중 캐스터 공작 측 자객들의 기습을 받았으나 완벽히 분쇄한다.',
-      quote: '감히 두목의 등 뒤를 노리다니, 뼈도 못 추리게 부숴주마!',
+      quote: '그들도 언젠가는 비나가 훌륭한 리더라는 걸 알게 될 거야. 그리고 예우는 마땅하고 안 하고가 없어. 그건 비나가 직접 쟁취해야 하는 거니까.',
       statusInChapter: '왕의 안식처 외부 통로 자객 요격 경계',
       avatarUrl: '/images/characters/indra.png',
       illustUrl: '/images/characters/illust/indra.png'
@@ -1222,7 +1222,7 @@ export const episode11: StoryArchive = {
       role: '글래스고 패거리 참모',
       faction: '글래스고 패거리',
       description: '글래스고의 지략가. 왕의 안식처 외부에서 인드라와 함께 경계를 섰으며, 알레데일이 남긴 "회고록에 잘 써 달라"는 유언을 전해 듣고 깊은 상념에 잠긴다.',
-      quote: '회고록이라니…… 그런 부탁을 남기고 가버리면 어떡하라는 거야.',
+      quote: '내 회고록은 이미 시작됐어. 나는 이걸로 큰돈을 벌 거야! 회고록 제목은 《위대한 비나 폐하와 그녀의 위대한 친구들》이야. 이제 출판사만 찾으면 돼.',
       statusInChapter: '왕의 안식처 외부 경계 및 알레데일 유언 수령',
       avatarUrl: '/images/characters/morgan.png',
       illustUrl: '/images/characters/illust/morgan.png'
@@ -1246,7 +1246,7 @@ export const episode11: StoryArchive = {
       role: '로도스 아일랜드 최고 전술 지휘관',
       faction: '로도스 아일랜드',
       description: '현장 작전을 총괄한 전술가. 11번 군수 공장 잠입, 사령탑 기습, 추락하는 아미야 구조, 그리고 치명상을 입은 켈시의 후송까지 냉철한 판단으로 위기를 돌파한다.',
-      quote: '알레데일의 선택은 헛되지 않았어. 우리가 이 도시의 내일을 열어야 해.',
+      quote: '그들은 폭풍을 무기로 삼을 거다. 이 기술이 완성되면 테라 전체가 위험해진다는 뜻이지. ……나 여기 있어. 네 곁을 떠나지 않아.',
       statusInChapter: '사령탑 아미야 구조 및 켈시 후송 지휘',
       avatarUrl: '/images/characters/doctor.png',
       illustUrl: '/images/characters/doctor.png'
@@ -1254,7 +1254,7 @@ export const episode11: StoryArchive = {
     {
       id: 'clovicia',
       nameKo: '클로비시아',
-      nameEn: 'Clovicia',
+      nameEn: 'Clovisia',
       role: '런디니움 시민 자경단 총지휘관',
       faction: '런디니움 시민 자경단',
       description: '자경단을 이끄는 지도자. 사령탑 앞을 막아선 방위군을 설득하고 아미야·박사와 함께 보급선 데이터를 확보했으며, 알레데일의 희생을 전해 듣고 경의를 표한다.',
@@ -1270,7 +1270,7 @@ export const episode11: StoryArchive = {
       role: '로도스 아일랜드 엔지니어링 및 기술 총괄',
       faction: '로도스 아일랜드',
       description: '로도스의 천재 엔지니어. 피스트의 자주포 통제와 연계해 드론으로 사령탑 관제실을 해킹, 살카즈 보급선 기착지 70%의 데이터를 추출하는 데 성공한다.',
-      quote: '해킹 진척도 70%! 보급로 기착지 암호가 풀렸어!',
+      quote: '드론이 방위군 사령탑의 코어에 접근할 수만 있다면, 내가 30분 안에 시스템을 해킹해 최근 열흘간의 런디니움 교통 기록을 확보할 수 있어. ……획득한 데이터가…… 70%…… 뭐, 이 정도뿐이라도.',
       statusInChapter: '사령탑 관제실 원격 해킹 및 보급로 데이터 추출',
       avatarUrl: '/images/characters/closer.png',
       illustUrl: '/images/characters/illust/closer.png'
