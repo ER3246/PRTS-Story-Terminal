@@ -525,8 +525,23 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act II 석양의 런디니움',
     seriesOrder: 11,
     isOmnibus: false,
+    docFormat: 'multi_part',
     officialSynopsis: '수성포 S-309의 파괴 이후 장갑열차를 타고 오슈테리그 구역에 도착한 시즈와 로도스 아일랜드, 그리고 런디니움 시민 자경단. 잿빛 안개와 공장 연기 속의 올드 조지 구역에서 노동자들과 시민들의 저항이 번져가고, 지하 깊은 곳 \'영광의 사냥터\'에서 잠들어 있던 빅토리아 최후의 증기기사가 깨어난다.',
     splashVisualUrl: '/images/story_covers/ep11.png',
+    seriesTabs: [
+      { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 올드 조지의 여명과 흩어진 불씨', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 닫힌 공장과 잿빛의 등가교환', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 붉은 파도와 증기기사의 봉인', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 맹세의 기사와 꺼지지 않는 불길', code: 'PART 4' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 서사 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 올드 조지의 여명과 흩어진 불씨', code: 'PART 1', focalCharacter: '알레데일 & 피스트 & 캐서린' },
+      { id: 'part_2', label: 'Part 2: 닫힌 공장과 잿빛의 등가교환', code: 'PART 2', focalCharacter: '시즈 & 골딩 & 토터' },
+      { id: 'part_3', label: 'Part 3: 붉은 파도와 증기기사의 봉인', code: 'PART 3', focalCharacter: '다그다 & 로고스 & 생귀나르' },
+      { id: 'part_4', label: 'Part 4: 맹세의 기사와 꺼지지 않는 불길', code: 'PART 4', focalCharacter: '증기기사 & 알레데일 & 시즈' }
+    ],
     releaseOrder: 28,
     releaseYear: 4,
     chronologicalOrder: 38,
