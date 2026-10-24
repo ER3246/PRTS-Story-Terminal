@@ -911,7 +911,7 @@ export const episode10: StoryArchive = {
       quote: '아미야, 내 손을 잡아. 기폭장치를 눌러야 할 때 알려줘. 난 똑같이 했을 거다.',
       statusInChapter: '수성포 통제실 침투 및 자폭 지휘',
       avatarUrl: '/images/characters/doctor.png',
-      illustUrl: ''
+      illustUrl: '/images/characters/doctor.png'
     },
     {
       id: 'horn',
