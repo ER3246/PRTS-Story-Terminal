@@ -10,6 +10,7 @@ import { episode07 } from './stories/ep07';
 import { episode08 } from './stories/ep08';
 import { episode09 } from './stories/ep09';
 import { episode10 } from './stories/ep10';
+import { episode11 } from './stories/ep11';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -524,16 +525,16 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act II 석양의 런디니움',
     seriesOrder: 11,
     isOmnibus: false,
-    officialSynopsis: '런디니움 성벽 아래를 둘러싼 자경단과 공작들의 계략. 살카즈 왕정군과 증기기사의 마지막 전설, 그리고 런디니움을 뒤덮은 절망의 안개.',
+    officialSynopsis: '수성포 S-309의 파괴 이후 장갑열차를 타고 오슈테리그 구역에 도착한 시즈와 로도스 아일랜드, 그리고 런디니움 시민 자경단. 잿빛 안개와 공장 연기 속의 올드 조지 구역에서 노동자들과 시민들의 저항이 번져가고, 지하 깊은 곳 \'영광의 사냥터\'에서 잠들어 있던 빅토리아 최후의 증기기사가 깨어난다.',
     splashVisualUrl: '/images/story_covers/ep11.png',
     releaseOrder: 28,
     releaseYear: 4,
     chronologicalOrder: 38,
-    timeline: '테라력 1098년 여름',
+    timeline: '테라력 1098년 봄 (4월 하순~5월 초)',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep12',
@@ -2633,6 +2634,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep08: episode08,
   ep09: episode09,
   ep10: episode10,
+  ep11: episode11,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
