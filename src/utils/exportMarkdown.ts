@@ -40,6 +40,17 @@ const GLOBAL_CHARACTER_NAME_MAP: Record<string, string> = {
   horn: '혼',
   misery: '미저리',
   wellington: '웰링턴 공작',
+  delphine: '델핀',
+  baird: '베어드',
+  cador: '카도르',
+  windermere: '윈더미어 공작',
+  caster: '캐스터 공작',
+  nachzehrer: '나흐체러르 킹',
+  gray_hat: '회색 모자',
+  soldier: '빅토리아 군관',
+  mob: '굶주린 폭도',
+  sarkaz_commander: '살카즈 지휘관',
+  dublinn_officer: '더블린 장교',
 };
 
 /**

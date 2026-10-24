@@ -11,6 +11,7 @@ import { episode08 } from './stories/ep08';
 import { episode09 } from './stories/ep09';
 import { episode10 } from './stories/ep10';
 import { episode11 } from './stories/ep11';
+import { episode12 } from './stories/ep12';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -554,7 +555,7 @@ export const storyRegistry: StoryListItem[] = [
   {
     id: 'ep12',
     code: 'EP 12',
-    titleKo: '천둥 속의 고요',
+    titleKo: '올 콰이어트 언더 더 썬더',
     titleEn: 'All Quiet Under the Thunder',
     category: 'main',
     categoryLabel: '메인 테마',
@@ -564,12 +565,27 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act II 석양의 런디니움',
     seriesOrder: 12,
     isOmnibus: false,
-    officialSynopsis: '빅토리아 대공작들의 군단이 런디니움 외곽에 집결한다. 살카즈 군사위원회의 거대 비공정 비행선과 테레시스의 냉혹한 시선, 전쟁의 천둥소리가 대지를 뒤흔든다.',
+    docFormat: 'multi_part',
+    officialSynopsis: '런디니움의 구식 물류 구역 노포트 구가 의문의 기술적 이유로 도시 본체에서 분리·고립되고, 그곳에 수만 명의 무고한 시민과 감염자 난민이 갇힌다. 살카즈 군사위원회가 건조 중인 공중 전함을 차지하려는 빅토리아 대공작들과 더블린, 그리고 난민 구출을 위해 목숨을 건 로도스 아일랜드와 글래스고 패거리의 사투. 죽어가는 골딩의 소원을 받아 그녀의 모습으로 변신한 다마즈티 클러스터, 노포트 구 상공에서 결사의 그림자 도약을 감행하는 이네스, 그리고 런디니움 황야에 마침내 모습을 드러낸 나흐체러르 킹의 부식 군대.',
     splashVisualUrl: '/images/story_covers/ep12.png',
+    seriesTabs: [
+      { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 고립된 노포트 구와 선의의 배신', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 굶주린 거리, 옛 추억과 부서진 이상', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 윈더미어의 혈통, 비행선의 그림자', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 진지한 초대, 고요한 전장', code: 'PART 4' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 요약 및 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 고립된 노포트 구와 선의의 배신', isOverview: false },
+      { id: 'part_2', label: 'Part 2: 굶주린 거리, 옛 추억과 부서진 이상', isOverview: false },
+      { id: 'part_3', label: 'Part 3: 윈더미어의 혈통, 비행선의 그림자', isOverview: false },
+      { id: 'part_4', label: 'Part 4: 진지한 초대, 고요한 전장', isOverview: false }
+    ],
     releaseOrder: 33,
     releaseYear: 4,
     chronologicalOrder: 41,
-    timeline: '테라력 1098년 가을',
+    timeline: '테라력 1098년 초여름',
     isTimelineEstimated: false,
     isUnlocked: true,
     statusBadge: 'ARCHIVED',
@@ -2650,6 +2666,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep09: episode09,
   ep10: episode10,
   ep11: episode11,
+  ep12: episode12,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
