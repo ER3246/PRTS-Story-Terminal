@@ -269,6 +269,9 @@ export function generateStoryMarkdown(story: StoryArchive): string {
     if (char.quote) {
       md += `- **대표 대사:** "${char.quote}"\n`;
     }
+    if (char.variants && char.variants.length > 0) {
+      md += `- **시점별 외형 비주얼:** ${char.variants.map((v) => `${v.label}${v.timePeriod ? ` (${v.timePeriod})` : ''}`).join(' / ')}\n`;
+    }
     md += `- **인물 소개:** ${char.description}\n\n`;
   });
 

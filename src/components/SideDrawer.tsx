@@ -11,6 +11,7 @@ interface SideDrawerProps {
   onClose: () => void;
   selectedCharacter: CharacterRef | null;
   selectedGlossary: GlossaryTerm | null;
+  initialVariantId?: string | null;
   onOpenLightbox?: (imgUrl: string, caption?: string, title?: string) => void;
 }
 
@@ -19,14 +20,30 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onClose,
   selectedCharacter,
   selectedGlossary,
+  initialVariantId,
   onOpenLightbox,
 }) => {
   const [illustError, setIllustError] = useState(false);
   const [prevCharId, setPrevCharId] = useState<string | undefined>(selectedCharacter?.id);
+  const [prevVariantId, setPrevVariantId] = useState<string | null | undefined>(initialVariantId);
+  const [activeVariantIndex, setActiveVariantIndex] = useState<number>(() => {
+    if (initialVariantId && selectedCharacter?.variants && selectedCharacter.variants.length > 0) {
+      const idx = selectedCharacter.variants.findIndex((v) => v.id === initialVariantId);
+      return idx >= 0 ? idx : 0;
+    }
+    return 0;
+  });
 
-  if (selectedCharacter?.id !== prevCharId) {
+  if (selectedCharacter?.id !== prevCharId || initialVariantId !== prevVariantId) {
     setPrevCharId(selectedCharacter?.id);
+    setPrevVariantId(initialVariantId);
     setIllustError(false);
+    if (initialVariantId && selectedCharacter?.variants && selectedCharacter.variants.length > 0) {
+      const idx = selectedCharacter.variants.findIndex((v) => v.id === initialVariantId);
+      setActiveVariantIndex(idx >= 0 ? idx : 0);
+    } else {
+      setActiveVariantIndex(0);
+    }
   }
 
   useEffect(() => {
@@ -71,9 +88,13 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {/* Character Profile */}
           {selectedCharacter && (() => {
-            const rawIllustUrl = getCharacterIllustUrl(selectedCharacter);
+            const activeVariant = selectedCharacter.variants && selectedCharacter.variants[activeVariantIndex]
+              ? selectedCharacter.variants[activeVariantIndex]
+              : null;
+
+            const rawIllustUrl = activeVariant?.illustUrl || getCharacterIllustUrl(selectedCharacter);
             const resolvedIllustUrl = rawIllustUrl ? resolveAssetUrl(rawIllustUrl) : '';
-            const rawAvatarUrl = getCharacterAvatarUrl(selectedCharacter);
+            const rawAvatarUrl = activeVariant?.avatarUrl || getCharacterAvatarUrl(selectedCharacter);
             const resolvedAvatarUrl = rawAvatarUrl ? resolveAssetUrl(rawAvatarUrl) : '';
             const hasValidIllust = Boolean(resolvedIllustUrl && resolvedIllustUrl.trim() !== '' && !illustError);
 
@@ -88,14 +109,18 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     <div className="absolute top-2.5 left-3 flex items-center gap-1.5 z-10 pointer-events-none">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600] animate-pulse" />
                       <span className="text-[10px] font-mono tracking-widest text-zinc-400 font-bold uppercase">
-                        PRTS ARCHIVE // FULL-BODY VISUAL
+                        PRTS ARCHIVE // FULL-BODY VISUAL {activeVariant ? `// ${activeVariant.label.toUpperCase()}` : ''}
                       </span>
                     </div>
 
                     {/* Lightbox Zoom Button */}
                     {onOpenLightbox && (
                       <button
-                        onClick={() => onOpenLightbox(resolvedIllustUrl, `${selectedCharacter.nameKo} (${selectedCharacter.nameEn}) 전신 일러스트`, selectedCharacter.nameKo)}
+                        onClick={() => onOpenLightbox(
+                          resolvedIllustUrl,
+                          `${selectedCharacter.nameKo} (${selectedCharacter.nameEn}) ${activeVariant ? `[${activeVariant.label}]` : '전신 일러스트'}`,
+                          selectedCharacter.nameKo
+                        )}
                         className="absolute top-2.5 right-3 z-10 px-2.5 py-1 rounded-[3px] bg-black/65 hover:bg-black/90 border border-white/15 hover:border-[#ffe600] text-[11px] text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all cursor-pointer backdrop-blur-xs"
                         title="원화 확대"
                       >
@@ -148,6 +173,68 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     <div className="text-[11px] text-zinc-500 mt-1 max-w-[280px]">
                       현장 전술 데이터베이스에 등록된 고유 시각화 프로필이 존재하지 않는 인물입니다.
                     </div>
+                  </div>
+                )}
+
+                {/* 시점/전개별 외형 전환 셀렉터 (Variants) */}
+                {selectedCharacter.variants && selectedCharacter.variants.length > 1 && (
+                  <div className="p-3 rounded-[4px] bg-white/[0.03] border border-white/[0.08] space-y-2.5 shadow-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-300">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                        <span>시점별 외형 아카이브</span>
+                      </div>
+                      {activeVariant?.timePeriod && (
+                        <span className="px-2 py-0.5 rounded-[2px] bg-[#ffe600]/10 border border-[#ffe600]/30 text-[10.5px] font-mono font-semibold text-[#ffe600]">
+                          {activeVariant.timePeriod}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      {selectedCharacter.variants.map((v, vIdx) => {
+                        const isSelected = activeVariantIndex === vIdx;
+                        return (
+                          <button
+                            key={v.id || vIdx}
+                            type="button"
+                            onClick={() => {
+                              setActiveVariantIndex(vIdx);
+                              setIllustError(false);
+                            }}
+                            className={`p-2 rounded-[3px] border flex items-center gap-2.5 transition-all cursor-pointer text-left ${
+                              isSelected
+                                ? 'bg-[#ffe600]/15 border-[#ffe600] text-white shadow-sm ring-1 ring-[#ffe600]/50'
+                                : 'bg-white/[0.02] hover:bg-white/[0.06] border-white/[0.08] text-zinc-400 hover:text-zinc-200'
+                            }`}
+                          >
+                            <div className={`w-9 h-9 rounded-[2px] overflow-hidden border flex-shrink-0 ${isSelected ? 'border-[#ffe600]' : 'border-white/10'}`}>
+                              <TacticalAvatar
+                                src={v.avatarUrl ? resolveAssetUrl(v.avatarUrl) : ''}
+                                alt={v.label}
+                                className="w-full h-full"
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className={`text-[11.5px] font-bold truncate ${isSelected ? 'text-[#ffe600]' : 'text-zinc-300'}`}>
+                                {v.label}
+                              </div>
+                              {v.timePeriod && (
+                                <div className="text-[10px] text-zinc-500 font-mono truncate">
+                                  {v.timePeriod}
+                                </div>
+                              )}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {activeVariant?.description && (
+                      <div className="text-[11px] text-zinc-400 leading-relaxed px-1 pt-0.5 [word-break:keep-all]">
+                        {activeVariant.description}
+                      </div>
+                    )}
                   </div>
                 )}
 

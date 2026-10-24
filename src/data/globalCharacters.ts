@@ -964,20 +964,25 @@ export const globalCharacterMap: Record<string, CharacterRef> = {
     description: '빅토리아 황실의 충신 로버트 컴버랜드 공작의 외동딸. 캐스터 공작의 협박과 가문의 사명에 얽매여 왕의 안식처에서 시즈에게 칼을 겨누며 배신했으나, 시즈의 진심 어린 호소에 사명의 굴레를 벗어던진다. 무너지는 왕의 안식처에서 시즈와 다그다를 문밖으로 밀어내고 홀로 남아 마지막 증기기사를 상대하며 잔해 속에 실종된다.',
     quote: '당신의 말을 들을게, 비나. 사명 따윈 이제 없어. 컴버랜드도 없고, 대공작도 없어. 그 우화를 끝내자. ……용서해 줘…… 내가 상대해줄게, 나의 악몽…… 나의 희망이여.',
     statusInChapter: '왕의 안식처에 홀로 남아 마지막 증기기사를 가로막고 실종',
-    spoilerLevel: 4
-  },
-  alledale_child: {
-    id: 'alledale_child',
-    nameKo: '알레데일 (26년 전)',
-    nameEn: 'Allerdale Cumberland (Childhood)',
-    faction: '컴버랜드 공작가 / 빅토리아',
-    role: '컴버랜드 공작가의 어린 영애 (26년 전)',
-    avatarUrl: '/images/characters/alledale_child.png',
-    illustUrl: '/images/characters/illust/alledale_child.png',
-    description: '26년 전 오슈테리그 구 컴버랜드 저택에서 살아가던 어린 시절의 알레데일. 가문의 차가운 초대 증기 갑옷 뒤에 숨어 위대한 증기 기사가 되어 빅토리아를 지켜내겠다고 맹세했다. 반역자들의 밀담을 엿듣다 추락하여 황금빛 사자 무리와 어린 비나 공주에게 구조받았던 인연을 간직하고 있다.',
-    quote: '난 얌전하게 굴지 않을 거야! 난 증기 기사가 될 거야! 그리고 어른이 되면…… 꼭, 난 반드시 빅토리아를 구할 거라고!',
-    statusInChapter: '26년 전 과거 회상 등장 (빅토리아와 증기 기사에 대한 동경)',
-    spoilerLevel: 1
+    spoilerLevel: 4,
+    variants: [
+      {
+        id: 'current',
+        label: '현재 시점 (런디니움)',
+        timePeriod: '테라력 1098년 (현재)',
+        avatarUrl: '/images/characters/alledale.png',
+        illustUrl: '/images/characters/illust/alledale.png',
+        description: '자경단 어텀 리프를 이끄는 성인 알레데일. 은발 숏컷의 펠라인 여성 지휘관.'
+      },
+      {
+        id: 'child',
+        label: '26년 전 비주얼 (과거 회상)',
+        timePeriod: '테라력 1072년 (26년 전)',
+        avatarUrl: '/images/characters/alledale_child.png',
+        illustUrl: '/images/characters/illust/alledale_child.png',
+        description: '26년 전 컴버랜드 저택에서 가문의 초대 증기 갑옷을 동경하던 어린 시절의 모습. 청록색 프릴 드레스를 입은 소녀.'
+      }
+    ]
   },
   steam_knight: {
     id: 'steam_knight',

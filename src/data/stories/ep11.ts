@@ -127,19 +127,23 @@ export const episode11: StoryArchive = {
           narrativeText: '26년 전, 아슬란 국왕과 로버트 컴버랜드 공작이 의회와의 갈등을 논하던 중 왕궁 지하가 침입당해 보검 \'왕의 숨결\'과 어린 알렉산드리나(비나) 공주가 실종되었다는 급보가 전해진다. 연회장에서 마지막으로 책봉된 증기 기사 찰스 린치 경이 의회 명령으로 전출되었다는 소식과 가문에 대한 험담을 들은 어린 알레데일은, 다락방의 초대 증기 갑옷 뒤에 숨어 위대한 기사가 되겠다고 다짐한다. 그때 방에 들어온 상인과 장교의 반역 모의를 엿듣다 2층 창밖으로 추락한 알레데일을 전설 속 황금빛 사자(한숨의 무리)와 그 등에 타고 \'왕의 숨결\'을 품은 어린 비나가 받아내며 훗날의 재회를 예언한다.',
           quotes: [
             {
-              speaker: '어린 알레데일',
-              speakerId: 'alledale_child',
+              speaker: '알레데일',
+              speakerId: 'alledale',
+              avatarUrl: '/images/characters/alledale_child.png',
+              variantId: 'child',
               text: '제일 대단한 증기 기사는 넌데, 사람들은 다 잊었나 봐! 하지만, 아버지는 진짜로 용감한 사람은 희생을 두려워하지 않고, 잊히는 건 더더욱 두려워하지 말아야 한다고 했어…… 빨리 어른이 되고 싶다…… 그리고 가장 영예로운 증기 기사가 되어, 적을 모조리 쓰러뜨릴 거야!',
               context: '다락방에서 가문의 초대 증기 갑옷을 어루만지며 속삭이던 맹세'
             },
             {
-              speaker: '어린 알레데일',
-              speakerId: 'alledale_child',
+              speaker: '알레데일',
+              speakerId: 'alledale',
+              avatarUrl: '/images/characters/alledale_child.png',
+              variantId: 'child',
               text: '여긴 우리 집이야. 컴버랜드의 모든 사람이 그랬듯이, 나도 우리 가문을 물려받고 지킬 거야. 내 목숨의 끝이 올 때까지. 맹세해.',
               context: '시녀 에일쉬에게 컴버랜드 가문을 끝까지 지키겠다고 다짐하며'
             }
           ],
-          involvedCharacters: ['alledale_child', 'siege']
+          involvedCharacters: ['alledale', 'siege']
         },
         {
           stageCode: '11-2',
@@ -963,19 +967,25 @@ export const episode11: StoryArchive = {
       quote: '당신의 말을 들을게, 비나. 사명 따윈 이제 없어. 컴버랜드도 없고, 대공작도 없어. 그 우화를 끝내자. ……용서해 줘…… 내가 상대해줄게, 나의 악몽…… 나의 희망이여.',
       statusInChapter: '왕의 안식처에 홀로 남아 마지막 증기기사를 가로막고 실종',
       avatarUrl: '/images/characters/alledale.png',
-      illustUrl: '/images/characters/illust/alledale.png'
-    },
-    {
-      id: 'alledale_child',
-      nameKo: '알레데일 (26년 전)',
-      nameEn: 'Allerdale Cumberland (Childhood)',
-      role: '컴버랜드 공작가의 어린 영애 (26년 전)',
-      faction: '컴버랜드 공작가 / 빅토리아',
-      description: '26년 전 오슈테리그 구 컴버랜드 저택에서 살아가던 어린 시절의 알레데일. 가문의 차가운 초대 증기 갑옷 뒤에 숨어 위대한 증기 기사가 되어 빅토리아를 지켜내겠다고 맹세했다. 반역자들의 밀담을 엿듣다 추락하여 황금빛 사자 무리와 어린 비나 공주에게 구조받았던 인연을 간직하고 있다.',
-      quote: '난 얌전하게 굴지 않을 거야! 난 증기 기사가 될 거야! 그리고 어른이 되면…… 꼭, 난 반드시 빅토리아를 구할 거라고!',
-      statusInChapter: '26년 전 과거 회상 등장 (빅토리아와 증기 기사에 대한 동경)',
-      avatarUrl: '/images/characters/alledale_child.png',
-      illustUrl: '/images/characters/illust/alledale_child.png'
+      illustUrl: '/images/characters/illust/alledale.png',
+      variants: [
+        {
+          id: 'current',
+          label: '현재 시점 (런디니움)',
+          timePeriod: '테라력 1098년 (현재)',
+          avatarUrl: '/images/characters/alledale.png',
+          illustUrl: '/images/characters/illust/alledale.png',
+          description: '자경단 어텀 리프를 이끄는 성인 알레데일. 은발 숏컷의 펠라인 여성 지휘관.'
+        },
+        {
+          id: 'child',
+          label: '26년 전 비주얼 (과거 회상)',
+          timePeriod: '테라력 1072년 (26년 전)',
+          avatarUrl: '/images/characters/alledale_child.png',
+          illustUrl: '/images/characters/illust/alledale_child.png',
+          description: '26년 전 컴버랜드 저택에서 가문의 초대 증기 갑옷을 동경하던 어린 시절의 모습. 청록색 프릴 드레스를 입은 소녀.'
+        }
+      ]
     },
     {
       id: 'steam_knight',

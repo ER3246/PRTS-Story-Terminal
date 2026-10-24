@@ -67,6 +67,7 @@ export function App() {
   // SideDrawer State
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterRef | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [selectedGlossary, setSelectedGlossary] = useState<GlossaryTerm | null>(null);
   const [isSidebarOpenMobile, setIsSidebarOpenMobile] = useState<boolean>(false);
 
@@ -305,9 +306,10 @@ export function App() {
     playClickSound();
   };
 
-  const handleSelectCharacter = (char: CharacterRef) => {
+  const handleSelectCharacter = (char: CharacterRef, initialVariantId?: string) => {
     setSelectedCharacter(char);
     setSelectedGlossary(null);
+    setSelectedVariantId(initialVariantId || null);
     setIsDrawerOpen(true);
     playOpenSound();
   };
@@ -315,6 +317,7 @@ export function App() {
   const handleSelectGlossary = (term: GlossaryTerm) => {
     setSelectedGlossary(term);
     setSelectedCharacter(null);
+    setSelectedVariantId(null);
     setIsDrawerOpen(true);
     playOpenSound();
   };
@@ -576,6 +579,7 @@ export function App() {
         onClose={handleCloseDrawer}
         selectedCharacter={selectedCharacter}
         selectedGlossary={selectedGlossary}
+        initialVariantId={selectedVariantId}
         onOpenLightbox={handleOpenLightbox}
       />
 

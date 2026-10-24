@@ -51,6 +51,15 @@ export interface MultiPartArc {
 
 export type TermType = 'faction' | 'concept' | 'location' | 'arts' | 'technology' | 'incident';
 
+export interface CharacterVisualVariant {
+  id: string; // 고유 식별자 (e.g. 'current', 'child', 'awakened')
+  label: string; // 탭/버튼 표시명 (e.g. "현재 시점 (런디니움)", "26년 전 비주얼 (과거 회상)")
+  timePeriod?: string; // 시점 연대 (e.g. "테라력 1072년 (26년 전)")
+  avatarUrl: string; // 1:1 아바타
+  illustUrl?: string; // 전신 스탠딩 일러스트
+  description?: string; // 외형 설명/맥락
+}
+
 export interface CharacterRef {
   id: string;
   nameKo: string;
@@ -63,6 +72,7 @@ export interface CharacterRef {
   quote?: string;
   statusInChapter: string; // e.g. "탈출 작전 지휘", "최후 방어선 사수 중 전사"
   spoilerLevel?: number; // 챕터 진행도
+  variants?: CharacterVisualVariant[]; // 시점 및 전개에 따른 다양한 모습 (과거 회상, 각성, 변장 등)
 }
 
 export interface GlossaryTerm {
@@ -79,6 +89,8 @@ export interface QuoteItem {
   speakerId: string; // CharacterRef.id 와 매핑
   text: string;
   context?: string;
+  avatarUrl?: string; // 시점/전개별 오버라이드 아바타 (e.g. 과거 회상 시점의 어린 모습 등)
+  variantId?: string; // 연계 시각 변형 ID (e.g. 'child')
 }
 
 /**

@@ -38,7 +38,7 @@ interface StoryViewerProps {
   story: StoryArchive;
   activeSubPageId?: string | null;
   onChangeSubPage?: (subId: string) => void;
-  onSelectCharacter: (char: CharacterRef) => void;
+  onSelectCharacter: (char: CharacterRef, initialVariantId?: string) => void;
   onSelectGlossary: (term: GlossaryTerm) => void;
   onOpenLightbox: (imageUrl: string, caption?: string, title?: string) => void;
   previousStory?: StoryListItem | null;
@@ -904,19 +904,22 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               <div className="space-y-3 pt-5 border-t border-white/[0.07]">
                 {currentEpisode.quotes.map((q, qIdx) => {
                   const speakerChar = getCharacterById(q.speakerId || '');
+                  const quoteAvatar = q.avatarUrl
+                    ? resolveAssetUrl(q.avatarUrl)
+                    : (speakerChar && getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : '');
                   return (
                     <div
                       key={qIdx}
                       className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.07] border-l-2 border-l-[#ffe600] flex gap-3.5 items-start"
                     >
-                      {speakerChar && (
+                      {(quoteAvatar || speakerChar) && (
                         <div
-                          onClick={() => onSelectCharacter(speakerChar)}
-                          className="w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors"
-                          title={`${speakerChar.nameKo} 프로필 열람`}
+                          onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
+                          className={`w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                          title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                         >
                           <TacticalAvatar
-                            src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
+                            src={quoteAvatar}
                             alt={q.speaker}
                             className="w-full h-full"
                           />
@@ -925,7 +928,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       <div className="flex-1 min-w-0 space-y-1">
                         <div className="flex items-center justify-between gap-2 text-xs">
                           <span
-                            onClick={() => speakerChar && onSelectCharacter(speakerChar)}
+                            onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
                             className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
                           >
                             {q.speaker}
@@ -1350,22 +1353,27 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                         <div className="space-y-3 pt-4 border-t border-white/[0.07]">
                           {st.quotes.map((q, qIdx) => {
                             const speakerChar = getCharacterById(q.speakerId);
+                            const quoteAvatar = q.avatarUrl
+                              ? resolveAssetUrl(q.avatarUrl)
+                              : (speakerChar && getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : '');
                             return (
                               <div
                                 key={qIdx}
                                 className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.07] border-l-2 border-l-[#ffe600] flex gap-3.5 items-start"
                               >
-                                {speakerChar ? (
+                                {(quoteAvatar || speakerChar) ? (
                                   <div
                                     onClick={() => {
-                                      playClickSound();
-                                      onSelectCharacter(speakerChar);
+                                      if (speakerChar) {
+                                        playClickSound();
+                                        onSelectCharacter(speakerChar, q.variantId);
+                                      }
                                     }}
-                                    className="w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors"
-                                    title={`${speakerChar.nameKo} 프로필 열람`}
+                                    className={`w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                                    title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                                   >
                                     <TacticalAvatar
-                                      src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
+                                      src={quoteAvatar}
                                       alt={q.speaker}
                                       className="w-full h-full"
                                     />
@@ -1385,7 +1393,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                       onClick={() => {
                                         if (speakerChar) {
                                           playClickSound();
-                                          onSelectCharacter(speakerChar);
+                                          onSelectCharacter(speakerChar, q.variantId);
                                         }
                                       }}
                                       className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
@@ -2043,19 +2051,22 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                   <div className="space-y-3 pt-2">
                                     {act.quotes.map((q, qIdx) => {
                                       const speakerChar = getCharacterById(q.speakerId);
+                                      const quoteAvatar = q.avatarUrl
+                                        ? resolveAssetUrl(q.avatarUrl)
+                                        : (speakerChar && getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : '');
                                       return (
                                         <div
                                           key={qIdx}
                                           className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.06] border-l-2 border-l-[#ffe600] flex gap-4 items-start"
                                         >
-                                          {speakerChar && (
+                                          {(quoteAvatar || speakerChar) && (
                                             <div
-                                              onClick={() => onSelectCharacter(speakerChar)}
-                                              className="w-11 h-11 rounded-[3px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors shadow"
-                                              title={`${speakerChar.nameKo} 프로필 열람`}
+                                              onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
+                                              className={`w-11 h-11 rounded-[3px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 transition-colors shadow ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                                              title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                                             >
                                               <TacticalAvatar
-                                                src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
+                                                src={quoteAvatar}
                                                 alt={q.speaker}
                                                 className="w-full h-full"
                                               />
@@ -2063,7 +2074,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                           )}
                                           <div className="flex-1 min-w-0 space-y-1.5">
                                             <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
-                                              <span className="font-bold text-[#ffe600]">{q.speaker}</span>
+                                              <span
+                                                onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
+                                                className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
+                                              >
+                                                {q.speaker}
+                                              </span>
                                               {q.context && (
                                                 <span className="text-zinc-500 text-[11px] truncate max-w-[260px] sm:max-w-[360px]">
                                                   {q.context}
@@ -2204,19 +2220,22 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                </div>
                                                {st.quotes.map((q, qIdx) => {
                                                  const speakerChar = getCharacterById(q.speakerId);
+                                                 const quoteAvatar = q.avatarUrl
+                                                   ? resolveAssetUrl(q.avatarUrl)
+                                                   : (speakerChar && getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : '');
                                                  return (
                                                    <div
                                                      key={qIdx}
                                                      className="p-3.5 rounded-[3px] bg-black/40 border border-white/[0.06] border-l-2 border-l-[#ffe600] flex gap-3.5 items-start text-xs"
                                                    >
-                                                     {speakerChar && (
+                                                     {(quoteAvatar || speakerChar) && (
                                                        <div
-                                                         onClick={() => onSelectCharacter(speakerChar)}
-                                                         className="w-9 h-9 rounded-[2px] border border-white/[0.1] overflow-hidden bg-black flex-shrink-0 cursor-pointer hover:border-[#ffe600] transition-colors"
-                                                         title={`${speakerChar.nameKo} 프로필 열람`}
+                                                         onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
+                                                         className={`w-9 h-9 rounded-[2px] border border-white/[0.1] overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                                                         title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                                                        >
                                                          <TacticalAvatar
-                                                           src={getCharacterAvatarUrl(speakerChar) ? resolveAssetUrl(getCharacterAvatarUrl(speakerChar)) : ''}
+                                                           src={quoteAvatar}
                                                            alt={q.speaker}
                                                            className="w-full h-full"
                                                          />
@@ -2224,7 +2243,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                      )}
                                                      <div className="flex-1 min-w-0 space-y-1">
                                                        <div className="flex flex-wrap items-center justify-between gap-1.5">
-                                                         <span className="font-bold text-[#ffe600]">{q.speaker}</span>
+                                                         <span
+                                                           onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
+                                                           className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
+                                                         >
+                                                           {q.speaker}
+                                                         </span>
                                                          {q.context && (
                                                            <span className="text-zinc-500 text-[10.5px] truncate max-w-[240px] sm:max-w-[320px]">
                                                              {q.context}
