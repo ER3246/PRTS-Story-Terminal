@@ -187,9 +187,9 @@ export const episode12: StoryArchive = {
           visuals: [
             {
               url: '/images/cgs/37_i09.png',
-              caption: '포위된 어둠 속에서 박사를 무사히 탈출시키기 위해 카운트다운을 세며 기습 칼날을 겨누는 아스카론',
+              caption: '어둠 속에서 그림자 단검을 겨누며 캐스터 공작의 대행자 \'회색 모자\'를 기습·대치하는 이네스',
               type: 'cg',
-              triggerLine: '박사, 3초 뒤에 내가 움직일 거야. 지금 이 상황에서 반드시 벗어나야 해.'
+              triggerLine: '분위기가 팽팽하네, 내가 잘못 찾아왔나? / \'회색 모자\' 씨, 준비가 아주 철저하시네요.'
             }
           ],
           tacticalLog: '지휘부 회동 // 자경단 사기 저하 및 레토-골딩 밀담, 아스카론의 암습 탈출 작전',
@@ -570,9 +570,9 @@ export const episode12: StoryArchive = {
           visuals: [
             {
               url: '/images/cgs/37_i10.png',
-              caption: '마왕의 왕관을 계승한 이종족 카우투스 아미야를 목격하고 경악과 분노에 휩싸여 절규하는 살카즈 지휘관들',
+              caption: '거대한 비행선 공중 독에서 마왕의 왕관과 고대 살카즈 원혼(레버넌트)의 분노를 정면으로 마주하며 올려다보는 아미야',
               type: 'cg',
-              triggerLine: '뒤틀린 키메라…… 이종족 마왕이라고?! 네가 뭔데 그 왕관을 갖고 있는 것이냐?'
+              triggerLine: '뒤틀린 키메라…… 이종족 마왕이라고?! 네가 뭔데 그 왕관을 갖고 있는 것이냐? / 당신 말이 맞아요, 레버넌트. 저는 봤어야 했고, 이제 봤어요.'
             },
             {
               url: '/images/cgs/37_i06.png',
@@ -1124,7 +1124,7 @@ export const episode12: StoryArchive = {
       faction: '카즈델 군사위원회 / 다마즈티 종족',
       description: '형상을 자유자재로 바꾸는 단일 의식의 군체 군주. 골딩의 마지막 소원을 들어주며 인간의 감정을 체득하고, 아미야에게 이종족 마왕이 나아갈 길을 묻는다.',
       quote: '꼬마 이종족 마왕, 넌 어디를 향해 갈 거야? 널 믿고 따르고 아껴주는 사람을 어디로 데려갈 거야? 네가 불드록카스티가 말한 예언처럼 이 땅의 모든 것을 노예로 부릴까, 아니면 그저 우리가 역사에 너무 깊이 얽매여 있다는 걸 증명해 보일까?',
-      statusInChapter: '골딩 모습 복제 및 아미야와 문답 후 퇴각',
+      statusInChapter: '골딩의 자살 목격 및 로고스와의 문답 후 전 개체 동시 소멸 · 2명의 신생 개체로 재탄생',
       avatarUrl: '/images/characters/damazti.png',
       illustUrl: '/images/characters/illust/damazti.png'
     },
