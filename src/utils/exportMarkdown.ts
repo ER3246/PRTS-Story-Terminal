@@ -37,6 +37,9 @@ const GLOBAL_CHARACTER_NAME_MAP: Record<string, string> = {
   nine: '나인',
   harmonie: '아르모니',
   bagpipe: '백파이프',
+  horn: '혼',
+  misery: '미저리',
+  wellington: '웰링턴 공작',
 };
 
 /**
