@@ -65,3 +65,4 @@ PRTS_Terminal.bat
 # Character CG Raw Library (Local crawler cache: 3,990 files, 2.78GB)
 public/images/characters/library/
 !public/images/characters/library/catalog.json
+public/images/characters/illust_legacy_backup/
