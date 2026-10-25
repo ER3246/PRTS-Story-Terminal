@@ -30,33 +30,37 @@ function prtsEditorApiPlugin(): Plugin {
           res.setHeader('Expires', '0')
         }
         if (urlClean.startsWith('/images/characters/illust/')) {
-          const fn = path.basename(urlClean)
+          const fn = decodeURIComponent(path.basename(urlClean))
           const target = path.resolve(process.cwd(), 'public/images/characters/illust', fn)
-          if (!fs.existsSync(target)) {
-            const libNpc = path.resolve(process.cwd(), 'public/images/characters/library/npcs', fn)
-            const libNamed = path.resolve(process.cwd(), 'public/images/characters/library/named_characters', fn)
-            const libOp = path.resolve(process.cwd(), 'public/images/characters/library/operators', fn)
-            const fallback = fs.existsSync(libNpc)
-              ? libNpc
-              : fs.existsSync(libNamed)
-              ? libNamed
-              : fs.existsSync(libOp)
-              ? libOp
-              : null
-            if (fallback) {
-              res.setHeader('Content-Type', 'image/png')
-              return fs.createReadStream(fallback).pipe(res)
-            }
+          if (fs.existsSync(target)) {
+            res.setHeader('Content-Type', 'image/png')
+            return fs.createReadStream(target).pipe(res)
+          }
+          const libNpc = path.resolve(process.cwd(), 'public/images/characters/library/npcs', fn)
+          const libNamed = path.resolve(process.cwd(), 'public/images/characters/library/named_characters', fn)
+          const libOp = path.resolve(process.cwd(), 'public/images/characters/library/operators', fn)
+          const fallback = fs.existsSync(libNpc)
+            ? libNpc
+            : fs.existsSync(libNamed)
+            ? libNamed
+            : fs.existsSync(libOp)
+            ? libOp
+            : null
+          if (fallback) {
+            res.setHeader('Content-Type', 'image/png')
+            return fs.createReadStream(fallback).pipe(res)
           }
         } else if (urlClean.startsWith('/images/characters/') && !urlClean.startsWith('/images/characters/library/')) {
-          const fn = path.basename(urlClean)
+          const fn = decodeURIComponent(path.basename(urlClean))
           const target = path.resolve(process.cwd(), 'public/images/characters', fn)
-          if (!fs.existsSync(target)) {
-            const libAv = path.resolve(process.cwd(), 'public/images/characters/library/avatars', fn)
-            if (fs.existsSync(libAv)) {
-              res.setHeader('Content-Type', 'image/png')
-              return fs.createReadStream(libAv).pipe(res)
-            }
+          if (fs.existsSync(target)) {
+            res.setHeader('Content-Type', 'image/png')
+            return fs.createReadStream(target).pipe(res)
+          }
+          const libAv = path.resolve(process.cwd(), 'public/images/characters/library/avatars', fn)
+          if (fs.existsSync(libAv)) {
+            res.setHeader('Content-Type', 'image/png')
+            return fs.createReadStream(libAv).pipe(res)
           }
         }
 
