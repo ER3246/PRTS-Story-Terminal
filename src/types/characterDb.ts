@@ -42,6 +42,8 @@ export interface CharacterCgAsset {
   illustCropConfig?: CgCropConfig; // 전신 일러스트 기준 크롭 뷰포트 좌표 (편집 스튜디오 재로드 시 100% 복원용)
   isSharedOrBorrowed?: boolean; // 다른 인물과 임시 공유/재사용 중인 에셋인지 여부
   notes?: string;            // 관리자 메모 (교체 예정, 원화 출처 등)
+  isUserEdited?: boolean;    // 사용자가 스튜디오에서 직접 크롭 또는 일러스트를 수동 조정한 자산 (일괄 자동화 시 최우선 보호)
+  userEditedAt?: string;     // 사용자 직접 수정 일시 (ISO String)
 }
 
 /**

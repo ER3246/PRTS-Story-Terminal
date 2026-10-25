@@ -531,6 +531,8 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
               avatarUrl: savedUrl,
               cropConfig: newCropConfig,
               illustCropConfig: newIllustCropConfig,
+              isUserEdited: true,
+              userEditedAt: new Date().toISOString(),
             }
           : a
       );
@@ -591,6 +593,8 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
                         ...a,
                         illustFileName: json.fileName,
                         illustUrl: json.url,
+                        isUserEdited: true,
+                        userEditedAt: new Date().toISOString(),
                       }
                     : a
                 );
@@ -745,6 +749,8 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
               avatarFileName: finalName,
               avatarUrl: savedUrl,
               cropConfig: newCropConfig,
+              isUserEdited: true,
+              userEditedAt: new Date().toISOString(),
             }
           : a
       );
@@ -1751,15 +1757,22 @@ export const CgCropStudioTab: React.FC<CgCropStudioTabProps> = ({
                     {a.assetId} · {a.avatarFileName || '실루엣'}
                   </div>
                 </div>
-                {a.illustFileName ? (
-                  <span className="px-1.5 py-0.5 rounded bg-[#00d8ff]/15 text-[#00d8ff] text-[9px] font-mono shrink-0">
-                    전신
-                  </span>
-                ) : (
-                  <span className="px-1.5 py-0.5 rounded bg-zinc-700/40 text-zinc-400 text-[9px] font-mono shrink-0">
-                    프로필만
-                  </span>
-                )}
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  {a.illustFileName ? (
+                    <span className="px-1.5 py-0.5 rounded bg-[#00d8ff]/15 text-[#00d8ff] text-[9px] font-mono">
+                      전신
+                    </span>
+                  ) : (
+                    <span className="px-1.5 py-0.5 rounded bg-zinc-700/40 text-zinc-400 text-[9px] font-mono">
+                      프로필만
+                    </span>
+                  )}
+                  {a.isUserEdited && (
+                    <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-mono" title="사용자 직접 검수 완료 (덮어쓰기 보호)">
+                      🔒 직접수정
+                    </span>
+                  )}
+                </div>
               </button>
             );
           })}

@@ -19,7 +19,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 45.8, y: 14.9, zoom: 5.8 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_alina",
@@ -32,7 +34,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50.6, y: 14, zoom: 4 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_057.png"
+    notes: "공식 원본 스프라이트: avg_npc_057.png",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_alledale",
@@ -45,7 +49,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 51.1, y: 9.6, zoom: 4.9 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_400_1$1.png"
+    notes: "공식 원본 스프라이트: avg_npc_400_1$1.png",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_alledale_child",
@@ -58,7 +64,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 48.7, y: 11.8, zoom: 3.55 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_397_1$1.png"
+    notes: "공식 원본 스프라이트: avg_npc_397_1$1.png",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_amiya",
@@ -110,7 +118,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 51.1, y: 12.5, zoom: 4.15 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_135_halo_1$1.png"
+    notes: "공식 원본 스프라이트: avg_135_halo_1$1.png",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_bagpipe",
@@ -136,7 +146,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 56.9, y: 10.3, zoom: 4.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_411_1$1.png"
+    notes: "공식 원본 스프라이트: avg_npc_411_1$1.png",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_barton",
@@ -162,7 +174,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 53, y: 13.7, zoom: 3.4 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_063.png"
+    notes: "공식 원본 스프라이트: avg_npc_063.png",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_blake",
@@ -175,7 +189,9 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50.4, y: 8.4, zoom: 4.85 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_899_1$1.png"
+    notes: "공식 원본 스프라이트: avg_npc_899_1$1.png",
+    isUserEdited: true,
+    userEditedAt: "2026-10-25T15:03:26.000Z"
   },
   {
     assetId: "cg_blaze",
