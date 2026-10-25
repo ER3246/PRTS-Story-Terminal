@@ -61,3 +61,7 @@ scratch/
 scratch_*.png
 npc_mapping_result.txt
 PRTS_Terminal.bat
+
+# Character CG Raw Library (Local crawler cache: 3,990 files, 2.78GB)
+public/images/characters/library/
+!public/images/characters/library/catalog.json

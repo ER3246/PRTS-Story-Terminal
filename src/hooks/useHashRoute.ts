@@ -23,7 +23,7 @@ export interface AppRoute {
 
 export type NavigationType = 'initial' | 'push' | 'replace' | 'pop';
 
-const VIEWS: MainViewMode[] = ['home', 'report', 'chronicle', 'map'];
+const VIEWS: MainViewMode[] = ['home', 'report', 'chronicle', 'map', 'studio'];
 
 export function parseHash(hash: string): AppRoute {
   const parts = hash

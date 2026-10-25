@@ -14,6 +14,7 @@ import { InfoLicenseModal, type InfoModalTab } from './components/InfoLicenseMod
 import { ServiceNoticeModal } from './components/ServiceNoticeModal';
 import { FullscreenPwaGuideModal } from './components/FullscreenPwaGuideModal';
 import { ScrollNavButtons } from './components/ScrollNavButtons';
+import { EditorStudioView } from './components/studio/EditorStudioView';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE } from './version';
 import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
 import type { CharacterRef, GlossaryTerm, StoryArchive } from './types/story';
@@ -337,6 +338,21 @@ export function App() {
     setIsLightboxOpen(false);
     playCloseSound();
   };
+
+  if (currentView === 'studio') {
+    return (
+      <EditorStudioView
+        initialStoryId={activeStoryId}
+        onExitToViewer={(targetStoryId) => {
+          if (targetStoryId) {
+            goToStory(targetStoryId);
+          } else {
+            goToView('report');
+          }
+        }}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0e0f12] text-zinc-100 flex flex-col font-sans relative prts-grid-subtle">

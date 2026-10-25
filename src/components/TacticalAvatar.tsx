@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import type { CgCropConfig } from '../types/characterDb';
+import { getAvatarCropConfig } from '../utils/characterAssetHelper';
 
 interface TacticalAvatarProps {
   src?: string;
@@ -6,6 +8,7 @@ interface TacticalAvatarProps {
   className?: string;
   badgeClassName?: string;
   showBadge?: boolean;
+  cropOverride?: CgCropConfig;
 }
 
 export const TacticalAvatar: React.FC<TacticalAvatarProps> = ({
@@ -13,12 +16,37 @@ export const TacticalAvatar: React.FC<TacticalAvatarProps> = ({
   alt = 'Character',
   className = 'w-10 h-10 rounded-[3px]',
   showBadge = false,
+  cropOverride,
 }) => {
   const [loadError, setLoadError] = useState(false);
 
   const hasValidImage = Boolean(src && src.trim() !== '' && !loadError);
 
-  if (hasValidImage) {
+  if (hasValidImage && src) {
+    const crop = cropOverride || getAvatarCropConfig(src);
+    const hasCustomCrop =
+      crop && (Math.abs(crop.x - 50) > 0.5 || Math.abs(crop.y - 50) > 0.5 || Math.abs(crop.zoom - 1) > 0.02);
+
+    if (hasCustomCrop && crop) {
+      return (
+        <div className={`${className} overflow-hidden relative select-none`}>
+          <img
+            src={src}
+            alt={alt}
+            onError={() => setLoadError(true)}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            style={{
+              objectPosition: `${crop.x}% ${crop.y}%`,
+              transform: `scale(${crop.zoom})`,
+              transformOrigin: `${crop.x}% ${crop.y}%`,
+            }}
+            className="w-full h-full object-cover select-none"
+          />
+        </div>
+      );
+    }
+
     return (
       <img
         src={src}

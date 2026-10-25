@@ -8,10 +8,37 @@
  * while seamlessly supporting story-specific overrides (alternate skins, disguises, etc.).
  */
 
+import { characterCgAssets } from '../data/db/characterCgAssets';
+import type { CgCropConfig } from '../types/characterDb';
+
 export interface CharacterAssetQuery {
   id: string;
   avatarUrl?: string;
   illustUrl?: string;
+}
+
+const cropLookupByUrl = new Map<string, CgCropConfig>();
+for (const asset of characterCgAssets) {
+  if (asset.avatarUrl) {
+    cropLookupByUrl.set(asset.avatarUrl, asset.cropConfig);
+  }
+  if (asset.avatarFileName) {
+    cropLookupByUrl.set(asset.avatarFileName, asset.cropConfig);
+  }
+}
+
+export function getAvatarCropConfig(src: string): CgCropConfig | undefined {
+  const baseName = src.split('?')[0].split('/').pop() || '';
+  return cropLookupByUrl.get(src) || cropLookupByUrl.get(baseName);
+}
+
+export function updateRuntimeAvatarCrop(avatarUrlOrFile: string, crop: CgCropConfig) {
+  cropLookupByUrl.set(avatarUrlOrFile, crop);
+  const base = avatarUrlOrFile.split('/').pop();
+  if (base) {
+    cropLookupByUrl.set(base, crop);
+    cropLookupByUrl.set(`/images/characters/${base}`, crop);
+  }
 }
 
 // Known alias mappings where one ID shares assets with another
@@ -20,6 +47,7 @@ export const CHARACTER_ASSET_ALIASES: Record<string, string> = {
   mountain: 'mountain',
   astrogenes: 'astgenne',
   astgenne: 'astgenne',
+  czerny: 'czerny',
   mefisto: 'mephisto',
   cloer: 'carol',
   reunion_soldier_a: 'reunion_soldier',

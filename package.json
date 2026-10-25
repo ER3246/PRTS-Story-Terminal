@@ -9,6 +9,7 @@
     "validate:stories": "node scripts/validate_stories.cjs",
     "normalize:avatars": "python scripts/normalize_character_avatars.py",
     "export:docs": "npx tsx scripts/export_docs.ts",
+    "export:characters": "npx tsx scripts/export_character_master_md.ts",
     "lint": "oxlint",
     "preview": "vite preview"
   },

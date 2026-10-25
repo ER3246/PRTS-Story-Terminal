@@ -1,9 +1,9 @@
 import React from 'react';
-import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2, Minimize2, MonitorDown } from 'lucide-react';
+import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2, Minimize2, MonitorDown, Wrench } from 'lucide-react';
 import { playTabSwitchSound, playClickSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE } from '../version';
 
-export type MainViewMode = 'home' | 'report' | 'chronicle' | 'map';
+export type MainViewMode = 'home' | 'report' | 'chronicle' | 'map' | 'studio';
 
 interface HeaderProps {
   currentView: MainViewMode;
@@ -116,6 +116,18 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right: Utility Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+            {/* 로컬 개발 환경 전용 STUDIO 편집기 진입 버튼 (외부 배포 시 자동 숨김) */}
+            {import.meta.env.DEV && (
+              <button
+                onClick={() => handleNav('studio')}
+                title="PRTS Studio 편집 전용 툴 열기 (#/studio)"
+                className="h-7 md:h-8 px-2.5 rounded-[3px] bg-[#ffe600] hover:bg-[#ffe600]/90 text-black font-mono text-[11px] font-extrabold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+              >
+                <Wrench className="w-3.5 h-3.5" />
+                <span>STUDIO 편집기</span>
+              </button>
+            )}
+
             {/* 앱 설치 버튼 (PWA 설치 가능 시 노출) */}
             {isInstallable && onPromptInstall && (
               <button
