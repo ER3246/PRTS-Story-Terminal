@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import type { CharacterCgAsset, CgAssetCategory, CgCropConfig } from '../../types/characterDb';
 import { resolveAssetUrl } from '../../utils/assetUrl';
-import { updateRuntimeAvatarCrop } from '../../utils/characterAssetHelper';
+import { updateRuntimeAvatarCrop, refreshGlobalAvatarCacheBuster } from '../../utils/characterAssetHelper';
 
 interface CgCropStudioTabProps {
   assets: CharacterCgAsset[];
@@ -521,6 +521,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
       );
 
       updateRuntimeAvatarCrop(savedUrl, newCropConfig);
+      refreshGlobalAvatarCacheBuster();
 
       const updatedAssets = assets.map((a) =>
         a.assetId === activeAsset.assetId
@@ -735,6 +736,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
       const newCropConfig: CgCropConfig = { x: 50, y: 50, zoom: 1.0 };
       onUpdateCropMemory(activeAsset.assetId, newCropConfig);
       updateRuntimeAvatarCrop(savedUrl, newCropConfig);
+      refreshGlobalAvatarCacheBuster();
 
       const updatedAssets = assets.map((a) =>
         a.assetId === activeAsset.assetId
@@ -749,6 +751,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
       onChangeAssets(updatedAssets);
       await onSaveAssetsDb(updatedAssets);
 
+      refreshGlobalAvatarCacheBuster();
       onSaveSuccess(activeAsset.assetId, dataUrlForPreview || savedUrl);
       setSaveSuccessType('png');
       setStatusMsg(`✅ [${activeAsset.label}] 1:1 아바타 '${finalName}' 직접 적용 및 DB 저장 완료!`);

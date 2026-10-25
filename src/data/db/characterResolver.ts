@@ -3,9 +3,13 @@
  * 
  * 마스터 DB와 CG 자산 DB를 연계하여, 개별 스토리 또는 뷰어에서 요구하는 표준 CharacterRef 객체로
  * 변환하고 질의하는 브릿지 유틸리티 레이어입니다.
+ * 
+ * [단일 진실 공급원 (SSOT) 원칙]
+ * 모든 뷰어(StoryViewer, SideDrawer, Dossier)는 이 리졸버를 통해 최신 마스터 DB와
+ * CG 자산 레코드를 실시간 참조합니다.
  */
 
-import type { CharacterRef } from '../../types/story';
+import type { CharacterRef, CharacterVisualVariant } from '../../types/story';
 import type { 
   CharacterMasterRecord, 
   CharacterCgAsset, 
@@ -22,10 +26,11 @@ export function getAllMasterCharacters(): CharacterMasterRecord[] {
 }
 
 /**
- * 특정 ID의 마스터 캐릭터 조회 (별칭 지원)
+ * 특정 ID의 마스터 캐릭터 조회 (대소문자 무시 및 별칭 지원)
  */
 export function getMasterCharacter(charId: string): CharacterMasterRecord | undefined {
-  return characterMasterMap[charId];
+  if (!charId) return undefined;
+  return characterMasterMap[charId] || characterMasterMap[charId.toLowerCase().trim()];
 }
 
 /**
@@ -39,7 +44,87 @@ export function getAllCgAssets(): CharacterCgAsset[] {
  * 특정 ID의 CG 자산 조회
  */
 export function getCgAsset(assetId: string): CharacterCgAsset | undefined {
+  if (!assetId) return undefined;
   return characterCgAssetMap[assetId];
+}
+
+/**
+ * 마스터 DB와 CG 자산 레지스트리를 단일 진실 공급원(SSOT)으로 삼아,
+ * 공개 뷰어 및 다운로더에서 사용할 최종 CharacterRef 객체를 실시간 정합 해석합니다.
+ * 
+ * @param charId 캐릭터 ID 또는 별칭
+ * @param inStoryRef 스토리 TS 파일에 기존 정의된 CharacterRef (선택사항, 챕터 고유 맥락 보존)
+ * @param targetStateId 특정 시점/외형 상태 분기 ID (선택사항)
+ */
+export function resolveCharacterMaster(
+  charId: string,
+  inStoryRef?: CharacterRef,
+  targetStateId?: string
+): CharacterRef {
+  const master = getMasterCharacter(charId) || (inStoryRef?.id ? getMasterCharacter(inStoryRef.id) : undefined);
+
+  if (!master) {
+    if (inStoryRef) return inStoryRef;
+    return {
+      id: charId,
+      nameKo: charId,
+      nameEn: charId,
+      faction: '미분류',
+      role: '작전 관계자',
+      avatarUrl: '',
+      description: '마스터 DB에 등록되지 않은 임시 인물입니다.',
+      statusInChapter: '',
+      spoilerLevel: 1
+    };
+  }
+
+  // 1. 대상 상태 분기 (State) 결정
+  let activeState = master.states[0];
+  if (targetStateId) {
+    const found = master.states.find(s => s.stateId === targetStateId);
+    if (found) {
+      activeState = found;
+    } else if (targetStateId === 'current' || targetStateId === 'default') {
+      activeState = master.states.find(s => s.stateId === master.defaultStateId) || master.states[0];
+    }
+  } else {
+    activeState = master.states.find(s => s.stateId === master.defaultStateId) || master.states[0];
+  }
+
+  // 2. CG 자산 매핑
+  const cgAsset = activeState?.cgAssetId ? getCgAsset(activeState.cgAssetId) : undefined;
+  const avatarUrl = cgAsset ? cgAsset.avatarUrl : (inStoryRef?.avatarUrl || '');
+  const illustUrl = cgAsset?.illustUrl || inStoryRef?.illustUrl;
+
+  // 3. 마스터 DB의 states 목록을 바탕으로 시점별 외형 variants 실시간 생성
+  const variants: CharacterVisualVariant[] = master.states && master.states.length > 0
+    ? master.states.map((st) => {
+        const stAsset = st.cgAssetId ? getCgAsset(st.cgAssetId) : undefined;
+        return {
+          id: st.stateId,
+          label: st.label,
+          timePeriod: st.timePeriod,
+          avatarUrl: stAsset ? stAsset.avatarUrl : (inStoryRef?.avatarUrl || ''),
+          illustUrl: stAsset?.illustUrl || inStoryRef?.illustUrl,
+          description: st.description
+        };
+      })
+    : (inStoryRef?.variants || []);
+
+  return {
+    id: inStoryRef?.id || master.charId,
+    nameKo: activeState?.overrideNameKo || master.nameKo,
+    nameEn: activeState?.overrideNameEn || master.nameEn,
+    faction: inStoryRef?.faction || activeState?.overrideFaction || master.defaultFaction,
+    role: inStoryRef?.role || activeState?.overrideRole || master.defaultRole,
+    avatarUrl,
+    illustUrl,
+    description: inStoryRef?.description || activeState?.description || master.baseBio,
+    quote: inStoryRef?.quote || activeState?.defaultQuote,
+    statusInChapter: inStoryRef?.statusInChapter || '',
+    spoilerLevel: inStoryRef?.spoilerLevel ?? 1,
+    variants: variants.length > 0 ? variants : inStoryRef?.variants
+  };
 }
 
 /**
@@ -49,44 +134,5 @@ export function getCgAsset(assetId: string): CharacterCgAsset | undefined {
  * @returns 뷰어 및 다운로더에서 즉시 렌더링 가능한 CharacterRef
  */
 export function resolveStoryCharacter(binding: StoryCharacterBinding): CharacterRef {
-  const master = getMasterCharacter(binding.charId);
-
-  if (!master) {
-    // 마스터 DB 미등록 인물일 경우 안전 플레이스홀더 반환
-    return {
-      id: binding.charId,
-      nameKo: binding.charId,
-      nameEn: binding.charId,
-      faction: '미분류',
-      role: binding.overrideRole || '작전 관계자',
-      avatarUrl: '',
-      description: binding.overrideDescription || '마스터 DB에 등록되지 않은 임시 인물입니다.',
-      quote: binding.quoteInStory,
-      statusInChapter: binding.statusInChapter,
-      spoilerLevel: binding.spoilerLevel ?? 1
-    };
-  }
-
-  // 지정된 상태 또는 기본 상태 선택
-  const targetStateId = binding.stateId || master.defaultStateId;
-  const state = master.states.find(s => s.stateId === targetStateId) || master.states[0];
-
-  // CG 에셋 매핑
-  const cgAsset = state.cgAssetId ? getCgAsset(state.cgAssetId) : undefined;
-  const avatarUrl = cgAsset ? cgAsset.avatarUrl : '';
-  const illustUrl = cgAsset?.illustUrl;
-
-  return {
-    id: master.charId,
-    nameKo: state.overrideNameKo || master.nameKo,
-    nameEn: state.overrideNameEn || master.nameEn,
-    faction: state.overrideFaction || master.defaultFaction,
-    role: binding.overrideRole || state.overrideRole || master.defaultRole,
-    avatarUrl,
-    illustUrl,
-    description: binding.overrideDescription || state.description || master.baseBio,
-    quote: binding.quoteInStory || state.defaultQuote,
-    statusInChapter: binding.statusInChapter,
-    spoilerLevel: binding.spoilerLevel ?? 1
-  };
+  return resolveCharacterMaster(binding.charId, undefined, binding.stateId);
 }

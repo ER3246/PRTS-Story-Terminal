@@ -17,6 +17,18 @@ export interface CharacterAssetQuery {
   illustUrl?: string;
 }
 
+// Global runtime avatar cache-buster to instantly invalidate browser memory/disk caches on crop/asset update
+let globalAvatarCacheBuster = Date.now();
+
+export function getGlobalAvatarCacheBuster(): number {
+  return globalAvatarCacheBuster;
+}
+
+export function refreshGlobalAvatarCacheBuster(): number {
+  globalAvatarCacheBuster = Date.now();
+  return globalAvatarCacheBuster;
+}
+
 const cropLookupByUrl = new Map<string, CgCropConfig>();
 for (const asset of characterCgAssets) {
   if (asset.avatarUrl) {

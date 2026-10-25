@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import type { CharacterRef, GlossaryTerm } from '../types/story';
+import React, { useEffect, useMemo, useState } from 'react';
+import type { CharacterRef, CharacterVisualVariant, GlossaryTerm } from '../types/story';
 import { X, Maximize2 } from 'lucide-react';
 import { resolveAssetUrl } from '../utils/assetUrl';
-import { getCharacterAvatarUrl, getCharacterIllustUrl } from '../utils/characterAssetHelper';
+import { getCharacterAvatarUrl, getCharacterIllustUrl, getGlobalAvatarCacheBuster } from '../utils/characterAssetHelper';
+import { resolveCharacterMaster } from '../data/db/characterResolver';
 import { CopyrightBadge } from './CopyrightedImage';
 import { TacticalAvatar } from './TacticalAvatar';
 
@@ -18,32 +19,42 @@ interface SideDrawerProps {
 export const SideDrawer: React.FC<SideDrawerProps> = ({
   isOpen,
   onClose,
-  selectedCharacter,
+  selectedCharacter: incomingCharacter,
   selectedGlossary,
   initialVariantId,
   onOpenLightbox,
 }) => {
+  // 단일 진실 공급원(SSOT): 마스터 DB 및 최신 CG 자산 레지스트리와 실시간 정합
+  const selectedCharacter = useMemo(() => {
+    if (!incomingCharacter) return null;
+    return resolveCharacterMaster(incomingCharacter.id, incomingCharacter);
+  }, [incomingCharacter]);
+
+  const findVariantIndex = (char: CharacterRef | null, targetVariantId?: string | null): number => {
+    if (!char?.variants || char.variants.length === 0 || !targetVariantId) return 0;
+    const directIdx = char.variants.findIndex((v) => v.id === targetVariantId);
+    if (directIdx >= 0) return directIdx;
+    if (targetVariantId === 'current' || targetVariantId === 'default') {
+      const fallbackIdx = char.variants.findIndex(
+        (v) => v.id === 'default' || v.id === 'adult' || v.id === 'current'
+      );
+      if (fallbackIdx >= 0) return fallbackIdx;
+    }
+    return 0;
+  };
+
   const [illustError, setIllustError] = useState(false);
   const [prevCharId, setPrevCharId] = useState<string | undefined>(selectedCharacter?.id);
   const [prevVariantId, setPrevVariantId] = useState<string | null | undefined>(initialVariantId);
   const [activeVariantIndex, setActiveVariantIndex] = useState<number>(() => {
-    if (initialVariantId && selectedCharacter?.variants && selectedCharacter.variants.length > 0) {
-      const idx = selectedCharacter.variants.findIndex((v) => v.id === initialVariantId);
-      return idx >= 0 ? idx : 0;
-    }
-    return 0;
+    return findVariantIndex(selectedCharacter, initialVariantId);
   });
 
   if (selectedCharacter?.id !== prevCharId || initialVariantId !== prevVariantId) {
     setPrevCharId(selectedCharacter?.id);
     setPrevVariantId(initialVariantId);
     setIllustError(false);
-    if (initialVariantId && selectedCharacter?.variants && selectedCharacter.variants.length > 0) {
-      const idx = selectedCharacter.variants.findIndex((v) => v.id === initialVariantId);
-      setActiveVariantIndex(idx >= 0 ? idx : 0);
-    } else {
-      setActiveVariantIndex(0);
-    }
+    setActiveVariantIndex(findVariantIndex(selectedCharacter, initialVariantId));
   }
 
   useEffect(() => {
@@ -94,9 +105,13 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
             const rawIllustUrl = activeVariant?.illustUrl || getCharacterIllustUrl(selectedCharacter);
             const resolvedIllustUrl = rawIllustUrl ? resolveAssetUrl(rawIllustUrl) : '';
+            const buster = getGlobalAvatarCacheBuster();
+            const finalIllustUrl = resolvedIllustUrl
+              ? (resolvedIllustUrl.includes('?v=') ? resolvedIllustUrl : `${resolvedIllustUrl}${resolvedIllustUrl.includes('?') ? '&' : '?'}v=${buster}`)
+              : '';
             const rawAvatarUrl = activeVariant?.avatarUrl || getCharacterAvatarUrl(selectedCharacter);
             const resolvedAvatarUrl = rawAvatarUrl ? resolveAssetUrl(rawAvatarUrl) : '';
-            const hasValidIllust = Boolean(resolvedIllustUrl && resolvedIllustUrl.trim() !== '' && !illustError);
+            const hasValidIllust = Boolean(finalIllustUrl && finalIllustUrl.trim() !== '' && !illustError);
 
             return (
               <div className="space-y-5">
@@ -117,7 +132,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     {onOpenLightbox && (
                       <button
                         onClick={() => onOpenLightbox(
-                          resolvedIllustUrl,
+                          finalIllustUrl,
                           `${selectedCharacter.nameKo} (${selectedCharacter.nameEn}) ${activeVariant ? `[${activeVariant.label}]` : '전신 일러스트'}`,
                           selectedCharacter.nameKo
                         )}
@@ -131,7 +146,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
                     {/* Standing CG Image */}
                     <img
-                      src={resolvedIllustUrl}
+                      src={finalIllustUrl}
                       alt={selectedCharacter.nameKo}
                       onError={() => setIllustError(true)}
                       draggable={false}
@@ -192,7 +207,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
-                      {selectedCharacter.variants.map((v, vIdx) => {
+                      {selectedCharacter.variants.map((v: CharacterVisualVariant, vIdx: number) => {
                         const isSelected = activeVariantIndex === vIdx;
                         return (
                           <button

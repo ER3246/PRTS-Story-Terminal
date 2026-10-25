@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import type { StoryArchive, CharacterRef, GlossaryTerm, StorySubPage } from '../types/story';
 import type { StoryListItem } from '../data/storyRegistry';
 import { globalCharacterMap } from '../data/globalCharacters';
+import { resolveCharacterMaster, getMasterCharacter } from '../data/db/characterResolver';
 import { getStoryAccessState, storyRegistry } from '../data/storyRegistry';
 import { HighlightedText } from './HighlightedText';
 import { FilmReelIcon } from './StorySplashModal';
@@ -165,9 +166,31 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
     setExpandedStages(updated);
   };
 
+  // 단일 진실 공급원(SSOT): story.characters를 마스터 DB 및 CG 자산 레지스트리와 실시간 정합
+  const resolvedStoryCharacters = useMemo(() => {
+    return story.characters.map((c) => resolveCharacterMaster(c.id, c));
+  }, [story.characters]);
+
+  const resolvedCharactersMap = useMemo(() => {
+    const map = new Map<string, CharacterRef>();
+    for (const c of resolvedStoryCharacters) {
+      map.set(c.id, c);
+    }
+    return map;
+  }, [resolvedStoryCharacters]);
+
   const getCharacterById = (id: string): CharacterRef | undefined => {
+    if (resolvedCharactersMap.has(id)) {
+      return resolvedCharactersMap.get(id);
+    }
     const inStory = story.characters.find((c) => c.id === id);
-    if (inStory) return inStory;
+    if (inStory) {
+      return resolveCharacterMaster(id, inStory);
+    }
+    const master = getMasterCharacter(id);
+    if (master) {
+      return resolveCharacterMaster(id);
+    }
     return globalCharacterMap[id];
   };
 
@@ -590,7 +613,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     }`}
                   >
                     <span>작전 관계자 명부 (인물 도감)</span>
-                    <span className="font-mono text-[11px] text-zinc-500">{story.characters.length}명</span>
+                    <span className="font-mono text-[11px] text-zinc-500">{resolvedStoryCharacters.length}명</span>
                   </button>
                   <button
                     onClick={() => {
@@ -890,7 +913,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <p key={pIdx}>
                   <HighlightedText
                     text={para}
-                    characters={story.characters}
+                    characters={resolvedStoryCharacters}
                     glossary={story.glossary}
                     onSelectCharacter={onSelectCharacter}
                     onSelectGlossary={onSelectGlossary}
@@ -1339,7 +1362,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           <p key={pIdx}>
                             <HighlightedText
                               text={paragraph}
-                              characters={story.characters}
+                              characters={resolvedStoryCharacters}
                               glossary={story.glossary}
                               onSelectCharacter={onSelectCharacter}
                               onSelectGlossary={onSelectGlossary}
@@ -1630,7 +1653,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <div className="text-zinc-300 text-xs sm:text-sm leading-[1.8] break-keep font-sans">
                   <HighlightedText
                     text={story.content.background}
-                    characters={story.characters}
+                    characters={resolvedStoryCharacters}
                     glossary={story.glossary}
                     onSelectCharacter={onSelectCharacter}
                     onSelectGlossary={onSelectGlossary}
@@ -1686,7 +1709,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               >
                 <span>등장인물</span>
                 <span className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300">
-                  {story.characters.length}
+                  {resolvedStoryCharacters.length}
                 </span>
                 {activeTab === 'dossier' && (
                   <span className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
@@ -2037,7 +2060,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     <p key={pIdx} className="leading-[1.85]">
                                       <HighlightedText
                                         text={paragraph}
-                                        characters={story.characters}
+                                        characters={resolvedStoryCharacters}
                                         glossary={story.glossary}
                                         onSelectCharacter={onSelectCharacter}
                                         onSelectGlossary={onSelectGlossary}
@@ -2202,7 +2225,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                <p key={idx}>
                                                  <HighlightedText
                                                    text={p}
-                                                   characters={story.characters}
+                                                   characters={resolvedStoryCharacters}
                                                    glossary={story.glossary}
                                                    onSelectCharacter={onSelectCharacter}
                                                    onSelectGlossary={onSelectGlossary}
@@ -2436,12 +2459,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           {activeTab === 'dossier' && (
             <div className="space-y-5 font-sans">
               <div className="flex items-center justify-between text-xs text-zinc-400 border-b border-white/[0.08] pb-3">
-                <span className="font-semibold text-zinc-200">작전 관계자 명부 (총 {story.characters.length}명)</span>
+                <span className="font-semibold text-zinc-200">작전 관계자 명부 (총 {resolvedStoryCharacters.length}명)</span>
                 <span className="font-mono text-[11px] text-zinc-500">클릭 시 상세 프로필 열람</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {story.characters.map((char) => (
+                {resolvedStoryCharacters.map((char) => (
                   <div
                     key={char.id}
                     onClick={() => onSelectCharacter(char)}

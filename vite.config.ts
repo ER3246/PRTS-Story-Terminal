@@ -18,6 +18,17 @@ function prtsEditorApiPlugin(): Plugin {
 
         // Fallback static asset resolver for character illustrations and avatars
         const urlClean = req.url.split('?')[0].replace(/^(\.\/|\/)+/, '/')
+
+        // Disable browser caching for character avatars, standing CGs and in-game scenes in development
+        if (
+          urlClean.startsWith('/images/characters/') ||
+          urlClean.startsWith('/images/cgs/') ||
+          urlClean.startsWith('/images/backgrounds/')
+        ) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+          res.setHeader('Pragma', 'no-cache')
+          res.setHeader('Expires', '0')
+        }
         if (urlClean.startsWith('/images/characters/illust/')) {
           const fn = path.basename(urlClean)
           const target = path.resolve(process.cwd(), 'public/images/characters/illust', fn)
@@ -397,6 +408,9 @@ export default defineConfig({
     strictPort: true,
     cors: true,
     headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
