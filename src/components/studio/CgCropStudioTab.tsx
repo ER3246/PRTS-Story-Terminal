@@ -28,6 +28,8 @@ import {
 
   Check,
 
+  Maximize2,
+
 } from 'lucide-react';
 
 import type { CharacterCgAsset, CgAssetCategory, CgCropConfig } from '../../types/characterDb';
@@ -634,7 +636,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
     mCtx.save();
 
-    mCtx.globalAlpha = 0.35;
+    mCtx.globalAlpha = 0.55;
 
     mCtx.drawImage(loadedImg, offsetX, offsetY, drawW, drawH);
 
@@ -1593,7 +1595,71 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
         {workMode === 'crop' && (
 
-          <div className="w-full max-w-xl flex flex-col items-center space-y-4 animate-in fade-in duration-150">
+          <div className="w-full max-w-5xl flex flex-col xl:flex-row items-center xl:items-start justify-center gap-6 animate-in fade-in duration-150">
+            {/* Panel 1: 수집된 전신 일러스트 원화 뷰어 */}
+            <div className="w-full xl:w-[320px] shrink-0 bg-[#07090e] border border-white/10 rounded-lg p-3 flex flex-col shadow-xl">
+              {/* Header */}
+              <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#00d8ff] animate-pulse" />
+                  <span className="text-[10px] font-mono tracking-wider font-bold text-zinc-300 uppercase">
+                    FULL-BODY VISUAL // 수집된 전신
+                  </span>
+                </div>
+                {activeAsset.illustUrl && (
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+                    보유중
+                  </span>
+                )}
+              </div>
+
+              {/* Standing Illustration Preview Frame */}
+              <div className="relative w-full h-[460px] rounded bg-gradient-to-b from-white/[0.03] via-[#090c14] to-[#04060a] border border-white/10 overflow-hidden flex items-center justify-center group">
+                <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+                {activeAsset.illustUrl ? (
+                  <>
+                    <img
+                      src={`${resolveAssetUrl(activeAsset.illustUrl)}?v=${cacheBuster}`}
+                      alt={activeAsset.label}
+                      className="w-full h-full object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                    />
+                    <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <a
+                        href={`${resolveAssetUrl(activeAsset.illustUrl)}?v=${cacheBuster}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-2 py-1 rounded bg-black/80 hover:bg-[#00d8ff] text-zinc-300 hover:text-black text-[10px] font-mono flex items-center gap-1 border border-white/20 transition-all cursor-pointer shadow-lg"
+                      >
+                        <Maximize2 className="w-3 h-3" /> 원본 열기
+                      </a>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center p-6 text-center text-zinc-500 space-y-2">
+                    <ImageIcon className="w-10 h-10 stroke-[1.2] opacity-40 text-zinc-400" />
+                    <span className="text-xs font-bold text-zinc-400">전신 일러스트 미등록</span>
+                    <span className="text-[10px] text-zinc-500 max-w-[200px]">
+                      우측 캔버스에 이미지 파일을 드롭하여 새 전신을 등록하세요.
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Info Footer */}
+              <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                <span className="truncate max-w-[180px] text-zinc-300 font-semibold" title={activeAsset.illustFileName || '없음'}>
+                  {activeAsset.illustFileName || '전신 파일 없음'}
+                </span>
+                {loadedImg && sourceMode === 'illust' && (
+                  <span className="text-[10px] text-[#00d8ff] font-bold">
+                    {loadedImg.naturalWidth}×{loadedImg.naturalHeight}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Panel 2: 1:1 얼굴 크롭 캔버스 및 제어 패널 */}
+            <div className="w-full max-w-xl flex flex-col items-center space-y-4">
 
             {/* Unregistered Full-Body Illust Alert Banner */}
 
@@ -2010,6 +2076,9 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
             </div>
 
           </div>
+          </div>
+
+        
 
         )}
 
@@ -2924,6 +2993,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
             >
 
               <option value="operator">operator (로도스 오퍼레이터)</option>
+              <option value="story_operator">story_operator (스토리 시점 오퍼레이터 / 전용 복장)</option>
 
               <option value="npc_named">npc_named (네임드 NPC)</option>
 
@@ -3384,6 +3454,7 @@ export const CgCropStudioTab: React.FC<CgCropStudioTabProps> = ({
                 ['all', '전체'],
 
                 ['operator', '오퍼'],
+                ['story_operator', '스토리 오퍼'],
 
                 ['npc_named', '네임드'],
 

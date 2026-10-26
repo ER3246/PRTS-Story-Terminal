@@ -12,7 +12,8 @@
  * 캐릭터 CG 자산 카테고리
  */
 export type CgAssetCategory = 
-  | 'operator'       // 로도스 아일랜드 정규/협력 오퍼레이터
+  | 'operator'       // 로도스 아일랜드 정규/협력 오퍼레이터 (플레이어블 기본/전투 CG)
+  | 'story_operator' // 스토리 시점 오퍼레이터 (스토리 전용 복장/시점별 모습: 밴시 군주 로고스, 글래스고 다그다, 바벨 아스카론 등)
   | 'npc_named'     // 네임드 스토리 조연/주요 인물
   | 'npc_generic'   // 일반 주민/병사/폭도 등 공용 NPC
   | 'enemy'         // 보스 및 적대 세력 지휘관

@@ -80,6 +80,7 @@ export const CharacterCgPickerModal: React.FC<CharacterCgPickerModalProps> = ({
               [
                 ['all', '전체'],
                 ['operator', '오퍼레이터'],
+                ['story_operator', '스토리 오퍼'],
                 ['npc_named', '네임드 NPC'],
                 ['enemy', '보스/적군'],
                 ['npc_generic', '공용 NPC'],
