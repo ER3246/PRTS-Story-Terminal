@@ -1,5 +1,9 @@
-# Logs & Process PIDs
-logs
+# ==============================================================================
+# PRTS Story Terminal - Git Exclusion Rules (.gitignore)
+# ==============================================================================
+
+# 1. Logs & Process IDs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -9,14 +13,14 @@ lerna-debug.log*
 .prts_server.log
 .prts_server.pid
 
-# Build, Dependencies & Environment Variables
+# 2. Build Artifacts, Dependencies & Environment Variables
 node_modules/
 dist/
 dist-ssr/
 *.local
 .env*
 
-# Editor & OS Files
+# 3. Editor & OS Artifacts
 .vscode/*
 !.vscode/extensions.json
 .idea/
@@ -29,7 +33,7 @@ Thumbs.db
 *.sw?
 *.bak
 
-# AI Prompts, Internal Design Docs & Agent Configs
+# 4. AI Internal Prompts, Working Design Docs & Agent Metas
 docs/
 STORY_AUTHORING_PIPELINE.md
 STORY_ARCHIVE_PROMPT_TEMPLATE.md
@@ -46,11 +50,24 @@ exports/
 CLAUDE.md
 AGENTS.md
 
-# Raw Game Scripts, Fact Sheets & Intermediate Data
+# 5. Raw Game Dumps, Scraped Scripts & Master Resource Pools (NEVER COMMIT)
 raw_data/
+raw_resources/
+assets_source/
+library/
 
-# Local Scripts, Python Utilities & Temporary Dumps
-scripts/
+# Local Character CG Master Library (Crawler Cache: ~4,000 files, ~2.8GB)
+public/images/characters/library/
+public/images/characters/illust_legacy_backup/
+
+# 6. Safety Barrier: Prevent Raw Datamined Files from Leaking into Production
+public/images/characters/illust/avg_*
+public/images/characters/illust/char_*
+
+# 7. Local Tooling Scripts & Temporary Workspace Dumps
+scripts/*
+!scripts/validate_stories.cjs
+!scripts/import_character_asset.cjs
 *.py
 *.pyc
 *.npy
@@ -61,8 +78,3 @@ scratch/
 scratch_*.png
 npc_mapping_result.txt
 PRTS_Terminal.bat
-
-# Character CG Raw Library (Local crawler cache: 3,990 files, 2.78GB)
-public/images/characters/library/
-!public/images/characters/library/catalog.json
-public/images/characters/illust_legacy_backup/
