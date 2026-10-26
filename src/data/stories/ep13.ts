@@ -1072,7 +1072,7 @@ export const episode13: StoryArchive = {
     },
     {
       id: 'royal_court_officer',
-      nameKo: '왕정군 장교 (\'삽\')',
+      nameKo: '왕정군 장교 (삽)',
       nameEn: 'Royal Court Officer (The Shovel)',
       faction: '카즈델 군사위원회',
       role: '브렌트우드 제단 현장 장교',
