@@ -595,7 +595,7 @@ export const storyRegistry: StoryListItem[] = [
   {
     id: 'ep13',
     code: 'EP 13',
-    titleKo: '악의 소용돌이',
+    titleKo: '흉조의 소용돌이',
     titleEn: 'The Whirlpool That Is Passion',
     category: 'main',
     categoryLabel: '메인 테마',
@@ -610,17 +610,17 @@ export const storyRegistry: StoryListItem[] = [
     splashVisualUrl: '/images/story_covers/ep13.png',
     seriesTabs: [
       { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
-      { id: 'part_1', label: 'Part 1: 전운의 황야와 피의 전조', code: 'PART 1' },
-      { id: 'part_2', label: 'Part 2: 잃어버린 긍지와 왕관의 무게', code: 'PART 2' },
-      { id: 'part_3', label: 'Part 3: 부서진 온실과 피어나는 불꽃', code: 'PART 3' },
-      { id: 'part_4', label: 'Part 4: 생귀나르의 만찬과 피의 황혼', code: 'PART 4' }
+      { id: 'part_1', label: 'Part 1: 상처 입은 대지와 흩어진 불씨', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 모범의 이름과 왕관의 무게', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 부서진 온실과 타오르는 유언', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 진홍의 군주와 쌓여가는 재액', code: 'PART 4' }
     ],
     subPages: [
       { id: 'overview', label: '전체 요약 및 개요', isOverview: true },
-      { id: 'part_1', label: 'Part 1: 전운의 황야와 피의 전조', isOverview: false },
-      { id: 'part_2', label: 'Part 2: 잃어버린 긍지와 왕관의 무게', isOverview: false },
-      { id: 'part_3', label: 'Part 3: 부서진 온실과 피어나는 불꽃', isOverview: false },
-      { id: 'part_4', label: 'Part 4: 생귀나르의 만찬과 피의 황혼', isOverview: false }
+      { id: 'part_1', label: 'Part 1: 상처 입은 대지와 흩어진 불씨', isOverview: false },
+      { id: 'part_2', label: 'Part 2: 모범의 이름과 왕관의 무게', isOverview: false },
+      { id: 'part_3', label: 'Part 3: 부서진 온실과 타오르는 유언', isOverview: false },
+      { id: 'part_4', label: 'Part 4: 진홍의 군주와 쌓여가는 재액', isOverview: false }
     ],
     releaseOrder: 37,
     releaseYear: 5,
