@@ -105,7 +105,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_395_1$1.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_395_1$1.png"
   },
   {
     assetId: "cg_astgenne",
@@ -133,7 +133,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_222_bpipe_1.png"
+    notes: "공식 스토리 스프라이트: avg_222_bpipe_1.png"
   },
   {
     assetId: "cg_baird",
@@ -161,7 +161,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_135_1#1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_134.png"
   },
   {
     assetId: "cg_big_bob",
@@ -217,7 +217,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_422_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_422_1$1.png"
   },
   {
     assetId: "cg_carol",
@@ -250,7 +250,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_648_1$1.png (더블린 병사 오염 복구)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_648_1$1.png"
   },
   {
     assetId: "cg_ceylon",
@@ -263,7 +263,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_348_ceylon_1.png"
+    notes: "공식 스토리 스프라이트: avg_348_ceylon_1$1.png"
   },
   {
     assetId: "cg_chen",
@@ -299,7 +299,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_007_closre_1$1.png"
+    notes: "공식 스토리 스프라이트: avg_007_closre_1$1.png"
   },
   {
     assetId: "cg_clovicia",
@@ -351,7 +351,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_008.png"
+    notes: "공식 원본 보스 스프라이트: char_1502_crowns.png (우르수스 병사 오염 복구)"
   },
   {
     assetId: "cg_czerny",
@@ -364,7 +364,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_4047_pianst_1$1.png"
+    notes: "공식 스토리 스프라이트: avg_4047_pianst_1$1.png"
   },
   {
     assetId: "cg_dagda",
@@ -377,7 +377,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_396_1$1.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_396_1$1.png"
   },
   {
     assetId: "cg_damazti",
@@ -416,17 +416,19 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_130_doberm_1.png"
+    notes: "공식 스토리 스프라이트: char_130_doberm_ex.png"
   },
   {
     assetId: "cg_doctor",
     label: "박사 (doctor)",
-    category: "operator",
+    category: "story_operator",
     avatarFileName: "doctor.png",
     avatarUrl: "/images/characters/doctor.png",
+    illustFileName: "doctor.png",
+    illustUrl: "/images/characters/illust/doctor.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 원본 스토리 스프라이트: avg_doc_1.png"
   },
   {
     assetId: "cg_domma",
@@ -439,7 +441,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_133.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_133.png"
   },
   {
     assetId: "cg_dorothy",
@@ -452,7 +454,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_4048_doroth_1$1.png"
+    notes: "공식 스토리 스프라이트: avg_4048_doroth_1$1.png"
   },
   {
     assetId: "cg_eblana",
@@ -478,7 +480,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_103_angel_1.png"
+    notes: "공식 스토리 스프라이트: avg_103_angel_1$1.png"
   },
   {
     assetId: "cg_faust",
@@ -491,7 +493,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_007.png"
+    notes: "공식 원본 보스 스프라이트: char_1508_Faust_1.png"
   },
   {
     assetId: "cg_feist",
@@ -504,7 +506,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_402_1$1.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_402_1$1.png"
   },
   {
     assetId: "cg_ferdinand",
@@ -530,7 +532,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_106_franka_1.png"
+    notes: "공식 스토리 스프라이트: avg_106_franka_1$1.png"
   },
   {
     assetId: "cg_friston",
@@ -543,7 +545,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_898_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_898_1$1.png"
   },
   {
     assetId: "cg_frostleaf",
@@ -556,7 +558,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_193_frostl_1.png"
+    notes: "공식 스토리 스프라이트: avg_193_frostl_1$1.png"
   },
   {
     assetId: "cg_frostnova",
@@ -569,7 +571,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_044_1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_044_1.png"
   },
   {
     assetId: "cg_golding",
@@ -595,7 +597,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_220_grani_1.png"
+    notes: "공식 스토리 스프라이트: avg_220_grani_1$1.png"
   },
   {
     assetId: "cg_greythroat",
@@ -621,17 +623,19 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_1027_greyy2_1$1.png"
+    notes: "공식 스토리 스프라이트: avg_1027_greyy2_1$1.png"
   },
   {
     assetId: "cg_guard",
     label: "가드 오퍼레이터 (guard)",
-    category: "operator",
+    category: "npc_generic",
     avatarFileName: "guard.png",
     avatarUrl: "/images/characters/guard.png",
+    illustFileName: "guard.png",
+    illustUrl: "/images/characters/illust/guard.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_001.png (로도스 정찰/가드)"
   },
   {
     assetId: "cg_hamilton",
@@ -644,12 +648,12 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_410_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_227_1.png"
   },
   {
     assetId: "cg_harmonie",
     label: "아르모니 (harmonie)",
-    category: "enemy",
+    category: "npc_named",
     avatarFileName: "harmonie.png",
     avatarUrl: "/images/characters/harmonie.png",
     illustFileName: "harmonie.png",
@@ -657,7 +661,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_297_hamoni_1.png"
+    notes: "공식 스토리 스프라이트: char_297_hamoni_1.png"
   },
   {
     assetId: "cg_heidi",
@@ -670,12 +674,12 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_400_1$1.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_400_1$1.png"
   },
   {
     assetId: "cg_hellagur",
     label: "헬라그 (hellagur)",
-    category: "npc_named",
+    category: "operator",
     avatarFileName: "hellagur.png",
     avatarUrl: "/images/characters/hellagur.png",
     illustFileName: "hellagur.png",
@@ -683,7 +687,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_188_helage_1.png"
+    notes: "공식 스토리 스프라이트: char_188_helage_1.png"
   },
   {
     assetId: "cg_herman",
@@ -709,7 +713,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_393_1$1.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_393_1$1.png"
   },
   {
     assetId: "cg_hoolheyak",
@@ -722,7 +726,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_522_1$1.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_522_1$1.png"
   },
   {
     assetId: "cg_horn",
@@ -735,7 +739,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_4039_horn_1$1.png (빅토리아 군복)"
+    notes: "공식 스토리 스프라이트: avg_4039_horn_1$1.png"
   },
   {
     assetId: "cg_hoshiguma",
@@ -761,12 +765,12 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_134_ifrit_1.png"
+    notes: "공식 스토리 스프라이트: avg_134_ifrit_1$1.png"
   },
   {
     assetId: "cg_indra",
     label: "인드라 (indra)",
-    category: "npc_named",
+    category: "operator",
     avatarFileName: "indra.png",
     avatarUrl: "/images/characters/indra.png",
     illustFileName: "indra.png",
@@ -774,7 +778,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_155_tiger_1.png"
+    notes: "공식 스토리 스프라이트: avg_155_tiger_1$1.png"
   },
   {
     assetId: "cg_ines",
@@ -787,7 +791,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_046.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_046.png"
   },
   {
     assetId: "cg_jackson",
@@ -800,7 +804,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_894_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_894_1$1.png"
   },
   {
     assetId: "cg_jesselton",
@@ -839,7 +843,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_893_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_893_1$1.png"
   },
   {
     assetId: "cg_kafka",
@@ -852,7 +856,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_214_kafka_1.png"
+    notes: "공식 스토리 스프라이트: avg_214_kafka_1$1.png"
   },
   {
     assetId: "cg_kaltsit",
@@ -883,7 +887,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
   {
     assetId: "cg_lava",
     label: "라바 (lava)",
-    category: "npc_named",
+    category: "operator",
     avatarFileName: "lava.png",
     avatarUrl: "/images/characters/lava.png",
     illustFileName: "lava.png",
@@ -904,12 +908,12 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_306_leizi_1.png"
+    notes: "공식 스토리 스프라이트: avg_306_leizi_1$1.png"
   },
   {
     assetId: "cg_letto",
     label: "레토 (letto)",
-    category: "npc_named",
+    category: "operator",
     avatarFileName: "letto.png",
     avatarUrl: "/images/characters/letto.png",
     illustFileName: "letto.png",
@@ -932,7 +936,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
   {
     assetId: "cg_liskarm",
     label: "리스캄 (liskarm)",
-    category: "npc_named",
+    category: "operator",
     avatarFileName: "liskarm.png",
     avatarUrl: "/images/characters/liskarm.png",
     illustFileName: "liskarm.png",
@@ -940,7 +944,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_107_liskam_1.png"
+    notes: "공식 스토리 스프라이트: avg_107_liskam_1$1.png"
   },
   {
     assetId: "cg_logos",
@@ -953,7 +957,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_650_1$1.png (플레이어블 오퍼레이터 CG 분리)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_650_1$1.png"
   },
   {
     assetId: "cg_loken",
@@ -966,7 +970,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_892_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_892_1$1.png"
   },
   {
     assetId: "cg_mandragora",
@@ -1028,12 +1032,12 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_242_otter_1.png"
+    notes: "공식 스토리 스프라이트: avg_242_otter_1$1.png"
   },
   {
     assetId: "cg_mechanist",
     label: "메커니스트 (mechanist)",
-    category: "operator",
+    category: "npc_named",
     avatarFileName: "mechanist.png",
     avatarUrl: "/images/characters/mechanist.png",
     illustFileName: "mechanist.png",
@@ -1041,17 +1045,19 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_425_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_425_1$1.png"
   },
   {
     assetId: "cg_medic",
     label: "로도스 메딕 오퍼레이터 (medic)",
-    category: "operator",
+    category: "npc_generic",
     avatarFileName: "medic.png",
     avatarUrl: "/images/characters/medic.png",
+    illustFileName: "medic.png",
+    illustUrl: "/images/characters/illust/medic.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_013.png (로도스 의료 오퍼레이터)"
   },
   {
     assetId: "cg_mephisto",
@@ -1064,7 +1070,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_006.png"
+    notes: "공식 원본 보스 스프라이트: char_1507_Mephisto_1.png"
   },
   {
     assetId: "cg_meteorite",
@@ -1077,7 +1083,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_219_meteo_1.png"
+    notes: "공식 스토리 스프라이트: avg_219_meteo_1$1.png"
   },
   {
     assetId: "cg_misery",
@@ -1116,7 +1122,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_405_1$1.png (스토리 전용 복장)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_405_1$1.png"
   },
   {
     assetId: "cg_mountain",
@@ -1142,7 +1148,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_249_mlyss_1$1.png"
+    notes: "공식 스토리 스프라이트: avg_249_mlyss_1$1.png"
   },
   {
     assetId: "cg_nasty",
@@ -1155,7 +1161,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_900_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_900_1$1.png"
   },
   {
     assetId: "cg_nearl",
@@ -1168,12 +1174,12 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_148_nearl_1.png"
+    notes: "공식 스토리 스프라이트: char_148_nearl_1.png"
   },
   {
     assetId: "cg_nian",
     label: "니엔 (nian)",
-    category: "npc_named",
+    category: "operator",
     avatarFileName: "nian.png",
     avatarUrl: "/images/characters/nian.png",
     illustFileName: "nian.png",
@@ -1181,7 +1187,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_2014_nian_1.png"
+    notes: "공식 스토리 스프라이트: avgnew_2014_nian_1$1.png"
   },
   {
     assetId: "cg_nine",
@@ -1194,7 +1200,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_403_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_403_1$1.png"
   },
   {
     assetId: "cg_none",
@@ -1228,7 +1234,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_4071_peper_1.png"
+    notes: "공식 스토리 스프라이트: avg_4071_peper_1$1.png"
   },
   {
     assetId: "cg_parvis",
@@ -1254,7 +1260,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_025_1.png (이네스 오염 복구)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_025_1.png"
   },
   {
     assetId: "cg_pinecone",
@@ -1267,7 +1273,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_440_pinecn_1.png"
+    notes: "공식 스토리 스프라이트: avg_440_pinecn_1$1.png"
   },
   {
     assetId: "cg_provence",
@@ -1293,7 +1299,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_128_plosis_1.png"
+    notes: "공식 스토리 스프라이트: avg_128_plosis_1$1.png"
   },
   {
     assetId: "cg_reed",
@@ -1314,9 +1320,11 @@ export const characterCgAssets: CharacterCgAsset[] = [
     category: "npc_generic",
     avatarFileName: "reunion_caster.png",
     avatarUrl: "/images/characters/reunion_caster.png",
+    illustFileName: "reunion_caster.png",
+    illustUrl: "/images/characters/illust/reunion_caster.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_008.png (리유니온 술사/원거리병)"
   },
   {
     assetId: "cg_reunion_soldier",
@@ -1324,9 +1332,11 @@ export const characterCgAssets: CharacterCgAsset[] = [
     category: "npc_generic",
     avatarFileName: "reunion_soldier.png",
     avatarUrl: "/images/characters/reunion_soldier.png",
+    illustFileName: "reunion_soldier.png",
+    illustUrl: "/images/characters/illust/reunion_soldier.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_002.png (리유니온 돌격병)"
   },
   {
     assetId: "cg_reunion_soldier_a",
@@ -1334,9 +1344,11 @@ export const characterCgAssets: CharacterCgAsset[] = [
     category: "npc_generic",
     avatarFileName: "reunion_soldier_a.png",
     avatarUrl: "/images/characters/reunion_soldier_a.png",
+    illustFileName: "reunion_soldier_a.png",
+    illustUrl: "/images/characters/illust/reunion_soldier_a.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_002.png"
   },
   {
     assetId: "cg_reunion_soldier_b",
@@ -1344,9 +1356,11 @@ export const characterCgAssets: CharacterCgAsset[] = [
     category: "npc_generic",
     avatarFileName: "reunion_soldier_b.png",
     avatarUrl: "/images/characters/reunion_soldier_b.png",
+    illustFileName: "reunion_soldier_b.png",
+    illustUrl: "/images/characters/illust/reunion_soldier_b.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_002.png"
   },
   {
     assetId: "cg_robin",
@@ -1359,7 +1373,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_451_robin_1.png"
+    notes: "공식 스토리 스프라이트: char_451_robin.png"
   },
   {
     assetId: "cg_rockrock",
@@ -1372,7 +1386,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_4040_rockr_1.png"
+    notes: "공식 스토리 스프라이트: avg_4040_rockr_1$1.png"
   },
   {
     assetId: "cg_rosmontis",
@@ -1385,7 +1399,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_391_rosmon_1.png"
+    notes: "공식 스토리 스프라이트: avg_391_rosmon_1$1.png"
   },
   {
     assetId: "cg_saileach",
@@ -1398,7 +1412,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_479_sleach_1.png"
+    notes: "공식 스토리 스프라이트: avg_479_sleach_1$1.png"
   },
   {
     assetId: "cg_salus",
@@ -1437,7 +1451,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: avg_npc_532_1$1.png (라인랩 제복)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_532_1$1.png"
   },
   {
     assetId: "cg_schwarz",
@@ -1450,7 +1464,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_340_shwaz_1.png"
+    notes: "공식 스토리 스프라이트: avg_340_shwaz_1$1.png"
   },
   {
     assetId: "cg_scout",
@@ -1468,9 +1482,11 @@ export const characterCgAssets: CharacterCgAsset[] = [
     category: "npc_generic",
     avatarFileName: "shieldguard.png",
     avatarUrl: "/images/characters/shieldguard.png",
+    illustFileName: "shieldguard.png",
+    illustUrl: "/images/characters/illust/shieldguard.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_026.png (유격대 방패병)"
   },
   {
     assetId: "cg_shining",
@@ -1483,7 +1499,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_147_shining_1.png"
+    notes: "공식 스토리 스프라이트: avg_147_shining_1$1.png"
   },
   {
     assetId: "cg_siege",
@@ -1496,7 +1512,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_112_siege_1.png"
+    notes: "공식 스토리 스프라이트: avgnew_112_siege_1$1.png"
   },
   {
     assetId: "cg_silence",
@@ -1509,7 +1525,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_108_silent_1.png"
+    notes: "공식 스토리 스프라이트: avg_108_silent_1$1.png"
   },
   {
     assetId: "cg_skadi",
@@ -1522,7 +1538,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_263_skadi_1.png"
+    notes: "공식 스토리 스프라이트: char_263_skadi_1.png"
   },
   {
     assetId: "cg_skullshatterer",
@@ -1548,7 +1564,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_166_skfire_1.png"
+    notes: "공식 스토리 스프라이트: avg_166_skfire_1$1.png"
   },
   {
     assetId: "cg_sonny",
@@ -1574,7 +1590,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_412_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_412_1$1.png"
   },
   {
     assetId: "cg_swire",
@@ -1587,7 +1603,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_308_swire_1.png"
+    notes: "공식 스토리 스프라이트: char_308_swire_1.png"
   },
   {
     assetId: "cg_talulah",
@@ -1600,7 +1616,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_043_1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_043_1.png"
   },
   {
     assetId: "cg_texas",
@@ -1665,7 +1681,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: char_4062_totter_1.png"
+    notes: "공식 스토리 스프라이트: avg_4062_totter_1$1.png"
   },
   {
     assetId: "cg_w",
@@ -1678,7 +1694,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 스토리 원본 스프라이트: char_1504_cqbw_1.png (로도스 오퍼레이터 CG 분리)"
+    notes: "공식 스토리 용병대장 스프라이트: char_1504_cqbw_1.png"
   },
   {
     assetId: "cg_wellington",
@@ -1717,7 +1733,7 @@ export const characterCgAssets: CharacterCgAsset[] = [
     cropConfig: { x: 50, y: 50, zoom: 1 },
     illustCropConfig: { x: 50, y: 19, zoom: 2.3 },
     isSharedOrBorrowed: false,
-    notes: "공식 원본 스프라이트: avg_npc_902_1$1.png"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_902_1$1.png"
   },
   {
     assetId: "cg_yeti_member",
@@ -1725,9 +1741,11 @@ export const characterCgAssets: CharacterCgAsset[] = [
     category: "npc_generic",
     avatarFileName: "yeti_member.png",
     avatarUrl: "/images/characters/yeti_member.png",
+    illustFileName: "yeti_member.png",
+    illustUrl: "/images/characters/illust/yeti_member.png",
     cropConfig: { x: 50, y: 50, zoom: 1 },
     isSharedOrBorrowed: false,
-    notes: "프로필 전용 (전신 일러스트 미등록 - 추후 스튜디오에서 직접 등록 가능)"
+    notes: "공식 스토리 원본 스프라이트: avg_npc_027.png (눈의 악마 소대원)"
   },
 ];
 
