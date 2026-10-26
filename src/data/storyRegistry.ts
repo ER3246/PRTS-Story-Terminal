@@ -12,6 +12,7 @@ import { episode09 } from './stories/ep09';
 import { episode10 } from './stories/ep10';
 import { episode11 } from './stories/ep11';
 import { episode12 } from './stories/ep12';
+import { episode13 } from './stories/ep13';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -594,7 +595,7 @@ export const storyRegistry: StoryListItem[] = [
   {
     id: 'ep13',
     code: 'EP 13',
-    titleKo: '흉조의 소용돌이',
+    titleKo: '악의 소용돌이',
     titleEn: 'The Whirlpool That Is Passion',
     category: 'main',
     categoryLabel: '메인 테마',
@@ -604,16 +605,31 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act II 석양의 런디니움',
     seriesOrder: 13,
     isOmnibus: false,
-    officialSynopsis: '런디니움 내부의 소용돌이치는 격류. 죽음을 넘어 돌아온 마왕의 유산과 델핀의 고뇌, 살카즈 수비대와의 치열한 격전.',
+    docFormat: 'multi_part',
+    officialSynopsis: '런디니움 분리 고립 사태 직후, 윈더미어 공작 함대의 무모한 진격과 뱀파이어 군주 생귀나르의 피의 함정. 분열된 빅토리아 대공작들의 야망과 배신 속에서 신생 리유니온의 청년 전사 가드는 숲속 양조장에서 난민들의 방패가 되어 장렬히 산화하고, 런디니움 방위군 레토 중령 역시 도시와 시민의 존엄을 지키며 생귀나르의 피의 아츠에 맞서 장렬한 최후를 맞는다. 거대 생체 비행선 \'스파인\' 척추 상공에서 펼쳐지는 외드레르, 이네스, W와 로고스, 아미야의 결사전. 피의 혈계를 불사르는 생귀나르를 격파하지만, 더 거대한 파멸의 재액이 샤드 빌딩과 테라 전역을 향해 소용돌이치기 시작한다.',
     splashVisualUrl: '/images/story_covers/ep13.png',
+    seriesTabs: [
+      { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 전운의 황야와 피의 전조', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 잃어버린 긍지와 왕관의 무게', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 부서진 온실과 피어나는 불꽃', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 생귀나르의 만찬과 피의 황혼', code: 'PART 4' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 요약 및 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 전운의 황야와 피의 전조', isOverview: false },
+      { id: 'part_2', label: 'Part 2: 잃어버린 긍지와 왕관의 무게', isOverview: false },
+      { id: 'part_3', label: 'Part 3: 부서진 온실과 피어나는 불꽃', isOverview: false },
+      { id: 'part_4', label: 'Part 4: 생귀나르의 만찬과 피의 황혼', isOverview: false }
+    ],
     releaseOrder: 37,
     releaseYear: 5,
     chronologicalOrder: 42,
-    timeline: '테라력 1098년 늦가을',
+    timeline: '테라력 1098년 여름',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep14',
@@ -2667,6 +2683,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep10: episode10,
   ep11: episode11,
   ep12: episode12,
+  ep13: episode13,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,

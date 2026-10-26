@@ -1747,6 +1747,111 @@ export const characterCgAssets: CharacterCgAsset[] = [
     isSharedOrBorrowed: false,
     notes: "공식 스토리 원본 스프라이트: avg_npc_027.png (눈의 악마 소대원)"
   },
+  {
+    assetId: "cg_lettou",
+    label: "레토 중령 (lettou)",
+    category: "npc_named",
+    avatarFileName: "lettou.png",
+    avatarUrl: "/images/characters/lettou.png",
+    illustFileName: "lettou.png",
+    illustUrl: "/images/characters/illust/lettou.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 20, zoom: 2.2 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 정품 스프라이트: avg_npc_649_1$1.png (빅토리아 런디니움 방위군 지휘관 레토 중령)"
+  },
+  {
+    assetId: "cg_ursula",
+    label: "울술라 (ursula)",
+    category: "npc_named",
+    avatarFileName: "ursula.png",
+    avatarUrl: "/images/characters/ursula.png",
+    illustFileName: "ursula.png",
+    illustUrl: "/images/characters/illust/ursula.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 18, zoom: 2.3 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 정품 스프라이트: avg_npc_1067_1$1.png (스파인 살카즈 노동자 대표 울술라)"
+  },
+  {
+    assetId: "cg_percival",
+    label: "퍼시벌 (percival)",
+    category: "npc_named",
+    avatarFileName: "percival.png",
+    avatarUrl: "/images/characters/percival.png",
+    illustFileName: "percival.png",
+    illustUrl: "/images/characters/illust/percival.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 20, zoom: 2.2 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 정품 스프라이트: avg_npc_864_1$1.png (신생 리유니온 청년 대원)"
+  },
+  {
+    assetId: "cg_ermengarde",
+    label: "에르망가르드 (ermengarde)",
+    category: "npc_named",
+    avatarFileName: "ermengarde.png",
+    avatarUrl: "/images/characters/ermengarde.png",
+    illustFileName: "ermengarde.png",
+    illustUrl: "/images/characters/illust/ermengarde.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 18, zoom: 2.3 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 정품 스프라이트: avg_npc_869_1$1.png (살카즈 뱀파이어 군주 섭정단 에르망가르드)"
+  },
+  {
+    assetId: "cg_magdalene",
+    label: "마그달레네 (magdalene)",
+    category: "npc_named",
+    avatarFileName: "magdalene.png",
+    avatarUrl: "/images/characters/magdalene.png",
+    illustFileName: "magdalene.png",
+    illustUrl: "/images/characters/illust/magdalene.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 22, zoom: 2.2 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 정품 스프라이트: avg_494_vendla_1$1.png (브렌트우드 마을 온실 마그달레네 / 벤델라)"
+  },
+  {
+    assetId: "cg_nowell",
+    label: "노웰 (nowell)",
+    category: "npc_named",
+    avatarFileName: "nowell.png",
+    avatarUrl: "/images/characters/nowell.png",
+    illustFileName: "nowell.png",
+    illustUrl: "/images/characters/illust/nowell.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 18, zoom: 2.3 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 정품 스프라이트: avg_npc_1066_1$1.png (신생 리유니온 지휘부 노웰)"
+  },
+  {
+    assetId: "cg_nightingale",
+    label: "나이팅게일 (nightingale)",
+    category: "story_operator",
+    avatarFileName: "nightingale.png",
+    avatarUrl: "/images/characters/nightingale.png",
+    illustFileName: "nightingale.png",
+    illustUrl: "/images/characters/illust/nightingale.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 20, zoom: 2.2 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 시점 스프라이트: avg_179_cgbird_1$1.png (살카즈 왕정 지하 은신처 나이팅게일/리즈)"
+  },
+  {
+    assetId: "cg_frida",
+    label: "프리다 (frida)",
+    category: "npc_named",
+    avatarFileName: "frida.png",
+    avatarUrl: "/images/characters/frida.png",
+    illustFileName: "frida.png",
+    illustUrl: "/images/characters/illust/frida.png",
+    cropConfig: { x: 50, y: 50, zoom: 1 },
+    illustCropConfig: { x: 50, y: 20, zoom: 2.2 },
+    isSharedOrBorrowed: false,
+    notes: "공식 스토리 정품 스프라이트: avg_npc_1069_1$1.png (브렌트우드 구 주민 프리다)"
+  },
+
 ];
 
 export const characterCgAssetMap: Record<string, CharacterCgAsset> = characterCgAssets.reduce(
