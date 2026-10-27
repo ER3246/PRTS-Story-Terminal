@@ -84,6 +84,34 @@ const GLOBAL_CHARACTER_NAME_MAP: Record<string, string> = {
   rockrock: '락락',
   arthur_morrison: '아서 모리슨',
   manfred: '맨프레드',
+  wisadel: '위셔델',
+  mon3tr: 'Mon3tr',
+  marilla: '마릴라',
+  fang: '팽',
+  hornless_sarkaz: '뿔이 없는 살카즈',
+  reed: '리드',
+  heidi: '하이디',
+  nasty: '내스티',
+  kristen: '크리스틴',
+  friston: '보존자',
+  gladiia: '글래디아',
+  arges: '아르게스',
+  eikthyrnir: '에이크티르니르',
+  evangelista: '이반젤리스타 11세',
+  evangelista_xi: '이반젤리스타 11세',
+  nameless_sarkaz_king: '이름 없는 마왕',
+  richard_patel: '리처드 파텔 일병',
+  crane: '크레인',
+  nadin: '나딘',
+  lieutenant_hill: '힐 부관',
+  goodboy: '구드보이',
+  wendigo: '웬디고',
+  aledale: '알레데일',
+  grail: '그레일',
+  ducarel: '두카레',
+  oda: '오다',
+  pontiff_knight: '총기사',
+  bina: '비나',
 };
 
 /**
@@ -92,7 +120,12 @@ const GLOBAL_CHARACTER_NAME_MAP: Record<string, string> = {
 function formatInvolvedCharacters(ids: string[] | undefined, characters: StoryArchive['characters']): string {
   if (!ids || ids.length === 0) return '';
   const charMap = new Map(characters.map((c) => [c.id.toLowerCase(), c.nameKo]));
-  return ids.map((id) => charMap.get(id.toLowerCase()) || GLOBAL_CHARACTER_NAME_MAP[id.toLowerCase()] || id).join(', ');
+  return ids.map((id) => {
+    if (id === 'W') return 'W';
+    if (id === 'Mon3tr' || id.toLowerCase() === 'mon3tr') return 'Mon3tr';
+    if (id === '위셔델') return '위셔델';
+    return charMap.get(id.toLowerCase()) || GLOBAL_CHARACTER_NAME_MAP[id.toLowerCase()] || id;
+  }).join(', ');
 }
 
 /**
@@ -152,7 +185,8 @@ export function generateStoryMarkdown(story: StoryArchive): string {
   if (isMultiPart && story.multiPartArcs) {
     md += `## 2. 챕터별 상세 서사 (Story Chapters: ${story.multiPartArcs.length} Parts)\n\n`;
     story.multiPartArcs.forEach((arc) => {
-      md += `### [PART 0${arc.partNumber}] ${arc.code ? `[${arc.code}] ` : ''}${arc.partTitleKo}${arc.partTitleEn ? ` (${arc.partTitleEn})` : ''}\n`;
+      const cleanTitle = arc.partTitleKo.replace(/^(\[PART\s*\d+\]\s*)?(Part\s*\d+:\s*)?/i, '');
+      md += `### [PART 0${arc.partNumber}] ${cleanTitle}${arc.partTitleEn ? ` (${arc.partTitleEn})` : ''}\n`;
       if (arc.location) {
         md += `- **배경 장소:** ${arc.location}\n`;
       }

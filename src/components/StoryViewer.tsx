@@ -183,9 +183,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
     if (resolvedCharactersMap.has(id)) {
       return resolvedCharactersMap.get(id);
     }
-    const inStory = story.characters.find((c) => c.id === id);
+    const inStory = story.characters.find((c) => c.id === id || c.nameKo === id);
     if (inStory) {
-      return resolveCharacterMaster(id, inStory);
+      return resolveCharacterMaster(inStory.id, inStory);
     }
     const master = getMasterCharacter(id);
     if (master) {

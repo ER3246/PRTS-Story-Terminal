@@ -83,7 +83,7 @@ export const episode14: StoryArchive = {
     {
       id: 'part_1',
       partNumber: 1,
-      partTitleKo: 'Part 1: 추억 속의 추락과 세 갈래의 진격',
+      partTitleKo: '추억 속의 추락과 세 갈래의 진격',
       partTitleEn: 'Crash in Memories and Three-Pronged Advance',
       code: 'PART 1',
       focalCharacter: '아미야 & 박사 & 켈시 & 로고스 & 시즈 & 클로저 & 고도딘 공작 & 백파이프 & W & 칼리초아',
@@ -129,7 +129,7 @@ export const episode14: StoryArchive = {
               context: '하늘이 진홍빛으로 변하며 라이프 스파인의 통제권이 끊어지자 경고하며'
             },
           ],
-          involvedCharacters: ["amiya", "theresa", "theresis", "doctor", "kaltsit", "logos", "siege", "horn", "delphine", "feist", "ines", "hoederer"]
+          involvedCharacters: ["아미야", "테레시아", "테레시스", "박사", "켈시", "로고스", "시즈", "혼", "델핀", "피스트", "W", "이네스", "외드레르"]
         },
         {
           stageCode: '14-1',
@@ -166,7 +166,7 @@ export const episode14: StoryArchive = {
               context: '더 샤드 상공에서 발현한 태초의 오리지늄의 정체를 일행에게 설명하며'
             },
           ],
-          involvedCharacters: ["amiya", "doctor", "kaltsit", "logos", "siege", "horn", "delphine", "feist", "closer", "misery", "hoederer", "ines", "ascalon", "catherine", "caster", "nachzehrer", "salus", "manfred"]
+          involvedCharacters: ["W", "외드레르", "이네스", "혼", "피스트", "나딘", "박사", "아미야", "켈시", "회색 모자"]
         },
         {
           stageCode: '14-2',
@@ -196,7 +196,7 @@ export const episode14: StoryArchive = {
               context: '피의 결정을 삼키고 처분을 청하는 살카즈 수송병 마릴라의 손을 잡아주며'
             },
           ],
-          involvedCharacters: ["amiya", "doctor", "kaltsit", "logos", "marilla", "siege", "horn", "delphine", "feist", "bagpipe", "gododdin"]
+          involvedCharacters: ["박사", "아미야", "켈시", "로고스", "테레시스", "알레데일", "그레일", "마릴라"]
         },
         {
           stageCode: '14-3',
@@ -233,7 +233,7 @@ export const episode14: StoryArchive = {
               context: '엔지니어 팀의 희생을 아파하는 클로저에게 자신이 지원 작전에 참가한 이유를 밝히며'
             },
           ],
-          involvedCharacters: ["siege", "gododdin", "horn", "delphine", "bagpipe", "closer", "misery", "fang", "feist", "rockrock"]
+          involvedCharacters: ["아미야", "박사", "켈시", "로고스", "살루스", "가비알", "블레이즈", "그레이스롯", "디글라스", "팽", "위셔델"]
         },
         {
           stageCode: '14-4',
@@ -263,7 +263,7 @@ export const episode14: StoryArchive = {
               context: '테레시아를 시해했던 뿔 없는 살카즈 자객을 향해 분노를 터뜨리며'
             },
           ],
-          involvedCharacters: ["hoederer", "ines", "ursula", "hornless_sarkaz", "qalidcoa"]
+          involvedCharacters: ["W", "외드레르", "이네스", "울술라", "크레인", "뿔이 없는 살카즈", "칼리초아", "아르모니"]
         },
         {
           stageCode: '14-5',
@@ -312,14 +312,14 @@ export const episode14: StoryArchive = {
               context: '빛 속으로 멀어져 가는 테레시아의 잔향을 향해 억눌렀던 감정을 토해내며'
             },
           ],
-          involvedCharacters: ["qalidcoa", "theresa", "ascalon", "hoederer", "ines", "manfred", "ursula", "paprika"]
+          involvedCharacters: ["W", "외드레르", "이네스", "만프레드", "울술라", "크레인", "테레시스"]
         },
       ]
     },
     {
       id: 'part_2',
       partNumber: 2,
-      partTitleKo: 'Part 2: 왕의 숨결과 영웅의 자격',
+      partTitleKo: '왕의 숨결과 영웅의 자격',
       partTitleEn: 'Sighs of Kings and What Makes a Hero',
       code: 'PART 2',
       focalCharacter: '시즈 & 찰스 린치 & 로고스 & 네츠살렘 & 샤이닝 & 나이팅게일 & 마가렛 니어 & 키사르투슈타지 & 외드레르 & 맨프레드 & 에블라나 & 웰링턴 공작',
@@ -377,7 +377,7 @@ export const episode14: StoryArchive = {
               context: '부패의 왕좌 위에서 실버록 블러프스 전장을 내려다보며 전군에 명령할 때'
             },
           ],
-          involvedCharacters: ["hoederer", "manfred", "ascalon", "ines", "siege", "horn", "delphine", "guard", "nachzehrer"]
+          involvedCharacters: ["W", "외드레르", "이네스", "만프레드", "울술라", "시즈", "비나", "혼", "델핀", "나딘", "회색 모자", "힐 부관", "구드보이", "웬디고"]
         },
         {
           stageCode: '14-7',
@@ -414,7 +414,7 @@ export const episode14: StoryArchive = {
               context: '동굴 속에서 고해신부의 키메라들을 바라보며 슬퍼하는 아미야를 조롱할 때'
             },
           ],
-          involvedCharacters: ["eblana", "wellington", "horn", "bagpipe", "amiya", "doctor", "kaltsit", "logos", "salus", "damazti"]
+          involvedCharacters: ["에블라나", "웰링턴 공작", "혼", "백파이프", "아미야", "박사", "켈시", "Mon3tr", "로고스", "살루스", "다마즈티", "두카렐(환영)"]
         },
         {
           stageCode: '14-8',
@@ -444,7 +444,7 @@ export const episode14: StoryArchive = {
               context: '웰링턴의 후퇴로 인해 함대가 나흐체러르 군단에게 역포위되었음을 확인하며'
             },
           ],
-          involvedCharacters: ["doctor", "amiya", "logos", "kaltsit", "salus", "caster", "wellington", "siege", "horn", "delphine", "nachzehrer"]
+          involvedCharacters: ["박사", "아미야", "로고스", "켈시", "살루스", "캐스터 공작", "웰링턴 공작", "시즈", "혼", "델핀", "네츠살렘"]
         },
         {
           stageCode: '14-9',
@@ -487,7 +487,7 @@ export const episode14: StoryArchive = {
               context: '오리지늄 다리를 무너뜨리고 홀로 남아 나흐체러르 킹 네츠살렘과 마주 섰을 때'
             },
           ],
-          involvedCharacters: ["siege", "charles_lynch", "horn", "delphine", "caster", "guard", "eblana", "wellington", "logos", "amiya", "doctor", "kaltsit", "nachzehrer"]
+          involvedCharacters: ["시즈", "비나", "혼", "델핀", "회색 모자", "외드레르", "만프레드", "리처드 파텔 일병"]
         },
         {
           stageCode: '14-10',
@@ -532,11 +532,11 @@ export const episode14: StoryArchive = {
             {
               speaker: '로고스',
               speakerId: 'logos',
-              text: '“절단하라',
+              text: '“절단하라.”',
               context: '부러진 골필로 테레시스의 검술을 펼쳐 네츠살렘의 오른팔을 잘라낼 때'
             },
           ],
-          involvedCharacters: ["logos", "nachzehrer", "amiya", "doctor"]
+          involvedCharacters: ["로고스(아이파닐)", "네츠살렘", "두카렐(환영)", "라케라말린(회상)", "아미야", "박사"]
         },
         {
           stageCode: '14-11',
@@ -579,14 +579,14 @@ export const episode14: StoryArchive = {
               context: '치명상을 입은 몸으로 \'티카즈의 피\'를 향해 손을 뻗어 의식을 완성하며'
             },
           ],
-          involvedCharacters: ["shining", "nightingale", "nearl", "confessor", "qalidcoa", "amiya", "doctor", "kaltsit", "salus", "marilla"]
+          involvedCharacters: ["알레데일", "그레일", "마릴라", "시즈", "비나", "아미야", "박사", "켈시", "구드보이"]
         },
       ]
     },
     {
       id: 'part_3',
       partNumber: 3,
-      partTitleKo: 'Part 3: 원점에서의 강림과 바벨의 유령',
+      partTitleKo: '원점에서의 강림과 바벨의 유령',
       partTitleEn: 'Descent at the Origin and Ghosts of Babel',
       code: 'PART 3',
       focalCharacter: '아미야 & 박사 & 켈시 & W & 로고스 & 이네스 & 아스카론 & 맨프레드 & 레버넌트 & 테레시아',
@@ -638,7 +638,7 @@ export const episode14: StoryArchive = {
               context: '나흐체러르의 추격을 물리치고 절벽 끝의 박사 일행 앞에 나타났을 때'
             },
           ],
-          involvedCharacters: ["amiya", "doctor", "kaltsit", "logos", "ines", "ascalon", "manfred", "paprika", "catherine", "nine"]
+          involvedCharacters: ["위셔델", "W", "레버넌트", "아미야", "박사", "켈시", "로고스", "이네스", "외드레르", "네츠살렘", "테레시아"]
         },
         {
           stageCode: '14-12',
@@ -677,11 +677,11 @@ export const episode14: StoryArchive = {
             {
               speaker: '로고스',
               speakerId: 'logos',
-              text: '“모든 아츠는 오직 내가 정한 길로 나아가리라.',
+              text: '“모든 아츠는 오직 내가 정한 길로 나아가리라.”',
               context: '비행선 주포의 주술 포격을 은빛 주문으로 끌어당겨 궤도를 비틀며'
             },
           ],
-          involvedCharacters: ["amiya", "doctor", "kaltsit", "logos", "ines", "theresis", "theresa", "revenant"]
+          involvedCharacters: ["로고스", "네츠살렘", "아미야", "박사", "켈시", "Mon3tr", "위셔델", "W", "이네스", "외드레르"]
         },
         {
           stageCode: '14-13',
@@ -711,7 +711,7 @@ export const episode14: StoryArchive = {
               context: '자기장 함정 방에서 자신을 제외한 모든 것을 동화시키는 오리지늄을 만지며 테레시아에게'
             },
           ],
-          involvedCharacters: ["kaltsit", "doctor", "amiya", "revenant"]
+          involvedCharacters: ["켈시", "Mon3tr", "아미야", "박사", "위셔델", "W", "이네스", "외드레르", "로고스", "네츠살렘", "키사르투슈타지", "두카레"]
         },
         {
           stageCode: '14-14',
@@ -760,7 +760,7 @@ export const episode14: StoryArchive = {
               context: '비행선의 유령이 된 옛 바벨 멤버들의 슬픈 기억을 읽고 그들을 배웅하며'
             },
           ],
-          involvedCharacters: ["amiya", "doctor", "kaltsit", "theresa", "theresis"]
+          involvedCharacters: ["외드레르", "이네스", "위셔델", "W", "켈시", "Mon3tr", "아미야", "박사", "키사르투슈타지", "두카레"]
         },
         {
           stageCode: '14-15',
@@ -797,7 +797,7 @@ export const episode14: StoryArchive = {
               context: 'Mon3tr와 함께 코어 선실로 합류하여 비행선을 멈출 방법을 지시하며'
             },
           ],
-          involvedCharacters: ["amiya", "revenant", "doctor", "kaltsit"]
+          involvedCharacters: ["아미야", "박사", "켈시", "Mon3tr", "위셔델", "W", "이네스", "외드레르", "로고스", "테레시아", "키사르투슈타지"]
         },
         {
           stageCode: '14-16',
@@ -858,14 +858,14 @@ export const episode14: StoryArchive = {
               context: '과거의 기억 앞에 고뇌하는 박사에게 변함없는 신뢰를 전하며'
             },
           ],
-          involvedCharacters: ["amiya", "doctor", "kaltsit", "revenant", "logos", "ines", "hoederer", "theresa"]
+          involvedCharacters: ["이네스", "외드레르", "위셔델", "W", "아미야", "박사", "켈시", "Mon3tr", "로고스", "테레시아"]
         },
       ]
     },
     {
       id: 'part_4',
       partNumber: 4,
-      partTitleKo: 'Part 4: 융합 우주의 바벨탑과 자비의 등대',
+      partTitleKo: '융합 우주의 바벨탑과 자비의 등대',
       partTitleEn: 'Tower of Babel in the Assimilated Universe and Lighthouse of Mercy',
       code: 'PART 4',
       focalCharacter: '아미야 & 박사 & 켈시(AMa-10) & 위셔델(W) & 테레시아 & 로고스 & 프리스티스 & 테레시스 & 시즈 & 에블라나 & 웰링턴 공작 & 나인 & 탈룰라 & 첸',
@@ -923,7 +923,7 @@ export const episode14: StoryArchive = {
               context: '프로스트노바와 에이스가 살아있는 오리지늄의 복제 환영을 거부하고 아미야의 손을 잡으며'
             },
           ],
-          involvedCharacters: ["doctor", "priestess", "kaltsit", "amiya", "logos", "talulah"]
+          involvedCharacters: ["아미야", "박사", "켈시", "위셔델", "W", "로고스", "에이스", "아웃캐스트", "베어드", "알레데일", "탈룰라", "프로스트노바", "테레시아"]
         },
         {
           stageCode: '14-18',
@@ -966,7 +966,7 @@ export const episode14: StoryArchive = {
               context: '수만 이름 없는 마왕들의 파도 앞에 홀로 서서 아미야 일행을 탑으로 올려보내며'
             },
           ],
-          involvedCharacters: ["amiya", "doctor", "kaltsit", "logos", "nachzehrer", "closer", "fang", "misery", "guard"]
+          involvedCharacters: ["테레시아", "아미야", "박사", "켈시", "위셔델", "W", "로고스", "이네스", "외드레르", "이름 없는 마왕", "가비알", "블레이즈", "디글라스", "팽", "오다", "에르망가르드"]
         },
         {
           stageCode: '14-19',
@@ -1003,7 +1003,7 @@ export const episode14: StoryArchive = {
               context: '테레시아의 검 \'분노\'를 자신의 가슴에 찔러 넣어 그녀의 모든 감정과 의지를 받아들이며'
             },
           ],
-          involvedCharacters: ["amiya", "theresa", "kaltsit", "doctor", "siege", "horn", "delphine", "caster", "charles_lynch"]
+          involvedCharacters: ["아미야", "박사", "켈시", "위셔델", "W", "레버넌트", "테레시아"]
         },
         {
           stageCode: '14-20',
@@ -1070,7 +1070,7 @@ export const episode14: StoryArchive = {
               context: '오리지늄에서 영원히 떠나가는 테레시아와 살카즈 영혼들을 배웅하며 세운 맹세'
             },
           ],
-          involvedCharacters: ["amiya", "theresa", "w", "kaltsit", "doctor", "logos", "revenant", "ines", "paprika", "nachzehrer", "shining", "nightingale", "nearl", "manfred", "theresis"]
+          involvedCharacters: ["아미야", "테레시아", "위셔델(W)", "켈시", "박사", "로고스", "레버넌트", "이네스", "파프리카", "네츠살렘", "샤이닝", "나이팅게일", "마가렛 니어", "맨프레드", "나딘", "테레시스"]
         },
         {
           stageCode: 'ST-14-03',
@@ -1125,7 +1125,7 @@ export const episode14: StoryArchive = {
               context: '성왕궁 서쪽 회당 지하 알현실에서 떨어진 최초의 오리지늄을 손에 쥐며'
             },
           ],
-          involvedCharacters: ["amiya", "theresa", "doctor", "kaltsit", "w", "logos", "revenant", "siege", "horn", "delphine", "indra", "dagda", "morgan", "caster", "wellington", "eblana", "harmonie", "reed", "feist", "closer", "rockrock", "misery", "nine", "talulah", "catherine", "chen", "hoederer", "ines", "paprika", "heidi", "theresis"]
+          involvedCharacters: ["테레시스", "만프레드", "아미야", "박사", "켈시", "비나", "시즈", "알레데일", "델핀", "혼", "회색 모자", "외드레르", "이네스", "위셔델", "W", "에블라나", "탈룰라", "나인", "리드", "하이디", "총기사"]
         },
         {
           stageCode: 'SPST-14-01',
@@ -1168,7 +1168,7 @@ export const episode14: StoryArchive = {
               context: '에기르로 향하는 바다 앞에서 글래디아에게 육지와 바다의 연대를 말할 때'
             },
           ],
-          involvedCharacters: ["theresa", "fremont", "guard", "nasty", "kristen", "friston", "kaltsit", "gladiia", "confessor"]
+          involvedCharacters: ["테레시아", "프레몬트", "아르게스", "에이크티르니르", "내스티", "크리스틴", "보존자", "켈시", "글래디아", "이반젤리스타 11세"]
         },
       ]
     },
@@ -1199,7 +1199,7 @@ export const episode14: StoryArchive = {
     {
       id: 'kaltsit',
       nameKo: '켈시',
-      nameEn: 'Kaltsit / AMa-10',
+      nameEn: 'Kal\'tsit / AMa-10',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 의료 총책임자 / 구인류의 수호자',
       avatarUrl: '/images/characters/kaltsit.png',
@@ -1210,7 +1210,7 @@ export const episode14: StoryArchive = {
     {
       id: 'w',
       nameKo: '위셔델',
-      nameEn: 'Wisadel / W',
+      nameEn: 'Wis\'adel / W',
       faction: '바벨',
       role: '바벨의 계승자 및 용병 대장',
       avatarUrl: '/images/characters/w.png',
@@ -1375,7 +1375,7 @@ export const episode14: StoryArchive = {
     {
       id: 'confessor',
       nameKo: '키사르투슈타지',
-      nameEn: 'Quisartushtaj',
+      nameEn: 'Qui\'sartushtaj',
       faction: '살카즈 고해신부 (Confessarius)',
       role: '고해신부 수장',
       avatarUrl: '/images/characters/confessor.png',
@@ -1397,7 +1397,7 @@ export const episode14: StoryArchive = {
     {
       id: 'qalidcoa',
       nameKo: '칼리초아',
-      nameEn: 'Qalidčoa',
+      nameEn: 'Qalid\'čoa',
       faction: '살카즈 고해신부',
       role: '지하 유적 묘지기 / 실패한 불사의 그릇',
       avatarUrl: '',
@@ -1540,7 +1540,7 @@ export const episode14: StoryArchive = {
     {
       id: 'chen',
       nameKo: '첸',
-      nameEn: 'Chen',
+      nameEn: 'Ch\'en',
       faction: '용문',
       role: '전 용문 근위국 특수감찰국 팀장',
       avatarUrl: '/images/characters/chen.png',
@@ -1591,7 +1591,7 @@ export const episode14: StoryArchive = {
       description: '살카즈 마왕이 대대로 계승해 온 검은 왕관의 진정한 명칭이자 구인류가 문명의 정보와 감정을 기록·보존하기 위해 남긴 유산. 바벨탑 정상에서 아미야가 테레시아의 검 \'분노\'를 자신의 가슴에 찔러 넣음으로써 온전히 계승되었으며, 테레시아는 이 왕관 안에 아미야를 돕기 위한 자신의 환영(프로그램)을 남겨 두었다.'
     },
     {
-      term: '위셔델 (Wisadel)',
+      term: '위셔델 (Wis\'adel)',
       type: 'concept',
       typeLabel: '집을 바란다 / W의 새로운 이름',
       description: '소멸 직전의 테레시아가 바벨 시절의 약속을 지키며 W에게 직접 지어준 새로운 살카즈 이름. 고대 살카즈어로 \'위셔(바람)\'와 \'델(집)\'이 결합된 말로, 죽은 살카즈의 이름인 \'W\'의 윤회를 끝내고 새로운 카즈델(집)의 운명을 지켜봐 달라는 테레시아의 염원이 담겨 있다.'
