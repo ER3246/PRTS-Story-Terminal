@@ -13,6 +13,7 @@ import { episode10 } from './stories/ep10';
 import { episode11 } from './stories/ep11';
 import { episode12 } from './stories/ep12';
 import { episode13 } from './stories/ep13';
+import { episode14 } from './stories/ep14';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -644,16 +645,31 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act II 석양의 런디니움',
     seriesOrder: 14,
     isOmnibus: false,
-    officialSynopsis: '빅토리아 런디니움 사태의 최종 결착. 마왕 아미야와 테레시스의 운명적인 대치, 테레시아의 안식과 비공정의 붕괴 속에서 테라의 미래를 밝히는 등대.',
+    docFormat: 'multi_part',
+    officialSynopsis: '런디니움 상공을 뒤덮은 재앙 구름과 더 샤드 타워에서 뿜어져 나오는 오리지늄 폭풍 속에서, 빅토리아 연합군과 카즈델 군사위원회의 마지막 총력전이 시작된다. 최후의 증기 기사 찰스 린치가 자신의 심장과 갑주를 불태워 도시방어포를 무력화하고 장렬히 산화하는 사이, 로도스-바벨 연합 부대는 상공의 거대 비공정으로 강습을 감행한다. W는 테레시아의 참된 자비를 깨닫고 위셔델로 각성하여 나흐체러르 킹의 부패 군단을 돌파하며, 더 샤드 코어 암나남으로 진입한 아미야와 박사는 수천 년 살카즈 마왕들의 원념을 품어 안고 테레시아와의 영원한 작별을 고한다. 검은 왕관의 마왕은 시빌라이트 에테르나로서 진정한 자비의 등대를 밝히고, 런디니움에 새로운 여명이 떠오른다.',
     splashVisualUrl: '/images/story_covers/ep14.png',
+    seriesTabs: [
+      { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 성벽의 포화와 로도스의 이함', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 최후의 증기 기사와 런디니움 결전', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 비공정 강습과 위셔델의 각성', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 자비의 등대와 영원한 작별', code: 'PART 4' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 요약 및 개요', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 성벽의 포화와 로도스의 이함', isOverview: false },
+      { id: 'part_2', label: 'Part 2: 최후의 증기 기사와 런디니움 결전', isOverview: false },
+      { id: 'part_3', label: 'Part 3: 비공정 강습과 위셔델의 각성', isOverview: false },
+      { id: 'part_4', label: 'Part 4: 자비의 등대와 영원한 작별', isOverview: false }
+    ],
     releaseOrder: 41,
     releaseYear: 5,
     chronologicalOrder: 44,
-    timeline: '테라력 1098년 겨울',
+    timeline: '테라력 1098년 여름',
     isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep15',
@@ -2684,6 +2700,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep11: episode11,
   ep12: episode12,
   ep13: episode13,
+  ep14: episode14,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
