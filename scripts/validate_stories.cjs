@@ -48,7 +48,7 @@ const GLOBAL_KNOWN_IDS = new Set([
   'dorothy', 'astrogenes', 'greyy_alter', 'mechanist', 'sonny', 'mary', 'ptilopsis',
   'hoederer', 'ines', 'theresa', 'confessor', 'closer',
   'bagpipe', 'harmonie', 'nine', 'kaschey', 'logos', 'nachzehrer',
-  'narrator'
+  'narrator', 'fang', 'ursula', 'hornless_sarkaz'
 ]);
 
 let BLACKLIST_RULES = [];
