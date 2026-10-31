@@ -14,6 +14,7 @@ import { episode11 } from './stories/ep11';
 import { episode12 } from './stories/ep12';
 import { episode13 } from './stories/ep13';
 import { episode14 } from './stories/ep14';
+import { episode15 } from './stories/ep15';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -681,10 +682,11 @@ export const storyRegistry: StoryListItem[] = [
     actGroup: 'Act III: 분열의 서곡',
     storyType: 'main',
     storyLineId: 'MAIN_ACT_3',
-    storyLineTitle: '내일을 위하여 · Act III 분열의 서곡',
+    storyLineTitle: '메인 테마 Act III 분열의 서곡',
     seriesOrder: 15,
     isOmnibus: false,
-    officialSynopsis: '[중섭 최신 실장 / 기밀 데이터] 런디니움 전쟁 종결 이후의 테라 대륙. 국가 간의 균열과 미지의 오리지늄 현상, 로도스 아일랜드의 새로운 여정.',
+    docFormat: 'multi_part',
+    officialSynopsis: '더 샤드에서 촉발된 오리지늄 파동이 가라앉은 런디니움과 황야, 승리의 환희도 잠시 과거의 창조자 프리스티스가 인공지능 PRTS를 장악하며 전 인류의 의식을 오리지늄 네트워크로 동화하려는 최후의 프로토콜이 가동된다. 로도스 아일랜드 본함이 내부에서부터 침식당하는 절체절명의 위기 속에서, 오랜 사명을 짊어진 켈시(AMa-10)는 박사와 아미야, 그리고 테라의 미래를 지키기 위해 자신의 생체 코어와 기억을 완전히 불사르며 심연의 황야로 스스로를 추방한다. 흩어진 오퍼레이터들과 테라 각국의 영웅들이 해리(解離)되어 가는 현실 속에서 다시 한번 손을 맞잡고 문명의 존속을 향한 새로운 투쟁의 서막을 연다.',
     splashVisualUrl: '/images/story_covers/ep15.png',
     seriesTabs: [
       { id: 'ep15', label: 'EP 15', code: 'EP 15' },
@@ -694,11 +696,11 @@ export const storyRegistry: StoryListItem[] = [
     releaseOrder: 50,
     releaseYear: 6,
     chronologicalOrder: 60,
-    timeline: '테라력 1099년 초',
-    isTimelineEstimated: true,
+    timeline: '테라 1098년 가을',
+    isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep16',
@@ -2701,6 +2703,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep12: episode12,
   ep13: episode13,
   ep14: episode14,
+  ep15: episode15,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
