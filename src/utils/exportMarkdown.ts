@@ -232,7 +232,8 @@ export function generateStoryMarkdown(story: StoryArchive): string {
               md += `  * [씬 ${vIdx + 1}] ${vis.caption} (${vis.url})${vis.triggerLine ? ` — *등장 맥락:* ${vis.triggerLine}` : ''}\n`;
             });
           } else if (st.cgCaption) {
-            md += `- **스테이지 컷신/CG:** ${st.cgCaption} (${st.cgUrl || '없음'})\n`;
+            const cgSuffix = st.cgUrl ? ` (${st.cgUrl})` : (st.cgCaption.includes('없음') ? '' : ' (없음)');
+            md += `- **스테이지 컷신/CG:** ${st.cgCaption}${cgSuffix}\n`;
           }
           md += `- **스테이지 요약:** ${st.summary}\n\n`;
           md += `${cleanNarrativeText(st.narrativeText)}\n\n`;

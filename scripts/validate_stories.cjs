@@ -48,7 +48,7 @@ const GLOBAL_KNOWN_IDS = new Set([
   'dorothy', 'astrogenes', 'greyy_alter', 'mechanist', 'sonny', 'mary', 'ptilopsis',
   'hoederer', 'ines', 'theresa', 'confessor', 'closer',
   'bagpipe', 'harmonie', 'nine', 'kaschey', 'logos', 'nachzehrer',
-  'narrator', 'fang', 'ursula', 'hornless_sarkaz', 'clovicia'
+  'narrator', 'fang', 'ursula', 'hornless_sarkaz', 'clovicia', 'emperors_blade'
 ]);
 
 let BLACKLIST_RULES = [];
@@ -86,10 +86,11 @@ function validateStoryFile(filename) {
 
   // 3. Characters, Avatars & Role Scoping validation (Rule 4: Silhouette profile for generic NPCs)
   const declaredCharIds = new Set();
-  const charRegex = /id:\s*['"]([a-zA-Z0-9_-]+)['"],\s*nameKo:\s*['"]([^'"]+)['"],[\s\S]*?role:\s*['"]([^'"]+)['"],[\s\S]*?avatarUrl:\s*['"]([^'"]*)['"]/g;
+  const charRegex = /id:\s*['"]([a-zA-Z0-9_-]+)['"],\s*nameKo:\s*(?:"([^"]+)"|'([^']+)'),[\s\S]*?role:\s*['"]([^'"]+)['"],[\s\S]*?avatarUrl:\s*['"]([^'"]*)['"]/g;
   let cm;
   while ((cm = charRegex.exec(content)) !== null) {
-    const [_, charId, nameKo, roleText, avatarUrl] = cm;
+    const [_, charId, nameKo1, nameKo2, roleText, avatarUrl] = cm;
+    const nameKo = nameKo1 || nameKo2;
     declaredCharIds.add(charId);
 
     // Role Scoping Rule check: role should be concise operational title (<= 35 chars)
