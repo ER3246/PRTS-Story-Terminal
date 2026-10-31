@@ -15,6 +15,7 @@ import { episode12 } from './stories/ep12';
 import { episode13 } from './stories/ep13';
 import { episode14 } from './stories/ep14';
 import { episode15 } from './stories/ep15';
+import { episode16 } from './stories/ep16';
 import { sidGrani } from './stories/sid_grani';
 import { sidAncientForge } from './stories/sid_ancient_forge';
 import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
@@ -715,7 +716,7 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act III 분열의 서곡',
     seriesOrder: 16,
     isOmnibus: false,
-    officialSynopsis: '[중섭 최신 / LEVEL 5 RESTRICTED] 테라 전역을 위협하는 관측 불가 스펙트럼 이상 반응과 최고 보안 등급의 작전 아카이브.',
+    officialSynopsis: '로도스 아일랜드 본함이 봉인된 지 한 달 후인 1101년 가을, 켈시의 과거 기록에서 단서를 찾은 인간형 소녀 Mon3tr와 로도스 선발대는 통신이 두절된 라이디언 소대를 구출하기 위해 우르수스 최북단 크라이니 세베르 광산지구로 향한다. 미지의 물질 \'오카\'를 이용한 잔혹한 생체 실험과 감염자 광부 렌킨의 무장 봉기, 유로지비 사상에 잠식된 호리의 학살, 그리고 오리지늄 광맥 전면 고갈이라는 거시적 위기 속에서 만트라의 헌신과 크라운슬레이어의 지원으로 탈출에 성공하지만, 제국은 전면전을 통한 침공의 불길을 지피기 시작한다.',
     splashVisualUrl: '/images/story_covers/ep16.png',
     seriesTabs: [
       { id: 'ep15', label: 'EP 15', code: 'EP 15' },
@@ -725,11 +726,11 @@ export const storyRegistry: StoryListItem[] = [
     releaseOrder: 55,
     releaseYear: 6,
     chronologicalOrder: 61,
-    timeline: '테라력 1099년 중반',
-    isTimelineEstimated: true,
+    timeline: '테라 1099년 가을 ~ 1101년 가을',
+    isTimelineEstimated: false,
     isUnlocked: true,
-    statusBadge: 'ARCHIVED',
-    status: 'archived'
+    statusBadge: 'RESTORED',
+    status: 'restored'
   },
   {
     id: 'ep17',
@@ -2704,6 +2705,7 @@ export const loadedStories: Record<string, StoryArchive> = {
   ep13: episode13,
   ep14: episode14,
   ep15: episode15,
+  ep16: episode16,
   sid_grani: sidGrani,
   sid_ancient_forge: sidAncientForge,
   sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
