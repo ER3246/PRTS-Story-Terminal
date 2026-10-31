@@ -94,8 +94,19 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
         }))
       ];
     }
+    if (isMultiPart && story.multiPartArcs && story.multiPartArcs.length > 0) {
+      return [
+        { id: 'overview', label: '전체 요약 및 개요', isOverview: true },
+        ...story.multiPartArcs.map((arc) => ({
+          id: arc.id,
+          label: arc.partTitleKo,
+          code: arc.code || `PART 0${arc.partNumber}`,
+          focalCharacter: arc.focalCharacter
+        }))
+      ];
+    }
     return undefined;
-  }, [docFormat, isOmnibus, story.subPages, storyMeta?.subPages, story.omnibusSubEpisodes]);
+  }, [docFormat, isOmnibus, isMultiPart, story.subPages, storyMeta?.subPages, story.omnibusSubEpisodes, story.multiPartArcs]);
 
   const currentSubPageId = activeSubPageId || 'overview';
   const isOverview = currentSubPageId === 'overview';

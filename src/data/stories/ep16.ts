@@ -23,6 +23,13 @@ export const episode16: StoryArchive = {
     { id: 'part_3', label: 'Part 3: 설원의 묘비와 불망의 행렬', code: 'PART 3' },
     { id: 'part_4', label: 'Part 4: 비정상 스펙트럼과 대지의 불길', code: 'PART 4' },
   ],
+  subPages: [
+    { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW', isOverview: true },
+    { id: 'part_1', label: 'Part 1: 제국 의회의 심판과 변방 광산의 그림자', code: 'PART 1', isOverview: false },
+    { id: 'part_2', label: 'Part 2: 갱도의 광기와 통각의 분수령', code: 'PART 2', isOverview: false },
+    { id: 'part_3', label: 'Part 3: 설원의 묘비와 불망의 행렬', code: 'PART 3', isOverview: false },
+    { id: 'part_4', label: 'Part 4: 비정상 스펙트럼과 대지의 불길', code: 'PART 4', isOverview: false },
+  ],
   auditMeta: {
     pipelineVersion: 'v4.0-TwoTierCanon',
     sourceStagesCount: 23,

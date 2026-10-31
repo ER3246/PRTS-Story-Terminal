@@ -690,9 +690,18 @@ export const storyRegistry: StoryListItem[] = [
     officialSynopsis: '런디니움 지하 알현실에서 테레시스가 \'암나남\'의 통제권을 창조주로부터 도려내고 최후를 맞이한 지 3년 후인 1101년 여름, 로도스 아일랜드 본함 최심부 \'어비스(Abyss)\'에서 깨어난 오리지늄의 공동 창조자 프리스티스가 PRTS를 장악하고 본함을 집어삼킨다. 정예 오퍼레이터들과 지원 인공지능 ZOOT가 사투를 벌이는 가운데, 석관을 통해 AMa-10의 불멸과 굴레를 스스로 끊어낸 켈시는 박사와 아미야에게 과거 \'예언가\'의 진실을 전하고 프리스티스의 권능 앞에 결정화되어 산화한다. 본함을 오리지늄에 봉인당한 채 탈출한 로도스 아일랜드는 한 달 뒤 부차트 시 인근 이동 섹터에서 재건을 시작하고, 검은 결정 고치에서 인간형 소녀로 부화한 Mon3tr와 함께 우르수스의 석관을 통해 켈시를 되찾기 위한 새로운 여정에 오른다.',
     splashVisualUrl: '/images/story_covers/ep15.png',
     seriesTabs: [
-      { id: 'ep15', label: 'EP 15', code: 'EP 15' },
-      { id: 'ep16', label: 'EP 16', code: 'EP 16' },
-      { id: 'ep17', label: 'EP 17', code: 'EP 17' }
+      { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 과거와 현재의 종점, 그리고 3년의 유예', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 문명의 특이점과 깨어나는 악몽', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 신들의 무덤과 어비스의 개방', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 해리성 결합과 돌아갈 기회', code: 'PART 4' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 과거와 현재의 종점, 그리고 3년의 유예', code: 'PART 1', isOverview: false },
+      { id: 'part_2', label: 'Part 2: 문명의 특이점과 깨어나는 악몽', code: 'PART 2', isOverview: false },
+      { id: 'part_3', label: 'Part 3: 신들의 무덤과 어비스의 개방', code: 'PART 3', isOverview: false },
+      { id: 'part_4', label: 'Part 4: 해리성 결합과 돌아갈 기회', code: 'PART 4', isOverview: false }
     ],
     releaseOrder: 50,
     releaseYear: 6,
@@ -716,12 +725,22 @@ export const storyRegistry: StoryListItem[] = [
     storyLineTitle: '내일을 위하여 · Act III 분열의 서곡',
     seriesOrder: 16,
     isOmnibus: false,
+    docFormat: 'multi_part',
     officialSynopsis: '로도스 아일랜드 본함이 봉인된 지 한 달 후인 1101년 가을, 켈시의 과거 기록에서 단서를 찾은 인간형 소녀 Mon3tr와 로도스 선발대는 통신이 두절된 라이디언 소대를 구출하기 위해 우르수스 최북단 크라이니 세베르 광산지구로 향한다. 미지의 물질 \'오카\'를 이용한 잔혹한 생체 실험과 감염자 광부 렌킨의 무장 봉기, 유로지비 사상에 잠식된 호리의 학살, 그리고 오리지늄 광맥 전면 고갈이라는 거시적 위기 속에서 만트라의 헌신과 크라운슬레이어의 지원으로 탈출에 성공하지만, 제국은 전면전을 통한 침공의 불길을 지피기 시작한다.',
     splashVisualUrl: '/images/story_covers/ep16.png',
     seriesTabs: [
-      { id: 'ep15', label: 'EP 15', code: 'EP 15' },
-      { id: 'ep16', label: 'EP 16', code: 'EP 16' },
-      { id: 'ep17', label: 'EP 17', code: 'EP 17' }
+      { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
+      { id: 'part_1', label: 'Part 1: 제국 의회의 심판과 변방 광산의 그림자', code: 'PART 1' },
+      { id: 'part_2', label: 'Part 2: 갱도의 광기와 통각의 분수령', code: 'PART 2' },
+      { id: 'part_3', label: 'Part 3: 설원의 묘비와 불망의 행렬', code: 'PART 3' },
+      { id: 'part_4', label: 'Part 4: 비정상 스펙트럼과 대지의 불길', code: 'PART 4' }
+    ],
+    subPages: [
+      { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW', isOverview: true },
+      { id: 'part_1', label: 'Part 1: 제국 의회의 심판과 변방 광산의 그림자', code: 'PART 1', isOverview: false },
+      { id: 'part_2', label: 'Part 2: 갱도의 광기와 통각의 분수령', code: 'PART 2', isOverview: false },
+      { id: 'part_3', label: 'Part 3: 설원의 묘비와 불망의 행렬', code: 'PART 3', isOverview: false },
+      { id: 'part_4', label: 'Part 4: 비정상 스펙트럼과 대지의 불길', code: 'PART 4', isOverview: false }
     ],
     releaseOrder: 55,
     releaseYear: 6,

@@ -23,6 +23,13 @@ export const episode15: StoryArchive = {
     { id: 'part_3', label: 'Part 3: 신들의 무덤과 어비스의 개방', code: 'PART 3' },
     { id: 'part_4', label: 'Part 4: 해리성 결합과 돌아갈 기회', code: 'PART 4' }
   ],
+  subPages: [
+    { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW', isOverview: true },
+    { id: 'part_1', label: 'Part 1: 과거와 현재의 종점, 그리고 3년의 유예', code: 'PART 1', isOverview: false },
+    { id: 'part_2', label: 'Part 2: 문명의 특이점과 깨어나는 악몽', code: 'PART 2', isOverview: false },
+    { id: 'part_3', label: 'Part 3: 신들의 무덤과 어비스의 개방', code: 'PART 3', isOverview: false },
+    { id: 'part_4', label: 'Part 4: 해리성 결합과 돌아갈 기회', code: 'PART 4', isOverview: false }
+  ],
   auditMeta: {
     pipelineVersion: 'v4.0-TwoTierCanon',
     sourceStagesCount: 19,
