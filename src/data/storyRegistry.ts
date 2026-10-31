@@ -53,10 +53,10 @@ export const STORY_LINES: StoryLineMeta[] = [
   {
     id: 'MAIN_ACT_3',
     code: 'MAIN 03',
-    titleKo: '내일을 위하여 · Act III 분열의 서곡',
-    titleEn: 'For Tomorrow · Act III (Dissociation & Spectrum)',
+    titleKo: '내일을 위하여 · Act III 변화의 서곡',
+    titleEn: 'For Tomorrow · Act III (Prelude to Change)',
     themeColor: '#a855f7',
-    description: '런디니움 전쟁 종결 이후 테라 대륙의 균열과 미지의 이상 현상 [중섭 최신 / 기밀] (EP 15 ~ EP 17).'
+    description: '런디니움 전쟁 종결 이후 테라 대륙의 균열과 미지의 이상 현상 (EP 15 ~ EP 17).'
   },
   {
     id: 'SL_RL',
@@ -676,17 +676,17 @@ export const storyRegistry: StoryListItem[] = [
     id: 'ep15',
     code: 'EP 15',
     titleKo: '해리성 결합',
-    titleEn: 'Dissociative Combination',
+    titleEn: 'Dissociative Recombination',
     category: 'main',
     categoryLabel: '메인 테마',
-    actGroup: 'Act III: 분열의 서곡',
+    actGroup: 'Act III: 변화의 서곡',
     storyType: 'main',
     storyLineId: 'MAIN_ACT_3',
-    storyLineTitle: '메인 테마 Act III 분열의 서곡',
+    storyLineTitle: '메인 테마 Act III 변화의 서곡',
     seriesOrder: 15,
     isOmnibus: false,
     docFormat: 'multi_part',
-    officialSynopsis: '더 샤드에서 촉발된 오리지늄 파동이 가라앉은 런디니움과 황야, 승리의 환희도 잠시 과거의 창조자 프리스티스가 인공지능 PRTS를 장악하며 전 인류의 의식을 오리지늄 네트워크로 동화하려는 최후의 프로토콜이 가동된다. 로도스 아일랜드 본함이 내부에서부터 침식당하는 절체절명의 위기 속에서, 오랜 사명을 짊어진 켈시(AMa-10)는 박사와 아미야, 그리고 테라의 미래를 지키기 위해 자신의 생체 코어와 기억을 완전히 불사르며 심연의 황야로 스스로를 추방한다. 흩어진 오퍼레이터들과 테라 각국의 영웅들이 해리(解離)되어 가는 현실 속에서 다시 한번 손을 맞잡고 문명의 존속을 향한 새로운 투쟁의 서막을 연다.',
+    officialSynopsis: '런디니움 지하 알현실에서 테레시스가 \'암나남\'의 통제권을 창조주로부터 도려내고 최후를 맞이한 지 3년 후인 1101년 여름, 로도스 아일랜드 본함 최심부 \'어비스(Abyss)\'에서 깨어난 오리지늄의 공동 창조자 프리스티스가 PRTS를 장악하고 본함을 집어삼킨다. 정예 오퍼레이터들과 지원 인공지능 ZOOT가 사투를 벌이는 가운데, 석관을 통해 AMa-10의 불멸과 굴레를 스스로 끊어낸 켈시는 박사와 아미야에게 과거 \'예언가\'의 진실을 전하고 프리스티스의 권능 앞에 결정화되어 산화한다. 본함을 오리지늄에 봉인당한 채 탈출한 로도스 아일랜드는 한 달 뒤 부차트 시 인근 이동 섹터에서 재건을 시작하고, 검은 결정 고치에서 인간형 소녀로 부화한 Mon3tr와 함께 우르수스의 석관을 통해 켈시를 되찾기 위한 새로운 여정에 오른다.',
     splashVisualUrl: '/images/story_covers/ep15.png',
     seriesTabs: [
       { id: 'ep15', label: 'EP 15', code: 'EP 15' },
