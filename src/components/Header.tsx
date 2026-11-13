@@ -1,7 +1,23 @@
 import React from 'react';
-import { Home, FileText, GitBranch, Map, Volume2, VolumeX, Download, Info, Maximize2, Minimize2, MonitorDown, Wrench } from 'lucide-react';
+import { motion } from 'framer-motion';
+import {
+  Home,
+  FileText,
+  GitBranch,
+  Map,
+  Volume2,
+  VolumeX,
+  Download,
+  Info,
+  Maximize2,
+  Minimize2,
+  MonitorDown,
+  Wrench,
+} from 'lucide-react';
 import { playTabSwitchSound, playClickSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE } from '../version';
+import { PRTS_SPRING_SNAPPY } from '../utils/motion';
+import { AudioVisualizerBars } from './ui/TacticalPrimitives';
 
 export type MainViewMode = 'home' | 'report' | 'chronicle' | 'map' | 'studio';
 
@@ -50,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top Header Bar: Slim Utility Bar on Mobile (h-11) / Full GNB on Desktop (md:h-14) */}
       <header className="sticky top-0 z-40 h-11 md:h-14 bg-[#090b10]/94 backdrop-blur-xl border-b border-white/[0.08] px-3 sm:px-4 lg:px-8 flex items-center select-none">
         <div className="w-full max-w-[1600px] mx-auto flex items-center justify-between gap-2 sm:gap-4">
-          {/* Left: PRTS Brand Identity + Version Tag + Mobile Current Section Indicator */}
+          {/* Left: PRTS Archive Brand Identity + Version Tag + Mobile Current Section Indicator */}
           <div className="flex items-center gap-2 min-w-0">
             <div
               onClick={() => {
@@ -60,11 +76,11 @@ export const Header: React.FC<HeaderProps> = ({
               className="flex items-center gap-1.5 sm:gap-2 cursor-pointer group flex-shrink-0"
               title="메인으로 이동"
             >
-              <div className="h-5 px-2 bg-[#ffe600] group-hover:bg-white text-black font-display font-bold text-[11px] tracking-wider rounded-[2px] flex items-center justify-center transition-colors">
+              <div className="h-5 px-2 bg-[#ffe600] group-hover:bg-white text-black font-display font-bold text-[11px] tracking-wider rounded-[2px] flex items-center justify-center transition-colors shadow-[0_0_12px_rgba(255,230,0,0.2)]">
                 PRTS
               </div>
-              <span className="text-xs sm:text-sm font-bold text-zinc-100 group-hover:text-[#ffe600] tracking-tight transition-colors">
-                스토리 아카이브
+              <span className="text-xs sm:text-sm font-display font-bold text-zinc-100 group-hover:text-[#ffe600] tracking-wide transition-colors whitespace-nowrap">
+                Archive
               </span>
               <button
                 type="button"
@@ -73,8 +89,8 @@ export const Header: React.FC<HeaderProps> = ({
                   playClickSound();
                   onOpenInfoLicense?.('changelog');
                 }}
-                className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.06] hover:bg-[#ffe600] hover:text-black text-zinc-400 border border-white/[0.1] hover:border-[#ffe600] text-[9.5px] sm:text-[10px] font-mono font-bold transition-all cursor-pointer"
-                title={`PRTS Story Terminal ${APP_VERSION_CODE} (클릭하여 버전 연혁 열람)`}
+                className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.06] hover:bg-[#ffe600] hover:text-black text-zinc-400 border border-white/[0.1] hover:border-[#ffe600] text-[9.5px] sm:text-[10px] font-mono font-bold transition-all cursor-pointer whitespace-nowrap"
+                title={`PRTS Archive ${APP_VERSION_CODE} (클릭하여 버전 연혁 열람)`}
               >
                 {APP_VERSION_CODE}
               </button>
@@ -86,44 +102,56 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
 
-          {/* Center: Desktop Segmented Navigation (Hidden on Mobile, replaced by Bottom Tab Bar) */}
+          {/* Center: Desktop Segmented Navigation (Shared layoutId gliding indicator) */}
           <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] p-1 rounded-[4px] border border-white/[0.07]">
             {NAV_ITEMS.map(({ mode, label, icon: Icon }) => {
               const isActive = currentView === mode;
               return (
-                <button
+                <motion.button
                   key={mode}
+                  whileTap={{ scale: 0.96 }}
                   onClick={() => handleNav(mode)}
-                  className={`relative h-8 px-4 rounded-[3px] flex items-center gap-1.5 text-xs font-medium transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                  className={`relative h-8 px-4 rounded-[3px] flex items-center gap-1.5 text-xs transition-colors cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     isActive
-                      ? 'bg-white/[0.1] text-white font-bold shadow-sm'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
+                      ? 'text-white font-bold'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
                   }`}
                 >
+                  {isActive && (
+                    <motion.span
+                      layoutId="header-desktop-tab-bg"
+                      transition={PRTS_SPRING_SNAPPY}
+                      className="absolute inset-0 rounded-[3px] bg-white/[0.1] border border-white/[0.08] shadow-sm"
+                    />
+                  )}
                   <Icon
-                    className={`w-3.5 h-3.5 flex-shrink-0 transition-colors ${
+                    className={`w-3.5 h-3.5 flex-shrink-0 transition-colors relative z-10 ${
                       isActive ? 'text-[#ffe600]' : 'text-zinc-500'
                     }`}
                   />
-                  <span>{label}</span>
+                  <span className="relative z-10">{label}</span>
                   {isActive && (
-                    <span className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
+                    <motion.span
+                      layoutId="header-desktop-tab-bar"
+                      transition={PRTS_SPRING_SNAPPY}
+                      className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600] z-20"
+                    />
                   )}
-                </button>
+                </motion.button>
               );
             })}
           </nav>
 
           {/* Right: Utility Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-            {/* 로컬 개발 환경 전용 STUDIO 편집기 진입 버튼 (외부 배포 시 자동 숨김) */}
+            {/* 로컬 개발 환경 전용 STUDIO 편집기 진입 버튼 */}
             {import.meta.env.DEV && (
               <button
                 onClick={() => handleNav('studio')}
                 title="PRTS Studio 편집 전용 툴 열기 (#/studio)"
-                className="h-7 md:h-8 px-2.5 rounded-[3px] bg-[#ffe600] hover:bg-[#ffe600]/90 text-black font-mono text-[11px] font-extrabold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                className="h-7 md:h-8 px-2.5 rounded-[3px] bg-[#ffe600] hover:bg-[#ffe600]/90 text-black font-mono text-[11px] font-extrabold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm whitespace-nowrap"
               >
-                <Wrench className="w-3.5 h-3.5" />
+                <Wrench className="w-3.5 h-3.5 shrink-0" />
                 <span>STUDIO 편집기</span>
               </button>
             )}
@@ -135,10 +163,10 @@ export const Header: React.FC<HeaderProps> = ({
                   playClickSound();
                   onPromptInstall();
                 }}
-                title="PRTS 터미널 웹 앱 설치"
-                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] bg-[#00d8ff]/15 hover:bg-[#00d8ff]/25 text-[#00d8ff] border border-[#00d8ff]/40 hover:border-[#00d8ff]/70 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-bold animate-pulse"
+                title="PRTS Archive 웹 앱 설치"
+                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] bg-[#00d8ff]/15 hover:bg-[#00d8ff]/25 text-[#00d8ff] border border-[#00d8ff]/40 hover:border-[#00d8ff]/70 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-bold animate-pulse whitespace-nowrap"
               >
-                <MonitorDown className="w-3.5 h-3.5" />
+                <MonitorDown className="w-3.5 h-3.5 shrink-0" />
                 <span className="hidden sm:inline">앱 설치</span>
               </button>
             )}
@@ -151,21 +179,20 @@ export const Header: React.FC<HeaderProps> = ({
                   onToggleFullscreen();
                 }}
                 title={isFullscreen ? '전체 화면 해제' : '전체 화면 (브라우저 주소창 숨김)'}
-                className={`h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] border transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium ${
+                className={`h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] border transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium whitespace-nowrap ${
                   isFullscreen
                     ? 'bg-[#ffe600]/15 text-[#ffe600] border-[#ffe600]/50'
                     : 'bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border-white/[0.1] hover:border-[#ffe600]/60'
                 }`}
               >
                 {isFullscreen ? (
-                  <Minimize2 className="w-3.5 h-3.5 text-[#ffe600]" />
+                  <Minimize2 className="w-3.5 h-3.5 text-[#ffe600] shrink-0" />
                 ) : (
-                  <Maximize2 className="w-3.5 h-3.5 text-[#ffe600]" />
+                  <Maximize2 className="w-3.5 h-3.5 text-[#ffe600] shrink-0" />
                 )}
                 <span className="hidden sm:inline">{isFullscreen ? '전체 해제' : '전체 화면'}</span>
               </button>
             )}
-
 
             {onOpenInfoLicense && (
               <button
@@ -174,9 +201,9 @@ export const Header: React.FC<HeaderProps> = ({
                   onOpenInfoLicense();
                 }}
                 title="저작권 · 면책 고지 · 안내"
-                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-200 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/60 transition-all cursor-pointer flex items-center gap-1.5 text-[11px] font-mono font-bold"
+                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-200 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/60 transition-all cursor-pointer flex items-center gap-1.5 text-[11px] font-mono font-bold whitespace-nowrap"
               >
-                <Info className="w-3.5 h-3.5 text-[#ffe600]" />
+                <Info className="w-3.5 h-3.5 text-[#ffe600] shrink-0" />
                 <span className="hidden sm:inline">INFO / LICENSE</span>
               </button>
             )}
@@ -188,7 +215,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onOpenReviewExport();
                 }}
                 title="요약 문서 다운로드"
-                className="w-7 h-7 md:w-8 md:h-8 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.08] hover:border-white/20 transition-all cursor-pointer flex items-center justify-center"
+                className="w-7 h-7 md:w-8 md:h-8 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.08] hover:border-white/20 transition-all cursor-pointer flex items-center justify-center shrink-0"
               >
                 <Download className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#ffe600]" />
               </button>
@@ -198,27 +225,25 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 onClick={onToggleSound}
                 title={isSoundOn ? '효과음 끄기' : '효과음 켜기'}
-                className={`w-7 h-7 md:w-8 md:h-8 rounded-[3px] border transition-all cursor-pointer flex items-center justify-center relative ${
+                className={`h-7 md:h-8 px-2 rounded-[3px] border transition-all cursor-pointer flex items-center justify-center gap-1 relative shrink-0 ${
                   isSoundOn
-                    ? 'bg-[#ffe600]/15 text-[#ffe600] border-[#ffe600]/50'
-                    : 'bg-white/[0.04] text-zinc-500 hover:text-zinc-200 border-white/[0.08]'
+                    ? 'bg-[#ffe600]/15 text-[#ffe600] border-[#ffe600]/50 shadow-[0_0_12px_rgba(255,230,0,0.16)]'
+                    : 'w-7 md:w-8 px-0 bg-white/[0.04] text-zinc-500 hover:text-zinc-200 border-white/[0.08]'
                 }`}
               >
                 {isSoundOn ? (
-                  <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" />
                 ) : (
-                  <VolumeX className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  <VolumeX className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" />
                 )}
-                {isSoundOn && (
-                  <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
-                )}
+                <AudioVisualizerBars active={isSoundOn} />
               </button>
             )}
           </div>
         </div>
       </header>
 
-      {/* Mobile Native Bottom Navigation Bar (4 Equal Tabs, Zero Clipping, One-Thumb Access) */}
+      {/* Mobile Native Bottom Navigation Bar (Shared layoutId gliding indicator) */}
       <nav
         aria-label="모바일 하단 메뉴"
         className="md:hidden fixed bottom-0 inset-x-0 z-40 h-[calc(3.5rem+env(safe-area-inset-bottom,0px))] pb-[env(safe-area-inset-bottom,0px)] bg-[#080a10]/96 backdrop-blur-xl border-t border-white/[0.12] grid grid-cols-4 select-none shadow-[0_-8px_24px_rgba(0,0,0,0.75)]"
@@ -234,10 +259,14 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             >
               {isActive && (
-                <span className="absolute top-0 inset-x-4 h-[2.5px] bg-[#ffe600] rounded-b-full shadow-[0_0_8px_#ffe600]" />
+                <motion.span
+                  layoutId="header-mobile-tab-bar"
+                  transition={PRTS_SPRING_SNAPPY}
+                  className="absolute top-0 inset-x-4 h-[2.5px] bg-[#ffe600] rounded-b-full shadow-[0_0_8px_#ffe600]"
+                />
               )}
               <Icon className={`w-4 h-4 ${isActive ? 'text-[#ffe600]' : 'text-zinc-400'}`} />
-              <span className={`text-[11px] tracking-tight ${isActive ? 'font-bold text-white' : 'font-medium'}`}>
+              <span className={`text-[11px] tracking-tight whitespace-nowrap ${isActive ? 'font-bold text-white' : 'font-medium'}`}>
                 {label}
               </span>
             </button>

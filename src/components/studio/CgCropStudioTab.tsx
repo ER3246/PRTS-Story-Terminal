@@ -28,7 +28,7 @@ import {
 
   Check,
 
-  Maximize2,
+  Maximize2, X, Loader2, Lock,
 
 } from 'lucide-react';
 
@@ -1090,9 +1090,9 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
         isCssOnly
 
-          ? `✅ 뷰포트 크롭 좌표(x:${focusX}%, y:${focusY}%, zoom:${zoom}x)가 DB에 저장되었습니다.`
+          ? `[저장 완료] 뷰포트 크롭 좌표(x:${focusX}%, y:${focusY}%, zoom:${zoom}x)가 DB에 저장되었습니다.`
 
-          : `✅ [${activeAsset.label}] 1:1 아바타 물리 파일(180×180) 및 characterCgAssets.ts 저장 완료!`
+          : `[저장 완료] [${activeAsset.label}] 1:1 아바타 물리 파일(180×180) 및 characterCgAssets.ts 저장 완료!`
 
       );
 
@@ -1100,7 +1100,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
       const msg = err instanceof Error ? err.message : String(err);
 
-      setStatusMsg(`❌ 저장 실패: ${msg}`);
+      setStatusMsg(`[오류] 저장 실패: ${msg}`);
 
       window.alert(`[저장 실패] ${msg}`);
 
@@ -1186,7 +1186,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
                 );
                 onChangeAssets(updatedAssets);
                 setStatusMsg(
-                  `📥 원본 파일 '${file.name}'을(를) 프로젝트 표준 규격 '${json.fileName}'(으)로 복사 및 정리하여 저장했습니다. 얼굴 크롭 후 [저장]을 누르세요.`
+                  `[로드 완료] 원본 파일 '${file.name}'을(를) 프로젝트 표준 규격 '${json.fileName}'(으)로 복사 및 정리하여 저장했습니다. 얼굴 크롭 후 [저장]을 누르세요.`
                 );
                 return;
               }
@@ -1199,7 +1199,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
           setStatusMsg(
 
-            `📥 드롭된 이미지 '${file.name}'을(를) 캔버스에 로드했습니다. 원하는 얼굴 영역을 크롭한 후 [저장]을 누르세요.`
+            `[로드 완료] 드롭된 이미지 '${file.name}'을(를) 캔버스에 로드했습니다. 원하는 얼굴 영역을 크롭한 후 [저장]을 누르세요.`
 
           );
 
@@ -1305,7 +1305,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
           setStatusMsg(
 
-            `📥 1:1 아바타 이미지 '${file.name}' 로드 완료. [⚡ 1:1 아바타 즉시 적용 & DB 저장]을 누르면 디스크에 저장됩니다.`
+            `[로드 완료] 1:1 아바타 이미지 '${file.name}' 로드 완료. [1:1 아바타 즉시 적용 & DB 저장]을 누르면 디스크에 저장됩니다.`
 
           );
 
@@ -1499,13 +1499,13 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
       setSaveSuccessType('png');
 
-      setStatusMsg(`✅ [${activeAsset.label}] 1:1 아바타 '${finalName}' 직접 적용 및 DB 저장 완료!`);
+      setStatusMsg(`[저장 완료] [${activeAsset.label}] 1:1 아바타 '${finalName}' 직접 적용 및 DB 저장 완료!`);
 
     } catch (err) {
 
       const msg = err instanceof Error ? err.message : String(err);
 
-      setStatusMsg(`❌ 1:1 아바타 직접 저장 실패: ${msg}`);
+      setStatusMsg(`[오류] 1:1 아바타 직접 저장 실패: ${msg}`);
 
       window.alert(`[1:1 아바타 직접 저장 실패] ${msg}`);
 
@@ -2316,7 +2316,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
                   >
 
-                    ✕
+                    <X className="w-3.5 h-3.5" />
 
                   </button>
 
@@ -2466,7 +2466,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
                     <>
 
-                      <span className="inline-block animate-spin text-sm">⏳</span>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
 
                       <span>저장 중...</span>
 
@@ -2718,7 +2718,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
                     <>
 
-                      <span className="inline-block animate-spin text-sm">⏳</span>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
 
                       <span>1:1 아바타 저장 중...</span>
 
@@ -2740,7 +2740,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
                       <Sparkles className="w-4 h-4" />
 
-                      <span>⚡ 1:1 아바타 즉시 적용 & DB 저장</span>
+                      <span>1:1 아바타 즉시 적용 & DB 저장</span>
 
                     </>
 
@@ -2782,7 +2782,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
                       <>
 
-                        <span className="inline-block animate-spin text-sm">⏳</span>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
 
                         <span>1:1 아바타 생성 및 DB 저장 중...</span>
 
@@ -2850,7 +2850,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
                       <>
 
-                        <span className="inline-block animate-spin text-xs">⏳</span>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
 
                         <span>뷰포트 크롭 저장 중...</span>
 
@@ -2898,7 +2898,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
             className={`p-3 rounded text-xs flex items-start gap-2 shadow-lg transition-all border animate-in fade-in duration-200 ${
 
-              statusMsg.startsWith('❌')
+              statusMsg.startsWith('[오류]')
 
                 ? 'bg-red-500/20 border-red-500/50 text-red-200 font-bold'
 
@@ -2912,7 +2912,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
               className={`w-4 h-4 shrink-0 mt-0.5 ${
 
-                statusMsg.startsWith('❌') ? 'text-red-400' : 'text-emerald-400'
+                statusMsg.startsWith('[오류]') ? 'text-red-400' : 'text-emerald-400'
 
               }`}
 
@@ -3189,7 +3189,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
               <>
 
-                <span className="inline-block animate-spin text-xs">⏳</span>
+                <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
 
                 <span>디스크 저장 및 DB 반영 중...</span>
 
@@ -3586,7 +3586,7 @@ export const CgCropStudioTab: React.FC<CgCropStudioTabProps> = ({
 
                     <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-mono" title="사용자 직접 검수 완료 (덮어쓰기 보호)">
 
-                      🔒 직접수정
+                      <Lock className="w-2.5 h-2.5 inline mr-0.5" />직접수정
 
                     </span>
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { StoryListItem } from '../data/storyRegistry';
 import { storyRegistry, getStoryAccessState } from '../data/storyRegistry';
 import { 
@@ -15,6 +16,7 @@ import {
 import { playClickSound, playCloseSound, playOpenSound, playTabSwitchSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
 import { CopyrightBadge } from './CopyrightedImage';
+import { PRTS_MODAL_BACKDROP, PRTS_MODAL_PANEL } from '../utils/motion';
 
 interface StorySplashModalProps {
   story: StoryListItem | null;
@@ -66,16 +68,15 @@ export const StorySplashModal: React.FC<StorySplashModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen || !story) return null;
-
   // 동일 시리즈 / 서사 라인에 속한 형제 에피소드 목록 추출 (인게임 하단 탭과 동일)
-  const relatedStories = storyRegistry.filter((s) => s.storyLineId === story.storyLineId);
+  const relatedStories = story ? storyRegistry.filter((s) => s.storyLineId === story.storyLineId) : [];
 
-  const accessState = getStoryAccessState(story);
+  const accessState = story ? getStoryAccessState(story) : 'locked';
   const isAvailable = accessState === 'available';
   const isLocked = accessState === 'locked';
 
   const handleEnter = () => {
+    if (!story) return;
     if (isLocked) {
       playClickSound();
       return;
@@ -86,32 +87,44 @@ export const StorySplashModal: React.FC<StorySplashModalProps> = ({
   };
 
   return (
-    <div 
-      data-modal="true"
-      data-hud-panel="true"
-      onPointerDown={(e) => e.stopPropagation()}
-      onPointerUp={(e) => e.stopPropagation()}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fadeIn"
-    >
-      {/* 바깥 배경 클릭 닫기 */}
-      <div 
-        className="absolute inset-0 cursor-pointer" 
-        onPointerDown={(e) => e.stopPropagation()}
-        onPointerUp={(e) => e.stopPropagation()}
-        onClick={(e) => {
-          e.stopPropagation();
-          playCloseSound();
-          onClose();
-        }} 
-      />
+    <AnimatePresence>
+      {isOpen && story && (
+        <motion.div
+          key="story-splash-backdrop"
+          variants={PRTS_MODAL_BACKDROP}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          data-modal="true"
+          data-hud-panel="true"
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md"
+        >
+          {/* 바깥 배경 클릭 닫기 */}
+          <div
+            className="absolute inset-0 cursor-pointer"
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              playCloseSound();
+              onClose();
+            }}
+          />
 
-      {/* 메인 스플래시 컨테이너 */}
-      <div 
-        onPointerDown={(e) => e.stopPropagation()}
-        onPointerUp={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-5xl bg-[#0c0d12] border border-[#2a2e3d] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden z-10 flex flex-col max-h-[92vh]"
-      >
+          {/* 메인 스플래시 컨테이너 */}
+          <motion.div
+            key={story.id}
+            variants={PRTS_MODAL_PANEL}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-5xl bg-[#0c0d12] border border-[#2a2e3d] rounded-[4px] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden z-10 flex flex-col max-h-[92vh]"
+          >
         {/* 상단 윈도우 컨트롤 바 */}
         <div className="flex items-center justify-between px-4 py-2 bg-[#12141c] border-b border-[#242735] font-mono text-xs select-none">
           <div className="flex items-center gap-2">
@@ -381,7 +394,9 @@ export const StorySplashModal: React.FC<StorySplashModalProps> = ({
             </div>
           </div>
         )}
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

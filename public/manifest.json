@@ -1,6 +1,6 @@
 {
-  "name": "PRTS Story Terminal // 명일방주 스토리 아카이브",
-  "short_name": "PRTS 터미널",
+  "name": "PRTS Archive // 명일방주 스토리 아카이브",
+  "short_name": "PRTS Archive",
   "description": "명일방주 인터랙티브 스토리 아카이브, 연대기 타임라인 및 테라 전술 지도",
   "start_url": "./index.html",
   "scope": "./",

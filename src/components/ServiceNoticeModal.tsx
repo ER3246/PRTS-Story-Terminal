@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   Info,
   Globe,
@@ -7,6 +8,7 @@ import {
   X
 } from 'lucide-react';
 import { playClickSound, playCloseSound } from '../utils/soundEffects';
+import { PRTS_MODAL_BACKDROP, PRTS_MODAL_PANEL } from '../utils/motion';
 
 interface ServiceNoticeModalProps {
   isOpen: boolean;
@@ -36,8 +38,6 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose, dontShowToday, onConfirmDismissToday]);
 
-  if (!isOpen) return null;
-
   const handleConfirm = () => {
     playClickSound();
     if (dontShowToday) {
@@ -55,20 +55,31 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
   };
 
   return (
-    <div
-      data-modal="true"
-      data-hud-panel="true"
-      onPointerDown={(e) => e.stopPropagation()}
-      onPointerUp={(e) => e.stopPropagation()}
-      onClick={handleClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn select-none"
-    >
-      <div
-        onPointerDown={(e) => e.stopPropagation()}
-        onPointerUp={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[460px] bg-[#0c0e14]/98 border border-white/20 rounded-[4px] shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-zinc-100 animate-scaleUp font-sans"
-      >
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          key="service-notice-backdrop"
+          variants={PRTS_MODAL_BACKDROP}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          data-modal="true"
+          data-hud-panel="true"
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          onClick={handleClose}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm select-none"
+        >
+          <motion.div
+            variants={PRTS_MODAL_PANEL}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-[460px] bg-[#0c0e14]/98 border border-white/20 rounded-[4px] shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-zinc-100 font-sans"
+          >
         {/* Top High-Tech Accent Bar */}
         <div className="h-0.5 w-full bg-gradient-to-r from-[#ffe600] via-[#00d8ff] to-transparent" />
 
@@ -161,7 +172,9 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
             <span>확인</span>
           </button>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

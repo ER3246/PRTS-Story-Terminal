@@ -23,15 +23,27 @@
     --prts-text-dim: #5c6478;
   }
 
+  html {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
   body {
     background-color: var(--prts-bg);
     color: var(--prts-text-main);
     font-family: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
     letter-spacing: -0.01em;
+    word-break: keep-all;
+    overflow-wrap: break-word;
     overflow-x: hidden;
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent Korean/short labels inside buttons, badges, and keycaps from breaking awkwardly */
+  button, summary {
+    word-break: keep-all;
   }
 
   code, pre, .font-mono {
@@ -91,6 +103,62 @@
     background-size: 6px 6px;
     opacity: 0.55;
     z-index: 20;
+  }
+
+  /* Interactive 4-Corner Tactical Reticle (Expands & snaps on hover/focus) */
+  .fui-reticle-hover {
+    position: relative;
+  }
+  .fui-reticle-hover::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    pointer-events: none;
+    background:
+      linear-gradient(to right, #ffe600 1.5px, transparent 1.5px) 0 0,
+      linear-gradient(to bottom, #ffe600 1.5px, transparent 1.5px) 0 0,
+      linear-gradient(to left, #ffe600 1.5px, transparent 1.5px) 100% 0,
+      linear-gradient(to bottom, #ffe600 1.5px, transparent 1.5px) 100% 0,
+      linear-gradient(to right, #ffe600 1.5px, transparent 1.5px) 0 100%,
+      linear-gradient(to top, #ffe600 1.5px, transparent 1.5px) 0 100%,
+      linear-gradient(to left, #ffe600 1.5px, transparent 1.5px) 100% 100%,
+      linear-gradient(to top, #ffe600 1.5px, transparent 1.5px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 7px 7px;
+    opacity: 0;
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), inset 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 20;
+  }
+  .fui-reticle-hover:hover::after,
+  .fui-reticle-hover:focus-visible::after {
+    inset: -2px;
+    opacity: 0.85;
+  }
+
+  /* Diagonal tactical sheen sweep for primary CTAs & cards */
+  .prts-btn-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .prts-btn-sweep::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 45%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.14) 50%, transparent 80%);
+    transform: translateX(-160%) skewX(-18deg);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .prts-btn-sweep:hover::before {
+    transform: translateX(320%) skewX(-18deg);
+  }
+
+  /* Explicit opt-in for unbroken technical tokens / hashes / URLs */
+  .prts-wrap-anywhere {
+    word-break: normal;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -230,5 +298,27 @@
 
 .animate-slideInRight {
   animation: slideInRight 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-scaleUp {
+  animation: scaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Tactile button press physics for standard buttons (uses individual scale property to never conflict with transform/translate) */
+@media (prefers-reduced-motion: no-preference) {
+  button:not(:disabled):active {
+    scale: 0.98;
+  }
 }
 

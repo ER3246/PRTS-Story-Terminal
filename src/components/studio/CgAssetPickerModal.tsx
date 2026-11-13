@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { X, Search, Image as ImageIcon, UserCheck, Check, Ban, Sparkles } from 'lucide-react';
+import { X, Search, Image as ImageIcon, UserCheck, Check, Ban, Sparkles, Scissors } from 'lucide-react';
 import type { CharacterCgAsset, CgAssetCategory } from '../../types/characterDb';
 import type { SceneVisualAssetItem } from '../../data/db/sceneVisualAssets';
 import { resolveAssetUrl } from '../../utils/assetUrl';
@@ -165,9 +165,10 @@ export const CharacterCgPickerModal: React.FC<CharacterCgPickerModalProps> = ({
                       onJumpToCropper(asset);
                       onClose();
                     }}
-                    className="mt-2 w-full py-1 rounded bg-white/5 hover:bg-[#ffe600] text-zinc-300 hover:text-black text-[10px] font-semibold transition-colors cursor-pointer"
+                    className="mt-2 w-full py-1 rounded bg-white/5 hover:bg-[#ffe600] text-zinc-300 hover:text-black text-[10px] font-semibold transition-colors cursor-pointer flex items-center justify-center gap-1"
                   >
-                    ✂️ 크롭 조정
+                    <Scissors className="w-3 h-3" />
+                    <span>크롭 조정</span>
                   </button>
                 )}
               </div>

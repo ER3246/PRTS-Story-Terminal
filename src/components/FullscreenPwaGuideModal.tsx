@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   Maximize2,
   Download,
@@ -11,6 +12,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { playClickSound, playCloseSound } from '../utils/soundEffects';
+import { PRTS_MODAL_BACKDROP, PRTS_MODAL_PANEL } from '../utils/motion';
 
 interface FullscreenPwaGuideModalProps {
   isOpen: boolean;
@@ -41,8 +43,6 @@ export const FullscreenPwaGuideModal: React.FC<FullscreenPwaGuideModalProps> = (
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   const handleClose = () => {
     playCloseSound();
     onClose();
@@ -59,20 +59,31 @@ export const FullscreenPwaGuideModal: React.FC<FullscreenPwaGuideModalProps> = (
   };
 
   return (
-    <div
-      data-modal="true"
-      data-hud-panel="true"
-      onPointerDown={(e) => e.stopPropagation()}
-      onPointerUp={(e) => e.stopPropagation()}
-      onClick={handleClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn select-none"
-    >
-      <div
-        onPointerDown={(e) => e.stopPropagation()}
-        onPointerUp={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[500px] bg-[#0c0e14]/98 border border-white/20 rounded-[4px] shadow-[0_24px_64px_rgba(0,0,0,0.92)] flex flex-col overflow-hidden text-zinc-100 animate-scaleUp font-sans"
-      >
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          key="fullscreen-guide-backdrop"
+          variants={PRTS_MODAL_BACKDROP}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          data-modal="true"
+          data-hud-panel="true"
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          onClick={handleClose}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm select-none"
+        >
+          <motion.div
+            variants={PRTS_MODAL_PANEL}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-[500px] bg-[#0c0e14]/98 border border-white/20 rounded-[4px] shadow-[0_24px_64px_rgba(0,0,0,0.92)] flex flex-col overflow-hidden text-zinc-100 font-sans"
+          >
         {/* Top Accent Bar */}
         <div className="h-0.5 w-full bg-gradient-to-r from-[#ffe600] via-[#00d8ff] to-transparent" />
 
@@ -231,7 +242,9 @@ export const FullscreenPwaGuideModal: React.FC<FullscreenPwaGuideModalProps> = (
             <span>확인</span>
           </button>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

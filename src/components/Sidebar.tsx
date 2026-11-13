@@ -7,7 +7,6 @@ import {
   FolderOpen,
   FileText,
   Search,
-  ChevronDown,
   ChevronRight,
   ChevronsUpDown,
   PanelLeftClose,
@@ -16,6 +15,8 @@ import {
   BookOpen
 } from 'lucide-react';
 import { playClickSound } from '../utils/soundEffects';
+import { AnimatePresence, motion } from 'framer-motion';
+import { PRTS_ACCORDION_CONTENT, PRTS_SPRING_SNAPPY } from '../utils/motion';
 
 export type StoryCategoryFilter = 'all' | 'main' | 'events' | 'omnibus';
 export type StorySortMode = 'tree' | 'story_line' | 'release' | 'chronological';
@@ -279,15 +280,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       playClickSound();
                       onChangeCategory(tab.id);
                     }}
-                    className={`relative h-6.5 rounded-[3px] text-center transition-all cursor-pointer flex items-center justify-center ${
+                    className={`relative h-6.5 rounded-[3px] text-center transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap ${
                       isActive
-                        ? 'bg-white/[0.1] text-white font-bold shadow-xs'
+                        ? 'text-white font-bold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
                     }`}
                   >
-                    <span>{tab.label}</span>
                     {isActive && (
-                      <span className="absolute bottom-0 left-2 right-2 h-[1.5px] bg-[#ffe600] rounded-full" />
+                      <motion.span
+                        layoutId="sidebar-category-bg"
+                        transition={PRTS_SPRING_SNAPPY}
+                        className="absolute inset-0 rounded-[3px] bg-white/[0.1] shadow-xs pointer-events-none"
+                      />
+                    )}
+                    <span className="relative z-10">{tab.label}</span>
+                    {isActive && (
+                      <motion.span
+                        layoutId="sidebar-category-bar"
+                        transition={PRTS_SPRING_SNAPPY}
+                        className="absolute bottom-0 left-2 right-2 h-[1.5px] bg-[#ffe600] rounded-full z-10"
+                      />
                     )}
                   </button>
                 );
@@ -369,19 +381,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     className="w-full px-2.5 py-2 flex items-center justify-between bg-white/[0.03] hover:bg-white/[0.06] text-zinc-200 font-bold transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      {isMainOpen ? (
-                        <ChevronDown className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
-                      ) : (
-                        <ChevronRight className="w-3.5 h-3.5 text-zinc-500 flex-shrink-0" />
-                      )}
+                      <motion.span
+                        animate={{ rotate: isMainOpen ? 90 : 0 }}
+                        transition={PRTS_SPRING_SNAPPY}
+                        className="flex-shrink-0 flex items-center justify-center"
+                      >
+                        <ChevronRight className={`w-3.5 h-3.5 ${isMainOpen ? 'text-zinc-300' : 'text-zinc-500'}`} />
+                      </motion.span>
                       <MainIcon className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
                       <span className="text-xs tracking-tight truncate">{mainFolder.titleKo}</span>
                     </div>
                   </button>
 
                   {/* Level 2: Sub-Folders List */}
-                  {isMainOpen && (
-                    <div className="p-1 space-y-1">
+                  <AnimatePresence initial={false}>
+                    {isMainOpen && (
+                      <motion.div
+                        key={`folder-${mainFolder.id}`}
+                        variants={PRTS_ACCORDION_CONTENT}
+                        initial="collapsed"
+                        animate="expanded"
+                        exit="collapsed"
+                        className="overflow-hidden"
+                      >
+                        <div className="p-1 space-y-1">
                       {mainFolder.subFolders.map((subFolder) => {
                         const isSubOpen = expandedFolders[subFolder.id] ?? false;
                         let subStories = subFolder.storyIds
@@ -416,14 +439,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                   {subFolder.titleKo}
                                 </span>
                               </div>
-                              <span className="text-[9px] font-mono text-zinc-500 px-1 py-0.2 rounded-[1px] bg-black/40 flex-shrink-0 ml-1">
+                              <span className="text-[9px] font-mono text-zinc-500 px-1 py-0.2 rounded-[1px] bg-black/40 flex-shrink-0 whitespace-nowrap ml-1">
                                 {subStories.length}
                               </span>
                             </button>
 
                             {/* Level 3: Story Document Nodes */}
-                            {isSubOpen && (
-                              <div className="mt-1 ml-3 space-y-0.5 border-l border-white/[0.06] pl-1.5">
+                            <AnimatePresence initial={false}>
+                              {isSubOpen && (
+                                <motion.div
+                                  key={`subfolder-${subFolder.id}`}
+                                  variants={PRTS_ACCORDION_CONTENT}
+                                  initial="collapsed"
+                                  animate="expanded"
+                                  exit="collapsed"
+                                  className="overflow-hidden"
+                                >
+                                  <div className="mt-1 ml-3 space-y-0.5 border-l border-white/[0.06] pl-1.5">
                                 {subStories.map((story) => {
                                   const isActiveStory = story.id === activeStoryId;
                                   const accessState = getStoryAccessState(story);
@@ -449,15 +481,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                       >
                                         <div className="flex items-center gap-1.5 min-w-0 flex-1 mr-1">
                                           {hasSubPages ? (
-                                            isStorySubPagesExpanded ? (
-                                              <ChevronDown className="w-3 h-3 text-zinc-400 flex-shrink-0" />
-                                            ) : (
-                                              <ChevronRight className="w-3 h-3 text-zinc-500 flex-shrink-0" />
-                                            )
+                                            <motion.span
+                                              animate={{ rotate: isStorySubPagesExpanded ? 90 : 0 }}
+                                              transition={PRTS_SPRING_SNAPPY}
+                                              className="flex-shrink-0 flex items-center justify-center"
+                                            >
+                                              <ChevronRight className={`w-3 h-3 ${isStorySubPagesExpanded ? 'text-zinc-300' : 'text-zinc-500'}`} />
+                                            </motion.span>
                                           ) : (
                                             <FileText className="w-3 h-3 text-zinc-500 group-hover:text-zinc-300 flex-shrink-0" />
                                           )}
-                                          <span className="font-mono text-[10px] text-zinc-400 flex-shrink-0">
+                                          <span className="font-mono text-[10px] text-zinc-400 flex-shrink-0 whitespace-nowrap">
                                             {story.code}
                                           </span>
                                           <span className="truncate text-[11px] font-medium group-hover:text-white">
@@ -470,7 +504,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                             <FilmReelIcon className="w-3 h-3 text-emerald-400/90 flex-shrink-0" title="옴니버스 단편" />
                                           )}
                                           {hasSubPages && (
-                                            <span className="text-[9px] font-mono text-zinc-400 bg-white/[0.06] px-1 rounded-[1px]">
+                                            <span className="text-[9px] font-mono text-zinc-400 bg-white/[0.06] px-1 rounded-[1px] whitespace-nowrap">
                                               {story.subPages!.length}P
                                             </span>
                                           )}
@@ -484,49 +518,64 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                       </div>
 
                                       {/* Sub-Pages Accordion (e.g. 론 트레일 Part 1~3, 에인션트 포지 Ep 1~3) */}
-                                      {hasSubPages && isStorySubPagesExpanded && (
-                                        <div className="ml-4 pl-2 border-l border-white/[0.08] space-y-0.5 py-0.5">
-                                          {story.subPages!.map((sp) => {
-                                            const isSubActive =
-                                              isActiveStory &&
-                                              (activeSubPageId === sp.id || (!activeSubPageId && sp.isOverview));
+                                      <AnimatePresence initial={false}>
+                                        {hasSubPages && isStorySubPagesExpanded && (
+                                          <motion.div
+                                            key={`subpages-${story.id}`}
+                                            variants={PRTS_ACCORDION_CONTENT}
+                                            initial="collapsed"
+                                            animate="expanded"
+                                            exit="collapsed"
+                                            className="overflow-hidden"
+                                          >
+                                            <div className="ml-4 pl-2 border-l border-white/[0.08] space-y-0.5 py-0.5">
+                                              {story.subPages!.map((sp) => {
+                                                const isSubActive =
+                                                  isActiveStory &&
+                                                  (activeSubPageId === sp.id || (!activeSubPageId && sp.isOverview));
 
-                                            return (
-                                              <div
-                                                key={sp.id}
-                                                onClick={(e) => {
-                                                  e.stopPropagation();
-                                                  handleSelectStoryItem(story.id, sp.id);
-                                                }}
-                                                className={`px-2 py-1 rounded-[2px] flex items-center justify-between text-[10.5px] transition-colors cursor-pointer ${
-                                                  isSubActive
-                                                    ? 'bg-[#ffe600]/20 text-[#ffe600] font-bold border-l border-[#ffe600]'
-                                                    : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
-                                                }`}
-                                              >
-                                                <div className="flex items-center gap-1.5 truncate">
-                                                  {sp.isOverview ? (
-                                                    <FileText className="w-2.5 h-2.5 flex-shrink-0" />
-                                                  ) : (
-                                                    <span className="text-[9px] font-mono text-[#ffe600]">●</span>
-                                                  )}
-                                                  <span className="truncate">{sp.label}</span>
-                                                </div>
-                                              </div>
-                                            );
-                                          })}
-                                        </div>
-                                      )}
+                                                return (
+                                                  <div
+                                                    key={sp.id}
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      handleSelectStoryItem(story.id, sp.id);
+                                                    }}
+                                                    className={`px-2 py-1 rounded-[2px] flex items-center justify-between text-[10.5px] transition-colors cursor-pointer ${
+                                                      isSubActive
+                                                        ? 'bg-[#ffe600]/20 text-[#ffe600] font-bold border-l border-[#ffe600]'
+                                                        : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
+                                                    }`}
+                                                  >
+                                                    <div className="flex items-center gap-1.5 truncate">
+                                                      {sp.isOverview ? (
+                                                        <FileText className="w-2.5 h-2.5 flex-shrink-0" />
+                                                      ) : (
+                                                        <span className="text-[9px] font-mono text-[#ffe600]">●</span>
+                                                      )}
+                                                      <span className="truncate">{sp.label}</span>
+                                                    </div>
+                                                  </div>
+                                                );
+                                              })}
+                                            </div>
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
                                     </div>
                                   );
                                 })}
-                              </div>
-                            )}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
                         );
                       })}
-                    </div>
-                  )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })

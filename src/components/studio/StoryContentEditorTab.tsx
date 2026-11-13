@@ -112,11 +112,11 @@ export const StoryContentEditorTab: React.FC<StoryContentEditorTabProps> = ({
     setSaveBanner(null);
     try {
       await onSaveStoryToDisk(story);
-      setSaveBanner(`✅ 저장 완료: src/data/stories/${story.id}.ts 에 변경사항이 반영되었습니다.`);
+      setSaveBanner(`[저장 완료] src/data/stories/${story.id}.ts 에 변경사항이 반영되었습니다.`);
       setTimeout(() => setSaveBanner(null), 4500);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      setSaveBanner(`❌ 스토리 저장 실패: ${msg}`);
+      setSaveBanner(`[저장 실패] 스토리 저장 실패: ${msg}`);
       window.alert(`[스토리 저장 실패] ${msg}`);
     } finally {
       setIsSaving(false);

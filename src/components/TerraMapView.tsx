@@ -34,6 +34,7 @@ import {
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
+import { MouseDragIcon, MouseScrollIcon, ArrowKeysIcon } from './ui/TacticalIcons';
 
 interface TerraMapViewProps {
   onSelectStory: (id: string) => void;
@@ -248,7 +249,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_act1_cher_lung',
     code: 'EP.00~03',
     category: 'main',
-    shortLabel: '체르노보그 ➔ 용문',
+    shortLabel: '체르노보그 → 용문',
     fullLabel: 'Act I: 체르노보그 박사 구출 및 이동도시 용문 합류 기동',
     fromPixel: { x: 534, y: 424 },
     toPixel: { x: 583, y: 450 },
@@ -262,7 +263,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_act1_lung_core',
     code: 'EP.06~08',
     category: 'main',
-    shortLabel: '용문 ➔ 체르노보그 핵심부',
+    shortLabel: '용문 → 체르노보그 핵심부',
     fullLabel: 'Act I: 부분 괴사 ~ 울부짖는 광명 (핵심부 충돌 저지 결전)',
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 519, y: 415 },
@@ -276,7 +277,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_act2_hillock',
     code: 'EP.09',
     category: 'main',
-    shortLabel: '힐록 카운티 ➔ 런디니움',
+    shortLabel: '힐록 카운티 → 런디니움',
     fullLabel: 'Act II 스톰워치: 더블린 봉기 및 힐록 카운티 사태 진상 규명',
     fromPixel: { x: 356, y: 537 },
     toPixel: { x: 386, y: 554 },
@@ -290,7 +291,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_act2_victoria',
     code: 'EP.10~14',
     category: 'main',
-    shortLabel: '카즈델 ➔ 런디니움',
+    shortLabel: '카즈델 → 런디니움',
     fullLabel: 'Act II: 살카즈 군사위원회 런디니움 점령 및 로도스 탈환 작전',
     fromPixel: { x: 543, y: 502 },
     toPixel: { x: 386, y: 554 },
@@ -304,7 +305,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_act3_ep17',
     code: 'EP.16~17',
     category: 'main',
-    shortLabel: '디에티 그라이퍼부르크 ➔ 북부 빙원',
+    shortLabel: '디에티 그라이퍼부르크 → 북부 빙원',
     fullLabel: 'Act III: 비정상 스펙트럼 ~ 임계 상전이 (우르수스 북방 빙원 전선)',
     fromPixel: { x: 455, y: 398 },
     toPixel: { x: 419, y: 280 },
@@ -322,7 +323,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_babel_excavation',
     code: 'RL-04',
     category: 'series',
-    shortLabel: '림 빌리턴 ➔ 카즈델',
+    shortLabel: '림 빌리턴 → 카즈델',
     fullLabel: '바벨(Babel): 림 빌리턴 본함 발굴 및 카즈델 귀환 대원정',
     fromPixel: { x: 548, y: 597 },
     toPixel: { x: 543, y: 502 },
@@ -336,7 +337,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_darknights',
     code: 'RL-01',
     category: 'series',
-    shortLabel: '카즈델 ➔ 체르노보그',
+    shortLabel: '카즈델 → 체르노보그',
     fullLabel: '흑야의 회고록: 바벨 붕괴 후 박사 석관 이송 및 W 소대 추적',
     fromPixel: { x: 543, y: 502 },
     toPixel: { x: 534, y: 424 },
@@ -350,7 +351,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_kazimierz_major',
     code: 'KA-01~03',
     category: 'series',
-    shortLabel: '물방울 마을 ➔ 카발레리에키',
+    shortLabel: '물방울 마을 → 카발레리에키',
     fullLabel: '니어 라이트 연작: 카시미어 변경에서 대기사령 결전까지의 여정',
     fromPixel: { x: 376, y: 476 },
     toPixel: { x: 356, y: 450 },
@@ -364,7 +365,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_sui_shangshu',
     code: 'SU-01~03',
     category: 'series',
-    shortLabel: '용문 ➔ 상촉 · 백조',
+    shortLabel: '용문 → 상촉 · 백조',
     fullLabel: '쉐이(Sui) 연대기: 삼자매(니엔·더스크·링) 합류 및 사세대(司岁台) 및 염국 관원들과의 상촉·백조 행 (에인션트 포지 ~ 장진주)',
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 622, y: 493 },
@@ -378,7 +379,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_sui_yumen',
     code: 'SU-04~06',
     category: 'series',
-    shortLabel: '옥문 ➔ 백조 ➔ 대황성',
+    shortLabel: '옥문 → 백조 → 대황성',
     fullLabel: "쉐이(Sui) 연대기: 옥문에서 쉐이 맏형 '총웨(종사)'와 함께 둘째 '왕'의 음모를 분쇄한 뒤, 천자의 황성 백조를 거쳐 동방의 곡창도시 대황성(회서리)에서 여섯째 '슈'와 함께 대재앙에 맞서는 대장정",
     fromPixel: { x: 602, y: 424 },
     toPixel: { x: 686, y: 441 },
@@ -392,7 +393,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_rhine_pioneer',
     code: 'RH-01~02',
     category: 'series',
-    shortLabel: '맨스필드 · 359호 기지 ➔ 트리마운츠',
+    shortLabel: '맨스필드 · 359호 기지 → 트리마운츠',
     fullLabel: '맨스필드 브레이크 ~ 도로시의 비전: 359호 기지 실험 데이터 트리마운츠 집결',
     fromPixel: { x: 283, y: 458 },
     toPixel: { x: 243, y: 476 },
@@ -406,7 +407,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_lonetrail',
     code: 'RH-03',
     category: 'series',
-    shortLabel: '트리마운츠 ➔ 북부 궤도 (상공 투영)',
+    shortLabel: '트리마운츠 → 북부 궤도 (상공 투영)',
     fullLabel: '론 트레일: 트리마운츠 외곽 지하에서 이륙한 초점 발생기(아크 1호)와 에너지 우물을 가동하여 5,000m 상공에서 스텔라리아를 발사, 6,152m 대기 차단층을 돌파 (상공 투영 궤적)',
     fromPixel: { x: 243, y: 476 },
     toPixel: { x: 320, y: 138 },
@@ -420,7 +421,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_iberia_coast',
     code: 'AE-02',
     category: 'series',
-    shortLabel: '살비엔토 ➔ 그란파로',
+    shortLabel: '살비엔토 → 그란파로',
     fullLabel: '언더 타이즈: 살비엔토 해안 어비설 헌터스 집결 및 등대 수색',
     fromPixel: { x: 415, y: 658 },
     toPixel: { x: 450, y: 667 },
@@ -434,7 +435,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_abyss',
     code: 'AE-03~04',
     category: 'series',
-    shortLabel: '그란파로 ➔ 에기르 밀리아리움',
+    shortLabel: '그란파로 → 에기르 밀리아리움',
     fullLabel: '스툴티페라 나비스 ~ 삶의 길: 이베리아 대등대 및 에기르 심해 원정',
     fromPixel: { x: 450, y: 667 },
     toPixel: { x: 586, y: 867 },
@@ -452,7 +453,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_leithanien_spire',
     code: 'LE-01~03',
     category: 'expedition',
-    shortLabel: '월루몽드 ➔ 츠빌링슈튀르메',
+    shortLabel: '월루몽드 → 츠빌링슈튀르메',
     fullLabel: '고탑의 그림자: 월루몽드의 황혼 ~ 츠빌링슈튀르메의 가을',
     fromPixel: { x: 455, y: 519 },
     toPixel: { x: 425, y: 502 },
@@ -466,7 +467,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_siracusa_return',
     code: 'SI-01',
     category: 'expedition',
-    shortLabel: '용문 ➔ 시라쿠사 볼시니',
+    shortLabel: '용문 → 시라쿠사 볼시니',
     fullLabel: "시라쿠사인: 구도시 볼시니로 귀환하여 패밀리 결전을 치르고 신생 자치 이동도시 '누오바 볼시니'를 세운 행적",
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 494, y: 519 },
@@ -480,7 +481,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_kjerag_silver',
     code: 'KJ-01~02',
     category: 'expedition',
-    shortLabel: '런디니움 ➔ 쉐라그 투리쿰',
+    shortLabel: '런디니움 → 쉐라그 투리쿰',
     fullLabel: '설산과 은철: 브레이크 디 아이스 ~ 은심호 열차 개통 작전',
     fromPixel: { x: 386, y: 554 },
     toPixel: { x: 317, y: 519 },
@@ -494,7 +495,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     id: 'route_summer_siesta',
     code: 'ST-01~04',
     category: 'expedition',
-    shortLabel: '시에스타 (신 시에스타) ➔ 아카후알라',
+    shortLabel: '시에스타 (신 시에스타) → 아카후알라',
     fullLabel: '여름의 리듬: 파란 불꽃의 마음 ~ 가비알 리턴즈 & 아카후알라 두린 지하도시 쎄루에르차 원정',
     fromPixel: { x: 334, y: 593 },
     toPixel: { x: 258, y: 649 },
@@ -2908,12 +2909,24 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               </span>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2.5 text-zinc-300 text-[11px]">
-              <span>🖱️ 드래그: 이동 · 회전</span>
+            <div className="flex flex-wrap items-center gap-2 text-zinc-300 text-[11px]">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                <MouseDragIcon className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                <span className="text-zinc-400">드래그</span>
+                <span className="text-white font-medium">이동 · 회전</span>
+              </span>
               <span className="text-zinc-600">|</span>
-              <span>스크롤: 확대 · 축소</span>
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                <MouseScrollIcon className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                <span className="text-zinc-400">스크롤</span>
+                <span className="text-white font-medium">확대 · 축소</span>
+              </span>
               <span className="text-zinc-600 hidden lg:inline">|</span>
-              <span className="hidden lg:inline">⌨️ 방향키: 지도 이동</span>
+              <span className="hidden lg:inline-flex items-center gap-1.5 whitespace-nowrap">
+                <ArrowKeysIcon className="w-4 h-3.5 text-zinc-400 shrink-0" />
+                <span className="text-zinc-400">방향키</span>
+                <span className="text-white font-medium">지도 이동</span>
+              </span>
 
               <div className="w-[1px] h-3.5 bg-white/10" />
 
@@ -2923,7 +2936,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setIsLegendOpen(true);
                 }}
                 title="지도 범례 및 조작 안내"
-                className="flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] hover:bg-[#ffe600] text-[#ffe600] hover:text-black font-semibold transition-colors cursor-pointer text-[11px]"
+                className="flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-white/[0.08] hover:bg-[#ffe600] text-[#ffe600] hover:text-black font-semibold transition-colors cursor-pointer text-[11px] whitespace-nowrap shrink-0"
               >
                 <HelpCircle className="w-3.5 h-3.5" />
                 <span>지도 범례</span>

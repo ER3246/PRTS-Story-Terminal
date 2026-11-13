@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  Wrench,
-  Crop,
-  Users,
-  BookOpen,
-  ArrowLeft,
-  HardDrive,
-  Globe,
-  Download,
-  CheckCircle2,
-  AlertCircle,
-  GitCommit,
-  Upload,
+import {
+  Wrench,
+  Crop,
+  Users,
+  BookOpen,
+  ArrowLeft,
+  HardDrive,
+  Globe,
+  Download,
+  CheckCircle2,
+  AlertCircle,
+  GitCommit,
+  Upload,
+  X,
+  Loader2,
 } from 'lucide-react';
 import { characterCgAssets as initialCgAssets } from '../../data/db/characterCgAssets';
 import { characterMasterDb as initialMasterDb } from '../../data/db/characterMasterDb';
@@ -198,20 +200,20 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
       if (!data.ok) throw new Error(data.error || 'Git 커밋 실패');
 
       if (data.noChanges) {
-        showToast('success', `ℹ️ ${data.message}`);
+        showToast('success', `${data.message}`);
       } else if (data.pushed) {
-        showToast('success', `🚀 Git 커밋 & GitHub 푸시 성공! [${data.commitHash}] ${data.message}`);
+        showToast('success', `[Git 푸시 성공] [${data.commitHash}] ${data.message}`);
       } else if (data.pushError) {
-        showToast('warning', `⚠️ 커밋 성공 [${data.commitHash}], 그러나 GitHub 푸시 실패: ${data.pushError}`);
+        showToast('warning', `[주의] 커밋 성공 [${data.commitHash}], 그러나 GitHub 푸시 실패: ${data.pushError}`);
       } else {
-        showToast('success', `✅ Git 로컬 커밋 완료! [${data.commitHash}] ${data.message}`);
+        showToast('success', `[Git 커밋 완료] [${data.commitHash}] ${data.message}`);
       }
       setIsCommitModalOpen(false);
       setCommitMessage('');
       refreshGitStatus();
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      showToast('error', `❌ Git 커밋 오류: ${msg}`);
+      showToast('error', `[오류] Git 커밋 오류: ${msg}`);
       window.alert(`[Git 커밋 실패] ${msg}`);
     } finally {
       setIsCommitting(false);
@@ -224,11 +226,11 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
       const res = await fetch('/__prts_admin_api/git-push', { method: 'POST' });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || 'Git 푸시 실패');
-      showToast('success', '🚀 GitHub 원격 저장소에 성공적으로 푸시되었습니다!');
+      showToast('success', '[푸시 완료] GitHub 원격 저장소에 성공적으로 푸시되었습니다.');
       refreshGitStatus();
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      showToast('error', `❌ GitHub 푸시 오류: ${msg}`);
+      showToast('error', `[오류] GitHub 푸시 오류: ${msg}`);
       window.alert(`[GitHub 푸시 실패] ${msg}`);
     } finally {
       setIsPushing(false);
@@ -248,11 +250,11 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
         });
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || 'CG 자산 DB 저장 실패');
-        showToast('success', '✅ CG 자산 DB (src/data/db/characterCgAssets.ts) 로컬 디스크 저장 완료!');
+        showToast('success', '[저장 완료] CG 자산 DB (src/data/db/characterCgAssets.ts) 로컬 디스크 저장 완료');
         refreshGitStatus();
       } else {
         downloadTextFile('characterCgAssets.ts', tsCode);
-        showToast('success', '📥 characterCgAssets.ts 파일이 다운로드되었습니다.');
+        showToast('success', '[다운로드] characterCgAssets.ts 파일이 다운로드되었습니다.');
       }
     },
     [cgAssets, isLocalFsConnected, refreshGitStatus, showToast]
@@ -271,11 +273,11 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
         });
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || '마스터 DB 저장 실패');
-        showToast('success', '✅ 캐릭터 마스터 DB (src/data/db/characterMasterDb.ts) 로컬 디스크 저장 완료!');
+        showToast('success', '[저장 완료] 캐릭터 마스터 DB (src/data/db/characterMasterDb.ts) 로컬 디스크 저장 완료');
         refreshGitStatus();
       } else {
         downloadTextFile('characterMasterDb.ts', tsCode);
-        showToast('success', '📥 characterMasterDb.ts 파일이 다운로드되었습니다.');
+        showToast('success', '[다운로드] characterMasterDb.ts 파일이 다운로드되었습니다.');
       }
     },
     [masterRecords, isLocalFsConnected, refreshGitStatus, showToast]
@@ -303,11 +305,11 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
         });
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || '스토리 파일 저장 실패');
-        showToast('success', `✅ 스토리 파일 (src/data/stories/${storyToSave.id}.ts) 로컬 디스크 저장 완료!`);
+        showToast('success', `[저장 완료] 스토리 파일 (src/data/stories/${storyToSave.id}.ts) 로컬 디스크 저장 완료`);
         refreshGitStatus();
       } else {
         downloadTextFile(`${storyToSave.id}.ts`, tsCode);
-        showToast('success', `📥 ${storyToSave.id}.ts 파일이 다운로드되었습니다.`);
+        showToast('success', `[다운로드] ${storyToSave.id}.ts 파일이 다운로드되었습니다.`);
       }
     },
     [isLocalFsConnected, refreshGitStatus, showToast]
@@ -552,7 +554,7 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
                 onClick={() => setIsCommitModalOpen(false)}
                 className="text-zinc-400 hover:text-white text-xs cursor-pointer p-1"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -587,7 +589,7 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
                 </div>
               ) : (
                 <div className="p-3 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs">
-                  ✅ 현재 커밋되지 않은 변경 사항이 없습니다 (작업 트리가 깨끗함).
+                  현재 커밋되지 않은 변경 사항이 없습니다 (작업 트리가 깨끗함).
                 </div>
               )}
 
@@ -641,7 +643,7 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
               >
                 {isCommitting ? (
                   <>
-                    <span className="inline-block animate-spin text-xs">⏳</span>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     <span>커밋 생성 중...</span>
                   </>
                 ) : (

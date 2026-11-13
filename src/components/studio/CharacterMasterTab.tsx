@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Users,
   Copy,
+  Loader2,
 } from 'lucide-react';
 import type {
   CharacterMasterRecord,
@@ -220,11 +221,11 @@ export const CharacterMasterTab: React.FC<CharacterMasterTabProps> = ({
     setSaveNotice(null);
     try {
       await onSaveMasterDb(records);
-      setSaveNotice('✅ 통합 캐릭터 마스터 DB(characterMasterDb.ts)가 디스크에 저장되었습니다.');
+      setSaveNotice('[저장 완료] 통합 캐릭터 마스터 DB(characterMasterDb.ts)가 디스크에 저장되었습니다.');
       setTimeout(() => setSaveNotice(null), 4500);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      setSaveNotice(`❌ 마스터 DB 저장 실패: ${msg}`);
+      setSaveNotice(`[저장 실패] 마스터 DB 저장 실패: ${msg}`);
       window.alert(`[마스터 DB 저장 실패] ${msg}`);
     } finally {
       setIsSaving(false);
@@ -364,7 +365,7 @@ export const CharacterMasterTab: React.FC<CharacterMasterTabProps> = ({
               >
                 {isSaving ? (
                   <>
-                    <span className="inline-block animate-spin text-sm">⏳</span>
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     <span>마스터 DB 저장 중...</span>
                   </>
                 ) : (

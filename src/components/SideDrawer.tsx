@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { CharacterRef, CharacterVisualVariant, GlossaryTerm } from '../types/story';
 import { X, Maximize2 } from 'lucide-react';
 import { resolveAssetUrl } from '../utils/assetUrl';
@@ -6,6 +7,7 @@ import { getCharacterAvatarUrl, getCharacterIllustUrl, getGlobalAvatarCacheBuste
 import { resolveCharacterMaster } from '../data/db/characterResolver';
 import { CopyrightBadge } from './CopyrightedImage';
 import { TacticalAvatar } from './TacticalAvatar';
+import { PRTS_MODAL_BACKDROP, PRTS_DRAWER_PANEL, PRTS_EASE } from '../utils/motion';
 
 interface SideDrawerProps {
   isOpen: boolean;
@@ -67,19 +69,33 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        className="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 transition-opacity"
-      />
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            key="side-drawer-backdrop"
+            variants={PRTS_MODAL_BACKDROP}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={onClose}
+            className="fixed inset-0 bg-black/72 backdrop-blur-xs z-50"
+          />
 
-      {/* Drawer Panel */}
-      <div className="fixed top-0 right-0 h-full w-full max-w-lg bg-[#0b0e16]/95 backdrop-blur-2xl border-l border-white/[0.08] z-50 shadow-2xl flex flex-col font-sans">
-        {/* Drawer Header */}
+          {/* Drawer Panel */}
+          <motion.div
+            key="side-drawer-panel"
+            variants={PRTS_DRAWER_PANEL}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="fixed top-0 right-0 h-full w-full max-w-lg bg-[#0b0e16]/96 backdrop-blur-2xl border-l border-white/[0.1] z-50 shadow-2xl flex flex-col font-sans"
+          >
+            {/* Top Calibration Hairline */}
+            <div className="h-[2px] w-full bg-gradient-to-r from-[#ffe600] via-[#00d8ff] to-transparent shrink-0" />
+            {/* Drawer Header */}
         <div className="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between bg-[#080a10]/90">
           <div className="flex items-center gap-2 text-xs text-zinc-400">
             <span className="w-1.5 h-3.5 rounded-[1px] bg-[#ffe600]" />
@@ -145,12 +161,16 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     )}
 
                     {/* Standing CG Image */}
-                    <img
+                    <motion.img
+                      key={finalIllustUrl}
                       src={finalIllustUrl}
                       alt={selectedCharacter.nameKo}
                       onError={() => setIllustError(true)}
                       draggable={false}
                       onContextMenu={(e) => e.preventDefault()}
+                      initial={{ opacity: 0, scale: 0.985 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.28, ease: PRTS_EASE }}
                       className="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] select-none transition-transform duration-300 group-hover:scale-[1.02]"
                     />
 
@@ -354,7 +374,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             닫기 [ESC]
           </button>
         </div>
-      </div>
-    </>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 };

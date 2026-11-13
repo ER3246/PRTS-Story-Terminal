@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { StoryArchive } from '../types/story';
 import { storyRegistry, STORY_LINES, getStoryArchive } from '../data/storyRegistry';
 import { generateStoryMarkdown, generateStatusMasterMarkdown, downloadFile } from '../utils/exportMarkdown';
@@ -11,6 +12,7 @@ import {
   Info
 } from 'lucide-react';
 import { playClickSound, playCloseSound } from '../utils/soundEffects';
+import { PRTS_MODAL_BACKDROP, PRTS_MODAL_PANEL } from '../utils/motion';
 
 interface ReviewExportModalProps {
   isOpen: boolean;
@@ -43,14 +45,12 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   const restoredStories = storyRegistry.filter((s) => s.status === 'restored');
 
   const handleDownloadMaster = () => {
     playClickSound();
     const md = generateStatusMasterMarkdown(storyRegistry, STORY_LINES);
-    downloadFile('PRTS_Story_Archive_Status_Master.md', md);
+    downloadFile('PRTS_Archive_Status_Master.md', md);
   };
 
   const handleDownloadSingleStory = (storyId: string) => {
@@ -64,18 +64,33 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      {/* 바깥 배경 클릭 시 닫기 */}
-      <div 
-        className="absolute inset-0 cursor-pointer" 
-        onClick={() => {
-          playCloseSound();
-          onClose();
-        }} 
-      />
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          key="review-export-backdrop"
+          variants={PRTS_MODAL_BACKDROP}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        >
+          {/* 바깥 배경 클릭 시 닫기 */}
+          <div
+            className="absolute inset-0 cursor-pointer"
+            onClick={() => {
+              playCloseSound();
+              onClose();
+            }}
+          />
 
-      {/* 모달 컨테이너 */}
-      <div className="relative w-full max-w-xl bg-[#0f1118] border border-[#272e42] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden z-10 flex flex-col">
+          {/* 모달 컨테이너 */}
+          <motion.div
+            variants={PRTS_MODAL_PANEL}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="relative w-full max-w-xl bg-[#0f1118] border border-[#272e42] rounded-[4px] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden z-10 flex flex-col"
+          >
         {/* 상단 헤더 */}
         <div className="flex items-center justify-between px-5 py-3.5 bg-[#141724] border-b border-[#23293c]">
           <div className="flex items-center gap-2">
@@ -151,7 +166,7 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
                   수록된 모든 스토리의 요약 대본과 등장인물 정보가 정리된 종합 마크다운 문서입니다.
                 </p>
                 <div className="p-2 bg-[#181c2b] border border-[#232a3d] text-[11px] font-mono text-zinc-400 truncate">
-                  PRTS_Story_Archive_Status_Master.md
+                  PRTS_Archive_Status_Master.md
                 </div>
               </div>
 
@@ -178,7 +193,9 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
             닫기
           </button>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

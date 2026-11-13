@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { Header } from './components/Header';
 import type { MainViewMode } from './components/Header';
 import { Sidebar } from './components/Sidebar';
@@ -14,6 +15,7 @@ import { InfoLicenseModal, type InfoModalTab } from './components/InfoLicenseMod
 import { ServiceNoticeModal } from './components/ServiceNoticeModal';
 import { FullscreenPwaGuideModal } from './components/FullscreenPwaGuideModal';
 import { ScrollNavButtons } from './components/ScrollNavButtons';
+import { PrtsBootSequence } from './components/PrtsBootSequence';
 import { EditorStudioView } from './components/studio/EditorStudioView';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE } from './version';
 import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
@@ -21,6 +23,7 @@ import type { CharacterRef, GlossaryTerm, StoryArchive } from './types/story';
 import { useHashRoute, buildHash } from './hooks/useHashRoute';
 import { useFullscreen } from './hooks/useFullscreen';
 import { usePwaInstall } from './hooks/usePwaInstall';
+import { PRTS_VIEW_VARIANTS } from './utils/motion';
 import { PanelLeftOpen, Menu, Info, ChevronDown } from 'lucide-react';
 import { 
   setSoundEnabled, 
@@ -31,7 +34,7 @@ import {
 } from './utils/soundEffects';
 
 const DEFAULT_STORY_ID = 'ep00';
-const BASE_TITLE = 'PRTS 스토리 아카이브 // 명일방주 인터랙티브 터미널';
+const BASE_TITLE = 'PRTS Archive // 명일방주 스토리 아카이브';
 
 const isKnownStoryId = (id: string | null | undefined): id is string =>
   !!id && storyRegistry.some((s) => s.id === id);
@@ -151,15 +154,27 @@ export function App() {
   // 브라우저 탭 제목 동기화 (히스토리 목록에서도 식별 가능)
   useEffect(() => {
     if (currentView === 'report') {
-      document.title = `${currentStory.code} ${currentStory.titleKo} // PRTS 스토리 아카이브`;
+      document.title = `${currentStory.code} ${currentStory.titleKo} // PRTS Archive`;
     } else if (currentView === 'chronicle') {
-      document.title = `연대기 // PRTS 스토리 아카이브`;
+      document.title = `스토리 목록 // PRTS Archive`;
     } else if (currentView === 'map') {
-      document.title = `테라 지도 // PRTS 스토리 아카이브`;
+      document.title = `테라 지도 // PRTS Archive`;
     } else {
       document.title = BASE_TITLE;
     }
   }, [currentView, currentStory.code, currentStory.titleKo]);
+
+  // 페이지 최초 접속 / 새로고침 시 1회 PRTS 부트 연출 재생 (스튜디오 및 모션 축소 환경 제외)
+  const [isBooting, setIsBooting] = useState<boolean>(() => {
+    if (route.view === 'studio') return false;
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      return false;
+    }
+    return true;
+  });
+  const handleBootComplete = useCallback(() => {
+    setIsBooting(false);
+  }, []);
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState<boolean>(false);
@@ -355,7 +370,13 @@ export function App() {
   }
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="min-h-screen bg-[#0e0f12] text-zinc-100 flex flex-col font-sans relative prts-grid-subtle">
+      {/* PRTS Archive Refresh / Initial Neural Boot Motion Graphic */}
+      <AnimatePresence>
+        {isBooting && <PrtsBootSequence onComplete={handleBootComplete} />}
+      </AnimatePresence>
+
       {/* 꽉 찬 화면 상태에서 상단 메뉴 복원 플로팅 버튼 (연대기·지도 뷰는 자체 툴바에 복원 버튼 내장) */}
       {isHeaderCollapsed && (currentView === 'home' || currentView === 'report') && (
         <div className="fixed top-2.5 right-3 z-50 animate-fadeIn pointer-events-auto">
@@ -365,7 +386,7 @@ export function App() {
               setIsHeaderCollapsed(false);
             }}
             title="상단 메뉴 다시 열기"
-            className="h-7 px-3 rounded-full bg-[#0a0d16]/94 hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/20 hover:border-[#ffe600] font-sans text-xs font-semibold flex items-center gap-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.7)] backdrop-blur-md cursor-pointer transition-all group"
+            className="h-7 px-3 rounded-full bg-[#0a0d16]/94 hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/20 hover:border-[#ffe600] font-sans text-xs font-semibold flex items-center gap-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.7)] backdrop-blur-md cursor-pointer transition-all group whitespace-nowrap"
           >
             <ChevronDown className="w-3.5 h-3.5 text-[#ffe600] group-hover:text-black transition-transform" />
             <span>메뉴 열기</span>
@@ -373,7 +394,7 @@ export function App() {
         </div>
       )}
 
-      {/* Top Header with 4 Main View Tabs & [ⓘ INFO / LICENSE] */}
+      {/* Top Header with 4 Main View Tabs & [INFO / LICENSE] */}
       {!isHeaderCollapsed && (
         <Header
           currentView={currentView}
@@ -456,66 +477,77 @@ export function App() {
 
         {/* Main Content Area */}
         <main
-          className={`flex-1 overflow-x-hidden min-w-0 bg-[#08090c] transition-all duration-300 ${
+          className={`flex-1 flex flex-col overflow-x-hidden min-w-0 bg-[#08090c] transition-all duration-300 ${
             currentView === 'report' && isSidebarCollapsed ? 'px-2 lg:px-12' : ''
           }`}
         >
-          {/* View 0: PRTS Home Terminal Dashboard */}
-          {currentView === 'home' && (
-            <HomeDashboard
-              onNavigateToStory={(id) => goToStory(id)}
-              onNavigateToView={(view) => goToView(view)}
-              onOpenReviewExport={() => {
-                setIsReviewExportOpen(true);
-                playOpenSound();
-              }}
-              onOpenServiceNotice={() => {
-                setIsServiceNoticeOpen(true);
-                playOpenSound();
-              }}
-              onOpenFullscreenGuide={() => {
-                setIsPwaGuideOpen(true);
-                playOpenSound();
-              }}
-              onPromptInstall={promptInstall}
-              isInstallable={isInstallable}
-            />
-          )}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentView}
+              variants={PRTS_VIEW_VARIANTS}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="flex-1 flex flex-col w-full min-w-0 min-h-0"
+            >
+              {/* View 0: PRTS Archive Home Dashboard */}
+              {currentView === 'home' && (
+                <HomeDashboard
+                  onNavigateToStory={(id) => goToStory(id)}
+                  onNavigateToView={(view) => goToView(view)}
+                  onOpenReviewExport={() => {
+                    setIsReviewExportOpen(true);
+                    playOpenSound();
+                  }}
+                  onOpenServiceNotice={() => {
+                    setIsServiceNoticeOpen(true);
+                    playOpenSound();
+                  }}
+                  onOpenFullscreenGuide={() => {
+                    setIsPwaGuideOpen(true);
+                    playOpenSound();
+                  }}
+                  onPromptInstall={promptInstall}
+                  isInstallable={isInstallable}
+                />
+              )}
 
-          {/* View 1: Report Document Viewer */}
-          {currentView === 'report' && (
-            <StoryViewer
-              story={currentStory}
-              activeSubPageId={activeSubPageId}
-              onChangeSubPage={(subId) => goToSubPage(subId)}
-              onSelectCharacter={handleSelectCharacter}
-              onSelectGlossary={handleSelectGlossary}
-              onOpenLightbox={handleOpenLightbox}
-              previousStory={previousStory}
-              nextStory={nextStory}
-              onSelectStory={(id, subPageId) => goToStory(id, subPageId)}
-              isHeaderCollapsed={isHeaderCollapsed}
-              onToggleCollapseHeader={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
-            />
-          )}
+              {/* View 1: Report Document Viewer */}
+              {currentView === 'report' && (
+                <StoryViewer
+                  story={currentStory}
+                  activeSubPageId={activeSubPageId}
+                  onChangeSubPage={(subId) => goToSubPage(subId)}
+                  onSelectCharacter={handleSelectCharacter}
+                  onSelectGlossary={handleSelectGlossary}
+                  onOpenLightbox={handleOpenLightbox}
+                  previousStory={previousStory}
+                  nextStory={nextStory}
+                  onSelectStory={(id, subPageId) => goToStory(id, subPageId)}
+                  isHeaderCollapsed={isHeaderCollapsed}
+                  onToggleCollapseHeader={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                />
+              )}
 
-          {/* View 2: Chronicle Roadmap Flowchart */}
-          {currentView === 'chronicle' && (
-            <ChronicleRoadmapView
-              onSelectStory={handleSelectStoryFromMapOrChronicle}
-              isHeaderCollapsed={isHeaderCollapsed}
-              onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
-            />
-          )}
+              {/* View 2: Chronicle Roadmap Flowchart */}
+              {currentView === 'chronicle' && (
+                <ChronicleRoadmapView
+                  onSelectStory={handleSelectStoryFromMapOrChronicle}
+                  isHeaderCollapsed={isHeaderCollapsed}
+                  onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                />
+              )}
 
-          {/* View 3: Terra Tactical Cartography Map */}
-          {currentView === 'map' && (
-            <TerraMapView
-              onSelectStory={handleSelectStoryFromMapOrChronicle}
-              isHeaderCollapsed={isHeaderCollapsed}
-              onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
-            />
-          )}
+              {/* View 3: Terra Tactical Cartography Map */}
+              {currentView === 'map' && (
+                <TerraMapView
+                  onSelectStory={handleSelectStoryFromMapOrChronicle}
+                  isHeaderCollapsed={isHeaderCollapsed}
+                  onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 
@@ -537,17 +569,17 @@ export function App() {
                 className="font-mono text-[11px] text-zinc-400 hover:text-[#ffe600] flex items-center gap-1.5 transition-colors cursor-pointer group"
                 title="버전 연혁 및 변경점 보기"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00d8ff] group-hover:bg-[#ffe600] transition-colors" />
-                <span>PRTS Story Terminal <strong className="text-zinc-200 group-hover:text-[#ffe600] transition-colors">{APP_VERSION_CODE}</strong> ({APP_RELEASE_STAGE})</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00d8ff] group-hover:bg-[#ffe600] transition-colors shrink-0" />
+                <span className="whitespace-nowrap">PRTS Archive <strong className="text-zinc-200 group-hover:text-[#ffe600] transition-colors">{APP_VERSION_CODE}</strong> ({APP_RELEASE_STAGE})</span>
               </button>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => {
                   setIsPwaGuideOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-400 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-400 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
                 title="전체 화면 및 웹 앱(PWA) 설치 안내 열기"
               >
                 <span>APP / FULLSCREEN</span>
@@ -557,7 +589,7 @@ export function App() {
                   setIsServiceNoticeOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#ffe600]/20 text-zinc-400 hover:text-[#ffe600] border border-white/[0.08] hover:border-[#ffe600]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#ffe600]/20 text-zinc-400 hover:text-[#ffe600] border border-white/[0.08] hover:border-[#ffe600]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
                 title="서비스 이용 안내 및 권장 환경 열기"
               >
                 <span>NOTICE</span>
@@ -568,7 +600,7 @@ export function App() {
                   setIsInfoLicenseOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-300 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-300 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
                 title="버전 연혁 (Changelog) 열기"
               >
                 <span>CHANGELOG</span>
@@ -579,10 +611,10 @@ export function App() {
                   setIsInfoLicenseOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#ffe600] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#ffe600] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer group whitespace-nowrap"
               >
-                <Info className="w-3 h-3 text-[#ffe600] group-hover:text-black" />
-                <span>ⓘ INFO / LICENSE</span>
+                <Info className="w-3 h-3 text-[#ffe600] group-hover:text-black shrink-0" />
+                <span>INFO / LICENSE</span>
               </button>
             </div>
           </div>
@@ -622,9 +654,9 @@ export function App() {
         initialTab={infoModalTab}
       />
 
-      {/* Service Environment & Performance Notice Modal */}
+      {/* Service Environment & Performance Notice Modal (부팅 애니메이션 완료 후 노출) */}
       <ServiceNoticeModal
-        isOpen={isServiceNoticeOpen}
+        isOpen={isServiceNoticeOpen && !isBooting}
         onClose={() => setIsServiceNoticeOpen(false)}
         onConfirmDismissToday={handleDismissNoticeToday}
       />
@@ -642,6 +674,7 @@ export function App() {
       {/* Floating Scroll-to-Top and Bottom Navigation Buttons */}
       <ScrollNavButtons currentView={currentView} />
     </div>
+    </MotionConfig>
   );
 }
 

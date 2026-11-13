@@ -381,7 +381,7 @@ export function generateStoryMarkdown(story: StoryArchive): string {
   md += `\n`;
 
   md += `---\n`;
-  md += `*PRTS STORY ARCHIVE // OFFICIAL STORY TERMINAL*\n`;
+  md += `*PRTS ARCHIVE // OFFICIAL STORY RECORD*\n`;
 
   return md;
 }
@@ -558,7 +558,7 @@ export function generateStatusMasterMarkdown(stories: StoryListItem[], storyLine
   });
 
   md += `---\n`;
-  md += `*PRTS MASTER STATUS REPORT // OFFICIAL STORY TERMINAL*\n`;
+  md += `*PRTS ARCHIVE // MASTER STATUS REPORT*\n`;
 
   return md;
 }

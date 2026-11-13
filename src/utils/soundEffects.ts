@@ -1,5 +1,5 @@
 // =========================================================================
-// PRTS Terminal Sound Effects Engine (Web Audio API Synthesizer)
+// PRTS Archive Sound Effects Engine (Web Audio API Synthesizer)
 // 별도의 외부 음원 파일 없이 브라우저 내장 오디오 컨텍스트를 활용하여
 // 명일방주 PRTS 특유의 다크 테크웨어 신디사이저 사운드를 0ms 지연으로 생성합니다.
 // =========================================================================
