@@ -10,6 +10,7 @@ export const episode01: StoryArchive = {
   titleEn: 'Evil Time Part 2',
   order: 1,
   bannerImage: '/images/banners/ep01_banner.png',
+  officialSynopsis: '체르노보그 탈출 도중 마주친 살카즈 용병들과 리유니온 지휘관 탈룰라의 압도적인 불꽃. 에이스 소대와 수많은 대원들의 희생 속에 절망적인 탈출 작전이 이어진다.',
   systemMeta: {
     recordedTime: '1096-12-24 06:12:00 [TERRA_STD]',
     securityLevel: 'LEVEL 4 // TOP SECRET RESTRICTED',

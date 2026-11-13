@@ -10,6 +10,7 @@ export const episode05: StoryArchive = {
   titleEn: 'Necessary Solutions',
   order: 5,
   bannerImage: '/images/banners/ep05_banner.png',
+  officialSynopsis: '용문 시내로 침투한 메피스토의 좀비 부대와 파우스트의 저격. 첸 팀장과 근위국, 그리고 로도스 아일랜드의 연합 반격 작전.',
   systemMeta: {
     recordedTime: '1097-01-08 19:40:00 [TERRA_STD]',
     securityLevel: 'LEVEL 3 // CONFIDENTIAL',

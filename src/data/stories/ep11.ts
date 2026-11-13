@@ -15,7 +15,7 @@ export const episode11: StoryArchive = {
   isOmnibus: false,
   storyLineId: 'MAIN_ACT_2',
   storyLineTitle: '내일을 위하여 · Act II 석양의 런디니움',
-  officialSynopsis: '26년 전의 기억, 4년 전의 내전, 1년 전의 공장 결별이라는 세 갈래의 회상에서 출발하여 지상의 방위군 사령탑 기습과 지하 성역 \'왕의 안식처\' 침투라는 2-Track 전선으로 치닫는 런디니움 결전. 뱀파이어 생귀나르의 핏빛 해일에 맞선 로고스의 고대 주술, 섭정왕 테레시스의 일격에 쓰러지는 켈시, 그리고 왕의 안식처에서 국검 \'왕의 숨결\'을 둘러싼 알레데일의 비극적 배신과 4년을 홀로 버틴 마지막 증기 기사 찰스 린치의 격돌.',
+  officialSynopsis: '런디니움 지하 성역 왕의 안식처 침투와 지상 방위군 사령탑 기습이 동시에 전개되는 결전. 뱀파이어 생귀나르의 핏빛 해일에 맞선 로고스의 주술과 테레시스의 일격에 쓰러진 켈시, 그리고 국검 왕의 숨결을 둘러싼 알레데일의 선택과 마지막 증기 기사 찰스 린치의 격돌.',
   auditMeta: {
     pipelineVersion: 'v4.0-TwoTierCanon',
     sourceStagesCount: 18,

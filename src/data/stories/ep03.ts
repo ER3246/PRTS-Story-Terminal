@@ -10,6 +10,7 @@ export const episode03: StoryArchive = {
   titleEn: 'Stinging Shock',
   order: 3,
   bannerImage: '/images/banners/ep03_banner.png',
+  officialSynopsis: '용문 외곽 슬럼가에서 벌어지는 수색 작전. 아미야와 로도스 부대는 그곳에서 미샤와 조우하고, 리유니온의 간부 스컬슈레더와 처절한 격돌을 벌인다.',
   systemMeta: {
     recordedTime: '1097-01-02 16:45:00 [TERRA_STD]',
     securityLevel: 'LEVEL 3 // CONFIDENTIAL',

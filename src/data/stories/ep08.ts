@@ -10,6 +10,7 @@ export const episode08: StoryArchive = {
   titleEn: 'Roaring Flare',
   order: 8,
   bannerImage: '/images/banners/ep08_banner.png',
+  officialSynopsis: '체르노보그 제어탑 상층부의 결전. 아미야의 정서 변환과 첸의 적소, 그리고 20여 년에 걸친 탈룰라의 비극적 과거 회상과 구원의 싸움.',
   systemMeta: {
     recordedTime: '1097-01-22 06:12:00 [TERRA_STD]',
     securityLevel: 'LEVEL 5 // HIGHEST CLEARANCE ARCHIVE',

@@ -10,6 +10,7 @@ export const episode07: StoryArchive = {
   titleEn: 'The Birth of Tragedy',
   order: 7,
   bannerImage: '/images/banners/ep07_banner.png',
+  officialSynopsis: '체르노보그 코어로 진격하는 연합군. 방패를 든 거인 패트리어트의 장렬한 최후, 그리고 탈룰라의 내면에 도사린 불사의 뱀의 실체가 드러난다.',
   systemMeta: {
     recordedTime: '1097-01-20 18:30:00 [TERRA_STD]',
     securityLevel: 'LEVEL 4 // TOP SECRET RESTRICTED',

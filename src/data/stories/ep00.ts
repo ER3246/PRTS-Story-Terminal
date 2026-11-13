@@ -10,6 +10,7 @@ export const episode00: StoryArchive = {
   titleEn: 'Evil Time Part 1',
   order: 0,
   bannerImage: '/images/banners/ep00_banner.png',
+  officialSynopsis: '지하 깊은 곳의 석관에서 깨어난 박사. 그리고 닥쳐오는 천재지변과 리유니온의 맹공. 로도스 아일랜드의 구출 부대는 체르노보그의 불길 속에서 박사를 데리고 탈출로를 개척해야 한다.',
   systemMeta: {
     recordedTime: '1096-12-23 15:40:00 [TERRA_STD]',
     securityLevel: 'LEVEL 4 // TOP SECRET RESTRICTED',

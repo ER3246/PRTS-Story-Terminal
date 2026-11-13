@@ -10,6 +10,7 @@ export const episode06: StoryArchive = {
   titleEn: 'Partial Necrosis',
   order: 6,
   bannerImage: '/images/banners/ep06_banner.png',
+  officialSynopsis: '용문의 차가운 밤거리와 체르노보그의 과거. 프로스트노바의 비극적인 운명과 눈보라 속 최후의 대결, 그리고 아미야의 맹세.',
   systemMeta: {
     recordedTime: '1097-01-14 23:55:00 [TERRA_STD]',
     securityLevel: 'LEVEL 4 // SPECIAL CLASSIFIED',

@@ -10,6 +10,7 @@ export const episode02: StoryArchive = {
   titleEn: 'Separate Ways',
   order: 2,
   bannerImage: '/images/banners/ep02_banner.png',
+  officialSynopsis: '체르노보그에서 가까스로 탈출한 로도스 아일랜드는 거대한 이동도시 용문에 도착한다. 웨이 옌우 총독과의 회담, 그리고 다가오는 또 다른 위협.',
   systemMeta: {
     recordedTime: '1096-12-28 11:20:00 [TERRA_STD]',
     securityLevel: 'LEVEL 3 // CONFIDENTIAL',

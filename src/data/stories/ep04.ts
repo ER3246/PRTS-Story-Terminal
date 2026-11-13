@@ -10,6 +10,7 @@ export const episode04: StoryArchive = {
   titleEn: 'Burning Run',
   order: 4,
   bannerImage: '/images/banners/ep04_banner.png',
+  officialSynopsis: '체르노보그 폐허 구역으로 진입한 로도스. 프로스트노바의 극한의 냉기와 엄습하는 분리대. 얼어붙은 대지 위에서 생존을 위한 혈투가 시작된다.',
   systemMeta: {
     recordedTime: '1097-01-05 14:20:00 [TERRA_STD]',
     securityLevel: 'LEVEL 3 // CONFIDENTIAL',
