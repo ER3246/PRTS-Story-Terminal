@@ -59,6 +59,8 @@ export const TacticalAvatar: React.FC<TacticalAvatarProps> = ({
           <img
             src={finalSrc}
             alt={alt}
+            loading="lazy"
+            decoding="async"
             onError={() => setLoadError(true)}
             draggable={false}
             onContextMenu={(e) => e.preventDefault()}
@@ -78,6 +80,8 @@ export const TacticalAvatar: React.FC<TacticalAvatarProps> = ({
       <img
         src={finalSrc}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         onError={() => setLoadError(true)}
         draggable={false}
         onContextMenu={(e) => e.preventDefault()}

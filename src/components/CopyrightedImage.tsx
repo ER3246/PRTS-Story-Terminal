@@ -85,6 +85,8 @@ export const CopyrightedImage: React.FC<CopyrightedImageProps> = ({
       <img
         src={resolvedSrc}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         draggable={false}
         onContextMenu={(e) => e.preventDefault()}
         onError={handleError}

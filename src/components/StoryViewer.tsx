@@ -1248,14 +1248,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
           {/* Multiple Top-level Stage Cards */}
           <div className="space-y-6">
-            {currentArc?.stages?.map((st) => {
+            {currentArc?.stages?.map((st, sIdx) => {
               const isExpanded = expandedStages[st.stageCode] !== false;
 
               return (
                 <section
                   key={st.stageCode}
                   id={`stage-section-${st.stageCode}`}
-                  className="rounded-[4px] border border-white/[0.08] bg-[#0b0e15] overflow-hidden shadow-xl transition-all scroll-mt-20"
+                  className={`rounded-[4px] border border-white/[0.08] bg-[#0b0e15] overflow-hidden shadow-xl transition-all scroll-mt-20 ${
+                    sIdx >= 2 ? 'prts-cv-auto' : ''
+                  }`}
                 >
                   {/* Accordion Header */}
                   <div
@@ -1588,6 +1590,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               <img
                 src={resolveAssetUrl(story.bannerImage)}
                 alt={story.titleKo}
+                fetchPriority="high"
+                decoding="async"
                 draggable={false}
                 onContextMenu={(e) => e.preventDefault()}
                 className="absolute inset-0 w-full h-full object-cover object-center opacity-75 pointer-events-none select-none"
@@ -2015,14 +2019,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     {/* Continuous Vertical Timeline Line on Left */}
                     <div className="hidden lg:block absolute left-[23px] top-6 bottom-6 w-[1px] bg-gradient-to-b from-[#ffe600]/60 via-white/[0.12] to-[#ffe600]/30 pointer-events-none" />
 
-                    {story.content.acts.map((act) => {
+                    {story.content.acts.map((act, aIdx) => {
                       const isExpanded = expandedActs[act.step] !== false;
 
                       return (
                         <section
                           key={act.step}
                           id={`act-section-${act.step}`}
-                          className="relative lg:pl-14 scroll-mt-20"
+                          className={`relative lg:pl-14 scroll-mt-20 ${
+                            aIdx >= 2 ? 'prts-cv-auto' : ''
+                          }`}
                         >
                           {/* Tech Node on Timeline (Desktop) */}
                           <div 

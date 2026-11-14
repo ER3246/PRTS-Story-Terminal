@@ -47,6 +47,10 @@ exports/
 .cursor*
 .antigravity*
 .gemini*
+.agents/
+.agent/
+.modern-web-guidance*
+*.mwg-cache
 CLAUDE.md
 AGENTS.md
 

@@ -108,6 +108,8 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                 <CopyrightedImage
                   src={imageUrl}
                   alt={caption || 'Cutscene CG'}
+                  loading="eager"
+                  fetchPriority="high"
                   containerClassName="relative inline-block overflow-hidden"
                   className="max-h-[78vh] w-auto object-contain border border-[#1a1c22]"
                 />

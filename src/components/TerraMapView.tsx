@@ -1656,9 +1656,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     // 11. Real-Time 3D Animation & HUD Projection Loop
     let animFrameId = 0;
     const projVec = new THREE.Vector3();
+    let lastColoredPinnedId: string | null | undefined = '__init__';
+    let lastColoredHoveredId: string | null | undefined = '__init__';
 
     const animate = () => {
       animFrameId = requestAnimationFrame(animate);
+      if (document.hidden) return;
 
       const cam = camStateRef.current;
 
@@ -1766,13 +1769,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       // Smoothly Animate 3D Hex Extrusion (2D 모드 시 고저차를 100% 제거하여 0.6 완전 평면화)
       const effectiveShowElevation = !is2D && showElevationRef.current;
       const elevScale = effectiveShowElevation ? 1.0 : 0.0;
+      const currentHoveredId = hoveredRegionRef.current;
+      const shouldUpdateColors =
+        pinnedId !== lastColoredPinnedId || currentHoveredId !== lastColoredHoveredId;
       let matrixDirty = false;
       let colorDirty = false;
 
       for (let i = 0; i < hexCount; i++) {
         const cell = terraHexCells[i];
         const isCellPinned = Boolean(pinnedId && cell.regionId === pinnedId);
-        const isCellHovered = Boolean(hoveredRegionRef.current && cell.regionId === hoveredRegionRef.current);
+        const isCellHovered = Boolean(currentHoveredId && cell.regionId === currentHoveredId);
         const isCellActive = isCellPinned || isCellHovered;
 
         const baseH = effectiveShowElevation ? CELL_TERRAIN_HEIGHTS[i] : 0.6;
@@ -1789,16 +1795,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           matrixDirty = true;
         }
 
-        if (isCellActive) {
-          tempColor.copy(cellBaseColors[i]).lerp(isCellPinned ? goldColor : cyanColor, 0.38);
-          instancedHex.setColorAt(i, tempColor);
-          colorDirty = true;
-        } else {
-          instancedHex.setColorAt(i, cellBaseColors[i]);
+        if (shouldUpdateColors) {
+          if (isCellActive) {
+            tempColor.copy(cellBaseColors[i]).lerp(isCellPinned ? goldColor : cyanColor, 0.38);
+            instancedHex.setColorAt(i, tempColor);
+          } else {
+            instancedHex.setColorAt(i, cellBaseColors[i]);
+          }
           colorDirty = true;
         }
       }
 
+      if (shouldUpdateColors) {
+        lastColoredPinnedId = pinnedId;
+        lastColoredHoveredId = currentHoveredId;
+      }
       if (matrixDirty) instancedHex.instanceMatrix.needsUpdate = true;
       if (colorDirty && instancedHex.instanceColor) instancedHex.instanceColor.needsUpdate = true;
 

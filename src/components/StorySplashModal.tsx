@@ -160,6 +160,8 @@ export const StorySplashModal: React.FC<StorySplashModalProps> = ({
             <img
               src={resolveAssetUrl(story.splashVisualUrl || '/images/backgrounds/bg_black.png')}
               alt={story.titleKo}
+              fetchPriority="high"
+              decoding="async"
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
               className="w-full h-full object-cover object-center filter brightness-90 contrast-105 select-none"
