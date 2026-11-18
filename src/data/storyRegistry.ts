@@ -40,7 +40,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'MAIN 01',
     titleKo: '내일을 위하여 · Act I 각성과 환멸',
     titleEn: 'For Tomorrow · Act I (Chernobog & Lungmen)',
-    themeColor: '#ffe600',
+    themeColor: '#f5dd1b',
     description: '체르노보그 석관 해제부터 용문 근위국 연합 작전 및 체르노보그 코어 결전 (EP 00 ~ EP 08).'
   },
   {
@@ -48,7 +48,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'MAIN 02',
     titleKo: '내일을 위하여 · Act II 석양의 런디니움',
     titleEn: 'For Tomorrow · Act II (Victoria Crisis)',
-    themeColor: '#f59e0b',
+    themeColor: '#c99746',
     description: '빅토리아 런디니움 사태와 살카즈 군사위원회의 침공, 그리고 왕실의 비극 (EP 09 ~ EP 14).'
   },
   {
@@ -56,7 +56,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'MAIN 03',
     titleKo: '내일을 위하여 · Act III 변화의 서곡',
     titleEn: 'For Tomorrow · Act III (Prelude to Change)',
-    themeColor: '#a855f7',
+    themeColor: '#9478a8',
     description: '런디니움 전쟁 종결 이후 테라 대륙의 균열과 미지의 이상 현상 (EP 15 ~ EP 17).'
   },
   {
@@ -64,7 +64,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'RL',
     titleKo: '방주',
     titleEn: 'The Ark',
-    themeColor: '#54c5d0',
+    themeColor: '#68929e',
     description: '바벨의 창설과 과거의 비밀, 테레시아와 켈시, 박사의 행적을 추적하는 근원의 기록.'
   },
   {
@@ -72,7 +72,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'UR',
     titleKo: '들불',
     titleEn: 'Wildfire',
-    themeColor: '#e05338',
+    themeColor: '#a8584c',
     description: '우르수스 제국의 억압과 체르노보그 참극의 상흔을 딛고 일어서는 학생 자치석의 발자취.'
   },
   {
@@ -80,7 +80,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'LA',
     titleKo: '그 축복받은',
     titleEn: 'The Blessed',
-    themeColor: '#f5c542',
+    themeColor: '#bca36b',
     description: '라테라노 성도의 율법과 교황청의 고뇌, 그리고 국경 너머 산크타와 살카즈의 공존을 시험하는 연작.'
   },
   {
@@ -88,7 +88,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'KJ',
     titleKo: '설산과 은철',
     titleEn: 'Snow Mountain & Silver Iron',
-    themeColor: '#68c0ea',
+    themeColor: '#7b9ab0',
     description: '쉐라그의 만년설 아래에서 펼쳐지는 실버애쉬 가문의 근대화 개혁과 쉐라그 종교 세력의 충돌.'
   },
   {
@@ -96,7 +96,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'SI',
     titleKo: '일곱 언덕의 새싹',
     titleEn: 'Sprouts of Seven Hills',
-    themeColor: '#d97736',
+    themeColor: '#a6704b',
     description: '시라쿠사의 밤을 지배하는 12개 패밀리의 음모와 텍사스의 귀환, 그리고 신생 시라쿠사의 태동.'
   },
   {
@@ -104,7 +104,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'KA',
     titleKo: '네온 불빛 아래',
     titleEn: 'Under Neon Lights',
-    themeColor: '#eab308',
+    themeColor: '#b89648',
     description: '카시미어 기사 메이저 대회의 화려한 네온과 그 뒤편에 도사린 상업연합회의 부패와 기사도의 황혼.'
   },
   {
@@ -112,7 +112,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'SU',
     titleKo: '영원한 오늘',
     titleEn: 'Eternal Today',
-    themeColor: '#38bdf8',
+    themeColor: '#5e9096',
     description: '염국 사직을 수호하는 신수 쉐이의 열두 파편들과 인간의 의지가 빚어내는 장대한 풍류와 역사의 기록.'
   },
   {
@@ -120,7 +120,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'RH',
     titleKo: '미래를 잡는 사람',
     titleEn: 'Grasping the Future',
-    themeColor: '#10b981',
+    themeColor: '#648c74',
     description: '라인 랩의 첨단 과학 연구와 인간의 한계를 시험하는 프로젝트, 그리고 하늘의 문을 여는 개척자들.'
   },
   {
@@ -128,7 +128,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'AE',
     titleKo: '깊은 바닷속으로',
     titleEn: 'Into the Deep Ocean',
-    themeColor: '#0284c7',
+    themeColor: '#4d7894',
     description: '이베리아의 침묵의 바다와 에기르의 심연에서 몰려오는 시본(Seaborn)의 공포와 어비설 헌터스의 사투.'
   },
   {
@@ -136,7 +136,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'LE',
     titleKo: '고탑의 그림자',
     titleEn: 'Shadow of the Spire',
-    themeColor: '#a855f7',
+    themeColor: '#8a7096',
     description: '쌍둥이 여제가 다스리는 음악과 아츠의 제국 라이타니엔, 고탑에 서린 시원의 목소리와 귀족들의 비극.'
   },
   {
@@ -144,7 +144,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'TA',
     titleKo: '다시 불붙은 장작',
     titleEn: 'Reignited Firewood',
-    themeColor: '#ef4444',
+    themeColor: '#b56352',
     description: '타라의 역사적 비극과 리드, 더블린의 봉기, 잿더미 속에서 다시 타오르는 혁명의 불꽃.'
   },
   {
@@ -152,7 +152,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'ST',
     titleKo: '여름의 리듬',
     titleEn: 'Rhythm of Summer',
-    themeColor: '#06b6d4',
+    themeColor: '#5c8e91',
     description: '시에스타, 두린족의 지하도시, 도솔레스, 시에스타 화산에 이르는 뜨거운 태양과 휴양지의 활기찬 모험.'
   },
   {
@@ -160,7 +160,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'TS',
     titleKo: '테라 기담',
     titleEn: 'Terra Tales',
-    themeColor: '#e2e8f0',
+    themeColor: '#a1a1aa',
     description: '특정 국가 연작에 속하지 않는 독립된 사건과 로도스 아일랜드 오퍼레이터들의 숨겨진 비화 옴니버스 모음.',
     isTerraTales: true
   },
@@ -169,7 +169,7 @@ export const STORY_LINES: StoryLineMeta[] = [
     code: 'MS',
     titleKo: '이계의 기록',
     titleEn: 'Collaborations',
-    themeColor: '#a1a1aa',
+    themeColor: '#71717a',
     description: '테라 대륙에 예기치 않게 전이된 이계의 방문자들과 로도스 아일랜드의 공동 전술 기록.'
   }
 ];

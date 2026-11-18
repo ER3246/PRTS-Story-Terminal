@@ -95,20 +95,20 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
             }}
             className="bg-[#121316] hover:bg-[#181a1f] p-5 sm:p-6 flex flex-col justify-between text-left transition-colors relative group cursor-pointer min-h-[148px]"
           >
-            <span className="absolute top-0 inset-x-0 h-[2px] bg-[#f5dd1b] origin-left scale-x-100 transition-transform duration-300" />
+            <span className="absolute top-0 inset-x-0 h-[2px] bg-[#f5dd1b] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             <div className="flex items-center justify-between w-full">
-              <span className="text-xs font-mono font-bold text-[#f5dd1b]">01</span>
-              <BookOpen className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors shrink-0" />
+              <span className="text-xs font-mono font-bold text-zinc-500 group-hover:text-[#f5dd1b] transition-colors">01</span>
+              <BookOpen className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors shrink-0" />
             </div>
             <div className="pt-6 space-y-1">
               <div className="text-[10px] font-mono tracking-wider text-zinc-500">
                 STORY ARCHIVE
               </div>
               <div className="flex items-center justify-between gap-2">
-                <span className="text-base font-bold text-white whitespace-nowrap">
+                <span className="text-base font-bold text-zinc-100 group-hover:text-white whitespace-nowrap">
                   스토리 상세
                 </span>
-                <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-[#f5dd1b] group-hover:translate-x-1 transition-all shrink-0" />
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-[#f5dd1b] group-hover:translate-x-1 transition-all shrink-0" />
               </div>
               <p className="text-xs text-zinc-400 leading-relaxed [word-break:keep-all]">
                 메인·이벤트 서사 본문 및 인물 열람
@@ -140,7 +140,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                 <span className="text-base font-bold text-zinc-100 group-hover:text-white whitespace-nowrap">
                   스토리 목록
                 </span>
-                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-[#f5dd1b] group-hover:translate-x-1 transition-all shrink-0" />
               </div>
               <p className="text-xs text-zinc-400 leading-relaxed [word-break:keep-all]">
                 서사 계통도 및 연대기 흐름 탐색
@@ -172,7 +172,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                 <span className="text-base font-bold text-zinc-100 group-hover:text-white whitespace-nowrap">
                   테라 지도
                 </span>
-                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-[#f5dd1b] group-hover:translate-x-1 transition-all shrink-0" />
               </div>
               <p className="text-xs text-zinc-400 leading-relaxed [word-break:keep-all]">
                 테라 18개 권역 및 작전 경로 브리핑

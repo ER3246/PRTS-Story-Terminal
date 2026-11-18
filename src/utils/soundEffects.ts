@@ -1,7 +1,7 @@
 // =========================================================================
 // PRTS Archive Sound Effects Engine (Web Audio API Synthesizer)
 // 별도의 외부 음원 파일 없이 브라우저 내장 오디오 컨텍스트를 활용하여
-// 명일방주 PRTS 특유의 다크 테크웨어 신디사이저 사운드를 0ms 지연으로 생성합니다.
+// 무채색 인더스트리얼 UI에 어울리는 절제된 저역대 기계식 인터랙션 사운드를 생성합니다.
 // =========================================================================
 
 let audioCtx: AudioContext | null = null;
@@ -10,7 +10,9 @@ let soundEnabled = false;
 export const setSoundEnabled = (enabled: boolean) => {
   soundEnabled = enabled;
   if (enabled && !audioCtx) {
-    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (AudioContextClass) {
       audioCtx = new AudioContextClass();
     }
@@ -21,7 +23,9 @@ export const getSoundEnabled = () => soundEnabled;
 
 const getContext = (): AudioContext | null => {
   if (!audioCtx) {
-    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (AudioContextClass) {
       audioCtx = new AudioContextClass();
     }
@@ -32,114 +36,88 @@ const getContext = (): AudioContext | null => {
   return audioCtx;
 };
 
-// 1. 가벼운 클릭/선택 사운드 (Quick High-tech Blip)
-export const playClickSound = () => {
+interface VoiceSpec {
+  type: OscillatorType;
+  startFreq: number;
+  endFreq: number;
+}
+
+const playFilteredEnvelope = (
+  voices: VoiceSpec[],
+  cutoffHz: number,
+  durationSec: number,
+  peakGain: number
+) => {
   if (!soundEnabled) return;
   const ctx = getContext();
   if (!ctx) return;
 
   try {
-    const osc = ctx.createOscillator();
+    const now = ctx.currentTime;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(cutoffHz, now);
+
     const gain = ctx.createGain();
+    gain.gain.setValueAtTime(peakGain, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + durationSec);
 
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.04);
-
-    gain.gain.setValueAtTime(0.04, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-
-    osc.connect(gain);
+    filter.connect(gain);
     gain.connect(ctx.destination);
 
-    osc.start();
-    osc.stop(ctx.currentTime + 0.04);
+    for (const v of voices) {
+      const osc = ctx.createOscillator();
+      osc.type = v.type;
+      osc.frequency.setValueAtTime(v.startFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(v.endFreq, now + durationSec);
+      osc.connect(filter);
+      osc.start(now);
+      osc.stop(now + durationSec);
+    }
   } catch {
     // Audio Context block fallback
   }
 };
 
-// 2. 뷰 전환 및 메인 탭 선택 사운드 (Two-tone Chime)
+// 1. 단정하고 묵직한 클릭/선택 사운드 (Damped Mechanical Switch Tick)
+export const playClickSound = () => {
+  playFilteredEnvelope(
+    [{ type: 'triangle', startFreq: 185, endFreq: 82 }],
+    520,
+    0.024,
+    0.06
+  );
+};
+
+// 2. 뷰 전환 및 메인 탭 선택 사운드 (Grounded Low-Mid Mechanical Step)
 export const playTabSwitchSound = () => {
-  if (!soundEnabled) return;
-  const ctx = getContext();
-  if (!ctx) return;
-
-  try {
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(540, now);
-    osc.frequency.setValueAtTime(720, now + 0.03);
-    osc.frequency.setValueAtTime(1080, now + 0.06);
-
-    gain.gain.setValueAtTime(0.05, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(now + 0.12);
-  } catch {
-    // Fallback
-  }
+  playFilteredEnvelope(
+    [
+      { type: 'triangle', startFreq: 145, endFreq: 110 },
+      { type: 'sine', startFreq: 220, endFreq: 165 },
+    ],
+    640,
+    0.036,
+    0.055
+  );
 };
 
-// 3. 드로어/라이트박스 개방 사운드 (Ascending Terminal Slide)
+// 3. 드로어/라이트박스 개방 사운드 (Low-Register Engagement)
 export const playOpenSound = () => {
-  if (!soundEnabled) return;
-  const ctx = getContext();
-  if (!ctx) return;
-
-  try {
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(440, now);
-    osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
-
-    gain.gain.setValueAtTime(0.04, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(now + 0.08);
-  } catch {
-    // Fallback
-  }
+  playFilteredEnvelope(
+    [{ type: 'triangle', startFreq: 135, endFreq: 195 }],
+    580,
+    0.05,
+    0.05
+  );
 };
 
-// 4. 드로어/라이트박스 닫힘 사운드 (Descending Slide)
+// 4. 드로어/라이트박스 닫힘 사운드 (Muted Low-Register Release)
 export const playCloseSound = () => {
-  if (!soundEnabled) return;
-  const ctx = getContext();
-  if (!ctx) return;
-
-  try {
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, now);
-    osc.frequency.exponentialRampToValueAtTime(440, now + 0.06);
-
-    gain.gain.setValueAtTime(0.04, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(now + 0.06);
-  } catch {
-    // Fallback
-  }
+  playFilteredEnvelope(
+    [{ type: 'triangle', startFreq: 180, endFreq: 105 }],
+    480,
+    0.042,
+    0.048
+  );
 };

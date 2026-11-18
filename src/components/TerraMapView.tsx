@@ -42,39 +42,39 @@ interface TerraMapViewProps {
   onToggleHeaderCollapse?: () => void;
 }
 
-// Refined Tactical Mineral & Biome Palette (Rich, Cohesive Wargame Aesthetic)
+// Refined Tactical Mineral & Biome Palette (Desaturated Achromatic-Compatible Wargame Tones)
 const CELL_COLORS: Record<CellType, string> = {
   // Bathymetry & Anomalies
-  deep: '#0c1626',
-  shallow: '#152942',
-  void: '#060911',
-  crater: '#111a2b',
+  deep: '#0e1014',
+  shallow: '#161920',
+  void: '#090a0c',
+  crater: '#12141a',
 
   // Neutral Continental Landmass & Extreme Environments
-  land: '#283344',
-  frontier: '#202938',
-  icefield: '#647d98',
-  foehn_hotlands: '#5e3222',
+  land: '#242830',
+  frontier: '#1d2027',
+  icefield: '#6e7c8a',
+  foehn_hotlands: '#4d3228',
 
-  // 18 Major Nations & Factions (Refined Tactical Slate-Mineral Tones)
-  ursus: '#742d3b',
-  kazimierz: '#2c6248',
-  columbia: '#2b5082',
-  bolivar: '#255d6e',
-  yan: '#76592c',
-  sargon: '#6c4d28',
-  minos: '#74422b',
-  victoria: '#583b82',
-  leithanien: '#465472',
-  higashi: '#42487c',
-  sami: '#563c78',
-  siracusa: '#6c4728',
-  laterano: '#786e3e',
-  rim_billiton: '#6e3556',
-  iberia: '#46602c',
-  kazdel: '#662e74',
-  siesta: '#26627c',
-  kjerag: '#4c7ea0',
+  // 18 Major Nations & Factions (Desaturated Tactical Mineral Tones)
+  ursus: '#5c2d33',
+  kazimierz: '#2f4f3e',
+  columbia: '#2d4461',
+  bolivar: '#2b4d57',
+  yan: '#634f2d',
+  sargon: '#594529',
+  minos: '#5e3b2c',
+  victoria: '#493861',
+  leithanien: '#3e4556',
+  higashi: '#3d405e',
+  sami: '#493b59',
+  siracusa: '#593f2a',
+  laterano: '#635b3b',
+  rim_billiton: '#573245',
+  iberia: '#3f522e',
+  kazdel: '#523059',
+  siesta: '#2b505e',
+  kjerag: '#4e6c80',
 };
 
 // Baseline Regional Elevation (World Units) before intra-region topographical sculpting
@@ -253,7 +253,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act I: 체르노보그 박사 구출 및 이동도시 용문 합류 기동',
     fromPixel: { x: 534, y: 424 },
     toPixel: { x: 583, y: 450 },
-    color: '#ffe600',
+    color: '#f5dd1b',
     storyId: 'ep00',
     regionIds: ['ursus', 'yan'],
     labelT: 0.42,
@@ -267,7 +267,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act I: 부분 괴사 ~ 울부짖는 광명 (핵심부 충돌 저지 결전)',
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 519, y: 415 },
-    color: '#facc15',
+    color: '#d4b830',
     storyId: 'ep08',
     regionIds: ['yan', 'ursus'],
     labelT: 0.58,
@@ -281,7 +281,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act II 스톰워치: 더블린 봉기 및 힐록 카운티 사태 진상 규명',
     fromPixel: { x: 356, y: 537 },
     toPixel: { x: 386, y: 554 },
-    color: '#fb923c',
+    color: '#b57c4a',
     storyId: 'ep09',
     regionIds: ['victoria'],
     labelT: 0.46,
@@ -295,7 +295,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act II: 살카즈 군사위원회 런디니움 점령 및 로도스 탈환 작전',
     fromPixel: { x: 543, y: 502 },
     toPixel: { x: 386, y: 554 },
-    color: '#f59e0b',
+    color: '#c99746',
     storyId: 'ep14',
     regionIds: ['kazdel', 'victoria'],
     labelT: 0.48,
@@ -309,7 +309,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act III: 비정상 스펙트럼 ~ 임계 상전이 (우르수스 북방 빙원 전선)',
     fromPixel: { x: 455, y: 398 },
     toPixel: { x: 419, y: 280 },
-    color: '#c084fc',
+    color: '#8a7096',
     storyId: 'ep17',
     regionIds: ['ursus', 'infy_icefield', 'sami'],
     labelT: 0.5,
@@ -327,7 +327,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '바벨(Babel): 림 빌리턴 본함 발굴 및 카즈델 귀환 대원정',
     fromPixel: { x: 548, y: 597 },
     toPixel: { x: 543, y: 502 },
-    color: '#54c5d0',
+    color: '#68929e',
     storyId: 'sid_babel',
     regionIds: ['rim_billiton', 'kazdel'],
     labelT: 0.52,
@@ -341,7 +341,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '흑야의 회고록: 바벨 붕괴 후 박사 석관 이송 및 W 소대 추적',
     fromPixel: { x: 543, y: 502 },
     toPixel: { x: 534, y: 424 },
-    color: '#38bdf8',
+    color: '#7b9ab0',
     storyId: 'sid_darknights_memoir',
     regionIds: ['kazdel', 'ursus'],
     labelT: 0.5,
@@ -355,7 +355,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '니어 라이트 연작: 카시미어 변경에서 대기사령 결전까지의 여정',
     fromPixel: { x: 376, y: 476 },
     toPixel: { x: 356, y: 450 },
-    color: '#eab308',
+    color: '#b89648',
     storyId: 'sid_near_light',
     regionIds: ['kazimierz'],
     labelT: 0.5,
@@ -369,7 +369,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '쉐이(Sui) 연대기: 삼자매(니엔·더스크·링) 합류 및 사세대(司岁台) 및 염국 관원들과의 상촉·백조 행 (에인션트 포지 ~ 장진주)',
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 622, y: 493 },
-    color: '#38bdf8',
+    color: '#5e9096',
     storyId: 'sid_invitation_to_wine',
     regionIds: ['yan'],
     labelT: 0.54,
@@ -383,7 +383,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: "쉐이(Sui) 연대기: 옥문에서 쉐이 맏형 '총웨(종사)'와 함께 둘째 '왕'의 음모를 분쇄한 뒤, 천자의 황성 백조를 거쳐 동방의 곡창도시 대황성(회서리)에서 여섯째 '슈'와 함께 대재앙에 맞서는 대장정",
     fromPixel: { x: 602, y: 424 },
     toPixel: { x: 686, y: 441 },
-    color: '#eab308',
+    color: '#bca36b',
     storyId: 'sid_vernal_winds',
     regionIds: ['yan'],
     labelT: 0.5,
@@ -397,7 +397,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '맨스필드 브레이크 ~ 도로시의 비전: 359호 기지 실험 데이터 트리마운츠 집결',
     fromPixel: { x: 283, y: 458 },
     toPixel: { x: 243, y: 476 },
-    color: '#10b981',
+    color: '#648c74',
     storyId: 'sid_dorothys_vision',
     regionIds: ['columbia'],
     labelT: 0.48,
@@ -411,7 +411,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '론 트레일: 트리마운츠 외곽 지하에서 이륙한 초점 발생기(아크 1호)와 에너지 우물을 가동하여 5,000m 상공에서 스텔라리아를 발사, 6,152m 대기 차단층을 돌파 (상공 투영 궤적)',
     fromPixel: { x: 243, y: 476 },
     toPixel: { x: 320, y: 138 },
-    color: '#00d8ff',
+    color: '#94a3b8',
     storyId: 'sid_lone_trail',
     regionIds: ['columbia', 'north_stargate', 'infy_icefield', 'sami'],
     labelT: 0.45,
@@ -425,7 +425,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '언더 타이즈: 살비엔토 해안 어비설 헌터스 집결 및 등대 수색',
     fromPixel: { x: 415, y: 658 },
     toPixel: { x: 450, y: 667 },
-    color: '#2dd4bf',
+    color: '#5c8e91',
     storyId: 'sid_under_tides',
     regionIds: ['iberia'],
     labelT: 0.46,
@@ -439,7 +439,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '스툴티페라 나비스 ~ 삶의 길: 이베리아 대등대 및 에기르 심해 원정',
     fromPixel: { x: 450, y: 667 },
     toPixel: { x: 586, y: 867 },
-    color: '#0284c7',
+    color: '#4d7894',
     storyId: 'sid_stultifera_navis',
     regionIds: ['iberia', 'aegir'],
     labelT: 0.5,
@@ -457,7 +457,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '고탑의 그림자: 월루몽드의 황혼 ~ 츠빌링슈튀르메의 가을',
     fromPixel: { x: 455, y: 519 },
     toPixel: { x: 425, y: 502 },
-    color: '#a855f7',
+    color: '#8a7096',
     storyId: 'sid_zwillingsturme',
     regionIds: ['leithanien'],
     labelT: 0.5,
@@ -471,7 +471,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: "시라쿠사인: 구도시 볼시니로 귀환하여 패밀리 결전을 치르고 신생 자치 이동도시 '누오바 볼시니'를 세운 행적",
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 494, y: 519 },
-    color: '#d97736',
+    color: '#a6704b',
     storyId: 'sid_il_siracusano',
     regionIds: ['yan', 'siracusa'],
     labelT: 0.54,
@@ -485,7 +485,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '설산과 은철: 브레이크 디 아이스 ~ 은심호 열차 개통 작전',
     fromPixel: { x: 386, y: 554 },
     toPixel: { x: 317, y: 519 },
-    color: '#68c0ea',
+    color: '#7b9ab0',
     storyId: 'sid_break_the_ice',
     regionIds: ['victoria', 'kjerag'],
     labelT: 0.52,
@@ -499,7 +499,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '여름의 리듬: 파란 불꽃의 마음 ~ 가비알 리턴즈 & 아카후알라 두린 지하도시 쎄루에르차 원정',
     fromPixel: { x: 334, y: 593 },
     toPixel: { x: 258, y: 649 },
-    color: '#06b6d4',
+    color: '#5c8e91',
     storyId: 'sid_heart_of_surging_flame',
     regionIds: ['siesta', 'sargon'],
     labelT: 0.5,
@@ -837,7 +837,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
     // 1. Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#06090f');
+    scene.background = new THREE.Color('#0b0c0e');
 
     // 2. Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 5, 2600);
@@ -859,7 +859,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
     // 4. Balanced Glare-Free Studio & Tactical Lighting
     // High-altitude neutral key light casts soft topographic shadows without harsh angled glare
-    const hemiLight = new THREE.HemisphereLight(0xdceeff, 0x0f172a, 1.45);
+    const hemiLight = new THREE.HemisphereLight(0xe4e4e7, 0x111215, 1.42);
     hemiLight.position.set(0, 500, 0);
     scene.add(hemiLight);
 
@@ -879,7 +879,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     keyLight.shadow.normalBias = 0.02;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.42);
+    const rimLight = new THREE.DirectionalLight(0xa1a1aa, 0.35);
     rimLight.position.set(-280, 260, -240);
     scene.add(rimLight);
 
@@ -890,7 +890,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     const seaFloorGeo = new THREE.CircleGeometry(525, 64);
     seaFloorGeo.rotateX(-Math.PI / 2);
     const seaFloorMat = new THREE.MeshStandardMaterial({
-      color: 0x050811,
+      color: 0x090a0c,
       roughness: 0.9,
       metalness: 0.1,
     });
@@ -899,16 +899,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     seaFloor.receiveShadow = true;
     baseGroup.add(seaFloor);
 
-    const polarGrid = new THREE.PolarGridHelper(520, 16, 8, 96, 0x1b283c, 0x111a28);
+    const polarGrid = new THREE.PolarGridHelper(520, 16, 8, 96, 0x22252c, 0x15171c);
     polarGrid.position.set(0, -0.1, 0);
     baseGroup.add(polarGrid);
 
     const ringGeo = new THREE.RingGeometry(465, 467.5, 128);
     ringGeo.rotateX(-Math.PI / 2);
     const ringMat = new THREE.MeshBasicMaterial({
-      color: 0xffe600,
+      color: 0xf5dd1b,
       transparent: true,
-      opacity: 0.16,
+      opacity: 0.12,
       side: THREE.DoubleSide,
     });
     const outerRing = new THREE.Mesh(ringGeo, ringMat);
@@ -918,9 +918,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     const sweepGeo = new THREE.CircleGeometry(464, 48, 0, Math.PI / 5);
     sweepGeo.rotateX(-Math.PI / 2);
     const sweepMat = new THREE.MeshBasicMaterial({
-      color: 0x00d8ff,
+      color: 0xd4d4d8,
       transparent: true,
-      opacity: 0.03,
+      opacity: 0.018,
       side: THREE.DoubleSide,
       depthWrite: false,
     });
@@ -996,8 +996,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     const cellBaseColors = new Array<THREE.Color>(hexCount);
     const dummy = new THREE.Object3D();
     const tempColor = new THREE.Color();
-    const goldColor = new THREE.Color('#ffe600');
-    const cyanColor = new THREE.Color('#00d8ff');
+    const goldColor = new THREE.Color('#f5dd1b');
+    const cyanColor = new THREE.Color('#e4e4e7');
     const snowColor = new THREE.Color('#e2e8f0');
     const alpineRockColor = new THREE.Color('#64748b');
     const volcanicGlowColor = new THREE.Color('#9a3412');
@@ -1006,7 +1006,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const baseH = CELL_TERRAIN_HEIGHTS[idx];
       cellCurrentHeights[idx] = baseH;
 
-      const c = new THREE.Color(CELL_COLORS[cell.type] || '#283344');
+      const c = new THREE.Color(CELL_COLORS[cell.type] || '#242830');
 
       // Blend nation territory cells subtly with their signature faction hue (refined, never toy-like)
       if (cell.regionId) {
@@ -1112,7 +1112,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
       const isRhodes = city.type === 'rhodes';
       const isCapital = city.type === 'capital';
-      const beaconColor = isRhodes ? 0x00d8ff : isCapital ? 0xffe600 : 0x94a3b8;
+      const beaconColor = isRhodes ? 0xf4f4f5 : isCapital ? 0xf5dd1b : 0x71717a;
 
       const beamPts = [
         new THREE.Vector3(wx, baseElev, wz),
@@ -1821,10 +1821,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         bObj.line.scale.set(1, elevScale, 1);
         bObj.line.position.y = is2D ? 0.65 : (effectiveShowElevation ? lift : 0.65 + lift);
         if (isPin) {
-          bObj.mat.color.setHex(0xffe600);
+          bObj.mat.color.setHex(0xf5dd1b);
           bObj.mat.opacity = 1.0;
         } else if (isHov) {
-          bObj.mat.color.setHex(0x00d8ff);
+          bObj.mat.color.setHex(0xe4e4e7);
           bObj.mat.opacity = 0.95;
         } else {
           bObj.mat.color.copy(bObj.defaultColor);
@@ -1982,7 +1982,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         isHeaderCollapsed
           ? 'h-[100dvh] md:h-screen'
           : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)]'
-      } bg-[#06090f] overflow-hidden select-none`}
+      } bg-[#0b0c0e] overflow-hidden select-none`}
     >
       {/* =========================================================================
           1. WEBGL 3D CANVAS VIEWPORT & PROJECTED SCREEN-SPACE PINS
@@ -1992,7 +1992,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         <div ref={mountRef} className="w-full h-full touch-none" />
 
         {/* Subtle Edge Vignette */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_64%,rgba(4,6,10,0.72)_100%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_64%,rgba(8,9,11,0.72)_100%)]" />
 
         {/* 3D Projected Region Emblem & Label Pins */}
         {showLogos && (
@@ -2057,10 +2057,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         : 'px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px]'
                     } rounded-[2px] border font-mono transition-colors duration-150 flex items-center gap-1 sm:gap-1.5 backdrop-blur-md ${
                       isPinned
-                        ? 'bg-[#ffe600] text-black border-white font-extrabold shadow-[0_0_16px_rgba(255,230,0,0.45)]'
+                        ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-extrabold shadow-lg'
                         : isHovered
-                        ? 'bg-[#00d8ff] text-black border-white font-bold shadow-[0_0_12px_rgba(0,216,255,0.4)]'
-                        : 'bg-[#0b0e16]/88 text-zinc-100 border-white/15'
+                        ? 'bg-zinc-100 text-black border-white font-bold shadow-md'
+                        : 'bg-[#121316]/92 text-zinc-100 border-white/15'
                     }`}
                   >
                     <span className="tracking-tight whitespace-nowrap font-sans font-semibold">
@@ -2071,7 +2071,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         className={`text-[8.5px] sm:text-[9px] px-1 rounded-[1px] font-mono ${
                           isPinned || isHovered
                             ? 'bg-black/20 text-black font-black'
-                            : 'bg-white/10 text-[#ffe600]'
+                            : 'bg-white/10 text-[#f5dd1b]'
                         }`}
                       >
                         {reg.relatedStoryIds.length}
@@ -2120,7 +2120,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         description: reg?.description || '핵심 이동도시 및 전략 거점입니다.',
                         storyId: firstStoryId,
                         regionId: city.regionId,
-                        badgeColor: isRhodes ? '#00d8ff' : '#ffe600',
+                        badgeColor: isRhodes ? '#e4e4e7' : '#f5dd1b',
                       });
                     } else {
                       setMobilePreviewCard(null);
@@ -2136,17 +2136,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'
                     } font-mono border backdrop-blur-sm transition-colors ${
                       isRhodes
-                        ? 'bg-[#071924]/95 border-[#00d8ff] text-[#00d8ff] font-bold shadow-[0_0_10px_rgba(0,216,255,0.3)]'
+                        ? 'bg-[#181a20]/95 border-zinc-200 text-white font-bold'
                         : isSelected
-                        ? 'bg-[#ffe600] border-white text-black font-bold'
+                        ? 'bg-[#f5dd1b] border-white text-black font-bold'
                         : isCapital
-                        ? 'bg-[#0b0e16]/90 border-[#ffe600]/50 text-zinc-100 hover:border-[#ffe600]'
-                        : 'bg-[#090c13]/82 border-white/12 text-zinc-300 hover:text-white hover:border-white/30'
+                        ? 'bg-[#121316]/92 border-[#f5dd1b]/50 text-zinc-100 hover:border-[#f5dd1b]'
+                        : 'bg-[#101114]/88 border-white/12 text-zinc-300 hover:text-white hover:border-white/30'
                     }`}
                   >
                     <span
                       className={`w-1.5 h-1.5 rotate-45 ${
-                        isRhodes ? 'bg-[#00d8ff]' : isCapital ? 'bg-[#ffe600]' : 'bg-zinc-400'
+                        isRhodes ? 'bg-white' : isCapital ? 'bg-[#f5dd1b]' : 'bg-zinc-400'
                       }`}
                     />
                     <span className="whitespace-nowrap font-sans">{city.nameKo}</span>
@@ -2197,9 +2197,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     isRelevant ? 'z-20 opacity-100' : 'z-10 opacity-20 hover:opacity-100'
                   }`}
                 >
-                  <div className={`${isLandscapeMobile ? 'px-1 py-0.2 text-[8.5px]' : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'} rounded-[2px] bg-[#090c14]/92 backdrop-blur-md border border-white/15 group-hover:border-[#ffe600] font-mono flex items-center gap-1 sm:gap-1.5 shadow-lg transition-all`}>
-                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: rt.color }} />
-                    <span className="text-[#ffe600] font-bold tracking-tight">{rt.code}</span>
+                  <div className={`${isLandscapeMobile ? 'px-1 py-0.2 text-[8.5px]' : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'} rounded-[2px] bg-[#121316]/94 backdrop-blur-md border border-white/15 group-hover:border-[#f5dd1b] font-mono flex items-center gap-1 sm:gap-1.5 shadow-lg transition-all`}>
+                    <span className="w-1.5 h-1.5 rounded-[1px] flex-shrink-0" style={{ backgroundColor: rt.color }} />
+                    <span className="text-zinc-100 group-hover:text-[#f5dd1b] font-bold tracking-tight transition-colors">{rt.code}</span>
                     <span
                       className={`text-zinc-300 group-hover:text-white font-sans text-[10px] transition-all duration-200 overflow-hidden whitespace-nowrap ${
                         pinnedRegionId && isRelevant
@@ -2224,13 +2224,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             data-hud-panel="true"
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
-            className="absolute bottom-14 left-3 right-3 sm:left-auto sm:right-4 sm:w-88 z-40 prts-glass rounded-[6px] sm:rounded-[4px] border border-[#ffe600]/40 p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.85)] animate-fadeIn pointer-events-auto"
+            className="absolute bottom-14 left-3 right-3 sm:left-auto sm:right-4 sm:w-88 z-40 prts-glass rounded-[2px] border border-white/20 p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.85)] animate-fadeIn pointer-events-auto"
           >
             <div className="flex items-start justify-between gap-2 mb-1.5">
               <div className="flex items-center gap-1.5 min-w-0">
                 <span
                   className="px-1.5 py-0.5 rounded-[2px] font-mono text-[10px] font-bold text-black flex-shrink-0"
-                  style={{ backgroundColor: mobilePreviewCard.badgeColor || '#ffe600' }}
+                  style={{ backgroundColor: mobilePreviewCard.badgeColor || '#f5dd1b' }}
                 >
                   {mobilePreviewCard.code}
                 </span>
@@ -2243,7 +2243,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
-            <div className="text-[11px] font-mono text-[#00d8ff] mb-1.5 truncate">
+            <div className="text-[11px] font-mono text-zinc-400 mb-1.5 truncate">
               {mobilePreviewCard.subtitle}
             </div>
             <p className="text-xs text-zinc-300 leading-relaxed line-clamp-2 mb-3 break-keep">
@@ -2257,7 +2257,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     setMobilePreviewCard(null);
                     handleOpenStoryPopup(targetStoryId);
                   }}
-                  className="flex-1 h-8 px-3 rounded-[3px] bg-[#ffe600] hover:bg-[#ffe600]/90 text-black font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                  className="flex-1 h-8 px-3 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
                   <span>스토리 열람</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -2270,7 +2270,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     setMobilePreviewCard(null);
                     setPinnedRegionId(targetRegId);
                   }}
-                  className="h-8 px-3 rounded-[3px] bg-white/10 hover:bg-white/20 text-zinc-100 font-semibold text-xs flex items-center justify-center cursor-pointer transition-colors"
+                  className="h-8 px-3 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] text-zinc-100 border border-white/10 font-semibold text-xs flex items-center justify-center cursor-pointer transition-colors"
                 >
                   <span>지역 상세</span>
                 </button>
@@ -3146,7 +3146,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 : showRoutes
                 ? 'md:top-24 md:bottom-16 md:right-4 md:w-84 lg:w-92'
                 : 'md:top-16 md:bottom-16 md:right-4 md:w-84 lg:w-92'
-            } prts-glass rounded-t-2xl md:rounded-[4px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] md:shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
+            } prts-glass rounded-t-[4px] md:rounded-[2px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] md:shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
           >
             {/* Mobile Drag Handle Bar with touch gesture */}
             <div
@@ -3173,7 +3173,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               className="md:hidden flex items-center justify-center py-2.5 bg-black/50 border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none active:bg-white/[0.08]"
               title="잡아서 아래로 당겨 닫기"
             >
-              <div className="w-10 h-1.5 rounded-full bg-zinc-500" />
+              <div className="w-10 h-1 rounded-[1px] bg-zinc-600" />
             </div>
 
             {/* Dossier Header */}
@@ -3216,7 +3216,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   {pinnedRegion.nameKo}
                 </h2>
                 {pinnedRegion.capital && (
-                  <span className="md:hidden text-[11px] text-[#ffe600] font-semibold truncate">
+                  <span className="md:hidden text-[11px] text-[#f5dd1b] font-semibold truncate">
                     수도: {pinnedRegion.capital}
                   </span>
                 )}
@@ -3225,7 +3225,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               {pinnedRegion.capital && (
                 <div className="hidden md:flex mt-3 pt-2.5 border-t border-white/8 items-center justify-between text-xs">
                   <span className="text-zinc-400">수도 / 거점</span>
-                  <span className="text-[#ffe600] font-semibold">{pinnedRegion.capital}</span>
+                  <span className="text-[#f5dd1b] font-semibold">{pinnedRegion.capital}</span>
                 </div>
               )}
             </div>
@@ -3237,7 +3237,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 <div className="text-[11px] font-bold text-zinc-400">
                   지역 소개
                 </div>
-                <p className="text-xs sm:text-[13px] text-zinc-200 leading-relaxed bg-white/[0.03] border border-white/[0.06] rounded-[3px] p-3 break-keep">
+                <p className="text-xs sm:text-[13px] text-zinc-200 leading-relaxed bg-[#15161a] border border-white/[0.06] rounded-[2px] p-3 break-keep">
                   {pinnedRegion.description}
                 </p>
               </div>
@@ -3247,7 +3247,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 <div className="space-y-2">
                   <div className="text-[11px] font-bold text-zinc-400 flex items-center justify-between">
                     <span>주요 도시 · 거점</span>
-                    <span className="font-mono text-[10px] text-[#00d8ff]">{pinnedRegionCities.length}곳</span>
+                    <span className="font-mono text-[10px] text-zinc-400">{pinnedRegionCities.length}곳</span>
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
                     {pinnedRegionCities.map((c) => (
@@ -3263,16 +3263,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         }}
                         className={`p-2 rounded-[2px] text-left border text-xs transition-colors cursor-pointer ${
                           selectedCityId === c.id
-                            ? 'bg-[#ffe600]/15 border-[#ffe600] text-[#ffe600]'
-                            : 'bg-white/[0.03] border-white/[0.07] text-zinc-200 hover:bg-white/[0.07]'
+                            ? 'bg-[#f5dd1b]/15 border-[#f5dd1b] text-[#f5dd1b]'
+                            : 'bg-[#15161a] border-white/[0.07] text-zinc-200 hover:bg-[#1c1e24]'
                         }`}
                       >
                         <div className="flex items-center gap-1">
                           <span
                             className={`w-1.5 h-1.5 rotate-45 flex-shrink-0 ${
                               c.type === 'capital' || c.type === 'rhodes'
-                                ? 'bg-[#ffe600]'
-                                : 'bg-[#00d8ff]'
+                                ? 'bg-[#f5dd1b]'
+                                : 'bg-zinc-400'
                             }`}
                           />
                           <div className="font-semibold truncate">{c.nameKo}</div>
@@ -3289,7 +3289,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 <div className="space-y-2">
                   <div className="text-[11px] font-bold text-zinc-400 flex items-center justify-between">
                     <span>스토리 이동 경로</span>
-                    <span className="font-mono text-[10px] text-amber-400">{pinnedRegionRoutes.length}개</span>
+                    <span className="font-mono text-[10px] text-zinc-400">{pinnedRegionRoutes.length}개</span>
                   </div>
                   <div className="space-y-1.5">
                     {pinnedRegionRoutes.map((rt) => (
@@ -3301,15 +3301,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                           e.stopPropagation();
                           handleOpenStoryPopup(rt.storyId);
                         }}
-                        className="w-full p-2.5 rounded-[3px] text-left bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.07] hover:border-amber-400/50 transition-all cursor-pointer flex items-center justify-between gap-2 group"
+                        className="w-full p-2.5 rounded-[2px] text-left bg-[#15161a] hover:bg-[#1c1e24] border border-white/[0.07] hover:border-[#f5dd1b]/50 transition-colors cursor-pointer flex items-center justify-between gap-2 group"
                       >
                         <div className="min-w-0 space-y-0.5">
                           <div className="flex items-center gap-1.5">
                             <span
-                              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              className="w-1.5 h-1.5 rounded-[1px] flex-shrink-0"
                               style={{ backgroundColor: rt.color }}
                             />
-                            <span className="font-mono text-[10px] font-bold text-amber-300">
+                            <span className="font-mono text-[10px] font-bold text-[#f5dd1b]">
                               {rt.code}
                             </span>
                             <span className="text-[11px] font-semibold text-zinc-200 group-hover:text-white truncate">
@@ -3320,7 +3320,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                             {rt.fullLabel}
                           </div>
                         </div>
-                        <ChevronRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-amber-400 flex-shrink-0" />
+                        <ChevronRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-[#f5dd1b] flex-shrink-0" />
                       </button>
                     ))}
                   </div>
@@ -3331,11 +3331,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[11px] font-bold text-zinc-400">
                   <span>관련 스토리</span>
-                  <span className="font-mono text-xs text-[#ffe600]">{pinnedRegionStories.length}편</span>
+                  <span className="font-mono text-xs text-[#f5dd1b]">{pinnedRegionStories.length}편</span>
                 </div>
 
                 {pinnedRegionStories.length === 0 ? (
-                  <div className="p-4 text-center text-xs text-zinc-500 border border-white/[0.06] rounded-[3px] bg-white/[0.02]">
+                  <div className="p-4 text-center text-xs text-zinc-500 border border-white/[0.06] rounded-[2px] bg-[#141519]">
                     관련 스토리가 없습니다.
                   </div>
                 ) : (
@@ -3353,24 +3353,24 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                             e.stopPropagation();
                             handleOpenStoryPopup(st.id);
                           }}
-                          className={`group relative p-3 rounded-[3px] border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                          className={`group relative p-3 rounded-[2px] border transition-colors cursor-pointer flex items-center justify-between gap-3 ${
                             isRestored
-                              ? 'bg-white/[0.05] border-[#ffe600]/40 hover:border-[#ffe600] hover:bg-white/[0.08]'
-                              : 'bg-white/[0.02] border-white/[0.07] hover:border-white/25 hover:bg-white/[0.05]'
+                              ? 'bg-[#16181d] border-[#f5dd1b]/35 hover:border-[#f5dd1b] hover:bg-[#1c1e24]'
+                              : 'bg-[#141519] border-white/[0.07] hover:border-white/25 hover:bg-[#191b20]'
                           }`}
                         >
                           <div className="min-w-0 space-y-0.5">
                             <div className="flex items-center gap-2 font-mono text-[10px]">
                               <span
                                 className={`px-1.5 py-0.2 rounded-[1px] font-bold ${
-                                  isRestored ? 'bg-[#ffe600] text-black' : 'bg-white/10 text-zinc-300'
+                                  isRestored ? 'bg-[#f5dd1b] text-black' : 'bg-white/[0.08] text-zinc-300'
                                 }`}
                               >
                                 {st.code}
                               </span>
                               <span className="text-zinc-500 truncate">{st.timeline}</span>
                             </div>
-                            <div className="text-sm font-bold text-white group-hover:text-[#ffe600] transition-colors truncate">
+                            <div className="text-sm font-bold text-white group-hover:text-[#f5dd1b] transition-colors truncate">
                               {st.titleKo}
                             </div>
                             <div className="text-[10px] font-mono text-zinc-500 truncate">
@@ -3378,7 +3378,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                             </div>
                           </div>
 
-                          <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-[#ffe600] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                          <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-[#f5dd1b] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                         </div>
                       );
                     })}

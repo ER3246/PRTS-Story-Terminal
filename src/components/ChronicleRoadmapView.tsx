@@ -56,7 +56,7 @@ const TIMELINE_ERAS: TimelineEra[] = [
     titleKo: '여명 이전 · 테라의 기원',
     titleEn: 'Before the Dawn',
     periodKo: '1089년 ~ 1096년',
-    color: '#54c5d0',
+    color: '#68929e',
     description: '바벨의 창설과 테레시아의 비원, 구 로도스 아일랜드 결성기',
     minOrder: 0,
     maxOrder: 4.9,
@@ -67,7 +67,7 @@ const TIMELINE_ERAS: TimelineEra[] = [
     titleKo: '체르노보그 & 용문 사변',
     titleEn: 'Chernobog & Lungmen Crisis',
     periodKo: '1096년 12월 ~ 1097년 2월',
-    color: '#ffe600',
+    color: '#f5dd1b',
     description: '박사의 석관 각성과 리유니온 항쟁, 체르노보그 핵심 도시 결전',
     minOrder: 5,
     maxOrder: 18.9,
@@ -78,7 +78,7 @@ const TIMELINE_ERAS: TimelineEra[] = [
     titleKo: '대륙 각지의 격동',
     titleEn: 'Terran Turmoil',
     periodKo: '1097년 봄 ~ 1098년 정월',
-    color: '#38bdf8',
+    color: '#7b9ab0',
     description: '카시미어 메이저, 쉐라그 정변, 맨스필드 탈옥 등 열강의 암류',
     minOrder: 19,
     maxOrder: 29.9,
@@ -89,7 +89,7 @@ const TIMELINE_ERAS: TimelineEra[] = [
     titleKo: '석양의 런디니움 & 개척기',
     titleEn: 'Victoria Crisis & Frontier',
     periodKo: '1098년 ~ 1099년 겨울',
-    color: '#f59e0b',
+    color: '#c99746',
     description: '빅토리아 왕도 전쟁, 스툴티페라 나비스, 론 트레일 우주 개척',
     minOrder: 30,
     maxOrder: 59.9,
@@ -100,7 +100,7 @@ const TIMELINE_ERAS: TimelineEra[] = [
     titleKo: '분열의 서곡 & 미지의 경계',
     titleEn: 'Dissociation & Deep Abyss',
     periodKo: '1100년 ~ 1101년',
-    color: '#a855f7',
+    color: '#8a7096',
     description: '원초 오리지늄 변이, 에기르 심해 원정 및 대륙의 새로운 국면',
     minOrder: 60,
     maxOrder: 999,
@@ -124,7 +124,7 @@ const STRATEGIC_LANES: StrategicLane[] = [
     code: 'CORE SPINE',
     titleKo: '바벨 & 메인 테마',
     subtitleKo: '로도스 아일랜드 중심 서사 · 방주(RL) & 내일을 위하여(Act I~III)',
-    color: '#ffe600',
+    color: '#f5dd1b',
     storyLineIds: ['SL_RL', 'MAIN_ACT_1', 'MAIN_ACT_2', 'MAIN_ACT_3'],
   },
   {
@@ -132,7 +132,7 @@ const STRATEGIC_LANES: StrategicLane[] = [
     code: 'THEATER 01',
     titleKo: '빅토리아 · 타라 · 라이타니엔',
     subtitleKo: '왕권과 혁명의 불씨, 고탑의 음악 · 다시 불붙은 장작(TA) & 고탑의 그림자(LE)',
-    color: '#a855f7',
+    color: '#8a7096',
     storyLineIds: ['SL_TA', 'SL_LE'],
   },
   {
@@ -140,7 +140,7 @@ const STRATEGIC_LANES: StrategicLane[] = [
     code: 'THEATER 02',
     titleKo: '우르수스 · 카시미어 · 쉐라그',
     subtitleKo: '동토의 상흔과 기사도, 설산의 개혁 · 들불(UR) & 네온 불빛(KA) & 설산과 은철(KJ)',
-    color: '#eab308',
+    color: '#b89648',
     storyLineIds: ['SL_UR', 'SL_KA', 'SL_KJ'],
   },
   {
@@ -148,7 +148,7 @@ const STRATEGIC_LANES: StrategicLane[] = [
     code: 'THEATER 03',
     titleKo: '컬럼비아 · 시라쿠사 · 라테라노',
     subtitleKo: '첨단 과학과 마피아, 성도의 율법 · 미래를 잡는 사람(RH) & 일곱 언덕(SI) & 축복(LA)',
-    color: '#10b981',
+    color: '#648c74',
     storyLineIds: ['SL_RH', 'SL_SI', 'SL_LA'],
   },
   {
@@ -156,7 +156,7 @@ const STRATEGIC_LANES: StrategicLane[] = [
     code: 'THEATER 04',
     titleKo: '염국(쉐이) · 에기르(심해)',
     subtitleKo: '신수 쉐이의 천년 풍류와 시본의 위협 · 영원한 오늘(SU) & 깊은 바닷속으로(AE)',
-    color: '#38bdf8',
+    color: '#5e9096',
     storyLineIds: ['SL_SU', 'SL_AE'],
   },
   {
@@ -164,7 +164,7 @@ const STRATEGIC_LANES: StrategicLane[] = [
     code: 'SUB-ARCHIVE',
     titleKo: '여름의 리듬 · 테라 기담 · 이계',
     subtitleKo: '휴양지 모험, 오퍼레이터 옴니버스 비화 및 이계 협력 작전 (ST · TS · MS)',
-    color: '#94a3b8',
+    color: '#8a94a0',
     storyLineIds: ['SL_ST', 'SL_TS', 'SL_COLLAB'],
     isCompactLane: true,
   },
@@ -288,12 +288,12 @@ const CROSS_LORE_LINKS: { fromId: string; toId: string; reasonKo: string }[] = [
 ];
 
 const RELEASE_YEARS_META = [
-  { year: 1, label: 'YEAR 01', period: '2020', subtitle: '여명의 개막 · 체르노보그에서 용문까지', color: '#ffe600' },
-  { year: 2, label: 'YEAR 02', period: '2021', subtitle: '대륙으로 뻗어나가는 발걸음과 과거의 그림자', color: '#38bdf8' },
-  { year: 3, label: 'YEAR 03', period: '2022', subtitle: '네온 불빛의 기사도와 심해의 각성, 런디니움 잠입', color: '#eab308' },
-  { year: 4, label: 'YEAR 04', period: '2023', subtitle: '스툴티페라 나비스와 시라쿠사, 그리고 별하늘을 뚫은 론 트레일', color: '#10b981' },
-  { year: 5, label: 'YEAR 05', period: '2024', subtitle: '바벨의 기원과 런디니움 대단원, 대황성의 황금 물결', color: '#f59e0b' },
-  { year: 6, label: 'YEAR 06', period: '2025~2026', subtitle: '임계 상전이와 테라의 미지 경계를 향한 최신 작전', color: '#a855f7' },
+  { year: 1, label: 'YEAR 01', period: '2020', subtitle: '여명의 개막 · 체르노보그에서 용문까지', color: '#f5dd1b' },
+  { year: 2, label: 'YEAR 02', period: '2021', subtitle: '대륙으로 뻗어나가는 발걸음과 과거의 그림자', color: '#7b9ab0' },
+  { year: 3, label: 'YEAR 03', period: '2022', subtitle: '네온 불빛의 기사도와 심해의 각성, 런디니움 잠입', color: '#b89648' },
+  { year: 4, label: 'YEAR 04', period: '2023', subtitle: '스툴티페라 나비스와 시라쿠사, 그리고 별하늘을 뚫은 론 트레일', color: '#648c74' },
+  { year: 5, label: 'YEAR 05', period: '2024', subtitle: '바벨의 기원과 런디니움 대단원, 대황성의 황금 물결', color: '#c99746' },
+  { year: 6, label: 'YEAR 06', period: '2025~2026', subtitle: '임계 상전이와 테라의 미지 경계를 향한 최신 작전', color: '#8a7096' },
 ];
 
 interface NodeBox {
@@ -514,7 +514,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         toId: cross.toId,
         type: 'cross',
         reasonKo: cross.reasonKo,
-        color: lineMeta?.themeColor || '#ffe600',
+        color: lineMeta?.themeColor || '#f5dd1b',
       });
     });
 
@@ -2002,14 +2002,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           <div
             ref={containerRef}
             onPointerDown={handleCanvasPointerDown}
-            className={`relative flex-1 h-full overflow-hidden bg-[#05070c] select-none ${
+            className={`relative flex-1 h-full overflow-hidden bg-[#0c0c0e] select-none ${
               isDraggingCanvas ? 'cursor-grabbing' : 'cursor-grab'
             }`}
             style={{ touchAction: 'none' }}
           >
             {/* Tactical Wargame Grid Background */}
             <div
-              className="absolute inset-0 pointer-events-none opacity-25 bg-[linear-gradient(to_right,#182032_1px,transparent_1px),linear-gradient(to_bottom,#182032_1px,transparent_1px)] bg-[size:48px_48px]"
+              className="absolute inset-0 pointer-events-none opacity-35 bg-[linear-gradient(to_right,#1c1e24_1px,transparent_1px),linear-gradient(to_bottom,#1c1e24_1px,transparent_1px)] bg-[size:48px_48px]"
               style={{
                 backgroundPosition: `${panPos.x % 48}px ${panPos.y % 48}px`,
               }}
@@ -2088,7 +2088,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
                   const isCross = conn.type === 'cross';
                   const { d, startX, startY, endX, endY } = buildSmartConnectionPath(from, to, isCross);
-                  const strokeColor = isCross ? '#ffe600' : conn.color;
+                  const strokeColor = isCross ? '#f5dd1b' : conn.color;
 
                   return (
                     <g key={`active-${conn.fromId}-${conn.toId}`}>
@@ -2126,8 +2126,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 {/* TOP ROW: ERA HEADERS */}
                 <div className="flex items-stretch gap-5 mb-4">
                   {/* Top-Left Corner Legend */}
-                  <div className="w-56 flex-shrink-0 bg-[#0b0e17] border border-white/[0.1] rounded-[3px] p-3.5 flex flex-col justify-between">
-                    <div className="text-[10px] font-mono text-[#ffe600] font-bold tracking-widest uppercase">
+                  <div className="w-56 flex-shrink-0 bg-[#121316] border border-white/[0.09] rounded-[2px] p-3.5 flex flex-col justify-between">
+                    <div className="text-[10px] font-mono text-[#f5dd1b] font-bold tracking-widest uppercase">
                       STRATEGIC THEATERS
                     </div>
                     <div className="text-xs font-bold text-white mt-0.5">
@@ -2135,10 +2135,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     </div>
                     <div className="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-zinc-400">
                       <span className="flex items-center gap-1">
-                        <span className="w-3 h-0.5 bg-[#38bdf8] inline-block" /> 직계 연작
+                        <span className="w-3 h-0.5 bg-zinc-400 inline-block" /> 직계 연작
                       </span>
                       <span className="flex items-center gap-1">
-                        <span className="w-3 h-0.5 border-b border-dashed border-[#ffe600] inline-block" /> 교차 인과
+                        <span className="w-3 h-0.5 border-b border-dashed border-[#f5dd1b] inline-block" /> 교차 인과
                       </span>
                     </div>
                   </div>
@@ -2158,7 +2158,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                           minWidth: era.id === 'era_03' ? '980px' : era.id === 'era_02' ? '760px' : '540px',
                           borderTopColor: era.color,
                         }}
-                        className="flex-1 bg-[#0b0f19]/95 border border-white/[0.1] border-t-4 rounded-[3px] p-3.5 flex flex-col justify-between shadow-xl"
+                        className="flex-1 bg-[#121316]/96 border border-white/[0.09] border-t-2 rounded-[2px] p-3.5 flex flex-col justify-between"
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2">
@@ -2168,7 +2168,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                             >
                               {era.code}
                             </span>
-                            <span className="text-xs font-mono font-bold text-[#ffe600]">
+                            <span className="text-xs font-mono font-bold text-zinc-300">
                               {era.periodKo}
                             </span>
                           </div>
@@ -2198,12 +2198,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                       <div key={lane.id} className="flex items-stretch gap-5">
                         {/* Left Lane Header Station */}
                         <div
-                          className={`w-56 flex-shrink-0 rounded-[3px] border p-3.5 flex flex-col justify-center relative overflow-hidden ${
+                          className={`w-56 flex-shrink-0 rounded-[2px] border p-3.5 flex flex-col justify-center relative overflow-hidden ${
                             isCore
-                              ? 'bg-[#121318] border-[#ffe600]/45 shadow-[0_0_20px_rgba(255,230,0,0.06)]'
-                              : 'bg-[#0a0d16] border-white/[0.08]'
+                              ? 'bg-[#15161b] border-[#f5dd1b]/35'
+                              : 'bg-[#111215] border-white/[0.08]'
                           }`}
-                          style={{ borderLeftWidth: '4px', borderLeftColor: lane.color }}
+                          style={{ borderLeftWidth: '3px', borderLeftColor: lane.color }}
                         >
                           <div className="text-[10px] font-mono font-bold tracking-wider uppercase" style={{ color: lane.color }}>
                             {lane.code}
@@ -2232,8 +2232,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                     }}
                                     className={`px-1.5 py-0.5 text-[9.5px] font-mono rounded-[2px] border transition-colors cursor-pointer ${
                                       isFocused
-                                        ? 'bg-[#ffe600] text-black border-[#ffe600] font-bold'
-                                        : 'bg-white/[0.04] text-zinc-300 border-white/[0.08] hover:border-white/30'
+                                        ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
+                                        : 'bg-[#17191e] text-zinc-300 border-white/[0.08] hover:border-white/25'
                                     }`}
                                   >
                                     {lm.code} · {lm.titleKo}
@@ -2262,17 +2262,17 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                               style={{
                                 minWidth: era.id === 'era_03' ? '980px' : era.id === 'era_02' ? '760px' : '540px',
                               }}
-                              className={`flex-1 rounded-[3px] border p-3.5 flex items-center relative ${
+                              className={`flex-1 rounded-[2px] border p-3.5 flex items-center relative ${
                                 isCore
-                                  ? 'bg-[#0d1018]/90 border-[#ffe600]/20'
-                                  : 'bg-[#080b12]/80 border-white/[0.05]'
+                                  ? 'bg-[#121317]/90 border-white/[0.09]'
+                                  : 'bg-[#0f1013]/85 border-white/[0.05]'
                               }`}
                             >
                               {/* 가로 배경 트랙 레일 선 */}
                               <div
                                 className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] pointer-events-none"
                                 style={{
-                                  backgroundColor: isCore ? 'rgba(255,230,0,0.18)' : 'rgba(255,255,255,0.05)',
+                                  backgroundColor: isCore ? 'rgba(245,221,27,0.14)' : 'rgba(255,255,255,0.05)',
                                 }}
                               />
 
@@ -2331,7 +2331,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           borderLeftColor: accentColor,
                                           borderLeftWidth: '3px',
                                         }}
-                                        className={`group relative rounded-[3px] border transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between ${
+                                        className={`group relative rounded-[2px] border transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between ${
                                           isSemanticCompact
                                             ? 'w-44 min-h-[68px] p-2.5'
                                             : lane.isCompactLane || story.isOmnibus
@@ -2343,14 +2343,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           isDimmed ? 'opacity-25 hover:opacity-90' : 'opacity-100'
                                         } ${
                                           isSelected
-                                            ? 'bg-[#131826] border-[#ffe600] ring-2 ring-[#ffe600]/50 shadow-[0_0_20px_rgba(255,230,0,0.3)] -translate-y-0.5'
+                                            ? 'bg-[#191b22] border-[#f5dd1b] ring-1 ring-[#f5dd1b] -translate-y-0.5'
                                             : isHovered
-                                            ? 'bg-[#111624] border-white/60 shadow-xl -translate-y-0.5'
+                                            ? 'bg-[#16181e] border-white/45 -translate-y-0.5'
                                             : isRestored
-                                            ? 'bg-[#0c101a] border-[#ffe600]/45 hover:border-[#ffe600]'
+                                            ? 'bg-[#131419] border-white/[0.16] hover:border-[#f5dd1b]/70'
                                             : isLocked
-                                            ? 'bg-[#0d080b] border-red-950/70'
-                                            : 'bg-[#0b0e17] border-white/[0.12] hover:border-white/35'
+                                            ? 'bg-[#101012] border-white/[0.05]'
+                                            : 'bg-[#111215] border-white/[0.08] hover:border-white/25'
                                         }`}
                                       >
                                         {/* 배경 스플래시 이미지 (시맨틱 축소 모드가 아닐 때 표시) */}
@@ -2366,7 +2366,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                                 (e.currentTarget as HTMLImageElement).style.display = 'none';
                                               }}
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#080b12] via-[#080b12]/75 to-[#080b12]/30" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-[#101114] via-[#101114]/75 to-[#101114]/30" />
                                           </div>
                                         )}
 
@@ -2375,9 +2375,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           <span
                                             className={`px-1.5 py-0.5 font-black tracking-wider rounded-[1px] ${
                                               isRestored
-                                                ? 'bg-[#ffe600] text-black'
+                                                ? 'bg-[#f5dd1b] text-black'
                                                 : isLocked
-                                                ? 'bg-red-950 text-red-300 border border-red-800/60'
+                                                ? 'bg-zinc-900 text-zinc-500 border border-white/10'
                                                 : 'bg-black/80 text-zinc-200 border border-white/15'
                                             }`}
                                           >
@@ -2387,13 +2387,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           <div className="flex items-center gap-1">
                                             {story.isOmnibus && (
                                               <FilmReelIcon
-                                                className="w-3.5 h-3.5 text-emerald-400"
+                                                className="w-3.5 h-3.5 text-zinc-300"
                                                 title="옴니버스 단편"
                                               />
                                             )}
                                             {isRestored && (
                                               <span
-                                                className="px-1 py-0.2 bg-[#ffe600]/20 border border-[#ffe600]/60 text-[#ffe600] text-[9px] font-bold rounded-[1px]"
+                                                className="px-1 py-0.2 bg-[#f5dd1b]/15 border border-[#f5dd1b]/50 text-[#f5dd1b] text-[9px] font-bold rounded-[1px]"
                                                 title="전문 복원 완료"
                                               >
                                                 전문
@@ -2404,7 +2404,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
                                         {/* 중단: 한글 타이틀 & 영문 서브타이틀 */}
                                         <div className="relative z-10 my-auto py-1">
-                                          <div className="text-xs sm:text-[13px] font-bold text-white group-hover:text-[#ffe600] transition-colors leading-snug truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+                                          <div className="text-xs sm:text-[13px] font-bold text-white group-hover:text-[#f5dd1b] transition-colors leading-snug truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
                                             {story.titleKo}
                                           </div>
                                           {!isSemanticCompact && (
