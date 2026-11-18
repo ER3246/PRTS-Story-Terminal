@@ -10,9 +10,11 @@ interface ScrollNavButtonsProps {
 
 export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView }) => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [hasScrolled, setHasScrolled] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      setHasScrolled(window.scrollY > 180);
       const total = document.documentElement.scrollHeight - window.innerHeight;
       if (total <= 0) {
         setScrollProgress(0);
@@ -28,6 +30,7 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
   }, [currentView]);
 
   const isVisible = currentView !== 'home' && currentView !== 'map' && currentView !== 'chronicle';
+  const isScrollHudVisible = isVisible && hasScrolled;
 
   const scrollToTop = () => {
     playClickSound();
@@ -63,7 +66,7 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
       </AnimatePresence>
 
       <AnimatePresence>
-        {isVisible && (
+        {isScrollHudVisible && (
           <motion.div
             key="scroll-nav-hud"
             initial={{ opacity: 0, y: 12, scale: 0.94 }}

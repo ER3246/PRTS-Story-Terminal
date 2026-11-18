@@ -233,7 +233,17 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   // 통합 하단 플로팅 네비게이션 독 (Floating Navigation Dock) 상태 및 연산
   // =========================================================================
   const [isPartDropupOpen, setIsPartDropupOpen] = useState<boolean>(false);
+  const [showFloatingDock, setShowFloatingDock] = useState<boolean>(false);
   const dropupRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setShowFloatingDock(window.scrollY > 260);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [story.id, activeSubPageId]);
 
   // 드롭업 팝오버 외부 클릭 및 ESC 키 감지 시 닫기
   useEffect(() => {
@@ -474,11 +484,17 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   };
 
   const renderFloatingDock = () => {
+    const isDockVisible = showFloatingDock || isPartDropupOpen || isHeaderCollapsed;
     return (
       <aside
         ref={dropupRef}
         aria-label="스토리 빠른 네비게이션 독"
-        className={`fixed left-1/2 -translate-x-1/2 z-50 select-none font-sans pointer-events-auto transition-all duration-200 ${
+        aria-hidden={!isDockVisible}
+        className={`fixed left-1/2 -translate-x-1/2 z-50 select-none font-sans transition-all duration-200 ${
+          isDockVisible
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 translate-y-4 pointer-events-none'
+        } ${
           isHeaderCollapsed
             ? 'bottom-3 md:bottom-6'
             : 'bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] md:bottom-6'
@@ -720,37 +736,30 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             </div>
           )}
 
-          <div className="w-[1px] h-4 bg-white/10 hidden sm:block flex-shrink-0" />
-
-          {/* Scroll To Top Button */}
-          <button
-            onClick={scrollToTop}
-            className="w-8 h-8 rounded-[2px] bg-[#181a20] hover:bg-[#22252d] border border-white/[0.07] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer transition-colors flex-shrink-0"
-            title="페이지 최상단으로 이동"
-          >
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
-
           {/* UI Collapsed (Reading Immersion) Toggle Button */}
           {onToggleCollapseHeader && (
-            <button
-              onClick={() => {
-                playClickSound();
-                onToggleCollapseHeader();
-              }}
-              className={`w-8 h-8 rounded-[2px] border flex items-center justify-center cursor-pointer transition-colors flex-shrink-0 ${
-                isHeaderCollapsed
-                  ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
-                  : 'bg-[#181a20] hover:bg-[#22252d] border-white/[0.07] text-zinc-400 hover:text-white'
-              }`}
-              title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (독서 몰입)'}
-            >
-              {isHeaderCollapsed ? (
-                <PanelTopOpen className="w-3.5 h-3.5" />
-              ) : (
-                <PanelTopClose className="w-3.5 h-3.5" />
-              )}
-            </button>
+            <>
+              <div className="w-[1px] h-4 bg-white/10 hidden sm:block flex-shrink-0" />
+              <button
+                onClick={() => {
+                  playClickSound();
+                  onToggleCollapseHeader();
+                }}
+                className={`h-8 px-2.5 rounded-[2px] border flex items-center justify-center gap-1.5 text-[11px] font-medium cursor-pointer transition-colors flex-shrink-0 ${
+                  isHeaderCollapsed
+                    ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
+                    : 'bg-[#181a20] hover:bg-[#22252d] border-white/[0.07] text-zinc-400 hover:text-white'
+                }`}
+                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 숨기기 (독서 몰입)'}
+              >
+                {isHeaderCollapsed ? (
+                  <PanelTopOpen className="w-3.5 h-3.5" />
+                ) : (
+                  <PanelTopClose className="w-3.5 h-3.5" />
+                )}
+                <span className="hidden sm:inline">{isHeaderCollapsed ? '상단 복원' : '상단 숨김'}</span>
+              </button>
+            </>
           )}
         </div>
       </aside>

@@ -22,7 +22,9 @@ import {
   Compass,
   Link2,
   Eye,
-  Filter
+  Filter,
+  ChevronDown,
+  Check
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
@@ -396,6 +398,28 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   const [selectedReleaseYear, setSelectedReleaseYear] = useState<number | 'all'>('all');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState<boolean>(false);
   const [mobileChronoCanvas, setMobileChronoCanvas] = useState<boolean>(false);
+  const [openDropdown, setOpenDropdown] = useState<'era' | 'series' | null>(null);
+  const hudDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!openDropdown) return;
+    const handleOutside = (e: MouseEvent | TouchEvent) => {
+      if (hudDropdownRef.current && !hudDropdownRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null);
+      }
+    };
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenDropdown(null);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchstart', handleOutside);
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchstart', handleOutside);
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [openDropdown]);
 
   // 우측 전술 브리핑 도크 선택 상태 (초기 진입 시 닫힌 상태로 시작하여 화면 전체 조망 보장)
   const [inspectedStory, setInspectedStory] = useState<StoryListItem | null>(null);
@@ -1391,272 +1415,350 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       )}
 
       {/* =========================================================================
-          1-B. DESKTOP MASTER COMMAND HUD BAR (hidden md:block)
+          1-B. DESKTOP UNIFIED SINGLE-ROW COMMAND BAR (hidden md:block)
       ========================================================================= */}
       {!isHeaderCollapsed && (
-        <div className="hidden md:block flex-shrink-0 z-30 bg-[#0e0f12]/95 backdrop-blur-md border-b border-white/[0.08] px-4 lg:px-8 py-2.5 space-y-2">
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
-          {/* Left: Title & Archive Metrics */}
-          <div className="flex items-center gap-2.5">
-            <span className="w-1.5 h-4 bg-[#f5dd1b]" />
-            <div className="flex items-center gap-2.5">
-              <h1 className="text-sm sm:text-[15px] font-extrabold text-white tracking-tight font-sans">
-                스토리 연대기 & 분류
-              </h1>
-              <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-bold bg-[#16181d] text-zinc-400 border border-white/[0.08] rounded-[2px]">
-                CHRONICLE
+        <div
+          ref={hudDropdownRef}
+          className="hidden md:flex flex-shrink-0 z-30 h-12 bg-[#0e0f12]/96 backdrop-blur-md border-b border-white/[0.09] px-4 lg:px-8 items-center justify-between gap-3"
+        >
+          {/* Left: Browse Mode Tabs + Contextual Popover Filters (Era / Series) */}
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="hidden xl:flex items-center gap-2 pr-2.5 mr-0.5 border-r border-white/[0.08]">
+              <span className="w-1.5 h-3.5 bg-[#f5dd1b]" />
+              <span className="text-xs font-extrabold text-white tracking-tight whitespace-nowrap">
+                스토리 목록
               </span>
             </div>
-          </div>
 
-          {/* Right: 3 View Mode Tabs + Search + Status Filter + Fullscreen Toggle */}
-          <div className="flex flex-wrap items-center gap-2">
             {/* 3대 브라우징 모드 전환 */}
-            <div className="flex items-center gap-1 p-1 rounded-[2px] bg-[#141519] border border-white/[0.08] text-xs font-sans">
+            <div className="flex items-center gap-0.5 p-0.5 rounded-[2px] bg-[#141519] border border-white/[0.09] text-xs font-sans shrink-0">
               <button
                 onClick={() => {
                   playTabSwitchSound();
                   setBrowseMode('chronological');
+                  setOpenDropdown(null);
                 }}
-                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
+                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                   browseMode === 'chronological'
-                    ? 'bg-white/[0.08] text-white font-bold'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
+                    ? 'bg-zinc-100 text-black font-bold'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] font-medium'
                 }`}
               >
-                <Clock
-                  className={`w-3.5 h-3.5 flex-shrink-0 transition-colors ${
-                    browseMode === 'chronological' ? 'text-white' : 'text-zinc-500'
-                  }`}
-                />
-                <span>시간순 (연대기)</span>
-                {browseMode === 'chronological' && (
-                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
-                )}
+                <Clock className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>시간순</span>
               </button>
 
               <button
                 onClick={() => {
                   playTabSwitchSound();
                   setBrowseMode('story_line');
+                  setOpenDropdown(null);
                 }}
-                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
+                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                   browseMode === 'story_line'
-                    ? 'bg-white/[0.08] text-white font-bold'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
+                    ? 'bg-zinc-100 text-black font-bold'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] font-medium'
                 }`}
               >
-                <GitBranch
-                  className={`w-3.5 h-3.5 flex-shrink-0 transition-colors ${
-                    browseMode === 'story_line' ? 'text-white' : 'text-zinc-500'
-                  }`}
-                />
-                <span>서사별 (시리즈)</span>
-                {browseMode === 'story_line' && (
-                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
-                )}
+                <GitBranch className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>서사별</span>
               </button>
 
               <button
                 onClick={() => {
                   playTabSwitchSound();
                   setBrowseMode('release');
+                  setOpenDropdown(null);
                 }}
-                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
+                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                   browseMode === 'release'
-                    ? 'bg-white/[0.08] text-white font-bold'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
+                    ? 'bg-zinc-100 text-black font-bold'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] font-medium'
                 }`}
               >
-                <Calendar
-                  className={`w-3.5 h-3.5 flex-shrink-0 transition-colors ${
-                    browseMode === 'release' ? 'text-white' : 'text-zinc-500'
-                  }`}
-                />
+                <Calendar className="w-3.5 h-3.5 flex-shrink-0" />
                 <span>출시순</span>
-                {browseMode === 'release' && (
-                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
-                )}
               </button>
             </div>
 
-            {/* Instant Search */}
-            <div className="relative w-44 sm:w-52">
-              <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            {/* Chronological-Only Compact Popover Controls */}
+            {browseMode === 'chronological' && (
+              <div className="flex items-center gap-1.5 pl-1 border-l border-white/[0.08]">
+                {/* Era Quick Jump Popover */}
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      playClickSound();
+                      setOpenDropdown((prev) => (prev === 'era' ? null : 'era'));
+                    }}
+                    className={`h-8 px-2.5 rounded-[2px] border text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
+                      openDropdown === 'era'
+                        ? 'bg-[#1d1f26] border-white/30 text-white font-semibold'
+                        : 'bg-[#141519] hover:bg-[#1a1c22] border-white/[0.09] text-zinc-200'
+                    }`}
+                  >
+                    <Compass className="w-3.5 h-3.5 text-zinc-400" />
+                    <span>시대 이동</span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${openDropdown === 'era' ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {openDropdown === 'era' && (
+                    <div className="absolute top-full left-0 mt-1.5 w-72 bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl p-1.5 z-50 space-y-1">
+                      <div className="px-2 py-1 text-[10px] font-mono text-zinc-500 uppercase tracking-wider border-b border-white/[0.06]">
+                        연대기 시대 바로가기
+                      </div>
+                      {TIMELINE_ERAS.map((era) => (
+                        <button
+                          key={era.id}
+                          onClick={() => {
+                            scrollToEra(era.id);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full px-2.5 py-2 rounded-[2px] hover:bg-[#1a1c22] text-left flex items-center justify-between gap-2 transition-colors cursor-pointer group"
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="w-2 h-2 rounded-[1px] shrink-0" style={{ backgroundColor: era.color }} />
+                            <div className="min-w-0">
+                              <div className="text-xs font-bold text-zinc-100 group-hover:text-white truncate">
+                                <span className="font-mono text-zinc-400 mr-1.5">{era.code}</span>
+                                {era.titleKo.split('·')[0].trim()}
+                              </div>
+                              <div className="text-[10px] font-mono text-zinc-500">{era.periodKo}</div>
+                            </div>
+                          </div>
+                          <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#f5dd1b] shrink-0" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Series Focus Popover */}
+                <div className="relative flex items-center">
+                  {(() => {
+                    const activeLineMeta = focusedLineId && focusedLineId !== 'MAIN_ALL'
+                      ? lineMetaMap.get(focusedLineId)
+                      : null;
+                    const activeLabel = focusedLineId === 'MAIN_ALL'
+                      ? '메인 테마'
+                      : activeLineMeta
+                      ? activeLineMeta.titleKo
+                      : '전체 시리즈';
+                    const activeColor = focusedLineId === 'MAIN_ALL'
+                      ? '#f5dd1b'
+                      : activeLineMeta?.themeColor;
+
+                    return (
+                      <>
+                        <button
+                          onClick={() => {
+                            playClickSound();
+                            setOpenDropdown((prev) => (prev === 'series' ? null : 'series'));
+                          }}
+                          className={`h-8 px-2.5 rounded-[2px] border text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
+                            focusedLineId
+                              ? 'bg-[#1a1c22] border-[#f5dd1b]/60 text-white font-semibold'
+                              : openDropdown === 'series'
+                              ? 'bg-[#1d1f26] border-white/30 text-white font-semibold'
+                              : 'bg-[#141519] hover:bg-[#1a1c22] border-white/[0.09] text-zinc-200'
+                          }`}
+                        >
+                          {activeColor ? (
+                            <span className="w-2 h-2 rounded-[1px] shrink-0" style={{ backgroundColor: activeColor }} />
+                          ) : (
+                            <Filter className="w-3.5 h-3.5 text-zinc-400" />
+                          )}
+                          <span className="max-w-[140px] truncate">{activeLabel}</span>
+                          <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${openDropdown === 'series' ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {focusedLineId && (
+                          <button
+                            onClick={() => {
+                              playClickSound();
+                              setFocusedLineId(null);
+                            }}
+                            title="시리즈 강조 해제"
+                            className="ml-1 w-6 h-8 rounded-[2px] bg-[#141519] hover:bg-[#1f2228] border border-white/[0.09] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        )}
+                      </>
+                    );
+                  })()}
+
+                  {openDropdown === 'series' && (
+                    <div className="absolute top-full left-0 mt-1.5 w-[440px] max-w-[90vw] bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl p-2 z-50">
+                      <div className="flex items-center justify-between px-2 pb-1.5 mb-1.5 border-b border-white/[0.06] text-[10px] font-mono text-zinc-400">
+                        <span>시리즈 궤적 강조 필터</span>
+                        {focusedLineId && (
+                          <button
+                            onClick={() => {
+                              playClickSound();
+                              setFocusedLineId(null);
+                              setOpenDropdown(null);
+                            }}
+                            className="text-[#f5dd1b] hover:underline cursor-pointer"
+                          >
+                            초기화
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-1 max-h-[340px] overflow-y-auto pr-0.5">
+                        <button
+                          onClick={() => {
+                            playClickSound();
+                            setFocusedLineId(null);
+                            setOpenDropdown(null);
+                          }}
+                          className={`px-2.5 py-2 rounded-[2px] text-xs text-left flex items-center justify-between cursor-pointer transition-colors ${
+                            focusedLineId === null
+                              ? 'bg-white/[0.1] text-white font-bold'
+                              : 'text-zinc-300 hover:bg-[#1a1c22]'
+                          }`}
+                        >
+                          <span>전체 시리즈 표시</span>
+                          {focusedLineId === null && <Check className="w-3.5 h-3.5 text-[#f5dd1b]" />}
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            playClickSound();
+                            setFocusedLineId(focusedLineId === 'MAIN_ALL' ? null : 'MAIN_ALL');
+                            setOpenDropdown(null);
+                          }}
+                          className={`px-2.5 py-2 rounded-[2px] text-xs text-left flex items-center justify-between cursor-pointer transition-colors ${
+                            focusedLineId === 'MAIN_ALL'
+                              ? 'bg-white/[0.1] text-white font-bold'
+                              : 'text-zinc-300 hover:bg-[#1a1c22]'
+                          }`}
+                        >
+                          <span className="flex items-center gap-2 truncate">
+                            <span className="w-2 h-2 rounded-[1px] bg-[#f5dd1b] shrink-0" />
+                            <span>메인 테마 (Act I~III)</span>
+                          </span>
+                          {focusedLineId === 'MAIN_ALL' && <Check className="w-3.5 h-3.5 text-[#f5dd1b]" />}
+                        </button>
+
+                        {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_') && l.id !== 'SL_COLLAB').map((line) => {
+                          const isFocused = focusedLineId === line.id;
+                          return (
+                            <button
+                              key={line.id}
+                              onClick={() => {
+                                playClickSound();
+                                setFocusedLineId(isFocused ? null : line.id);
+                                setOpenDropdown(null);
+                              }}
+                              className={`px-2.5 py-2 rounded-[2px] text-xs text-left flex items-center justify-between gap-2 cursor-pointer transition-colors ${
+                                isFocused
+                                  ? 'bg-white/[0.1] text-white font-bold'
+                                  : 'text-zinc-300 hover:bg-[#1a1c22]'
+                              }`}
+                            >
+                              <span className="flex items-center gap-2 min-w-0">
+                                <span
+                                  className="w-2 h-2 rounded-[1px] shrink-0"
+                                  style={{ backgroundColor: line.themeColor }}
+                                />
+                                <span className="truncate">{line.titleKo}</span>
+                              </span>
+                              {isFocused && <Check className="w-3.5 h-3.5 text-[#f5dd1b] shrink-0" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right: Search + Status Segmented Filter + Immersion Toggle */}
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="relative w-44 lg:w-52">
+              <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="스토리명, 코드, 연도 검색..."
-                className="w-full h-8 pl-8 pr-7 bg-[#141519] hover:bg-[#191b20] focus:bg-[#0c0c0e] border border-white/[0.08] focus:border-white/30 rounded-[2px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none transition-colors"
+                placeholder="스토리명, 코드 검색..."
+                className="w-full h-8 pl-8 pr-7 bg-[#141519] hover:bg-[#191b20] focus:bg-[#0c0c0e] border border-white/[0.09] focus:border-white/30 rounded-[2px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none transition-colors"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white cursor-pointer"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
 
-            {/* 수록 상태 필터 */}
-            <div className="flex items-center gap-0.5 p-1 rounded-[2px] bg-[#141519] border border-white/[0.08] text-xs font-sans">
+            <div className="flex items-center gap-0.5 p-0.5 rounded-[2px] bg-[#141519] border border-white/[0.09] text-xs font-sans">
               <button
-                onClick={() => setStatusFilter('all')}
-                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1.5 ${
+                onClick={() => {
+                  playClickSound();
+                  setStatusFilter('all');
+                }}
+                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1 ${
                   statusFilter === 'all'
-                    ? 'bg-white/[0.08] text-white font-bold'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
+                    ? 'bg-zinc-100 text-black font-bold'
+                    : 'text-zinc-400 hover:text-zinc-100'
                 }`}
               >
                 <span>전체</span>
-                <span className="font-mono text-[11px] text-zinc-400">{storyRegistry.length}</span>
+                <span className="font-mono text-[10.5px] opacity-75">{storyRegistry.length}</span>
               </button>
               <button
-                onClick={() => setStatusFilter('available')}
-                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1.5 ${
+                onClick={() => {
+                  playClickSound();
+                  setStatusFilter('available');
+                }}
+                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1 ${
                   statusFilter === 'available'
-                    ? 'bg-white/[0.08] text-white font-bold'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
+                    ? 'bg-[#f5dd1b] text-black font-bold'
+                    : 'text-zinc-400 hover:text-zinc-100'
                 }`}
               >
-                <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                 <span>요약본</span>
-                <span className="font-mono text-[11px] opacity-85">{availableCount}</span>
+                <span className="font-mono text-[10.5px] opacity-75">{availableCount}</span>
               </button>
               <button
-                onClick={() => setStatusFilter('overview_only')}
-                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1.5 ${
+                onClick={() => {
+                  playClickSound();
+                  setStatusFilter('overview_only');
+                }}
+                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1 ${
                   statusFilter === 'overview_only'
-                    ? 'bg-white/[0.08] text-zinc-100 font-bold'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
+                    ? 'bg-zinc-200 text-black font-bold'
+                    : 'text-zinc-400 hover:text-zinc-100'
                 }`}
               >
-                <span className="w-1.5 h-1.5 bg-zinc-500" />
                 <span>개요</span>
-                <span className="font-mono text-[11px] opacity-85">{overviewOnlyCount}</span>
+                <span className="font-mono text-[10.5px] opacity-75">{overviewOnlyCount}</span>
               </button>
             </div>
 
-            {/* UI 단축 토글 버튼 */}
             {onToggleHeaderCollapse && (
               <button
                 onClick={() => {
                   playClickSound();
                   onToggleHeaderCollapse();
                 }}
-                className={`h-7 px-2.5 rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium border ${
-                  isHeaderCollapsed
-                    ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
-                    : 'bg-[#141519] hover:bg-[#1c1e24] text-zinc-300 hover:text-white border-white/[0.08]'
-                }`}
-                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
+                className="h-8 px-2.5 rounded-[2px] bg-[#141519] hover:bg-[#1c1e24] text-zinc-300 hover:text-white border border-white/[0.09] hover:border-white/25 transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium whitespace-nowrap"
+                title="상단 메뉴 숨기기 (넓은 화면 보기)"
               >
-                {isHeaderCollapsed ? (
-                  <PanelTopOpen className="w-3.5 h-3.5" />
-                ) : (
-                  <PanelTopClose className="w-3.5 h-3.5" />
-                )}
-                <span className="hidden sm:inline">{isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}</span>
+                <PanelTopClose className="w-3.5 h-3.5" />
+                <span className="hidden lg:inline">상단 숨김</span>
               </button>
             )}
           </div>
         </div>
-
-        {/* Sub-Bar for Chronological Mode: Era Quick Jump + Story Line Trajectory Focus */}
-        {browseMode === 'chronological' && (
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/[0.06] font-sans">
-            {/* 시대 점프 버튼 */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-              <span className="text-[11px] font-semibold text-zinc-400 mr-1 flex items-center gap-1.5 flex-shrink-0">
-                <Compass className="w-3.5 h-3.5 text-zinc-400" />
-                <span>시대 이동</span>
-              </span>
-              {TIMELINE_ERAS.map((era) => (
-                <button
-                  key={era.id}
-                  onClick={() => scrollToEra(era.id)}
-                  className="h-6.5 px-2.5 text-[11px] rounded-[2px] border border-white/[0.08] bg-[#141519] hover:bg-[#1d1f26] hover:border-white/25 text-zinc-300 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 flex-shrink-0 group"
-                >
-                  <span className="w-1.5 h-1.5 rounded-[1px]" style={{ backgroundColor: era.color }} />
-                  <span className="font-mono font-bold text-white text-[10.5px]">{era.code}</span>
-                  <span className="text-zinc-400 group-hover:text-zinc-200 hidden sm:inline">
-                    {era.titleKo.split('·')[0].trim()}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {/* 서사 궤적 하이라이트 필터 */}
-            <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-              <span className="text-[11px] font-semibold text-zinc-400 mr-1 flex items-center gap-1.5 flex-shrink-0">
-                <Filter className="w-3.5 h-3.5 text-zinc-400" />
-                <span>시리즈 강조</span>
-              </span>
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setFocusedLineId(null);
-                }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border transition-colors cursor-pointer flex-shrink-0 ${
-                  focusedLineId === null
-                    ? 'bg-white/[0.1] text-white border-white/30 font-bold'
-                    : 'bg-[#141519] text-zinc-400 border-white/[0.07] hover:text-zinc-200 hover:bg-[#1a1c22]'
-                }`}
-              >
-                전체 표시
-              </button>
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setFocusedLineId(focusedLineId === 'MAIN_ALL' ? null : 'MAIN_ALL');
-                }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border transition-colors cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${
-                  focusedLineId === 'MAIN_ALL'
-                    ? 'bg-white/[0.1] text-white border-[#f5dd1b] font-bold'
-                    : 'bg-[#141519] text-zinc-300 border-white/[0.07] hover:bg-[#1a1c22] hover:border-white/20'
-                }`}
-              >
-                <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
-                <span>메인 테마</span>
-              </button>
-              {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_') && l.id !== 'SL_COLLAB').map((line) => {
-                const isFocused = focusedLineId === line.id;
-                return (
-                  <button
-                    key={line.id}
-                    onClick={() => {
-                      playClickSound();
-                      setFocusedLineId(isFocused ? null : line.id);
-                    }}
-                    className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border transition-colors cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${
-                      isFocused
-                        ? 'text-white font-bold'
-                        : 'bg-[#141519] text-zinc-300 border-white/[0.07] hover:bg-[#1a1c22] hover:border-white/20'
-                    }`}
-                    style={
-                      isFocused
-                        ? {
-                            backgroundColor: `${line.themeColor}26`,
-                            borderColor: line.themeColor,
-                            color: '#ffffff',
-                          }
-                        : undefined
-                    }
-                  >
-                    <span
-                      className="w-1.5 h-1.5 rounded-[1px]"
-                      style={{ backgroundColor: line.themeColor }}
-                    />
-                    <span>{line.titleKo}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
       )}
 
       {/* =========================================================================
@@ -1765,7 +1867,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               title="상단 메뉴 다시 열기"
             >
               <PanelTopOpen className="w-3.5 h-3.5" />
-              <span>메뉴 복원</span>
+              <span>상단 복원</span>
             </button>
           )}
         </div>
@@ -2214,33 +2316,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                           <div className="text-[10px] text-zinc-400 mt-1 leading-relaxed">
                             {lane.subtitleKo}
                           </div>
-                          {/* 소속 서사 라인 태그 */}
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {lane.storyLineIds
-                              .filter((id) => !id.startsWith('MAIN_'))
-                              .map((lineId) => {
-                                const lm = lineMetaMap.get(lineId);
-                                if (!lm) return null;
-                                const isFocused = focusedLineId === lineId;
-                                return (
-                                  <button
-                                    key={lineId}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      playClickSound();
-                                      setFocusedLineId(isFocused ? null : lineId);
-                                    }}
-                                    className={`px-1.5 py-0.5 text-[9.5px] font-mono rounded-[2px] border transition-colors cursor-pointer ${
-                                      isFocused
-                                        ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
-                                        : 'bg-[#17191e] text-zinc-300 border-white/[0.08] hover:border-white/25'
-                                    }`}
-                                  >
-                                    {lm.code} · {lm.titleKo}
-                                  </button>
-                                );
-                              })}
-                          </div>
                         </div>
 
                         {/* 5 Era Cells for this Lane */}
@@ -2445,17 +2520,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             <div className="absolute bottom-4 left-4 z-30 flex items-center gap-1.5 p-1.5 rounded-[2px] bg-[#121316]/95 backdrop-blur-md border border-white/[0.12] shadow-xl font-mono text-xs">
               <div
                 className="hidden sm:flex items-center gap-1.5 px-2 text-[10px] text-zinc-400 border-r border-white/10 select-none"
-                title="연대기 노선도 조작: WASD 또는 방향키 (Shift 누를 시 고속 가속), 좌클릭 드래그로 이동, 마우스 휠로 줌, 더블클릭으로 스토리 즉시 열람"
+                title="WASD / 방향키 (Shift 가속), 좌클릭 드래그 이동, 휠 줌, 더블클릭 스토리 열람"
               >
                 <Move className="w-3 h-3 text-zinc-400" />
-                <span>
-                  <strong className="text-zinc-200 font-semibold">WASD / 방향키 / 드래그</strong>: 이동
-                  <span className="text-zinc-400 text-[9px] ml-1 font-semibold">(Shift 가속)</span>
-                  <span className="text-zinc-500 mx-1">·</span>
-                  휠: 줌
-                  <span className="text-zinc-500 mx-1">·</span>
-                  더블클릭: 즉시 열람
-                </span>
+                <span>드래그 이동 · 휠 줌 · 더블클릭 열람</span>
               </div>
 
               <button
@@ -2496,24 +2564,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
-
-              {onToggleHeaderCollapse && (
-                <>
-                  <div className="hidden md:block w-[1px] h-4 bg-white/10 mx-0.5" />
-                  <button
-                    onClick={onToggleHeaderCollapse}
-                    className="hidden md:flex px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-zinc-100 text-zinc-300 hover:text-black items-center gap-1 text-[10.5px] cursor-pointer transition-colors"
-                    title={isHeaderCollapsed ? '상단 메뉴 다시 열기' : '상단 메뉴 접기 (UI 단축)'}
-                  >
-                    {isHeaderCollapsed ? (
-                      <PanelTopOpen className="w-3 h-3" />
-                    ) : (
-                      <PanelTopClose className="w-3 h-3" />
-                    )}
-                    <span className="hidden md:inline">{isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}</span>
-                  </button>
-                </>
-              )}
             </div>
           </div>
         )}

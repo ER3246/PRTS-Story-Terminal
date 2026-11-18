@@ -178,7 +178,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className={`h-7 md:h-8 px-2 md:px-2.5 rounded-[2px] border transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium whitespace-nowrap group ${
                   isFullscreen
                     ? 'bg-white/[0.1] text-white border-[#f5dd1b]/70'
-                    : 'bg-[#141519] hover:bg-[#1d1f26] text-zinc-300 hover:text-white border-white/[0.08] hover:border-white/20'
+                    : 'bg-[#141519] hover:bg-[#1d1f26] text-zinc-300 hover:text-white border-white/[0.11] hover:border-white/25'
                 }`}
               >
                 {isFullscreen ? (
@@ -198,45 +198,49 @@ export const Header: React.FC<HeaderProps> = ({
                   onOpenInfoLicense();
                 }}
                 title="저작권 · 면책 고지 · 안내"
-                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[2px] bg-[#141519] hover:bg-[#1d1f26] text-zinc-300 hover:text-white border border-white/[0.08] hover:border-white/20 transition-colors cursor-pointer flex items-center gap-1.5 text-[11px] font-mono font-medium whitespace-nowrap group"
+                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[2px] bg-[#141519] hover:bg-[#1d1f26] text-zinc-300 hover:text-white border border-white/[0.11] hover:border-white/25 transition-colors cursor-pointer flex items-center gap-1.5 text-[11px] font-mono font-medium whitespace-nowrap group"
               >
                 <Info className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-100 shrink-0" />
                 <span className="hidden sm:inline">INFO / LICENSE</span>
               </button>
             )}
 
-            {onOpenReviewExport && (
-              <button
-                type="button"
-                onClick={() => {
-                  playClickSound();
-                  onOpenReviewExport();
-                }}
-                title="요약 문서 다운로드"
-                className="w-7 h-7 md:w-8 md:h-8 rounded-[2px] bg-[#141519] hover:bg-[#1d1f26] text-zinc-400 hover:text-white border border-white/[0.08] hover:border-white/20 transition-colors cursor-pointer flex items-center justify-center shrink-0"
-              >
-                <Download className="w-3.5 h-3.5 md:w-4 md:h-4" />
-              </button>
-            )}
-
-            {onToggleSound && (
-              <button
-                type="button"
-                onClick={onToggleSound}
-                title={isSoundOn ? '효과음 끄기' : '효과음 켜기'}
-                className={`h-7 md:h-8 px-2 rounded-[2px] border transition-colors cursor-pointer flex items-center justify-center gap-1 relative shrink-0 ${
-                  isSoundOn
-                    ? 'bg-[#141519] text-white border-white/25'
-                    : 'w-7 md:w-8 px-0 bg-[#141519] hover:bg-[#1d1f26] text-zinc-500 hover:text-zinc-200 border-white/[0.08]'
-                }`}
-              >
-                {isSoundOn ? (
-                  <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#f5dd1b] shrink-0" />
-                ) : (
-                  <VolumeX className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" />
+            {(onOpenReviewExport || onToggleSound) && (
+              <div className="flex items-center gap-1.5 pl-1.5 ml-0.5 border-l border-white/[0.08]">
+                {onOpenReviewExport && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playClickSound();
+                      onOpenReviewExport();
+                    }}
+                    title="아카이브 요약본 내보내기 (.MD / JSON)"
+                    className="w-7 h-7 md:w-8 md:h-8 rounded-[2px] bg-[#141519] hover:bg-[#1d1f26] text-zinc-400 hover:text-white border border-white/[0.11] hover:border-white/25 transition-colors cursor-pointer flex items-center justify-center shrink-0"
+                  >
+                    <Download className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  </button>
                 )}
-                <AudioVisualizerBars active={isSoundOn} />
-              </button>
+
+                {onToggleSound && (
+                  <button
+                    type="button"
+                    onClick={onToggleSound}
+                    title={isSoundOn ? '효과음 끄기' : '효과음 켜기'}
+                    className={`h-7 md:h-8 px-2 rounded-[2px] border transition-colors cursor-pointer flex items-center justify-center gap-1 relative shrink-0 ${
+                      isSoundOn
+                        ? 'bg-[#141519] text-white border-white/25'
+                        : 'w-7 md:w-8 px-0 bg-[#141519] hover:bg-[#1d1f26] text-zinc-500 hover:text-zinc-200 border-white/[0.11] hover:border-white/25'
+                    }`}
+                  >
+                    {isSoundOn ? (
+                      <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#f5dd1b] shrink-0" />
+                    ) : (
+                      <VolumeX className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" />
+                    )}
+                    <AudioVisualizerBars active={isSoundOn} />
+                  </button>
+                )}
+              </div>
             )}
           </div>
         </div>

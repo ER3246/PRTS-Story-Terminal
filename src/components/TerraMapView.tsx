@@ -34,7 +34,6 @@ import {
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
-import { MouseDragIcon, MouseScrollIcon, ArrowKeysIcon } from './ui/TacticalIcons';
 
 interface TerraMapViewProps {
   onSelectStory: (id: string) => void;
@@ -42,39 +41,39 @@ interface TerraMapViewProps {
   onToggleHeaderCollapse?: () => void;
 }
 
-// Refined Tactical Mineral & Biome Palette (Desaturated Achromatic-Compatible Wargame Tones)
+// Refined Tactical Mineral & Biome Palette (Balanced Chroma over Achromatic Charcoal Ocean)
 const CELL_COLORS: Record<CellType, string> = {
-  // Bathymetry & Anomalies
-  deep: '#0e1014',
-  shallow: '#161920',
+  // Bathymetry & Anomalies (Aligned with #0b0c0e UI charcoal tone)
+  deep: '#101216',
+  shallow: '#181c23',
   void: '#090a0c',
-  crater: '#12141a',
+  crater: '#13161d',
 
   // Neutral Continental Landmass & Extreme Environments
-  land: '#242830',
-  frontier: '#1d2027',
-  icefield: '#6e7c8a',
-  foehn_hotlands: '#4d3228',
+  land: '#282c34',
+  frontier: '#20242c',
+  icefield: '#7d90a6',
+  foehn_hotlands: '#663826',
 
-  // 18 Major Nations & Factions (Desaturated Tactical Mineral Tones)
-  ursus: '#5c2d33',
-  kazimierz: '#2f4f3e',
-  columbia: '#2d4461',
-  bolivar: '#2b4d57',
-  yan: '#634f2d',
-  sargon: '#594529',
-  minos: '#5e3b2c',
-  victoria: '#493861',
-  leithanien: '#3e4556',
-  higashi: '#3d405e',
-  sami: '#493b59',
-  siracusa: '#593f2a',
-  laterano: '#635b3b',
-  rim_billiton: '#573245',
-  iberia: '#3f522e',
-  kazdel: '#523059',
-  siesta: '#2b505e',
-  kjerag: '#4e6c80',
+  // 18 Major Nations & Factions (Clear Chromatic Separation without Neon Glare)
+  ursus: '#7f2f3c',
+  kazimierz: '#2c6b4d',
+  columbia: '#2c5385',
+  bolivar: '#256173',
+  yan: '#85652c',
+  sargon: '#755426',
+  minos: '#7d462d',
+  victoria: '#5c3c8a',
+  leithanien: '#495673',
+  higashi: '#454b82',
+  sami: '#5b3f80',
+  siracusa: '#734a28',
+  laterano: '#85783d',
+  rim_billiton: '#78365b',
+  iberia: '#4d692c',
+  kazdel: '#6d307d',
+  siesta: '#246680',
+  kjerag: '#4f82a3',
 };
 
 // Baseline Regional Elevation (World Units) before intra-region topographical sculpting
@@ -267,7 +266,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act I: 부분 괴사 ~ 울부짖는 광명 (핵심부 충돌 저지 결전)',
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 519, y: 415 },
-    color: '#d4b830',
+    color: '#eab308',
     storyId: 'ep08',
     regionIds: ['yan', 'ursus'],
     labelT: 0.58,
@@ -281,7 +280,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act II 스톰워치: 더블린 봉기 및 힐록 카운티 사태 진상 규명',
     fromPixel: { x: 356, y: 537 },
     toPixel: { x: 386, y: 554 },
-    color: '#b57c4a',
+    color: '#e87d45',
     storyId: 'ep09',
     regionIds: ['victoria'],
     labelT: 0.46,
@@ -295,7 +294,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act II: 살카즈 군사위원회 런디니움 점령 및 로도스 탈환 작전',
     fromPixel: { x: 543, y: 502 },
     toPixel: { x: 386, y: 554 },
-    color: '#c99746',
+    color: '#f59e0b',
     storyId: 'ep14',
     regionIds: ['kazdel', 'victoria'],
     labelT: 0.48,
@@ -309,7 +308,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: 'Act III: 비정상 스펙트럼 ~ 임계 상전이 (우르수스 북방 빙원 전선)',
     fromPixel: { x: 455, y: 398 },
     toPixel: { x: 419, y: 280 },
-    color: '#8a7096',
+    color: '#b57ce8',
     storyId: 'ep17',
     regionIds: ['ursus', 'infy_icefield', 'sami'],
     labelT: 0.5,
@@ -327,7 +326,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '바벨(Babel): 림 빌리턴 본함 발굴 및 카즈델 귀환 대원정',
     fromPixel: { x: 548, y: 597 },
     toPixel: { x: 543, y: 502 },
-    color: '#68929e',
+    color: '#54c5d0',
     storyId: 'sid_babel',
     regionIds: ['rim_billiton', 'kazdel'],
     labelT: 0.52,
@@ -341,7 +340,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '흑야의 회고록: 바벨 붕괴 후 박사 석관 이송 및 W 소대 추적',
     fromPixel: { x: 543, y: 502 },
     toPixel: { x: 534, y: 424 },
-    color: '#7b9ab0',
+    color: '#56b4e9',
     storyId: 'sid_darknights_memoir',
     regionIds: ['kazdel', 'ursus'],
     labelT: 0.5,
@@ -355,7 +354,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '니어 라이트 연작: 카시미어 변경에서 대기사령 결전까지의 여정',
     fromPixel: { x: 376, y: 476 },
     toPixel: { x: 356, y: 450 },
-    color: '#b89648',
+    color: '#d4a62a',
     storyId: 'sid_near_light',
     regionIds: ['kazimierz'],
     labelT: 0.5,
@@ -369,7 +368,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '쉐이(Sui) 연대기: 삼자매(니엔·더스크·링) 합류 및 사세대(司岁台) 및 염국 관원들과의 상촉·백조 행 (에인션트 포지 ~ 장진주)',
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 622, y: 493 },
-    color: '#5e9096',
+    color: '#48b5d6',
     storyId: 'sid_invitation_to_wine',
     regionIds: ['yan'],
     labelT: 0.54,
@@ -383,7 +382,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: "쉐이(Sui) 연대기: 옥문에서 쉐이 맏형 '총웨(종사)'와 함께 둘째 '왕'의 음모를 분쇄한 뒤, 천자의 황성 백조를 거쳐 동방의 곡창도시 대황성(회서리)에서 여섯째 '슈'와 함께 대재앙에 맞서는 대장정",
     fromPixel: { x: 602, y: 424 },
     toPixel: { x: 686, y: 441 },
-    color: '#bca36b',
+    color: '#ddb33a',
     storyId: 'sid_vernal_winds',
     regionIds: ['yan'],
     labelT: 0.5,
@@ -397,7 +396,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '맨스필드 브레이크 ~ 도로시의 비전: 359호 기지 실험 데이터 트리마운츠 집결',
     fromPixel: { x: 283, y: 458 },
     toPixel: { x: 243, y: 476 },
-    color: '#648c74',
+    color: '#2db883',
     storyId: 'sid_dorothys_vision',
     regionIds: ['columbia'],
     labelT: 0.48,
@@ -411,7 +410,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '론 트레일: 트리마운츠 외곽 지하에서 이륙한 초점 발생기(아크 1호)와 에너지 우물을 가동하여 5,000m 상공에서 스텔라리아를 발사, 6,152m 대기 차단층을 돌파 (상공 투영 궤적)',
     fromPixel: { x: 243, y: 476 },
     toPixel: { x: 320, y: 138 },
-    color: '#94a3b8',
+    color: '#38bdf8',
     storyId: 'sid_lone_trail',
     regionIds: ['columbia', 'north_stargate', 'infy_icefield', 'sami'],
     labelT: 0.45,
@@ -425,7 +424,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '언더 타이즈: 살비엔토 해안 어비설 헌터스 집결 및 등대 수색',
     fromPixel: { x: 415, y: 658 },
     toPixel: { x: 450, y: 667 },
-    color: '#5c8e91',
+    color: '#3bc4b2',
     storyId: 'sid_under_tides',
     regionIds: ['iberia'],
     labelT: 0.46,
@@ -439,7 +438,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '스툴티페라 나비스 ~ 삶의 길: 이베리아 대등대 및 에기르 심해 원정',
     fromPixel: { x: 450, y: 667 },
     toPixel: { x: 586, y: 867 },
-    color: '#4d7894',
+    color: '#2887c7',
     storyId: 'sid_stultifera_navis',
     regionIds: ['iberia', 'aegir'],
     labelT: 0.5,
@@ -457,7 +456,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '고탑의 그림자: 월루몽드의 황혼 ~ 츠빌링슈튀르메의 가을',
     fromPixel: { x: 455, y: 519 },
     toPixel: { x: 425, y: 502 },
-    color: '#8a7096',
+    color: '#a56be0',
     storyId: 'sid_zwillingsturme',
     regionIds: ['leithanien'],
     labelT: 0.5,
@@ -471,7 +470,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: "시라쿠사인: 구도시 볼시니로 귀환하여 패밀리 결전을 치르고 신생 자치 이동도시 '누오바 볼시니'를 세운 행적",
     fromPixel: { x: 583, y: 450 },
     toPixel: { x: 494, y: 519 },
-    color: '#a6704b',
+    color: '#d1783c',
     storyId: 'sid_il_siracusano',
     regionIds: ['yan', 'siracusa'],
     labelT: 0.54,
@@ -485,7 +484,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '설산과 은철: 브레이크 디 아이스 ~ 은심호 열차 개통 작전',
     fromPixel: { x: 386, y: 554 },
     toPixel: { x: 317, y: 519 },
-    color: '#7b9ab0',
+    color: '#68b8de',
     storyId: 'sid_break_the_ice',
     regionIds: ['victoria', 'kjerag'],
     labelT: 0.52,
@@ -499,7 +498,7 @@ const TACTICAL_ROUTES: TacticalRouteArc[] = [
     fullLabel: '여름의 리듬: 파란 불꽃의 마음 ~ 가비알 리턴즈 & 아카후알라 두린 지하도시 쎄루에르차 원정',
     fromPixel: { x: 334, y: 593 },
     toPixel: { x: 258, y: 649 },
-    color: '#5c8e91',
+    color: '#24b2cc',
     storyId: 'sid_heart_of_surging_flame',
     regionIds: ['siesta', 'sargon'],
     labelT: 0.5,
@@ -570,11 +569,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const [showElevation, setShowElevation] = useState<boolean>(true);
   const [showLogos, setShowLogos] = useState<boolean>(true);
   const [showCities, setShowCities] = useState<boolean>(true);
-  const [showRoutes, setShowRoutes] = useState<boolean>(true);
+  const [showRoutes, setShowRoutes] = useState<boolean>(false);
   const [routeFilter, setRouteFilter] = useState<'all' | RouteCategory>('all');
-  const [isSectorListOpen, setIsSectorListOpen] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.innerWidth >= 768 : true
-  );
+  const [isSectorListOpen, setIsSectorListOpen] = useState<boolean>(false);
   const [sectorSearch, setSectorSearch] = useState<string>('');
   const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d');
   const [isLegendOpen, setIsLegendOpen] = useState<boolean>(false);
@@ -2318,10 +2315,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     onToggleHeaderCollapse();
                   }}
                   className="h-6 px-2.5 rounded-[1px] bg-[#f5dd1b] text-black font-sans font-bold text-[10.5px] flex items-center gap-1 cursor-pointer"
-                  title="상단 메뉴 및 도구 복원"
+                  title="상단 메뉴 복원"
                 >
                   <PanelTopOpen className="w-3 h-3" />
-                  <span>메뉴 복원</span>
+                  <span>상단 복원</span>
                 </button>
               )}
             </div>
@@ -2334,6 +2331,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               <input
                 type="text"
                 value={sectorSearch}
+                onFocus={() => setIsSectorListOpen(true)}
                 onChange={(e) => {
                   setSectorSearch(e.target.value);
                   if (!isSectorListOpen) setIsSectorListOpen(true);
@@ -2393,7 +2391,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               <HelpCircle className="w-3.5 h-3.5" />
             </button>
 
-            {/* Fullscreen Toggle Button */}
+            {/* Collapse Top Bar Button */}
             {onToggleHeaderCollapse && (
               <button
                 onClick={() => {
@@ -2405,7 +2403,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     ? 'bg-[#f5dd1b] text-black font-bold'
                     : 'bg-[#16181d] text-zinc-300'
                 }`}
-                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
+                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 숨기기'}
               >
                 {isHeaderCollapsed ? (
                   <PanelTopOpen className="w-3.5 h-3.5" />
@@ -2566,6 +2564,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               <input
                 type="text"
                 value={sectorSearch}
+                onFocus={() => setIsSectorListOpen(true)}
                 onChange={(e) => {
                   setSectorSearch(e.target.value);
                   if (!isSectorListOpen) setIsSectorListOpen(true);
@@ -2804,7 +2803,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     playClickSound();
                     onToggleHeaderCollapse();
                   }}
-                  title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
+                  title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 숨기기'}
                   className={`${
                     isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
                   } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
@@ -2819,7 +2818,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     <PanelTopClose className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
                   )}
                   <span className="hidden sm:inline font-semibold">
-                    {isHeaderCollapsed ? '메뉴 복원' : 'UI 단축'}
+                    {isHeaderCollapsed ? '상단 복원' : '상단 숨김'}
                   </span>
                 </button>
               </div>
@@ -2887,7 +2886,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             4. BOTTOM UNIFIED CONTROL GUIDE, STATUS READOUT & CAMERA BAR
             - 모바일: 1글자 세로 줄바꿈을 유발하던 좌측 안내 박스를 제거하고 슬림한 360° 회전 바만 배치
             - 모바일 가로: 세로 공간 확보를 위해 좌측 가이드 숨김 및 우측 바 컴팩트화
-            - 데스크톱: 좌측 상태/조작 바 + 우측 전체 카메라 컨트롤 바 유지
+            - 데스크톱: 좌측 심플 섹터 Readout 배지 + 우측 카메라 컨트롤 바
         ========================================================================= */}
         <div
           data-hud-panel="true"
@@ -2903,56 +2902,19 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               : 'flex'
           }`}
         >
-          {/* Left: Compact Control Guide + Live Sector Readout (Desktop Only - Prevents Mobile 1-Char Vertical Wrap) */}
+          {/* Left: Sleek Live Sector Telemetry Pill (Desktop Only) */}
           <div
             className={`${
               isLandscapeMobile ? 'hidden' : 'hidden md:flex'
-            } pointer-events-auto prts-glass rounded-[2px] px-3 py-2 flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] shadow-xl`}
+            } pointer-events-auto prts-glass rounded-[2px] px-3 py-1.5 items-center gap-2 text-[11px] shadow-xl`}
           >
-            {/* Active Sector Indicator */}
-            <div className="flex items-center gap-2 pr-2 border-r border-white/10">
-              <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
-              <span ref={telemetrySectorRef} className="text-white font-semibold">
-                중립 지역
-              </span>
-              <span ref={telemetryCoordRef} className="text-zinc-500 font-mono text-[10px] hidden lg:inline">
-                X:410 Y:512 · 450M
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 text-zinc-300 text-[11px]">
-              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-                <MouseDragIcon className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-                <span className="text-zinc-400">드래그</span>
-                <span className="text-white font-medium">이동 · 회전</span>
-              </span>
-              <span className="text-zinc-600">|</span>
-              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-                <MouseScrollIcon className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-                <span className="text-zinc-400">스크롤</span>
-                <span className="text-white font-medium">확대 · 축소</span>
-              </span>
-              <span className="text-zinc-600 hidden lg:inline">|</span>
-              <span className="hidden lg:inline-flex items-center gap-1.5 whitespace-nowrap">
-                <ArrowKeysIcon className="w-4 h-3.5 text-zinc-400 shrink-0" />
-                <span className="text-zinc-400">방향키</span>
-                <span className="text-white font-medium">지도 이동</span>
-              </span>
-
-              <div className="w-[1px] h-3.5 bg-white/10" />
-
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setIsLegendOpen(true);
-                }}
-                title="지도 범례 및 조작 안내"
-                className="flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-[#16181d] hover:bg-zinc-100 text-zinc-200 hover:text-black border border-white/[0.08] font-semibold transition-colors cursor-pointer text-[11px] whitespace-nowrap shrink-0"
-              >
-                <HelpCircle className="w-3.5 h-3.5" />
-                <span>지도 범례</span>
-              </button>
-            </div>
+            <span className="w-1.5 h-1.5 bg-[#f5dd1b] shrink-0" />
+            <span ref={telemetrySectorRef} className="text-zinc-100 font-semibold whitespace-nowrap">
+              중립 지역
+            </span>
+            <span ref={telemetryCoordRef} className="text-zinc-500 font-mono text-[10px] pl-2 border-l border-white/10 hidden lg:inline whitespace-nowrap">
+              X:410 Y:512 · 450M
+            </span>
           </div>
 
           {/* Right (Desktop) / Bottom Slim Bar (Mobile): 360° Rotation Slider & Camera Controls */}
