@@ -55,7 +55,7 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
             className="fixed top-0 inset-x-0 h-[2px] z-50 pointer-events-none print:hidden bg-white/[0.04]"
           >
             <div
-              className="h-full bg-gradient-to-r from-[#ffe600] via-[#ffe600] to-[#00d8ff] transition-[width] duration-100 ease-out shadow-[0_0_8px_rgba(255,230,0,0.5)]"
+              className="h-full bg-[#f5dd1b] transition-[width] duration-100 ease-out"
               style={{ width: `${scrollProgress}%` }}
             />
           </motion.div>
@@ -76,7 +76,7 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
             <button
               onClick={scrollToTop}
               title="페이지 최상단으로 이동"
-              className="w-9 h-9 rounded-t-[4px] bg-[#0b0e16]/90 hover:bg-white/[0.1] backdrop-blur-xl border border-white/[0.12] hover:border-[#ffe600]/60 text-zinc-400 hover:text-[#ffe600] flex items-center justify-center transition-colors shadow-2xl group cursor-pointer"
+              className="w-9 h-9 rounded-t-[2px] bg-[#121316]/95 hover:bg-[#1a1c22] border border-white/[0.1] hover:border-white/25 text-zinc-400 hover:text-white flex items-center justify-center transition-colors shadow-xl group cursor-pointer"
             >
               <ChevronUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
             </button>
@@ -84,10 +84,10 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
             {/* 스크롤 진척도 미니 인디케이터 (live bar + %) */}
             <div
               title={`스크롤 위치 ${scrollProgress}%`}
-              className="w-9 py-1.5 bg-[#080a10]/95 backdrop-blur-xl border-x border-white/[0.12] text-center text-[10px] font-mono text-zinc-300 font-bold tracking-tight relative overflow-hidden"
+              className="w-9 py-1.5 bg-[#0e0f12]/95 border-x border-white/[0.1] text-center text-[10px] font-mono text-zinc-300 font-bold tracking-tight relative overflow-hidden"
             >
               <span
-                className="absolute inset-y-0 left-0 bg-[#ffe600]/12 pointer-events-none transition-[width] duration-100"
+                className="absolute inset-y-0 left-0 bg-[#f5dd1b]/15 pointer-events-none transition-[width] duration-100"
                 style={{ width: `${scrollProgress}%` }}
               />
               <span className="relative z-10">{scrollProgress}%</span>
@@ -97,7 +97,7 @@ export const ScrollNavButtons: React.FC<ScrollNavButtonsProps> = ({ currentView 
             <button
               onClick={scrollToBottom}
               title="페이지 최하단으로 이동"
-              className="w-9 h-9 rounded-b-[4px] bg-[#0b0e16]/90 hover:bg-white/[0.1] backdrop-blur-xl border border-white/[0.12] hover:border-[#ffe600]/60 text-zinc-400 hover:text-[#ffe600] flex items-center justify-center transition-colors shadow-2xl group cursor-pointer"
+              className="w-9 h-9 rounded-b-[2px] bg-[#121316]/95 hover:bg-[#1a1c22] border border-white/[0.1] hover:border-white/25 text-zinc-400 hover:text-white flex items-center justify-center transition-colors shadow-xl group cursor-pointer"
             >
               <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
             </button>

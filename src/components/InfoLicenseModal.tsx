@@ -88,15 +88,15 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-3xl max-h-[88vh] bg-[#0a0d16]/98 border border-white/20 rounded-[4px] shadow-[0_24px_64px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-zinc-100 font-sans"
+            className="relative w-full max-w-3xl max-h-[88vh] bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl flex flex-col overflow-hidden text-zinc-100 font-sans"
           >
             {/* Top Accent Line */}
-            <div className="h-1 w-full bg-gradient-to-r from-[#ffe600] via-[#00d8ff] to-transparent" />
+            <div className="h-[2px] w-full bg-zinc-200 shrink-0" />
 
             {/* Header */}
-            <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+            <div className="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between bg-[#16181d]">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-7 h-7 rounded-[3px] bg-[#ffe600]/15 border border-[#ffe600]/50 flex items-center justify-center text-[#ffe600] shrink-0">
+                <div className="w-7 h-7 rounded-[2px] bg-white/[0.06] border border-white/15 flex items-center justify-center text-zinc-200 shrink-0">
                   <Info className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
@@ -104,11 +104,11 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                     <h2 className="text-base sm:text-lg font-extrabold text-white tracking-tight">
                       PRTS Archive 안내 · 저작권 및 면책 고지
                     </h2>
-                    <span className="px-1.5 py-0.5 rounded-[2px] bg-white/10 text-[#ffe600] font-mono text-[10px] font-bold shrink-0 whitespace-nowrap">
+                    <span className="px-1.5 py-0.5 rounded-[1px] bg-white/[0.07] text-zinc-300 font-mono text-[10px] font-bold shrink-0 whitespace-nowrap">
                       INFO / LICENSE
                     </span>
                   </div>
-                  <p className="text-[11px] font-mono text-zinc-400 truncate">
+                  <p className="text-[11px] font-mono text-zinc-500 truncate">
                     COPYRIGHT NOTICE, AI CONTENT DISCLAIMER &amp; OPERATION GUIDE
                   </p>
                 </div>
@@ -120,14 +120,14 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                   onClose();
                 }}
                 title="닫기 (ESC)"
-                className="w-7 h-7 rounded-[2px] bg-white/[0.06] hover:bg-white/[0.15] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                className="w-7 h-7 rounded-[2px] bg-[#1c1e24] hover:bg-white/[0.15] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* 5-Tab Segmented Navigation */}
-            <div className="px-5 pt-3 pb-2 border-b border-white/[0.08] bg-[#07090f] flex flex-wrap gap-1.5">
+            <div className="px-5 pt-3 pb-2 border-b border-white/[0.08] bg-[#0e0f12] flex flex-wrap gap-1.5">
               {(
                 [
                   { id: 'license', label: '1. 저작권 및 비영리 고지', Icon: ShieldAlert },
@@ -145,17 +145,17 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                       playTabSwitchSound();
                       setActiveTab(id);
                     }}
-                    className={`relative h-8 px-3.5 rounded-[3px] text-xs flex items-center gap-1.5 cursor-pointer transition-colors whitespace-nowrap shrink-0 ${
+                    className={`relative h-8 px-3.5 rounded-[2px] text-xs flex items-center gap-1.5 cursor-pointer transition-colors whitespace-nowrap shrink-0 ${
                       isSelected
                         ? 'text-black font-bold'
-                        : 'bg-white/[0.04] text-zinc-300 hover:text-white hover:bg-white/[0.08] border border-white/[0.07]'
+                        : 'bg-[#16181d] text-zinc-300 hover:text-white hover:bg-[#1e2026] border border-white/[0.07]'
                     }`}
                   >
                     {isSelected && (
                       <motion.span
                         layoutId="info-modal-active-tab"
                         transition={PRTS_SPRING}
-                        className="absolute inset-0 rounded-[3px] bg-[#ffe600] shadow"
+                        className="absolute inset-0 rounded-[2px] bg-zinc-100"
                       />
                     )}
                     <Icon className="w-3.5 h-3.5 relative z-10 shrink-0" />
@@ -170,8 +170,8 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
           {/* TAB 1: 비영리 팬 사이트 및 저작권 귀속 고지 */}
           {activeTab === 'license' && (
             <div className="space-y-4 animate-fadeIn">
-              <div className="p-4 rounded-[3px] bg-[#ffe600]/[0.06] border border-[#ffe600]/30 flex items-start gap-3">
-                <ShieldAlert className="w-5 h-5 text-[#ffe600] flex-shrink-0 mt-0.5" />
+              <div className="p-4 rounded-[2px] bg-[#16181d] border border-white/[0.08] border-l-2 border-l-[#f5dd1b] flex items-start gap-3">
+                <ShieldAlert className="w-5 h-5 text-[#f5dd1b] flex-shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <div className="text-sm font-bold text-white">
                     비공식 · 비영리 팬 아카이브 프로젝트 (Unofficial Non-Profit Fan Archive)
@@ -182,29 +182,29 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
                 </div>
               </div>
 
-              <div className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.08] space-y-3">
+              <div className="p-4 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-3">
                 <div className="flex items-center justify-between border-b border-white/[0.07] pb-2">
                   <span className="font-bold text-white text-sm">지식재산권(IP) 및 공식 리소스 저작권 귀속</span>
-                  <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-black/70 border border-white/15 text-[#ffe600]">
+                  <span className="font-mono text-[11px] px-2 py-0.5 rounded-[1px] bg-black/70 border border-white/15 text-zinc-200">
                     © HYPERGRYPH / YOSTAR
                   </span>
                 </div>
 
                 <ul className="space-y-2.5 text-zinc-300 [word-break:keep-all]">
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#ffe600] flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#f5dd1b] flex-shrink-0 mt-0.5" />
                     <span>
                       사이트 내 포함된 모든 <strong>인게임 이미지(컷신 CG, 배경 일러스트, 국가·진영 엠블럼, 캐릭터 아바타), 세계관 설정, 고유명사, 원문 시나리오의 저작권과 지식재산권</strong>은 전적으로 원저작권자인 <strong>Hypergryph (鷹角網絡) / Studio Montagne / Yostar</strong>에 귀속됩니다.
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#ffe600] flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#f5dd1b] flex-shrink-0 mt-0.5" />
                     <span>
                       모든 인게임 이미지 우측 하단에는 원저작권자 표기(<code>© HYPERGRYPH / YOSTAR</code>) 워터마크가 자동으로 오버레이되며, 무단 드래그 및 우클릭 저장이 제한되어 있습니다.
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#ffe600] flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#f5dd1b] flex-shrink-0 mt-0.5" />
                     <span>
                       본 사이트는 <strong>어떠한 상업적 수익, 광고 게재, 유료 결제, 후원금도 일절 창출하지 않으며</strong>, 저작권자의 수정 또는 삭제 요청 시 즉각 해당 리소스를 철회하거나 사이트를 비공개 전환합니다.
                     </span>
@@ -213,47 +213,47 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
               </div>
 
               {/* 오픈소스 폰트 라이선스 고지 */}
-              <div className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.08] space-y-3">
+              <div className="p-4 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-3">
                 <div className="flex items-center justify-between border-b border-white/[0.07] pb-2">
                   <div className="flex items-center gap-2">
-                    <Type className="w-4 h-4 text-[#ffe600]" />
+                    <Type className="w-4 h-4 text-zinc-400" />
                     <span className="font-bold text-white text-sm">오픈소스 서체(폰트) 라이선스 고지</span>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/10 text-[#ffe600] font-bold">
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-[1px] bg-white/[0.08] text-zinc-200 font-bold">
                     OFL 1.1 / APACHE 2.0
                   </span>
                 </div>
 
                 <p className="text-zinc-300 text-xs [word-break:keep-all]">
-                  본 웹사이트는 뛰어난 한글/영문 가독성과 PRTS Archive 특유의 SF 전술 UI 감성을 구현하기 위해 검증된 오픈소스 웹폰트를 사용하고 있으며, 각 서체의 지식재산권은 원저작자에게 귀속됩니다.
+                  본 웹사이트는 뛰어난 한글/영문 가독성과 PRTS Archive 특유의 모노크롬 에디토리얼 UI 감성을 구현하기 위해 검증된 오픈소스 웹폰트를 사용하고 있으며, 각 서체의 지식재산권은 원저작자에게 귀속됩니다.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-                  <div className="p-2.5 rounded-[3px] bg-black/40 border border-white/[0.06] space-y-1">
+                  <div className="p-2.5 rounded-[2px] bg-[#101114] border border-white/[0.06] space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-xs font-sans">Pretendard</span>
-                      <span className="text-[10px] text-[#ffe600] font-mono font-bold">SIL OFL 1.1</span>
+                      <span className="text-[10px] text-[#f5dd1b] font-mono font-bold">SIL OFL 1.1</span>
                     </div>
                     <div className="text-[11px] text-zinc-400">© 2021 Kil Hyung-jin</div>
                     <div className="text-[10.5px] text-zinc-500 leading-tight">본문 및 UI 전반 국문 기본 글꼴</div>
                   </div>
 
-                  <div className="p-2.5 rounded-[3px] bg-black/40 border border-white/[0.06] space-y-1">
+                  <div className="p-2.5 rounded-[2px] bg-[#101114] border border-white/[0.06] space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-xs font-mono">JetBrains Mono</span>
-                      <span className="text-[10px] text-[#00d8ff] font-mono font-bold">OFL / Apache 2.0</span>
+                      <span className="text-[10px] text-zinc-300 font-mono font-bold">OFL / Apache 2.0</span>
                     </div>
                     <div className="text-[11px] text-zinc-400">© JetBrains s.r.o.</div>
                     <div className="text-[10.5px] text-zinc-500 leading-tight">코드, 타임라인 수치, 고정폭 글꼴</div>
                   </div>
 
-                  <div className="p-2.5 rounded-[3px] bg-black/40 border border-white/[0.06] space-y-1">
+                  <div className="p-2.5 rounded-[2px] bg-[#101114] border border-white/[0.06] space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-white text-xs font-mono">Chakra Petch</span>
-                      <span className="text-[10px] text-[#ffe600] font-mono font-bold">SIL OFL 1.1</span>
+                      <span className="font-bold text-white text-xs font-mono">Space Grotesk</span>
+                      <span className="text-[10px] text-[#f5dd1b] font-mono font-bold">SIL OFL 1.1</span>
                     </div>
-                    <div className="text-[11px] text-zinc-400">© Cadson Demak</div>
-                    <div className="text-[10.5px] text-zinc-500 leading-tight">PRTS 로고, 헤더, SF 테마 타이틀</div>
+                    <div className="text-[11px] text-zinc-400">© Florian Karsten</div>
+                    <div className="text-[10.5px] text-zinc-500 leading-tight">PRTS 로고, 헤더, 디스플레이 타이틀</div>
                   </div>
                 </div>
 
@@ -599,7 +599,7 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3 border-t border-white/10 bg-white/[0.02] flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div className="px-5 py-3 border-t border-white/[0.08] bg-[#101114] flex flex-wrap items-center justify-between gap-2 text-xs">
           <span className="font-mono text-[11px] text-zinc-400">
             © HYPERGRYPH / STUDIO MONTAGNE / YOSTAR · UNOFFICIAL FAN ARCHIVE
           </span>
@@ -608,7 +608,7 @@ export const InfoLicenseModal: React.FC<InfoLicenseModalProps> = ({
               playClickSound();
               onClose();
             }}
-            className="px-4 py-1.5 rounded-[2px] bg-[#ffe600] hover:bg-[#fff04d] text-black font-bold transition-colors cursor-pointer whitespace-nowrap"
+            className="px-4 py-1.5 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold transition-colors cursor-pointer whitespace-nowrap"
           >
             확인 및 닫기
           </button>

@@ -78,15 +78,15 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[460px] bg-[#0c0e14]/98 border border-white/20 rounded-[4px] shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-zinc-100 font-sans"
+            className="relative w-full max-w-[460px] bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl flex flex-col overflow-hidden text-zinc-100 font-sans"
           >
-        {/* Top High-Tech Accent Bar */}
-        <div className="h-0.5 w-full bg-gradient-to-r from-[#ffe600] via-[#00d8ff] to-transparent" />
+        {/* Top Calibration Bar */}
+        <div className="h-[2px] w-full bg-zinc-200" />
 
         {/* Modal Header */}
-        <div className="px-4.5 py-3 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+        <div className="px-4.5 py-3 border-b border-white/[0.08] flex items-center justify-between bg-[#16181d]">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-[2px] bg-[#ffe600]/15 border border-[#ffe600]/50 flex items-center justify-center text-[#ffe600]">
+            <div className="w-5 h-5 rounded-[2px] bg-white/[0.06] border border-white/15 flex items-center justify-center text-zinc-200">
               <Info className="w-3.5 h-3.5" />
             </div>
             <h2 className="text-sm font-bold text-white tracking-tight">
@@ -97,7 +97,7 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
           <button
             onClick={handleClose}
             title="닫기 (ESC)"
-            className="w-6 h-6 rounded-[2px] bg-white/[0.06] hover:bg-white/[0.15] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-6 h-6 rounded-[2px] bg-[#1c1e24] hover:bg-white/[0.15] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -106,8 +106,8 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
         {/* Modal Body: 핵심만 직관적으로 안내 */}
         <div className="p-4 sm:p-4.5 space-y-2 text-xs">
           {/* 1. 크로미움 브라우저 */}
-          <div className="flex items-start gap-2.5 p-2.5 rounded-[3px] bg-white/[0.03] border border-white/[0.08]">
-            <Globe className="w-4 h-4 text-[#00d8ff] shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 p-2.5 rounded-[2px] bg-[#16181d] border border-white/[0.08]">
+            <Globe className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
             <div className="space-y-0.5 min-w-0">
               <div className="font-bold text-white text-[12px]">크로미움 브라우저 권장</div>
               <div className="text-zinc-400 text-[11px] leading-relaxed">
@@ -117,8 +117,8 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
           </div>
 
           {/* 2. 하드웨어 가속 */}
-          <div className="flex items-start gap-2.5 p-2.5 rounded-[3px] bg-white/[0.03] border border-white/[0.08]">
-            <Cpu className="w-4 h-4 text-[#ffe600] shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 p-2.5 rounded-[2px] bg-[#16181d] border border-white/[0.08]">
+            <Cpu className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
             <div className="space-y-0.5 min-w-0">
               <div className="font-bold text-white text-[12px]">하드웨어 가속(GPU) 활성화</div>
               <div className="text-zinc-400 text-[11px] leading-relaxed">
@@ -128,23 +128,23 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
           </div>
 
           {/* 3. 모바일 Wi-Fi 권장 */}
-          <div className="flex items-start gap-2.5 p-2.5 rounded-[3px] bg-amber-500/[0.06] border border-amber-400/25">
-            <Wifi className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 p-2.5 rounded-[2px] bg-[#16181d] border border-white/[0.08] border-l-2 border-l-[#f5dd1b]">
+            <Wifi className="w-4 h-4 text-[#f5dd1b] shrink-0 mt-0.5" />
             <div className="space-y-0.5 min-w-0">
-              <div className="font-bold text-amber-300 text-[12px]">모바일 Wi-Fi 권장</div>
-              <div className="text-zinc-300 text-[11px] leading-relaxed">
+              <div className="font-bold text-zinc-100 text-[12px]">모바일 Wi-Fi 권장</div>
+              <div className="text-zinc-400 text-[11px] leading-relaxed">
                 고화질 컷신 CG 및 데이터가 많으니 모바일 환경에서는 Wi-Fi 이용을 권장합니다.
               </div>
             </div>
           </div>
 
-          <p className="text-[10.5px] text-zinc-400 text-center pt-0.5 font-mono">
+          <p className="text-[10.5px] text-zinc-500 text-center pt-0.5 font-mono">
             ※ 비공식·비영리 팬 아카이브 (© HYPERGRYPH / YOSTAR)
           </p>
         </div>
 
         {/* Modal Footer: 왼쪽 끝 토글 + 하단 길게 배치된 확인 버튼 */}
-        <div className="px-4.5 py-3 border-t border-white/10 bg-white/[0.02] flex items-center gap-3">
+        <div className="px-4.5 py-3 border-t border-white/[0.08] bg-[#101114] flex items-center gap-3">
           {/* 왼쪽 끝: 오늘 하루 보지 않기 토글 */}
           <label className="flex items-center gap-2 cursor-pointer select-none text-[11px] text-zinc-400 hover:text-zinc-200 shrink-0 group">
             <div className="relative">
@@ -154,9 +154,9 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
                 onChange={(e) => setDontShowToday(e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-7 h-4 rounded-full bg-white/15 peer-checked:bg-[#ffe600] transition-colors" />
+              <div className="w-7 h-4 rounded-[2px] bg-white/15 peer-checked:bg-[#f5dd1b] transition-colors" />
               <div
-                className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full transition-transform ${
+                className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-[1px] transition-transform ${
                   dontShowToday ? 'translate-x-3 bg-black' : 'bg-zinc-400 group-hover:bg-zinc-200'
                 }`}
               />
@@ -164,10 +164,10 @@ export const ServiceNoticeModal: React.FC<ServiceNoticeModalProps> = ({
             <span className="whitespace-nowrap">오늘 하루 보지 않기</span>
           </label>
 
-          {/* 확인 버튼: 길게 전체 너비 확장 */}
+          {/* 확인 버튼 */}
           <button
             onClick={handleConfirm}
-            className="flex-1 h-9 px-4 rounded-[3px] bg-[#ffe600] hover:bg-[#fff04d] text-black font-bold text-xs flex items-center justify-center transition-all shadow-[0_0_14px_rgba(255,230,0,0.18)] hover:shadow-[0_0_18px_rgba(255,230,0,0.32)] cursor-pointer"
+            className="flex-1 h-9 px-4 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold text-xs flex items-center justify-center transition-colors cursor-pointer"
           >
             <span>확인</span>
           </button>

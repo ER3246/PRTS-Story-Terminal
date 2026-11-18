@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE } from '../version';
-import { PRTS_STAGGER_CONTAINER, PRTS_STAGGER_ITEM, PRTS_SPRING_SNAPPY } from '../utils/motion';
+import { PRTS_STAGGER_CONTAINER, PRTS_STAGGER_ITEM } from '../utils/motion';
 import { PrtsNeuralEmblem } from './ui/TacticalIcons';
 
 interface HomeDashboardProps {
@@ -33,207 +33,206 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   isInstallable = false,
 }) => {
   return (
-    <div className="flex-1 w-full min-h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-14 relative overflow-hidden select-none">
-      {/* Layered Architectural Backdrop */}
+    <div className="flex-1 w-full min-h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative overflow-hidden select-none">
+      {/* Subtle Architectural Structural Guide Hairlines */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Dual-tone Rhodes ambient luminescence */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[620px] h-[380px] bg-[radial-gradient(ellipse_at_center,rgba(255,230,0,0.045)_0%,rgba(0,216,255,0.025)_48%,transparent_72%)] blur-[70px]" />
-
-        {/* Rotating Faint Radar Ring centered behind Hero */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] sm:w-[580px] h-[480px] sm:h-[580px] rounded-full border border-white/[0.03] flex items-center justify-center">
-          <div className="w-[82%] h-[82%] rounded-full border border-dashed border-white/[0.04] animate-radar-spin" />
-        </div>
-
-        {/* Dot Matrix Surface */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
-          }}
-        />
-
-        {/* FUI Precision Perimeter Corner Brackets + Coordinate Markers */}
-        <div className="absolute top-8 left-8 hidden md:flex items-start gap-2.5">
-          <div className="w-10 h-10 border-t border-l border-[#ffe600]/35" />
-          <span className="text-[10px] font-mono text-zinc-600 tracking-widest mt-0.5">
-            RHODES // SEC-00
-          </span>
-        </div>
-        <div className="absolute top-8 right-8 hidden md:flex items-start gap-2.5">
-          <span className="text-[10px] font-mono text-zinc-600 tracking-widest mt-0.5">
-            NEURAL CORE
-          </span>
-          <div className="w-10 h-10 border-t border-r border-white/[0.12]" />
-        </div>
-        <div className="absolute bottom-8 left-8 hidden md:flex items-end gap-2.5">
-          <div className="w-10 h-10 border-b border-l border-white/[0.12]" />
-          <span className="text-[10px] font-mono text-zinc-600 tracking-widest mb-0.5">
-            PRTS ARCHIVE
-          </span>
-        </div>
-        <div className="absolute bottom-8 right-8 hidden md:flex items-end gap-2.5">
-          <span className="text-[10px] font-mono text-zinc-600 tracking-widest mb-0.5">
-            SYS.READY
-          </span>
-          <div className="w-10 h-10 border-b border-r border-[#00d8ff]/35" />
-        </div>
+        <div className="max-w-4xl mx-auto h-full border-x border-white/[0.035]" />
       </div>
 
-      {/* Main Centered Hero Container (Staggered Choreography) */}
+      {/* Main Swiss Industrial Editorial Container */}
       <motion.div
         variants={PRTS_STAGGER_CONTAINER}
         initial="hidden"
         animate="visible"
-        className="relative z-10 w-full max-w-2xl flex flex-col items-center text-center space-y-8"
+        className="relative z-10 w-full max-w-4xl flex flex-col items-start text-left space-y-8 sm:space-y-10"
       >
-        {/* System Identity Badge + Hero Title Lockup */}
-        <motion.div variants={PRTS_STAGGER_ITEM} className="space-y-4 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.09] text-[10.5px] font-mono text-zinc-400 shadow-inner whitespace-nowrap">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600] shadow-[0_0_8px_#ffe600] animate-pulse shrink-0" />
-            <span className="text-zinc-200 font-bold tracking-wider">PRTS ARCHIVE SYSTEM</span>
-            <span className="text-zinc-600">·</span>
-            <span className="text-[#ffe600] font-semibold">{APP_VERSION_CODE}</span>
-          </div>
+        {/* 1. Top Specification Bar */}
+        <motion.div
+          variants={PRTS_STAGGER_ITEM}
+          className="w-full flex items-center justify-between border-b border-white/[0.09] pb-3 text-[11px] font-mono text-zinc-500"
+        >
+          <span className="inline-flex items-center gap-2 text-zinc-300 font-semibold tracking-wide">
+            <span className="w-1.5 h-1.5 bg-[#f5dd1b] shrink-0" />
+            <span>PRTS ARCHIVE SYSTEM</span>
+          </span>
+          <span className="tracking-wider">INDEX // {APP_VERSION_CODE}</span>
+        </motion.div>
 
-          <div className="flex flex-col items-center gap-2.5">
-            <div className="flex items-center justify-center gap-3 text-zinc-400/80">
-              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#ffe600]/50" />
-              <PrtsNeuralEmblem className="w-6 h-6 text-[#ffe600]" />
-              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#00d8ff]/50" />
+        {/* 2. Architectural Hero Header */}
+        <motion.div variants={PRTS_STAGGER_ITEM} className="w-full flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2.5 text-[11px] font-mono tracking-[0.2em] text-zinc-500 uppercase">
+              <PrtsNeuralEmblem className="w-5 h-5 text-zinc-300 shrink-0" />
+              <span>RHODES ISLAND NARRATIVE DATABASE</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-black text-white tracking-tight leading-none flex items-center justify-center gap-3 flex-wrap">
-              <span className="font-display tracking-wide text-[#ffe600] drop-shadow-[0_0_24px_rgba(255,230,0,0.22)]">
-                PRTS
-              </span>
-              <span className="font-display tracking-tight">Archive</span>
+            <h1 className="text-4xl sm:text-6xl font-display font-bold tracking-tight text-white leading-none">
+              PRTS ARCHIVE
             </h1>
 
-            <p className="text-sm sm:text-base text-zinc-400 font-normal tracking-wide [word-break:keep-all]">
-              명일방주 스토리 요약 모음
+            <p className="text-sm sm:text-base text-zinc-400 font-normal [word-break:keep-all]">
+              명일방주 스토리 요약 아카이브
             </p>
+          </div>
+
+          <div className="hidden md:flex flex-col items-end text-right font-mono text-[10.5px] text-zinc-500 space-y-1 shrink-0">
+            <span>RECORDS // 24 EPISODES &amp; EVENTS</span>
+            <span className="text-zinc-400">STATUS // OPERATIONAL</span>
           </div>
         </motion.div>
 
-        {/* 3 Entry Action Modules (Enhanced Tactile PRTS FUI Styling) */}
+        {/* 3. 3 Uniform Monolith Navigation Modules */}
         <motion.div
           variants={PRTS_STAGGER_ITEM}
-          className="w-full max-w-xl grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1"
+          className="w-full grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/[0.09] border border-white/[0.09]"
         >
           {/* 01. 스토리 상세 */}
-          <motion.button
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.975 }}
-            transition={PRTS_SPRING_SNAPPY}
+          <button
+            type="button"
             onClick={() => {
               playClickSound();
               onNavigateToStory('ep00');
             }}
-            className="fui-reticle-hover prts-btn-sweep relative p-4 rounded-[4px] bg-[#ffe600] hover:bg-[#fff04d] text-black flex flex-col justify-between text-left gap-3 shadow-[0_6px_28px_rgba(255,230,0,0.18)] hover:shadow-[0_10px_34px_rgba(255,230,0,0.3)] cursor-pointer group border border-[#ffe600]"
+            className="bg-[#121316] hover:bg-[#181a1f] p-5 sm:p-6 flex flex-col justify-between text-left transition-colors relative group cursor-pointer min-h-[148px]"
           >
+            <span className="absolute top-0 inset-x-0 h-[2px] bg-[#f5dd1b] origin-left scale-x-100 transition-transform duration-300" />
             <div className="flex items-center justify-between w-full">
-              <span className="text-[10px] font-mono font-extrabold tracking-widest text-black/65 whitespace-nowrap">
-                01 // ARCHIVE
-              </span>
-              <BookOpen className="w-4 h-4 text-black/80 shrink-0" />
+              <span className="text-xs font-mono font-bold text-[#f5dd1b]">01</span>
+              <BookOpen className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors shrink-0" />
             </div>
-            <div className="flex items-center justify-between w-full gap-2">
-              <span className="text-sm font-extrabold whitespace-nowrap">스토리 상세</span>
-              <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
+            <div className="pt-6 space-y-1">
+              <div className="text-[10px] font-mono tracking-wider text-zinc-500">
+                STORY ARCHIVE
+              </div>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-base font-bold text-white whitespace-nowrap">
+                  스토리 상세
+                </span>
+                <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-[#f5dd1b] group-hover:translate-x-1 transition-all shrink-0" />
+              </div>
+              <p className="text-xs text-zinc-400 leading-relaxed [word-break:keep-all]">
+                메인·이벤트 서사 본문 및 인물 열람
+              </p>
             </div>
-          </motion.button>
+          </button>
 
           {/* 02. 스토리 목록 */}
-          <motion.button
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.975 }}
-            transition={PRTS_SPRING_SNAPPY}
+          <button
+            type="button"
             onClick={() => {
               playTabSwitchSound();
               onNavigateToView('chronicle');
             }}
-            className="fui-reticle-hover prts-btn-sweep relative p-4 rounded-[4px] bg-[#0e121b]/85 hover:bg-[#131826] text-zinc-100 border border-white/[0.11] hover:border-[#ffe600]/65 flex flex-col justify-between text-left gap-3 backdrop-blur-md shadow-lg cursor-pointer group"
+            className="bg-[#121316] hover:bg-[#181a1f] p-5 sm:p-6 flex flex-col justify-between text-left transition-colors relative group cursor-pointer min-h-[148px]"
           >
+            <span className="absolute top-0 inset-x-0 h-[2px] bg-[#f5dd1b] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             <div className="flex items-center justify-between w-full">
-              <span className="text-[10px] font-mono font-bold tracking-widest text-zinc-500 group-hover:text-[#ffe600] transition-colors whitespace-nowrap">
-                02 // CHRONICLE
+              <span className="text-xs font-mono font-bold text-zinc-500 group-hover:text-[#f5dd1b] transition-colors">
+                02
               </span>
-              <GitBranch className="w-4 h-4 text-[#ffe600] shrink-0" />
+              <GitBranch className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors shrink-0" />
             </div>
-            <div className="flex items-center justify-between w-full gap-2">
-              <span className="text-sm font-bold text-white whitespace-nowrap">스토리 목록</span>
-              <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-[#ffe600] group-hover:translate-x-1 transition-all shrink-0" />
+            <div className="pt-6 space-y-1">
+              <div className="text-[10px] font-mono tracking-wider text-zinc-500">
+                CHRONICLE INDEX
+              </div>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-base font-bold text-zinc-100 group-hover:text-white whitespace-nowrap">
+                  스토리 목록
+                </span>
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+              </div>
+              <p className="text-xs text-zinc-400 leading-relaxed [word-break:keep-all]">
+                서사 계통도 및 연대기 흐름 탐색
+              </p>
             </div>
-          </motion.button>
+          </button>
 
           {/* 03. 테라 지도 */}
-          <motion.button
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.975 }}
-            transition={PRTS_SPRING_SNAPPY}
+          <button
+            type="button"
             onClick={() => {
               playTabSwitchSound();
               onNavigateToView('map');
             }}
-            className="fui-reticle-hover prts-btn-sweep relative p-4 rounded-[4px] bg-[#0e121b]/85 hover:bg-[#131826] text-zinc-100 border border-white/[0.11] hover:border-[#00d8ff]/65 flex flex-col justify-between text-left gap-3 backdrop-blur-md shadow-lg cursor-pointer group"
+            className="bg-[#121316] hover:bg-[#181a1f] p-5 sm:p-6 flex flex-col justify-between text-left transition-colors relative group cursor-pointer min-h-[148px]"
           >
+            <span className="absolute top-0 inset-x-0 h-[2px] bg-[#f5dd1b] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             <div className="flex items-center justify-between w-full">
-              <span className="text-[10px] font-mono font-bold tracking-widest text-zinc-500 group-hover:text-[#00d8ff] transition-colors whitespace-nowrap">
-                03 // TERRA MAP
+              <span className="text-xs font-mono font-bold text-zinc-500 group-hover:text-[#f5dd1b] transition-colors">
+                03
               </span>
-              <MapIcon className="w-4 h-4 text-[#00d8ff] shrink-0" />
+              <MapIcon className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors shrink-0" />
             </div>
-            <div className="flex items-center justify-between w-full gap-2">
-              <span className="text-sm font-bold text-white whitespace-nowrap">테라 지도</span>
-              <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-[#00d8ff] group-hover:translate-x-1 transition-all shrink-0" />
+            <div className="pt-6 space-y-1">
+              <div className="text-[10px] font-mono tracking-wider text-zinc-500">
+                TERRA CARTOGRAPHY
+              </div>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-base font-bold text-zinc-100 group-hover:text-white whitespace-nowrap">
+                  테라 지도
+                </span>
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+              </div>
+              <p className="text-xs text-zinc-400 leading-relaxed [word-break:keep-all]">
+                테라 18개 권역 및 작전 경로 브리핑
+              </p>
             </div>
-          </motion.button>
+          </button>
         </motion.div>
 
-        {/* Subtle Service Notice & Fullscreen/PWA Links */}
+        {/* 4. Understated Rectangular Utility Bar */}
         <motion.div
           variants={PRTS_STAGGER_ITEM}
-          className="pt-1 flex flex-wrap items-center justify-center gap-2"
+          className="w-full pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-400"
         >
-          {isInstallable && onPromptInstall && (
-            <button
-              onClick={() => {
-                playClickSound();
-                onPromptInstall();
-              }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#00d8ff]/10 hover:bg-[#00d8ff]/20 border border-[#00d8ff]/30 hover:border-[#00d8ff]/60 text-[#00d8ff] text-xs font-mono transition-all cursor-pointer group whitespace-nowrap"
-            >
-              <MonitorDown className="w-3.5 h-3.5 group-hover:scale-110 transition-transform shrink-0" />
-              <span>웹 앱 설치 (PWA)</span>
-            </button>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {isInstallable && onPromptInstall && (
+              <button
+                type="button"
+                onClick={() => {
+                  playClickSound();
+                  onPromptInstall();
+                }}
+                className="px-3 py-1.5 rounded-[2px] bg-[#121316] hover:bg-[#1a1c22] border border-white/[0.08] hover:border-white/25 text-zinc-200 hover:text-white font-mono transition-colors cursor-pointer inline-flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <MonitorDown className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                <span>웹 앱 설치 (PWA)</span>
+              </button>
+            )}
 
-          {onOpenFullscreenGuide && (
-            <button
-              onClick={() => {
-                playClickSound();
-                onOpenFullscreenGuide();
-              }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/25 text-zinc-400 hover:text-zinc-200 text-xs font-mono transition-all cursor-pointer group whitespace-nowrap"
-            >
-              <Maximize2 className="w-3.5 h-3.5 text-[#00d8ff] group-hover:scale-110 transition-transform shrink-0" />
-              <span>전체 화면 &amp; 앱 설치 안내</span>
-            </button>
-          )}
+            {onOpenFullscreenGuide && (
+              <button
+                type="button"
+                onClick={() => {
+                  playClickSound();
+                  onOpenFullscreenGuide();
+                }}
+                className="px-3 py-1.5 rounded-[2px] bg-[#121316] hover:bg-[#1a1c22] border border-white/[0.08] hover:border-white/20 text-zinc-400 hover:text-zinc-100 font-mono transition-colors cursor-pointer inline-flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <Maximize2 className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                <span>전체 화면 &amp; 앱 설치 안내</span>
+              </button>
+            )}
 
-          {onOpenServiceNotice && (
-            <button
-              onClick={() => {
-                playClickSound();
-                onOpenServiceNotice();
-              }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/25 text-zinc-400 hover:text-zinc-200 text-xs font-mono transition-all cursor-pointer group whitespace-nowrap"
-            >
-              <Info className="w-3.5 h-3.5 text-[#ffe600] group-hover:scale-110 transition-transform shrink-0" />
-              <span>서비스 이용 안내 · 권장 환경</span>
-            </button>
-          )}
+            {onOpenServiceNotice && (
+              <button
+                type="button"
+                onClick={() => {
+                  playClickSound();
+                  onOpenServiceNotice();
+                }}
+                className="px-3 py-1.5 rounded-[2px] bg-[#121316] hover:bg-[#1a1c22] border border-white/[0.08] hover:border-white/20 text-zinc-400 hover:text-zinc-100 font-mono transition-colors cursor-pointer inline-flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <Info className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                <span>서비스 이용 안내 · 권장 환경</span>
+              </button>
+            )}
+          </div>
+
+          <span className="hidden sm:inline font-mono text-[10px] text-zinc-600 tracking-wider">
+            UNOFFICIAL FAN NARRATIVE ARCHIVE
+          </span>
         </motion.div>
       </motion.div>
     </div>

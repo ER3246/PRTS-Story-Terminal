@@ -52,14 +52,12 @@ export const TacticalKeycap: React.FC<TacticalKeycapProps> = ({
 }) => {
   const tone =
     accent === 'yellow'
-      ? 'text-[#ffe600] border-[#ffe600]/30 bg-[#ffe600]/[0.06]'
-      : accent === 'cyan'
-      ? 'text-[#00d8ff] border-[#00d8ff]/30 bg-[#00d8ff]/[0.06]'
-      : 'text-zinc-200 border-white/15 bg-white/[0.06]';
+      ? 'text-[#f5dd1b] border-white/15 bg-white/[0.04]'
+      : 'text-zinc-200 border-white/15 bg-white/[0.04]';
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[3px] border font-mono text-[11px] whitespace-nowrap shrink-0 shadow-[inset_0_-1px_0_rgba(255,255,255,0.08)] ${tone} ${className}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] border font-mono text-[11px] whitespace-nowrap shrink-0 ${tone} ${className}`}
     >
       {icon}
       <span>{children}</span>
@@ -82,7 +80,7 @@ export const AudioVisualizerBars: React.FC<AudioVisualizerBarsProps> = ({ active
       {[0, 1, 2].map((bar) => (
         <motion.span
           key={bar}
-          className="w-[2px] rounded-full bg-[#ffe600]"
+          className="w-[1.5px] rounded-none bg-[#f5dd1b]"
           animate={{ height: ['3px', bar === 1 ? '10px' : '7px', '3px'] }}
           transition={{
             duration: 0.75 + bar * 0.14,

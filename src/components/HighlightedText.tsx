@@ -58,7 +58,7 @@ export const HighlightedText: React.FC<HighlightedTextProps> = ({
               type="button"
               onClick={() => onSelectCharacter(char)}
               title={`${char.nameKo} // [${char.faction}] ${char.role}`}
-              className="inline bg-transparent p-0 m-0 border-0 text-zinc-100 font-medium underline decoration-dashed decoration-zinc-500/80 underline-offset-[3px] hover:decoration-[#ffe600] hover:text-[#ffe600] transition-colors cursor-pointer"
+              className="inline bg-transparent p-0 m-0 border-0 text-zinc-100 font-medium underline decoration-dashed decoration-zinc-500/80 underline-offset-[3px] hover:decoration-[#f5dd1b] hover:text-[#f5dd1b] transition-colors cursor-pointer"
             >
               {part}
             </button>
@@ -72,7 +72,7 @@ export const HighlightedText: React.FC<HighlightedTextProps> = ({
             type="button"
             onClick={() => onSelectGlossary(term)}
             title={`${term.term} // [${term.typeLabel}]`}
-            className="inline bg-transparent p-0 m-0 border-0 text-zinc-200 underline decoration-dashed decoration-zinc-500/80 underline-offset-[3px] hover:decoration-[#ffe600] hover:text-[#ffe600] transition-colors cursor-pointer"
+            className="inline bg-transparent p-0 m-0 border-0 text-zinc-200 underline decoration-dashed decoration-zinc-500/80 underline-offset-[3px] hover:decoration-[#f5dd1b] hover:text-[#f5dd1b] transition-colors cursor-pointer"
           >
             {part}
           </button>

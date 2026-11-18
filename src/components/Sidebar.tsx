@@ -187,17 +187,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed lg:sticky top-0 lg:top-14 left-0 h-full lg:h-[calc(100vh-3.5rem)] w-[85vw] max-w-xs sm:max-w-sm lg:w-80 bg-[#090b10]/96 backdrop-blur-2xl border-r border-white/[0.08] flex flex-col z-50 lg:z-30 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none select-none ${
+        className={`fixed lg:sticky top-0 lg:top-14 left-0 h-full lg:h-[calc(100vh-3.5rem)] w-[85vw] max-w-xs sm:max-w-sm lg:w-80 bg-[#101114] border-r border-white/[0.08] flex flex-col z-50 lg:z-30 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none select-none ${
           isOpenMobile ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         {/* Top Control Header */}
-        <div className="p-3 border-b border-white/[0.08] space-y-2.5 bg-[#090b10]">
+        <div className="p-3 border-b border-white/[0.08] space-y-2.5 bg-[#101114]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-3.5 bg-[#ffe600] rounded-[1px]" />
+              <span className="w-1.5 h-3.5 bg-[#f5dd1b] rounded-none" />
               <span className="text-xs font-extrabold text-white tracking-tight font-sans">스토리 색인</span>
-              <span className="text-[10px] font-mono text-zinc-400 px-1.5 py-0.5 rounded-[3px] bg-white/[0.04] border border-white/[0.06]">
+              <span className="text-[10px] font-mono text-zinc-400 px-1.5 py-0.5 rounded-[2px] bg-[#16181d] border border-white/[0.06]">
                 {searchResults ? `검색 ${searchResults.length}건` : `${storyRegistry.length}편`}
               </span>
             </div>
@@ -218,7 +218,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   setExpandedFolders(next);
                 }}
                 title="모든 서사 폴더 펼치기 / 접기"
-                className="w-7 h-7 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.09] border border-white/[0.06] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                className="w-7 h-7 rounded-[2px] bg-[#16181d] hover:bg-[#1e2128] border border-white/[0.07] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
               >
                 <ChevronsUpDown className="w-3.5 h-3.5" />
               </button>
@@ -226,7 +226,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 onClick={onToggleCollapse}
                 title="사이드바 접기"
-                className="hidden lg:flex w-7 h-7 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.09] border border-white/[0.06] text-zinc-400 hover:text-white items-center justify-center transition-colors cursor-pointer"
+                className="hidden lg:flex w-7 h-7 rounded-[2px] bg-[#16181d] hover:bg-[#1e2128] border border-white/[0.07] text-zinc-400 hover:text-white items-center justify-center transition-colors cursor-pointer"
               >
                 <PanelLeftClose className="w-3.5 h-3.5" />
               </button>
@@ -234,7 +234,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 onClick={onCloseMobile}
                 title="닫기"
-                className="lg:hidden w-7 h-7 rounded-[3px] bg-white/[0.06] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
+                className="lg:hidden w-7 h-7 rounded-[2px] bg-[#16181d] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -249,7 +249,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="스토리명, 코드(EP, 론 트레일...) 검색"
-              className="w-full h-8 pl-8 pr-7 bg-white/[0.03] hover:bg-white/[0.05] focus:bg-black/50 border border-white/[0.08] focus:border-[#ffe600]/60 rounded-[3px] text-xs font-sans text-zinc-100 placeholder:text-zinc-500 outline-none transition-colors"
+              className="w-full h-8 pl-8 pr-7 bg-[#15161a] hover:bg-[#191b20] focus:bg-[#0c0c0e] border border-white/[0.08] focus:border-white/30 rounded-[2px] text-xs font-sans text-zinc-100 placeholder:text-zinc-500 outline-none transition-colors"
             />
             {searchQuery && (
               <button
@@ -261,9 +261,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
 
-          {/* Category Filter Tabs (Unified Glass Segmented Control) */}
+          {/* Category Filter Tabs */}
           {!searchQuery && (
-            <div className="grid grid-cols-4 gap-1 p-1 rounded-[4px] bg-white/[0.03] border border-white/[0.07] text-[11px] font-sans">
+            <div className="grid grid-cols-4 gap-1 p-1 rounded-[2px] bg-[#15161a] border border-white/[0.07] text-[11px] font-sans">
               {(
                 [
                   { id: 'all', label: '전체' },
@@ -280,7 +280,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       playClickSound();
                       onChangeCategory(tab.id);
                     }}
-                    className={`relative h-6.5 rounded-[3px] text-center transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap ${
+                    className={`relative h-6.5 rounded-[1px] text-center transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap ${
                       isActive
                         ? 'text-white font-bold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
@@ -290,7 +290,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <motion.span
                         layoutId="sidebar-category-bg"
                         transition={PRTS_SPRING_SNAPPY}
-                        className="absolute inset-0 rounded-[3px] bg-white/[0.1] shadow-xs pointer-events-none"
+                        className="absolute inset-0 rounded-[1px] bg-white/[0.08] pointer-events-none"
                       />
                     )}
                     <span className="relative z-10">{tab.label}</span>
@@ -298,7 +298,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <motion.span
                         layoutId="sidebar-category-bar"
                         transition={PRTS_SPRING_SNAPPY}
-                        className="absolute bottom-0 left-2 right-2 h-[1.5px] bg-[#ffe600] rounded-full z-10"
+                        className="absolute bottom-0 inset-x-1 h-[1.5px] bg-[#f5dd1b] z-10"
                       />
                     )}
                   </button>
@@ -330,31 +330,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div
                       key={story.id}
                       onClick={() => handleSelectStoryItem(story.id)}
-                      className={`px-2.5 py-2 rounded-[2px] border transition-all cursor-pointer flex items-center justify-between ${
+                      className={`px-2.5 py-2 rounded-[2px] border transition-colors cursor-pointer flex items-center justify-between ${
                         isActive
-                          ? 'bg-[#ffe600]/10 border-[#ffe600]/60 text-white'
-                          : 'bg-white/[0.02] border-white/[0.05] hover:bg-white/[0.06] text-zinc-300'
+                          ? 'bg-white/[0.07] border-[#f5dd1b]/70 text-white'
+                          : 'bg-[#141519] border-white/[0.06] hover:bg-[#1a1c22] text-zinc-300'
                       }`}
                     >
                       <div className="min-w-0 flex-1 mr-2">
                         <div className="flex items-center gap-1.5 font-mono text-[10px]">
-                          <span className={isActive ? 'text-[#ffe600] font-bold' : 'text-zinc-400'}>
+                          <span className={isActive ? 'text-[#f5dd1b] font-bold' : 'text-zinc-400'}>
                             {story.code}
                           </span>
                           <span className="text-zinc-600">/</span>
-                          <span className="text-zinc-400 truncate">{story.categoryLabel}</span>
+                          <span className="text-zinc-500 truncate">{story.categoryLabel}</span>
                         </div>
-                        <div className={`font-bold text-xs truncate ${isActive ? 'text-[#ffe600]' : 'text-zinc-200'}`}>
+                        <div className={`font-bold text-xs truncate ${isActive ? 'text-white' : 'text-zinc-200'}`}>
                           {story.titleKo}
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 flex-shrink-0">
                         {story.isOmnibus && (
-                          <FilmReelIcon className="w-3 h-3 text-emerald-400/90 flex-shrink-0" title="옴니버스 단편" />
+                          <FilmReelIcon className="w-3 h-3 text-zinc-400 flex-shrink-0" title="옴니버스 단편" />
                         )}
                         <span
-                          className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                            isRestored ? 'bg-[#ffe600]' : 'bg-zinc-600'
+                          className={`w-1.5 h-1.5 flex-shrink-0 ${
+                            isRestored ? 'bg-[#f5dd1b]' : 'bg-zinc-600'
                           }`}
                           title={isRestored ? '전문 수록' : '개요 수록'}
                         />
@@ -374,11 +374,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
               const MainIcon = mainFolder.icon;
 
               return (
-                <div key={mainFolder.id} className="rounded-[3px] bg-white/[0.015] border border-white/[0.06] overflow-hidden mb-1.5">
+                <div key={mainFolder.id} className="rounded-[2px] bg-[#131418] border border-white/[0.06] overflow-hidden mb-1.5">
                   {/* Level 1: Major Category Folder */}
                   <button
                     onClick={() => toggleFolder(mainFolder.id)}
-                    className="w-full px-2.5 py-2 flex items-center justify-between bg-white/[0.03] hover:bg-white/[0.06] text-zinc-200 font-bold transition-colors cursor-pointer"
+                    className="w-full px-2.5 py-2 flex items-center justify-between bg-[#17181d] hover:bg-[#1d1f25] text-zinc-200 font-bold transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <motion.span
@@ -388,7 +388,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       >
                         <ChevronRight className={`w-3.5 h-3.5 ${isMainOpen ? 'text-zinc-300' : 'text-zinc-500'}`} />
                       </motion.span>
-                      <MainIcon className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                      <MainIcon className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
                       <span className="text-xs tracking-tight truncate">{mainFolder.titleKo}</span>
                     </div>
                   </button>
@@ -419,21 +419,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         const containsActive = subStories.some((s) => s.id === activeStoryId);
 
                         return (
-                          <div key={subFolder.id} className="border-l-2 border-white/[0.08] ml-2 pl-1.5">
+                          <div key={subFolder.id} className="border-l border-white/[0.08] ml-2 pl-1.5">
                             {/* Subfolder Header */}
                             <button
                               onClick={() => toggleFolder(subFolder.id)}
                               className={`w-full px-2 py-1.5 rounded-[2px] flex items-center justify-between text-left transition-colors cursor-pointer ${
                                 containsActive
-                                  ? 'bg-white/[0.06] text-[#ffe600]'
+                                  ? 'bg-white/[0.06] text-white'
                                   : 'text-zinc-300 hover:bg-white/[0.04]'
                               }`}
                             >
                               <div className="flex items-center gap-1.5 min-w-0">
                                 {isSubOpen ? (
-                                  <FolderOpen className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                                  <FolderOpen className="w-3.5 h-3.5 text-zinc-300 flex-shrink-0" />
                                 ) : (
-                                  <Folder className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+                                  <Folder className="w-3.5 h-3.5 text-zinc-500 flex-shrink-0" />
                                 )}
                                 <span className="text-[11px] font-semibold truncate tracking-tight">
                                   {subFolder.titleKo}
@@ -455,7 +455,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                   exit="collapsed"
                                   className="overflow-hidden"
                                 >
-                                  <div className="mt-1 ml-3 space-y-0.5 border-l border-white/[0.06] pl-1.5">
+                                  <div className="mt-1 ml-3 space-y-0.5 border-l border-white/[0.07] pl-1.5">
                                 {subStories.map((story) => {
                                   const isActiveStory = story.id === activeStoryId;
                                   const accessState = getStoryAccessState(story);
@@ -467,10 +467,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                     <div key={story.id} className="space-y-0.5">
                                       {/* Story Node */}
                                       <div
-                                        className={`group px-2 py-1.5 rounded-[2px] flex items-center justify-between transition-all cursor-pointer ${
+                                        className={`group px-2 py-1.5 rounded-[2px] flex items-center justify-between transition-colors cursor-pointer ${
                                           isActiveStory && !activeSubPageId
-                                            ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border-l-2 border-[#ffe600]'
-                                            : 'hover:bg-white/[0.05] text-zinc-300'
+                                            ? 'bg-white/[0.07] text-white font-bold border-l-2 border-[#f5dd1b]'
+                                            : 'hover:bg-white/[0.04] text-zinc-300'
                                         }`}
                                         onClick={() => {
                                           if (hasSubPages) {
@@ -501,7 +501,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                                         <div className="flex items-center gap-1.5 flex-shrink-0">
                                           {story.isOmnibus && (
-                                            <FilmReelIcon className="w-3 h-3 text-emerald-400/90 flex-shrink-0" title="옴니버스 단편" />
+                                            <FilmReelIcon className="w-3 h-3 text-zinc-400 flex-shrink-0" title="옴니버스 단편" />
                                           )}
                                           {hasSubPages && (
                                             <span className="text-[9px] font-mono text-zinc-400 bg-white/[0.06] px-1 rounded-[1px] whitespace-nowrap">
@@ -509,15 +509,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                             </span>
                                           )}
                                           <span
-                                            className={`w-1.5 h-1.5 rounded-full ${
-                                              isRestored ? 'bg-[#ffe600]' : 'bg-zinc-600'
+                                            className={`w-1.5 h-1.5 ${
+                                              isRestored ? 'bg-[#f5dd1b]' : 'bg-zinc-600'
                                             }`}
                                             title={isRestored ? '전문 복원 완료' : '개요 수록'}
                                           />
                                         </div>
                                       </div>
 
-                                      {/* Sub-Pages Accordion (e.g. 론 트레일 Part 1~3, 에인션트 포지 Ep 1~3) */}
+                                      {/* Sub-Pages Accordion */}
                                       <AnimatePresence initial={false}>
                                         {hasSubPages && isStorySubPagesExpanded && (
                                           <motion.div
@@ -543,15 +543,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                                     }}
                                                     className={`px-2 py-1 rounded-[2px] flex items-center justify-between text-[10.5px] transition-colors cursor-pointer ${
                                                       isSubActive
-                                                        ? 'bg-[#ffe600]/20 text-[#ffe600] font-bold border-l border-[#ffe600]'
+                                                        ? 'bg-white/[0.08] text-white font-bold border-l-2 border-[#f5dd1b]'
                                                         : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
                                                     }`}
                                                   >
                                                     <div className="flex items-center gap-1.5 truncate">
                                                       {sp.isOverview ? (
-                                                        <FileText className="w-2.5 h-2.5 flex-shrink-0" />
+                                                        <FileText className="w-2.5 h-2.5 flex-shrink-0 text-zinc-500" />
                                                       ) : (
-                                                        <span className="text-[9px] font-mono text-[#ffe600]">●</span>
+                                                        <span className={`w-1 h-1 flex-shrink-0 ${isSubActive ? 'bg-[#f5dd1b]' : 'bg-zinc-600'}`} />
                                                       )}
                                                       <span className="truncate">{sp.label}</span>
                                                     </div>

@@ -371,8 +371,8 @@ export function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-    <div className="min-h-screen bg-[#0e0f12] text-zinc-100 flex flex-col font-sans relative prts-grid-subtle">
-      {/* PRTS Archive Refresh / Initial Neural Boot Motion Graphic */}
+    <div className="min-h-screen bg-[#0c0c0e] text-zinc-100 flex flex-col font-sans relative prts-grid-subtle">
+      {/* PRTS Archive Refresh / Initial Calibration Motion Graphic */}
       <AnimatePresence>
         {isBooting && <PrtsBootSequence onComplete={handleBootComplete} />}
       </AnimatePresence>
@@ -386,9 +386,9 @@ export function App() {
               setIsHeaderCollapsed(false);
             }}
             title="상단 메뉴 다시 열기"
-            className="h-7 px-3 rounded-full bg-[#0a0d16]/94 hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/20 hover:border-[#ffe600] font-sans text-xs font-semibold flex items-center gap-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.7)] backdrop-blur-md cursor-pointer transition-all group whitespace-nowrap"
+            className="h-7 px-3 rounded-[2px] bg-[#141519] hover:bg-zinc-100 text-zinc-200 hover:text-black border border-white/15 hover:border-white font-sans text-xs font-semibold flex items-center gap-1.5 shadow-lg cursor-pointer transition-colors group whitespace-nowrap"
           >
-            <ChevronDown className="w-3.5 h-3.5 text-[#ffe600] group-hover:text-black transition-transform" />
+            <ChevronDown className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black transition-transform" />
             <span>메뉴 열기</span>
           </button>
         </div>
@@ -430,11 +430,11 @@ export function App() {
               setIsSidebarOpenMobile(true);
               playOpenSound();
             }}
-            className="w-10 h-10 rounded-[4px] prts-glass border border-white/20 hover:border-[#ffe600]/60 text-white cursor-pointer shadow-2xl flex items-center justify-center transition-all active:scale-95 group"
+            className="w-10 h-10 rounded-[2px] bg-[#141519]/95 border border-white/15 hover:border-white/35 text-zinc-200 hover:text-white cursor-pointer shadow-xl flex items-center justify-center transition-colors active:scale-95 group"
             title="스토리 색인 열기"
             aria-label="스토리 색인 열기"
           >
-            <Menu className="w-5 h-5 text-[#ffe600] group-hover:rotate-90 transition-transform" />
+            <Menu className="w-5 h-5" />
           </button>
         </div>
       )}
@@ -467,9 +467,9 @@ export function App() {
                 playOpenSound();
               }}
               title="스토리 색인 펼치기"
-              className="h-9 px-3 rounded-[3px] prts-glass hover:border-[#ffe600]/60 text-zinc-300 hover:text-white flex items-center gap-2 text-xs font-medium transition-all shadow-xl cursor-pointer group"
+              className="h-9 px-3 rounded-[2px] bg-[#141519]/95 hover:bg-zinc-100 border border-white/15 hover:border-white text-zinc-200 hover:text-black flex items-center gap-2 text-xs font-medium transition-colors shadow-xl cursor-pointer group"
             >
-              <PanelLeftOpen className="w-4 h-4 text-[#ffe600]" />
+              <PanelLeftOpen className="w-4 h-4 text-zinc-400 group-hover:text-black" />
               <span>색인 열기</span>
             </button>
           </div>
@@ -477,7 +477,7 @@ export function App() {
 
         {/* Main Content Area */}
         <main
-          className={`flex-1 flex flex-col overflow-x-hidden min-w-0 bg-[#08090c] transition-all duration-300 ${
+          className={`flex-1 flex flex-col overflow-x-hidden min-w-0 bg-[#0c0c0e] transition-all duration-300 ${
             currentView === 'report' && isSidebarCollapsed ? 'px-2 lg:px-12' : ''
           }`}
         >

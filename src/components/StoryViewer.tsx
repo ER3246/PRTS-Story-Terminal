@@ -493,11 +493,11 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.96 }}
                 transition={PRTS_SPRING_SNAPPY}
-                className="w-full bg-[#0a0d16]/98 backdrop-blur-2xl border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] p-3 space-y-2 text-xs"
+                className="w-full bg-[#121316]/98 backdrop-blur-md border border-white/15 rounded-[2px] shadow-2xl p-3 space-y-2 text-xs"
               >
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-2 text-zinc-300">
               <span className="font-bold text-white flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-[#ffe600]" />
+                <BookOpen className="w-3.5 h-3.5 text-zinc-400" />
                 <span>작전 색인 및 파트 점프</span>
               </span>
               <button
@@ -505,7 +505,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   playClickSound();
                   setIsPartDropupOpen(false);
                 }}
-                className="w-5 h-5 rounded-[3px] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer hover:bg-white/10"
+                className="w-5 h-5 rounded-[2px] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer hover:bg-white/10"
                 title="닫기 (ESC)"
               >
                 <X className="w-3.5 h-3.5" />
@@ -523,17 +523,17 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.('overview');
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className={`w-full p-2.5 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                    className={`w-full p-2.5 rounded-[2px] flex items-center justify-between transition-colors cursor-pointer ${
                       isOverview
-                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
-                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                        ? 'bg-white/[0.08] text-white font-bold border-l-2 border-[#f5dd1b]'
+                        : 'text-zinc-300 hover:bg-white/[0.04] hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <FileText className="w-3.5 h-3.5 text-[#ffe600]" />
+                      <FileText className="w-3.5 h-3.5 text-zinc-400" />
                       <span>전체 개요 (시놉시스 및 사후 분석)</span>
                     </div>
-                    {isOverview && <span className="text-[10px] bg-[#ffe600] text-black px-1.5 py-0.2 rounded-[2px] font-bold">열람중</span>}
+                    {isOverview && <span className="text-[10px] bg-zinc-100 text-black px-1.5 py-0.2 rounded-[1px] font-bold">열람중</span>}
                   </button>
 
                   {isMultiPart &&
@@ -549,21 +549,21 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             onChangeSubPage?.(sp.id);
                             window.scrollTo({ top: 0, behavior: 'instant' });
                           }}
-                          className={`w-full p-2.5 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                          className={`w-full p-2.5 rounded-[2px] flex items-center justify-between transition-colors cursor-pointer ${
                             isSelected
-                              ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
-                              : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                              ? 'bg-white/[0.08] text-white font-bold border-l-2 border-[#f5dd1b]'
+                              : 'text-zinc-300 hover:bg-white/[0.04] hover:text-white'
                           }`}
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <span className="font-mono text-[10.5px] px-1.5 py-0.5 rounded-[2px] bg-white/[0.06] text-[#ffe600] font-bold shrink-0 whitespace-nowrap">
+                            <span className="font-mono text-[10.5px] px-1.5 py-0.5 rounded-[1px] bg-white/[0.07] text-zinc-200 font-bold shrink-0 whitespace-nowrap">
                               Part {idx + 1}
                             </span>
                             <span className="truncate">{sp.label.replace(/^Part \d+:\s*/, '')}</span>
                           </div>
                           <div className="flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap text-[11px] text-zinc-500 font-mono">
                             {arc?.stages && <span>{arc.stages.length}개 스테이지</span>}
-                            {isSelected && <span className="text-[10px] bg-[#ffe600] text-black px-1.5 py-0.2 rounded-[2px] font-bold shrink-0 whitespace-nowrap">열람중</span>}
+                            {isSelected && <span className="text-[10px] bg-zinc-100 text-black px-1.5 py-0.2 rounded-[1px] font-bold shrink-0 whitespace-nowrap">열람중</span>}
                           </div>
                         </button>
                       );
@@ -581,19 +581,19 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             onChangeSubPage?.(ep.id);
                             window.scrollTo({ top: 0, behavior: 'instant' });
                           }}
-                          className={`w-full p-2.5 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                          className={`w-full p-2.5 rounded-[2px] flex items-center justify-between transition-colors cursor-pointer ${
                             isSelected
-                              ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
-                              : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                              ? 'bg-white/[0.08] text-white font-bold border-l-2 border-[#f5dd1b]'
+                              : 'text-zinc-300 hover:bg-white/[0.04] hover:text-white'
                           }`}
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <span className="font-mono text-[10.5px] px-1.5 py-0.5 rounded-[2px] bg-white/[0.06] text-[#ffe600] font-bold shrink-0 whitespace-nowrap">
+                            <span className="font-mono text-[10.5px] px-1.5 py-0.5 rounded-[1px] bg-white/[0.07] text-zinc-200 font-bold shrink-0 whitespace-nowrap">
                               EP.0{ep.order}
                             </span>
                             <span className="truncate">{ep.titleKo}</span>
                           </div>
-                          {isSelected && <span className="text-[10px] bg-[#ffe600] text-black px-1.5 py-0.2 rounded-[2px] font-bold shrink-0 whitespace-nowrap">열람중</span>}
+                          {isSelected && <span className="text-[10px] bg-zinc-100 text-black px-1.5 py-0.2 rounded-[1px] font-bold shrink-0 whitespace-nowrap">열람중</span>}
                         </button>
                       );
                     })}
@@ -613,10 +613,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       setActiveTab('timeline');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className={`w-full p-2 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                    className={`w-full p-2 rounded-[2px] flex items-center justify-between transition-colors cursor-pointer ${
                       activeTab === 'timeline'
-                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
-                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                        ? 'bg-white/[0.08] text-white font-bold border-l-2 border-[#f5dd1b]'
+                        : 'text-zinc-300 hover:bg-white/[0.04] hover:text-white'
                     }`}
                   >
                     <span>핵심 타임라인 (전편 서사 및 국면)</span>
@@ -628,10 +628,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       setIsPartDropupOpen(false);
                       setActiveTab('dossier');
                     }}
-                    className={`w-full p-2 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                    className={`w-full p-2 rounded-[2px] flex items-center justify-between transition-colors cursor-pointer ${
                       activeTab === 'dossier'
-                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
-                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                        ? 'bg-white/[0.08] text-white font-bold border-l-2 border-[#f5dd1b]'
+                        : 'text-zinc-300 hover:bg-white/[0.04] hover:text-white'
                     }`}
                   >
                     <span>작전 관계자 명부 (인물 도감)</span>
@@ -643,10 +643,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       setIsPartDropupOpen(false);
                       setActiveTab('glossary');
                     }}
-                    className={`w-full p-2 rounded-[4px] flex items-center justify-between transition-colors cursor-pointer ${
+                    className={`w-full p-2 rounded-[2px] flex items-center justify-between transition-colors cursor-pointer ${
                       activeTab === 'glossary'
-                        ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold border border-[#ffe600]/40'
-                        : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                        ? 'bg-white/[0.08] text-white font-bold border-l-2 border-[#f5dd1b]'
+                        : 'text-zinc-300 hover:bg-white/[0.04] hover:text-white'
                     }`}
                   >
                     <span>관련 용어 사전</span>
@@ -660,22 +660,22 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           )}
         </AnimatePresence>
 
-        {/* Main Dock Capsule */}
-        <div className="flex items-center gap-1 sm:gap-2 px-2.5 py-1.5 rounded-full bg-[#0a0d16]/95 backdrop-blur-2xl border border-white/20 shadow-[0_12px_44px_rgba(0,0,0,0.85)] ring-1 ring-white/10">
+        {/* Main Dock Bar */}
+        <div className="flex items-center gap-1 sm:gap-1.5 px-2 py-1.5 rounded-[2px] bg-[#121316]/96 backdrop-blur-md border border-white/15 shadow-2xl">
           {/* Previous Target Button */}
           {prevNav ? (
             <button
               onClick={() => handleExecuteNav(prevNav)}
-              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-white flex items-center gap-1 text-[11.5px] sm:text-xs cursor-pointer transition-colors flex-shrink-0"
+              className="h-8 px-2 sm:px-3 rounded-[2px] bg-[#181a20] hover:bg-[#22252d] text-zinc-300 hover:text-white border border-white/[0.07] flex items-center gap-1 text-[11.5px] sm:text-xs cursor-pointer transition-colors flex-shrink-0 group"
               title={prevNav.label}
             >
-              <ChevronLeft className="w-3.5 h-3.5 text-[#ffe600]" />
+              <ChevronLeft className="w-3.5 h-3.5 text-zinc-400 group-hover:text-white" />
               <span className="hidden xs:inline truncate max-w-[85px] sm:max-w-[130px] font-medium">
                 {prevNav.shortLabel}
               </span>
             </button>
           ) : (
-            <div className="h-8 px-2 rounded-full text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
+            <div className="h-8 px-2 rounded-[2px] text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
               <ChevronLeft className="w-3.5 h-3.5 opacity-30 mr-0.5" />
               <span className="hidden sm:inline">처음</span>
             </div>
@@ -687,13 +687,14 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               playClickSound();
               setIsPartDropupOpen(!isPartDropupOpen);
             }}
-            className={`h-8 px-3 sm:px-4 rounded-full border transition-all cursor-pointer flex items-center gap-1.5 text-xs font-bold shadow-xs min-w-0 flex-shrink ${
+            className={`h-8 px-3 sm:px-4 rounded-[2px] border transition-colors cursor-pointer flex items-center gap-2 text-xs font-bold min-w-0 flex-shrink ${
               isPartDropupOpen
-                ? 'bg-[#ffe600] text-black border-[#ffe600]'
-                : 'bg-[#ffe600]/10 hover:bg-[#ffe600]/20 text-[#ffe600] border-[#ffe600]/40 hover:border-[#ffe600]/80'
+                ? 'bg-zinc-100 text-black border-white'
+                : 'bg-[#1a1c22] hover:bg-[#22252d] text-zinc-100 border-white/15'
             }`}
             title="파트/색인 목록 펼치기 (클릭하여 다른 파트로 이동)"
           >
+            {!isPartDropupOpen && <span className="w-1.5 h-1.5 bg-[#f5dd1b] shrink-0" />}
             <span className="truncate max-w-[100px] sm:max-w-[160px] md:max-w-[220px]">
               {currentLocationLabel}
             </span>
@@ -704,16 +705,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           {nextNav ? (
             <button
               onClick={() => handleExecuteNav(nextNav)}
-              className="h-8 px-2 sm:px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-white flex items-center gap-1 text-[11.5px] sm:text-xs cursor-pointer transition-colors flex-shrink-0"
+              className="h-8 px-2 sm:px-3 rounded-[2px] bg-[#181a20] hover:bg-[#22252d] text-zinc-300 hover:text-white border border-white/[0.07] flex items-center gap-1 text-[11.5px] sm:text-xs cursor-pointer transition-colors flex-shrink-0 group"
               title={nextNav.label}
             >
               <span className="hidden xs:inline truncate max-w-[85px] sm:max-w-[130px] font-medium">
                 {nextNav.shortLabel}
               </span>
-              <ChevronRight className="w-3.5 h-3.5 text-[#ffe600]" />
+              <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-white" />
             </button>
           ) : (
-            <div className="h-8 px-2 rounded-full text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
+            <div className="h-8 px-2 rounded-[2px] text-zinc-600 flex items-center text-[11px] font-mono select-none flex-shrink-0">
               <span className="hidden sm:inline">마지막</span>
               <ChevronRight className="w-3.5 h-3.5 opacity-30 ml-0.5" />
             </div>
@@ -724,7 +725,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           {/* Scroll To Top Button */}
           <button
             onClick={scrollToTop}
-            className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-[#ffe600] flex items-center justify-center cursor-pointer transition-colors flex-shrink-0"
+            className="w-8 h-8 rounded-[2px] bg-[#181a20] hover:bg-[#22252d] border border-white/[0.07] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer transition-colors flex-shrink-0"
             title="페이지 최상단으로 이동"
           >
             <ArrowUp className="w-3.5 h-3.5" />
@@ -737,10 +738,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 playClickSound();
                 onToggleCollapseHeader();
               }}
-              className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-colors flex-shrink-0 ${
+              className={`w-8 h-8 rounded-[2px] border flex items-center justify-center cursor-pointer transition-colors flex-shrink-0 ${
                 isHeaderCollapsed
-                  ? 'bg-[#ffe600] text-black font-bold shadow-[0_0_12px_rgba(255,230,0,0.4)]'
-                  : 'bg-white/[0.04] hover:bg-white/[0.14] text-zinc-300 hover:text-[#ffe600]'
+                  ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
+                  : 'bg-[#181a20] hover:bg-[#22252d] border-white/[0.07] text-zinc-400 hover:text-white'
               }`}
               title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (독서 몰입)'}
             >
@@ -756,14 +757,14 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
     );
   };
 
-  // 하위 페이지 네비게이션 바 컴포넌트 (멀티파트 / 옴니버스 통합 글래스 세그먼트 탭 바)
+  // 하위 페이지 네비게이션 바 컴포넌트
   const renderSubPageBar = () => {
     if (!subPages || subPages.length <= 1) return null;
 
     return (
       <nav
         aria-label="챕터 네비게이션"
-        className="flex items-center gap-1 p-1 bg-white/[0.03] border border-white/[0.08] rounded-[4px] overflow-x-auto no-scrollbar scroll-smooth select-none font-sans"
+        className="flex items-center gap-1 p-1 bg-[#121316] border border-white/[0.08] rounded-[2px] overflow-x-auto no-scrollbar scroll-smooth select-none font-sans"
       >
         {subPages.map((sp) => {
           const isSelected = (currentSubPageId === sp.id) || (!activeSubPageId && sp.isOverview);
@@ -776,7 +777,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 onChangeSubPage?.(sp.id);
                 window.scrollTo({ top: 0, behavior: 'instant' });
               }}
-              className={`relative h-8 px-3.5 rounded-[3px] text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap flex-shrink-0 ${
+              className={`relative h-8 px-3.5 rounded-[1px] text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap flex-shrink-0 ${
                 isSelected
                   ? 'text-white font-bold'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
@@ -786,20 +787,20 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <motion.span
                   layoutId="story-subpage-bg"
                   transition={PRTS_SPRING_SNAPPY}
-                  className="absolute inset-0 rounded-[3px] bg-white/[0.1] shadow-xs pointer-events-none"
+                  className="absolute inset-0 rounded-[1px] bg-white/[0.08] pointer-events-none"
                 />
               )}
               <span className="relative z-10 flex items-center gap-1.5">
                 {sp.isOverview ? (
-                  <FileText className={`w-3.5 h-3.5 ${isSelected ? 'text-[#ffe600]' : 'text-zinc-500'}`} />
+                  <FileText className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-zinc-500'}`} />
                 ) : isOmnibus ? (
-                  <FilmReelIcon className={`w-3.5 h-3.5 ${isSelected ? 'text-[#ffe600]' : 'text-zinc-500'}`} />
+                  <FilmReelIcon className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-zinc-500'}`} />
                 ) : sp.code ? (
                   <span
-                    className={`px-1.5 py-0.2 rounded-[2px] font-mono text-[10px] font-bold ${
+                    className={`px-1.5 py-0.2 rounded-[1px] font-mono text-[10px] font-bold ${
                       isSelected
-                        ? 'bg-[#ffe600] text-black'
-                        : 'bg-white/[0.06] text-[#ffe600]'
+                        ? 'bg-zinc-100 text-black'
+                        : 'bg-[#1a1c22] text-zinc-400'
                     }`}
                   >
                     {sp.code}
@@ -811,7 +812,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <motion.span
                   layoutId="story-subpage-bar"
                   transition={PRTS_SPRING_SNAPPY}
-                  className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600] z-10"
+                  className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b] z-10"
                 />
               )}
             </button>
@@ -838,13 +839,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   onChangeSubPage?.('overview');
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }}
-                className="text-zinc-300 hover:text-[#ffe600] flex items-center gap-1 cursor-pointer font-semibold transition-colors"
+                className="text-zinc-300 hover:text-white flex items-center gap-1 cursor-pointer font-semibold transition-colors"
               >
-                <ChevronLeft className="w-3.5 h-3.5 text-[#ffe600]" />
+                <ChevronLeft className="w-3.5 h-3.5 text-zinc-400" />
                 <span>{story.titleKo}</span>
               </button>
               <span className="text-zinc-600">/</span>
-              <span className="font-mono text-[#ffe600] font-bold">EP.0{currentEpisode.order}</span>
+              <span className="font-mono text-[#f5dd1b] font-bold">EP.0{currentEpisode.order}</span>
               <span className="text-zinc-100 font-bold truncate">{currentEpisode.titleKo}</span>
             </div>
 
@@ -853,7 +854,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 playClickSound();
                 onChangeSubPage?.('overview');
               }}
-              className="h-7 px-3 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.08] text-xs font-medium transition-all cursor-pointer flex-shrink-0"
+              className="h-7 px-3 rounded-[2px] bg-[#141519] hover:bg-[#1d1f26] text-zinc-300 hover:text-white border border-white/[0.08] text-xs font-medium transition-colors cursor-pointer flex-shrink-0"
             >
               전체 개요로 돌아가기
             </button>
@@ -863,10 +864,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           {renderSubPageBar()}
 
           {/* Episode Header Banner */}
-          <div className="relative rounded-[4px] border border-white/[0.09] bg-[#0b0e16] overflow-hidden shadow-2xl p-6 sm:p-8 space-y-4">
+          <div className="relative rounded-[2px] border border-white/[0.09] bg-[#121316] overflow-hidden p-6 sm:p-8 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
               <div className="flex items-center gap-2">
-                <span className="bg-[#ffe600] text-black font-mono font-black px-2 py-0.5 text-xs rounded-[2px]">
+                <span className="bg-zinc-100 text-black font-mono font-bold px-2 py-0.5 text-xs rounded-[1px]">
                   EPISODE 0{currentEpisode.order}
                 </span>
                 <span className="text-zinc-600">·</span>
@@ -875,8 +876,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 </span>
               </div>
               {currentEpisode.mainCharacter && (
-                <span className="px-2.5 py-1 rounded-[3px] bg-white/[0.04] border border-white/[0.08] text-zinc-200 text-xs font-medium flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                <span className="px-2.5 py-1 rounded-[2px] bg-[#17191d] border border-white/[0.08] text-zinc-200 text-xs font-medium flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                   <span className="text-zinc-400">중심 인물:</span>
                   <span className="font-bold text-white">{currentEpisode.mainCharacter}</span>
                 </span>
@@ -897,14 +898,14 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             {(currentEpisode.location || currentEpisode.timeline) && (
               <div className="flex flex-wrap items-center gap-2.5 pt-2 text-xs text-zinc-300">
                 {currentEpisode.timeline && (
-                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[3px] bg-white/[0.03] border border-white/[0.07]">
-                    <Clock className="w-3.5 h-3.5 text-[#ffe600]" />
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#17191d] border border-white/[0.07]">
+                    <Clock className="w-3.5 h-3.5 text-zinc-500" />
                     <span>{currentEpisode.timeline}</span>
                   </span>
                 )}
                 {currentEpisode.location && (
-                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[3px] bg-white/[0.03] border border-white/[0.07]">
-                    <MapPin className="w-3.5 h-3.5 text-[#ffe600]" />
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#17191d] border border-white/[0.07]">
+                    <MapPin className="w-3.5 h-3.5 text-zinc-500" />
                     <span>{currentEpisode.location}</span>
                   </span>
                 )}
@@ -914,16 +915,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
           {/* Official Scene CG (If available) */}
           {currentEpisode.cgUrl && currentEpisode.cgUrl.trim() !== '' && (
-            <div className="group relative rounded-[4px] border border-white/[0.09] bg-black overflow-hidden shadow-xl">
+            <div className="group relative rounded-[2px] border border-white/[0.09] bg-black overflow-hidden">
               <CopyrightedImage
                 src={currentEpisode.cgUrl}
                 alt={currentEpisode.titleKo}
                 className="w-full h-auto object-cover max-h-[500px] transition-transform duration-500 group-hover:scale-[1.01]"
               />
-              <div className="flex items-center justify-between px-4 py-2.5 bg-[#090b10] border-t border-white/[0.07] text-xs">
+              <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs">
                 {currentEpisode.cgCaption ? (
                   <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                    <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                     <span>{currentEpisode.cgCaption}</span>
                   </span>
                 ) : (
@@ -934,9 +935,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     playOpenSound();
                     onOpenLightbox(currentEpisode.cgUrl!, currentEpisode.cgCaption, currentEpisode.titleKo);
                   }}
-                  className="h-7 px-2.5 rounded-[3px] flex items-center gap-1.5 text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0 ml-auto"
+                  className="h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 text-zinc-300 hover:text-black bg-[#16181d] hover:bg-zinc-100 border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0 ml-auto"
                 >
-                  <ZoomIn className="w-3.5 h-3.5 text-[#ffe600]" />
+                  <ZoomIn className="w-3.5 h-3.5" />
                   <span className="text-[11px] font-medium">원화 확대</span>
                 </button>
               </div>
@@ -944,7 +945,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           )}
 
           {/* Episode Narrative Body */}
-          <div className="p-6 sm:p-8 rounded-[4px] border border-white/[0.08] bg-[#0b0e15] shadow-xl space-y-6">
+          <div className="p-6 sm:p-8 rounded-[2px] border border-white/[0.08] bg-[#121316] space-y-6">
             <div className="text-[15px] sm:text-[15.5px] text-zinc-200 leading-[1.85] font-sans space-y-4.5 [word-break:keep-all] break-words">
               {(currentEpisode.narrativeText || currentEpisode.synopsis).split('\n\n').map((para, pIdx) => (
                 <p key={pIdx}>
@@ -970,12 +971,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   return (
                     <div
                       key={qIdx}
-                      className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.07] border-l-2 border-l-[#ffe600] flex gap-3.5 items-start"
+                      className="p-4 rounded-none bg-[#16181d] border border-white/[0.05] border-l-2 border-l-zinc-400 flex gap-3.5 items-start"
                     >
                       {(quoteAvatar || speakerChar) && (
                         <div
                           onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
-                          className={`w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                          className={`w-11 h-11 rounded-[2px] border border-white/15 overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#f5dd1b]' : ''}`}
                           title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                         >
                           <TacticalAvatar
@@ -989,7 +990,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                         <div className="flex items-center justify-between gap-2 text-xs">
                           <span
                             onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
-                            className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
+                            className={`font-bold text-zinc-100 ${speakerChar ? 'cursor-pointer hover:text-[#f5dd1b] hover:underline' : ''}`}
                           >
                             {q.speaker}
                           </span>
@@ -1023,13 +1024,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           playClickSound();
                           onSelectCharacter(char);
                         }}
-                        className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                        className="h-7 pl-1.5 pr-2.5 rounded-[2px] flex items-center gap-1.5 bg-[#16181d] hover:bg-[#1e2128] border border-white/[0.08] hover:border-white/25 text-xs text-zinc-200 hover:text-white transition-colors cursor-pointer"
                         title={`${char.nameKo} (${char.role}) 프로필 열람`}
                       >
                         <TacticalAvatar
                           src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
                           alt={char.nameKo}
-                          className="w-4.5 h-4.5 rounded-[2px]"
+                          className="w-4.5 h-4.5 rounded-[1px]"
                         />
                         <span className="font-medium">{char.nameKo}</span>
                       </button>
@@ -1038,10 +1039,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   return (
                     <span
                       key={cId}
-                      className="h-7 px-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-400 select-none cursor-default font-mono"
+                      className="h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 bg-[#16181d] border border-white/[0.06] text-xs text-zinc-400 select-none cursor-default font-mono"
                       title="인물 명부 미등재 단역"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
+                      <span className="w-1 h-1 bg-zinc-600" />
                       <span>{cId}</span>
                     </span>
                   );
@@ -1066,9 +1067,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.(prevEp.id);
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-300 hover:text-white flex items-center gap-2 cursor-pointer transition-all font-medium"
+                    className="w-full sm:w-auto h-10 px-4 rounded-[2px] bg-[#121316] hover:bg-[#181a20] border border-white/[0.08] hover:border-white/25 text-zinc-300 hover:text-white flex items-center gap-2 cursor-pointer transition-colors font-medium"
                   >
-                    <ChevronLeft className="w-4 h-4 text-[#ffe600]" />
+                    <ChevronLeft className="w-4 h-4 text-zinc-400" />
                     <span>이전 단편: {prevEp.titleKo}</span>
                   </button>
                 ) : (
@@ -1078,9 +1079,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.('overview');
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-400 hover:text-white flex items-center gap-2 cursor-pointer transition-all font-medium"
+                    className="w-full sm:w-auto h-10 px-4 rounded-[2px] bg-[#121316] hover:bg-[#181a20] border border-white/[0.08] hover:border-white/25 text-zinc-400 hover:text-white flex items-center gap-2 cursor-pointer transition-colors font-medium"
                   >
-                    <FileText className="w-4 h-4 text-[#ffe600]" />
+                    <FileText className="w-4 h-4 text-zinc-400" />
                     <span>전체 개요로 돌아가기</span>
                   </button>
                 )}
@@ -1092,10 +1093,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.(nextEp.id);
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-300 hover:text-white flex items-center justify-end gap-2 cursor-pointer transition-all ml-auto font-medium"
+                    className="w-full sm:w-auto h-10 px-4 rounded-[2px] bg-[#121316] hover:bg-[#181a20] border border-white/[0.08] hover:border-white/25 text-zinc-300 hover:text-white flex items-center justify-end gap-2 cursor-pointer transition-colors ml-auto font-medium"
                   >
                     <span>다음 단편: {nextEp.titleKo}</span>
-                    <ChevronRight className="w-4 h-4 text-[#ffe600]" />
+                    <ChevronRight className="w-4 h-4 text-zinc-400" />
                   </button>
                 ) : (
                   <button
@@ -1104,10 +1105,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.('overview');
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-4 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/50 text-zinc-400 hover:text-white flex items-center justify-end gap-2 cursor-pointer transition-all ml-auto font-medium"
+                    className="w-full sm:w-auto h-10 px-4 rounded-[2px] bg-[#121316] hover:bg-[#181a20] border border-white/[0.08] hover:border-white/25 text-zinc-400 hover:text-white flex items-center justify-end gap-2 cursor-pointer transition-colors ml-auto font-medium"
                   >
                     <span>전체 개요 및 사후 분석</span>
-                    <ChevronRight className="w-4 h-4 text-[#ffe600]" />
+                    <ChevronRight className="w-4 h-4 text-zinc-400" />
                   </button>
                 )}
               </div>
@@ -1129,9 +1130,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   onChangeSubPage?.('overview');
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }}
-                className="text-zinc-300 hover:text-[#ffe600] flex items-center gap-1 cursor-pointer font-semibold transition-colors"
+                className="text-zinc-300 hover:text-white flex items-center gap-1 cursor-pointer font-semibold transition-colors"
               >
-                <ChevronLeft className="w-3.5 h-3.5 text-[#ffe600]" />
+                <ChevronLeft className="w-3.5 h-3.5 text-zinc-400" />
                 <span>{story.titleKo}</span>
               </button>
               <span className="text-zinc-600">/</span>
@@ -1145,7 +1146,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 playClickSound();
                 onChangeSubPage?.('overview');
               }}
-              className="h-7 px-3 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.08] text-xs font-medium transition-all cursor-pointer flex-shrink-0"
+              className="h-7 px-3 rounded-[2px] bg-[#141519] hover:bg-[#1d1f26] text-zinc-300 hover:text-white border border-white/[0.08] text-xs font-medium transition-colors cursor-pointer flex-shrink-0"
             >
               전체 개요로 돌아가기
             </button>
@@ -1155,10 +1156,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
           {renderSubPageBar()}
 
           {/* MultiPart Chapter Header Banner */}
-          <div className="relative rounded-[4px] border border-white/[0.09] bg-[#0b0e16] overflow-hidden shadow-2xl p-6 sm:p-8 space-y-4">
+          <div className="relative rounded-[2px] border border-white/[0.09] bg-[#121316] overflow-hidden p-6 sm:p-8 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
               <div className="flex items-center gap-2">
-                <span className="bg-[#ffe600] text-black font-mono font-black px-2 py-0.5 text-xs rounded-[2px]">
+                <span className="bg-zinc-100 text-black font-mono font-bold px-2 py-0.5 text-xs rounded-[1px]">
                   {arcCode}
                 </span>
                 <span className="text-zinc-600">·</span>
@@ -1182,14 +1183,14 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             {(currentArc?.location || currentArc?.timeline) && (
               <div className="flex flex-wrap items-center gap-2.5 pt-1 text-xs text-zinc-300">
                 {currentArc.timeline && (
-                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[3px] bg-white/[0.03] border border-white/[0.07]">
-                    <Clock className="w-3.5 h-3.5 text-[#ffe600]" />
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#17191d] border border-white/[0.07]">
+                    <Clock className="w-3.5 h-3.5 text-zinc-500" />
                     <span>{currentArc.timeline}</span>
                   </span>
                 )}
                 {currentArc.location && (
-                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[3px] bg-white/[0.03] border border-white/[0.07]">
-                    <MapPin className="w-3.5 h-3.5 text-[#ffe600]" />
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#17191d] border border-white/[0.07]">
+                    <MapPin className="w-3.5 h-3.5 text-zinc-500" />
                     <span>{currentArc.location}</span>
                   </span>
                 )}
@@ -1199,7 +1200,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             {/* Part Tactical Briefing Card */}
             {(currentArc?.narrativeText || currentArc?.synopsis) && (
               <div className="pt-4 border-t border-white/[0.07]">
-                <p className="text-sm text-zinc-300 font-sans leading-relaxed [word-break:keep-all] pl-3.5 border-l-2 border-[#ffe600]/80">
+                <p className="text-sm text-zinc-300 font-sans leading-relaxed [word-break:keep-all] pl-3.5 border-l-2 border-[#f5dd1b]">
                   {currentArc.narrativeText || currentArc.synopsis}
                 </p>
               </div>
@@ -1208,9 +1209,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
           {/* Quick Stage Jump & Expand/Collapse Control Bar */}
           {currentArc?.stages && currentArc.stages.length > 0 && (
-            <div className="flex flex-wrap items-center justify-between gap-2.5 p-2.5 rounded-[4px] bg-white/[0.025] border border-white/[0.08] text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2.5 p-2.5 rounded-[2px] bg-[#121316] border border-white/[0.08] text-xs">
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="w-1.5 h-3.5 rounded-[1px] bg-[#ffe600] ml-1" />
+                <span className="w-1.5 h-3.5 bg-[#f5dd1b] ml-1" />
                 <span className="font-bold text-zinc-200 mr-1.5">
                   스테이지 이동
                 </span>
@@ -1224,9 +1225,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                         const el = document.getElementById(`stage-section-${st.stageCode}`);
                         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                       }}
-                      className="h-7 px-2.5 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.07] hover:border-[#ffe600]/50 text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 group"
+                      className="h-7 px-2.5 rounded-[2px] bg-[#17191d] hover:bg-[#1f222a] text-zinc-300 hover:text-white border border-white/[0.07] hover:border-white/25 text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5 group"
                     >
-                      <span className="font-mono font-bold text-[#ffe600] text-[11px]">
+                      <span className="font-mono font-bold text-zinc-300 group-hover:text-[#f5dd1b] text-[11px]">
                         {st.stageCode}
                       </span>
                       <span className="truncate max-w-[130px]">{st.title}</span>
@@ -1238,9 +1239,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               <button
                 onClick={toggleAllStages}
                 title={isAllStagesExpanded ? '모든 스테이지 접기' : '모든 스테이지 펼치기'}
-                className="h-7 px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] text-zinc-300 hover:text-white flex items-center gap-1.5 text-[11px] font-medium transition-colors cursor-pointer"
+                className="h-7 px-2.5 rounded-[2px] bg-[#17191d] hover:bg-[#1f222a] border border-white/[0.08] text-zinc-300 hover:text-white flex items-center gap-1.5 text-[11px] font-medium transition-colors cursor-pointer"
               >
-                <ChevronsUpDown className="w-3.5 h-3.5 text-[#ffe600]" />
+                <ChevronsUpDown className="w-3.5 h-3.5 text-zinc-400" />
                 <span className="hidden sm:inline">{isAllStagesExpanded ? '모두 접기' : '모두 펼치기'}</span>
               </button>
             </div>
@@ -1255,23 +1256,23 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 <section
                   key={st.stageCode}
                   id={`stage-section-${st.stageCode}`}
-                  className={`rounded-[4px] border border-white/[0.08] bg-[#0b0e15] overflow-hidden shadow-xl transition-all scroll-mt-20 ${
+                  className={`rounded-[2px] border border-white/[0.08] bg-[#121316] overflow-hidden transition-colors scroll-mt-20 ${
                     sIdx >= 2 ? 'prts-cv-auto' : ''
                   }`}
                 >
                   {/* Accordion Header */}
                   <div
                     onClick={() => toggleStage(st.stageCode)}
-                    className="px-4 sm:px-6 py-3 sm:py-3.5 bg-white/[0.025] hover:bg-white/[0.045] border-b border-white/[0.07] cursor-pointer select-none group transition-colors space-y-1.5"
+                    className="px-4 sm:px-6 py-3 sm:py-3.5 bg-[#16181d] hover:bg-[#1a1d23] border-b border-white/[0.07] cursor-pointer select-none group transition-colors space-y-1.5"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2 min-w-0">
-                        <span className="px-2 py-0.5 bg-[#ffe600] text-black font-mono font-black text-xs flex-shrink-0 rounded-[2px]">
+                        <span className="px-2 py-0.5 bg-zinc-200 text-black font-mono font-bold text-xs flex-shrink-0 rounded-[1px]">
                           {st.stageCode}
                         </span>
                         {st.timeMarker && (
                           <span className="text-[11px] font-mono text-zinc-400 hidden sm:flex items-center gap-1 flex-shrink-0">
-                            <Clock className="w-3 h-3 text-[#ffe600]" />
+                            <Clock className="w-3 h-3 text-zinc-500" />
                             <span>{st.timeMarker}</span>
                           </span>
                         )}
@@ -1284,7 +1285,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             className="text-xs font-sans text-zinc-400 flex items-center gap-1 max-w-[150px] sm:max-w-[260px] md:max-w-xs truncate"
                             title={st.location}
                           >
-                            <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                            <MapPin className="w-3.5 h-3.5 text-zinc-500 flex-shrink-0" />
                             <span className="truncate">{st.location}</span>
                           </div>
                         )}
@@ -1292,7 +1293,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                         <motion.div
                           animate={{ rotate: isExpanded ? 180 : 0 }}
                           transition={PRTS_SPRING_SNAPPY}
-                          className="w-7 h-7 rounded-[3px] bg-white/[0.04] group-hover:bg-white/[0.1] text-zinc-400 group-hover:text-[#ffe600] flex items-center justify-center transition-colors flex-shrink-0"
+                          className="w-7 h-7 rounded-[2px] bg-[#1c1e24] group-hover:bg-[#252830] text-zinc-400 group-hover:text-white flex items-center justify-center transition-colors flex-shrink-0"
                         >
                           <ChevronDown className="w-4 h-4" />
                         </motion.div>
@@ -1300,7 +1301,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     </div>
 
                     {/* Title Row: Full-width allocation preventing cramped word wrapping */}
-                    <h2 className="text-base sm:text-[17px] font-bold text-white tracking-tight group-hover:text-[#ffe600] transition-colors [word-break:keep-all] break-keep leading-snug">
+                    <h2 className="text-base sm:text-[17px] font-bold text-white tracking-tight transition-colors [word-break:keep-all] break-keep leading-snug">
                       {st.title}
                     </h2>
                   </div>
@@ -1309,15 +1310,15 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   {!isExpanded && st.summary && (
                     <div
                       onClick={() => toggleStage(st.stageCode)}
-                      className="px-5 py-3.5 bg-[#090b10] hover:bg-white/[0.02] cursor-pointer transition-colors flex items-center justify-between gap-3 text-xs text-zinc-400"
+                      className="px-5 py-3.5 bg-[#101114] hover:bg-[#16181d] cursor-pointer transition-colors flex items-center justify-between gap-3 text-xs text-zinc-400"
                     >
                       <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
-                        <span className="text-[10.5px] font-bold text-[#ffe600] bg-[#ffe600]/15 border border-[#ffe600]/40 px-2 py-0.5 rounded-[2px] flex-shrink-0 whitespace-nowrap">
+                        <span className="text-[10.5px] font-bold text-zinc-200 bg-white/[0.06] border border-white/15 px-2 py-0.5 rounded-[1px] flex-shrink-0 whitespace-nowrap">
                           요약
                         </span>
                         <span className="truncate text-zinc-300">{st.summary}</span>
                       </div>
-                      <span className="text-xs font-medium text-[#ffe600] flex-shrink-0 whitespace-nowrap flex items-center gap-1">
+                      <span className="text-xs font-medium text-zinc-300 flex-shrink-0 whitespace-nowrap flex items-center gap-1">
                         <span>펼쳐보기</span>
                         <ChevronDown className="w-3.5 h-3.5" />
                       </span>
@@ -1338,7 +1339,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                         <div className="p-5 sm:p-7 space-y-6">
                       {/* Lead Summary Callout */}
                       {st.summary && (
-                        <div className="px-4 py-3 rounded-[3px] bg-[#ffe600]/[0.04] border border-white/[0.06] border-l-2 border-l-[#ffe600] text-sm text-zinc-200 leading-relaxed [word-break:keep-all]">
+                        <div className="px-4 py-3 rounded-none bg-[#16181d] border border-white/[0.06] border-l-2 border-l-[#f5dd1b] text-sm text-zinc-200 leading-relaxed [word-break:keep-all]">
                           {st.summary}
                         </div>
                       )}
@@ -1347,15 +1348,15 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       {st.visuals && st.visuals.length > 0 ? (
                         <div className="space-y-4">
                           {st.visuals.map((vis, vIdx) => (
-                            <div key={vIdx} className="group relative rounded-[4px] border border-white/[0.09] bg-black overflow-hidden shadow-lg">
+                            <div key={vIdx} className="group relative rounded-[2px] border border-white/[0.09] bg-black overflow-hidden">
                               <CopyrightedImage
                                 src={vis.url}
                                 alt={vis.caption}
                                 className="w-full h-auto object-cover max-h-[460px] transition-transform duration-500 group-hover:scale-[1.01]"
                               />
-                              <div className="flex items-center justify-between px-4 py-2.5 bg-[#090b10] border-t border-white/[0.07] text-xs">
+                              <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs">
                                 <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                                  <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                                   <span>{vis.caption}</span>
                                   {vis.triggerLine && (
                                     <span className="text-zinc-500 text-[11px] hidden sm:inline truncate max-w-[320px]">
@@ -1368,10 +1369,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     playOpenSound();
                                     onOpenLightbox(vis.url, vis.caption, st.title);
                                   }}
-                                  className="h-7 px-2.5 rounded-[3px] flex items-center gap-1.5 text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0 ml-auto"
+                                  className="h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 text-zinc-300 hover:text-black bg-[#16181d] hover:bg-zinc-100 border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0 ml-auto"
                                   title="원문 CG 전체화면 확대"
                                 >
-                                  <ZoomIn className="w-3.5 h-3.5 text-[#ffe600]" />
+                                  <ZoomIn className="w-3.5 h-3.5" />
                                   <span className="text-[11px] font-medium">원화 확대</span>
                                 </button>
                               </div>
@@ -1379,15 +1380,15 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           ))}
                         </div>
                       ) : st.cgUrl && st.cgUrl.trim() !== '' ? (
-                        <div className="group relative rounded-[4px] border border-white/[0.09] bg-black overflow-hidden shadow-lg">
+                        <div className="group relative rounded-[2px] border border-white/[0.09] bg-black overflow-hidden">
                           <CopyrightedImage
                             src={st.cgUrl}
                             alt={st.title}
                             className="w-full h-auto object-cover max-h-[460px] transition-transform duration-500 group-hover:scale-[1.01]"
                           />
-                          <div className="flex items-center justify-between px-4 py-2.5 bg-[#090b10] border-t border-white/[0.07] text-xs">
+                          <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs">
                             <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                              <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                               <span>{st.cgCaption || st.title}</span>
                             </span>
                             <button
@@ -1395,9 +1396,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                 playOpenSound();
                                 onOpenLightbox(st.cgUrl!, st.cgCaption, st.title);
                               }}
-                              className="h-7 px-2.5 rounded-[3px] flex items-center gap-1.5 text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0 ml-auto"
+                              className="h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 text-zinc-300 hover:text-black bg-[#16181d] hover:bg-zinc-100 border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0 ml-auto"
                             >
-                              <ZoomIn className="w-3.5 h-3.5 text-[#ffe600]" />
+                              <ZoomIn className="w-3.5 h-3.5" />
                               <span className="text-[11px] font-medium">원화 확대</span>
                             </button>
                           </div>
@@ -1430,7 +1431,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             return (
                               <div
                                 key={qIdx}
-                                className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.07] border-l-2 border-l-[#ffe600] flex gap-3.5 items-start"
+                                className="p-4 rounded-none bg-[#16181d] border border-white/[0.05] border-l-2 border-l-zinc-400 flex gap-3.5 items-start"
                               >
                                 {(quoteAvatar || speakerChar) ? (
                                   <div
@@ -1440,7 +1441,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                         onSelectCharacter(speakerChar, q.variantId);
                                       }
                                     }}
-                                    className={`w-11 h-11 rounded-[3px] border border-white/15 overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                                    className={`w-11 h-11 rounded-[2px] border border-white/15 overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#f5dd1b]' : ''}`}
                                     title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                                   >
                                     <TacticalAvatar
@@ -1450,7 +1451,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     />
                                   </div>
                                 ) : (
-                                  <div className="w-11 h-11 rounded-[3px] border border-white/10 bg-white/[0.04] overflow-hidden flex-shrink-0">
+                                  <div className="w-11 h-11 rounded-[2px] border border-white/10 bg-[#141519] overflow-hidden flex-shrink-0">
                                     <TacticalAvatar
                                       src=""
                                       alt={q.speaker}
@@ -1467,7 +1468,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                           onSelectCharacter(speakerChar, q.variantId);
                                         }
                                       }}
-                                      className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
+                                      className={`font-bold text-zinc-100 ${speakerChar ? 'cursor-pointer hover:text-[#f5dd1b] hover:underline' : ''}`}
                                     >
                                       {q.speaker}
                                     </span>
@@ -1501,13 +1502,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     playClickSound();
                                     onSelectCharacter(char);
                                   }}
-                                  className="h-7 pl-1.5 pr-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                                  className="h-7 pl-1.5 pr-2.5 rounded-[2px] flex items-center gap-1.5 bg-[#16181d] hover:bg-[#1e2128] border border-white/[0.08] hover:border-white/25 text-xs text-zinc-200 hover:text-white transition-colors cursor-pointer"
                                   title={`${char.nameKo} (${char.role}) 프로필 열람`}
                                 >
                                   <TacticalAvatar
                                     src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
                                     alt={char.nameKo}
-                                    className="w-4.5 h-4.5 rounded-[2px]"
+                                    className="w-4.5 h-4.5 rounded-[1px]"
                                   />
                                   <span className="font-medium">{char.nameKo}</span>
                                 </button>
@@ -1516,10 +1517,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             return (
                               <span
                                 key={cId}
-                                className="h-7 px-2.5 rounded-[3px] flex items-center gap-1.5 bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-400 select-none cursor-default font-mono"
+                                className="h-7 px-2.5 rounded-[2px] flex items-center gap-1.5 bg-[#16181d] border border-white/[0.06] text-xs text-zinc-400 select-none cursor-default font-mono"
                                 title="인물 명부 미등재 단역"
                               >
-                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
+                                <span className="w-1 h-1 bg-zinc-600" />
                                 <span>{cId}</span>
                               </span>
                             );
@@ -1542,7 +1543,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             return (
               <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans">
                 <div className="flex items-center gap-2 text-zinc-400">
-                  <span className="w-2 h-2 rounded-full bg-[#ffe600]" />
+                  <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                   <span>
                     현재 파트 열람 완료 (<strong className="text-zinc-200">{currentArc?.partTitleKo || '챕터'}</strong>)
                   </span>
@@ -1555,10 +1556,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.(nextP.id);
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-5 rounded-[3px] bg-[#ffe600]/15 hover:bg-[#ffe600]/25 text-[#ffe600] border border-[#ffe600]/50 hover:border-[#ffe600] flex items-center justify-center gap-2 cursor-pointer transition-all font-bold shadow-md"
+                    className="w-full sm:w-auto h-10 px-5 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black border border-white flex items-center justify-center gap-2 cursor-pointer transition-colors font-bold"
                   >
                     <span>다음 파트 계속 읽기: {nextP.label}</span>
-                    <ChevronRight className="w-4 h-4 text-[#ffe600]" />
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 ) : (
                   <button
@@ -1567,10 +1568,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       onChangeSubPage?.('overview');
                       window.scrollTo({ top: 0, behavior: 'instant' });
                     }}
-                    className="w-full sm:w-auto h-10 px-5 rounded-[3px] bg-white/[0.05] hover:bg-white/[0.1] text-zinc-200 hover:text-white border border-white/[0.1] hover:border-[#ffe600]/50 flex items-center justify-center gap-2 cursor-pointer transition-all font-medium"
+                    className="w-full sm:w-auto h-10 px-5 rounded-[2px] bg-[#15161a] hover:bg-[#1d1f25] text-zinc-200 hover:text-white border border-white/[0.1] hover:border-white/25 flex items-center justify-center gap-2 cursor-pointer transition-colors font-medium"
                   >
                     <span>전체 개요 및 사후 분석으로 돌아가기</span>
-                    <ChevronRight className="w-4 h-4 text-[#ffe600]" />
+                    <ChevronRight className="w-4 h-4 text-zinc-400" />
                   </button>
                 )}
               </div>
@@ -1584,9 +1585,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
         ========================================================================= */
         <div className="space-y-8 animate-fadeIn">
           {/* 1. WIDE CINEMATIC HERO SECTION */}
-          <section className="relative w-full rounded-[4px] overflow-hidden border border-white/[0.09] bg-[#0b0e15] shadow-2xl">
+          <section className="relative w-full rounded-[2px] overflow-hidden border border-white/[0.09] bg-[#121316]">
             {/* Background Banner Image Container */}
-            <div className="relative w-full min-h-[320px] sm:min-h-[380px] lg:h-[420px] bg-[#07090e] overflow-hidden select-none flex flex-col justify-between p-5 sm:p-7 lg:p-9">
+            <div className="relative w-full min-h-[320px] sm:min-h-[380px] lg:h-[420px] bg-[#0c0d10] overflow-hidden select-none flex flex-col justify-between p-5 sm:p-7 lg:p-9">
               <img
                 src={resolveAssetUrl(story.bannerImage)}
                 alt={story.titleKo}
@@ -1598,34 +1599,34 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               />
               <CopyrightBadge />
 
-              {/* Clean Editorial Vignette Overlays (Preserves artwork clarity while ensuring crisp text contrast) */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0b0e15] via-[#0b0e15]/70 to-black/30 pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0b0e15]/85 via-transparent to-[#0b0e15]/60 pointer-events-none" />
+              {/* Clean Editorial Vignette Overlays (Neutral dark contrast) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#121316] via-[#121316]/65 to-black/25 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#121316]/85 via-transparent to-[#121316]/50 pointer-events-none" />
 
               {/* Top Meta Badge Row */}
               <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="h-6 px-2.5 bg-[#ffe600] text-black font-mono font-black text-xs tracking-wider rounded-[2px] flex items-center shadow">
+                  <span className="h-6 px-2.5 bg-zinc-100 text-black font-mono font-bold text-xs tracking-wider rounded-[1px] flex items-center">
                     {story.code}
                   </span>
-                  <span className="h-6 px-2.5 rounded-[2px] bg-black/60 backdrop-blur-md border border-white/15 text-zinc-200 font-mono font-semibold text-[11px] flex items-center">
+                  <span className="h-6 px-2.5 rounded-[1px] bg-[#121316]/85 border border-white/15 text-zinc-200 font-mono font-semibold text-[11px] flex items-center">
                     {story.titleEn.toUpperCase()}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   {accessState === 'available' ? (
-                    <span className="h-7 px-3 rounded-[3px] bg-black/70 backdrop-blur-md border border-[#ffe600]/60 text-[#ffe600] text-xs font-bold flex items-center gap-1.5 shadow">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                    <span className="h-7 px-3 rounded-[2px] bg-[#121316]/90 border border-white/15 text-zinc-200 text-xs font-bold flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                       <span>전문 복원 완료</span>
                     </span>
                   ) : accessState === 'overview_only' ? (
-                    <span className="h-7 px-3 rounded-[3px] bg-black/70 backdrop-blur-md border border-white/20 text-zinc-300 text-xs font-medium flex items-center gap-1.5 shadow">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+                    <span className="h-7 px-3 rounded-[2px] bg-[#121316]/90 border border-white/15 text-zinc-300 text-xs font-medium flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-zinc-400" />
                       <span>공식 개요 수록</span>
                     </span>
                   ) : (
-                    <span className="h-7 px-3 rounded-[3px] bg-red-950/80 backdrop-blur-md border border-red-800/70 text-red-300 text-xs font-medium flex items-center gap-1.5 shadow">
+                    <span className="h-7 px-3 rounded-[2px] bg-red-950/80 border border-red-800/70 text-red-300 text-xs font-medium flex items-center gap-1.5">
                       <Lock className="w-3.5 h-3.5 text-red-400" />
                       <span>열람 제한</span>
                     </span>
@@ -1635,9 +1636,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     <button
                       onClick={handleExportStoryMarkdown}
                       title="현재 작전 보고서를 마크다운(.md) 파일로 다운로드합니다"
-                      className="h-7 px-3 rounded-[3px] bg-black/70 hover:bg-[#ffe600] backdrop-blur-md text-zinc-200 hover:text-black border border-white/15 hover:border-[#ffe600] text-xs font-semibold transition-all shadow cursor-pointer flex items-center gap-1.5 group"
+                      className="h-7 px-3 rounded-[2px] bg-[#121316]/90 hover:bg-zinc-100 text-zinc-200 hover:text-black border border-white/15 hover:border-white text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 group"
                     >
-                      <Download className="w-3.5 h-3.5 text-[#ffe600] group-hover:text-black" />
+                      <Download className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black" />
                       <span className="hidden sm:inline">문서 내보내기 (.MD)</span>
                       <span className="sm:hidden">.MD</span>
                     </button>
@@ -1647,25 +1648,25 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
               {/* Hero Content: Title & Category */}
               <div className="relative z-10 space-y-2 pt-6">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#ffe600]">
-                  <Activity className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
+                  <Activity className="w-3.5 h-3.5 text-zinc-400" />
                   <span>{story.categoryLabel}</span>
-                  <span className="text-zinc-500">·</span>
-                  <span className="text-zinc-300 font-medium">{story.actGroup}</span>
+                  <span className="text-zinc-600">·</span>
+                  <span className="text-zinc-400 font-medium">{story.actGroup}</span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-white tracking-tight drop-shadow-md [word-break:keep-all] break-words leading-tight">
+                <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-white tracking-tight [word-break:keep-all] break-words leading-tight">
                   {story.titleKo}
                 </h1>
               </div>
             </div>
 
-            {/* Tactical Metadata Strip & Operation Summary */}
-            <div className="px-5 sm:px-7 lg:px-9 pb-7 pt-5 space-y-6 bg-[#0b0e15] border-t border-white/[0.07]">
+            {/* Editorial Metadata Strip & Operation Summary */}
+            <div className="px-5 sm:px-7 lg:px-9 pb-7 pt-5 space-y-6 bg-[#121316] border-t border-white/[0.07]">
               {/* 3-Column Editorial Metadata Strip */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-5 border-b border-white/[0.07] text-xs">
                 <div className="space-y-1 sm:border-r border-white/[0.07] sm:pr-4">
                   <div className="text-[11px] font-semibold text-zinc-400 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-[#ffe600]" />
+                    <Clock className="w-3.5 h-3.5 text-zinc-500" />
                     <span>배경 시점</span>
                   </div>
                   <div className="text-zinc-100 font-medium text-xs sm:text-[13px] [word-break:keep-all] break-words leading-snug pl-5">
@@ -1675,7 +1676,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
                 <div className="space-y-1 sm:border-r border-white/[0.07] sm:pr-4">
                   <div className="text-[11px] font-semibold text-zinc-400 flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#ffe600]" />
+                    <MapPin className="w-3.5 h-3.5 text-zinc-500" />
                     <span>배경 지역</span>
                   </div>
                   <div className="text-zinc-100 font-medium text-xs sm:text-[13px] [word-break:keep-all] break-words leading-snug pl-5">
@@ -1685,7 +1686,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
                 <div className="space-y-1">
                   <div className="text-[11px] font-semibold text-zinc-400 flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-[#ffe600]" />
+                    <Users className="w-3.5 h-3.5 text-zinc-500" />
                     <span>관련 세력</span>
                   </div>
                   <div className="text-zinc-100 font-medium text-xs sm:text-[13px] [word-break:keep-all] break-words leading-snug pl-5">
@@ -1697,7 +1698,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               {/* Operation Summary Narrative */}
               <div className="space-y-3.5">
                 {/* Logline Callout */}
-                <div className="text-sm sm:text-[15.5px] text-white font-semibold leading-relaxed break-keep pl-4 border-l-2 border-[#ffe600]">
+                <div className="text-sm sm:text-[15.5px] text-white font-semibold leading-relaxed break-keep pl-4 border-l-2 border-[#f5dd1b]">
                   {story.content.logline}
                 </div>
 
@@ -1715,15 +1716,15 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             </div>
           </section>
 
-          {/* 2. UNIFIED GLASS SEGMENTED TAB BAR */}
+          {/* 2. EDITORIAL SEGMENTED TAB BAR */}
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-1 p-1 rounded-[4px] bg-white/[0.03] border border-white/[0.08] text-xs font-sans overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-1 p-1 rounded-[2px] bg-[#121316] border border-white/[0.08] text-xs font-sans overflow-x-auto no-scrollbar">
               <button
                 onClick={() => {
                   playTabSwitchSound();
                   setActiveTab('timeline');
                 }}
-                className={`relative h-8 px-4 rounded-[3px] transition-colors cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
+                className={`relative h-8 px-4 rounded-[1px] transition-colors cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
                   activeTab === 'timeline'
                     ? 'text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
@@ -1733,7 +1734,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <motion.span
                     layoutId="story-main-tab-bg"
                     transition={PRTS_SPRING_SNAPPY}
-                    className="absolute inset-0 rounded-[3px] bg-white/[0.1] shadow-xs pointer-events-none"
+                    className="absolute inset-0 rounded-[1px] bg-white/[0.08] pointer-events-none"
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-2">
@@ -1744,7 +1745,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       ? '챕터 목록'
                       : '줄거리 요약'}
                   </span>
-                  <span className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.07] font-mono text-[10.5px] text-[#ffe600] shrink-0">
+                  <span className="px-1.5 py-0.2 rounded-[1px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300 shrink-0">
                     {isOmnibus
                       ? story.omnibusSubEpisodes?.length || 0
                       : isMultiPart
@@ -1756,7 +1757,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <motion.span
                     layoutId="story-main-tab-bar"
                     transition={PRTS_SPRING_SNAPPY}
-                    className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600] z-10"
+                    className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b] z-10"
                   />
                 )}
               </button>
@@ -1766,7 +1767,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   playTabSwitchSound();
                   setActiveTab('dossier');
                 }}
-                className={`relative h-8 px-4 rounded-[3px] transition-colors cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
+                className={`relative h-8 px-4 rounded-[1px] transition-colors cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
                   activeTab === 'dossier'
                     ? 'text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
@@ -1776,12 +1777,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <motion.span
                     layoutId="story-main-tab-bg"
                     transition={PRTS_SPRING_SNAPPY}
-                    className="absolute inset-0 rounded-[3px] bg-white/[0.1] shadow-xs pointer-events-none"
+                    className="absolute inset-0 rounded-[1px] bg-white/[0.08] pointer-events-none"
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-2">
                   <span>등장인물</span>
-                  <span className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300 shrink-0">
+                  <span className="px-1.5 py-0.2 rounded-[1px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300 shrink-0">
                     {resolvedStoryCharacters.length}
                   </span>
                 </span>
@@ -1789,7 +1790,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <motion.span
                     layoutId="story-main-tab-bar"
                     transition={PRTS_SPRING_SNAPPY}
-                    className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600] z-10"
+                    className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b] z-10"
                   />
                 )}
               </button>
@@ -1799,7 +1800,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   playTabSwitchSound();
                   setActiveTab('glossary');
                 }}
-                className={`relative h-8 px-4 rounded-[3px] transition-colors cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
+                className={`relative h-8 px-4 rounded-[1px] transition-colors cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
                   activeTab === 'glossary'
                     ? 'text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
@@ -1809,12 +1810,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <motion.span
                     layoutId="story-main-tab-bg"
                     transition={PRTS_SPRING_SNAPPY}
-                    className="absolute inset-0 rounded-[3px] bg-white/[0.1] shadow-xs pointer-events-none"
+                    className="absolute inset-0 rounded-[1px] bg-white/[0.08] pointer-events-none"
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-2">
                   <span>용어 사전</span>
-                  <span className="px-1.5 py-0.2 rounded-[2px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300 shrink-0">
+                  <span className="px-1.5 py-0.2 rounded-[1px] bg-white/[0.07] font-mono text-[10.5px] text-zinc-300 shrink-0">
                     {story.glossary.length}
                   </span>
                 </span>
@@ -1822,7 +1823,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <motion.span
                     layoutId="story-main-tab-bar"
                     transition={PRTS_SPRING_SNAPPY}
-                    className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600] z-10"
+                    className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b] z-10"
                   />
                 )}
               </button>
@@ -1831,12 +1832,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
           {/* Overview Only Alert Banner */}
           {accessState === 'overview_only' && (
-            <div className="p-4 sm:p-5 rounded-[4px] bg-sky-950/20 border border-sky-800/50 flex items-start gap-3.5 shadow-lg">
-              <Info className="w-5 h-5 text-sky-400 flex-shrink-0 mt-0.5" />
+            <div className="p-4 sm:p-5 rounded-[2px] bg-[#15161a] border border-white/[0.1] border-l-2 border-l-zinc-400 flex items-start gap-3.5">
+              <Info className="w-5 h-5 text-zinc-400 flex-shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <div className="text-xs font-bold text-sky-300 flex items-center gap-2">
+                <div className="text-xs font-bold text-zinc-200 flex items-center gap-2">
                   <span>아카이브 안내</span>
-                  <span className="px-2 py-0.5 rounded-[2px] bg-sky-500/20 text-sky-200 border border-sky-500/40 text-[10px]">
+                  <span className="px-2 py-0.5 rounded-[1px] bg-white/[0.06] text-zinc-300 border border-white/15 text-[10px]">
                     공식 개요 수록
                   </span>
                 </div>
@@ -1856,8 +1857,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               {isOmnibus && story.omnibusSubEpisodes && story.omnibusSubEpisodes.length > 0 ? (
                 <div className="space-y-5">
                   <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 font-sans">
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#ffe600]">
-                      <FilmReelIcon className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-xs font-bold text-zinc-200">
+                      <FilmReelIcon className="w-4 h-4 text-zinc-400" />
                       <span>수록 단편 에피소드 컬렉션 ({story.omnibusSubEpisodes.length}편)</span>
                     </div>
                     <span className="text-[11px] text-zinc-500">클릭 시 해당 에피소드로 이동</span>
@@ -1867,11 +1868,11 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     {story.omnibusSubEpisodes.map((sub) => (
                       <div
                         key={sub.id}
-                        className="fui-reticle-hover p-6 rounded-[4px] border border-white/[0.07] hover:border-[#ffe600]/60 bg-[#0d1018]/90 hover:bg-[#111520] transition-all flex flex-col justify-between group space-y-5 shadow-lg"
+                        className="fui-reticle-hover p-6 rounded-[2px] border border-white/[0.08] hover:border-white/25 bg-[#121316] hover:bg-[#17191e] transition-colors flex flex-col justify-between group space-y-5"
                       >
                         <div className="space-y-2.5">
                           <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
-                            <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600]/15 border border-[#ffe600]/40 text-[#ffe600] font-mono font-bold text-[11px] shrink-0 whitespace-nowrap">
+                            <span className="h-5 px-2 inline-flex items-center rounded-[1px] bg-white/[0.06] border border-white/10 text-zinc-200 font-mono font-bold text-[11px] shrink-0 whitespace-nowrap">
                               EP.0{sub.order}
                             </span>
                             {sub.mainCharacter && (
@@ -1881,7 +1882,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                               </span>
                             )}
                           </div>
-                          <h3 className="text-lg font-extrabold text-white group-hover:text-[#ffe600] transition-colors font-sans [word-break:keep-all] break-words">
+                          <h3 className="text-lg font-extrabold text-zinc-100 group-hover:text-white transition-colors font-sans [word-break:keep-all] break-words">
                             {sub.titleKo}
                           </h3>
                           <p className="text-[13px] text-zinc-300 leading-relaxed font-sans line-clamp-3 [word-break:keep-all]">
@@ -1895,7 +1896,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             onChangeSubPage?.(sub.id);
                             window.scrollTo({ top: 0, behavior: 'instant' });
                           }}
-                          className="prts-btn-sweep w-full h-9 rounded-[3px] bg-white/[0.04] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.08] hover:border-[#ffe600] text-xs font-sans font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                          className="w-full h-9 rounded-[2px] bg-[#181a20] group-hover:bg-zinc-100 text-zinc-200 group-hover:text-black border border-white/[0.08] text-xs font-sans font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
                         >
                           <span>에피소드 본문 읽기</span>
                           <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -1908,8 +1909,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 /* CASE 2: MULTI-PART OVERVIEW (멀티 파트 챕터 컬렉션 그리드) */
                 <div className="space-y-5">
                   <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 font-sans">
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#ffe600]">
-                      <BookOpen className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-xs font-bold text-zinc-200">
+                      <BookOpen className="w-4 h-4 text-zinc-400" />
                       <span>서사 파트 구성 목록 ({subPages.filter((p) => !p.isOverview).length}개 파트)</span>
                     </div>
                     <span className="text-[11px] text-zinc-500">클릭 시 해당 파트로 이동</span>
@@ -1927,22 +1928,22 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       return (
                         <div
                           key={sp.id}
-                          className="fui-reticle-hover p-5 sm:p-6 rounded-[4px] border border-white/[0.07] hover:border-[#ffe600]/60 bg-[#0d1018]/90 hover:bg-[#111520] transition-all flex flex-col justify-between group space-y-4 shadow-lg"
+                          className="fui-reticle-hover p-5 sm:p-6 rounded-[2px] border border-white/[0.08] hover:border-white/25 bg-[#121316] hover:bg-[#17191e] transition-colors flex flex-col justify-between group space-y-4"
                         >
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
-                              <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600]/15 border border-[#ffe600]/40 text-[#ffe600] font-mono font-bold text-[11px] shrink-0 whitespace-nowrap">
+                              <span className="h-5 px-2 inline-flex items-center rounded-[1px] bg-white/[0.06] border border-white/10 text-zinc-200 font-mono font-bold text-[11px] shrink-0 whitespace-nowrap">
                                 {sp.code || arc?.code || 'PART'}
                               </span>
                               {stagesCount > 0 && (
-                                <span className="text-[11px] font-mono text-zinc-400 bg-white/[0.04] px-2 py-0.5 rounded-[2px] border border-white/[0.06] shrink-0 whitespace-nowrap">
+                                <span className="text-[11px] font-mono text-zinc-400 bg-[#17191e] px-2 py-0.5 rounded-[1px] border border-white/[0.06] shrink-0 whitespace-nowrap">
                                   {stagesCount}개 스테이지 {stageCodeRange && `(${stageCodeRange})`}
                                 </span>
                               )}
                             </div>
 
                             <div className="space-y-1.5">
-                              <h3 className="text-base sm:text-lg font-extrabold text-white group-hover:text-[#ffe600] transition-colors font-sans [word-break:keep-all] break-words">
+                              <h3 className="text-base sm:text-lg font-extrabold text-zinc-100 group-hover:text-white transition-colors font-sans [word-break:keep-all] break-words">
                                 {sp.label}
                               </h3>
                               {focalChar && (
@@ -1966,7 +1967,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                               onChangeSubPage?.(sp.id);
                               window.scrollTo({ top: 0, behavior: 'instant' });
                             }}
-                            className="prts-btn-sweep w-full h-9 rounded-[3px] bg-white/[0.04] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.08] hover:border-[#ffe600] text-xs font-sans font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                            className="w-full h-9 rounded-[2px] bg-[#181a20] group-hover:bg-zinc-100 text-zinc-200 group-hover:text-black border border-white/[0.08] text-xs font-sans font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
                           >
                             <span>해당 파트 본문 읽기</span>
                             <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -1980,9 +1981,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                 /* CASE 3: SINGLE DOCUMENT TIMELINE (단일 서사 스토리 국면 타임라인) */
                 <div className="space-y-7">
                   {/* Timeline & Accordion Global Control Bar + Quick Act Jump */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-[4px] bg-[#0b0e16]/85 border border-white/[0.07] text-xs font-sans">
+                  <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-[2px] bg-[#121316] border border-white/[0.08] text-xs font-sans">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="w-1.5 h-3.5 rounded-[1px] bg-[#ffe600]" />
+                      <span className="w-1.5 h-3.5 bg-[#f5dd1b]" />
                       <span className="font-bold text-zinc-200 mr-1 text-[11px]">
                         전개 파트 바로가기
                       </span>
@@ -1996,9 +1997,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                               const el = document.getElementById(`act-section-${act.step}`);
                               if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             }}
-                            className="h-7 px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.07] hover:border-[#ffe600]/50 text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1.5"
+                            className="h-7 px-2.5 rounded-[2px] bg-[#17191d] hover:bg-[#1f222a] text-zinc-300 hover:text-white border border-white/[0.07] hover:border-white/25 text-[11px] font-medium transition-colors cursor-pointer flex items-center gap-1.5 group"
                           >
-                            <span className="font-mono font-bold text-[#ffe600]">0{act.step}</span>
+                            <span className="font-mono font-bold text-zinc-300 group-hover:text-[#f5dd1b]">0{act.step}</span>
                             <span>{act.phase}</span>
                           </button>
                         ))}
@@ -2008,16 +2009,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     <button
                       onClick={toggleAllActs}
                       title={isAllActsExpanded ? '모든 구간 접기' : '모든 구간 펼치기'}
-                      className="h-7 px-2.5 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.07] text-zinc-300 hover:text-white flex items-center gap-1.5 text-[11px] font-semibold transition-colors cursor-pointer"
+                      className="h-7 px-2.5 rounded-[2px] bg-[#17191d] hover:bg-[#1f222a] border border-white/[0.08] text-zinc-300 hover:text-white flex items-center gap-1.5 text-[11px] font-semibold transition-colors cursor-pointer"
                     >
-                      <ChevronsUpDown className="w-3.5 h-3.5 text-[#ffe600]" />
+                      <ChevronsUpDown className="w-3.5 h-3.5 text-zinc-400" />
                       <span className="hidden sm:inline">{isAllActsExpanded ? '모두 접기' : '모두 펼치기'}</span>
                     </button>
                   </div>
 
                   <div className="space-y-6 relative">
                     {/* Continuous Vertical Timeline Line on Left */}
-                    <div className="hidden lg:block absolute left-[23px] top-6 bottom-6 w-[1px] bg-gradient-to-b from-[#ffe600]/60 via-white/[0.12] to-[#ffe600]/30 pointer-events-none" />
+                    <div className="hidden lg:block absolute left-[23px] top-6 bottom-6 w-[1px] bg-white/[0.1] pointer-events-none" />
 
                     {story.content.acts.map((act, aIdx) => {
                       const isExpanded = expandedActs[act.step] !== false;
@@ -2033,25 +2034,25 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           {/* Tech Node on Timeline (Desktop) */}
                           <div 
                             onClick={() => toggleAct(act.step)}
-                            className="hidden lg:flex absolute left-3 top-4 w-6 h-6 rounded-[3px] bg-[#0d1018] border border-[#ffe600]/70 items-center justify-center text-[11px] font-mono font-bold text-[#ffe600] z-10 shadow-md cursor-pointer hover:bg-[#ffe600] hover:text-black transition-colors"
+                            className="hidden lg:flex absolute left-3 top-4 w-6 h-6 rounded-[2px] bg-[#121316] border border-white/25 items-center justify-center text-[11px] font-mono font-bold text-zinc-200 z-10 cursor-pointer hover:bg-zinc-100 hover:text-black transition-colors"
                             title={`PART 0${act.step} 접기/펼치기`}
                           >
                             0{act.step}
                           </div>
 
-                          <div className="rounded-[4px] border border-white/[0.07] bg-[#0d1018]/90 overflow-hidden shadow-xl transition-all">
+                          <div className="rounded-[2px] border border-white/[0.08] bg-[#121316] overflow-hidden transition-colors">
                             {/* Clickable Accordion Header */}
                             <div
                               onClick={() => toggleAct(act.step)}
-                              className="px-4 sm:px-6 py-3.5 sm:py-4 bg-white/[0.02] hover:bg-white/[0.04] border-b border-white/[0.06] cursor-pointer select-none group transition-colors space-y-2"
+                              className="px-4 sm:px-6 py-3.5 sm:py-4 bg-[#16181d] hover:bg-[#1a1d23] border-b border-white/[0.07] cursor-pointer select-none group transition-colors space-y-2"
                             >
                               {/* Top Metadata Row: Step Badge + Phase Tag + Location + Chevron */}
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2 min-w-0">
-                                  <span className="lg:hidden h-5.5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600] text-black font-mono font-bold text-xs flex-shrink-0">
+                                  <span className="lg:hidden h-5.5 px-2 inline-flex items-center rounded-[1px] bg-zinc-200 text-black font-mono font-bold text-xs flex-shrink-0">
                                     0{act.step}
                                   </span>
-                                  <span className="inline-flex h-5.5 px-2.5 items-center rounded-[2px] bg-white/[0.06] border border-white/[0.1] text-[#ffe600] text-xs font-sans font-bold group-hover:border-[#ffe600]/50 transition-colors flex-shrink-0">
+                                  <span className="inline-flex h-5.5 px-2.5 items-center rounded-[1px] bg-white/[0.06] border border-white/10 text-zinc-200 text-xs font-sans font-bold transition-colors flex-shrink-0">
                                     {act.phase}
                                     <span className="text-zinc-500 font-mono text-[10px] ml-1.5 font-normal">
                                       {act.phaseEn.toUpperCase()}
@@ -2065,7 +2066,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                       className="text-xs font-sans text-zinc-400 flex items-center gap-1.5 max-w-[150px] sm:max-w-[260px] md:max-w-xs truncate"
                                       title={act.location}
                                     >
-                                      <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                                      <MapPin className="w-3.5 h-3.5 text-zinc-500 flex-shrink-0" />
                                       <span className="truncate">{act.location}</span>
                                     </div>
                                   )}
@@ -2073,7 +2074,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                   <motion.div
                                     animate={{ rotate: isExpanded ? 180 : 0 }}
                                     transition={PRTS_SPRING_SNAPPY}
-                                    className="w-7 h-7 rounded-[3px] bg-white/[0.04] border border-white/[0.08] text-zinc-400 group-hover:text-white flex items-center justify-center transition-colors flex-shrink-0"
+                                    className="w-7 h-7 rounded-[2px] bg-[#1c1e24] border border-white/[0.08] text-zinc-400 group-hover:text-white flex items-center justify-center transition-colors flex-shrink-0"
                                   >
                                     <ChevronDown className="w-4 h-4" />
                                   </motion.div>
@@ -2081,7 +2082,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                               </div>
 
                               {/* Title Row: Full-width allocation preventing cramped multi-line word breaks */}
-                              <h2 className="text-base sm:text-lg font-extrabold text-white tracking-tight group-hover:text-[#ffe600] transition-colors font-sans [word-break:keep-all] break-keep leading-snug">
+                              <h2 className="text-base sm:text-lg font-extrabold text-white tracking-tight transition-colors font-sans [word-break:keep-all] break-keep leading-snug">
                                 {act.title}
                               </h2>
                             </div>
@@ -2090,13 +2091,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                             {!isExpanded && act.summary && (
                               <div
                                 onClick={() => toggleAct(act.step)}
-                                className="px-5 sm:px-7 py-3.5 bg-[#090b10] hover:bg-[#0e121b] cursor-pointer transition-colors flex items-center justify-between gap-3 text-xs text-zinc-400 font-sans"
+                                className="px-5 sm:px-7 py-3.5 bg-[#101114] hover:bg-[#16181d] cursor-pointer transition-colors flex items-center justify-between gap-3 text-xs text-zinc-400 font-sans"
                               >
                                 <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600] flex-shrink-0" />
+                                  <span className="w-1.5 h-1.5 bg-[#f5dd1b] flex-shrink-0" />
                                   <span className="truncate text-zinc-300 font-medium">{act.summary}</span>
                                 </div>
-                                <span className="text-[11px] font-semibold text-[#ffe600] flex-shrink-0 whitespace-nowrap flex items-center gap-1">
+                                <span className="text-[11px] font-semibold text-zinc-300 flex-shrink-0 whitespace-nowrap flex items-center gap-1">
                                   <span>펼쳐보기</span>
                                   <ChevronDown className="w-3.5 h-3.5" />
                                 </span>
@@ -2117,8 +2118,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                   <div className="p-5 sm:p-8 space-y-6">
                                     {/* Act Summary Lead Callout */}
                                     {act.summary && (
-                                      <div className="px-4 py-3 rounded-[3px] bg-[#ffe600]/[0.04] border border-[#ffe600]/20 border-l-2 border-l-[#ffe600] text-xs sm:text-[13px] font-sans text-zinc-200 flex items-start gap-2.5">
-                                        <span className="text-[#ffe600] font-bold flex-shrink-0 whitespace-nowrap mt-0.5">핵심 요약</span>
+                                      <div className="px-4 py-3 rounded-none bg-[#16181d] border border-white/[0.06] border-l-2 border-l-[#f5dd1b] text-xs sm:text-[13px] font-sans text-zinc-200 flex items-start gap-2.5">
+                                        <span className="text-[#f5dd1b] font-bold flex-shrink-0 whitespace-nowrap mt-0.5">핵심 요약</span>
                                         <span className="text-zinc-600 flex-shrink-0 mt-0.5">|</span>
                                         <span className="min-w-0 flex-1 leading-relaxed [word-break:keep-all] font-medium">{act.summary}</span>
                                       </div>
@@ -2126,16 +2127,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
                                 {/* Official CG Image Frame */}
                                 {act.cgUrl && act.cgUrl.trim() !== '' && (
-                                  <div className="group relative rounded-[3px] border border-white/[0.08] bg-black overflow-hidden shadow-lg">
+                                  <div className="group relative rounded-[2px] border border-white/[0.08] bg-black overflow-hidden">
                                     <CopyrightedImage
                                       src={act.cgUrl}
                                       alt={act.title}
                                       className="w-full h-auto object-cover max-h-[480px] transition-transform duration-300 group-hover:scale-[1.01]"
                                     />
-                                    <div className="flex items-center justify-between px-4 py-2.5 bg-[#090b10] border-t border-white/[0.06] text-xs font-sans">
+                                    <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs font-sans">
                                       {act.cgCaption && act.cgCaption.trim() !== '' ? (
                                         <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
-                                          <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                                          <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                                           <span>{act.cgCaption}</span>
                                         </span>
                                       ) : (
@@ -2147,7 +2148,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                           playOpenSound();
                                           onOpenLightbox(act.cgUrl!, act.cgCaption, act.title);
                                         }}
-                                        className="flex items-center gap-1.5 text-zinc-300 hover:text-[#ffe600] transition-colors cursor-pointer flex-shrink-0 ml-auto px-2.5 py-1 rounded-[2px] bg-white/[0.04] border border-white/[0.08] hover:border-[#ffe600]/50"
+                                        className="flex items-center gap-1.5 text-zinc-300 hover:text-black transition-colors cursor-pointer flex-shrink-0 ml-auto px-2.5 py-1 rounded-[2px] bg-[#16181d] hover:bg-zinc-100 border border-white/[0.08]"
                                         title="원문 CG 전체화면 확대"
                                       >
                                         <ZoomIn className="w-3.5 h-3.5" />
@@ -2183,12 +2184,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                       return (
                                         <div
                                           key={qIdx}
-                                          className="p-4 rounded-[3px] bg-white/[0.025] border border-white/[0.06] border-l-2 border-l-[#ffe600] flex gap-4 items-start"
+                                          className="p-4 rounded-none bg-[#16181d] border border-white/[0.05] border-l-2 border-l-zinc-400 flex gap-4 items-start"
                                         >
                                           {(quoteAvatar || speakerChar) && (
                                             <div
                                               onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
-                                              className={`w-11 h-11 rounded-[3px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 transition-colors shadow ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                                              className={`w-11 h-11 rounded-[2px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#f5dd1b]' : ''}`}
                                               title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                                             >
                                               <TacticalAvatar
@@ -2202,7 +2203,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                             <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
                                               <span
                                                 onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
-                                                className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
+                                                className={`font-bold text-zinc-100 ${speakerChar ? 'cursor-pointer hover:text-[#f5dd1b] hover:underline' : ''}`}
                                               >
                                                 {q.speaker}
                                               </span>
@@ -2225,8 +2226,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                 {/* Nested StageNode Sub-Timeline */}
                                 {act.stages && act.stages.length > 0 && (
                                   <div className="space-y-4 pt-4 border-t border-white/[0.06]">
-                                    <div className="text-xs font-sans font-bold text-[#ffe600] flex items-center gap-2">
-                                      <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                                    <div className="text-xs font-sans font-bold text-zinc-300 flex items-center gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" />
                                       <span>세부 작전 스테이지 ({act.stages.length})</span>
                                     </div>
 
@@ -2234,11 +2235,11 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                       {act.stages.map((st) => (
                                         <div
                                           key={st.stageCode}
-                                          className="p-5 rounded-[3px] bg-white/[0.02] border border-white/[0.06] space-y-4"
+                                          className="p-5 rounded-[2px] bg-[#141519] border border-white/[0.07] space-y-4"
                                         >
                                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
                                             <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                                              <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600] text-black font-mono font-bold text-xs flex-shrink-0">
+                                              <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-zinc-200 text-black font-mono font-bold text-xs flex-shrink-0">
                                                 {st.stageCode}
                                               </span>
                                               <h3 className="text-sm sm:text-base font-bold text-white font-sans [word-break:keep-all] break-keep leading-snug">
@@ -2247,7 +2248,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                             </div>
                                             {st.location && (
                                               <span className="text-xs font-sans text-zinc-400 flex items-center gap-1 flex-shrink-0 max-w-[200px] sm:max-w-xs truncate" title={st.location}>
-                                                <MapPin className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                                                <MapPin className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
                                                 <span className="truncate">{st.location}</span>
                                               </span>
                                             )}
@@ -2255,7 +2256,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
                                           {/* Stage Summary Callout */}
                                            {st.summary && (
-                                             <div className="px-4 py-2.5 rounded-[3px] bg-[#ffe600]/[0.04] border border-white/[0.06] border-l-2 border-l-[#ffe600] text-xs text-zinc-300 leading-relaxed [word-break:keep-all]">
+                                             <div className="px-4 py-2.5 rounded-[2px] bg-[#17191e] border border-white/[0.06] border-l-2 border-l-[#f5dd1b] text-xs text-zinc-300 leading-relaxed [word-break:keep-all]">
                                                {st.summary}
                                              </div>
                                            )}
@@ -2264,15 +2265,15 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                            {st.visuals && st.visuals.length > 0 ? (
                                              <div className="space-y-3">
                                                {st.visuals.map((vis, vIdx) => (
-                                                 <div key={vIdx} className="group relative rounded-[3px] border border-white/[0.09] bg-black overflow-hidden shadow-md">
+                                                 <div key={vIdx} className="group relative rounded-[2px] border border-white/[0.08] bg-black overflow-hidden">
                                                    <CopyrightedImage
                                                      src={vis.url}
                                                      alt={vis.caption}
                                                      className="w-full h-auto object-cover max-h-[420px] transition-transform duration-500 group-hover:scale-[1.01]"
                                                    />
-                                                   <div className="flex items-center justify-between px-3.5 py-2 bg-[#090b10] border-t border-white/[0.07] text-xs">
+                                                   <div className="flex items-center justify-between px-3.5 py-2 bg-[#101114] border-t border-white/[0.07] text-xs">
                                                      <span className="text-zinc-300 truncate pr-3 flex items-center gap-2">
-                                                       <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                                                       <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" />
                                                        <span>{vis.caption}</span>
                                                        {vis.triggerLine && (
                                                          <span className="text-zinc-500 text-[11px] hidden sm:inline truncate max-w-[280px]">
@@ -2285,9 +2286,9 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                          playOpenSound();
                                                          onOpenLightbox(vis.url, vis.caption, st.title);
                                                        }}
-                                                       className="h-6 px-2 rounded-[2px] flex items-center gap-1 text-zinc-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0"
+                                                       className="h-6 px-2 rounded-[2px] flex items-center gap-1 text-zinc-400 hover:text-white bg-[#17191e] hover:bg-[#1f2228] border border-white/[0.08] transition-colors cursor-pointer flex-shrink-0"
                                                      >
-                                                       <ZoomIn className="w-3 h-3 text-[#ffe600]" />
+                                                       <ZoomIn className="w-3 h-3 text-zinc-400" />
                                                        <span className="text-[10px]">확대</span>
                                                      </button>
                                                    </div>
@@ -2295,18 +2296,18 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                ))}
                                              </div>
                                            ) : st.cgUrl && st.cgUrl.trim() !== '' ? (
-                                             <div className="rounded-[3px] border border-white/[0.08] bg-black overflow-hidden">
+                                             <div className="rounded-[2px] border border-white/[0.08] bg-black overflow-hidden">
                                                <CopyrightedImage
                                                  src={st.cgUrl}
                                                  alt={st.title}
                                                  className="w-full h-auto object-cover max-h-[380px]"
                                                />
                                                {st.cgCaption && (
-                                                 <div className="px-3.5 py-2 bg-[#08090c] border-t border-white/[0.06] text-xs font-sans text-zinc-300 flex items-center justify-between">
+                                                 <div className="px-3.5 py-2 bg-[#101114] border-t border-white/[0.06] text-xs font-sans text-zinc-300 flex items-center justify-between">
                                                    <span>{st.cgCaption}</span>
                                                    <button
                                                      onClick={() => onOpenLightbox(st.cgUrl!, st.cgCaption, st.title)}
-                                                     className="text-[11px] font-semibold text-[#ffe600] hover:underline cursor-pointer"
+                                                     className="text-[11px] font-semibold text-zinc-300 hover:text-[#f5dd1b] hover:underline cursor-pointer"
                                                    >
                                                      확대
                                                    </button>
@@ -2316,8 +2317,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                            ) : null}
 
                                            {st.tacticalLog && (
-                                             <div className="px-3.5 py-2.5 rounded-[2px] bg-[#00d8ff]/[0.05] border border-[#00d8ff]/20 border-l-2 border-l-[#00d8ff] text-xs font-sans text-zinc-200 flex items-start gap-2">
-                                               <span className="text-[#00d8ff] font-bold flex-shrink-0">전술 요약</span>
+                                             <div className="px-3.5 py-2.5 rounded-[2px] bg-[#17191e] border border-white/[0.07] border-l-2 border-l-zinc-400 text-xs font-sans text-zinc-200 flex items-start gap-2">
+                                               <span className="text-zinc-200 font-bold flex-shrink-0">전술 요약</span>
                                                <span className="text-zinc-600 flex-shrink-0">|</span>
                                                <span className="[word-break:keep-all] break-keep leading-relaxed">{st.tacticalLog}</span>
                                              </div>
@@ -2341,7 +2342,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                            {st.quotes && st.quotes.length > 0 && (
                                              <div className="space-y-2.5 pt-2">
                                                <div className="text-[11px] font-sans font-bold text-zinc-400 flex items-center gap-1.5">
-                                                 <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                                                 <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" />
                                                  <span>인게임 핵심 대사</span>
                                                </div>
                                                {st.quotes.map((q, qIdx) => {
@@ -2352,12 +2353,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                  return (
                                                    <div
                                                      key={qIdx}
-                                                     className="p-3.5 rounded-[3px] bg-black/40 border border-white/[0.06] border-l-2 border-l-[#ffe600] flex gap-3.5 items-start text-xs"
+                                                     className="p-3.5 rounded-[2px] bg-[#17191e] border border-white/[0.06] border-l-2 border-l-zinc-400 flex gap-3.5 items-start text-xs"
                                                    >
                                                      {(quoteAvatar || speakerChar) && (
                                                        <div
                                                          onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
-                                                         className={`w-9 h-9 rounded-[2px] border border-white/[0.1] overflow-hidden bg-black flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#ffe600]' : ''}`}
+                                                         className={`w-9 h-9 rounded-[2px] border border-white/[0.1] overflow-hidden bg-[#101114] flex-shrink-0 transition-colors ${speakerChar ? 'cursor-pointer hover:border-[#f5dd1b]' : ''}`}
                                                          title={speakerChar ? `${speakerChar.nameKo} 프로필 열람` : q.speaker}
                                                        >
                                                          <TacticalAvatar
@@ -2371,7 +2372,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                        <div className="flex flex-wrap items-center justify-between gap-1.5">
                                                          <span
                                                            onClick={() => speakerChar && onSelectCharacter(speakerChar, q.variantId)}
-                                                           className={`font-bold text-[#ffe600] ${speakerChar ? 'cursor-pointer hover:underline' : ''}`}
+                                                           className={`font-bold text-zinc-100 ${speakerChar ? 'cursor-pointer hover:text-[#f5dd1b] hover:underline' : ''}`}
                                                          >
                                                            {q.speaker}
                                                          </span>
@@ -2402,7 +2403,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                      <button
                                                        key={cId}
                                                        onClick={() => onSelectCharacter(char)}
-                                                       className="h-6 pl-1 pr-2 rounded-[2px] flex items-center gap-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-[#ffe600]/60 text-[11px] text-zinc-300 hover:text-white transition-all cursor-pointer"
+                                                       className="h-6 pl-1 pr-2 rounded-[2px] flex items-center gap-1.5 bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.08] hover:border-white/25 text-[11px] text-zinc-300 hover:text-white transition-all cursor-pointer"
                                                        title={`${char.nameKo} (${char.role}) 프로필 열람`}
                                                      >
                                                        <TacticalAvatar
@@ -2417,10 +2418,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                                  return (
                                                    <span
                                                      key={cId}
-                                                     className="h-6 px-1.5 rounded-[2px] flex items-center gap-1 bg-white/[0.02] border border-white/[0.05] text-[11px] text-zinc-400 select-none cursor-default font-mono"
+                                                     className="h-6 px-1.5 rounded-[2px] flex items-center gap-1 bg-[#121316] border border-white/[0.06] text-[11px] text-zinc-400 select-none cursor-default font-mono"
                                                      title="인물 명부 미등재 단역"
                                                    >
-                                                     <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                                                     <span className="w-1 h-1 rounded-[1px] bg-zinc-600" />
                                                      <span>{cId}</span>
                                                    </span>
                                                  );
@@ -2446,12 +2447,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                           <button
                                             key={cId}
                                             onClick={() => onSelectCharacter(char)}
-                                            className="flex items-center gap-1.5 h-6 pl-1 pr-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] hover:border-[#ffe600]/60 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
+                                            className="flex items-center gap-1.5 h-6 pl-1 pr-2.5 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.08] hover:border-white/25 text-xs text-zinc-200 hover:text-white transition-all cursor-pointer"
                                           >
                                             <TacticalAvatar
                                               src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
                                               alt={char.nameKo}
-                                              className="w-4 h-4 rounded-full"
+                                              className="w-4 h-4 rounded-[1px]"
                                             />
                                             <span className="font-medium">{char.nameKo}</span>
                                           </button>
@@ -2460,10 +2461,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                       return (
                                         <span
                                           key={cId}
-                                          className="h-6 px-2 rounded-full flex items-center gap-1 bg-white/[0.02] border border-white/[0.05] text-xs text-zinc-400 select-none cursor-default font-mono"
+                                          className="h-6 px-2 rounded-[2px] flex items-center gap-1 bg-[#121316] border border-white/[0.06] text-xs text-zinc-400 select-none cursor-default font-mono"
                                           title="인물 명부 미등재 단역"
                                         >
-                                          <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                                          <span className="w-1 h-1 rounded-[1px] bg-zinc-600" />
                                           <span>{cId}</span>
                                         </span>
                                       );
@@ -2483,16 +2484,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
               )}
 
               {/* Post-Operation Analysis Box */}
-              <div className="rounded-[4px] border border-white/[0.07] bg-[#0d1018]/90 overflow-hidden shadow-xl">
+              <div className="rounded-[2px] border border-white/[0.08] bg-[#121316] overflow-hidden">
                 <button
                   onClick={() => {
                     playClickSound();
                     setIsAnalysisExpanded(!isAnalysisExpanded);
                   }}
-                  className="w-full px-5 sm:px-7 py-4 bg-white/[0.02] hover:bg-white/[0.04] flex items-center justify-between text-left cursor-pointer transition-colors gap-3"
+                  className="w-full px-5 sm:px-7 py-4 bg-[#16181d] hover:bg-[#1a1d23] flex items-center justify-between text-left cursor-pointer transition-colors gap-3"
                 >
                   <div className="flex items-center gap-2.5 min-w-0 font-sans">
-                    <span className="w-1.5 h-3.5 rounded-[1px] bg-[#ffe600] flex-shrink-0" />
+                    <span className="w-1.5 h-3.5 bg-[#f5dd1b] flex-shrink-0" />
                     <span className="font-bold text-white text-sm sm:text-base [word-break:keep-all] break-words">
                       스토리 분석 및 해설
                     </span>
@@ -2503,7 +2504,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                   <motion.div
                     animate={{ rotate: isAnalysisExpanded ? 180 : 0 }}
                     transition={PRTS_SPRING_SNAPPY}
-                    className="w-7 h-7 rounded-[3px] bg-white/[0.04] border border-white/[0.08] text-zinc-400 flex items-center justify-center flex-shrink-0"
+                    className="w-7 h-7 rounded-[2px] bg-[#1c1e24] border border-white/[0.08] text-zinc-400 flex items-center justify-center flex-shrink-0"
                   >
                     <ChevronDown className="w-4 h-4" />
                   </motion.div>
@@ -2521,8 +2522,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     >
                       <div className="p-5 sm:p-8 space-y-6 text-xs sm:text-sm divide-y divide-white/[0.06] border-t border-white/[0.06] font-sans">
                     <div className="space-y-2">
-                      <div className="text-xs font-bold text-[#ffe600] flex items-center gap-2">
-                        <span className="font-mono">01</span>
+                      <div className="text-xs font-bold text-zinc-200 flex items-center gap-2">
+                        <span className="font-mono text-[#f5dd1b]">01</span>
                         <span>핵심 주제 및 서사적 메시지</span>
                       </div>
                       <p className="text-zinc-200 leading-[1.8] text-sm sm:text-[15px] [word-break:keep-all] break-words">
@@ -2531,8 +2532,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     </div>
 
                     <div className="pt-5 space-y-2">
-                      <div className="text-xs font-bold text-[#ffe600] flex items-center gap-2">
-                        <span className="font-mono">02</span>
+                      <div className="text-xs font-bold text-zinc-200 flex items-center gap-2">
+                        <span className="font-mono text-[#f5dd1b]">02</span>
                         <span>로도스 아일랜드 영향 및 성과</span>
                       </div>
                       <p className="text-zinc-200 leading-[1.8] text-sm sm:text-[15px] [word-break:keep-all] break-words">
@@ -2541,8 +2542,8 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     </div>
 
                     <div className="pt-5 space-y-2">
-                      <div className="text-xs font-bold text-[#ffe600] flex items-center gap-2">
-                        <span className="font-mono">03</span>
+                      <div className="text-xs font-bold text-zinc-200 flex items-center gap-2">
+                        <span className="font-mono text-[#f5dd1b]">03</span>
                         <span>테라 대륙 정세 영향</span>
                       </div>
                       <p className="text-zinc-200 leading-[1.8] text-sm sm:text-[15px] [word-break:keep-all] break-words">
@@ -2551,14 +2552,14 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     </div>
 
                     <div className="pt-5 space-y-3">
-                      <div className="text-xs font-bold text-[#ffe600] flex items-center gap-2">
-                        <span className="font-mono">04</span>
+                      <div className="text-xs font-bold text-zinc-200 flex items-center gap-2">
+                        <span className="font-mono text-[#f5dd1b]">04</span>
                         <span>미회수 복선 및 잔존 기록</span>
                       </div>
                       <ul className="space-y-2.5 text-zinc-200">
                         {story.content.analysis.unresolvedHooks.map((hook, hIdx) => (
-                          <li key={hIdx} className="flex items-start gap-3 bg-white/[0.02] p-3.5 rounded-[3px] border border-white/[0.06]">
-                            <span className="text-[#ffe600] font-mono text-xs font-bold flex-shrink-0 mt-0.5">#{hIdx + 1}</span>
+                          <li key={hIdx} className="flex items-start gap-3 bg-[#16181d] p-3.5 rounded-[2px] border border-white/[0.06]">
+                            <span className="text-[#f5dd1b] font-mono text-xs font-bold flex-shrink-0 mt-0.5">#{hIdx + 1}</span>
                             <span className="text-xs sm:text-sm leading-relaxed [word-break:keep-all] break-words">{hook}</span>
                           </li>
                         ))}
@@ -2590,10 +2591,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       playClickSound();
                       onSelectCharacter(char);
                     }}
-                    className="fui-reticle-hover p-5 rounded-[4px] border border-white/[0.07] bg-[#0d1018]/90 hover:border-[#ffe600]/60 hover:bg-[#111520] transition-all cursor-pointer group space-y-3.5 shadow-lg"
+                    className="fui-reticle-hover p-5 rounded-[2px] border border-white/[0.08] bg-[#121316] hover:border-white/25 hover:bg-[#17191e] transition-colors cursor-pointer group space-y-3.5"
                   >
                     <div className="flex gap-4 items-center">
-                      <div className="w-14 h-14 rounded-[3px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 group-hover:border-[#ffe600] transition-colors shadow">
+                      <div className="w-14 h-14 rounded-[2px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 group-hover:border-white/40 transition-colors">
                         <TacticalAvatar
                           src={getCharacterAvatarUrl(char) ? resolveAssetUrl(getCharacterAvatarUrl(char)) : ''}
                           alt={char.nameKo}
@@ -2603,10 +2604,10 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       </div>
 
                       <div className="flex-1 min-w-0 space-y-0.5">
-                        <div className="text-[11px] font-semibold text-[#ffe600]/90 truncate">
+                        <div className="text-[11px] font-mono text-zinc-400 truncate">
                           {char.faction}
                         </div>
-                        <div className="text-base font-extrabold text-white group-hover:text-[#ffe600] transition-colors truncate">
+                        <div className="text-base font-extrabold text-zinc-100 group-hover:text-white transition-colors truncate">
                           {char.nameKo}
                         </div>
                         <div className="text-xs text-zinc-400 truncate">
@@ -2620,7 +2621,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                     </p>
 
                     {char.quote && (
-                      <div className="text-xs italic text-zinc-200 border-l-2 border-[#ffe600] pl-3 py-1 bg-white/[0.02] rounded-r-[2px] [word-break:keep-all]">
+                      <div className="text-xs italic text-zinc-200 border-l-2 border-[#f5dd1b] pl-3 py-1 bg-[#16181d] rounded-none [word-break:keep-all]">
                         "{char.quote}"
                       </div>
                     )}
@@ -2648,13 +2649,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       playClickSound();
                       onSelectGlossary(item);
                     }}
-                    className="fui-reticle-hover p-5 rounded-[4px] border border-white/[0.07] bg-[#0d1018]/90 hover:border-[#ffe600]/60 hover:bg-[#111520] transition-all cursor-pointer group space-y-2.5 shadow-lg"
+                    className="fui-reticle-hover p-5 rounded-[2px] border border-white/[0.08] bg-[#121316] hover:border-white/25 hover:bg-[#17191e] transition-colors cursor-pointer group space-y-2.5"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <div className="text-sm sm:text-base font-extrabold text-white group-hover:text-[#ffe600] transition-colors [word-break:keep-all] break-words min-w-0">
+                      <div className="text-sm sm:text-base font-extrabold text-zinc-100 group-hover:text-white transition-colors [word-break:keep-all] break-words min-w-0">
                         {item.term}
                       </div>
-                      <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-white/[0.05] text-zinc-300 font-semibold text-[11px] border border-white/[0.08] flex-shrink-0 whitespace-nowrap">
+                      <span className="h-5 px-2 inline-flex items-center rounded-[1px] bg-white/[0.05] text-zinc-300 font-semibold text-[11px] border border-white/[0.08] flex-shrink-0 whitespace-nowrap">
                         {item.typeLabel}
                       </span>
                     </div>
@@ -2677,16 +2678,16 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
         {previousStory ? (
           <button
             onClick={() => handleNavigateStory(previousStory.id)}
-            className="fui-reticle-hover group flex-1 p-4 rounded-[4px] bg-[#0d1018]/90 hover:bg-[#121722] border border-white/[0.07] hover:border-[#ffe600]/60 text-left transition-all cursor-pointer flex items-center gap-3.5 shadow-md"
+            className="fui-reticle-hover group flex-1 p-4 rounded-[2px] bg-[#121316] hover:bg-[#17191e] border border-white/[0.08] hover:border-white/25 text-left transition-colors cursor-pointer flex items-center gap-3.5"
             title={`${previousStory.titleKo} 보고서로 이동`}
           >
-            <ChevronLeft className="w-5 h-5 text-zinc-500 group-hover:text-[#ffe600] transition-transform group-hover:-translate-x-1 flex-shrink-0" />
+            <ChevronLeft className="w-5 h-5 text-zinc-500 group-hover:text-white transition-transform group-hover:-translate-x-1 flex-shrink-0" />
             <div className="min-w-0 space-y-0.5">
               <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-mono font-bold">
                 PREVIOUS OPERATION
               </div>
-              <div className="text-sm font-bold text-white group-hover:text-[#ffe600] transition-colors truncate">
-                <span className="font-mono mr-1.5 text-zinc-400 group-hover:text-[#ffe600]">{previousStory.code}</span>
+              <div className="text-sm font-bold text-zinc-100 group-hover:text-white transition-colors truncate">
+                <span className="font-mono mr-1.5 text-zinc-400 group-hover:text-[#f5dd1b]">{previousStory.code}</span>
                 <span>{previousStory.titleKo}</span>
               </div>
               <div className="text-[11px] text-zinc-500 truncate font-mono">
@@ -2695,7 +2696,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
             </div>
           </button>
         ) : (
-          <div className="flex-1 p-4 rounded-[4px] bg-white/[0.015] border border-white/[0.05] text-zinc-600 flex items-center gap-2 select-none">
+          <div className="flex-1 p-4 rounded-[2px] bg-[#101114] border border-white/[0.05] text-zinc-600 flex items-center gap-2 select-none">
             <span className="text-xs">첫 번째 작전 기록입니다</span>
           </div>
         )}
@@ -2703,7 +2704,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
         {/* Scroll To Top Button */}
         <button
           onClick={scrollToTop}
-          className="w-12 py-3 rounded-[4px] bg-[#0d1018]/90 hover:bg-[#121722] border border-white/[0.07] hover:border-[#ffe600]/60 text-zinc-400 hover:text-[#ffe600] transition-colors cursor-pointer flex items-center justify-center self-center sm:self-stretch shadow-md"
+          className="w-12 py-3 rounded-[2px] bg-[#121316] hover:bg-[#17191e] border border-white/[0.08] hover:border-white/25 text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center justify-center self-center sm:self-stretch"
           title="페이지 최상단으로 이동"
         >
           <ArrowUp className="w-4 h-4" />
@@ -2713,25 +2714,25 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
         {nextStory ? (
           <button
             onClick={() => handleNavigateStory(nextStory.id)}
-            className="fui-reticle-hover group flex-1 p-4 rounded-[4px] bg-[#0d1018]/90 hover:bg-[#121722] border border-white/[0.07] hover:border-[#ffe600]/60 text-right transition-all cursor-pointer flex items-center justify-end gap-3.5 shadow-md"
+            className="fui-reticle-hover group flex-1 p-4 rounded-[2px] bg-[#121316] hover:bg-[#17191e] border border-white/[0.08] hover:border-white/25 text-right transition-colors cursor-pointer flex items-center justify-end gap-3.5"
             title={`${nextStory.titleKo} 보고서로 이동`}
           >
             <div className="min-w-0 space-y-0.5">
               <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-mono font-bold">
                 NEXT OPERATION
               </div>
-              <div className="text-sm font-bold text-white group-hover:text-[#ffe600] transition-colors truncate">
-                <span className="font-mono mr-1.5 text-zinc-400 group-hover:text-[#ffe600]">{nextStory.code}</span>
+              <div className="text-sm font-bold text-zinc-100 group-hover:text-white transition-colors truncate">
+                <span className="font-mono mr-1.5 text-zinc-400 group-hover:text-[#f5dd1b]">{nextStory.code}</span>
                 <span>{nextStory.titleKo}</span>
               </div>
               <div className="text-[11px] text-zinc-500 truncate font-mono">
                 {nextStory.titleEn}
               </div>
             </div>
-            <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-[#ffe600] transition-transform group-hover:translate-x-1 flex-shrink-0" />
+            <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-white transition-transform group-hover:translate-x-1 flex-shrink-0" />
           </button>
         ) : (
-          <div className="flex-1 p-4 rounded-[4px] bg-white/[0.015] border border-white/[0.05] text-zinc-600 flex items-center justify-end gap-2 select-none">
+          <div className="flex-1 p-4 rounded-[2px] bg-[#101114] border border-white/[0.05] text-zinc-600 flex items-center justify-end gap-2 select-none">
             <span className="text-xs">마지막 작전 기록입니다</span>
           </div>
         )}

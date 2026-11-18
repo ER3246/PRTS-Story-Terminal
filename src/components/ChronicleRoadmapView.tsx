@@ -1129,24 +1129,24 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         isHeaderCollapsed
           ? 'h-[100dvh] md:h-screen'
           : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)]'
-      } bg-[#06080e] overflow-hidden select-none flex flex-col font-sans animate-fadeIn`}
+      } bg-[#0c0c0e] overflow-hidden select-none flex flex-col font-sans animate-fadeIn`}
     >
       {/* =========================================================================
           1-A. MOBILE NATIVE COMPACT 2-ROW COMMAND BAR (md:hidden)
       ========================================================================= */}
       {!isHeaderCollapsed && (
-        <div className="md:hidden flex-shrink-0 z-30 bg-[#090b10]/95 backdrop-blur-xl border-b border-white/[0.08] px-3 py-2 space-y-2 shadow-lg">
+        <div className="md:hidden flex-shrink-0 z-30 bg-[#0e0f12]/95 backdrop-blur-md border-b border-white/[0.08] px-3 py-2 space-y-2">
         {/* Row 1: 3 Mode Segmented Tabs + Search Icon + Status Cycle + Fullscreen */}
         <div className="flex items-center gap-1.5">
-          <div className="flex-1 grid grid-cols-3 p-0.5 rounded-[5px] bg-white/[0.04] border border-white/[0.08] text-[11px] font-sans">
+          <div className="flex-1 grid grid-cols-3 p-0.5 rounded-[2px] bg-[#141519] border border-white/[0.08] text-[11px] font-sans">
             <button
               onClick={() => {
                 playTabSwitchSound();
                 setBrowseMode('chronological');
               }}
-              className={`h-7 rounded-[4px] flex items-center justify-center gap-1 transition-all cursor-pointer ${
+              className={`h-7 rounded-[1px] flex items-center justify-center gap-1 transition-colors cursor-pointer ${
                 browseMode === 'chronological'
-                  ? 'bg-[#ffe600] text-black font-extrabold shadow-xs'
+                  ? 'bg-zinc-100 text-black font-bold'
                   : 'text-zinc-400 font-medium'
               }`}
             >
@@ -1158,9 +1158,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playTabSwitchSound();
                 setBrowseMode('story_line');
               }}
-              className={`h-7 rounded-[4px] flex items-center justify-center gap-1 transition-all cursor-pointer ${
+              className={`h-7 rounded-[1px] flex items-center justify-center gap-1 transition-colors cursor-pointer ${
                 browseMode === 'story_line'
-                  ? 'bg-[#ffe600] text-black font-extrabold shadow-xs'
+                  ? 'bg-zinc-100 text-black font-bold'
                   : 'text-zinc-400 font-medium'
               }`}
             >
@@ -1172,9 +1172,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playTabSwitchSound();
                 setBrowseMode('release');
               }}
-              className={`h-7 rounded-[4px] flex items-center justify-center gap-1 transition-all cursor-pointer ${
+              className={`h-7 rounded-[1px] flex items-center justify-center gap-1 transition-colors cursor-pointer ${
                 browseMode === 'release'
-                  ? 'bg-[#ffe600] text-black font-extrabold shadow-xs'
+                  ? 'bg-zinc-100 text-black font-bold'
                   : 'text-zinc-400 font-medium'
               }`}
             >
@@ -1189,10 +1189,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               playClickSound();
               setIsMobileSearchOpen((p) => !p);
             }}
-            className={`w-8 h-8 rounded-[5px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
+            className={`w-8 h-8 rounded-[2px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
               isMobileSearchOpen || searchQuery
-                ? 'bg-[#ffe600]/20 border-[#ffe600] text-[#ffe600]'
-                : 'bg-white/[0.04] border-white/[0.08] text-zinc-300'
+                ? 'bg-white/[0.1] border-[#f5dd1b] text-[#f5dd1b]'
+                : 'bg-[#141519] border-white/[0.08] text-zinc-300'
             }`}
             title="스토리 검색"
           >
@@ -1202,22 +1202,22 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           {/* Status Filter Cycle Button (전체 90 -> 요약본 13 -> 개요 72) */}
           <button
             onClick={cycleMobileStatusFilter}
-            className={`h-8 px-2.5 rounded-[5px] border text-[11px] font-sans flex items-center gap-1 flex-shrink-0 transition-colors cursor-pointer ${
+            className={`h-8 px-2.5 rounded-[2px] border text-[11px] font-sans flex items-center gap-1 flex-shrink-0 transition-colors cursor-pointer ${
               statusFilter === 'available'
-                ? 'bg-[#ffe600]/20 border-[#ffe600]/60 text-[#ffe600] font-bold'
+                ? 'bg-white/[0.08] border-[#f5dd1b]/70 text-white font-bold'
                 : statusFilter === 'overview_only'
-                ? 'bg-white/[0.12] border-white/30 text-white font-bold'
-                : 'bg-white/[0.04] border-white/[0.08] text-zinc-300'
+                ? 'bg-white/[0.1] border-white/30 text-white font-bold'
+                : 'bg-[#141519] border-white/[0.08] text-zinc-300'
             }`}
             title="수록 상태 필터 전환"
           >
             <span
-              className={`w-1.5 h-1.5 rounded-full ${
+              className={`w-1.5 h-1.5 ${
                 statusFilter === 'available'
-                  ? 'bg-[#ffe600]'
+                  ? 'bg-[#f5dd1b]'
                   : statusFilter === 'overview_only'
                   ? 'bg-zinc-400'
-                  : 'bg-emerald-400'
+                  : 'bg-zinc-200'
               }`}
             />
             <span>
@@ -1236,10 +1236,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playClickSound();
                 onToggleHeaderCollapse();
               }}
-              className={`h-8 rounded-[5px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
+              className={`h-8 rounded-[2px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
                 isHeaderCollapsed
-                  ? 'bg-amber-400/20 text-amber-300 border-amber-400/60 font-bold px-2 gap-1'
-                  : 'w-8 bg-white/[0.04] border-white/[0.08] text-zinc-300'
+                  ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold px-2 gap-1'
+                  : 'w-8 bg-[#141519] border-white/[0.08] text-zinc-300'
               }`}
               title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
             >
@@ -1264,7 +1264,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="스토리명, 작전 코드(EP/SID), 연도 검색..."
                 autoFocus={isMobileSearchOpen}
-                className="w-full h-8 pl-8 pr-8 bg-black/60 border border-[#ffe600]/50 rounded-[4px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none"
+                className="w-full h-8 pl-8 pr-8 bg-[#141519] border border-white/25 focus:border-[#f5dd1b] rounded-[2px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none"
               />
               {searchQuery && (
                 <button
@@ -1280,14 +1280,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 setSearchQuery('');
                 setIsMobileSearchOpen(false);
               }}
-              className="h-8 px-2.5 rounded-[4px] bg-white/[0.06] text-zinc-300 text-[11px] flex-shrink-0 cursor-pointer"
+              className="h-8 px-2.5 rounded-[2px] bg-[#181a20] text-zinc-300 text-[11px] flex-shrink-0 cursor-pointer"
             >
               닫기
             </button>
           </div>
         )}
 
-        {/* Row 2: Context-Sensitive Single-Line Horizontal Scroll Chips (Hidden in Fullscreen to maximize content) */}
+        {/* Row 2: Context-Sensitive Single-Line Horizontal Scroll Tags */}
         {!isHeaderCollapsed && browseMode === 'chronological' && (
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
             {/* 세로 타임라인 vs 2D 노선도 전환 칩 */}
@@ -1296,10 +1296,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playClickSound();
                 setMobileChronoCanvas((p) => !p);
               }}
-              className={`h-6.5 px-2.5 text-[11px] rounded-full border flex items-center gap-1 flex-shrink-0 font-bold cursor-pointer transition-colors ${
+              className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1 flex-shrink-0 font-bold cursor-pointer transition-colors ${
                 mobileChronoCanvas
-                  ? 'bg-[#38bdf8]/20 border-[#38bdf8] text-[#38bdf8]'
-                  : 'bg-[#ffe600]/15 border-[#ffe600]/60 text-[#ffe600]'
+                  ? 'bg-zinc-100 border-white text-black'
+                  : 'bg-[#16181d] border-white/20 text-zinc-200'
               }`}
             >
               <Layers className="w-3 h-3" />
@@ -1312,9 +1312,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               <button
                 key={era.id}
                 onClick={() => scrollToEra(era.id)}
-                className="h-6.5 px-2.5 text-[11px] rounded-full border border-white/[0.1] bg-white/[0.03] active:bg-white/[0.12] text-zinc-200 flex items-center gap-1.5 flex-shrink-0 cursor-pointer"
+                className="h-6.5 px-2.5 text-[11px] rounded-[2px] border border-white/[0.1] bg-[#141519] active:bg-white/[0.1] text-zinc-200 flex items-center gap-1.5 flex-shrink-0 cursor-pointer"
               >
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: era.color }} />
+                <span className="w-1.5 h-1.5 rounded-[1px]" style={{ backgroundColor: era.color }} />
                 <span className="font-mono font-bold text-[10.5px] text-white">{era.code}</span>
                 <span className="text-[10.5px] text-zinc-300">{era.titleKo.split('·')[0].trim()}</span>
               </button>
@@ -1336,14 +1336,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     playClickSound();
                     setActiveStoryLineHubId(line.id);
                   }}
-                  className={`h-7 px-2.5 text-[11px] rounded-full border flex items-center gap-1.5 flex-shrink-0 transition-all cursor-pointer ${
+                  className={`h-7 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 transition-colors cursor-pointer ${
                     isSelected
-                      ? 'bg-[#ffe600] text-black border-[#ffe600] font-extrabold shadow-xs'
-                      : 'bg-white/[0.03] border-white/[0.09] text-zinc-300'
+                      ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
+                      : 'bg-[#141519] border-white/[0.09] text-zinc-300'
                   }`}
                 >
                   <span
-                    className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                    className="w-1.5 h-1.5 rounded-[1px] flex-shrink-0"
                     style={{ backgroundColor: isSelected ? '#000000' : line.themeColor }}
                   />
                   <span>{shortLabel}</span>
@@ -1360,10 +1360,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playClickSound();
                 setSelectedReleaseYear('all');
               }}
-              className={`h-6.5 px-2.5 text-[11px] rounded-full border flex items-center gap-1 flex-shrink-0 cursor-pointer ${
+              className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1 flex-shrink-0 cursor-pointer ${
                 selectedReleaseYear === 'all'
-                  ? 'bg-[#ffe600] text-black border-[#ffe600] font-extrabold'
-                  : 'bg-white/[0.03] border-white/[0.09] text-zinc-300'
+                  ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
+                  : 'bg-[#141519] border-white/[0.09] text-zinc-300'
               }`}
             >
               <span>전체 연차</span>
@@ -1375,10 +1375,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playClickSound();
                   setSelectedReleaseYear(ym.year);
                 }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-full border flex items-center gap-1.5 flex-shrink-0 cursor-pointer ${
+                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 cursor-pointer ${
                   selectedReleaseYear === ym.year
-                    ? 'bg-[#ffe600] text-black border-[#ffe600] font-extrabold'
-                    : 'bg-white/[0.03] border-white/[0.09] text-zinc-300'
+                    ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
+                    : 'bg-[#141519] border-white/[0.09] text-zinc-300'
                 }`}
               >
                 <span className="font-mono font-bold text-[10.5px]">Y{ym.year}</span>
@@ -1394,16 +1394,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           1-B. DESKTOP MASTER COMMAND HUD BAR (hidden md:block)
       ========================================================================= */}
       {!isHeaderCollapsed && (
-        <div className="hidden md:block flex-shrink-0 z-30 bg-[#090b10]/92 backdrop-blur-xl border-b border-white/[0.08] px-4 lg:px-8 py-2.5 space-y-2 shadow-xl">
+        <div className="hidden md:block flex-shrink-0 z-30 bg-[#0e0f12]/95 backdrop-blur-md border-b border-white/[0.08] px-4 lg:px-8 py-2.5 space-y-2">
         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
           {/* Left: Title & Archive Metrics */}
           <div className="flex items-center gap-2.5">
-            <span className="w-1.5 h-4 bg-[#ffe600] rounded-[1px] shadow-[0_0_8px_rgba(255,230,0,0.4)]" />
+            <span className="w-1.5 h-4 bg-[#f5dd1b]" />
             <div className="flex items-center gap-2.5">
               <h1 className="text-sm sm:text-[15px] font-extrabold text-white tracking-tight font-sans">
                 스토리 연대기 & 분류
               </h1>
-              <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-bold bg-white/[0.04] text-zinc-400 border border-white/[0.08] rounded-[3px]">
+              <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-bold bg-[#16181d] text-zinc-400 border border-white/[0.08] rounded-[2px]">
                 CHRONICLE
               </span>
             </div>
@@ -1411,27 +1411,27 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
           {/* Right: 3 View Mode Tabs + Search + Status Filter + Fullscreen Toggle */}
           <div className="flex flex-wrap items-center gap-2">
-            {/* 3대 브라우징 모드 전환 (Header GNB와 동일한 글래스 세그먼트 디자인) */}
-            <div className="flex items-center gap-1 p-1 rounded-[4px] bg-white/[0.03] border border-white/[0.07] text-xs font-sans">
+            {/* 3대 브라우징 모드 전환 */}
+            <div className="flex items-center gap-1 p-1 rounded-[2px] bg-[#141519] border border-white/[0.08] text-xs font-sans">
               <button
                 onClick={() => {
                   playTabSwitchSound();
                   setBrowseMode('chronological');
                 }}
-                className={`relative h-7 px-3 rounded-[3px] flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
                   browseMode === 'chronological'
-                    ? 'bg-white/[0.1] text-white font-bold shadow-xs'
+                    ? 'bg-white/[0.08] text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
                 }`}
               >
                 <Clock
                   className={`w-3.5 h-3.5 flex-shrink-0 transition-colors ${
-                    browseMode === 'chronological' ? 'text-[#ffe600]' : 'text-zinc-500'
+                    browseMode === 'chronological' ? 'text-white' : 'text-zinc-500'
                   }`}
                 />
                 <span>시간순 (연대기)</span>
                 {browseMode === 'chronological' && (
-                  <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
+                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
                 )}
               </button>
 
@@ -1440,20 +1440,20 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playTabSwitchSound();
                   setBrowseMode('story_line');
                 }}
-                className={`relative h-7 px-3 rounded-[3px] flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
                   browseMode === 'story_line'
-                    ? 'bg-white/[0.1] text-white font-bold shadow-xs'
+                    ? 'bg-white/[0.08] text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
                 }`}
               >
                 <GitBranch
                   className={`w-3.5 h-3.5 flex-shrink-0 transition-colors ${
-                    browseMode === 'story_line' ? 'text-[#ffe600]' : 'text-zinc-500'
+                    browseMode === 'story_line' ? 'text-white' : 'text-zinc-500'
                   }`}
                 />
                 <span>서사별 (시리즈)</span>
                 {browseMode === 'story_line' && (
-                  <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
+                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
                 )}
               </button>
 
@@ -1462,20 +1462,20 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playTabSwitchSound();
                   setBrowseMode('release');
                 }}
-                className={`relative h-7 px-3 rounded-[3px] flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
                   browseMode === 'release'
-                    ? 'bg-white/[0.1] text-white font-bold shadow-xs'
+                    ? 'bg-white/[0.08] text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] font-medium'
                 }`}
               >
                 <Calendar
                   className={`w-3.5 h-3.5 flex-shrink-0 transition-colors ${
-                    browseMode === 'release' ? 'text-[#ffe600]' : 'text-zinc-500'
+                    browseMode === 'release' ? 'text-white' : 'text-zinc-500'
                   }`}
                 />
                 <span>출시순</span>
                 {browseMode === 'release' && (
-                  <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full shadow-[0_0_8px_#ffe600]" />
+                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
                 )}
               </button>
             </div>
@@ -1488,7 +1488,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="스토리명, 코드, 연도 검색..."
-                className="w-full h-8 pl-8 pr-7 bg-white/[0.03] hover:bg-white/[0.05] focus:bg-black/60 border border-white/[0.08] focus:border-[#ffe600]/60 rounded-[3px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none transition-colors"
+                className="w-full h-8 pl-8 pr-7 bg-[#141519] hover:bg-[#191b20] focus:bg-[#0c0c0e] border border-white/[0.08] focus:border-white/30 rounded-[2px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none transition-colors"
               />
               {searchQuery && (
                 <button
@@ -1500,13 +1500,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               )}
             </div>
 
-            {/* 수록 상태 필터 (세그먼트 글래스 바) */}
-            <div className="flex items-center gap-0.5 p-1 rounded-[4px] bg-white/[0.03] border border-white/[0.07] text-xs font-sans">
+            {/* 수록 상태 필터 */}
+            <div className="flex items-center gap-0.5 p-1 rounded-[2px] bg-[#141519] border border-white/[0.08] text-xs font-sans">
               <button
                 onClick={() => setStatusFilter('all')}
-                className={`h-7 px-2.5 rounded-[3px] transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1.5 ${
                   statusFilter === 'all'
-                    ? 'bg-white/[0.1] text-white font-bold shadow-xs'
+                    ? 'bg-white/[0.08] text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
                 }`}
               >
@@ -1515,25 +1515,25 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               </button>
               <button
                 onClick={() => setStatusFilter('available')}
-                className={`h-7 px-2.5 rounded-[3px] transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1.5 ${
                   statusFilter === 'available'
-                    ? 'bg-[#ffe600]/15 text-[#ffe600] font-bold shadow-xs'
+                    ? 'bg-white/[0.08] text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
                 }`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                 <span>요약본</span>
                 <span className="font-mono text-[11px] opacity-85">{availableCount}</span>
               </button>
               <button
                 onClick={() => setStatusFilter('overview_only')}
-                className={`h-7 px-2.5 rounded-[3px] transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1.5 ${
                   statusFilter === 'overview_only'
-                    ? 'bg-white/[0.1] text-zinc-100 font-bold shadow-xs'
+                    ? 'bg-white/[0.08] text-zinc-100 font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
                 }`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
+                <span className="w-1.5 h-1.5 bg-zinc-500" />
                 <span>개요</span>
                 <span className="font-mono text-[11px] opacity-85">{overviewOnlyCount}</span>
               </button>
@@ -1546,10 +1546,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playClickSound();
                   onToggleHeaderCollapse();
                 }}
-                className={`h-7 px-2.5 rounded-[3px] transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium border ${
+                className={`h-7 px-2.5 rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium border ${
                   isHeaderCollapsed
-                    ? 'bg-[#ffe600] text-black border-[#ffe600] font-bold'
-                    : 'bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border-white/[0.1]'
+                    ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
+                    : 'bg-[#141519] hover:bg-[#1c1e24] text-zinc-300 hover:text-white border-white/[0.08]'
                 }`}
                 title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
               >
@@ -1570,16 +1570,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             {/* 시대 점프 버튼 */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
               <span className="text-[11px] font-semibold text-zinc-400 mr-1 flex items-center gap-1.5 flex-shrink-0">
-                <Compass className="w-3.5 h-3.5 text-[#ffe600]" />
+                <Compass className="w-3.5 h-3.5 text-zinc-400" />
                 <span>시대 이동</span>
               </span>
               {TIMELINE_ERAS.map((era) => (
                 <button
                   key={era.id}
                   onClick={() => scrollToEra(era.id)}
-                  className="h-6.5 px-2.5 text-[11px] rounded-[3px] border border-white/[0.07] bg-white/[0.025] hover:bg-white/[0.09] hover:border-white/25 text-zinc-300 hover:text-white transition-all cursor-pointer flex items-center gap-1.5 flex-shrink-0 group"
+                  className="h-6.5 px-2.5 text-[11px] rounded-[2px] border border-white/[0.08] bg-[#141519] hover:bg-[#1d1f26] hover:border-white/25 text-zinc-300 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 flex-shrink-0 group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: era.color }} />
+                  <span className="w-1.5 h-1.5 rounded-[1px]" style={{ backgroundColor: era.color }} />
                   <span className="font-mono font-bold text-white text-[10.5px]">{era.code}</span>
                   <span className="text-zinc-400 group-hover:text-zinc-200 hidden sm:inline">
                     {era.titleKo.split('·')[0].trim()}
@@ -1591,7 +1591,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             {/* 서사 궤적 하이라이트 필터 */}
             <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
               <span className="text-[11px] font-semibold text-zinc-400 mr-1 flex items-center gap-1.5 flex-shrink-0">
-                <Filter className="w-3.5 h-3.5 text-[#38bdf8]" />
+                <Filter className="w-3.5 h-3.5 text-zinc-400" />
                 <span>시리즈 강조</span>
               </span>
               <button
@@ -1599,10 +1599,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playClickSound();
                   setFocusedLineId(null);
                 }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-[3px] border transition-all cursor-pointer flex-shrink-0 ${
+                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border transition-colors cursor-pointer flex-shrink-0 ${
                   focusedLineId === null
-                    ? 'bg-white/[0.12] text-white border-white/30 font-bold'
-                    : 'bg-white/[0.02] text-zinc-400 border-white/[0.06] hover:text-zinc-200 hover:bg-white/[0.05]'
+                    ? 'bg-white/[0.1] text-white border-white/30 font-bold'
+                    : 'bg-[#141519] text-zinc-400 border-white/[0.07] hover:text-zinc-200 hover:bg-[#1a1c22]'
                 }`}
               >
                 전체 표시
@@ -1612,13 +1612,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playClickSound();
                   setFocusedLineId(focusedLineId === 'MAIN_ALL' ? null : 'MAIN_ALL');
                 }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-[3px] border transition-all cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${
+                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border transition-colors cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${
                   focusedLineId === 'MAIN_ALL'
-                    ? 'bg-[#ffe600]/15 text-[#ffe600] border-[#ffe600]/60 font-bold'
-                    : 'bg-white/[0.02] text-zinc-300 border-white/[0.06] hover:bg-white/[0.05] hover:border-white/20'
+                    ? 'bg-white/[0.1] text-white border-[#f5dd1b] font-bold'
+                    : 'bg-[#141519] text-zinc-300 border-white/[0.07] hover:bg-[#1a1c22] hover:border-white/20'
                 }`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                 <span>메인 테마</span>
               </button>
               {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_') && l.id !== 'SL_COLLAB').map((line) => {
@@ -1630,10 +1630,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                       playClickSound();
                       setFocusedLineId(isFocused ? null : line.id);
                     }}
-                    className={`h-6.5 px-2.5 text-[11px] rounded-[3px] border transition-all cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${
+                    className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border transition-colors cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${
                       isFocused
-                        ? 'text-white font-bold shadow-xs'
-                        : 'bg-white/[0.02] text-zinc-300 border-white/[0.06] hover:bg-white/[0.05] hover:border-white/20'
+                        ? 'text-white font-bold'
+                        : 'bg-[#141519] text-zinc-300 border-white/[0.07] hover:bg-[#1a1c22] hover:border-white/20'
                     }`}
                     style={
                       isFocused
@@ -1646,7 +1646,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     }
                   >
                     <span
-                      className="w-1.5 h-1.5 rounded-full"
+                      className="w-1.5 h-1.5 rounded-[1px]"
                       style={{ backgroundColor: line.themeColor }}
                     />
                     <span>{line.titleKo}</span>
@@ -1660,20 +1660,20 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       )}
 
       {/* =========================================================================
-          1-C. FULLSCREEN IMMERSIVE MINIMAL FLOATING HUD PILL (When isHeaderCollapsed)
+          1-C. FULLSCREEN IMMERSIVE MINIMAL FLOATING HUD BAR (When isHeaderCollapsed)
       ========================================================================= */}
       {isHeaderCollapsed && (
         <div className="absolute top-3 right-3 sm:right-6 z-40 flex items-center gap-2 pointer-events-auto animate-fadeIn select-none">
-          {/* Mode Segmented Pill */}
-          <div className="flex items-center gap-0.5 p-1 rounded-full bg-[#090c14]/92 backdrop-blur-md border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.6)] text-xs font-sans">
+          {/* Mode Segmented Bar */}
+          <div className="flex items-center gap-0.5 p-1 rounded-[2px] bg-[#0e0f12]/95 backdrop-blur-md border border-white/15 shadow-2xl text-xs font-sans">
             <button
               onClick={() => {
                 playTabSwitchSound();
                 setBrowseMode('chronological');
               }}
-              className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
                 browseMode === 'chronological'
-                  ? 'bg-[#ffe600] text-black font-extrabold shadow-sm'
+                  ? 'bg-zinc-100 text-black font-bold'
                   : 'text-zinc-400 hover:text-white'
               }`}
               title="시간순 (연대기 노선도)"
@@ -1686,9 +1686,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playTabSwitchSound();
                 setBrowseMode('story_line');
               }}
-              className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
                 browseMode === 'story_line'
-                  ? 'bg-[#ffe600] text-black font-extrabold shadow-sm'
+                  ? 'bg-zinc-100 text-black font-bold'
                   : 'text-zinc-400 hover:text-white'
               }`}
               title="서사별 (시리즈 분류)"
@@ -1701,9 +1701,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playTabSwitchSound();
                 setBrowseMode('release');
               }}
-              className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
                 browseMode === 'release'
-                  ? 'bg-[#ffe600] text-black font-extrabold shadow-sm'
+                  ? 'bg-zinc-100 text-black font-bold'
                   : 'text-zinc-400 hover:text-white'
               }`}
               title="출시순 (연도별)"
@@ -1716,7 +1716,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
           {/* Search Toggle / Compact Field */}
           <div className="relative flex items-center">
             {isMobileSearchOpen ? (
-              <div className="flex items-center gap-1 bg-[#090c14]/95 backdrop-blur-md border border-white/20 rounded-full px-2.5 py-1 shadow-2xl">
+              <div className="flex items-center gap-1 bg-[#0e0f12]/95 backdrop-blur-md border border-white/20 rounded-[2px] px-2.5 py-1 shadow-2xl">
                 <Search className="w-3 h-3 text-zinc-400" />
                 <input
                   type="text"
@@ -1742,10 +1742,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playClickSound();
                   setIsMobileSearchOpen(true);
                 }}
-                className={`h-7 w-7 rounded-full flex items-center justify-center cursor-pointer transition-colors shadow-xl ${
+                className={`h-7 w-7 rounded-[2px] flex items-center justify-center cursor-pointer transition-colors shadow-xl ${
                   searchQuery
-                    ? 'bg-[#ffe600] text-black font-bold'
-                    : 'bg-[#090c14]/92 backdrop-blur-md border border-white/15 text-zinc-300 hover:text-white hover:border-white/30'
+                    ? 'bg-[#f5dd1b] text-black font-bold'
+                    : 'bg-[#0e0f12]/95 backdrop-blur-md border border-white/15 text-zinc-300 hover:text-white hover:border-white/30'
                 }`}
                 title="스토리 검색"
               >
@@ -1761,7 +1761,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 playClickSound();
                 onToggleHeaderCollapse();
               }}
-              className="h-7 px-3 rounded-full bg-[#ffe600] hover:bg-yellow-400 text-black font-sans font-bold text-xs flex items-center gap-1.5 shadow-[0_4px_16px_rgba(255,230,0,0.35)] cursor-pointer transition-all"
+              className="h-7 px-3 rounded-[2px] bg-[#f5dd1b] hover:bg-zinc-100 text-black font-sans font-bold text-xs flex items-center gap-1.5 shadow-lg cursor-pointer transition-colors"
               title="상단 메뉴 다시 열기"
             >
               <PanelTopOpen className="w-3.5 h-3.5" />
@@ -1779,7 +1779,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             MODE A-1: MOBILE NATIVE VERTICAL ERA TIMELINE STREAM (모바일 기본 시간순 뷰)
         ----------------------------------------------------------------------- */}
         {browseMode === 'chronological' && isMobile && !mobileChronoCanvas && (
-          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-5 bg-[#06080e] prts-scrollbar">
+          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-5 bg-[#0c0c0e] prts-scrollbar">
             {/* 상단 권역/시리즈 필터 칩 바 */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
               <button
@@ -1787,10 +1787,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playClickSound();
                   setFocusedLineId(null);
                 }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-full border flex-shrink-0 cursor-pointer ${
+                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex-shrink-0 cursor-pointer transition-colors ${
                   focusedLineId === null
-                    ? 'bg-white text-black border-white font-bold'
-                    : 'bg-white/[0.03] text-zinc-400 border-white/[0.08]'
+                    ? 'bg-zinc-100 text-black border-zinc-100 font-bold'
+                    : 'bg-[#141519] text-zinc-400 border-white/[0.08] hover:text-zinc-200'
                 }`}
               >
                 전체 노선
@@ -1800,13 +1800,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playClickSound();
                   setFocusedLineId(focusedLineId === 'MAIN_ALL' ? null : 'MAIN_ALL');
                 }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-full border flex items-center gap-1.5 flex-shrink-0 cursor-pointer ${
+                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 cursor-pointer transition-colors ${
                   focusedLineId === 'MAIN_ALL'
-                    ? 'bg-[#ffe600]/20 text-[#ffe600] border-[#ffe600] font-bold'
-                    : 'bg-white/[0.03] text-zinc-300 border-white/[0.08]'
+                    ? 'bg-[#f5dd1b]/15 text-[#f5dd1b] border-[#f5dd1b] font-bold'
+                    : 'bg-[#141519] text-zinc-300 border-white/[0.08] hover:text-white'
                 }`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" />
                 <span>메인 테마</span>
               </button>
               {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_') && l.id !== 'SL_COLLAB').map((line) => {
@@ -1818,21 +1818,21 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                       playClickSound();
                       setFocusedLineId(isFocused ? null : line.id);
                     }}
-                    className={`h-6.5 px-2.5 text-[11px] rounded-full border flex items-center gap-1.5 flex-shrink-0 cursor-pointer ${
+                    className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 cursor-pointer transition-colors ${
                       isFocused
                         ? 'text-white font-bold'
-                        : 'bg-white/[0.03] text-zinc-300 border-white/[0.08]'
+                        : 'bg-[#141519] text-zinc-300 border-white/[0.08] hover:text-white'
                     }`}
                     style={
                       isFocused
                         ? {
-                            backgroundColor: `${line.themeColor}28`,
+                            backgroundColor: `${line.themeColor}22`,
                             borderColor: line.themeColor,
                           }
                         : undefined
                     }
                   >
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: line.themeColor }} />
+                    <span className="w-1.5 h-1.5 rounded-[1px]" style={{ backgroundColor: line.themeColor }} />
                     <span>{line.titleKo}</span>
                   </button>
                 );
@@ -1860,8 +1860,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 <section key={era.id} id={`mobile-era-${era.id}`} className="space-y-2.5 scroll-mt-2">
                   {/* Sticky Era Header Banner */}
                   <div
-                    className="sticky top-0 z-20 rounded-[6px] bg-[#0b0f19]/95 backdrop-blur-md border border-white/[0.1] p-3 shadow-lg"
-                    style={{ borderLeftWidth: '4px', borderLeftColor: era.color }}
+                    className="sticky top-0 z-20 rounded-[2px] bg-[#121316]/96 backdrop-blur-md border border-white/[0.1] p-3"
+                    style={{ borderLeftWidth: '3px', borderLeftColor: era.color }}
                   >
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
@@ -1871,11 +1871,11 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                         >
                           {era.code}
                         </span>
-                        <span className="text-[11px] font-mono font-bold text-[#ffe600]">
+                        <span className="text-[11px] font-mono font-bold text-[#f5dd1b]">
                           {era.periodKo}
                         </span>
                       </div>
-                      <span className="text-[10.5px] font-mono text-zinc-400 bg-white/[0.05] px-2 py-0.5 rounded">
+                      <span className="text-[10.5px] font-mono text-zinc-400 bg-white/[0.05] px-2 py-0.5 rounded-[2px]">
                         {eraStories.length}개 작전
                       </span>
                     </div>
@@ -1909,12 +1909,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                             setInspectedStory(story);
                           }}
                           style={{ borderLeftColor: accentColor, borderLeftWidth: '3px' }}
-                          className={`relative rounded-[6px] border p-3 transition-all cursor-pointer overflow-hidden ${
+                          className={`relative rounded-[2px] border p-3 transition-colors cursor-pointer overflow-hidden ${
                             isSelected
-                              ? 'bg-[#131826] border-[#ffe600] ring-1 ring-[#ffe600]'
+                              ? 'bg-[#181a20] border-[#f5dd1b]'
                               : isRestored
-                              ? 'bg-[#0d111c] border-[#ffe600]/40'
-                              : 'bg-[#0b0e17] border-white/[0.1]'
+                              ? 'bg-[#121316] border-[#f5dd1b]/35 hover:border-[#f5dd1b]/70'
+                              : 'bg-[#101114] border-white/[0.08] hover:border-white/25'
                           }`}
                         >
                           {/* Background Visual */}
@@ -1927,7 +1927,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                 onContextMenu={(e) => e.preventDefault()}
                                 className="w-full h-full object-cover opacity-35 select-none"
                               />
-                              <div className="absolute inset-0 bg-gradient-to-r from-[#090c14] via-[#090c14]/85 to-[#090c14]/55" />
+                              <div className="absolute inset-0 bg-gradient-to-r from-[#101114] via-[#101114]/85 to-[#101114]/55" />
                             </div>
                           )}
 
@@ -1936,7 +1936,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                               <span
                                 className={`px-1.5 py-0.5 font-black rounded-[2px] flex-shrink-0 ${
                                   isRestored
-                                    ? 'bg-[#ffe600] text-black'
+                                    ? 'bg-[#f5dd1b] text-black'
                                     : 'bg-black/80 text-white border border-white/20'
                                 }`}
                               >
@@ -1947,12 +1947,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
                             <div className="flex items-center gap-1.5 flex-shrink-0">
                               {isRestored && (
-                                <span className="px-1.5 py-0.5 bg-[#ffe600]/20 border border-[#ffe600]/60 text-[#ffe600] text-[9.5px] font-bold rounded-[2px]">
+                                <span className="px-1.5 py-0.5 bg-[#f5dd1b]/15 border border-[#f5dd1b]/50 text-[#f5dd1b] text-[9.5px] font-bold rounded-[2px]">
                                   요약본
                                 </span>
                               )}
                               <span
-                                className="px-1.5 py-0.5 text-[10px] rounded bg-black/70 border border-white/10 font-bold"
+                                className="px-1.5 py-0.5 text-[10px] rounded-[2px] bg-black/70 border border-white/10 font-bold"
                                 style={{ color: accentColor }}
                               >
                                 {lineMeta?.titleKo.replace('내일을 위하여 · ', '')}
@@ -1975,10 +1975,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                 playOpenSound();
                                 onSelectStory(story.id);
                               }}
-                              className={`flex-shrink-0 h-8 px-2.5 rounded-[4px] text-[11px] font-mono font-bold flex items-center gap-1 cursor-pointer ${
+                              className={`flex-shrink-0 h-8 px-2.5 rounded-[2px] text-[11px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
                                 isRestored
-                                  ? 'bg-[#ffe600] text-black shadow-xs'
-                                  : 'bg-white/[0.08] text-zinc-200 border border-white/15'
+                                  ? 'bg-zinc-100 hover:bg-[#f5dd1b] text-black'
+                                  : 'bg-[#1a1c22] hover:bg-[#23262e] text-zinc-200 border border-white/15'
                               }`}
                             >
                               <BookOpen className="w-3 h-3" />
@@ -2442,15 +2442,15 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             </div>
 
             {/* Bottom-Left Floating Controls Dock (Zoom, Fit, Reset) */}
-            <div className="absolute bottom-4 left-4 z-30 flex items-center gap-1.5 p-1.5 rounded-[4px] bg-[#090c14]/95 backdrop-blur-md border border-white/[0.12] shadow-2xl font-mono text-xs">
+            <div className="absolute bottom-4 left-4 z-30 flex items-center gap-1.5 p-1.5 rounded-[2px] bg-[#121316]/95 backdrop-blur-md border border-white/[0.12] shadow-xl font-mono text-xs">
               <div
                 className="hidden sm:flex items-center gap-1.5 px-2 text-[10px] text-zinc-400 border-r border-white/10 select-none"
                 title="연대기 노선도 조작: WASD 또는 방향키 (Shift 누를 시 고속 가속), 좌클릭 드래그로 이동, 마우스 휠로 줌, 더블클릭으로 스토리 즉시 열람"
               >
-                <Move className="w-3 h-3 text-[#ffe600]" />
+                <Move className="w-3 h-3 text-zinc-400" />
                 <span>
                   <strong className="text-zinc-200 font-semibold">WASD / 방향키 / 드래그</strong>: 이동
-                  <span className="text-[#ffe600]/90 text-[9px] ml-1 font-semibold">(Shift 가속)</span>
+                  <span className="text-zinc-400 text-[9px] ml-1 font-semibold">(Shift 가속)</span>
                   <span className="text-zinc-500 mx-1">·</span>
                   휠: 줌
                   <span className="text-zinc-500 mx-1">·</span>
@@ -2466,7 +2466,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 <ZoomOut className="w-3.5 h-3.5" />
               </button>
 
-              <span className="px-2 text-[11px] font-bold text-[#ffe600] min-w-[44px] text-center">
+              <span className="px-2 text-[11px] font-bold text-zinc-100 min-w-[44px] text-center">
                 {Math.round(zoomLevel * 100)}%
               </span>
 
@@ -2485,7 +2485,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 className="px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-[10.5px] cursor-pointer"
                 title="전체 노선도 한눈에 맞춤"
               >
-                <Maximize2 className="w-3 h-3 text-[#ffe600]" />
+                <Maximize2 className="w-3 h-3 text-zinc-300" />
                 <span className="hidden md:inline">전체 조망</span>
               </button>
 
@@ -2502,7 +2502,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   <div className="hidden md:block w-[1px] h-4 bg-white/10 mx-0.5" />
                   <button
                     onClick={onToggleHeaderCollapse}
-                    className="hidden md:flex px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-300 hover:text-black items-center gap-1 text-[10.5px] cursor-pointer transition-colors"
+                    className="hidden md:flex px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-zinc-100 text-zinc-300 hover:text-black items-center gap-1 text-[10.5px] cursor-pointer transition-colors"
                     title={isHeaderCollapsed ? '상단 메뉴 다시 열기' : '상단 메뉴 접기 (UI 단축)'}
                   >
                     {isHeaderCollapsed ? (
@@ -2522,12 +2522,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             MODE B: STORY LINES HUB (서사별 마스터-디테일 계통도 뷰)
         ----------------------------------------------------------------------- */}
         {browseMode === 'story_line' && (
-          <div className="flex-1 flex min-h-0 overflow-hidden bg-[#06080e]">
+          <div className="flex-1 flex min-h-0 overflow-hidden bg-[#0c0c0e]">
             {/* 좌측 17개 서사 라인 디렉토리 탭 (모바일에서는 상단 2행 가로 스크롤 칩 바로 대체하여 본문 100% 폭 확보) */}
-            <div className="hidden md:block w-60 lg:w-72 flex-shrink-0 border-r border-white/[0.08] bg-[#080b12] overflow-y-auto p-3 space-y-4 prts-scrollbar">
+            <div className="hidden md:block w-60 lg:w-72 flex-shrink-0 border-r border-white/[0.08] bg-[#101114] overflow-y-auto p-3 space-y-4 prts-scrollbar">
               {/* 메인 테마 섹션 */}
               <div>
-                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-[#ffe600] uppercase tracking-wider flex items-center justify-between">
+                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between">
                   <span>메인 테마 (내일을 위하여)</span>
                   <span>3개 부</span>
                 </div>
@@ -2542,10 +2542,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                           playClickSound();
                           setActiveStoryLineHubId(line.id);
                         }}
-                        className={`w-full px-3 py-2 rounded-[3px] border text-left transition-all cursor-pointer flex items-center justify-between ${
+                        className={`w-full px-3 py-2 rounded-[2px] border text-left transition-colors cursor-pointer flex items-center justify-between ${
                           isSelected
-                            ? 'bg-[#ffe600]/15 border-[#ffe600] text-white'
-                            : 'bg-white/[0.02] border-white/[0.05] text-zinc-300 hover:bg-white/[0.05]'
+                            ? 'bg-[#191b20] border-[#f5dd1b] text-white'
+                            : 'bg-[#141519] border-white/[0.06] text-zinc-300 hover:bg-[#191b20]'
                         }`}
                       >
                         <div className="min-w-0 pr-2">
@@ -2556,7 +2556,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                             {line.titleKo.replace('내일을 위하여 · ', '')}
                           </div>
                         </div>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/50 text-zinc-400">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#0e0f12] text-zinc-400">
                           {count}편
                         </span>
                       </button>
@@ -2567,7 +2567,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
               {/* 14대 이벤트 서사 연작 섹션 */}
               <div>
-                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-[#38bdf8] uppercase tracking-wider flex items-center justify-between">
+                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between">
                   <span>이벤트 서사 연작</span>
                   <span>14개 연작</span>
                 </div>
@@ -2584,18 +2584,18 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                           playClickSound();
                           setActiveStoryLineHubId(line.id);
                         }}
-                        className={`w-full px-3 py-2 rounded-[3px] border text-left transition-all cursor-pointer flex items-center justify-between ${
+                        className={`w-full px-3 py-2 rounded-[2px] border text-left transition-colors cursor-pointer flex items-center justify-between ${
                           isSelected
-                            ? 'bg-white/[0.09] border-[#ffe600] text-white shadow-md'
-                            : 'bg-white/[0.02] border-white/[0.05] text-zinc-300 hover:bg-white/[0.05]'
+                            ? 'bg-[#191b20] border-[#f5dd1b] text-white'
+                            : 'bg-[#141519] border-white/[0.06] text-zinc-300 hover:bg-[#191b20]'
                         }`}
                         style={
-                          isSelected ? { borderLeftWidth: '4px', borderLeftColor: line.themeColor } : undefined
+                          isSelected ? { borderLeftWidth: '3px', borderLeftColor: line.themeColor } : undefined
                         }
                       >
                         <div className="flex items-center gap-2 min-w-0 pr-2">
                           <span
-                            className="w-2 h-2 rounded-full flex-shrink-0"
+                            className="w-2 h-2 rounded-[1px] flex-shrink-0"
                             style={{ backgroundColor: line.themeColor }}
                           />
                           <div className="min-w-0">
@@ -2608,9 +2608,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                         </div>
                         <div className="flex items-center gap-1.5 flex-shrink-0">
                           {restoredInLine && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" title="전문 수록 포함" />
+                            <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" title="전문 수록 포함" />
                           )}
-                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/50 text-zinc-400">
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#0e0f12] text-zinc-400">
                             {lineStories.length}편
                           </span>
                         </div>
@@ -2645,8 +2645,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
                     {/* 서사 라인 헤더 배너 */}
                     <div
-                      className="rounded-[6px] sm:rounded-[4px] bg-[#0b0f19] border border-white/[0.1] p-4 sm:p-6 relative overflow-hidden shadow-2xl"
-                      style={{ borderLeftWidth: '5px', borderLeftColor: activeLine.themeColor }}
+                      className="rounded-[2px] bg-[#121316] border border-white/[0.08] p-4 sm:p-6 relative overflow-hidden"
+                      style={{ borderLeftWidth: '4px', borderLeftColor: activeLine.themeColor }}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
                         <div>
@@ -2673,7 +2673,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                             setFocusedLineId(activeLine.id);
                             setBrowseMode('chronological');
                           }}
-                          className="px-3 py-1.5 sm:py-2 rounded-[3px] bg-white/[0.06] hover:bg-[#ffe600] hover:text-black text-zinc-200 border border-white/15 text-[11px] sm:text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                          className="px-3 py-1.5 sm:py-2 rounded-[2px] bg-[#1a1c22] hover:bg-zinc-100 hover:text-black text-zinc-200 border border-white/15 text-[11px] sm:text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5"
                         >
                           <Clock className="w-3.5 h-3.5" />
                           <span>연대기에서 이 시리즈 보기</span>
@@ -2683,8 +2683,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                       {/* 타 서사 교차 인과 요약 */}
                       {crossLinksForLine.length > 0 && (
                         <div className="mt-4 pt-3.5 border-t border-white/[0.08]">
-                          <div className="text-[11px] font-mono text-[#ffe600] font-bold mb-2 flex items-center gap-1.5">
-                            <Link2 className="w-3.5 h-3.5" />
+                          <div className="text-[11px] font-mono text-zinc-300 font-bold mb-2 flex items-center gap-1.5">
+                            <Link2 className="w-3.5 h-3.5 text-[#f5dd1b]" />
                             <span>타 시리즈와의 교차 연결 ({crossLinksForLine.length}건)</span>
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -2701,7 +2701,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                     setInspectedStory(otherStory);
                                     setActiveStoryLineHubId(otherStory.storyLineId);
                                   }}
-                                  className="px-3 py-2 rounded-[2px] bg-black/40 border border-white/[0.07] hover:border-[#ffe600]/60 cursor-pointer transition-colors flex items-center justify-between gap-2 text-xs"
+                                  className="px-3 py-2 rounded-[2px] bg-[#16181d] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors flex items-center justify-between gap-2 text-xs"
                                 >
                                   <div className="min-w-0">
                                     <div className="font-mono text-[11px] text-white font-bold truncate">
@@ -2711,7 +2711,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                       {cl.reasonKo}
                                     </div>
                                   </div>
-                                  <ArrowRight className="w-3.5 h-3.5 text-[#ffe600] flex-shrink-0" />
+                                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
                                 </div>
                               );
                             })}
@@ -2745,16 +2745,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                 playClickSound();
                                 setInspectedStory(story);
                               }}
-                              className={`group rounded-[6px] sm:rounded-[4px] border p-3.5 sm:p-5 transition-all cursor-pointer flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch ${
+                              className={`group rounded-[2px] border p-3.5 sm:p-5 transition-colors cursor-pointer flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch ${
                                 isSelected
-                                  ? 'bg-[#121726] border-[#ffe600] shadow-[0_0_20px_rgba(255,230,0,0.15)]'
-                                  : 'bg-[#0b0e17] border-white/[0.09] hover:border-white/30'
+                                  ? 'bg-[#181a20] border-[#f5dd1b]'
+                                  : 'bg-[#121316] border-white/[0.08] hover:border-white/25'
                               }`}
                             >
                               {/* 썸네일 영역 */}
                               <div
                                 onContextMenu={(e) => e.preventDefault()}
-                                className="w-full sm:w-52 h-36 sm:h-auto flex-shrink-0 rounded-[4px] sm:rounded-[3px] bg-black overflow-hidden relative border border-white/10"
+                                className="w-full sm:w-52 h-36 sm:h-auto flex-shrink-0 rounded-[2px] bg-black overflow-hidden relative border border-white/10"
                               >
                                 {story.splashVisualUrl ? (
                                   <>
@@ -2782,28 +2782,28 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                 <div>
                                   <div className="flex flex-wrap items-center justify-between gap-2">
                                     <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#ffe600] transition-colors">
+                                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#f5dd1b] transition-colors">
                                         {story.titleKo}
                                       </h3>
                                       <span className="text-xs font-mono text-zinc-400">
                                         {story.titleEn}
                                       </span>
                                       {story.isOmnibus && (
-                                        <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-700/50 rounded flex items-center gap-1">
+                                        <span className="px-1.5 py-0.5 text-[10px] font-mono bg-white/[0.07] text-zinc-200 border border-white/15 rounded-[2px] flex items-center gap-1">
                                           <FilmReelIcon className="w-3 h-3" /> 옴니버스
                                         </span>
                                       )}
                                     </div>
 
                                     <div className="flex items-center gap-1.5 sm:gap-2">
-                                      <span className="text-[11px] sm:text-xs font-mono text-[#ffe600] bg-[#ffe600]/10 px-2 py-0.5 rounded border border-[#ffe600]/30">
+                                      <span className="text-[11px] sm:text-xs font-mono text-[#f5dd1b] bg-[#f5dd1b]/10 px-2 py-0.5 rounded-[2px] border border-[#f5dd1b]/30">
                                         {story.timeline}
                                       </span>
                                       <span
-                                        className={`px-2 py-0.5 text-[10px] font-mono font-bold rounded ${
+                                        className={`px-2 py-0.5 text-[10px] font-mono font-bold rounded-[2px] ${
                                           isRestored
-                                            ? 'bg-[#ffe600] text-black'
-                                            : 'bg-white/10 text-zinc-300'
+                                            ? 'bg-[#f5dd1b] text-black'
+                                            : 'bg-white/[0.08] text-zinc-300'
                                         }`}
                                       >
                                         {isRestored ? '요약본 수록' : '개요 수록'}
@@ -2826,7 +2826,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                       playOpenSound();
                                       onSelectStory(story.id);
                                     }}
-                                    className="px-3 py-1.5 rounded-[3px] bg-[#ffe600] hover:bg-[#fff04d] text-black font-bold text-xs font-mono flex items-center gap-1.5 cursor-pointer shadow"
+                                    className="px-3 py-1.5 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold text-xs font-mono flex items-center gap-1.5 cursor-pointer transition-colors"
                                   >
                                     <BookOpen className="w-3.5 h-3.5" />
                                     <span>{isRestored ? '요약본 열람' : '개요 열람'}</span>
@@ -2849,25 +2849,25 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             MODE C: RELEASE TIMELINE (연차별 출시 로드맵 뷰)
         ----------------------------------------------------------------------- */}
         {browseMode === 'release' && (
-          <div className="flex-1 overflow-y-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-5 sm:space-y-6 prts-scrollbar bg-[#06080e]">
+          <div className="flex-1 overflow-y-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-5 sm:space-y-6 prts-scrollbar bg-[#0c0c0e]">
             {/* 연차 빠른 선택 탭 바 (데스크톱 전용, 모바일은 상단 2행 가로 칩 사용) */}
-            <div className="hidden md:flex flex-wrap items-center gap-1.5 bg-[#090c14]/90 p-1.5 rounded-[4px] border border-white/[0.08] font-sans">
+            <div className="hidden md:flex flex-wrap items-center gap-1.5 bg-[#121316] p-1 rounded-[2px] border border-white/[0.08] font-sans">
               <span className="text-xs font-semibold text-zinc-400 px-2.5">서비스 연차</span>
               <button
                 onClick={() => {
                   playClickSound();
                   setSelectedReleaseYear('all');
                 }}
-                className={`relative h-7.5 px-3 rounded-[3px] text-xs cursor-pointer transition-all flex items-center gap-1.5 ${
+                className={`relative h-7.5 px-3 rounded-[2px] text-xs cursor-pointer transition-colors flex items-center gap-1.5 ${
                   selectedReleaseYear === 'all'
-                    ? 'bg-white/[0.1] text-white font-bold shadow-xs'
+                    ? 'bg-white/[0.08] text-white font-bold'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
                 }`}
               >
                 <span>전체 연차</span>
                 <span className="font-mono text-[10.5px] text-zinc-400">Y1~Y6</span>
                 {selectedReleaseYear === 'all' && (
-                  <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full" />
+                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
                 )}
               </button>
               {RELEASE_YEARS_META.map((ym) => (
@@ -2877,16 +2877,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     playClickSound();
                     setSelectedReleaseYear(ym.year);
                   }}
-                  className={`relative h-7.5 px-3 rounded-[3px] text-xs cursor-pointer transition-all flex items-center gap-1.5 ${
+                  className={`relative h-7.5 px-3 rounded-[2px] text-xs cursor-pointer transition-colors flex items-center gap-1.5 ${
                     selectedReleaseYear === ym.year
-                      ? 'bg-white/[0.1] text-white font-bold shadow-xs'
+                      ? 'bg-white/[0.08] text-white font-bold'
                       : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
                   }`}
                 >
-                  <span className="font-mono font-bold text-[#ffe600]">{ym.label}</span>
+                  <span className={`font-mono font-bold ${selectedReleaseYear === ym.year ? 'text-[#f5dd1b]' : 'text-zinc-200'}`}>{ym.label}</span>
                   <span className="font-mono text-[11px] text-zinc-400">{ym.period}</span>
                   {selectedReleaseYear === ym.year && (
-                    <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#ffe600] rounded-full" />
+                    <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
                   )}
                 </button>
               ))}
@@ -2906,7 +2906,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               return (
                 <div
                   key={yearMeta.year}
-                  className="border border-white/[0.09] bg-[#0a0d16] p-3.5 sm:p-5 rounded-[6px] sm:rounded-[4px] space-y-3.5 sm:space-y-4 shadow-xl"
+                  className="border border-white/[0.08] bg-[#121316] p-3.5 sm:p-5 rounded-[2px] space-y-3.5 sm:space-y-4"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 border-b border-white/[0.07] pb-3">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3">
@@ -2944,12 +2944,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                             playClickSound();
                             setInspectedStory(story);
                           }}
-                          className={`group relative rounded-[5px] sm:rounded-[3px] border p-3.5 transition-all cursor-pointer flex flex-col justify-between min-h-[132px] sm:min-h-[148px] overflow-hidden ${
+                          className={`group relative rounded-[2px] border p-3.5 transition-colors cursor-pointer flex flex-col justify-between min-h-[132px] sm:min-h-[148px] overflow-hidden ${
                             isSelected
-                              ? 'bg-[#141a2b] border-[#ffe600] ring-1 ring-[#ffe600]'
+                              ? 'bg-[#181a20] border-[#f5dd1b] ring-1 ring-[#f5dd1b]'
                               : isRestored
-                              ? 'bg-[#0d111c] border-[#ffe600]/45 hover:border-[#ffe600]'
-                              : 'bg-[#0b0e17] border-white/[0.1] hover:border-white/35'
+                              ? 'bg-[#121316] border-[#f5dd1b]/35 hover:border-[#f5dd1b]'
+                              : 'bg-[#101114] border-white/[0.08] hover:border-white/30'
                           }`}
                         >
                           {story.splashVisualUrl && (
@@ -2959,9 +2959,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                 alt=""
                                 draggable={false}
                                 onContextMenu={(e) => e.preventDefault()}
-                                className="w-full h-full object-cover opacity-40 group-hover:opacity-70 transition-opacity select-none"
+                                className="w-full h-full object-cover opacity-40 group-hover:opacity-65 transition-opacity select-none"
                               />
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#090c14] via-[#090c14]/75 to-transparent" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#101114] via-[#101114]/75 to-transparent" />
                             </div>
                           )}
 
@@ -2970,22 +2970,22 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                               <span className="text-zinc-400 font-bold">#{idx + 1}</span>
                               <span
                                 className={`px-1.5 py-0.5 font-black rounded-[1px] ${
-                                  isRestored ? 'bg-[#ffe600] text-black' : 'bg-black/80 text-white border border-white/20'
+                                  isRestored ? 'bg-[#f5dd1b] text-black' : 'bg-black/80 text-white border border-white/20'
                                 }`}
                               >
                                 {story.code}
                               </span>
                             </div>
                             <span
-                              className="px-1.5 py-0.5 text-[10px] rounded bg-black/70 border border-white/10 font-bold"
-                              style={{ color: lineMeta?.themeColor || '#ffe600' }}
+                              className="px-1.5 py-0.5 text-[10px] rounded-[2px] bg-black/75 border border-white/10 font-bold"
+                              style={{ color: lineMeta?.themeColor || '#f5dd1b' }}
                             >
                               {lineMeta?.titleKo.replace('내일을 위하여 · ', '')}
                             </span>
                           </div>
 
                           <div className="relative z-10 my-auto py-2">
-                            <h3 className="text-sm font-bold text-white group-hover:text-[#ffe600] transition-colors truncate">
+                            <h3 className="text-sm font-bold text-white group-hover:text-[#f5dd1b] transition-colors truncate">
                               {story.titleKo}
                             </h3>
                             <div className="text-[10px] font-mono text-zinc-400 truncate">{story.titleEn}</div>
@@ -2993,7 +2993,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
                           <div className="relative z-10 pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono">
                             <span className="text-zinc-300 truncate">배경: {story.timeline}</span>
-                            <span className="text-[#ffe600] font-bold flex-shrink-0 ml-1">브리핑 →</span>
+                            <span className="text-zinc-400 group-hover:text-[#f5dd1b] transition-colors font-bold flex-shrink-0 ml-1">브리핑 →</span>
                           </div>
                         </div>
                       );
@@ -3025,7 +3025,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   ? { transform: `translateY(${sheetDragY}px)`, transition: 'none' }
                   : undefined
               }
-              className="fixed md:static inset-x-0 bottom-0 md:inset-auto w-full md:w-80 lg:w-96 max-h-[82dvh] md:max-h-none md:h-full flex-shrink-0 bg-[#090c15]/98 border-t md:border-t-0 md:border-l border-white/20 md:border-white/[0.1] rounded-t-2xl md:rounded-none flex flex-col z-50 md:z-30 shadow-2xl overflow-hidden animate-fadeIn"
+              className="fixed md:static inset-x-0 bottom-0 md:inset-auto w-full md:w-80 lg:w-96 max-h-[82dvh] md:max-h-none md:h-full flex-shrink-0 bg-[#111215]/98 border-t md:border-t-0 md:border-l border-white/20 md:border-white/[0.1] rounded-t-[4px] md:rounded-none flex flex-col z-50 md:z-30 shadow-2xl overflow-hidden animate-fadeIn"
             >
               {/* 모바일 바텀 시트 핸들 바 */}
               <div
@@ -3049,16 +3049,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playCloseSound();
                   setInspectedStory(null);
                 }}
-                className="md:hidden flex items-center justify-center py-2.5 bg-[#06080f] border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none active:bg-white/[0.08]"
+                className="md:hidden flex items-center justify-center py-2.5 bg-[#0e0f12] border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none active:bg-white/[0.08]"
                 title="잡아서 아래로 당겨 닫기"
               >
-                <div className="w-10 h-1.5 rounded-full bg-zinc-500" />
+                <div className="w-10 h-1 rounded-[1px] bg-zinc-600" />
               </div>
 
               {/* 상단 커버 비주얼 헤더 */}
               <div
                 onContextMenu={(e) => e.preventDefault()}
-                className="relative h-36 sm:h-44 bg-[#05070c] border-b border-white/[0.08] flex-shrink-0 overflow-hidden"
+                className="relative h-36 sm:h-44 bg-[#0c0d10] border-b border-white/[0.08] flex-shrink-0 overflow-hidden"
               >
                 {inspectedStory.splashVisualUrl ? (
                   <>
@@ -3072,11 +3072,11 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     <CopyrightBadge />
                   </>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#101524] to-[#06080e]">
+                  <div className="w-full h-full flex items-center justify-center bg-[#121316]">
                     <Layers className="w-12 h-12 text-zinc-700" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#090c15] via-[#090c15]/45 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111215] via-[#111215]/45 to-transparent pointer-events-none" />
 
                 {/* 닫기 버튼 */}
                 <button
@@ -3084,7 +3084,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     playCloseSound();
                     setInspectedStory(null);
                   }}
-                  className="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/75 hover:bg-black text-zinc-200 hover:text-white border border-white/20 flex items-center justify-center cursor-pointer z-10"
+                  className="absolute top-3 right-3 w-7 h-7 rounded-[2px] bg-[#141519]/90 hover:bg-[#1f2228] text-zinc-300 hover:text-white border border-white/15 flex items-center justify-center cursor-pointer z-10 transition-colors"
                   title="브리핑 닫기"
                 >
                   <X className="w-4 h-4" />
@@ -3093,14 +3093,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 {/* 하단 오버레이 타이틀 */}
                 <div className="absolute bottom-3 inset-x-4 flex flex-col gap-1">
                   <div className="flex items-center gap-1.5">
-                    <span className="px-2 py-0.5 text-[11px] font-mono font-black bg-[#ffe600] text-black rounded-[1px]">
+                    <span className="px-2 py-0.5 text-[11px] font-mono font-black bg-zinc-100 text-black rounded-[1px]">
                       {inspectedStory.code}
                     </span>
-                    <span className="px-2 py-0.5 text-[10px] font-mono bg-black/80 text-zinc-200 border border-white/20 rounded-[1px]">
+                    <span className="px-2 py-0.5 text-[10px] font-mono bg-[#141519]/90 text-zinc-200 border border-white/15 rounded-[1px]">
                       {lineMetaMap.get(inspectedStory.storyLineId)?.titleKo || inspectedStory.categoryLabel}
                     </span>
                     {inspectedStory.isOmnibus && (
-                      <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-950/90 text-emerald-300 border border-emerald-600/50 rounded-[1px] flex items-center gap-1">
+                      <span className="px-1.5 py-0.5 text-[10px] font-mono bg-[#141519]/90 text-zinc-200 border border-white/15 rounded-[1px] flex items-center gap-1">
                         <FilmReelIcon className="w-3 h-3" /> 옴니버스
                       </span>
                     )}
@@ -3113,14 +3113,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               </div>
 
               {/* 주요 액션 버튼 바 */}
-              <div className="p-3 sm:p-3.5 bg-[#0c101c] border-b border-white/[0.08] flex items-center gap-2">
+              <div className="p-3 sm:p-3.5 bg-[#15161a] border-b border-white/[0.08] flex items-center gap-2">
                 <button
                   disabled={getStoryAccessState(inspectedStory) === 'locked'}
                   onClick={() => {
                     playOpenSound();
                     onSelectStory(inspectedStory.id);
                   }}
-                  className="flex-1 h-9 rounded-[3px] bg-[#ffe600] hover:bg-[#fff04d] disabled:bg-zinc-800 disabled:text-zinc-500 text-black font-bold text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer shadow-md transition-colors"
+                  className="flex-1 h-9 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] disabled:bg-zinc-800 disabled:text-zinc-500 text-black font-bold text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>
@@ -3138,7 +3138,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     setSelectedModalStory(inspectedStory);
                     setIsModalOpen(true);
                   }}
-                  className="h-9 px-3 rounded-[3px] bg-white/[0.06] hover:bg-white/[0.12] text-zinc-200 border border-white/15 text-xs font-mono flex items-center gap-1 cursor-pointer transition-colors"
+                  className="h-9 px-3 rounded-[2px] bg-[#1a1c22] hover:bg-[#23262e] text-zinc-200 border border-white/15 text-xs font-mono flex items-center gap-1 cursor-pointer transition-colors"
                   title="크게 보기 모달"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -3149,10 +3149,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               {/* 도크 스크롤 본문: 시놉시스 + 세부 파트 + 선행/후속/교차 서사 체인 */}
               <div className="flex-1 overflow-y-auto p-4 pb-6 space-y-4 sm:space-y-5 prts-scrollbar text-xs">
                 {/* 시계열 메타데이터 */}
-                <div className="grid grid-cols-2 gap-2 bg-black/40 p-3 rounded-[3px] border border-white/[0.06] font-mono">
+                <div className="grid grid-cols-2 gap-2 bg-[#16181d] p-3 rounded-[2px] border border-white/[0.06] font-mono">
                   <div>
                     <div className="text-[10px] text-zinc-500">작전 시점</div>
-                    <div className="text-xs text-[#ffe600] font-bold mt-0.5">{inspectedStory.timeline}</div>
+                    <div className="text-xs text-[#f5dd1b] font-bold mt-0.5">{inspectedStory.timeline}</div>
                   </div>
                   <div>
                     <div className="text-[10px] text-zinc-500">수록 상태</div>
@@ -3169,10 +3169,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 {/* 공식 작전 개요 */}
                 <div>
                   <div className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 text-[#ffe600]" />
+                    <Sparkles className="w-3 h-3 text-zinc-400" />
                     <span>스토리 개요</span>
                   </div>
-                  <p className="text-zinc-300 leading-relaxed bg-white/[0.02] p-3 rounded-[3px] border border-white/[0.05] break-keep">
+                  <p className="text-zinc-300 leading-relaxed bg-[#15161a] p-3 rounded-[2px] border border-white/[0.06] break-keep">
                     {inspectedStory.officialSynopsis}
                   </p>
                 </div>
@@ -3191,7 +3191,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                             playOpenSound();
                             onSelectStory(inspectedStory.id);
                           }}
-                          className="px-2.5 py-1.5 rounded-[2px] bg-white/[0.03] hover:bg-[#ffe600]/15 border border-white/[0.06] hover:border-[#ffe600]/40 cursor-pointer flex items-center justify-between text-[11px]"
+                          className="px-2.5 py-1.5 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.07] hover:border-white/25 cursor-pointer flex items-center justify-between text-[11px] transition-colors"
                         >
                           <span className="text-zinc-200 font-medium truncate">{sp.label}</span>
                         </div>
@@ -3202,8 +3202,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
                 {/* 서사 연결망 (선행 작전 & 후속/교차 작전) */}
                 <div className="space-y-3 pt-2 border-t border-white/[0.08]">
-                  <div className="text-[10px] font-mono font-bold text-[#ffe600] uppercase tracking-wider flex items-center gap-1.5">
-                    <GitBranch className="w-3.5 h-3.5" />
+                  <div className="text-[10px] font-mono font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <GitBranch className="w-3.5 h-3.5 text-[#f5dd1b]" />
                     <span>연관 스토리</span>
                   </div>
 
@@ -3222,20 +3222,20 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                           <div
                             key={`in-${inc.fromId}`}
                             onClick={() => focusOnStoryNode(inc.fromId)}
-                            className="p-2.5 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-[#ffe600]/50 cursor-pointer transition-all"
+                            className="p-2.5 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
-                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-black text-[#ffe600] border border-[#ffe600]/40">
+                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-[#101114] text-zinc-200 border border-white/15 rounded-[1px]">
                                   {inc.story.code}
                                 </span>
                                 <span className="font-bold text-white">{inc.story.titleKo}</span>
                               </div>
                               <span
-                                className={`text-[9.5px] font-mono px-1.5 py-0.2 rounded ${
+                                className={`text-[9.5px] font-mono px-1.5 py-0.2 rounded-[2px] ${
                                   inc.type === 'cross'
-                                    ? 'bg-[#ffe600]/15 text-[#ffe600]'
-                                    : 'bg-sky-500/15 text-sky-300'
+                                    ? 'bg-[#f5dd1b]/15 text-[#f5dd1b]'
+                                    : 'bg-white/[0.07] text-zinc-300'
                                 }`}
                               >
                                 {inc.type === 'cross' ? '교차 연결' : '이전 편'}
@@ -3263,20 +3263,20 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                           <div
                             key={`out-${out.toId}`}
                             onClick={() => focusOnStoryNode(out.toId)}
-                            className="p-2.5 rounded-[3px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-[#ffe600]/50 cursor-pointer transition-all"
+                            className="p-2.5 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
-                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-black text-[#ffe600] border border-[#ffe600]/40">
+                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-[#101114] text-zinc-200 border border-white/15 rounded-[1px]">
                                   {out.story.code}
                                 </span>
                                 <span className="font-bold text-white">{out.story.titleKo}</span>
                               </div>
                               <span
-                                className={`text-[9.5px] font-mono px-1.5 py-0.2 rounded ${
+                                className={`text-[9.5px] font-mono px-1.5 py-0.2 rounded-[2px] ${
                                   out.type === 'cross'
-                                    ? 'bg-[#ffe600]/15 text-[#ffe600]'
-                                    : 'bg-sky-500/15 text-sky-300'
+                                    ? 'bg-[#f5dd1b]/15 text-[#f5dd1b]'
+                                    : 'bg-white/[0.07] text-zinc-300'
                                 }`}
                               >
                                 {out.type === 'cross' ? '교차 연결' : '다음 편'}

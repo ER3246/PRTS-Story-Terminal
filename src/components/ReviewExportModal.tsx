@@ -89,12 +89,14 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative w-full max-w-xl bg-[#0f1118] border border-[#272e42] rounded-[4px] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden z-10 flex flex-col"
+            className="relative w-full max-w-xl bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl overflow-hidden z-10 flex flex-col"
           >
+        {/* Top Bar Accent */}
+        <div className="h-[2px] w-full bg-zinc-200" />
         {/* 상단 헤더 */}
-        <div className="flex items-center justify-between px-5 py-3.5 bg-[#141724] border-b border-[#23293c]">
+        <div className="flex items-center justify-between px-5 py-3.5 bg-[#16181d] border-b border-white/[0.08]">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#ffe600]" />
+            <span className="w-1.5 h-3.5 bg-[#f5dd1b]" />
             <span className="font-bold text-white text-sm tracking-wide">
               문서 내보내기
             </span>
@@ -104,7 +106,7 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
               playCloseSound();
               onClose();
             }}
-            className="p-1 hover:bg-[#202738] text-zinc-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1 hover:bg-white/[0.1] text-zinc-400 hover:text-white transition-colors cursor-pointer"
             title="닫기"
           >
             <X className="w-4 h-4" />
@@ -115,17 +117,17 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
         <div className="p-5 sm:p-6 space-y-4">
           
           {/* 다운로드 경로 안내 알림 */}
-          <div className="flex items-center gap-2 px-3.5 py-2.5 bg-[#141824] border border-[#22283a] text-zinc-300 text-xs font-sans">
-            <Info className="w-4 h-4 text-[#ffe600] flex-shrink-0" />
+          <div className="flex items-center gap-2 px-3.5 py-2.5 bg-[#16181d] border border-white/[0.08] text-zinc-300 text-xs font-sans">
+            <Info className="w-4 h-4 text-zinc-400 flex-shrink-0" />
             <span>다운로드된 파일은 PC의 기본 <strong>'다운로드'</strong> 폴더에 자동 저장됩니다.</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             {/* 1. 선택 스토리 다운로드 */}
-            <div className="p-4 bg-[#121520] border border-[#232a3d] hover:border-[#ffe600] transition-colors flex flex-col justify-between space-y-4">
+            <div className="p-4 bg-[#15161a] border border-white/[0.08] hover:border-white/25 rounded-[2px] transition-colors flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center gap-1.5 font-bold text-white text-sm">
-                  <FileText className="w-4 h-4 text-[#ffe600]" />
+                  <FileText className="w-4 h-4 text-zinc-400" />
                   <span>스토리 요약본 (개별)</span>
                 </div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-sans">
@@ -135,7 +137,7 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
                   <select
                     value={selectedStoryId}
                     onChange={(e) => setSelectedStoryId(e.target.value)}
-                    className="w-full bg-[#181c2b] border border-[#2e374f] text-zinc-100 text-xs p-2 outline-none font-mono focus:border-[#ffe600]"
+                    className="w-full bg-[#0e0f12] border border-white/[0.12] rounded-[2px] text-zinc-100 text-xs p-2 outline-none font-mono focus:border-[#f5dd1b]"
                   >
                     {restoredStories.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -148,7 +150,7 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
 
               <button
                 onClick={() => handleDownloadSingleStory(selectedStoryId)}
-                className="w-full py-2.5 px-3 bg-[#1e2436] hover:bg-[#ffe600] text-zinc-100 hover:text-black border border-[#303c58] hover:border-[#ffe600] text-xs font-bold font-mono transition-all cursor-pointer flex items-center justify-center gap-2 shadow"
+                className="w-full py-2.5 px-3 rounded-[2px] bg-[#1c1e24] hover:bg-zinc-100 text-zinc-100 hover:text-black border border-white/[0.1] hover:border-white text-xs font-bold font-mono transition-colors cursor-pointer flex items-center justify-center gap-2"
               >
                 <FolderDown className="w-4 h-4" />
                 <span>개별 다운로드 (.md)</span>
@@ -156,23 +158,23 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
             </div>
 
             {/* 2. 전체 스토리 다운로드 */}
-            <div className="p-4 bg-[#121520] border border-[#232a3d] hover:border-[#ffe600] transition-colors flex flex-col justify-between space-y-4">
+            <div className="p-4 bg-[#15161a] border border-white/[0.08] hover:border-white/25 rounded-[2px] transition-colors flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center gap-1.5 font-bold text-white text-sm">
-                  <Layers className="w-4 h-4 text-[#ffe600]" />
+                  <Layers className="w-4 h-4 text-zinc-400" />
                   <span>스토리 요약집 (전체)</span>
                 </div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-sans">
                   수록된 모든 스토리의 요약 대본과 등장인물 정보가 정리된 종합 마크다운 문서입니다.
                 </p>
-                <div className="p-2 bg-[#181c2b] border border-[#232a3d] text-[11px] font-mono text-zinc-400 truncate">
+                <div className="p-2 bg-[#0e0f12] border border-white/[0.08] text-[11px] font-mono text-zinc-400 truncate">
                   PRTS_Archive_Status_Master.md
                 </div>
               </div>
 
               <button
                 onClick={handleDownloadMaster}
-                className="w-full py-2.5 px-3 bg-[#ffe600] hover:bg-[#fff04d] text-black font-bold font-mono text-xs transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,230,0,0.2)]"
+                className="w-full py-2.5 px-3 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold font-mono text-xs transition-colors cursor-pointer flex items-center justify-center gap-2"
               >
                 <Download className="w-4 h-4" />
                 <span>전체 다운로드 (.md)</span>
@@ -182,13 +184,13 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
         </div>
 
         {/* 하단 바 */}
-        <div className="px-5 py-3 border-t border-[#23293c] bg-[#0c0e15] flex items-center justify-end">
+        <div className="px-5 py-3 border-t border-white/[0.08] bg-[#101114] flex items-center justify-end">
           <button
             onClick={() => {
               playCloseSound();
               onClose();
             }}
-            className="px-4 py-1.5 bg-[#181c28] hover:bg-[#22283a] text-zinc-300 hover:text-white border border-[#2a344a] text-xs font-mono transition-colors cursor-pointer"
+            className="px-4 py-1.5 rounded-[2px] bg-[#181a20] hover:bg-[#22252d] text-zinc-300 hover:text-white border border-white/[0.08] text-xs font-mono transition-colors cursor-pointer"
           >
             닫기
           </button>

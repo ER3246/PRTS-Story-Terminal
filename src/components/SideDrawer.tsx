@@ -7,6 +7,7 @@ import { getCharacterAvatarUrl, getCharacterIllustUrl, getGlobalAvatarCacheBuste
 import { resolveCharacterMaster } from '../data/db/characterResolver';
 import { CopyrightBadge } from './CopyrightedImage';
 import { TacticalAvatar } from './TacticalAvatar';
+import { PrtsNeuralEmblem } from './ui/TacticalIcons';
 import { PRTS_MODAL_BACKDROP, PRTS_DRAWER_PANEL, PRTS_EASE } from '../utils/motion';
 
 interface SideDrawerProps {
@@ -91,21 +92,21 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed top-0 right-0 h-full w-full max-w-lg bg-[#0b0e16]/96 backdrop-blur-2xl border-l border-white/[0.1] z-50 shadow-2xl flex flex-col font-sans"
+            className="fixed top-0 right-0 h-full w-full max-w-lg bg-[#111215]/98 backdrop-blur-md border-l border-white/[0.1] z-50 shadow-2xl flex flex-col font-sans"
           >
             {/* Top Calibration Hairline */}
-            <div className="h-[2px] w-full bg-gradient-to-r from-[#ffe600] via-[#00d8ff] to-transparent shrink-0" />
+            <div className="h-[1px] w-full bg-white/10 shrink-0" />
             {/* Drawer Header */}
-        <div className="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between bg-[#080a10]/90">
+        <div className="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between bg-[#0e0f12]">
           <div className="flex items-center gap-2 text-xs text-zinc-400">
-            <span className="w-1.5 h-3.5 rounded-[1px] bg-[#ffe600]" />
+            <span className="w-1.5 h-3.5 rounded-none bg-[#f5dd1b]" />
             <span className="font-bold text-white">
               {selectedCharacter ? '작전 관계자 상세 프로필' : '용어 사전 상세 정의'}
             </span>
           </div>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-[3px] bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-7 h-7 rounded-[2px] bg-[#16181d] hover:bg-[#1e2026] border border-white/[0.08] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -131,16 +132,13 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
             return (
               <div className="space-y-5">
-                {/* Full-Body Standing CG Showcase / Classified Placeholder */}
+                {/* Full-Body Standing CG Showcase / Matte Studio Placeholder */}
                 {hasValidIllust ? (
-                  <div className="relative w-full h-[360px] sm:h-[400px] rounded-[6px] overflow-hidden bg-gradient-to-b from-white/[0.04] via-[#090c14] to-[#04060a] border border-white/[0.08] flex items-center justify-center p-3 group shadow-xl">
-                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-                    
-                    {/* PRTS Spec Overlay Header */}
-                    <div className="absolute top-2.5 left-3 flex items-center gap-1.5 z-10 pointer-events-none">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600] animate-pulse" />
-                      <span className="text-[10px] font-mono tracking-widest text-zinc-400 font-bold uppercase">
-                        PRTS ARCHIVE // FULL-BODY VISUAL {activeVariant ? `// ${activeVariant.label.toUpperCase()}` : ''}
+                  <div className="relative w-full h-[360px] sm:h-[400px] rounded-[2px] overflow-hidden bg-[#0c0d10] border border-white/[0.08] flex items-center justify-center p-3 group">
+                    {/* Minimal Spec Label */}
+                    <div className="absolute top-2.5 left-3 z-10 pointer-events-none">
+                      <span className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase">
+                        VISUAL ARCHIVE // FULL-BODY {activeVariant ? `// ${activeVariant.label.toUpperCase()}` : ''}
                       </span>
                     </div>
 
@@ -152,10 +150,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                           `${selectedCharacter.nameKo} (${selectedCharacter.nameEn}) ${activeVariant ? `[${activeVariant.label}]` : '전신 일러스트'}`,
                           selectedCharacter.nameKo
                         )}
-                        className="absolute top-2.5 right-3 z-10 px-2.5 py-1 rounded-[3px] bg-black/65 hover:bg-black/90 border border-white/15 hover:border-[#ffe600] text-[11px] text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all cursor-pointer backdrop-blur-xs"
+                        className="absolute top-2.5 right-3 z-10 px-2.5 py-1 rounded-[2px] bg-[#141519]/90 hover:bg-zinc-100 border border-white/15 hover:border-white text-[11px] text-zinc-300 hover:text-black flex items-center gap-1.5 transition-colors cursor-pointer"
                         title="원화 확대"
                       >
-                        <Maximize2 className="w-3 h-3 text-[#ffe600]" />
+                        <Maximize2 className="w-3 h-3" />
                         <span>원화 확대</span>
                       </button>
                     )}
@@ -178,32 +176,17 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     <CopyrightBadge style={{ zIndex: 10, bottom: '8px', right: '10px' }} />
                   </div>
                 ) : (
-                  <div className="relative w-full h-[220px] sm:h-[250px] rounded-[6px] overflow-hidden bg-gradient-to-b from-[#10141f] via-[#090c14] to-[#04060a] border border-white/[0.08] flex flex-col items-center justify-center p-6 text-center select-none shadow-xl">
-                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none opacity-40" />
-                    
-                    {/* Corner Reticles */}
-                    <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[#ffe600]/40 pointer-events-none" />
-                    <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[#ffe600]/40 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[#ffe600]/40 pointer-events-none" />
-                    <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-[#ffe600]/40 pointer-events-none" />
-
-                    {/* PRTS Header */}
-                    <div className="absolute top-2.5 left-3 flex items-center gap-1.5 pointer-events-none">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
-                      <span className="text-[10px] font-mono tracking-widest text-zinc-500 font-bold uppercase">
-                        PRTS TACTICAL ARCHIVE // CLASSIFIED RECORD
+                  <div className="relative w-full h-[220px] sm:h-[250px] rounded-[2px] overflow-hidden bg-[#0c0d10] border border-white/[0.08] flex flex-col items-center justify-center p-6 text-center select-none">
+                    <div className="absolute top-2.5 left-3 pointer-events-none">
+                      <span className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase">
+                        PRTS ARCHIVE // RECORD INDEX
                       </span>
                     </div>
 
-                    {/* Large Operator Silhouette */}
-                    <div className="w-16 h-16 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center mb-2.5">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-zinc-600">
-                        <path d="M12 2C9.243 2 7 4.243 7 7c0 2.222 1.455 4.108 3.473 4.743C6.398 12.355 3.5 15.82 3.5 20c0 .553.447 1 1 1h15c.553 0 1-.447 1-1 0-4.18-2.898-7.645-6.973-8.257C15.545 11.108 17 9.222 17 7c0-2.757-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0 9c3.318 0 6.095 2.502 6.453 5.75H5.547C5.905 14.502 8.682 12 12 12z" />
-                      </svg>
-                    </div>
+                    <PrtsNeuralEmblem className="w-10 h-10 text-zinc-600 mb-3" />
 
-                    <div className="font-mono text-xs tracking-wider text-[#ffe600] font-bold uppercase">
-                      CLASSIFIED // NO VISUAL RECORD
+                    <div className="font-mono text-xs tracking-wider text-zinc-400 uppercase">
+                      NO VISUAL RECORD
                     </div>
                     <div className="text-[11px] text-zinc-500 mt-1 max-w-[280px]">
                       현장 전술 데이터베이스에 등록된 고유 시각화 프로필이 존재하지 않는 인물입니다.
@@ -213,14 +196,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
                 {/* 시점/전개별 외형 전환 셀렉터 (Variants) */}
                 {selectedCharacter.variants && selectedCharacter.variants.length > 1 && (
-                  <div className="p-3 rounded-[4px] bg-white/[0.03] border border-white/[0.08] space-y-2.5 shadow-sm">
+                  <div className="p-3 rounded-[2px] bg-[#15161a] border border-white/[0.08] space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-300">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#ffe600]" />
+                      <div className="flex items-center gap-2 text-xs font-bold text-zinc-300">
+                        <span className="w-1 h-3 bg-[#f5dd1b]" />
                         <span>시점별 외형 아카이브</span>
                       </div>
                       {activeVariant?.timePeriod && (
-                        <span className="px-2 py-0.5 rounded-[2px] bg-[#ffe600]/10 border border-[#ffe600]/30 text-[10.5px] font-mono font-semibold text-[#ffe600]">
+                        <span className="px-2 py-0.5 rounded-[2px] bg-white/[0.05] border border-white/10 text-[10.5px] font-mono font-semibold text-zinc-200">
                           {activeVariant.timePeriod}
                         </span>
                       )}
@@ -237,13 +220,13 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                               setActiveVariantIndex(vIdx);
                               setIllustError(false);
                             }}
-                            className={`p-2 rounded-[3px] border flex items-center gap-2.5 transition-all cursor-pointer text-left ${
+                            className={`p-2 rounded-[2px] border flex items-center gap-2.5 transition-colors cursor-pointer text-left ${
                               isSelected
-                                ? 'bg-[#ffe600]/15 border-[#ffe600] text-white shadow-sm ring-1 ring-[#ffe600]/50'
-                                : 'bg-white/[0.02] hover:bg-white/[0.06] border-white/[0.08] text-zinc-400 hover:text-zinc-200'
+                                ? 'bg-[#1c1e24] border-[#f5dd1b] text-white'
+                                : 'bg-[#111216] hover:bg-[#181a20] border-white/[0.08] text-zinc-400 hover:text-zinc-200'
                             }`}
                           >
-                            <div className={`w-9 h-9 rounded-[2px] overflow-hidden border flex-shrink-0 ${isSelected ? 'border-[#ffe600]' : 'border-white/10'}`}>
+                            <div className={`w-9 h-9 rounded-[2px] overflow-hidden border flex-shrink-0 ${isSelected ? 'border-[#f5dd1b]/70' : 'border-white/10'}`}>
                               <TacticalAvatar
                                 src={v.avatarUrl ? resolveAssetUrl(v.avatarUrl) : ''}
                                 alt={v.label}
@@ -251,7 +234,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                               />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className={`text-[11.5px] font-bold truncate ${isSelected ? 'text-[#ffe600]' : 'text-zinc-300'}`}>
+                              <div className={`text-[11.5px] font-bold truncate ${isSelected ? 'text-white' : 'text-zinc-300'}`}>
                                 {v.label}
                               </div>
                               {v.timePeriod && (
@@ -274,9 +257,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 )}
 
                 {/* Profile Card */}
-                <div className="flex gap-4 items-center rounded-[4px] border border-white/[0.08] bg-white/[0.025] p-4">
+                <div className="flex gap-4 items-center rounded-[2px] border border-white/[0.08] bg-[#15161a] p-4">
                   {/* 1:1 Avatar */}
-                  <div className="w-16 h-16 rounded-[4px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-[2px] border border-white/[0.12] overflow-hidden bg-black flex-shrink-0">
                     <TacticalAvatar
                       src={resolvedAvatarUrl}
                       alt={selectedCharacter.nameKo}
@@ -285,9 +268,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     />
                   </div>
 
-
                   <div className="flex-1 min-w-0 space-y-0.5">
-                    <div className="text-[11px] font-semibold text-[#ffe600] truncate">
+                    <div className="text-[11px] font-mono text-zinc-400 truncate">
                       {selectedCharacter.faction}
                     </div>
                     <h3 className="text-xl font-extrabold text-white tracking-tight truncate">
@@ -303,9 +285,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 </div>
 
               {/* Status in Operation */}
-              <div className="p-4 rounded-[4px] bg-white/[0.02] border border-white/[0.06] space-y-1.5">
-                <div className="text-[11px] font-bold text-zinc-400 flex items-center gap-1.5">
-                  <span className="w-1 h-1 rounded-full bg-[#ffe600]" />
+              <div className="p-4 rounded-[2px] bg-[#15161a] border border-white/[0.07] space-y-1.5">
+                <div className="text-[11px] font-bold text-zinc-400 flex items-center gap-2">
+                  <span className="w-1 h-3 bg-zinc-500" />
                   <span>작전 내 행적</span>
                 </div>
                 <div className="text-xs sm:text-sm text-zinc-100 font-medium leading-relaxed [word-break:keep-all] break-words">
@@ -315,18 +297,18 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
               {/* Quote Block */}
               {selectedCharacter.quote && (
-                <div className="p-4 rounded-[3px] bg-[#ffe600]/[0.04] border border-[#ffe600]/20 border-l-2 border-l-[#ffe600] text-xs sm:text-sm italic text-zinc-200 leading-relaxed [word-break:keep-all] break-words">
+                <div className="p-4 rounded-none bg-[#15161a] border border-white/[0.06] border-l-2 border-l-[#f5dd1b] text-xs sm:text-sm italic text-zinc-200 leading-relaxed [word-break:keep-all] break-words">
                   "{selectedCharacter.quote}"
                 </div>
               )}
 
               {/* Lore Description */}
               <div className="space-y-2">
-                <div className="text-[11px] font-bold text-zinc-400 flex items-center gap-1.5">
-                  <span className="w-1 h-1 rounded-full bg-[#ffe600]" />
+                <div className="text-[11px] font-bold text-zinc-400 flex items-center gap-2">
+                  <span className="w-1 h-3 bg-zinc-500" />
                   <span>인물 상세 정보</span>
                 </div>
-                <p className="text-sm sm:text-[14.5px] text-zinc-200 leading-[1.8] rounded-[4px] bg-white/[0.02] p-4 border border-white/[0.06] [word-break:keep-all] break-words">
+                <p className="text-sm sm:text-[14.5px] text-zinc-200 leading-[1.8] rounded-[2px] bg-[#15161a] p-4 border border-white/[0.07] [word-break:keep-all] break-words">
                   {selectedCharacter.description}
                 </p>
               </div>
@@ -337,9 +319,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
           {/* Glossary Term */}
           {selectedGlossary && (
             <div className="space-y-5">
-              <div className="rounded-[4px] border border-white/[0.08] bg-white/[0.025] p-4 space-y-2">
+              <div className="rounded-[2px] border border-white/[0.08] bg-[#15161a] p-4 space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-[#ffe600]/15 text-[#ffe600] font-semibold text-[11px] border border-[#ffe600]/30">
+                  <span className="h-5 px-2 inline-flex items-center rounded-[2px] bg-white/[0.07] text-zinc-100 font-semibold text-[11px] border border-white/15">
                     {selectedGlossary.typeLabel}
                   </span>
                   <span className="text-[10px] font-mono text-zinc-500">
@@ -352,11 +334,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
               </div>
 
               <div className="space-y-2">
-                <div className="text-[11px] font-bold text-zinc-400 flex items-center gap-1.5">
-                  <span className="w-1 h-1 rounded-full bg-[#ffe600]" />
+                <div className="text-[11px] font-bold text-zinc-400 flex items-center gap-2">
+                  <span className="w-1 h-3 bg-zinc-500" />
                   <span>용어 상세 해설</span>
                 </div>
-                <p className="text-sm sm:text-[14.5px] text-zinc-200 leading-[1.8] rounded-[4px] bg-white/[0.02] p-4 border border-white/[0.06] [word-break:keep-all] break-words">
+                <p className="text-sm sm:text-[14.5px] text-zinc-200 leading-[1.8] rounded-[2px] bg-[#15161a] p-4 border border-white/[0.07] [word-break:keep-all] break-words">
                   {selectedGlossary.description}
                 </p>
               </div>
@@ -365,11 +347,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         </div>
 
         {/* Drawer Footer */}
-        <div className="px-5 py-3 border-t border-white/[0.08] bg-[#080a10]/90 flex items-center justify-between text-xs text-zinc-500">
+        <div className="px-5 py-3 border-t border-white/[0.08] bg-[#0e0f12] flex items-center justify-between text-xs text-zinc-500">
           <span className="font-mono text-[10px]">PRTS ARCHIVE ENTRY</span>
           <button
             onClick={onClose}
-            className="h-7 px-3 rounded-[3px] bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-zinc-200 text-xs font-semibold transition-colors cursor-pointer"
+            className="h-7 px-3 rounded-[2px] bg-[#181a20] hover:bg-zinc-100 hover:text-black border border-white/[0.1] text-zinc-200 text-xs font-semibold transition-colors cursor-pointer"
           >
             닫기 [ESC]
           </button>
