@@ -1268,7 +1268,7 @@ export const episode14: StoryArchive = {
       nameEn: 'Nezzsalem / 나흐체러르 킹',
       faction: '카즈델 군사위원회',
       role: '나흐체러르 킹(종장)',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/nachzehrer.png',
       description: '카즈델에서 가장 오래된 전쟁 군주이자 나흐체러르 왕정의 수장. 부패의 왕좌 위에서 공작 연합군을 압도하고 젊은 밴시 로고스와의 일기토에서 오른팔을 잃으면서도 그의 기개를 인정하며, 테레시아의 영혼이 떠나자 경의를 표하며 전선을 지휘한다.',
       quote: '테레시아는 자신의 약속을 지켰고, 전쟁도 테레시아의 손을 들어주었지. 가라, 더 이상 안갯속에 숨지 않아도 된다. 죽음으로 죽음을 적시고 승리로 이별을 기념하라.',
       statusInChapter: '부패의 왕좌를 이끌고 실버록 블러프스 전선 유린 및 캐스터 공작 함대 고립, 오리지늄 다리에서 로고스와 사투 끝에 오른팔을 잃고도 끝까지 전선 유지'
@@ -1279,7 +1279,7 @@ export const episode14: StoryArchive = {
       nameEn: 'Priestess',
       faction: '구인류 문명',
       role: '오리지늄 공동 창조자',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/priestess.png',
       description: '아득한 태고에 박사와 함께 오리지늄 프로젝트를 설계했던 구인류의 동반자. 시공간이 멈춘 오리지늄의 심층 공간에서 박사를 맞이하며, 기억을 잃은 채 현세의 동료들을 구하러 가겠다는 박사의 뜻을 부드럽게 존중하며 기다림을 약속한다.',
       quote: '모든 것이 혼란스러울 때, 당신은 기억날 거야…… 답은 항상 여기에 있었다는 사실을. 내가 여기 있다는 것을.',
       statusInChapter: '오리지늄 결정 심층(\'불가지\')에서 박사와 재회하여 과거 바다 행성과 항성 곁에서의 첫 만남 및 오리지늄 창조의 기억을 환기시키고 박사의 선택을 존중해 배웅'
@@ -1290,7 +1290,7 @@ export const episode14: StoryArchive = {
       nameEn: 'Charles Lynch',
       faction: '빅토리아 증기 기사단',
       role: '빅토리아 최후의 증기 기사',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/charles_lynch.png',
       description: '\'왕의 안식처\' 지하에서 살아남아 런디니움 외곽을 떠돌던 빅토리아 최후의 증기 기사. 시즈와 파라곤 부대가 나흐체러르 군단에 포위된 절체절명의 순간 대지를 가르고 솟구쳐 올라 이동 제단 세 개를 두 동강 내며 불멸의 무용을 떨친다.',
       quote: '빅토리아!!',
       statusInChapter: '실버록 블러프스에서 지면을 뚫고 솟구쳐 이동 제단 세 개를 양단하고 \'왕의 숨결\'을 수호한 뒤 이탈'
@@ -1400,7 +1400,7 @@ export const episode14: StoryArchive = {
       nameEn: 'Qalid\'čoa',
       faction: '살카즈 고해신부',
       role: '지하 유적 묘지기 / 실패한 불사의 그릇',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/qalidcoa.png',
       description: '과거 키사르투슈타지의 영혼 연장 실험으로 인해 죽지 못하는 육체를 갖게 된 고대 살카즈 전사. 카즈델 영웅들의 묘지와 제단을 지키며 W에게 진실을 전하고, 수장 키사르투슈타지가 패배하자 그를 거두어 사라진다.',
       quote: '이곳은 그 슬픔에 빠진 마왕이 다시 되살아난 곳이다.',
       statusInChapter: '지하 고해신부 유적에서 W와 대결하며 테레시아 부활 제단의 진실을 알려주고 고대 무장을 내어준 뒤, 결정 나무 제단에서 패배한 키사르투슈타지를 구출'
@@ -1411,7 +1411,7 @@ export const episode14: StoryArchive = {
       nameEn: 'Revenant',
       faction: '카즈델 군사위원회 → 위셔델의 무장',
       role: '군사위원회 기함 비행선 영혼 용광로 동력원',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/revenant.png',
       description: '첫 번째 재앙 당시 바위에 그림자가 타버린 채 9천 년의 분노를 품고 살아남은 고대 살카즈의 망령. 테레시아가 살카즈 영혼들과 함께 떠날 때 오리지늄 변질로 인해 피안으로 가지 못하고 남겨졌으며, 위셔델의 무기 안에 들어가 투덜대며 그녀의 화력을 돕는다.',
       quote: '건방진 어린 살카즈 같으니라고! 넌 연장자에 대한 마땅한 존중도 없는 게냐!',
       statusInChapter: '비행선에서 9천 년 전 카즈델 멸망과 박사의 진실을 폭로하고 코어 파괴 후 위셔델의 무기 속에 편입됨'
@@ -1510,7 +1510,7 @@ export const episode14: StoryArchive = {
       nameEn: 'Duke of Gododdin / 숀 고도딘',
       faction: '빅토리아 공작 연합군',
       role: '빅토리아 대공작 (의회파 대표)',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/gododdin.png',
       description: '빅토리아 의회와 귀족 연합의 이해관계를 대변하는 노회한 대공작. 실리주의적 태도로 시즈에게 의회파 합류를 회유하려 했으나 백성을 버리지 않는 그녀의 기개에 물러선다.',
       quote: '저, 빅토리아 의회의 일원인 숀 고도딘이, 의회 직속 부대 폭풍돌격대 및 파라곤 부대 여러분을 초대하겠습니다.',
       statusInChapter: '깁스넘 야영지에서 시즈에게 의회파 합류와 난민 포기를 종용하나 시즈의 결연한 거절에 물러서며 자신의 감염자 병사들을 파라곤 부대에 남겨 지원함'
@@ -1565,7 +1565,7 @@ export const episode14: StoryArchive = {
       nameEn: 'Fremont',
       faction: '카즈델 리치 왕정',
       role: '리치 왕정 수장',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/fremont.png',
       description: '불사의 지식을 다루는 리치 왕정의 수장이자 테레시아·라케라말린의 오랜 벗. 런디니움 전쟁 이후 열강들의 침공으로부터 카즈델을 지켜내기 위해 라이타니엔의 실을 거두고 귀환을 서두른다.',
       quote: '훗, \'희망\'이라…… 난 이 단어를 별로 좋아하지 않는데. 그러나 어쨌든 눈앞에 아직 걸을 수 있는 길은 있으니…… 안 그런가, 전하?',
       statusInChapter: '에필로그에서 라이타니엔 바세르의 고탑에 머물며 테레시아의 영혼이 남긴 실의 진동을 감지하고, 에르망가르드와 함께 바벨의 유산을 받아 카즈델을 수호할 준비에 착수'

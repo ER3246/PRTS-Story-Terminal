@@ -216,115 +216,99 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
   // Direct 1:1 Avatar Assignment State
 
+  interface CatalogItemMeta {
+    fileName: string;
+    category: string;
+    url: string;
+    speakerNamesKo?: string[];
+  }
   const [libraryAvatarsList, setLibraryAvatarsList] = useState<string[]>([]);
-
+  const [libraryStandingsList, setLibraryStandingsList] = useState<CatalogItemMeta[]>([]);
+  const [librarySpeakerMap, setLibrarySpeakerMap] = useState<Record<string, string[]>>({});
+  const [showStandingLibBrowser, setShowStandingLibBrowser] = useState(false);
+  const [standingSearchQuery, setStandingSearchQuery] = useState('');
   const [directSearchQuery, setDirectSearchQuery] = useState('');
-
   const [directCategoryFilter, setDirectCategoryFilter] = useState<'all' | 'operator' | 'npc' | 'token'>('all');
-
   const [selectedDirectAvatarPath, setSelectedDirectAvatarPath] = useState<string>(activeAsset.avatarFileName || '');
-
   const [directCustomFileName, setDirectCustomFileName] = useState<string>(
-
     activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.png`
-
   );
-
   const [directUploadedDataUrl, setDirectUploadedDataUrl] = useState<string | null>(null);
-
   const [isDirectSaving, setIsDirectSaving] = useState(false);
-
   const [isDirectDropOver, setIsDirectDropOver] = useState(false);
 
-
-
-  // Fetch or receive 1,280 official library avatars
-
+  // Fetch official catalog.json with Korean speaker names and merge disk avatar list
   useEffect(() => {
-
-    if (availableDiskFiles?.libraryAvatars && availableDiskFiles.libraryAvatars.length > 0) {
-
-      setLibraryAvatarsList(availableDiskFiles.libraryAvatars);
-
-      return;
-
-    }
-
     fetch('/images/characters/library/catalog.json')
-
       .then((r) => r.json())
-
-      .then((items) => {
-
-        if (Array.isArray(items)) {
-
-          const avs = items
-
-            .filter((i) => i.category === 'avatar')
-
-            .map((i) => i.fileName)
-
-            .sort();
-
-          setLibraryAvatarsList(avs);
-
+      .then((items: CatalogItemMeta[]) => {
+        if (!Array.isArray(items)) return;
+        const speakerMap: Record<string, string[]> = {};
+        const avs: string[] = [];
+        const standings: CatalogItemMeta[] = [];
+        for (const item of items) {
+          if (item.speakerNamesKo && item.speakerNamesKo.length > 0) {
+            speakerMap[item.fileName] = item.speakerNamesKo;
+          }
+          if (item.category === 'avatar') {
+            avs.push(item.fileName);
+          } else if (item.category === 'npc' || item.category === 'named_character' || item.category === 'operator') {
+            standings.push(item);
+          }
         }
-
+        const diskAvs = availableDiskFiles?.libraryAvatars || [];
+        setLibraryAvatarsList(Array.from(new Set([...avs, ...diskAvs])).sort());
+        setLibraryStandingsList(standings);
+        setLibrarySpeakerMap(speakerMap);
       })
-
-      .catch(() => {});
-
+      .catch(() => {
+        if (availableDiskFiles?.libraryAvatars && availableDiskFiles.libraryAvatars.length > 0) {
+          setLibraryAvatarsList(availableDiskFiles.libraryAvatars);
+        }
+      });
   }, [availableDiskFiles?.libraryAvatars]);
 
-
-
   // Update direct filename when activeAsset changes
-
   useEffect(() => {
-
     setDirectCustomFileName(activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.png`);
-
     setDirectUploadedDataUrl(null);
-
     setSelectedDirectAvatarPath(activeAsset.avatarFileName || '');
-
   }, [activeAsset.assetId, activeAsset.avatarFileName]);
 
-
-
-  // Filtered official library avatars for fast browsing
-
+  // Filtered official library avatars (supports Korean speaker name search via speakerNamesKo)
   const directFilteredAvatars = useMemo(() => {
-
     let list = libraryAvatarsList;
-
     if (directCategoryFilter === 'operator') {
-
       list = list.filter((f) => f.startsWith('char_'));
-
     } else if (directCategoryFilter === 'npc') {
-
       list = list.filter(
-
         (f) => f.startsWith('avg_') || f.startsWith('bavg_') || f.startsWith('npc_')
-
       );
-
     } else if (directCategoryFilter === 'token') {
-
       list = list.filter((f) => f.startsWith('token_') || f.startsWith('trap_'));
-
     }
 
-
-
     const q = directSearchQuery.trim().toLowerCase();
-
     if (!q) return list;
+    return list.filter((f) => {
+      if (f.toLowerCase().includes(q)) return true;
+      const speakers = librarySpeakerMap[f];
+      return Boolean(speakers && speakers.some((nm) => nm.toLowerCase().includes(q)));
+    });
+  }, [libraryAvatarsList, librarySpeakerMap, directCategoryFilter, directSearchQuery]);
 
-    return list.filter((f) => f.toLowerCase().includes(q));
-
-  }, [libraryAvatarsList, directCategoryFilter, directSearchQuery]);
+  const filteredLibraryStandings = useMemo(() => {
+    const q = standingSearchQuery.trim().toLowerCase();
+    if (!q) {
+      return libraryStandingsList.filter((s) => s.speakerNamesKo && s.speakerNamesKo.length > 0).slice(0, 60);
+    }
+    return libraryStandingsList
+      .filter((s) => {
+        if (s.fileName.toLowerCase().includes(q)) return true;
+        return Boolean(s.speakerNamesKo && s.speakerNamesKo.some((nm) => nm.toLowerCase().includes(q)));
+      })
+      .slice(0, 60);
+  }, [libraryStandingsList, standingSearchQuery]);
 
 
 
@@ -1784,28 +1768,121 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
                   <span>로컬 파일 열기</span>
 
                   <input
-
                     type="file"
-
                     accept="image/*"
-
                     onChange={handleUploadLocalFile}
-
                     className="hidden"
-
                   />
-
                 </label>
-
+                <button
+                  type="button"
+                  onClick={() => setShowStandingLibBrowser((prev) => !prev)}
+                  className={`h-8 px-3 rounded text-xs font-semibold flex items-center gap-1.5 cursor-pointer border transition-colors ${
+                    showStandingLibBrowser
+                      ? 'bg-[#ffe600] text-black border-[#ffe600]'
+                      : 'bg-white/10 hover:bg-white/15 text-[#00d8ff] border-[#00d8ff]/30'
+                  }`}
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  <span>라이브러리 스탠딩 찾기</span>
+                </button>
               </div>
-
               <span className="text-[11px] font-mono text-[#00d8ff] flex items-center gap-1 bg-[#00d8ff]/10 px-2 py-0.5 rounded border border-[#00d8ff]/20">
-
                 <Upload className="w-3 h-3" /> 파일 드래그 & 드롭 지원
-
               </span>
-
             </div>
+
+            {showStandingLibBrowser && (
+              <div className="w-full bg-[#111520] border border-[#00d8ff]/30 rounded-md p-3 space-y-2.5 shadow-xl">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-bold text-[#00d8ff]">
+                    공식 스탠딩 일러스트 라이브러리 검색 (한국어 캐릭터명 / 파일명 지원)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowStandingLibBrowser(false)}
+                    className="text-zinc-400 hover:text-white cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5" />
+                  <input
+                    type="text"
+                    placeholder="예: 프리스티스, 샤프, 카도르, avg_npc_862..."
+                    value={standingSearchQuery}
+                    onChange={(e) => setStandingSearchQuery(e.target.value)}
+                    className="w-full h-8 pl-8 pr-3 rounded bg-[#07090e] border border-white/15 text-xs text-white placeholder-zinc-500 focus:border-[#00d8ff] focus:outline-none"
+                  />
+                </div>
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-56 overflow-y-auto p-1.5 bg-[#07090e] border border-white/10 rounded">
+                  {filteredLibraryStandings.map((item) => {
+                    const spName = item.speakerNamesKo?.[0] || '';
+                    return (
+                      <button
+                        key={`${item.category}-${item.fileName}`}
+                        type="button"
+                        onClick={async () => {
+                          try {
+                            const resp = await fetch(item.url);
+                            const blob = await resp.blob();
+                            const reader = new FileReader();
+                            reader.onload = async () => {
+                              if (typeof reader.result !== 'string') return;
+                              const dataUrl = reader.result;
+                              setUploadedDataUrl(dataUrl);
+                              setSourceMode('illust');
+                              updateCropCoords(50, 18, 2.5);
+                              setShowStandingLibBrowser(false);
+                              if (isLocalFsConnected) {
+                                const canon = activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.png`;
+                                const finalFn = canon.endsWith('.png') ? canon : `${canon}.png`;
+                                try {
+                                  const up = await fetch('/__prts_admin_api/upload-asset', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ fileName: finalFn, originalFileName: item.fileName, dataUrl, subDir: 'illust' }),
+                                  });
+                                  const uj = await up.json();
+                                  if (uj.ok) {
+                                    onChangeAssets(assets.map((a) =>
+                                      a.assetId === activeAsset.assetId
+                                        ? { ...a, illustFileName: uj.fileName, illustUrl: uj.url, isUserEdited: true, userEditedAt: new Date().toISOString() }
+                                        : a
+                                    ));
+                                  }
+                                } catch {
+                                  // fallback to memory
+                                }
+                              }
+                              setStatusMsg(`[로드 완료] ${spName ? `${spName} (${item.fileName})` : item.fileName} 스탠딩을 불러왔습니다. 얼굴 크롭 후 [저장]을 누르세요.`);
+                            };
+                            reader.readAsDataURL(blob);
+                          } catch {
+                            setStatusMsg('[오류] 스탠딩 이미지를 불러오지 못했습니다.');
+                          }
+                        }}
+                        className="flex flex-col items-center p-1.5 rounded border border-white/10 hover:border-[#00d8ff] hover:bg-white/5 cursor-pointer"
+                        title={spName ? `${spName} (${item.fileName})` : item.fileName}
+                      >
+                        <div className="w-12 h-14 bg-black/60 rounded overflow-hidden flex items-center justify-center">
+                          <img src={item.url} alt={item.fileName} loading="lazy" className="w-full h-full object-contain object-top" />
+                        </div>
+                        {spName && (
+                          <span className="text-[10px] font-bold text-[#00d8ff] truncate w-full text-center mt-1">
+                            {spName}
+                          </span>
+                        )}
+                        <span className="text-[9px] font-mono text-zinc-400 truncate w-full text-center">
+                          {item.fileName.replace('.png', '')}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
 
 
@@ -2294,7 +2371,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
                   type="text"
 
-                  placeholder="파일명 검색 (예: amiya, pianst, puzzle, npc_012)..."
+                  placeholder="캐릭터명(프리스티스, 아미야) 또는 파일명(amiya, pianst) 검색..."
 
                   value={directSearchQuery}
 
@@ -2331,69 +2408,43 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
               <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-64 overflow-y-auto p-1.5 bg-[#07090e] border border-white/10 rounded-md">
 
                 {directFilteredAvatars.slice(0, 72).map((fn) => {
-
                   const isSelected = selectedDirectAvatarPath === fn && !directUploadedDataUrl;
-
+                  const speakerNames = librarySpeakerMap[fn] || [];
                   return (
-
                     <button
-
                       key={fn}
-
                       type="button"
-
                       onClick={() => {
-
                         setSelectedDirectAvatarPath(fn);
-
                         setDirectUploadedDataUrl(null);
-
                         setDirectCustomFileName(fn);
-
-                        setStatusMsg(`선택됨: ${fn}`);
-
+                        setStatusMsg(`선택됨: ${speakerNames[0] ? `${speakerNames[0]} (${fn})` : fn}`);
                       }}
-
                       className={`relative flex flex-col items-center p-1.5 rounded transition-all cursor-pointer ${
-
                         isSelected
-
                           ? 'bg-[#ffe600]/20 border-2 border-[#ffe600] scale-95 shadow-md ring-2 ring-[#ffe600]/30'
-
                           : 'border border-white/5 hover:border-white/30 hover:bg-white/5'
-
                       }`}
-
-                      title={fn}
-
+                      title={speakerNames.length > 0 ? `${speakerNames.join(', ')} (${fn})` : fn}
                     >
-
                       <div className="w-12 h-12 rounded bg-black/60 overflow-hidden flex items-center justify-center">
-
                         <img
-
                           src={`/images/characters/library/avatars/${fn}`}
-
                           alt={fn}
-
                           loading="lazy"
-
                           className="w-full h-full object-cover"
-
                         />
-
                       </div>
-
-                      <span className="text-[9px] font-mono text-zinc-400 truncate w-full text-center mt-1">
-
+                      {speakerNames[0] && (
+                        <span className="text-[9px] font-bold text-[#00d8ff] truncate w-full text-center mt-1">
+                          {speakerNames[0]}
+                        </span>
+                      )}
+                      <span className="text-[9px] font-mono text-zinc-400 truncate w-full text-center mt-0.5">
                         {fn.replace('.png', '')}
-
                       </span>
-
                     </button>
-
                   );
-
                 })}
 
               </div>

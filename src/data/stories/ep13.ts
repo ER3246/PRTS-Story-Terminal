@@ -1032,7 +1032,7 @@ export const episode13: StoryArchive = {
       faction: '빅토리아 윈더미어 공작령',
       role: '빅토리아 대공작 · 윈더미어 공작군 총사령관',
       avatarUrl: '/images/characters/duke_of_windermere.png',
-      illustUrl: '/images/characters/duke_of_windermere.png',
+      illustUrl: '/images/characters/illust/duke_of_windermere.png',
       description: '빅토리아의 유력 대공작이자 호탕하고 결단력 있는 군인 군주. 노포트 구 난민과 감염자 병사들을 기함에 수용하고 갑판에 강림한 뱀파이어 생귀나르와 정면으로 맞서다 치명상을 입었으며, 딸 델핀에게 코트 유언을 남긴 채 장렬히 전사한다.',
       quote: '울지 말거라. 네가 검을 휘두르는 모습을 봤다, 델핀…… 훌륭하더구나. ……네 키가…… 조금 더 클 거라고 생각했단다. 그래서 옷이 조금 클 거야. 델…… 핀, 초조해하지 말거라……',
       statusInChapter: '기함 갑판에서 뱀파이어 생귀나르와 일기토 끝에 딸 델핀의 손을 잡고 장렬히 전사'
@@ -1211,8 +1211,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Red',
       faction: '네오 리유니온',
       role: '리유니온 핵심 전사 (붉은 검)',
-      avatarUrl: '/images/characters/talulah.png',
-      illustUrl: '/images/characters/illust/talulah.png',
+      avatarUrl: '/images/characters/red.png',
+      illustUrl: '/images/characters/illust/red.png',
       description: '우르수스 시절 \'붉은 검\'이라 불렸던 네오 리유니온의 핵심 전사. 가드와 함께 폐양조장을 정찰하다 폭발이 일어나자 난민들을 외곽으로 인솔했고, 산화한 가드의 꽃무늬 손수건을 나무 아래에 묻어주며 살카즈 행상인 살해범 추방을 집행한다.',
       quote: '모든 사람한테 전할게. 그리고 범인들은…… 내가 처리할게.',
       statusInChapter: '가드와 함께 폐양조장 정찰 및 가드 사후 그의 꽃무늬 손수건을 나무 아래에 매장'
@@ -1248,7 +1248,7 @@ export const episode13: StoryArchive = {
       faction: '브렌트우드 마을 온실',
       role: '브렌트우드 유리 온실 정원사',
       avatarUrl: '/images/characters/vendela.png',
-      illustUrl: '/images/characters/vendela.png',
+      illustUrl: '/images/characters/illust/vendela.png',
       description: '브렌트우드 마을의 유리 온실을 지키는 필라인 정원사. 살카즈의 징용 속에서도 피스트와 락락을 화분 상자에 숨겨주며 짓밟힌 온실을 지켜냈고, 혈액 제단 가동일 왕정군 장교(\'삽\')의 자결과 축포를 쏘며 산화한 프리다의 희생 끝에 짚라인으로 구조된다.',
       quote: '프리다 씨는 웨스트 씨가 농경 축제를 위해 남겨놓은 축포를 쏘아올렸다. ……한낮에 펼쳐진 불꽃놀이…… 브렌트우드 마을에 이른 축제가 성대하게 열렸다.',
       statusInChapter: '온실에 피스트·락락 은신 지원, 왕정군 장교(\'삽\')와 프리다의 희생 속에 자경단에 구조됨'
@@ -1356,7 +1356,7 @@ export const episode13: StoryArchive = {
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 수석 엔지니어',
       avatarUrl: '/images/characters/closure.png',
-      illustUrl: '/images/characters/closure.png',
+      illustUrl: '/images/characters/illust/closure.png',
       description: '로도스 아일랜드 수석 엔지니어이자 박사 일행의 기술 지원 담당. 전선 후방에서 전용 통신설비를 거듭 개조해 런디니움 시내 저항군 사령관 클로비시아의 생존 무전을 포착했으며, 마침내 고도딘 공작령에 정박해 있던 로도스 본함의 런디니움 이함 승인 무전을 수신한다.',
       quote: '봐봐, 이렇게 여러 번 개조하니까 이 로도스 아일랜드 전용 통신설비도 다른 채널의 신호를 받을 수 있게 됐잖아! ……잠깐만, 로도스 아일랜드 채널에서 온 메시지도 있어.',
       statusInChapter: '개조 통신기로 클로비시아의 생존 무전 및 로도스 아일랜드 본함의 런디니움 이함 승인 수신'

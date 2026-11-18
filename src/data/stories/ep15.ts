@@ -1459,7 +1459,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Mantra',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (정신 감응 아츠)',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/mantra.png',
       description: '평소 말을 아끼는 베테랑 정예 오퍼레이터이나, 함내 소리가 차단되고 기억과 감정이 모독당하는 순간 정신 감응 아츠로 목소리와 지도를 동기화하며 전 함내를 하나로 묶어낸 정신적 지주이다.',
       quote: '추억과 감정이 모독당하는 건 절대 참을 수 없다. 놈은 침묵으로 우리를 막으려고 한다. 그렇다면 내가 모두를 연결해 주는 목청이 되어주지…… 자, 이제 모두에게 목소리를 돌려주겠다.',
       statusInChapter: '망자의 환영과 침묵으로 대원들이 고립되자 정신 감응 아츠로 전 오퍼레이터의 뇌리에 목소리와 스캔 지도를 동기화해 지휘함.'
@@ -1558,7 +1558,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Civilight Eterna / \'테레시아\'',
       faction: '로도스 아일랜드 (\'문명의 존속\' DWDB-221E)',
       role: '문명의 존속 내 테레시아의 기억 인격체',
-      avatarUrl: '/images/characters/theresa.png',
+      avatarUrl: '/images/characters/civilight_eterna.png',
       description: '테레시아가 남긴 감정과 기억을 바탕으로 \'문명의 존속\' 내부에 구현된 의식체. 특이점 경계에서 길을 잃지 않도록 고정점이 되어 켈시와 아미야, 박사를 인도하는 따뜻한 등불이 된다.',
       quote: '내가 여기서 지켜보고 있을게. 내가 너의 고정점이 되어줄게. 계속 전진하렴, 아미야.',
       statusInChapter: '켈시에게 딥다이브를 알리고 특이점에 진입한 아미야·박사의 고정점이 되었으며, 갑판 결전에서 아미야에게 역전 아츠 운용법을 전수함.'
@@ -1569,7 +1569,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Phototaxis',
       faction: '구인류 함선 \'로도스 아일랜드\'',
       role: '구인류 함선 내 결정질 지성 구조체',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/phototaxis.png',
       description: '정체된 시간의 파편 속 구인류 함선에 기록되어 있는 다면체 결정 구조체. 차가운 기계음 속에 선의와 유머를 지니고 있으며, 외로운 여행자 힐다의 첫 번째 벗이 되어주었다.',
       quote: '안세타는 죽음과 탄생이 같은 기원에서 비롯되었다고 여긴다. ……그리고 그 함선의 이름은 \'로도스 아일랜드\'다.',
       statusInChapter: '구인류 함선에서 깨어난 힐다에게 소리의 진동으로 언어를 번역해 주고, 메타 언어 \'안세타\'와 함선의 이름, 유령과 프리스티스를 알려줌.'
@@ -1591,7 +1591,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Alanna',
       faction: '로도스 아일랜드',
       role: '작전 및 수송 지원 오퍼레이터',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/alanna.png',
       description: '밝고 씩씩한 성격으로 워미와 작업 로봇 \'삐빅이\'를 살뜰히 챙기는 오퍼레이터. 살아 움직이는 듯 뒤틀리는 본함 내부에서도 침착하게 소대를 이끌고 완충 구역을 지켜냈다.',
       quote: '그래도 현재까지 중상자 31명, 경상자 173명이야, 사망자는 아직 없어. ……박사도 말했잖아, 원래 그 함선도 다시 정리할 거라고.',
       statusInChapter: '외근을 준비하다 본함 사태에 휘말려 폭주하는 \'삐빅이\'와 결정체를 막으며 완충 구역을 지켰고, 철수 후 사상자 집계 및 신기지 안내를 맡음.'
@@ -1613,7 +1613,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Secunda / 언더플로우 Underflow',
       faction: '에기르',
       role: '에기르 순찰대 및 연락관',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/secunda.png',
       description: '에기르의 클레멘티아 집정관과 글래디아 집정관의 명을 받아 로도스 아일랜드와 협력하는 에기르 연락관. 테라 전체에 다가오는 구인류의 위협에 맞서 에기르와 육지의 공조를 잇는 가교 역할을 한다.',
       quote: '이 이름이 에기르의 기록에도 나온다면, 당신들이 맞선 위협이 절대 우연이 아니라는 의미겠죠. ……해륙 연합 방어선도 추가로 검토하겠습니다.',
       statusInChapter: '사건 한 달 후 부차트 시 인근 신기지를 방문해 클로저에게 자료와 \'프리스티스\'의 이름을 전달받고, 에기르 DB 대조 및 호송 협조를 약속함.'
@@ -1624,7 +1624,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Oren',
       faction: '라테라노 공증소',
       role: '공증소 집행자 (아르마투라)',
-      avatarUrl: '',
+      avatarUrl: '/images/characters/oren.png',
       description: '살카즈에 대한 강한 적개심을 지닌 라테라노의 집행자. 프리스티스의 각성과 오리지늄 이변 이후 라테라노의 근간인 산크타의 광륜과 율법 시스템에 심각한 이상이 시작되었음을 알리는 복선의 주역이다.',
       quote: '손을 떨면 안 됐는데. 너는 날 무서워해야지, 살카즈. 이제 끝이야.',
       statusInChapter: '시라쿠사 카라반을 습격한 살카즈 용병을 카즈델 외곽에서 처형하려다, 총신에 비친 자신의 광륜이 깜빡이며 자신이 살카즈처럼 보이는 현상을 겪음.'

@@ -1,7 +1,7 @@
 /**
- * PRTS Story Terminal - 통합 캐릭터 마스터 데이터베이스 (Master Character DB)
- * 
- * 20개 전체 스토리에서 참조하는 단일 진실 공급원(SSOT) 캐릭터 엔티티.
+ * PRTS Archive - 통합 캐릭터 마스터 데이터베이스 (Master Character DB)
+ *
+ * 전체 스토리에서 참조하는 단일 진실 공급원(SSOT) 캐릭터 엔티티.
  * 동일 캐릭터의 시점/전개별 상태 분기(CharacterState)를 지원하며,
  * 외부 사용자에게 노출되지 않는 백엔드/편집기 전용 통합 DB입니다.
  */
@@ -9,6 +9,27 @@
 import type { CharacterMasterRecord } from '../../types/characterDb';
 
 export const characterMasterDb: CharacterMasterRecord[] = [
+  {
+    charId: "absinthe",
+    nameKo: "압생트",
+    nameEn: "Absinthe / 조야",
+    defaultFaction: "로도스 아일랜드 / 우르수스 학생 자치단",
+    defaultRole: "디에티 그라이퍼부르크 주재 오퍼레이터",
+    baseBio: "체르노보그 경찰관의 딸이자 로도스 아일랜드 캐스터 오퍼레이터. 수도 디에티 그라이퍼부르크에 머무르며 로사와 함께 현지 소식과 저항 동향을 수집하고 동료들의 귀환을 준비한다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_absinthe",
+        overrideRole: "디에티 그라이퍼부르크 주재 오퍼레이터",
+        description: "체르노보그 경찰관의 딸이자 로도스 아일랜드 캐스터 오퍼레이터. 수도 디에티 그라이퍼부르크에 머무르며 로사와 함께 현지 소식과 저항 동향을 수집하고 동료들의 귀환을 준비한다.",
+        defaultQuote: "사실이야, 내가 직접 확인해 봤어. 거의 모든 지하신문이 그 학생의 행적과 의회 벽에 남긴 문구를 퍼뜨리고 있더라.",
+        appearances: ["ep16"],
+      },
+    ]
+  },
   {
     charId: "ace",
     nameKo: "에이스",
@@ -27,6 +48,27 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         description: "로도스 아일랜드 창립 초기부터 함께해 온 베테랑 엘리트 오퍼레이터. 거대한 방패로 아군을 지키는 든든한 맏형 같은 존재이다. 남부 잔해 구역에서 고립된 아미야 소대를 구출하기 위해 돌입한다.",
         defaultQuote: "늦어서 미안하다, 아미야! 다들 내 방패 뒤로 모여라!",
         appearances: ["ep00","ep01"],
+      },
+    ]
+  },
+  {
+    charId: "alanna",
+    nameKo: "알라나",
+    nameEn: "Alanna",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "작전 및 수송 지원 오퍼레이터",
+    baseBio: "밝고 씩씩한 성격으로 워미와 작업 로봇 '삐빅이'를 살뜰히 챙기는 오퍼레이터. 살아 움직이는 듯 뒤틀리는 본함 내부에서도 침착하게 소대를 이끌고 완충 구역을 지켜냈다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_alanna",
+        overrideRole: "작전 및 수송 지원 오퍼레이터",
+        description: "밝고 씩씩한 성격으로 워미와 작업 로봇 '삐빅이'를 살뜰히 챙기는 오퍼레이터. 살아 움직이는 듯 뒤틀리는 본함 내부에서도 침착하게 소대를 이끌고 완충 구역을 지켜냈다.",
+        defaultQuote: "그래도 현재까지 중상자 31명, 경상자 173명이야, 사망자는 아직 없어. ……박사도 말했잖아, 원래 그 함선도 다시 정리할 거라고.",
+        appearances: ["ep15"],
       },
     ]
   },
@@ -87,6 +129,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "alois",
+    nameKo: "알로이즈",
+    nameEn: "Alois",
+    defaultFaction: "우르수스 제국 (제국 의회 위트 의장 직속)",
+    defaultRole: "우르수스 근위군 황실 직속 대대 중위",
+    baseBio: "정식 명칭은 알로이즈 바실리예브나 고르치코바. 귀족 가문 출신의 젊은 근위군 장교로, 처음에는 제국의 질서와 의회의 이익을 대변했으나 크라이니 세베르의 참상과 광부들의 숭고한 저항을 목격하며 우르수스인으로서 깊은 내적 성찰을 겪는다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "우르수스 근위군 황실 직속 대대 중위",
+        description: "정식 명칭은 알로이즈 바실리예브나 고르치코바. 귀족 가문 출신의 젊은 근위군 장교로, 처음에는 제국의 질서와 의회의 이익을 대변했으나 크라이니 세베르의 참상과 광부들의 숭고한 저항을 목격하며 우르수스인으로서 깊은 내적 성찰을 겪는다.",
+        defaultQuote: "군단은 진압을 빌미로 디에티 그라이퍼부르크에 병력을 집결시켜, 총포로 성문을 겨누고 의회와 협상하려는 거야! 그게 목적이야…… 이게 바로 크라이니 세베르 수십 만의 목숨을 대가로 얻으려는 결과였어.",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
     charId: "amiya",
     nameKo: "아미야",
     nameEn: "Amiya",
@@ -105,7 +169,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 총괄 리더",
         description: "로도스 아일랜드의 총괄 리더. 모든 감염자의 미래를 위해 앞장서 싸우는 카우투스 소녀.",
         defaultQuote: "로도스 아일랜드는…… 결코 감염자를 포기하지 않습니다.",
-        appearances: ["ep00","ep01","ep02","ep03","ep04","ep05","ep07","ep09","ep10","ep11","ep12"],
+        appearances: ["ep00","ep01","ep02","ep03","ep04","ep05","ep07","ep09","ep10","ep11","ep12","ep08","ep13","ep14","ep15","ep16"],
       },
       {
         stateId: "guard",
@@ -138,7 +202,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 정예 특수작전팀 암살관",
         description: "그림자 속에서 로도스를 호위하는 수장. 11번 군수 공장 처형장에서 피스트를 도와 캐서린을 구출하고, 사령탑 상층에서는 맨프레드와 정면으로 격돌하며 물러서지 않는 결의를 보인다.",
         defaultQuote: "……W. 쓸데없는 말을 할 때마다, 피가 더 빠르게 흘러나온다.",
-        appearances: ["ep10","ep11","ep12"],
+        appearances: ["ep10","ep11","ep12","ep14","ep15"],
       },
     ]
   },
@@ -180,7 +244,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "제2폭풍돌격대 하사관 ➔ 로도스 오퍼레이터",
         description: "빅토리아 제7전방보병부대 제2폭풍돌격대 출신의 하사관. 힐록 카운티의 군부 오리지늄 분실 및 더티밤 음모를 추적했으며, 아웃캐스트와 함께 리드를 호위한 뒤 혼의 명령으로 파성창(캐슬브레이커)을 통해 단독 탈출했다. 몇 개월 뒤 군을 떠나 첸과 함께 혼의 행방을 추적한다.",
         defaultQuote: "대장? 뭐 하는 거야?! 안 돼, 리타! 날 혼자 보내지 마, 대장!!!",
-        appearances: ["ep09"],
+        appearances: ["ep09","ep14"],
       },
     ]
   },
@@ -222,6 +286,27 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "맨스필드 경비대장",
         description: "맨스필드 이동교도소의 경비대장이자 거구의 집행관. 죄수들의 폭동과 규율 위반에 극도로 엄격하지만 로빈에게 통제 키를 도난당하며 혼란에 빠진다.",
         appearances: ["sid_mansfield_break"],
+      },
+    ]
+  },
+  {
+    charId: "betochki",
+    nameKo: "베토치키",
+    nameEn: "Vetochki / '잔가지'",
+    defaultFaction: "우르수스 크라이니 세베르 중앙 광산지구",
+    defaultRole: "어린 감염자 광부 소녀",
+    baseBio: "광산에서 태어나고 자라 말을 더듬으며 '잔가지'라는 별명으로 불리던 소녀. 끔찍한 트라우마로 기억을 닫고 할머니의 환영에 의지했으나, 진실을 직시하고 스스로 구리종을 울려 어른들을 일깨우는 강인한 생존자로 성장한다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_betochki",
+        overrideRole: "어린 감염자 광부 소녀",
+        description: "광산에서 태어나고 자라 말을 더듬으며 '잔가지'라는 별명으로 불리던 소녀. 끔찍한 트라우마로 기억을 닫고 할머니의 환영에 의지했으나, 진실을 직시하고 스스로 구리종을 울려 어른들을 일깨우는 강인한 생존자로 성장한다.",
+        defaultQuote: "우리는, 돌아가지 않아요. 우리는, 떠날 거예요. 우리는, 살아남을 거예요. '살아남는' 게…… 더 이상, 우리의 전부가, 아닐 때까지.",
+        appearances: ["ep16"],
       },
     ]
   },
@@ -284,7 +369,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 엘리트 오퍼레이터",
         description: "호탕하고 열혈적인 로도스의 핵심 엘리트 오퍼레이터. 수송기에서 맨몸으로 직격 강하하여 자신의 혈액을 기화시키는 초고열 폭열 아츠로 메피스토 군단을 일거에 궤멸시킨다.",
         defaultQuote: "하, 설마 내가 캐스터 같아 보여? 첸 팀장님, 건물 수리 제대로 해야겠어!",
-        appearances: ["ep05","ep06","ep09"],
+        appearances: ["ep05","ep06","ep09","ep15"],
       },
     ]
   },
@@ -326,7 +411,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "빅토리아 대공작",
         description: "노포트 구 분리가 살카즈의 미끼임을 간파하고 각 공작들의 세력 균형을 계산하며, 비행선 쟁탈전의 추이를 냉정하게 관망한다.",
         defaultQuote: "……'기술적인 이유'라. 정말 형편없군, 안 그래? 하지만 아주 잘 먹히지. 그자들은 우리 모두가 본인의 명성을 끔찍이 아낀다는 걸 잘 아니까. 게다가 그자들은 하늘을 나는 요새라는 작은 미끼까지 던졌어.",
-        appearances: ["ep12"],
+        appearances: ["ep12","ep14"],
       },
     ]
   },
@@ -347,7 +432,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "하이버리 구 11번 군수 공장 근로자 대표",
         description: "11번 군수 공장을 지켜온 원로 기술자이자 피스트(스테인리스)의 친할머니. 1년 전 손자 피스트를 공장에서 일부러 쫓아내며 남은 직원들을 보호하기 위해 살카즈에 공장을 넘겼다. 살카즈의 처형 위기 속에서 손자 피스트와 노동자들에게 구출되며, 자경단으로 떠나는 손자에게 명찰을 던져주며 배웅한다.",
         defaultQuote: "런디니움 중심에 있는 저 궁전을 차지한 사람이 누구든 간에, 우리가 일궈낸 이 도시는 내일도, 모레도 그대로 있을 거야. ……너는 지금 무엇을 위해 네 손에 쥔 흉기를 휘두르는지 알고 있니?",
-        appearances: ["ep11","ep12"],
+        appearances: ["ep11","ep12","ep14"],
       },
     ]
   },
@@ -389,7 +474,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "용문 근위국 특별감찰팀 총괄 경사",
         description: "전 용문근위국 특별감찰팀장이자 방랑 중인 검사. 힐록 카운티 참극으로부터 몇 개월 뒤, 군을 떠나 실종된 혼 중위와 더블린의 단서를 쫓던 옛 친구 백파이프와 동행하며 타라 변경의 로도스 안전가옥에서 탈룰라 탈옥 긴급 전문을 수신한다.",
         defaultQuote: "용문의 법을 어긴다면 누구든 내 칼을 피하지 못한다.",
-        appearances: ["ep02","ep03","ep04","ep05","ep06","ep08","ep09","sid_ancient_forge"],
+        appearances: ["ep02","ep03","ep04","ep05","ep06","ep08","ep09","sid_ancient_forge","ep14"],
+      },
+    ]
+  },
+  {
+    charId: "chloe",
+    nameKo: "클로에",
+    nameEn: "Chloe / 평온한 감염자",
+    defaultFaction: "로도스 아일랜드 병동 환자",
+    defaultRole: "빅토리아 출신 중증 광석병 환자 및 공동 연구원",
+    baseBio: "과거 빅토리아 고향 마을의 종루에서 다친 감염자 병사들을 돌보던 소녀. 3년간 병상에서 고통과 싸우면서도 끝까지 희망을 잃지 않았으며, 절체절명의 위기에서 의사와 동료들을 구하기 위해 자신의 생명을 바친 숭고한 환자이다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_chloe",
+        overrideRole: "빅토리아 출신 중증 광석병 환자 및 공동 연구원",
+        description: "과거 빅토리아 고향 마을의 종루에서 다친 감염자 병사들을 돌보던 소녀. 3년간 병상에서 고통과 싸우면서도 끝까지 희망을 잃지 않았으며, 절체절명의 위기에서 의사와 동료들을 구하기 위해 자신의 생명을 바친 숭고한 환자이다.",
+        defaultQuote: "이 사람의…… 울부짖음이 들려요. 우리, 우리는 닮았어요…… 와파린 선생님, 그러면 이 괴물들을 상대하는 데 제가 도움을 드릴 수 있다는 의미인가요? 잘 모르겠지만, 두렵진 않아요.",
+        appearances: ["ep15"],
       },
     ]
   },
@@ -406,12 +512,32 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_none",
+        cgAssetId: "cg_cillseach_kelly",
         overrideRole: "신문사 직원 (제니의 절친, 루이스 대위의 여동생)",
         description: "이브닝 힐록 잡지 신문사 직원이자 제니의 절친, 루이스 대위의 여동생. 사촌 동생 데미안 배리가 주둔군에 처형당한 뒤 더블린에 협력했으나, 볼턴 남작 연회장 폭탄 테러 계획에 두려움을 느끼고 제니에게 연회장 주소를 몰래 제보했다. 이튿날 배신자로 발각되어 맨드라고라의 돌멩이에 가슴을 관통당하고 리드의 불꽃 속에서 재가 된다.",
         defaultQuote: "리더…… 전 제가…… 할 일을 다 했어요…… 타라 사람으로서…… 후회는…… 없어요……",
         appearances: ["ep09"],
-        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
+    charId: "civilight_eterna",
+    nameKo: "시빌라이트 에테르나",
+    nameEn: "Civilight Eterna / '테레시아'",
+    defaultFaction: "로도스 아일랜드 ('문명의 존속' DWDB-221E)",
+    defaultRole: "문명의 존속 내 테레시아의 기억 인격체",
+    baseBio: "테레시아가 남긴 감정과 기억을 바탕으로 '문명의 존속' 내부에 구현된 의식체. 특이점 경계에서 길을 잃지 않도록 고정점이 되어 켈시와 아미야, 박사를 인도하는 따뜻한 등불이 된다.",
+    tier: "major",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_civilight_eterna",
+        overrideRole: "문명의 존속 내 테레시아의 기억 인격체",
+        description: "테레시아가 남긴 감정과 기억을 바탕으로 '문명의 존속' 내부에 구현된 의식체. 특이점 경계에서 길을 잃지 않도록 고정점이 되어 켈시와 아미야, 박사를 인도하는 따뜻한 등불이 된다.",
+        defaultQuote: "내가 여기서 지켜보고 있을게. 내가 너의 고정점이 되어줄게. 계속 전진하렴, 아미야.",
+        appearances: ["ep15"],
       },
     ]
   },
@@ -445,6 +571,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     baseBio: "바벨 본함의 고대 기계 시스템 복원을 도맡은 천재 뱀파이어 엔지니어. 림 빌리턴 지하에서 발굴된 함선의 고장 난 자동문을 두고 테레시아와 투닥거리며 시스템 전면 교체를 주장한다.",
     tier: "supporting",
     defaultStateId: "default",
+    aliases: ["closure"],
     states: [
       {
         stateId: "default",
@@ -453,7 +580,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 엔지니어링 및 기술 총괄",
         description: "바벨 본함의 고대 기계 시스템 복원을 도맡은 천재 뱀파이어 엔지니어. 림 빌리턴 지하에서 발굴된 함선의 고장 난 자동문을 두고 테레시아와 투닥거리며 시스템 전면 교체를 주장한다.",
         defaultQuote: "드론 전부 띄워! 수성포 광학 조준을 교란시켜야 해!",
-        appearances: ["ep10","ep11","sid_darknights_memoir"],
+        appearances: ["ep10","ep11","sid_darknights_memoir","ep14","ep16","ep13","ep15"],
       },
     ]
   },
@@ -492,12 +619,11 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_feist",
+        cgAssetId: "cg_colbert",
         overrideRole: "선셋 스트리트 호텔 지배인 겸 청소부",
         description: "선셋 스트리트 호텔에서 40년간 도어맨부터 지배인까지 일하며 노포트 구를 고향으로 여겨온 살카즈 노인. 통신기지가 사라져 구원 요청이 불가능해지자, 자신이 평생 아껴온 호텔 카펫에 스스로 불을 질러 거대한 연기 기둥으로 윈더미어 공작 함대를 불러들인다.",
         defaultQuote: "아니요, 콜버트는 그저 자신을 빅토리아 사람이라고 생각하는 평범한 살카즈 청소부일 뿐입니다.",
         appearances: ["ep12"],
-        isSharedCg: true,
         notes: "현재 피스트 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
       },
     ]
@@ -519,7 +645,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "살카즈 군사위원회 특무 전령",
         description: "섭정왕 테레시스의 뜻을 받들어 각지의 살카즈 군벌을 통제하고 제국 간 세계 대전을 기획하는 어둠의 전령. 런디니움에서 외드레르를 소환하여 연금하고 군사위원회의 체스말로 부린다.",
         defaultQuote: "이 전당에서 가치를 잃어버리는 건, 감염자만이 아닙니다. 알겠습니까? ……제 생각이 틀리지 않았다면, 로도스 아일랜드에는 지금쯤 그 불쾌한 사람이 돌아왔을 겁니다.",
-        appearances: ["sid_darknights_memoir"],
+        appearances: ["sid_darknights_memoir","ep13","ep14"],
       },
     ]
   },
@@ -536,12 +662,11 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_none",
+        cgAssetId: "cg_craig",
         overrideRole: "17구역 타라족 소년 (10세)",
         description: "반년 전 광석병으로 사망한 아버지 숀이 남긴 공을 들고 다니며 사과 장수 어머니 그레인과 살아가던 열 살 남짓한 타라족 꼬마. 저항군 로난의 선동에 휩쓸려 제니에게 돌을 던지기도 했으나, 더티밤 포격으로 감염자가 되어 더블린 병사들에게 버림받을 위기에 처하자 제니(사일라흐)의 깃발 아래 구조된다.",
         defaultQuote: "엄마…… 가슴이 너무 아파요…… 아빠가 남긴 공을…… 잃어버렸어요……",
         appearances: ["ep09"],
-        isSilhouetteOnly: true,
       },
     ]
   },
@@ -583,7 +708,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "리유니온 돌격 지휘관",
         description: "안개와 그림자 속을 넘나들며 요인 암살과 기습을 담당하는 리유니온의 고위 간부. 에이스 소대와의 합류 직후 짙은 연막 아츠로 퇴로를 가로막으며 맹렬한 습격을 가한다.",
         defaultQuote: "너희가 도망칠 곳은 없다. 안개 속에서 목을 내놓아라.",
-        appearances: ["ep00"],
+        appearances: ["ep00","ep16"],
       },
     ]
   },
@@ -666,7 +791,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "윈더미어 공작 가문 후계자 · 공작 영애",
         description: "윈더미어 공작의 외동딸이자 후계자. 신분을 숨긴 채 노포트 구에서 베어드, 카도르와 함께 시민들을 구호하다가 이네스에게 정체를 들킨 뒤, 로도스 아일랜드 및 시즈와 협력해 난민들을 이끌고 어머니의 함대로 탈출시킨다.",
         defaultQuote: "저 사람은 '회색 모자'잖아. 너희 뒤에 있는 건 캐스터 공작이구나. 걱정하지 마. 윈더미어 공작은 왕의 숨결에 관심 없으니까. 내가 장담할 수 있어.",
-        appearances: ["ep12"],
+        appearances: ["ep12","ep13","ep14"],
       },
     ]
   },
@@ -730,7 +855,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 전술 총사령관",
         description: "캐스터 공작 측 '회색 모자'의 협박과 비행선 설계도 탈취 압박을 지혜롭게 회피하고, 윈더미어 공작의 딸 델핀과 시즈를 연대시켜 차단벽을 무너뜨리고 수천 난민을 대탈출시키는 현장 전술을 완벽히 지휘한다.",
         defaultQuote: "여기는... 어디지? 그리고 나는 누구인가...",
-        appearances: ["ep00","ep01","ep02","ep04","ep05","ep07","ep08","ep10","ep11","ep12","sid_dorothys_vision","sid_lone_trail"],
+        appearances: ["ep00","ep01","ep02","ep04","ep05","ep07","ep08","ep10","ep11","ep12","sid_dorothys_vision","sid_lone_trail","ep13","ep14","ep15","ep16"],
       },
     ]
   },
@@ -788,12 +913,12 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_eblana",
+        cgAssetId: "cg_none",
         overrideRole: "웰링턴 공작령 더블린 고속 전함 지휘관",
         description: "웰링턴 공작의 명령을 받아 런디니움 외곽 전선으로 진격하는 더블린 고속 전함 선봉을 지휘하며 갑작스러운 재앙 폭풍과 오리지늄 결정의 침식 피해를 웰링턴 공작에게 다급히 보고한다.",
         defaultQuote: "공작님, 우리의 피해가 막심합니다. 선봉 부대 중 3분의 1에 달하는 고속 전함이 작전 능력을 잃었습니다. 나흐체러르의 군대에 저희가 처음 보는 주술 장치도 등장했습니다.",
         appearances: ["ep12"],
-        isSharedCg: true,
+        isSilhouetteOnly: true,
         notes: "현재 에블라나 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
       },
     ]
@@ -815,7 +940,49 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "더블린 최고 지도자",
         description: "타라 부흥을 이끄는 더블린의 진정한 군주이자 로흐시니(리드)의 쌍둥이 언니. 힐록 카운티의 참극 끝에 모습을 드러내어 보랏빛 강령술 화염으로 전사자들의 시신을 불타는 망령 군세로 일으켜 세우며 런디니움 진격을 선언한다.",
         defaultQuote: "로흐시니, 나의 귀여운 동생아…… 지금 어디에 있니? 보아라, 타라의 전사들이 죽음조차 넘어 행진하고 있다.",
-        appearances: ["ep09","ep12"],
+        appearances: ["ep09","ep12","ep13","ep14"],
+      },
+    ]
+  },
+  {
+    charId: "elysium",
+    nameKo: "엘리시움",
+    nameEn: "Elysium",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "정예 오퍼레이터 (통신 지원 및 척후)",
+    baseBio: "로도스 아일랜드 제3분대 소속 통신 오퍼레이터. 평소에는 쾌활하고 능청스럽지만 실전에서는 만트라와 한 몸 같은 호흡을 자랑하며, 상관인 만트라가 무리할 때마다 진심으로 걱정하고 헌신적으로 보좌한다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_elysium",
+        overrideRole: "정예 오퍼레이터 (통신 지원 및 척후)",
+        description: "로도스 아일랜드 제3분대 소속 통신 오퍼레이터. 평소에는 쾌활하고 능청스럽지만 실전에서는 만트라와 한 몸 같은 호흡을 자랑하며, 상관인 만트라가 무리할 때마다 진심으로 걱정하고 헌신적으로 보좌한다.",
+        defaultQuote: "방금 내 오리지늄 아츠랑 장비로 네 신호를 증폭시켰어. 라이디언 선배 말로는 그 자기폭풍에 아주 특수한 전기 신호가 섞여 있어서, 역이용할 수 있대!",
+        appearances: ["ep16"],
+      },
+    ]
+  },
+  {
+    charId: "emperors_blade",
+    nameKo: "황제의 칼날 / '검은 눈'",
+    nameEn: "Emperor's Blade / 'Black Eye'",
+    defaultFaction: "우르수스 제국 황실 친위대",
+    defaultRole: "황실 직속 초인 근위병",
+    baseBio: "북방 데몬의 파편을 갑주와 신체에 봉인한 우르수스 제국의 절대적 폭력의 상징이자, 광부들에게 '검은 눈'이라 불리던 공포의 대상. 그의 전사는 여대공의 광산 봉쇄와 제4군단 개입을 부른 직접적 도화선이 된다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_emperors_blade",
+        overrideRole: "황실 직속 초인 근위병",
+        description: "북방 데몬의 파편을 갑주와 신체에 봉인한 우르수스 제국의 절대적 폭력의 상징이자, 광부들에게 '검은 눈'이라 불리던 공포의 대상. 그의 전사는 여대공의 광산 봉쇄와 제4군단 개입을 부른 직접적 도화선이 된다.",
+        defaultQuote: "그랬군…… 그랬군…… ……'가브리일'……",
+        appearances: ["ep16"],
       },
     ]
   },
@@ -833,12 +1000,11 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_theresa",
+        cgAssetId: "cg_ermengarde",
         overrideRole: "리치 왕정의 전달자 · 공간 주술사",
         description: "리치 왕정의 젊은 전달자. 살카즈 비행선 주포에 격침된 윈더미어 고속 전함 잔해를 조사하며 스승의 옛 친구인 켈시를 언급하고, 황야 전선에서 리치의 공간 주술 장치로 더블린 선봉 함대의 기동력을 마비시킨 뒤 테레시아에게 감사를 받는다.",
         defaultQuote: "이 고속 군함은 아주 확실하게 파괴됐네요. 흠, 켈시 님은 이러한 미래가 우리에게 그 어떤 것도 줄 수 없다고 계속 경고했었어요. 하지만 아직도 이해가 안 가요. 제 스승님한테 왜 필라인 친구가 있는 것일까요?",
-        appearances: ["ep12"],
-        isSharedCg: true,
+        appearances: ["ep12","ep13"],
         notes: "현재 테레시아 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
       },
     ]
@@ -942,6 +1108,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "folklore_wanderers",
+    nameKo: "설원의 피난민 군중",
+    nameEn: "Refugee Crowd of the Tundra",
+    defaultFaction: "우르수스 크라이니 세베르 변방 황야",
+    defaultRole: "힐다를 따르는 감염자 추종자 집단",
+    baseBio: "국가와 사회로부터 버림받고 크라이니 세베르의 혹한과 학살에서 도망쳐 나온 감염자들. 오리지늄의 고통을 잠재우는 힐다의 권능과 믿음에 절대적인 귀의를 바치는 추종자 군중이다.",
+    tier: "npc_generic",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "힐다를 따르는 감염자 추종자 집단",
+        description: "국가와 사회로부터 버림받고 크라이니 세베르의 혹한과 학살에서 도망쳐 나온 감염자들. 오리지늄의 고통을 잠재우는 힐다의 권능과 믿음에 절대적인 귀의를 바치는 추종자 군중이다.",
+        defaultQuote: "기적이다!!! 힐다가 또 한 번 우리의 동포를 구했다! 조금 전, 어머니의 손길 같은 어루만짐으로 모든 병마와 고통을 지워냈다! 힐다!",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
     charId: "franka",
     nameKo: "프란카",
     nameEn: "Franka",
@@ -963,6 +1151,48 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "fremont",
+    nameKo: "프레몬트",
+    nameEn: "Fremont",
+    defaultFaction: "카즈델 리치 왕정",
+    defaultRole: "리치 왕정 수장",
+    baseBio: "불사의 지식을 다루는 리치 왕정의 수장이자 테레시아·라케라말린의 오랜 벗. 런디니움 전쟁 이후 열강들의 침공으로부터 카즈델을 지켜내기 위해 라이타니엔의 실을 거두고 귀환을 서두른다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_fremont",
+        overrideRole: "리치 왕정 수장",
+        description: "불사의 지식을 다루는 리치 왕정의 수장이자 테레시아·라케라말린의 오랜 벗. 런디니움 전쟁 이후 열강들의 침공으로부터 카즈델을 지켜내기 위해 라이타니엔의 실을 거두고 귀환을 서두른다.",
+        defaultQuote: "훗, '희망'이라…… 난 이 단어를 별로 좋아하지 않는데. 그러나 어쨌든 눈앞에 아직 걸을 수 있는 길은 있으니…… 안 그런가, 전하?",
+        appearances: ["ep14"],
+      },
+    ]
+  },
+  {
+    charId: "frida",
+    nameKo: "프리다 웨스트",
+    nameEn: "Frida West",
+    defaultFaction: "브렌트우드 마을",
+    defaultRole: "브렌트우드 촌장 대리",
+    baseBio: "처형된 브렌트우드 전임 촌장의 딸이자 젊은 촌장 대리. 희생을 막으려 순응하는 악역을 자처하면서도 몰래 농경 축제 꽃씨를 전했으며, 혈액 제단이 조기 가동되자 공사장 벽을 폭파하고 아버지의 유품 축포를 한낮의 하늘에 쏘아 올려 위험을 알린 뒤 산화한다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_frida",
+        overrideRole: "브렌트우드 촌장 대리",
+        description: "처형된 브렌트우드 전임 촌장의 딸이자 젊은 촌장 대리. 희생을 막으려 순응하는 악역을 자처하면서도 몰래 농경 축제 꽃씨를 전했으며, 혈액 제단이 조기 가동되자 공사장 벽을 폭파하고 아버지의 유품 축포를 한낮의 하늘에 쏘아 올려 위험을 알린 뒤 산화한다.",
+        defaultQuote: "내가 몰래 내년 축제를 위해 사둔 그 씨앗들 받았어? ……내년 농경 축제 때는 그 씨앗들이 가장 아름다운 꽃을 피워냈으면 좋겠어.",
+        appearances: ["ep13"],
+      },
+    ]
+  },
+  {
     charId: "friston",
     nameKo: "트레버 프리스턴",
     nameEn: "Trevor Friston",
@@ -979,7 +1209,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "보존자 (The Preserver)",
         description: "수만 년 전 구인류 문명의 최후 생존 지성체. 지하 석관의 메인프레임에 자발적으로 의식을 가둔 채 문명의 복원을 기다려왔으며, 스텔라리아에 에너지를 전송하고 기억이 역순 소멸된다.",
         defaultQuote: "명령이다. 대답해라, 하인이여…… 우리 뜻대로 되는 건 하나도 없는 것 같군.",
-        appearances: ["sid_lone_trail"],
+        appearances: ["sid_lone_trail","ep15"],
       },
     ]
   },
@@ -1022,6 +1252,50 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         description: "순백의 카우투스 소녀이자 혹한의 전사. 지하 공동에서 박사와 매운 사탕을 나누며 온기를 교감했으나, 용문의 검은 비옷에게 소대원들이 몰살당하자 목숨을 건 최후의 아츠를 격발한 뒤 박사의 품에서 영면한다.",
         defaultQuote: "……메피스토, 그만둬라. 네 추악한 장난질은 여기까지다.",
         appearances: ["ep04","ep06"],
+      },
+    ]
+  },
+  {
+    charId: "ghost",
+    nameKo: "유령",
+    nameEn: "Ghost / 신비로운 존재",
+    defaultFaction: "구인류 함선 '로도스 아일랜드'",
+    defaultRole: "외계 행성 포식 종족의 최후 생존자이자 우주 여행자",
+    baseBio: "한때 행성을 삼키며 우주를 유랑했으나 진정한 파멸('그') 앞에서 동족을 모두 잃고 구인류 함선의 손님이 된 신비로운 존재. 본함 이변 당시 포푸카가 본 창문 너머의 환영으로도 모습을 비추었다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "외계 행성 포식 종족의 최후 생존자이자 우주 여행자",
+        description: "한때 행성을 삼키며 우주를 유랑했으나 진정한 파멸('그') 앞에서 동족을 모두 잃고 구인류 함선의 손님이 된 신비로운 존재. 본함 이변 당시 포푸카가 본 창문 너머의 환영으로도 모습을 비추었다.",
+        defaultQuote: "생명은 결국 무덤 속에서 다시 태어나게 돼 있어. 그리고 언젠가 우리가 묘비에 새겨둔 것들을 이해하게 되겠지. 그건 한때 우리가 가졌던 삶이자, 우리가 존재했었던 증거니까.",
+        appearances: ["ep15"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
+    charId: "gododdin",
+    nameKo: "고도딘 공작",
+    nameEn: "Duke of Gododdin / 숀 고도딘",
+    defaultFaction: "빅토리아 공작 연합군",
+    defaultRole: "빅토리아 대공작 (의회파 대표)",
+    baseBio: "빅토리아 의회와 귀족 연합의 이해관계를 대변하는 노회한 대공작. 실리주의적 태도로 시즈에게 의회파 합류를 회유하려 했으나 백성을 버리지 않는 그녀의 기개에 물러선다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    aliases: ["duke_of_gododdin"],
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_gododdin",
+        overrideRole: "빅토리아 대공작 (의회파 대표)",
+        description: "빅토리아 의회와 귀족 연합의 이해관계를 대변하는 노회한 대공작. 실리주의적 태도로 시즈에게 의회파 합류를 회유하려 했으나 백성을 버리지 않는 그녀의 기개에 물러선다.",
+        defaultQuote: "저, 빅토리아 의회의 일원인 숀 고도딘이, 의회 직속 부대 폭풍돌격대 및 파라곤 부대 여러분을 초대하겠습니다.",
+        appearances: ["ep14"],
       },
     ]
   },
@@ -1081,12 +1355,11 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_letto",
+        cgAssetId: "cg_gray_hat",
         overrideRole: "캐스터 공작의 비밀 대행자 (자칭 아마추어 시인)",
         description: "캐스터 공작을 섬기는 냉혹한 대행자. 로도스 본함의 은폐 위치를 미끼로 박사와 시즈를 협박해 노포트 구의 살카즈 비행선 설계도를 탈취하게 만들고, 박사가 통제를 거부하자 더블린의 '교관'과 결탁해 국검을 넘기려 한다.",
         defaultQuote: "아주 시원시원하군, 로도스 아일랜드의 박사. 알렉산드리나의 단말기로 이미 안전한 곳의 위치를 보냈으니 거기서 대기해. 계획을 벗어난 행동은 내가 안전을 책임질 수 없으니까.",
         appearances: ["ep12"],
-        isSharedCg: true,
         notes: "현재 레토 중령 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
       },
     ]
@@ -1151,7 +1424,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 근접 정예 오퍼레이터",
         description: "체르노보그 석관 구출 작전 및 용문 전투에서 활약한 로도스 아일랜드의 근접 방어 오퍼레이터.",
         defaultQuote: "박사님, 제 검은 언제나 당신의 방패가 될 것입니다.",
-        appearances: ["ep00","ep01","ep08"],
+        appearances: ["ep00","ep01","ep08","ep09","ep13"],
       },
       {
         stateId: "neo_reunion",
@@ -1251,6 +1524,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "hilda",
+    nameKo: "힐다",
+    nameEn: "Hilda / 강인한 감염자",
+    defaultFaction: "빅토리아 피난민",
+    defaultRole: "수도원 출신 카우투스 감염자 소녀",
+    baseBio: "이베리아 주교가 세운 수도원에서 자란 선량하고 강인한 카우투스 소녀. 테라 인류 중 두 번째로 프리스티스와 직접 대화한 생명체로, 영원히 멈춘 시간의 안식을 거절하고 테라로 돌아와 오리지늄의 공포를 이겨낼 새로운 변이의 씨앗이 된다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "수도원 출신 카우투스 감염자 소녀",
+        description: "이베리아 주교가 세운 수도원에서 자란 선량하고 강인한 카우투스 소녀. 테라 인류 중 두 번째로 프리스티스와 직접 대화한 생명체로, 영원히 멈춘 시간의 안식을 거절하고 테라로 돌아와 오리지늄의 공포를 이겨낼 새로운 변이의 씨앗이 된다.",
+        defaultQuote: "돌아가서 동포들에게 말해주고 싶어요…… 끝이 정해져 있다고 해도, 붕괴와 죽음에 대한 공포 속에서 살아갈 필요는 없다고요.",
+        appearances: ["ep15","ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
     charId: "hoederer",
     nameKo: "외드레르",
     nameEn: "Hoederer",
@@ -1267,7 +1562,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "살카즈 용병단 대장",
         description: "바벨 용병 삼총사의 중심축. 군사위원회 감옥에 수감된 상태에서 왕정 군인이 가져다준 살카즈 역사서를 읽으며 때를 기다리다 탈출하고, 비행선 상공에서 뛰어내린 이네스를 자신의 오리지늄 아츠('재') 쿠션으로 받아내며 W, 이네스와 재회한다.",
         defaultQuote: "내가 뭣 때문에 한쪽 눈을 잃었다고 생각하나? 그래, 이네스가 죽었다.",
-        appearances: ["ep10","ep12","sid_darknights_memoir"],
+        appearances: ["ep10","ep12","sid_darknights_memoir","ep13","ep14"],
       },
     ]
   },
@@ -1309,7 +1604,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "제7전방보병부대 제2폭풍돌격대 지휘관 (중위)",
         description: "스카만드로스 백작가 출신의 정규군 장교이자 제2폭풍돌격대 지휘관. 실종된 정찰 분대 4인의 주검과 해밀턴 대령의 불법 더티밤 포탄을 발견하고, 통신 기지 최후의 결전에서 백파이프를 파성창으로 탈출시킨 뒤 맨드라고라에게 끝까지 굴복하지 않고 싸우다 생포된다.",
         defaultQuote: "제7전방보병부대 제2폭풍돌격대, 나를 따라 통신 기지를 탈환한다! 우리의 임무는 이 도시를 구하는 것이다, 전진!",
-        appearances: ["ep09","ep10"],
+        appearances: ["ep09","ep10","ep13","ep14"],
       },
     ]
   },
@@ -1393,7 +1688,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "전 바벨 용병 · 로도스 비밀 정보원",
         description: "타인의 그림자와 영혼의 파동을 꿰뚫어보는 아츠를 지닌 정찰병. 겉으로는 살카즈 용병으로 행동하지만 실제로는 뿔을 살카즈 모양으로 다듬어 위장한 카프리니(비살카즈) 종족이다. 탈룰라의 내면에 도사린 코셰이의 사악한 두 번째 그림자를 간파하고 W에게 경고하려다 위장 사망 공작을 펼친다.",
         defaultQuote: "높은 곳일수록 더 완전하고 거대한 그림자를 찾을 수 있어. ……훗, 사람을 한 번도 죽여 본 적 없는 살카즈 용병이라.",
-        appearances: ["ep12","sid_darknights_memoir"],
+        appearances: ["ep12","sid_darknights_memoir","ep13","ep14"],
       },
     ]
   },
@@ -1517,7 +1812,50 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 최고 의료 책임자",
         description: "불멸의 세월을 살아온 로도스의 중추. 방위군 총사령탑에서 마왕의 기억에 잠식되어 추락한 아미야를 베려는 테레시스의 장검 앞을 Mon3tr와 함께 가로막아 가슴이 꿰뚫리는 치명상을 입는다. 피를 흘리면서도 박사에게 아미야를 데리고 철수하라 명하며 쓰러진다.",
         defaultQuote: "박사, 아직 너를 완전히 신뢰하지 않는다. 그러나 지금은 살아서 돌아와라.",
-        appearances: ["ep01","ep06","ep07","ep08","ep09","ep10","ep11","ep12","sid_darknights_memoir","sid_grani","sid_lone_trail","sid_mansfield_break"],
+        appearances: ["ep01","ep06","ep07","ep08","ep09","ep10","ep11","ep12","sid_darknights_memoir","sid_grani","sid_lone_trail","sid_mansfield_break","ep13","ep14","ep15"],
+      },
+    ]
+  },
+  {
+    charId: "khori",
+    nameKo: "호리",
+    nameEn: "Khori",
+    defaultFaction: "우르수스 크라이니 세베르 중앙 광산지구",
+    defaultRole: "늙은 감염자 광부",
+    baseBio: "7년 전 디에티 그라이퍼부르크로 떠난 아들 가니아를 유일한 자랑이자 삶의 희망으로 여겼던 평범한 아버지였으나, 극한의 비극 앞에서 아들을 자기 손으로 살해한 죄책감을 감당하지 못하고 유로지비의 파멸적 구원 망상에 삼켜진 비극적 인물이다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "늙은 감염자 광부",
+        description: "7년 전 디에티 그라이퍼부르크로 떠난 아들 가니아를 유일한 자랑이자 삶의 희망으로 여겼던 평범한 아버지였으나, 극한의 비극 앞에서 아들을 자기 손으로 살해한 죄책감을 감당하지 못하고 유로지비의 파멸적 구원 망상에 삼켜진 비극적 인물이다.",
+        defaultQuote: "이것으로, 나는 살육의 죄를 범했다. 식량을 위한 것도, 깨끗한 물을 위한 것도, 따뜻한 집을 위한 것도 아니다. 이것으로, 나는 그들의 영혼을 정화했다.",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
+    charId: "koselna",
+    nameKo: "코셀나",
+    nameEn: "Koselna",
+    defaultFaction: "우르수스 지식인 / 크라이니 세베르 재앙 복구 지역",
+    defaultRole: "광부 야학 교사",
+    baseBio: "유능한 교육자이자 지식인. 디에티 그라이퍼부르크 대학 임용을 마다하고 자진해 광산으로 내려와, 광부들에게 문자와 지식을 가르쳐 스스로 이름과 역사를 기록하도록 돕는다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_koselna",
+        overrideRole: "광부 야학 교사",
+        description: "유능한 교육자이자 지식인. 디에티 그라이퍼부르크 대학 임용을 마다하고 자진해 광산으로 내려와, 광부들에게 문자와 지식을 가르쳐 스스로 이름과 역사를 기록하도록 돕는다.",
+        defaultQuote: "이건 '사이몬크'라고 읽어요. 앞줄에 나온 호수 이름이 '안가라'이고. 당신의 이름이 '보바'인 것처럼, 이것도 그저 이름이죠. 이동도시의 이름이에요.",
+        appearances: ["ep16"],
       },
     ]
   },
@@ -1539,6 +1877,27 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         description: "라인 랩의 최고 수장이자 천재 물리학자. 비행 사고로 목숨을 잃은 부모의 유지를 이어, 테라 대륙을 둘러싼 가짜 하늘의 차단층을 돌파해 미지의 우주로 나아가고자 문명 전체를 건 도박을 감행한다.",
         defaultQuote: "사리아…… 너는 늘 내가 이 땅을 제대로 보길 바랐잖아. 난 봤어. 이 땅도…… 너무 아름다워.",
         appearances: ["sid_dorothys_vision","sid_lone_trail"],
+      },
+    ]
+  },
+  {
+    charId: "kseniya",
+    nameKo: "크세니야",
+    nameEn: "Kseniya",
+    defaultFaction: "크라이니 세베르 중앙 광산지구 연구소 / 전 체르노보그 연구소",
+    defaultRole: "오리지늄 연구원 (전 일리아의 조수)",
+    baseBio: "정식 명칭은 크세니야 마르코브나 넬류도바. 과거 체르노보그 석관 연구소에서 일리아의 말단 조수로 일할 때 자신의 에너지 전환 공식을 칭찬해 준 켈시 소장을 깊이 존경하며, 선량한 양심으로 인해 제국의 비인도적 실험 앞에서 괴로워하던 학자이다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_kseniya",
+        overrideRole: "오리지늄 연구원 (전 일리아의 조수)",
+        description: "정식 명칭은 크세니야 마르코브나 넬류도바. 과거 체르노보그 석관 연구소에서 일리아의 말단 조수로 일할 때 자신의 에너지 전환 공식을 칭찬해 준 켈시 소장을 깊이 존경하며, 선량한 양심으로 인해 제국의 비인도적 실험 앞에서 괴로워하던 학자이다.",
+        defaultQuote: "'오카'는…… ……근위병을…… 죽일 수 있어요…… 위험합니다.",
+        appearances: ["ep16"],
       },
     ]
   },
@@ -1602,7 +1961,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "런디니움 도시방위군 지휘관 (중령)",
         description: "가울 유민 출신의 방위군 지휘관. 4년 전 내전 직후 부하들을 지키기 위해 테레시스에게 협력했으나, 살카즈의 만행과 생귀나르의 위협 속에서 군인으로서의 맹세와 양심 사이에서 처절하게 고뇌한다.",
         defaultQuote: "군사위원회를 도와 런디니움을 관리하는 건 쉬운 일이 아니야. ……그 시대를 겪은 마지막 이가 죽으면 가울에 대한 우리 기억은 제국처럼 바람과 함께 사라지고 말 겁니다. 그래서 우리가 유일하게 할 수 있는 건 꺼져가는 잿불이라도 잡는 겁니다.",
-        appearances: ["ep11"],
+        appearances: ["ep11","ep12","ep13"],
       },
     ]
   },
@@ -1678,7 +2037,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 엘리트 오퍼레이터 · 밴시의 젊은 군주",
         description: "살카즈 밴시 왕정의 군주. 방위군 총사령탑 옥상에서 아미야를 덮쳐오는 뱀파이어 생귀나르의 거대한 피의 해일을 골필과 금빛 주문으로 단숨에 양단하고 결계를 전개해 일행을 완벽히 지켜낸다.",
         defaultQuote: "나는 밴시의 주인이다. 내 말이 곧 죽음의 왕궁이다. 더 이상 장황한 추억으로 너 자신을 옭아매지 마라. 과거의 오만에서 벗어나거라, 살카즈의 옛 왕이여.",
-        appearances: ["ep11","ep12"],
+        appearances: ["ep11","ep12","ep13","ep14","ep15"],
       },
     ]
   },
@@ -1716,12 +2075,32 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_none",
+        cgAssetId: "cg_louis_kelly",
         overrideRole: "힐록 카운티 주둔군 장교 (대위)",
         description: "타라 출신이면서도 도시의 평화를 위해 주둔군 장교로 복무하던 인물. 동생 시엘샤의 실종과 타라 주민들의 배신자 낙인 속에서 고뇌하다가, 해밀턴 대령의 17구역 더티밤 무차별 포격 명령에 항의하고 주민들을 대피시키려다 포격 속에서 사망한다.",
         defaultQuote: "……미치셨습니까?! 17구역은 타라 사람들의 거주 구역입니다. 거기엔 민간인들이……",
         appearances: ["ep09"],
-        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
+    charId: "mace",
+    nameKo: "메이스",
+    nameEn: "Mace",
+    defaultFaction: "구 양조장 리유니온 대피소",
+    defaultRole: "폐양조장 거점 관리인 (비감염자)",
+    baseBio: "브렌트우드 인근 폐양조장 대피소를 홀로 지키던 비감염자 관리인. 과거 생명을 구해준 리유니온 의사의 유지를 이어 감염자 시신을 안치하고 약초를 가꾸었으며, 대화재 속에서 자신을 출구 밖으로 밀쳐내고 뛰어들어 온 가드에게 약초 꽃잎을 건네받고 목숨을 건진다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_mace",
+        overrideRole: "폐양조장 거점 관리인 (비감염자)",
+        description: "브렌트우드 인근 폐양조장 대피소를 홀로 지키던 비감염자 관리인. 과거 생명을 구해준 리유니온 의사의 유지를 이어 감염자 시신을 안치하고 약초를 가꾸었으며, 대화재 속에서 자신을 출구 밖으로 밀쳐내고 뛰어들어 온 가드에게 약초 꽃잎을 건네받고 목숨을 건진다.",
+        defaultQuote: "그 의사는 내 목숨을 구해줬고, 난 그 의사한테 이 양조장을 지켜주겠다고 약속했어.",
+        appearances: ["ep13"],
       },
     ]
   },
@@ -1738,12 +2117,33 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_none",
+        cgAssetId: "cg_macmartin",
         overrideRole: "맥마틴 브라더스 감자튀김 전문점 주인 (퇴역 노병)",
         description: "과거 빅토리아 국경을 지켰던 퇴역 군인들의 상호부조 조직 '가로등지기'의 일원이자 감자튀김 전문점 주인. 백파이프에게 10구역 서점의 단서를 알려주었으며, 해밀턴 대령의 더티밤 포격으로 무너진 폐허 속에서 급성 광석병에 걸려 피를 토하며 백파이프의 품에서 숨을 거둔다.",
         defaultQuote: "난 평생 빅토리아를 위해 싸웠어…… 하지만 빅토리아가 내게 준 건 이 꼴이지…… 아가씨, 해밀턴을…… 막아줘……",
         appearances: ["ep09"],
-        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
+    charId: "magdalene",
+    nameKo: "마그달레네 (벤델라)",
+    nameEn: "Magdalene / Vendela",
+    defaultFaction: "브렌트우드 마을 온실",
+    defaultRole: "브렌트우드 유리 온실 정원사",
+    baseBio: "브렌트우드 마을의 유리 온실을 지키는 필라인 정원사. 살카즈의 징용 속에서도 피스트와 락락을 화분 상자에 숨겨주며 짓밟힌 온실을 지켜냈고, 혈액 제단 가동일 왕정군 장교('삽')의 자결과 축포를 쏘며 산화한 프리다의 희생 끝에 짚라인으로 구조된다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    aliases: ["vendela"],
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_magdalene",
+        overrideRole: "브렌트우드 유리 온실 정원사",
+        description: "브렌트우드 마을의 유리 온실을 지키는 필라인 정원사. 살카즈의 징용 속에서도 피스트와 락락을 화분 상자에 숨겨주며 짓밟힌 온실을 지켜냈고, 혈액 제단 가동일 왕정군 장교('삽')의 자결과 축포를 쏘며 산화한 프리다의 희생 끝에 짚라인으로 구조된다.",
+        defaultQuote: "프리다 씨는 웨스트 씨가 농경 축제를 위해 남겨놓은 축포를 쏘아올렸다. ……한낮에 펼쳐진 불꽃놀이…… 브렌트우드 마을에 이른 축제가 성대하게 열렸다.",
+        appearances: ["ep13"],
       },
     ]
   },
@@ -1785,7 +2185,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "카즈델 살카즈 군사위원회 런디니움 주둔군 사령관",
         description: "테레시스의 오른팔이자 비행선 건조 총괄 지휘관. 노포트 구 분리를 통해 대공작들을 유인하고, 공중 독에서 테레시아 전하를 알현하며 작전을 진두지휘한다.",
         defaultQuote: "출력은…… 10%면 충분하다. 이 도시에 있는 모든 반항 세력들에게 알려주어라.",
-        appearances: ["ep10","ep11","ep12"],
+        appearances: ["ep10","ep11","ep12","ep14"],
+      },
+    ]
+  },
+  {
+    charId: "mantra",
+    nameKo: "만트라",
+    nameEn: "Mantra",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "정예 오퍼레이터 (정신 감응 아츠)",
+    baseBio: "성대 손상으로 목소리를 내지 못하지만 강력한 신경·정신 감응 아츠를 구사하는 로도스 아일랜드 정예 오퍼레이터. 과거 사르곤의 과묵한 '파디샤'였으나 낡은 왕권을 버리고 떠났으며, 옛날 우르수스 북툰드라에서 감염자들을 구하기 위해 황제의 칼날을 환영에 가두었다가 유로지비 '가브리일'로 오해받았던 깊은 인연을 지니고 있다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_mantra",
+        overrideRole: "정예 오퍼레이터 (정신 감응 아츠)",
+        description: "성대 손상으로 목소리를 내지 못하지만 강력한 신경·정신 감응 아츠를 구사하는 로도스 아일랜드 정예 오퍼레이터. 과거 사르곤의 과묵한 '파디샤'였으나 낡은 왕권을 버리고 떠났으며, 옛날 우르수스 북툰드라에서 감염자들을 구하기 위해 황제의 칼날을 환영에 가두었다가 유로지비 '가브리일'로 오해받았던 깊은 인연을 지니고 있다.",
+        defaultQuote: "유로지비, 너는 목소리의 근원이 될 수 없다. 너는…… '내'가 될 수 없다. 왜냐하면, 나는 목소리가 없고, 너는 단지…… '메아리'에 불과하니까.",
+        appearances: ["ep15","ep16"],
       },
     ]
   },
@@ -1845,7 +2266,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         cgAssetId: "cg_mechanist",
         overrideRole: "엔지니어링 오퍼레이터 (아서)",
         description: "박사를 호위하며 기동 장갑의 기계적 구조를 분석하고, 라인 랩 본부 밖에서 오올헤약과 기동 장갑 11대를 홀로 묶어둔 베테랑 엔지니어.",
-        appearances: ["sid_dorothys_vision"],
+        appearances: ["sid_dorothys_vision","ep15"],
       },
     ]
   },
@@ -1879,6 +2300,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     baseBio: "체르노보그 제14구역의 무고한 감염자들을 학살하고 불태워 리유니온의 거대한 표식을 세운 잔학한 소년. 고통을 모르는 불사의 광전사 목자들을 조종해 광기의 파괴를 즐긴다.",
     tier: "major",
     defaultStateId: "mephisto",
+    aliases: ["mefisto"],
     states: [
       {
         stateId: "mephisto",
@@ -1943,7 +2365,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 아일랜드 정예 캐스터 오퍼레이터",
         description: "공간의 위상과 굴절을 다루는 로도스 최정예 비밀 요원. 지면 액화 아츠로 혼 일행을 구출하고, 통제실 폭파 후 추락하는 혼을 기적적으로 낚아채 구출한다.",
         defaultQuote: "미저리. 로도스 아일랜드의 미저리야. 나중에 백파이프를 통해 제대로 된 설명을 들을 수 있을 거야. 지금은 동료나 마찬가지니까. 그리고…… 내 가장 친한 친구가 마지막으로 사귀었던 친구야.",
-        appearances: ["ep10"],
+        appearances: ["ep10","ep13","ep14","ep15"],
       },
     ]
   },
@@ -1982,13 +2404,34 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_baird",
+        cgAssetId: "cg_none",
         overrideRole: "노포트 구 빈민 폭도",
         description: "노포트 구 봉쇄로 기근이 닥치자 이성을 잃고 오리지늄 화로를 쬐던 감염자 난민들의 마지막 비상식량을 약탈하려 난동을 부린다.",
         defaultQuote: "시치미 그만 떼! 네가 화로를 쓰는 걸 똑똑히 봤으니까. 어디서 먹을 걸 구한 거야? 왜 넌 매일 먹을 게 생기는 거지?",
         appearances: ["ep12"],
-        isSharedCg: true,
+        isSilhouetteOnly: true,
         notes: "현재 베어드 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
+      },
+    ]
+  },
+  {
+    charId: "mon3tr",
+    nameKo: "Mon3tr",
+    nameEn: "Mon3tr",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "AMa-10 공생 구조체 → 로도스 아일랜드 정식 오퍼레이터",
+    baseBio: "수만 년간 AMa-10의 쌍생 순환 구조 속에서 함께해 온 공생 생명체. 켈시가 쌍생 순환을 끊고 자신에게 자유를 부여한 뒤, 켈시를 닮은 인간형 소녀의 형태를 스스로 선택하여 깨어났으며 로도스 아일랜드의 정식 오퍼레이터로서 켈시를 되찾기 위한 연구를 이끈다.",
+    tier: "major",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_mon3tr",
+        overrideRole: "AMa-10 공생 구조체 → 로도스 아일랜드 정식 오퍼레이터",
+        description: "수만 년간 AMa-10의 쌍생 순환 구조 속에서 함께해 온 공생 생명체. 켈시가 쌍생 순환을 끊고 자신에게 자유를 부여한 뒤, 켈시를 닮은 인간형 소녀의 형태를 스스로 선택하여 깨어났으며 로도스 아일랜드의 정식 오퍼레이터로서 켈시를 되찾기 위한 연구를 이끈다.",
+        defaultQuote: "'켈시', 이건 너의 이름이자…… 내가 가장 사랑하는 이름이었지…… 하지만 그건 너만의 것이야. 'Mon3tr', 이 이름은 내가 간직할게. 이건 네가 준 이름이니까.",
+        appearances: ["ep15","ep16"],
       },
     ]
   },
@@ -2084,13 +2527,33 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_theresis",
+        cgAssetId: "cg_nachzehrer",
         overrideRole: "카즈델 십왕정 최고령 군주 · 부식의 왕",
         description: "살카즈 군사위원회의 가장 강력하고 두려운 최고령 군주. 런디니움 외곽 황야에 수많은 부식 군대를 이끌고 나타나 재앙 구름 아래 왕좌에 앉아 빅토리아 공작군과의 전면 대전을 개막한다.",
         defaultQuote: "나흐체러르 킹은 그의 왕좌에 앉아서 자신의 대군을 내려다보고 있다. 나흐체러르의 군대는 동요하지도, 약해지지도 않는다.",
-        appearances: ["ep12"],
-        isSharedCg: true,
+        appearances: ["ep12","ep14"],
         notes: "현재 테레시스 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
+      },
+    ]
+  },
+  {
+    charId: "nadya",
+    nameKo: "나댜 / 유로지비",
+    nameEn: "Nadya / Yurodivy",
+    defaultFaction: "우르수스 크라이니 세베르 / 데몬의 창조물",
+    defaultRole: "베토치키의 친할머니",
+    baseBio: "가브리일, 솔로미다, 베스메르트, 아브로라, 나댜 등 시대마다 고통받는 우르수스인들이 투영한 인식과 기대를 먹고 자라난 데몬 계통의 정신적 공명체이자 근위병 실험의 근원. 고통의 인내와 죽음을 통한 영혼의 구원이라는 달콤한 허무로 인간을 유혹한다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_nadya",
+        overrideRole: "베토치키의 친할머니",
+        description: "가브리일, 솔로미다, 베스메르트, 아브로라, 나댜 등 시대마다 고통받는 우르수스인들이 투영한 인식과 기대를 먹고 자라난 데몬 계통의 정신적 공명체이자 근위병 실험의 근원. 고통의 인내와 죽음을 통한 영혼의 구원이라는 달콤한 허무로 인간을 유혹한다.",
+        defaultQuote: "가브리일, 솔로미다, 베스메르트, 아브로라, 나댜…… 그리고 '유로지비'. 모두, 나야. 세상 사람들이 본 내 모습은, 나에 대한 그들의 인식과 기대의 투영일 뿐이다.",
+        appearances: ["ep16"],
       },
     ]
   },
@@ -2132,7 +2595,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "로도스 엘리트 디펜더 / 빛의 기사",
         description: "카시미어의 전설적인 \"빛의 기사\"이자 로도스의 든든한 방패. 메피스토와 파우스트의 포위망을 뚫고 E4 소대를 이끌고 강습 합류하여 탈룰라의 화염을 막아서며 아미야와 박사의 퇴각을 지휘한다.",
         defaultQuote: "빛이 우리와 함께할 것입니다! 로도스의 대원들이여, 내 방패 뒤로 모이십시오!",
-        appearances: ["ep01"],
+        appearances: ["ep01","ep14"],
       },
     ]
   },
@@ -2158,6 +2621,49 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "nightingale",
+    nameKo: "나이팅게일 (리즈)",
+    nameEn: "Nightingale / Liz",
+    defaultFaction: "로도스 아일랜드 / 사도 (Followers)",
+    defaultRole: "로도스 메딕 오퍼레이터",
+    baseBio: "고해신부의 생체 감옥에서 구조된 사도(Followers)의 일원이자 로도스 메딕 오퍼레이터. 키사르투슈타지의 정신 침식 속에서도 스스로 새장의 환각을 깨고 샤이닝의 소매를 붙잡아 용서를 전했으며, 부상당한 동료들을 지키기 위해 자진해 고해신부 수장을 따라나선다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_nightingale",
+        overrideRole: "로도스 메딕 오퍼레이터",
+        description: "고해신부의 생체 감옥에서 구조된 사도(Followers)의 일원이자 로도스 메딕 오퍼레이터. 키사르투슈타지의 정신 침식 속에서도 스스로 새장의 환각을 깨고 샤이닝의 소매를 붙잡아 용서를 전했으며, 부상당한 동료들을 지키기 위해 자진해 고해신부 수장을 따라나선다.",
+        defaultQuote: "샤이닝 씨, 전 샤이닝이라는 이름이 더 마음에 들어요. ……전 당신을 이미 용서했어요. 당신이 모질게 그 실험실에 있었던 모든 기억들을 봉인해버리기 이전부터……",
+        appearances: ["ep13","ep14"],
+      },
+    ]
+  },
+  {
+    charId: "nikto",
+    nameKo: "닉토",
+    nameEn: "Nikto",
+    defaultFaction: "우르수스 크라이니 세베르 중앙 광산지구",
+    defaultRole: "감염자 광부 (렌킨의 친구 및 조언자)",
+    baseBio: "디에티 그라이퍼부르크 출신으로 구두장이, 교사, 백작의 양자, 사교계 최고의 댄서 등 파란만장한 이력을 거친 뒤 광산으로 추방된 감염자. 대의명분보다 생존을 중시하는 철저한 현실주의자이다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "감염자 광부 (렌킨의 친구 및 조언자)",
+        description: "디에티 그라이퍼부르크 출신으로 구두장이, 교사, 백작의 양자, 사교계 최고의 댄서 등 파란만장한 이력을 거친 뒤 광산으로 추방된 감염자. 대의명분보다 생존을 중시하는 철저한 현실주의자이다.",
+        defaultQuote: "구두장이에서 교사로, 다시 백작의 양자가 되기까지…… 내가 그동안 수많은 일을 했던 건, 여기서 허무하게 목숨을 버리기 위한 것이 아니다. 죽으면 모든 게 끝이다. 나는 어떻게든 살아남아야 한다.",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
     charId: "nine",
     nameKo: "나인",
     nameEn: "Nine",
@@ -2174,7 +2680,49 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "네오 리유니온 지도자",
         description: "가드, 데이크스트라, 살카즈 유격대, 환영 석궁병을 이끌고 로도스 아일랜드 본함을 기습한 네오 리유니온의 수장. 비살상 수면 꽃잎 아츠로 아미야를 잠재운 뒤, 감방에서 나온 탈룰라에게 죄수로서의 책임을 묻겠다고 선언하며 동토로 데려간다.",
         defaultQuote: "미안하지만 잠시만 자고 있어, 로도스 아일랜드의 어린 리더. 우리는 탈룰라를 데리러 온 거지, 너희와 살육전을 벌이러 온 게 아니니까.",
-        appearances: ["ep09","ep12"],
+        appearances: ["ep09","ep12","ep13","ep14","ep16"],
+      },
+    ]
+  },
+  {
+    charId: "nowell",
+    nameKo: "노웰",
+    nameEn: "Nowell",
+    defaultFaction: "네오 리유니온",
+    defaultRole: "안경사 겸 수선공 · 불사의 장생자 (Ageless)",
+    baseBio: "네오 리유니온 야영지의 온화한 안경사였으나, 실체는 수백 년간 전쟁을 겪어온 불사의 '장생자(Ageless)'이다. 탈룰라에게 자신의 정체를 고백한 뒤 빅토리아의 역사를 배후에서 조종하는 '운명의 손'이나 영원한 안식의 방법을 찾기 위해 홀로 런디니움으로 향한다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_nowell",
+        overrideRole: "안경사 겸 수선공 · 불사의 장생자 (Ageless)",
+        description: "네오 리유니온 야영지의 온화한 안경사였으나, 실체는 수백 년간 전쟁을 겪어온 불사의 '장생자(Ageless)'이다. 탈룰라에게 자신의 정체를 고백한 뒤 빅토리아의 역사를 배후에서 조종하는 '운명의 손'이나 영원한 안식의 방법을 찾기 위해 홀로 런디니움으로 향한다.",
+        defaultQuote: "수백 년 동안이나 연구했어…… '장생자', '신', '조종자', '오래된 존재'를 연구했고, 나 자신을 연구했어. ……난 그들을 죽일 방법을 알고 싶어. 아니면 날 죽일 수 있는 방법이라도.",
+        appearances: ["ep13"],
+      },
+    ]
+  },
+  {
+    charId: "oren",
+    nameKo: "오렌",
+    nameEn: "Oren",
+    defaultFaction: "라테라노 공증소",
+    defaultRole: "공증소 집행자 (아르마투라)",
+    baseBio: "살카즈에 대한 강한 적개심을 지닌 라테라노의 집행자. 프리스티스의 각성과 오리지늄 이변 이후 라테라노의 근간인 산크타의 광륜과 율법 시스템에 심각한 이상이 시작되었음을 알리는 복선의 주역이다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_oren",
+        overrideRole: "공증소 집행자 (아르마투라)",
+        description: "살카즈에 대한 강한 적개심을 지닌 라테라노의 집행자. 프리스티스의 각성과 오리지늄 이변 이후 라테라노의 근간인 산크타의 광륜과 율법 시스템에 심각한 이상이 시작되었음을 알리는 복선의 주역이다.",
+        defaultQuote: "손을 떨면 안 됐는데. 너는 날 무서워해야지, 살카즈. 이제 끝이야.",
+        appearances: ["ep15"],
       },
     ]
   },
@@ -2216,7 +2764,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "카즈델 군사위원회 고용 살카즈 용병 소녀",
         description: "수디언 구에서 전사한 고참 살카즈 용병 '그림'을 따라 컬럼비아에서 런디니움으로 온 어린 용병 소녀. 11번 군수 공장의 캐서린을 처형하려던 용병대에 속해 있었으나, 캐서린에게 그림의 유품 장갑을 돌려받고 마음에 깊은 동요를 겪으며 피스트 일행의 도움으로 살아 돌아간다.",
         defaultQuote: "저랑 같이 있는 용병들 대부분은 사실 자기들이 뭐 때문에 싸우는지도 모를 거예요. 우리는 그냥 갈 곳이 없을 뿐이죠. 아무 데도 우리를 반겨주지 않으니까.",
-        appearances: ["ep11","ep12"],
+        appearances: ["ep11","ep12","ep13"],
       },
     ]
   },
@@ -2276,13 +2824,33 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_baird",
+        cgAssetId: "cg_percival",
         overrideRole: "신생 리유니온 잠입 공작원 (호텔 도어맨)",
         description: "선셋 스트리트 호텔의 도어맨으로 위장해 있던 신생 리유니온의 스파이. 노포트 구 분리 직후 호텔의 군용 통신기지를 뜯어 공개 방송으로 위장한 암호 통신을 보내 레드와 나인 일행을 노포트 구로 불러들인다.",
         defaultQuote: "내가 호텔에 있던 통신기지를 뜯어서 겨우 장소를 찾아 소식을 보낸 거란 말이야.",
-        appearances: ["ep12"],
-        isSharedCg: true,
+        appearances: ["ep12","ep13"],
         notes: "현재 베어드 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
+      },
+    ]
+  },
+  {
+    charId: "phototaxis",
+    nameKo: "굴광자",
+    nameEn: "Phototaxis",
+    defaultFaction: "구인류 함선 '로도스 아일랜드'",
+    defaultRole: "구인류 함선 내 결정질 지성 구조체",
+    baseBio: "정체된 시간의 파편 속 구인류 함선에 기록되어 있는 다면체 결정 구조체. 차가운 기계음 속에 선의와 유머를 지니고 있으며, 외로운 여행자 힐다의 첫 번째 벗이 되어주었다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_phototaxis",
+        overrideRole: "구인류 함선 내 결정질 지성 구조체",
+        description: "정체된 시간의 파편 속 구인류 함선에 기록되어 있는 다면체 결정 구조체. 차가운 기계음 속에 선의와 유머를 지니고 있으며, 외로운 여행자 힐다의 첫 번째 벗이 되어주었다.",
+        defaultQuote: "안세타는 죽음과 탄생이 같은 기원에서 비롯되었다고 여긴다. ……그리고 그 함선의 이름은 '로도스 아일랜드'다.",
+        appearances: ["ep15"],
       },
     ]
   },
@@ -2303,6 +2871,69 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "스나이퍼 오퍼레이터 (전 건설 노동자 수감자)",
         description: "임금 사기 브로커의 집을 부숴 6개월형을 받고 맨스필드에 수감되었던 리베리 소녀. 시설 정비 모범수로 도면 정보를 카프카에게 제공했으며, 합법적으로 만기 출소한 뒤 외부에서 탈옥 일행의 차량과 이동을 지원하고 로도스에 합류한다.",
         appearances: ["sid_mansfield_break"],
+      },
+    ]
+  },
+  {
+    charId: "pith",
+    nameKo: "피스",
+    nameEn: "Pith",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "정예 오퍼레이터 (전술 캐스터)",
+    baseBio: "냉철한 상황 판단력으로 전선을 조율하는 정예 캐스터 오퍼레이터. 혼란에 빠진 일반 대원들을 다독이고 비핵심 구역을 정리하며 사상자 제로의 기적적인 본함 철수를 이끌어냈다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_pith",
+        overrideRole: "정예 오퍼레이터 (전술 캐스터)",
+        description: "냉철한 상황 판단력으로 전선을 조율하는 정예 캐스터 오퍼레이터. 혼란에 빠진 일반 대원들을 다독이고 비핵심 구역을 정리하며 사상자 제로의 기적적인 본함 철수를 이끌어냈다.",
+        defaultQuote: "우리에겐 아직 이 오리지늄 적을 처리할 수 있는 효과적인 수단이 없어. 자신을 보호하는 걸 최우선 목표로 하길 바란다.",
+        appearances: ["ep15"],
+      },
+    ]
+  },
+  {
+    charId: "popukar",
+    nameKo: "포푸카",
+    nameEn: "Popukar",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "예비작전팀 A6 오퍼레이터",
+    baseBio: "로도스 아일랜드 본함의 구석구석을 눈감고도 찾아가는 예비작전팀 대원. 본함 이변 속에서 이질적인 환영을 목격하고도 무사히 탈출했으며, 신기지에서 미드나이트의 병문안 선물을 챙기며 활기를 불어넣는다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_popukar",
+        overrideRole: "예비작전팀 A6 오퍼레이터",
+        description: "로도스 아일랜드 본함의 구석구석을 눈감고도 찾아가는 예비작전팀 대원. 본함 이변 속에서 이질적인 환영을 목격하고도 무사히 탈출했으며, 신기지에서 미드나이트의 병문안 선물을 챙기며 활기를 불어넣는다.",
+        defaultQuote: "포푸카의 기억대로라면 창문 쪽은 갑판일 텐데. 왜 모든 창문에서 저 사람들이 보이는 거지?",
+        appearances: ["ep15"],
+      },
+    ]
+  },
+  {
+    charId: "priestess",
+    nameKo: "프리스티스",
+    nameEn: "Priestess",
+    defaultFaction: "구인류 문명",
+    defaultRole: "오리지늄 공동 창조자",
+    baseBio: "과거 예언가(박사)와 함께 궁극적 위협('그')을 해석하기 위해 오리지늄 언어를 창조한 구인류 과학자. 신생 문명에 희망을 걸었던 예언가와 끝없는 '변론'을 벌였으며, 모든 물질을 오리지늄 정보로 동화시키는 것이 유일한 구원이라 믿고 있다.",
+    tier: "major",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_priestess",
+        overrideRole: "오리지늄 공동 창조자",
+        description: "과거 예언가(박사)와 함께 궁극적 위협('그')을 해석하기 위해 오리지늄 언어를 창조한 구인류 과학자. 신생 문명에 희망을 걸었던 예언가와 끝없는 '변론'을 벌였으며, 모든 물질을 오리지늄 정보로 동화시키는 것이 유일한 구원이라 믿고 있다.",
+        defaultQuote: "이건 우리가 함께 창조한 거잖아. 우리 둘만의 결정이자, 희망의 씨앗이지. 내 곁으로 돌아와, 박사…… 테라를 오리지늄 결정으로 바꾸어, 미래로 이어지는 계단으로 만들어.",
+        appearances: ["ep14","ep15"],
       },
     ]
   },
@@ -2348,6 +2979,48 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "qalidcoa",
+    nameKo: "칼리초아",
+    nameEn: "Qalid'čoa",
+    defaultFaction: "살카즈 고해신부",
+    defaultRole: "지하 유적 묘지기 / 실패한 불사의 그릇",
+    baseBio: "과거 키사르투슈타지의 영혼 연장 실험으로 인해 죽지 못하는 육체를 갖게 된 고대 살카즈 전사. 카즈델 영웅들의 묘지와 제단을 지키며 W에게 진실을 전하고, 수장 키사르투슈타지가 패배하자 그를 거두어 사라진다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_qalidcoa",
+        overrideRole: "지하 유적 묘지기 / 실패한 불사의 그릇",
+        description: "과거 키사르투슈타지의 영혼 연장 실험으로 인해 죽지 못하는 육체를 갖게 된 고대 살카즈 전사. 카즈델 영웅들의 묘지와 제단을 지키며 W에게 진실을 전하고, 수장 키사르투슈타지가 패배하자 그를 거두어 사라진다.",
+        defaultQuote: "이곳은 그 슬픔에 빠진 마왕이 다시 되살아난 곳이다.",
+        appearances: ["ep14"],
+      },
+    ]
+  },
+  {
+    charId: "raidian",
+    nameKo: "라이디언",
+    nameEn: "Raidian",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "정예 오퍼레이터 (전자기 통신 및 신호 분석)",
+    baseBio: "과거 우르수스 제3군단 통신병 출신인 로도스 아일랜드 정예 오퍼레이터. 우르수스의 참혹한 현실을 누구보다 잘 알면서도 감염자 광부들과 소대원들을 끝까지 돌보는 따뜻함과 탁월한 전자전 능력을 겸비하고 있다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_raidian",
+        overrideRole: "정예 오퍼레이터 (전자기 통신 및 신호 분석)",
+        description: "과거 우르수스 제3군단 통신병 출신인 로도스 아일랜드 정예 오퍼레이터. 우르수스의 참혹한 현실을 누구보다 잘 알면서도 감염자 광부들과 소대원들을 끝까지 돌보는 따뜻함과 탁월한 전자전 능력을 겸비하고 있다.",
+        defaultQuote: "나는 괜찮아…… 걱정하게 해서 미안해. 라이디언 소대, 전원 9명, 현 시간부로 복귀한다.",
+        appearances: ["ep15","ep16"],
+      },
+    ]
+  },
+  {
     charId: "red",
     nameKo: "레드",
     nameEn: "Red / '붉은 검'",
@@ -2361,12 +3034,11 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_talulah",
+        cgAssetId: "cg_red",
         overrideRole: "신생 리유니온 핵심 간부 (붉은 검)",
         description: "퍼시벌의 무전을 듣고 노포트 구에 잠입한 리유니온의 검사. 폭도들의 약탈로부터 감염자들을 구하고 살카즈 보급대를 기습하며 갈 곳 없는 감염자들을 새로운 리유니온으로 인도한다.",
         defaultQuote: "예전에 우르수스에 있을 때는 다들 날 '붉은 검'이라고 불렀어. 반드시 우리를 보게 해야 해. 우리의 목소리를 듣고 우리가 종기나 궤양이 아니라는 걸 인정하게 해야 해.",
-        appearances: ["ep12"],
-        isSharedCg: true,
+        appearances: ["ep12","ep13","ep16"],
         notes: "현재 탈룰라 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
       },
     ]
@@ -2393,6 +3065,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "renkin",
+    nameKo: "렌킨",
+    nameEn: "Renkin",
+    defaultFaction: "우르수스 크라이니 세베르 중앙 광산지구",
+    defaultRole: "감염자 광부 작업반장 및 무장 탈출 리더",
+    baseBio: "과거 국경 주둔군 병사 출신으로 전우들을 모두 잃고 광산에 끌려온 감염자 작업반장. 거친 카리스마 이면에 동족을 해치는 괴물들과 싸우다 자신마저 괴물이 될까 봐 두려워하는 인간적 고뇌를 품고 있으며, 그가 남긴 광산 램프는 훗날 저항의 상징이 된다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "감염자 광부 작업반장 및 무장 탈출 리더",
+        description: "과거 국경 주둔군 병사 출신으로 전우들을 모두 잃고 광산에 끌려온 감염자 작업반장. 거친 카리스마 이면에 동족을 해치는 괴물들과 싸우다 자신마저 괴물이 될까 봐 두려워하는 인간적 고뇌를 품고 있으며, 그가 남긴 광산 램프는 훗날 저항의 상징이 된다.",
+        defaultQuote: "햇살, 풀, 파울비스트, 산들바람…… 이런 것들은 갱도 안에 없어. 하지만 그렇다고 우리에게 그런 것들을 가질 자격이 없는 게 아니야! 이것들은 너와 나, 우리의 아이, 그리고 우리 모두가 평범한 사람으로서 마땅히 누려야 할 권리다!",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
     charId: "reunion_soldier",
     nameKo: "리유니온 돌격병",
     nameEn: "Reunion Soldier",
@@ -2411,7 +3105,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideFaction: "리유니온",
         overrideRole: "리유니온 선봉 돌격병",
         description: "체르노보그 시가지에서 로도스 아일랜드 구출팀을 가로막은 무장 돌격 전투원.",
-        appearances: ["ep00"],
+        appearances: ["ep00","ep03"],
       },
       {
         stateId: "scout",
@@ -2451,12 +3145,11 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_manfred",
+        cgAssetId: "cg_revenant",
         overrideRole: "대형 무장 비행선 동력원의 살카즈 원혼",
         description: "살카즈 대형 무장 비행선의 동력원에 깃든 고대 살카즈의 원혼. 공중 독에 침입한 아미야의 머리 위에 마왕의 왕관이 떠오른 것을 보고 이종족 키메라 마왕이라며 극도의 분노를 터뜨린다.",
         defaultQuote: "뒤틀린 키메라…… 이종족 마왕이라고?! 으하하하, 내 앞에 이종족 마왕이 서 있다니?!! 네가 뭔데 그 왕관을 갖고 있는 것이냐? 네가 뭔데 이러한 고통과 함께 서 있는 것이냐?",
-        appearances: ["ep12"],
-        isSharedCg: true,
+        appearances: ["ep12","ep14"],
         notes: "현재 맨프레드 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
       },
     ]
@@ -2503,6 +3196,27 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "rosa",
+    nameKo: "로사",
+    nameEn: "Rosa / 나탈리야",
+    defaultFaction: "로도스 아일랜드 / 우르수스 학생 자치단",
+    defaultRole: "디에티 그라이퍼부르크 주재 오퍼레이터",
+    baseBio: "체르노보그 귀족 가문 출신의 로도스 아일랜드 오퍼레이터. 수도 디에티 그라이퍼부르크에 남아 양심적 지식인·학생들과 연대하며 급변하는 고국의 위기를 예의주시하고 있다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_rosa",
+        overrideRole: "디에티 그라이퍼부르크 주재 오퍼레이터",
+        description: "체르노보그 귀족 가문 출신의 로도스 아일랜드 오퍼레이터. 수도 디에티 그라이퍼부르크에 남아 양심적 지식인·학생들과 연대하며 급변하는 고국의 위기를 예의주시하고 있다.",
+        defaultQuote: "군의 움직임이 너무 빈번해. 각지에서 파업과 휴강이 발생하고 있는데, 진압은 예전보다 더 빠르고 더 거세게 이루어지고 있어……",
+        appearances: ["ep16"],
+      },
+    ]
+  },
+  {
     charId: "rosmontis",
     nameKo: "로즈몬티스",
     nameEn: "Rosmontis",
@@ -2519,7 +3233,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "엘리트 오퍼레이터 / 전술 섬멸 담당",
         description: "과거 인체 실험의 아픔을 딛고 아미야와 박사를 지키기 위해 나선 최연소 엘리트 오퍼레이터. 4개의 거대한 염동력 전술 장비를 투하하여 패트리어트의 방패선 전열을 정면으로 분쇄한다.",
         defaultQuote: "내 벽은 부서지지 않아. 아미야를 지나가게 두지 않겠어요!",
-        appearances: ["ep07","ep08","sid_lone_trail"],
+        appearances: ["ep07","ep08","sid_lone_trail","ep15"],
+      },
+    ]
+  },
+  {
+    charId: "royal_court_officer",
+    nameKo: "왕정군 장교 (삽)",
+    nameEn: "Royal Court Officer / Shovel",
+    defaultFaction: "카즈델 군사위원회",
+    defaultRole: "브렌트우드 주둔 살카즈 왕정군 지휘관",
+    baseBio: "전쟁과 학살에 회의를 느끼며 스스로를 명령대로 움직이는 '삽'이라 부르던 브렌트우드 주둔 살카즈 장교. 마그달레네의 온실 장미를 아껴 자경단 은신을 눈감아주고 탈출 경로를 열어주었으며, 혈액 제단 가동일 그녀가 도망칠 수 있도록 스스로의 몸을 찔러 자결한다.",
+    tier: "npc_generic",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_royal_court_officer",
+        overrideRole: "브렌트우드 주둔 살카즈 왕정군 지휘관",
+        description: "전쟁과 학살에 회의를 느끼며 스스로를 명령대로 움직이는 '삽'이라 부르던 브렌트우드 주둔 살카즈 장교. 마그달레네의 온실 장미를 아껴 자경단 은신을 눈감아주고 탈출 경로를 열어주었으며, 혈액 제단 가동일 그녀가 도망칠 수 있도록 스스로의 몸을 찔러 자결한다.",
+        defaultQuote: "짓밟히지 말아야 할 것들도 있는 법이야, '정원사'. ……훗, 그럼 다시 자기 소개를 해야겠군. 내 이름은 '삽'이다.",
+        appearances: ["ep13"],
       },
     ]
   },
@@ -2561,7 +3296,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "카즈델 군사위원회 수석 연구자",
         description: "고해신부의 누이이자 오리지늄 인체 실험을 이끄는 잔혹한 연구자. 리즈(나이팅게일)의 신체에 집착하며 샤이닝을 도발했으나, 샤이닝의 단호한 결별 선언을 마주한다.",
         defaultQuote: "하아, 샤이닝의 실험이 중단된 이후로 제 연구도 점점 어려워지고 있어요. 리즈의 몸은 아주 특별해.",
-        appearances: ["ep11"],
+        appearances: ["ep11","ep13","ep14"],
       },
     ]
   },
@@ -2582,7 +3317,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "카즈델 살카즈 십왕정 뱀파이어 군주",
         description: "살카즈 뱀파이어 종족의 잔혹한 군주. 컴버랜드 저택을 기습 방화해 불바다로 만들고, 방위군 사령탑 옥상에서 병사들을 꼭두각시로 조종해 투신시키며 거대한 피의 파도를 일으켰으나 로고스에게 가로막힌다.",
         defaultQuote: "저는…… 당신들 몸에서 유일하게 가치 있는 물건으로 이 바닥을 깨끗하게 청소하는 걸 전혀 개의치 않습니다.",
-        appearances: ["ep10","ep11"],
+        appearances: ["ep10","ep11","ep13"],
       },
     ]
   },
@@ -2604,6 +3339,27 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         description: "전 라인 랩 방위과 주임이자 와이번. 다이아볼릭 위기 이후 총괄 크리스틴의 통제 불능한 야망에 반발해 사직했으며, 맨스필드 복도로 진입하여 순백의 칼슘 손칼로 제셀톤을 격파하고 앤소니를 구출한다.",
         defaultQuote: "맞아, 나는 통제할 수 없는 걸 두려워한다. 하지만 그건 혼돈이 두려워서가 아니라, 혼돈이 가져오는 후퇴가 두려워서야.",
         appearances: ["sid_dorothys_vision","sid_lone_trail","sid_mansfield_break"],
+      },
+    ]
+  },
+  {
+    charId: "savage",
+    nameKo: "새비지",
+    nameEn: "Savage",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "엔지니어링부 오퍼레이터",
+    baseBio: "림 빌리턴 출신의 로도스 아일랜드 고참 엔지니어 오퍼레이터. 장기 외근으로 떠나기 전 본함 개조를 앞둔 대원들을 격려하고 박사에게 황금 당근을 건네며 오랜 유대를 다진다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_savage",
+        overrideRole: "엔지니어링부 오퍼레이터",
+        description: "림 빌리턴 출신의 로도스 아일랜드 고참 엔지니어 오퍼레이터. 장기 외근으로 떠나기 전 본함 개조를 앞둔 대원들을 격려하고 박사에게 황금 당근을 건네며 오랜 유대를 다진다.",
+        defaultQuote: "외근 임무를 끝내고 다시 만날 날을 기대하고 있을게. 그러니까 내가 돌아올 때까지 기다려야 해, 박사.",
+        appearances: ["ep15"],
       },
     ]
   },
@@ -2646,6 +3402,69 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         description: "바벨 시절부터 테레시아와 켈시를 보좌한 고결한 살카즈 정찰병. 체르노보그에서 박사 구출팀의 탈출 시간을 벌기 위해 섭정왕의 지휘관 가르상을 처단하고, 12명의 팀원과 함께 장렬히 산화한다.",
         defaultQuote: "네 눈으로 진상을 보기 전까지, 헛되게 죽지 마라. 우리 살카즈는…… 계속 이렇게 이용당해서는 안 돼.",
         appearances: ["sid_darknights_memoir"],
+      },
+    ]
+  },
+  {
+    charId: "secunda",
+    nameKo: "세쿤다",
+    nameEn: "Secunda / 언더플로우 Underflow",
+    defaultFaction: "에기르",
+    defaultRole: "에기르 순찰대 및 연락관",
+    baseBio: "에기르의 클레멘티아 집정관과 글래디아 집정관의 명을 받아 로도스 아일랜드와 협력하는 에기르 연락관. 테라 전체에 다가오는 구인류의 위협에 맞서 에기르와 육지의 공조를 잇는 가교 역할을 한다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_secunda",
+        overrideRole: "에기르 순찰대 및 연락관",
+        description: "에기르의 클레멘티아 집정관과 글래디아 집정관의 명을 받아 로도스 아일랜드와 협력하는 에기르 연락관. 테라 전체에 다가오는 구인류의 위협에 맞서 에기르와 육지의 공조를 잇는 가교 역할을 한다.",
+        defaultQuote: "이 이름이 에기르의 기록에도 나온다면, 당신들이 맞선 위협이 절대 우연이 아니라는 의미겠죠. ……해륙 연합 방어선도 추가로 검토하겠습니다.",
+        appearances: ["ep15"],
+      },
+    ]
+  },
+  {
+    charId: "sharp",
+    nameKo: "샤프",
+    nameEn: "Sharp",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "정예 오퍼레이터 (근접 전술 지휘)",
+    baseBio: "어떤 기이한 환영 속에서도 흔들리지 않는 노련한 정예 오퍼레이터. 본함 내부가 아수라장이 된 상황에서도 항공기로 출격해 외부 채굴 플랫폼의 무고한 희생을 막기 위해 하늘로 몸을 던졌다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_sharp",
+        overrideRole: "정예 오퍼레이터 (근접 전술 지휘)",
+        description: "어떤 기이한 환영 속에서도 흔들리지 않는 노련한 정예 오퍼레이터. 본함 내부가 아수라장이 된 상황에서도 항공기로 출격해 외부 채굴 플랫폼의 무고한 희생을 막기 위해 하늘로 몸을 던졌다.",
+        defaultQuote: "항로에서 발생할 수 있는 돌발 요소를 반드시 제거해야 해. 무고한 사람이 휘말리지 않도록 밖에서 본함을 보호해야겠군.",
+        appearances: ["ep15"],
+      },
+    ]
+  },
+  {
+    charId: "shearer",
+    nameKo: "시어러 소위",
+    nameEn: "2nd Lt. Shearer",
+    defaultFaction: "윈더미어 공작군 / 파라곤 부대",
+    defaultRole: "윈더미어 공작군 군의관 겸 소위",
+    baseBio: "윈더미어 공작군에 남았던 군의관 출신 소위. 공작 사후 참모단이 도주하자 감염자와 난민을 버리고 강행군하려다 시즈의 주먹에 단숨에 제압당했으나, 이후 최전선에서 모두를 지키는 시즈와 델핀의 진정성에 감화되어 파라곤 부대의 충실한 부관으로 복무한다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_shearer",
+        overrideRole: "윈더미어 공작군 군의관 겸 소위",
+        description: "윈더미어 공작군에 남았던 군의관 출신 소위. 공작 사후 참모단이 도주하자 감염자와 난민을 버리고 강행군하려다 시즈의 주먹에 단숨에 제압당했으나, 이후 최전선에서 모두를 지키는 시즈와 델핀의 진정성에 감화되어 파라곤 부대의 충실한 부관으로 복무한다.",
+        defaultQuote: "행군 속도를 조금 늦춘다…… 하지만 행군은 이대로 진행한다……",
+        appearances: ["ep13"],
       },
     ]
   },
@@ -2700,7 +3519,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "사도(Followers) 소속 방랑 치유사",
         description: "고해신부 가문의 어둠을 등진 방랑자. 거리에서 뱀파이어 괴물들에게 포위된 자경단을 구출하고, 고해신부·살루스와의 만찬에서 절연을 선언한다. 사령탑 전투에서 위병들을 막아서고, 치명상을 입은 켈시의 응급 수술을 집도해 목숨을 건져낸다.",
         defaultQuote: "……리즈 씨는 건강합니다. 당신들은 제 가족이 아닙니다. 앞으로 제게 초대장 같은 거 보낼 필요도 없어요.",
-        appearances: ["ep11","ep12"],
+        appearances: ["ep11","ep12","ep13","ep14"],
       },
     ]
   },
@@ -2721,7 +3540,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "글래스고 패거리 리더 겸 빅토리아 왕실 후계자",
         description: "아슬란 왕가의 유일한 후계자이자 글래스고의 두목. 드라코의 열쇠로 왕의 안식처 문을 열고 마침내 빅토리아 왕권의 상징인 보검 '왕의 숨결'을 손에 쥔다. 알레데일의 배신 앞에서도 변치 않는 신뢰를 보냈으며, 알레데일이 남긴 유지를 받들어 런디니움 해방의 군주로 우뚝 선다.",
         defaultQuote: "……응. 이게 바로…… 우리의 런디니움이야.",
-        appearances: ["ep10","ep11","ep12"],
+        appearances: ["ep10","ep11","ep12","ep13","ep14"],
       },
     ]
   },
@@ -2745,7 +3564,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "라인 랩 구조과 주임 겸 오리지늄 연구자",
         description: "이프리트의 오리지늄 병증 치료와 인체 실험의 진실을 규명하기 위해 헌신하던 라인 랩의 핵심 연구원.",
         defaultQuote: "과학이 생명의 존엄을 짓밟는다면, 그것은 더 이상 과학이 아닙니다.",
-        appearances: ["sid_dorothys_vision","sid_mansfield_break"],
+        appearances: ["sid_dorothys_vision","sid_mansfield_break","sid_lone_trail"],
       },
       {
         stateId: "paragon",
@@ -2853,12 +3672,12 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_windermere",
+        cgAssetId: "cg_none",
         overrideRole: "윈더미어 공작군 고속 전함 베테랑 군관",
         description: "윈더미어 공작의 고속 전함 갑판에서 젊은 병사 피어스와 휴가 이야기를 나누던 베테랑 군관. 더 샤드 빌딩 상공에 출현한 살카즈 대형 무장 비행선의 주포 시험 사격에 전함이 직격당해 전사한다.",
         defaultQuote: "피어스. 휴가 허가가 떨어졌다지? ……그때가 되면 진짜 훈장을 몇 개 받았길 바란다.",
         appearances: ["ep12"],
-        isSharedCg: true,
+        isSilhouetteOnly: true,
         notes: "현재 윈더미어 공작 CG 임시 공유 중 / 향후 전용 CG 분리 권고",
       },
     ]
@@ -2892,6 +3711,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     baseBio: "선왕이 마지막으로 책봉했던 증기 기사이자 빅토리아의 살아있는 전설. 4년 전 왕의 안식처에서 살카즈의 매복에 걸려 온몸에 주술 대못이 박힌 채 어둠 속에서 홀로 살아남아 있었다. 왕의 숨결을 쥔 시즈를 침탈자로 오인해 폭주하며 격돌했으나, 무너지는 성역 안에서 알레데일과 함께 닫힌 문 너머에 남겨진다.",
     tier: "supporting",
     defaultStateId: "default",
+    aliases: ["charles_lynch"],
     states: [
       {
         stateId: "default",
@@ -2900,7 +3720,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "빅토리아 제국 최후의 증기기사 (찰스 린치 경)",
         description: "선왕이 마지막으로 책봉했던 증기 기사이자 빅토리아의 살아있는 전설. 4년 전 왕의 안식처에서 살카즈의 매복에 걸려 온몸에 주술 대못이 박힌 채 어둠 속에서 홀로 살아남아 있었다. 왕의 숨결을 쥔 시즈를 침탈자로 오인해 폭주하며 격돌했으나, 무너지는 성역 안에서 알레데일과 함께 닫힌 문 너머에 남겨진다.",
         defaultQuote: "“빅토리아.” (침울한 증기 분사음)",
-        appearances: ["ep11"],
+        appearances: ["ep11","ep13","ep14"],
+      },
+    ]
+  },
+  {
+    charId: "stormeye",
+    nameKo: "스톰아이",
+    nameEn: "Stormeye",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "정예 오퍼레이터 (원거리 저격)",
+    baseBio: "백발백중의 활솜씨를 지닌 정예 저격수. 죽은 형제들의 환영을 이겨내고 동료와 ZOOT의 계산을 전적으로 신뢰하는 과감한 사격으로 어비스 돌파와 코어 제압에 결정적인 공을 세운다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_stormeye",
+        overrideRole: "정예 오퍼레이터 (원거리 저격)",
+        description: "백발백중의 활솜씨를 지닌 정예 저격수. 죽은 형제들의 환영을 이겨내고 동료와 ZOOT의 계산을 전적으로 신뢰하는 과감한 사격으로 어비스 돌파와 코어 제압에 결정적인 공을 세운다.",
+        defaultQuote: "발사한 순간에 지형이 바뀌었어. 장애물이 사라지면서 적을 맞히다니…… 내 화살에 맡겨.",
+        appearances: ["ep15"],
       },
     ]
   },
@@ -2944,7 +3785,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "리유니온 운동 총천사",
         description: "차별받는 감염자들의 해방을 기치로 내걸고 체르노보그 사태를 일으킨 리유니온의 최고 지도자.",
         defaultQuote: "너희는 아직도 그 거짓된 도시의 평화를 믿는가?",
-        appearances: ["ep01","sid_darknights_memoir"],
+        appearances: ["ep01","sid_darknights_memoir","ep08","ep09","ep12","ep13","ep14","ep16"],
       },
       {
         stateId: "snake_possessed",
@@ -3011,7 +3852,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "바벨 최고 지도자 겸 살카즈의 전대 마왕",
         description: "카즈델의 평화와 살카즈의 구원을 위해 바벨을 창설했던 전대 마왕. 켈시, 박사와 함께 이상을 꿈꾸었으나 비극적인 죽음을 맞이했다.",
         defaultQuote: "언젠가 이 대지의 모든 아이들이 밤하늘의 별을 올려다볼 수 있기를.",
-        appearances: ["sid_darknights_memoir"],
+        appearances: ["sid_darknights_memoir","ep10","ep14"],
       },
       {
         stateId: "revived_king",
@@ -3043,7 +3884,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "카즈델 살카즈 군사위원회 섭정왕",
         description: "카즈델의 부흥을 이끄는 섭정왕. 세인트 마르솔 학교 연극 무대에서 제국의 몰락과 살카즈의 미래를 논했으며, 방위군 사령탑 전장에 직접 나타나 마왕(아미야)을 베려다 가로막는 켈시에게 치명상을 입힌다. 샤드 상공에 거대 비행선을 부상시키며 대전쟁을 개시한다.",
         defaultQuote: "만약 살카즈에게 신생의 기회가 남아있다면, 지금이야말로 그 유일한 기회다.",
-        appearances: ["ep10","ep11"],
+        appearances: ["ep10","ep11","ep14","ep15"],
       },
     ]
   },
@@ -3090,6 +3931,92 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     ]
   },
   {
+    charId: "touch",
+    nameKo: "터치",
+    nameEn: "Touch",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "정예 오퍼레이터 (야전 의료 총괄)",
+    baseBio: "정예 오퍼레이터들의 생명줄을 책임지는 수석 메딕. 켈시의 부재라는 충격 속에서도 흔들리는 와파린을 다독이며, 어비스 결전과 본함 철수 후 200여 부상자의 응급 치료와 의료진을 통솔한다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_touch",
+        overrideRole: "정예 오퍼레이터 (야전 의료 총괄)",
+        description: "정예 오퍼레이터들의 생명줄을 책임지는 수석 메딕. 켈시의 부재라는 충격 속에서도 흔들리는 와파린을 다독이며, 어비스 결전과 본함 철수 후 200여 부상자의 응급 치료와 의료진을 통솔한다.",
+        defaultQuote: "이건 명령입니다. 걱정하지 마세요. 저 또한 제 관할 내에서 사고를 당하는 오퍼레이터가 생기는 것을 원치 않으니까요.",
+        appearances: ["ep15"],
+      },
+    ]
+  },
+  {
+    charId: "ursula",
+    nameKo: "울술라",
+    nameEn: "Ursula",
+    defaultFaction: "카즈델 군사위원회",
+    defaultRole: "군사위원회 최연소 소령 · 스파인 지휘관",
+    baseBio: "카즈델 빈민가 출신의 군사위원회 최연소 소령이자 베헤모스 수송선 '스파인'의 지휘관. 유물 회중시계 스태프로 국소 시간을 역행시키며 외드레르·이네스와 격돌했고, 생귀나르의 명령에 따라 손목을 그어 피를 바치려다 외드레르의 지혈로 목숨을 건지고 포로가 된다.",
+    tier: "npc_named",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_ursula",
+        overrideRole: "군사위원회 최연소 소령 · 스파인 지휘관",
+        description: "카즈델 빈민가 출신의 군사위원회 최연소 소령이자 베헤모스 수송선 '스파인'의 지휘관. 유물 회중시계 스태프로 국소 시간을 역행시키며 외드레르·이네스와 격돌했고, 생귀나르의 명령에 따라 손목을 그어 피를 바치려다 외드레르의 지혈로 목숨을 건지고 포로가 된다.",
+        defaultQuote: "나처럼 빈민가 출신의 가난한 소녀도 고대의 순수한 피를 가진 왕정의 구성원들과 같은 전략 테이블을 볼 수 있도록 기회를 준 것도 그분들이라고. ……군사위원회야말로…… '카즈델'이 진정한 '국가'가 될 수 있는 기반이야.",
+        appearances: ["ep13"],
+      },
+    ]
+  },
+  {
+    charId: "ursus_miners",
+    nameKo: "우르수스 감염자 광부들",
+    nameEn: "겐나디, 다리야, 키안, 유리, 청년 기능공 등",
+    defaultFaction: "우르수스 크라이니 세베르 및 설원 정착촌",
+    defaultRole: "광산 노동자 및 설원 주민 군상",
+    baseBio: "제국의 번영을 밑바닥에서 지탱하다 광맥이 고갈되자 소리 소문 없이 버려진 이름 없는 민초들. 그러나 네바 호수 위에 그들이 만든 '불꽃의 띠'와 광역 정신 방송은 우르수스 사회 전체를 일깨우는 거대한 불씨가 된다.",
+    tier: "npc_generic",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "광산 노동자 및 설원 주민 군상",
+        description: "제국의 번영을 밑바닥에서 지탱하다 광맥이 고갈되자 소리 소문 없이 버려진 이름 없는 민초들. 그러나 네바 호수 위에 그들이 만든 '불꽃의 띠'와 광역 정신 방송은 우르수스 사회 전체를 일깨우는 거대한 불씨가 된다.",
+        defaultQuote: "형제자매의 손에서 불을 이어받아, 어둠을 밝히고 앞길을 밝히겠어…… 우리가 여기 서 있는 건, 온 우르수스에게…… 우리가 살아 있었음을 보여주기 위한 거야.",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
+    charId: "ursus_soldiers",
+    nameKo: "우르수스 제4군단 장교 및 병사들",
+    nameEn: "이병 비야체 키노프, 방패병 파디야 등",
+    defaultFaction: "우르수스 제국 제4군단",
+    defaultRole: "북방 정규군 지휘관 및 병단원",
+    baseBio: "광맥 고갈로 인해 통조림부터 탄약까지 내부 보급이 썩어들어가는 제국의 군사 기계. 내부의 구조적 파탄을 외부 침략 전쟁으로 돌파하려는 우르수스 군부의 냉혹한 단면을 보여준다.",
+    tier: "npc_generic",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "북방 정규군 지휘관 및 병단원",
+        description: "광맥 고갈로 인해 통조림부터 탄약까지 내부 보급이 썩어들어가는 제국의 군사 기계. 내부의 구조적 파탄을 외부 침략 전쟁으로 돌파하려는 우르수스 군부의 냉혹한 단면을 보여준다.",
+        defaultQuote: "더 많은 우르수스인의 생존을 위해, 우르수스의 존속을 위해, 우리에게 남은 선택지는 단 하나뿐…… 바로 이 대지에 불을 지피는 것이다.",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
+      },
+    ]
+  },
+  {
     charId: "w",
     nameKo: "W",
     nameEn: "W",
@@ -3106,7 +4033,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "살카즈 용병 지휘관",
         description: "전임 용병의 이름과 무기를 계승하여 카즈델을 떠돌던 살카즈 여성. 테레시아 전하의 따스한 인품에 감화되어 바벨에 홀로 남았으나, 전하의 서거 후 테레시스 암살 가담자들을 사냥하다 리유니온에 잠입한다. 체르노보그 참극의 이면에서 탈룰라와의 최후 결전을 준비한다.",
         defaultQuote: "오랜만이야, 아니면 처음 뵙겠습니다라고 해야 하나? 가봐, 어디까지 가는지 지켜봐 줄 테니까.",
-        appearances: ["ep01","ep03","ep07","ep10","ep12","sid_darknights_memoir"],
+        appearances: ["ep01","ep03","ep07","ep10","ep12","sid_darknights_memoir","ep13","ep14"],
+      },
+    ]
+  },
+  {
+    charId: "warfarin",
+    nameKo: "와파린",
+    nameEn: "Warfarin",
+    defaultFaction: "로도스 아일랜드",
+    defaultRole: "의료부 핵심 책임자 및 혈액학 권위자",
+    baseBio: "로도스 아일랜드 의료부를 이끄는 고참 원로 메딕. 본함 봉인과 켈시의 부재로 큰 전력 손실을 입은 상황에서도 조직의 안정과 대원들의 안전을 최우선으로 살피며 원정의 위험성을 신중히 점검한다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_warfarin",
+        overrideRole: "의료부 핵심 책임자 및 혈액학 권위자",
+        description: "로도스 아일랜드 의료부를 이끄는 고참 원로 메딕. 본함 봉인과 켈시의 부재로 큰 전력 손실을 입은 상황에서도 조직의 안정과 대원들의 안전을 최우선으로 살피며 원정의 위험성을 신중히 점검한다.",
+        defaultQuote: "우르수스는 지금도 위험한 곳이야. 게다가 우린 방금 큰 손실을 입었잖아……",
+        appearances: ["ep15","ep16"],
       },
     ]
   },
@@ -3119,6 +4067,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     baseBio: "빅토리아의 노회한 대공작이자 에블라나의 든든한 후원자. 황야 전선에서 에블라나와 함께 진군하던 중 당도한 나흐체러르 킹의 부식 대군을 바라보며 대전쟁의 피할 수 없는 도래를 직감한다.",
     tier: "major",
     defaultStateId: "default",
+    aliases: ["duke_of_wellington"],
     states: [
       {
         stateId: "default",
@@ -3127,7 +4076,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "빅토리아 대공작 · 더블린 후원자",
         description: "빅토리아의 노회한 대공작이자 에블라나의 든든한 후원자. 황야 전선에서 에블라나와 함께 진군하던 중 당도한 나흐체러르 킹의 부식 대군을 바라보며 대전쟁의 피할 수 없는 도래를 직감한다.",
         defaultQuote: "제 눈에…… 나흐체러르 킹이 보입니다. 이 전장은 사람을 두렵게 하면서도 존경스럽게 합니다. 가울의 올드 가디언 이후로 전 오랫동안 이런 상대를 만나지 못했습니다.",
-        appearances: ["ep12"],
+        appearances: ["ep12","ep14"],
       },
     ]
   },
@@ -3140,6 +4089,7 @@ export const characterMasterDb: CharacterMasterRecord[] = [
     baseBio: "갈라바에 철 방패를 거느린 강력한 여장군. 고속 전함이 격침당하자 분노했으나, 노포트 구에서 피어오른 연기 신호를 보고 딸 델핀의 생존을 확인하여 전함 함대를 이끌고 진격해 탈출한 난민들을 전원 수용한다.",
     tier: "major",
     defaultStateId: "default",
+    aliases: ["duke_of_windermere"],
     states: [
       {
         stateId: "default",
@@ -3148,7 +4098,29 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         overrideRole: "빅토리아 대공작 · 윈더미어 공작군 총사령관",
         description: "갈라바에 철 방패를 거느린 강력한 여장군. 고속 전함이 격침당하자 분노했으나, 노포트 구에서 피어오른 연기 신호를 보고 딸 델핀의 생존을 확인하여 전함 함대를 이끌고 진격해 탈출한 난민들을 전원 수용한다.",
         defaultQuote: "난 그저 델핀을 집에 데려가려고 여기 온 것뿐이야. 배는 방향을 돌리지 말고 노포트 구로 더 빨리 몰아! 저 폭풍이 형성되기 전에 델핀을 찾아야 한다!",
-        appearances: ["ep12"],
+        appearances: ["ep12","ep13"],
+      },
+    ]
+  },
+  {
+    charId: "witte",
+    nameKo: "위트 의장",
+    nameEn: "Chairman Witte",
+    defaultFaction: "우르수스 제국 의회",
+    defaultRole: "제국 의회 의장",
+    baseBio: "우르수스 제국 의회를 대표하는 노정객. 군부의 팽창을 견제하는 한편, 오리지늄 고갈 위기를 타개하기 위해 직속 장교를 밀파하며 체르노보그 '석관'의 에너지 활용을 모색한다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "제국 의회 의장",
+        description: "우르수스 제국 의회를 대표하는 노정객. 군부의 팽창을 견제하는 한편, 오리지늄 고갈 위기를 타개하기 위해 직속 장교를 밀파하며 체르노보그 '석관'의 에너지 활용을 모색한다.",
+        defaultQuote: "그 '켈시'라는 자는…… 정말 죽었나? 우리가 석관을 손에 넣은 지도 몇 년이 지났지만, 그 안의 에너지를 끌어내는 방법은 아직도 알아내지 못했어.",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
       },
     ]
   },
@@ -3170,6 +4142,28 @@ export const characterMasterDb: CharacterMasterRecord[] = [
         description: "라인 랩 인적자원조사과 주임이자 메이랜더 재단의 핵심 요원(과거 대배우 마리안 블레이크). 냉철한 통찰력으로 사태를 조망하며 부통령 암살을 막고 사일런스를 축복한다.",
         defaultQuote: "발사 준비는 끝난 것 같네... 크리스틴, 넌 네가 꿈꾸는 높은 하늘로 날아가렴.",
         appearances: ["sid_lone_trail"],
+      },
+    ]
+  },
+  {
+    charId: "yeliza",
+    nameKo: "옐리자 여대공",
+    nameEn: "Grand Duchess Yeliza",
+    defaultFaction: "우르수스 제국",
+    defaultRole: "크라이니 세베르 관할 통치자 (여대공)",
+    baseBio: "정식 명칭은 옐리자베타 콘스탄티노브나 라치차라. 총독 취임 이래 사형 판결을 한 건도 내리지 않아 대외적으로는 '자비로운 여대공'이라 칭송받지만, 실상은 자신의 영지와 권력을 지키기 위해 생체 실험과 군단의 광산 도륙을 냉혹하게 승인하는 귀족 통치자이다.",
+    tier: "supporting",
+    defaultStateId: "default",
+    states: [
+      {
+        stateId: "default",
+        label: "기본 상태",
+        cgAssetId: "cg_none",
+        overrideRole: "크라이니 세베르 관할 통치자 (여대공)",
+        description: "정식 명칭은 옐리자베타 콘스탄티노브나 라치차라. 총독 취임 이래 사형 판결을 한 건도 내리지 않아 대외적으로는 '자비로운 여대공'이라 칭송받지만, 실상은 자신의 영지와 권력을 지키기 위해 생체 실험과 군단의 광산 도륙을 냉혹하게 승인하는 귀족 통치자이다.",
+        defaultQuote: "사람들은 자신에게서 권리를 빼앗은 자를 경외하지만, 일부 권리를 되돌려준 자에게는 감사해 하죠. 하지만 저는 그런 게 자비라고 생각하지는 않아요.",
+        appearances: ["ep16"],
+        isSilhouetteOnly: true,
       },
     ]
   },

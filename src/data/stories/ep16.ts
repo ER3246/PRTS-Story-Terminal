@@ -1563,7 +1563,7 @@ export const episode16: StoryArchive = {
       nameEn: "Mantra",
       faction: "로도스 아일랜드",
       role: "정예 오퍼레이터 (정신 감응 아츠)",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/mantra.png',
       description: "성대 손상으로 목소리를 내지 못하지만 강력한 신경·정신 감응 아츠를 구사하는 로도스 아일랜드 정예 오퍼레이터. 과거 사르곤의 과묵한 '파디샤'였으나 낡은 왕권을 버리고 떠났으며, 옛날 우르수스 북툰드라에서 감염자들을 구하기 위해 황제의 칼날을 환영에 가두었다가 유로지비 '가브리일'로 오해받았던 깊은 인연을 지니고 있다.",
       quote: "유로지비, 너는 목소리의 근원이 될 수 없다. 너는…… '내'가 될 수 없다. 왜냐하면, 나는 목소리가 없고, 너는 단지…… '메아리'에 불과하니까.",
       statusInChapter: "황제의 칼날의 오염 흔적으로 소대를 추적해 유로지비의 정체를 간파하여 광부들을 해방시키고, 자기폭풍을 이용한 전역 정신 방송 송출 후 탈진한다."
@@ -1585,7 +1585,7 @@ export const episode16: StoryArchive = {
       nameEn: "Elysium",
       faction: "로도스 아일랜드",
       role: "정예 오퍼레이터 (통신 지원 및 척후)",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/elysium.png',
       description: "로도스 아일랜드 제3분대 소속 통신 오퍼레이터. 평소에는 쾌활하고 능청스럽지만 실전에서는 만트라와 한 몸 같은 호흡을 자랑하며, 상관인 만트라가 무리할 때마다 진심으로 걱정하고 헌신적으로 보좌한다.",
       quote: "방금 내 오리지늄 아츠랑 장비로 네 신호를 증폭시켰어. 라이디언 선배 말로는 그 자기폭풍에 아주 특수한 전기 신호가 섞여 있어서, 역이용할 수 있대!",
       statusInChapter: "만트라의 정신 감응 결과를 대원들에게 통역하고 열화상으로 광부들을 탐지했으며, 아츠와 통신 장비로 만트라·베토치키의 전역 방송 신호를 증폭시킨다."
@@ -1640,7 +1640,7 @@ export const episode16: StoryArchive = {
       nameEn: "Kseniya",
       faction: "크라이니 세베르 중앙 광산지구 연구소 / 전 체르노보그 연구소",
       role: "오리지늄 연구원 (전 일리아의 조수)",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/kseniya.png',
       description: "정식 명칭은 크세니야 마르코브나 넬류도바. 과거 체르노보그 석관 연구소에서 일리아의 말단 조수로 일할 때 자신의 에너지 전환 공식을 칭찬해 준 켈시 소장을 깊이 존경하며, 선량한 양심으로 인해 제국의 비인도적 실험 앞에서 괴로워하던 학자이다.",
       quote: "'오카'는…… ……근위병을…… 죽일 수 있어요…… 위험합니다.",
       statusInChapter: "인체 실험 희생의 죄책감으로 자살을 기도하다 박사 일행에게 구조되어 '오카'와 근위병 사망, 물소리의 '변론' 암호를 밝히고 로도스와 함께 탈출한다."
@@ -1684,7 +1684,7 @@ export const episode16: StoryArchive = {
       nameEn: "Vetochki / '잔가지'",
       faction: "우르수스 크라이니 세베르 중앙 광산지구",
       role: "어린 감염자 광부 소녀",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/betochki.png',
       description: "광산에서 태어나고 자라 말을 더듬으며 '잔가지'라는 별명으로 불리던 소녀. 끔찍한 트라우마로 기억을 닫고 할머니의 환영에 의지했으나, 진실을 직시하고 스스로 구리종을 울려 어른들을 일깨우는 강인한 생존자로 성장한다.",
       quote: "우리는, 돌아가지 않아요. 우리는, 떠날 거예요. 우리는, 살아남을 거예요. '살아남는' 게…… 더 이상, 우리의 전부가, 아닐 때까지.",
       statusInChapter: "가짜 나댜 할머니에게 세뇌될 뻔했으나 만트라의 인도로 가족의 죽음을 기억해 내 유로지비의 정체를 폭로하고, 구리종과 전역 방송으로 학살을 고발한다."
@@ -1695,7 +1695,7 @@ export const episode16: StoryArchive = {
       nameEn: "Nadya / Yurodivy",
       faction: "우르수스 크라이니 세베르 / 데몬의 창조물",
       role: "베토치키의 친할머니",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/nadya.png',
       description: "가브리일, 솔로미다, 베스메르트, 아브로라, 나댜 등 시대마다 고통받는 우르수스인들이 투영한 인식과 기대를 먹고 자라난 데몬 계통의 정신적 공명체이자 근위병 실험의 근원. 고통의 인내와 죽음을 통한 영혼의 구원이라는 달콤한 허무로 인간을 유혹한다.",
       quote: "가브리일, 솔로미다, 베스메르트, 아브로라, 나댜…… 그리고 '유로지비'. 모두, 나야. 세상 사람들이 본 내 모습은, 나에 대한 그들의 인식과 기대의 투영일 뿐이다.",
       statusInChapter: "베토치키의 절망에 기생해 가짜 나댜로 현현하고 근위병을 살해한 뒤 광부들에게 죽음을 종용했으나, 베토치키와 만트라에게 정체가 폭로되며 소멸한다."
@@ -1772,7 +1772,7 @@ export const episode16: StoryArchive = {
       nameEn: "Emperor's Blade / 'Black Eye'",
       faction: "우르수스 제국 황실 친위대",
       role: "황실 직속 초인 근위병",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/emperors_blade.png',
       description: "북방 데몬의 파편을 갑주와 신체에 봉인한 우르수스 제국의 절대적 폭력의 상징이자, 광부들에게 '검은 눈'이라 불리던 공포의 대상. 그의 전사는 여대공의 광산 봉쇄와 제4군단 개입을 부른 직접적 도화선이 된다.",
       quote: "그랬군…… 그랬군…… ……'가브리일'……",
       statusInChapter: "과거 만트라를 '가브리일'로 오인해 쫓다 크라이니 세베르에 투입되었으나, 광산에서 나댜(유로지비)의 기습을 받아 사망하며 '국가'의 오염을 남긴다."
@@ -1783,7 +1783,7 @@ export const episode16: StoryArchive = {
       nameEn: "Koselna",
       faction: "우르수스 지식인 / 크라이니 세베르 재앙 복구 지역",
       role: "광부 야학 교사",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/koselna.png',
       description: "유능한 교육자이자 지식인. 디에티 그라이퍼부르크 대학 임용을 마다하고 자진해 광산으로 내려와, 광부들에게 문자와 지식을 가르쳐 스스로 이름과 역사를 기록하도록 돕는다.",
       quote: "이건 '사이몬크'라고 읽어요. 앞줄에 나온 호수 이름이 '안가라'이고. 당신의 이름이 '보바'인 것처럼, 이것도 그저 이름이죠. 이동도시의 이름이에요.",
       statusInChapter: "1101년 겨울 크라이니 세베르 재앙 복구 지역 천막 교실에서 광부 보바와 청년 기능공에게 글을 가르치며 고대 이동도시 '사이몬크'의 이름을 일깨운다."
@@ -1794,7 +1794,7 @@ export const episode16: StoryArchive = {
       nameEn: "Rosa / 나탈리야",
       faction: "로도스 아일랜드 / 우르수스 학생 자치단",
       role: "디에티 그라이퍼부르크 주재 오퍼레이터",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/rosa.png',
       description: "체르노보그 귀족 가문 출신의 로도스 아일랜드 오퍼레이터. 수도 디에티 그라이퍼부르크에 남아 양심적 지식인·학생들과 연대하며 급변하는 고국의 위기를 예의주시하고 있다.",
       quote: "군의 움직임이 너무 빈번해. 각지에서 파업과 휴강이 발생하고 있는데, 진압은 예전보다 더 빠르고 더 거세게 이루어지고 있어……",
       statusInChapter: "압생트와 함께 제1군단의 대학가 강제 징집과 파업 진압, 의회 낙서 사건 등 급변하는 수도 정세를 정리해 귀환 중인 소냐(지마) 일행에게 편지로 보낸다."
@@ -1805,7 +1805,7 @@ export const episode16: StoryArchive = {
       nameEn: "Absinthe / 조야",
       faction: "로도스 아일랜드 / 우르수스 학생 자치단",
       role: "디에티 그라이퍼부르크 주재 오퍼레이터",
-      avatarUrl: '',
+      avatarUrl: '/images/characters/absinthe.png',
       description: "체르노보그 경찰관의 딸이자 로도스 아일랜드 캐스터 오퍼레이터. 수도 디에티 그라이퍼부르크에 머무르며 로사와 함께 현지 소식과 저항 동향을 수집하고 동료들의 귀환을 준비한다.",
       quote: "사실이야, 내가 직접 확인해 봤어. 거의 모든 지하신문이 그 학생의 행적과 의회 벽에 남긴 문구를 퍼뜨리고 있더라.",
       statusInChapter: "로사와 함께 수도에서 활동하며 한 학생이 제국 의회 황금 휘장에 붉은 페인트를 뿌리고 야코프 페트로프의 문구를 남긴 사건을 확인해 전달한다."

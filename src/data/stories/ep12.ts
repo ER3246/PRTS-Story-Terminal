@@ -1211,8 +1211,8 @@ export const episode12: StoryArchive = {
       description: '캐스터 공작을 섬기는 냉혹한 대행자. 로도스 본함의 은폐 위치를 미끼로 박사와 시즈를 협박해 노포트 구의 살카즈 비행선 설계도를 탈취하게 만들고, 박사가 통제를 거부하자 더블린의 \'교관\'과 결탁해 국검을 넘기려 한다.',
       quote: '아주 시원시원하군, 로도스 아일랜드의 박사. 알렉산드리나의 단말기로 이미 안전한 곳의 위치를 보냈으니 거기서 대기해. 계획을 벗어난 행동은 내가 안전을 책임질 수 없으니까.',
       statusInChapter: '로도스 본함 위치를 빌미로 비행선 설계도 탈취 강요 및 더블린 \'교관\'과 국검 뒷거래',
-      avatarUrl: '/images/characters/letto.png',
-      illustUrl: '/images/characters/illust/letto.png'
+      avatarUrl: '/images/characters/gray_hat.png',
+      illustUrl: '/images/characters/illust/gray_hat.png'
     },
     {
       id: 'soldier',
@@ -1223,8 +1223,8 @@ export const episode12: StoryArchive = {
       description: '윈더미어 공작의 고속 전함 갑판에서 젊은 병사 피어스와 휴가 이야기를 나누던 베테랑 군관. 더 샤드 빌딩 상공에 출현한 살카즈 대형 무장 비행선의 주포 시험 사격에 전함이 직격당해 전사한다.',
       quote: '피어스. 휴가 허가가 떨어졌다지? ……그때가 되면 진짜 훈장을 몇 개 받았길 바란다.',
       statusInChapter: '고속 전함 갑판 근무 중 살카즈 비행선의 주포 시험 발사에 전사',
-      avatarUrl: '/images/characters/windermere.png',
-      illustUrl: '/images/characters/illust/windermere.png'
+      avatarUrl: '',
+      illustUrl: ''
     },
     {
       id: 'mob',
@@ -1235,8 +1235,8 @@ export const episode12: StoryArchive = {
       description: '노포트 구 봉쇄로 기근이 닥치자 이성을 잃고 오리지늄 화로를 쬐던 감염자 난민들의 마지막 비상식량을 약탈하려 난동을 부린다.',
       quote: '시치미 그만 떼! 네가 화로를 쓰는 걸 똑똑히 봤으니까. 어디서 먹을 걸 구한 거야? 왜 넌 매일 먹을 게 생기는 거지?',
       statusInChapter: '노포트 구 감염자 빈민의 식량 약탈 시도 및 레드에게 제압',
-      avatarUrl: '/images/characters/baird.png',
-      illustUrl: '/images/characters/illust/baird.png'
+      avatarUrl: '',
+      illustUrl: ''
     },
     {
       id: 'revenant',
@@ -1247,8 +1247,8 @@ export const episode12: StoryArchive = {
       description: '살카즈 대형 무장 비행선의 동력원에 깃든 고대 살카즈의 원혼. 공중 독에 침입한 아미야의 머리 위에 마왕의 왕관이 떠오른 것을 보고 이종족 키메라 마왕이라며 극도의 분노를 터뜨린다.',
       quote: '뒤틀린 키메라…… 이종족 마왕이라고?! 으하하하, 내 앞에 이종족 마왕이 서 있다니?!! 네가 뭔데 그 왕관을 갖고 있는 것이냐? 네가 뭔데 이러한 고통과 함께 서 있는 것이냐?',
       statusInChapter: '공중 독에서 원혼 그림자 장벽 전개 및 이종족 마왕 아미야에게 격분',
-      avatarUrl: '/images/characters/manfred.png',
-      illustUrl: '/images/characters/illust/manfred.png'
+      avatarUrl: '/images/characters/revenant.png',
+      illustUrl: '/images/characters/illust/revenant.png'
     },
     {
       id: 'dublinn_officer',
@@ -1259,8 +1259,8 @@ export const episode12: StoryArchive = {
       description: '웰링턴 공작의 명령을 받아 런디니움 외곽 전선으로 진격하는 더블린 고속 전함 선봉을 지휘하며 갑작스러운 재앙 폭풍과 오리지늄 결정의 침식 피해를 웰링턴 공작에게 다급히 보고한다.',
       quote: '공작님, 우리의 피해가 막심합니다. 선봉 부대 중 3분의 1에 달하는 고속 전함이 작전 능력을 잃었습니다. 나흐체러르의 군대에 저희가 처음 보는 주술 장치도 등장했습니다.',
       statusInChapter: '웰링턴 함대 선봉 지휘 및 재앙 전선 피해 보고',
-      avatarUrl: '/images/characters/eblana.png',
-      illustUrl: '/images/characters/illust/eblana.png'
+      avatarUrl: '',
+      illustUrl: ''
     },
     {
       id: 'delphine',
@@ -1463,8 +1463,8 @@ export const episode12: StoryArchive = {
       description: '노포트 구 분리가 살카즈의 미끼임을 간파하고 각 공작들의 세력 균형을 계산하며, 비행선 쟁탈전의 추이를 냉정하게 관망한다.',
       quote: '……\'기술적인 이유\'라. 정말 형편없군, 안 그래? 하지만 아주 잘 먹히지. 그자들은 우리 모두가 본인의 명성을 끔찍이 아낀다는 걸 잘 아니까. 게다가 그자들은 하늘을 나는 요새라는 작은 미끼까지 던졌어.',
       statusInChapter: '노포트 구 사태 분석 및 전황 관망',
-      avatarUrl: '/images/characters/letto.png',
-      illustUrl: '/images/characters/illust/letto.png'
+      avatarUrl: '/images/characters/caster.png',
+      illustUrl: '/images/characters/illust/caster.png'
     },
     {
       id: 'wellington',
@@ -1487,8 +1487,8 @@ export const episode12: StoryArchive = {
       description: '살카즈 군사위원회의 가장 강력하고 두려운 최고령 군주. 런디니움 외곽 황야에 수많은 부식 군대를 이끌고 나타나 재앙 구름 아래 왕좌에 앉아 빅토리아 공작군과의 전면 대전을 개막한다.',
       quote: '나흐체러르 킹은 그의 왕좌에 앉아서 자신의 대군을 내려다보고 있다. 나흐체러르의 군대는 동요하지도, 약해지지도 않는다.',
       statusInChapter: '런디니움 외곽 황야에 부식 대군과 함께 왕좌 진주',
-      avatarUrl: '/images/characters/theresis.png',
-      illustUrl: '/images/characters/illust/theresis.png'
+      avatarUrl: '/images/characters/nachzehrer.png',
+      illustUrl: '/images/characters/illust/nachzehrer.png'
     },
     {
       id: 'leto',
@@ -1499,8 +1499,8 @@ export const episode12: StoryArchive = {
       description: '살카즈 군사위원회의 압박 아래 방위군을 이끄는 냉정한 군관. 노포트 구를 본체에서 분리·차단시켰으며, 골딩에게 그녀의 편지와 몰리 때문에 자경단이 파멸했음을 잔혹하게 폭로한다.',
       quote: '런디니움 자경단의 정보를 어디에서 얻었냐고 물었지? 좋아, 대답해 주지. 어느 나약한 선생님께 얻었어. 너 자신을 봐, 골딩. 네 실수와 위축, 두려움 때문에 남긴 흔적을 보라고…… 감상적인 사람에게 첩보 업무는 어울리지 않아.',
       statusInChapter: '노포트 구 기술적 분리 집행 및 골딩에게 정보 누출 진상 폭로',
-      avatarUrl: '/images/characters/letto.png',
-      illustUrl: '/images/characters/illust/letto.png'
+      avatarUrl: '/images/characters/leto.png',
+      illustUrl: '/images/characters/illust/leto.png'
     },
     {
       id: 'manfred',
@@ -1631,8 +1631,8 @@ export const episode12: StoryArchive = {
       description: '선셋 스트리트 호텔에서 40년간 도어맨부터 지배인까지 일하며 노포트 구를 고향으로 여겨온 살카즈 노인. 통신기지가 사라져 구원 요청이 불가능해지자, 자신이 평생 아껴온 호텔 카펫에 스스로 불을 질러 거대한 연기 기둥으로 윈더미어 공작 함대를 불러들인다.',
       quote: '아니요, 콜버트는 그저 자신을 빅토리아 사람이라고 생각하는 평범한 살카즈 청소부일 뿐입니다.',
       statusInChapter: '난민 구출 신호를 올리기 위해 자신이 40년간 가꾼 호텔에 스스로 방화',
-      avatarUrl: '/images/characters/feist.png',
-      illustUrl: '/images/characters/illust/feist.png'
+      avatarUrl: '/images/characters/colbert.png',
+      illustUrl: '/images/characters/illust/colbert.png'
     },
     {
       id: 'percival',
@@ -1643,8 +1643,8 @@ export const episode12: StoryArchive = {
       description: '선셋 스트리트 호텔의 도어맨으로 위장해 있던 신생 리유니온의 스파이. 노포트 구 분리 직후 호텔의 군용 통신기지를 뜯어 공개 방송으로 위장한 암호 통신을 보내 레드와 나인 일행을 노포트 구로 불러들인다.',
       quote: '내가 호텔에 있던 통신기지를 뜯어서 겨우 장소를 찾아 소식을 보낸 거란 말이야.',
       statusInChapter: '호텔 소형 통신기지 해체·탈취 후 리유니온 본대에 노포트 구 사태 발신 및 감염자 규합',
-      avatarUrl: '/images/characters/baird.png',
-      illustUrl: '/images/characters/illust/baird.png'
+      avatarUrl: '/images/characters/percival.png',
+      illustUrl: '/images/characters/illust/percival.png'
     },
     {
       id: 'red',
@@ -1655,8 +1655,8 @@ export const episode12: StoryArchive = {
       description: '퍼시벌의 무전을 듣고 노포트 구에 잠입한 리유니온의 검사. 폭도들의 약탈로부터 감염자들을 구하고 살카즈 보급대를 기습하며 갈 곳 없는 감염자들을 새로운 리유니온으로 인도한다.',
       quote: '예전에 우르수스에 있을 때는 다들 날 \'붉은 검\'이라고 불렀어. 반드시 우리를 보게 해야 해. 우리의 목소리를 듣고 우리가 종기나 궤양이 아니라는 걸 인정하게 해야 해.',
       statusInChapter: '노포트 구 잠입 후 감염자 보호 및 살카즈 보급선 기습',
-      avatarUrl: '/images/characters/talulah.png',
-      illustUrl: '/images/characters/illust/talulah.png'
+      avatarUrl: '/images/characters/red.png',
+      illustUrl: '/images/characters/illust/red.png'
     },
     {
       id: 'ermengarde',
@@ -1667,8 +1667,8 @@ export const episode12: StoryArchive = {
       statusInChapter: '격침된 윈더미어 고속 전함 잔해 조사 및 황야 전선에서 나흐체러르 군대에 공간 주술 지원 후 테레시아 알현',
       quote: '이 고속 군함은 아주 확실하게 파괴됐네요. 흠, 켈시 님은 이러한 미래가 우리에게 그 어떤 것도 줄 수 없다고 계속 경고했었어요. 하지만 아직도 이해가 안 가요. 제 스승님한테 왜 필라인 친구가 있는 것일까요?',
       description: '리치 왕정의 젊은 전달자. 살카즈 비행선 주포에 격침된 윈더미어 고속 전함 잔해를 조사하며 스승의 옛 친구인 켈시를 언급하고, 황야 전선에서 리치의 공간 주술 장치로 더블린 선봉 함대의 기동력을 마비시킨 뒤 테레시아에게 감사를 받는다.',
-      avatarUrl: '/images/characters/theresa.png',
-      illustUrl: '/images/characters/illust/theresa.png'
+      avatarUrl: '/images/characters/ermengarde.png',
+      illustUrl: '/images/characters/illust/ermengarde.png'
     }
   ],
   glossary: [
