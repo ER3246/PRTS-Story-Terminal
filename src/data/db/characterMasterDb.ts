@@ -1268,12 +1268,11 @@ export const characterMasterDb: CharacterMasterRecord[] = [
       {
         stateId: "default",
         label: "기본 상태",
-        cgAssetId: "cg_none",
+        cgAssetId: "cg_ghost",
         overrideRole: "외계 행성 포식 종족의 최후 생존자이자 우주 여행자",
         description: "한때 행성을 삼키며 우주를 유랑했으나 진정한 파멸('그') 앞에서 동족을 모두 잃고 구인류 함선의 손님이 된 신비로운 존재. 본함 이변 당시 포푸카가 본 창문 너머의 환영으로도 모습을 비추었다.",
         defaultQuote: "생명은 결국 무덤 속에서 다시 태어나게 돼 있어. 그리고 언젠가 우리가 묘비에 새겨둔 것들을 이해하게 되겠지. 그건 한때 우리가 가졌던 삶이자, 우리가 존재했었던 증거니까.",
         appearances: ["ep15"],
-        isSilhouetteOnly: true,
       },
     ]
   },
