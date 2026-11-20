@@ -4,7 +4,9 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { terraRegions, terraCities, type TerraRegion } from '../data/terraRegions';
+import { terraHexCells } from '../data/terraHexGrid';
 import { storyRegistry, getStoryAccessState, type StoryListItem } from '../data/storyRegistry';
 import { StorySplashModal } from './StorySplashModal';
 import {
@@ -17,13 +19,15 @@ import {
 import {
   MAP_CENTER_X,
   MAP_CENTER_Y,
-  buildTerraTerrainAssets,
-  createTerrainShaderMaterial,
-  createWaterShaderMaterial,
-  findNearestHexCell,
-  getRegionPaletteIndex,
+  WATER_LEVEL,
+  buildTerraHexAssets,
+  createMachinedHexMaterial,
+  createWarTableWaterMaterial,
+  createWarTableBezelGroup,
+  isWaterCellType,
   type TerraMapLens,
-} from './map/terraTerrainEngine';
+  type MachinedHexUniforms,
+} from './map/terraHexEngine';
 import {
   ZoomIn,
   ZoomOut,
@@ -86,8 +90,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
   const [splashStory, setSplashStory] = useState<StoryListItem | null>(null);
 
-  // 3 Tactical Cartography Lenses + Thin Hex Lattice Overlay Toggle
-  const [mapLens, setMapLens] = useState<TerraMapLens>('relief');
+  // 3 Tactical Cartography Lenses + CNC Engraving Overlay Toggle
+  const [mapLens, setMapLens] = useState<TerraMapLens>('tactical');
   const [chronicleEraIdx, setChronicleEraIdx] = useState<0 | 1 | 2 | 3 | 4>(1);
   const [isEraPlaying, setIsEraPlaying] = useState<boolean>(false);
   const [showHexLattice, setShowHexLattice] = useState<boolean>(true);
@@ -197,7 +201,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const showCitiesRef = useRef<boolean>(showCities);
   const showRoutesRef = useRef<boolean>(showRoutes);
   const routeFilterRef = useRef<'all' | RouteCategory>(routeFilter);
-  const paletteSyncRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     legendOpenRef.current = isLegendOpen;
@@ -217,12 +220,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
   useEffect(() => {
     mapLensRef.current = mapLens;
-    paletteSyncRef.current?.();
   }, [mapLens]);
 
   useEffect(() => {
     chronicleEraRef.current = chronicleEraIdx;
-    paletteSyncRef.current?.();
   }, [chronicleEraIdx]);
 
   useEffect(() => {
@@ -384,7 +385,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   };
 
   // =========================================================================
-  // THREE.JS CONTINUOUS RELIEF + HEX LATTICE + SELECTIVE BLOOM PIPELINE
+  // THREE.JS PRECISION ANODIZED HEX WAR-TABLE + IBL + SPRING CASCADE PIPELINE
   // =========================================================================
   useEffect(() => {
     const container = mountRef.current;
@@ -392,16 +393,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
     const width = container.clientWidth || 1200;
     const height = container.clientHeight || 800;
+    const mountStartMs = performance.now();
 
-    // 1. Scene & Atmospheric Horizon Fog
+    // 1. Scene & Atmospheric Obsidian Backdrop
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#080a0f');
-    scene.fog = new THREE.FogExp2(0x080a0f, 0.00088);
+    scene.background = new THREE.Color('#07090e');
+    scene.fog = new THREE.FogExp2(0x07090e, 0.00084);
 
     // 2. Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 5, 2600);
 
-    // 3. Renderer + Selective Post-Processing Composer (UnrealBloomPass + OutputPass)
+    // 3. Renderer + Studio IBL + 3-Point Key/Rim Lighting + PCF Shadows
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       powerPreference: 'high-performance',
@@ -409,11 +411,42 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.05;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.domElement.style.touchAction = 'none';
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const roomEnv = new RoomEnvironment();
+    const envRenderTarget = pmrem.fromScene(roomEnv, 0.04);
+    roomEnv.dispose();
+    scene.environment = envRenderTarget.texture;
+    scene.environmentIntensity = 0.48;
+
+    const keyLight = new THREE.DirectionalLight(0xfff6e8, 2.35);
+    keyLight.position.set(280, 420, 210);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(2048, 2048);
+    keyLight.shadow.camera.left = -520;
+    keyLight.shadow.camera.right = 520;
+    keyLight.shadow.camera.top = 540;
+    keyLight.shadow.camera.bottom = -540;
+    keyLight.shadow.camera.near = 60;
+    keyLight.shadow.camera.far = 1100;
+    keyLight.shadow.bias = -0.0005;
+    keyLight.shadow.normalBias = 0.08;
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x7cc4fa, 1.35);
+    rimLight.position.set(-320, 220, -280);
+    scene.add(rimLight);
+
+    const hemiLight = new THREE.HemisphereLight(0x475569, 0x090b10, 0.65);
+    scene.add(hemiLight);
+
+    // 4x MSAA + HalfFloatType HDR Composer for crisp metallic edges & selective glow
     const maxSamples = Math.min(4, renderer.capabilities.maxSamples || 0);
     const composerTarget = new THREE.WebGLRenderTarget(width, height, {
       type: THREE.HalfFloatType,
@@ -421,41 +454,71 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     });
     const composer = new EffectComposer(renderer, composerTarget);
     const renderPass = new RenderPass(scene, camera);
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.32, 0.42, 0.82);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.26, 0.36, 0.88);
     const outputPass = new OutputPass();
     composer.addPass(renderPass);
     composer.addPass(bloomPass);
     composer.addPass(outputPass);
 
-    // 4. Sculpted Continuous Topographical Mesh + Exact Engraved Hex Lattice Shader
-    const terrainAssets = buildTerraTerrainAssets();
-    const terrainMat = createTerrainShaderMaterial(terrainAssets);
-    const terrainMesh = new THREE.Mesh(terrainAssets.terrainGeo, terrainMat);
-    scene.add(terrainMesh);
+    // 4. Precision Machined Anodized Hex Monolith InstancedMesh
+    const hexAssets = buildTerraHexAssets();
+    const hexCount = terraHexCells.length;
+    const tileStateData = new Float32Array(hexCount * 4);
+    const tileBaseColorAttr = new THREE.InstancedBufferAttribute(hexAssets.baseColors, 3);
+    const tileStateAttr = new THREE.InstancedBufferAttribute(tileStateData, 4);
+    tileStateAttr.setUsage(THREE.DynamicDrawUsage);
 
-    const syncPaletteMask = () => {
-      const isChronicle = mapLensRef.current === 'chronicle';
-      const era = MAP_ERAS[chronicleEraRef.current] || MAP_ERAS[0];
-      const activeSet = new Set(era.activeRegionIds);
-      for (let i = 0; i < terraRegions.length; i++) {
-        const reg = terraRegions[i];
-        const idx = i + 1;
-        terrainAssets.paletteData[idx * 4 + 3] = !isChronicle || activeSet.has(reg.id) ? 255 : 36;
-      }
-      terrainAssets.paletteTex.needsUpdate = true;
-    };
-    paletteSyncRef.current = syncPaletteMask;
-    syncPaletteMask();
+    hexAssets.hexGeo.setAttribute('aTileBaseColor', tileBaseColorAttr);
+    hexAssets.hexGeo.setAttribute('aTileState', tileStateAttr);
 
-    // 5. Elevated Bathymetric Glass Ocean Plane
+    const hexMat = createMachinedHexMaterial();
+    const hexShaderUniforms = hexMat.userData.shaderUniforms as MachinedHexUniforms;
+    const hexMesh = new THREE.InstancedMesh(hexAssets.hexGeo, hexMat, hexCount);
+    hexMesh.castShadow = true;
+    hexMesh.receiveShadow = true;
+    hexMesh.frustumCulled = false;
+
+    const currentHeights = new Float32Array(hexCount);
+    const heightVelocities = new Float32Array(hexCount);
+    const dummyMat = new THREE.Matrix4();
+    const tileRegionIds = terraHexCells.map((c) => c.regionId);
+    const tileIsWater = terraHexCells.map((c) => isWaterCellType(c.type));
+
+    for (let i = 0; i < hexCount; i++) {
+      const c = terraHexCells[i];
+      const startY = tileIsWater[i] ? hexAssets.baseHeights[i] : -2.2;
+      currentHeights[i] = startY;
+      dummyMat.makeTranslation(c.x - MAP_CENTER_X, startY, c.y - MAP_CENTER_Y);
+      hexMesh.setMatrixAt(i, dummyMat);
+      tileStateData[i * 4 + 0] = 0; // focusWeight
+      tileStateData[i * 4 + 1] = 0; // dimWeight
+      tileStateData[i * 4 + 2] = hexAssets.biomeCodes[i];
+      tileStateData[i * 4 + 3] = 0; // liftAmount
+    }
+    hexMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    hexMesh.instanceMatrix.needsUpdate = true;
+    scene.add(hexMesh);
+
+    const regionCentroidHexIdx = new Map<string, number>();
+    terraRegions.forEach((r) => {
+      regionCentroidHexIdx.set(
+        r.id,
+        hexAssets.findClosestHexIndex(r.emblemPixelCoords.x, r.emblemPixelCoords.y)
+      );
+    });
+
+    // 5. Smoked-Glass Ocean Plane + Physical Titanium Console Bezel
     const waterGeo = new THREE.CircleGeometry(660, 96);
     waterGeo.rotateX(-Math.PI / 2);
-    const waterMat = createWaterShaderMaterial();
+    const waterMat = createWarTableWaterMaterial();
     const waterMesh = new THREE.Mesh(waterGeo, waterMat);
-    waterMesh.position.y = 1.65;
+    waterMesh.position.y = WATER_LEVEL;
     scene.add(waterMesh);
 
-    // 6. Draped Nation Perimeters (Exact Hex Boundary Lines Hugging Terrain Relief)
+    const bezelGroup = createWarTableBezelGroup();
+    scene.add(bezelGroup);
+
+    // 6. Machined Nation Perimeter Borders (Synchronized vertically with Kinetic Tile Lift)
     const borderGroup = new THREE.Group();
     scene.add(borderGroup);
     const regionBorderMeshes = new Map<
@@ -467,13 +530,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       }
     >();
 
-    terrainAssets.regionBorderData.forEach((entry, regionId) => {
+    hexAssets.regionBordersData.forEach((entry, regionId) => {
       const bGeo = new THREE.BufferGeometry();
       bGeo.setAttribute('position', new THREE.BufferAttribute(entry.positions, 3));
       const bMat = new THREE.LineBasicMaterial({
         color: entry.defaultColor.clone(),
         transparent: true,
-        opacity: 0.56,
+        opacity: 0.58,
       });
       const lineSegs = new THREE.LineSegments(bGeo, bMat);
       borderGroup.add(lineSegs);
@@ -484,12 +547,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       });
     });
 
-    // 7. Northern Polar Anomaly Orbital Ring & High-Altitude Atmospheric Dust Motes
+    // 7. Northern Polar Anomaly Orbital Ring & Subtle Atmospheric Dust Motes
     const anomalyRingGeo = new THREE.TorusGeometry(42, 0.28, 8, 96);
     const anomalyRingMat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       transparent: true,
-      opacity: 0.42,
+      opacity: 0.45,
       depthWrite: false,
     });
     const anomalyRing = new THREE.Mesh(anomalyRingGeo, anomalyRingMat);
@@ -497,7 +560,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     anomalyRing.rotation.x = Math.PI / 2 - 0.12;
     scene.add(anomalyRing);
 
-    const moteCount = 160;
+    const moteCount = 140;
     const motePositions = new Float32Array(moteCount * 3);
     for (let i = 0; i < moteCount; i++) {
       const s1 = Math.sin(i * 12.9898) * 43758.5453;
@@ -514,15 +577,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     moteGeo.setAttribute('position', new THREE.BufferAttribute(motePositions, 3));
     const moteMat = new THREE.PointsMaterial({
       color: 0x94a3b8,
-      size: 1.5,
+      size: 1.4,
       transparent: true,
-      opacity: 0.28,
+      opacity: 0.24,
       depthWrite: false,
     });
     const moteCloud = new THREE.Points(moteGeo, moteMat);
     scene.add(moteCloud);
 
-    // 8. Static Architectural City Beacons + Rhodes Flagship Telemetry Halo
+    // 8. Architectural Optical City Beacons + Rhodes Flagship Telemetry Halo (Dynamically Y-Synced)
     const cityGroup = new THREE.Group();
     scene.add(cityGroup);
 
@@ -536,79 +599,102 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     minorBaseRingGeo.rotateX(-Math.PI / 2);
     const rhodesPulseGeo = new THREE.RingGeometry(4.0, 5.1, 32);
     rhodesPulseGeo.rotateX(-Math.PI / 2);
+    const majorOpticalShaftGeo = new THREE.CylinderGeometry(0.14, 0.36, 21, 6, 1, true);
+    majorOpticalShaftGeo.translate(0, 10.5, 0);
 
     const rhodesBeacon: { mesh: THREE.Mesh | null; mat: THREE.MeshBasicMaterial | null } = {
       mesh: null,
       mat: null,
     };
 
+    interface CityBeaconEntry {
+      city: (typeof terraCities)[number];
+      hexIdx: number;
+      anchorGroup: THREE.Group;
+      stemHeight: number;
+    }
+    const cityEntries: CityBeaconEntry[] = [];
+
     terraCities.forEach((city) => {
+      const hexIdx = hexAssets.findClosestHexIndex(city.pixelCoords.x, city.pixelCoords.y);
       const wx = city.pixelCoords.x - MAP_CENTER_X;
       const wz = city.pixelCoords.y - MAP_CENTER_Y;
-      const baseElev = Math.max(2.0, terrainAssets.sampleHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y));
+      const startElev = Math.max(WATER_LEVEL + 0.15, hexAssets.baseHeights[hexIdx]);
 
       const isRhodes = city.type === 'rhodes';
       const isCapital = city.type === 'capital';
       const isMajor = isRhodes || isCapital;
-      // Use bright HDR-friendly tones on Rhodes & capitals for crisp UnrealBloom highlights
       const beaconColor = isRhodes ? 0xffffff : isCapital ? 0xf5dd1b : 0x94a3b8;
-      const stemHeight = isMajor ? 22 : 12.5;
+      const stemHeight = isMajor ? 21 : 12;
+
+      const anchorGroup = new THREE.Group();
+      anchorGroup.position.set(wx, startElev, wz);
+      cityGroup.add(anchorGroup);
 
       const baseRingMat = new THREE.MeshBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.65 : 0.36,
+        opacity: isMajor ? 0.68 : 0.36,
         side: THREE.DoubleSide,
       });
       const baseRing = new THREE.Mesh(isMajor ? majorBaseRingGeo : minorBaseRingGeo, baseRingMat);
-      baseRing.position.set(wx, baseElev + 0.18, wz);
-      cityGroup.add(baseRing);
+      baseRing.position.set(0, 0.14, 0);
+      anchorGroup.add(baseRing);
 
       if (isRhodes) {
         const pulseMat = new THREE.MeshBasicMaterial({
           color: 0xf5dd1b,
           transparent: true,
-          opacity: 0.6,
+          opacity: 0.65,
           side: THREE.DoubleSide,
           depthWrite: false,
         });
         const pulseRing = new THREE.Mesh(rhodesPulseGeo, pulseMat);
-        pulseRing.position.set(wx, baseElev + 0.25, wz);
-        cityGroup.add(pulseRing);
+        pulseRing.position.set(0, 0.22, 0);
+        anchorGroup.add(pulseRing);
         rhodesBeacon.mesh = pulseRing;
         rhodesBeacon.mat = pulseMat;
       }
 
-      const stemPts = [
-        new THREE.Vector3(wx, baseElev, wz),
-        new THREE.Vector3(wx, baseElev + stemHeight, wz),
-      ];
+      if (isMajor) {
+        const shaftMat = new THREE.MeshBasicMaterial({
+          color: beaconColor,
+          transparent: true,
+          opacity: 0.24,
+          depthWrite: false,
+        });
+        anchorGroup.add(new THREE.Mesh(majorOpticalShaftGeo, shaftMat));
+      }
+
+      const stemPts = [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, stemHeight, 0)];
       const stemGeo = new THREE.BufferGeometry().setFromPoints(stemPts);
       const stemMat = new THREE.LineBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.78 : 0.42,
+        opacity: isMajor ? 0.85 : 0.44,
       });
-      cityGroup.add(new THREE.Line(stemGeo, stemMat));
+      anchorGroup.add(new THREE.Line(stemGeo, stemMat));
 
       const capMat = new THREE.MeshBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.98 : 0.75,
+        opacity: isMajor ? 0.98 : 0.78,
       });
       const capPlate = new THREE.Mesh(capPlateGeo, capMat);
-      capPlate.position.set(wx, baseElev + stemHeight + 0.25, wz);
+      capPlate.position.set(0, stemHeight + 0.22, 0);
       if (!isMajor) capPlate.scale.setScalar(0.72);
-      cityGroup.add(capPlate);
+      anchorGroup.add(capPlate);
 
       if (isMajor) {
         const capHalo = new THREE.Mesh(capHaloGeo, baseRingMat);
-        capHalo.position.set(wx, baseElev + stemHeight - 1.4, wz);
-        cityGroup.add(capHalo);
+        capHalo.position.set(0, stemHeight - 1.35, 0);
+        anchorGroup.add(capHalo);
       }
+
+      cityEntries.push({ city, hexIdx, anchorGroup, stemHeight });
     });
 
-    // 9. 3D TubeGeometry Parabolic Route Ribbons + Subtle Bloom Glow + Anchors
+    // 9. 3D TubeGeometry Parabolic Route Ribbons + Subtle HDR Bloom Glow
     const routesGroup = new THREE.Group();
     scene.add(routesGroup);
     interface RouteArcEntry {
@@ -628,12 +714,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     routeAnchorGeo.rotateX(-Math.PI / 2);
 
     TACTICAL_ROUTES.forEach((rt, rIdx) => {
+      const fromIdx = hexAssets.findClosestHexIndex(rt.fromPixel.x, rt.fromPixel.y);
+      const toIdx = hexAssets.findClosestHexIndex(rt.toPixel.x, rt.toPixel.y);
       const x1 = rt.fromPixel.x - MAP_CENTER_X;
       const z1 = rt.fromPixel.y - MAP_CENTER_Y;
       const x2 = rt.toPixel.x - MAP_CENTER_X;
       const z2 = rt.toPixel.y - MAP_CENTER_Y;
-      const y1 = Math.max(2.0, terrainAssets.sampleHeightAtPixel(rt.fromPixel.x, rt.fromPixel.y)) + 1.4;
-      const y2 = Math.max(2.0, terrainAssets.sampleHeightAtPixel(rt.toPixel.x, rt.toPixel.y)) + 1.4;
+      const y1 = Math.max(WATER_LEVEL + 0.4, hexAssets.baseHeights[fromIdx] + 1.2);
+      const y2 = Math.max(WATER_LEVEL + 0.4, hexAssets.baseHeights[toIdx] + 1.2);
       const dist = Math.hypot(x2 - x1, z2 - z1);
       const midX = (x1 + x2) / 2;
       const midZ = (z1 + z2) / 2;
@@ -646,8 +734,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         new THREE.Vector3(x2, y2, z2)
       );
 
-      // Push route color slightly into HDR range so UnrealBloom adds subtle energy glow
-      const hdrRouteCol = new THREE.Color(rt.color).multiplyScalar(1.32);
+      const hdrRouteCol = new THREE.Color(rt.color).multiplyScalar(1.38);
 
       const tubeGeo = new THREE.TubeGeometry(curve, 48, 0.65, 6, false);
       const tubeMat = new THREE.MeshBasicMaterial({
@@ -673,13 +760,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         side: THREE.DoubleSide,
       });
       const startAnchor = new THREE.Mesh(routeAnchorGeo, anchorMat);
-      startAnchor.position.set(x1, y1 - 1.0, z1);
+      startAnchor.position.set(x1, y1 - 0.85, z1);
       const endAnchor = new THREE.Mesh(routeAnchorGeo, anchorMat);
-      endAnchor.position.set(x2, y2 - 1.0, z2);
+      endAnchor.position.set(x2, y2 - 0.85, z2);
       routesGroup.add(startAnchor, endAnchor);
 
       const pulseMat = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(rt.color).multiplyScalar(1.45),
+        color: new THREE.Color(rt.color).multiplyScalar(1.55),
         transparent: true,
         opacity: 0.98,
       });
@@ -698,7 +785,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       });
     });
 
-    // 10. Pointer, Multi-Touch & Raycast Hex Terrain Picking
+    // 10. Pointer, Multi-Touch & Native O(1) Instanced Hex Raycasting
     const raycaster = new THREE.Raycaster();
     const pointerNdc = new THREE.Vector2();
     let isPointerDown = false;
@@ -722,27 +809,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     let lastTapX = 0;
     let lastTapY = 0;
 
-    let scanProgress = 1.0;
-    let lastScanRegionId: string | null = null;
-
-    const triggerScanWave = (regionId: string | null) => {
-      if (!regionId || regionId === lastScanRegionId) return;
-      lastScanRegionId = regionId;
-      const reg = regionLookup.get(regionId);
-      if (reg) {
-        terrainMat.uniforms.uScanOrigin.value.set(
-          reg.emblemPixelCoords.x - MAP_CENTER_X,
-          reg.emblemPixelCoords.y - MAP_CENTER_Y
-        );
-        scanProgress = 0.0;
-      }
-    };
-
     const updateHoveredRegion = (nextId: string | null) => {
       if (hoveredRegionRef.current !== nextId) {
         hoveredRegionRef.current = nextId;
         setHoveredRegionId(nextId);
-        if (nextId) triggerScanWave(nextId);
       }
       if (telemetrySectorRef.current) {
         if (nextId) {
@@ -964,17 +1034,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       pointerNdc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(pointerNdc, camera);
 
-      const hits = raycaster.intersectObject(terrainMesh, false);
-      if (hits.length > 0) {
-        const pt = hits[0].point;
-        const px = pt.x + MAP_CENTER_X;
-        const py = pt.z + MAP_CENTER_Y;
-        const hitCell = findNearestHexCell(px, py);
+      const hits = raycaster.intersectObject(hexMesh, false);
+      if (hits.length > 0 && hits[0].instanceId !== undefined) {
+        const hitIdx = hits[0].instanceId;
+        const hitCell = terraHexCells[hitIdx];
         const hitRegId = hitCell?.regionId || null;
 
-        if (telemetryCoordRef.current) {
-          const hVal = Math.max(0, Math.round(terrainAssets.sampleHeightAtPixel(px, py) * 115));
-          telemetryCoordRef.current.textContent = `X:${Math.round(px)} Y:${Math.round(py)} · ${hVal}M`;
+        if (telemetryCoordRef.current && hitCell) {
+          const hVal = Math.max(0, Math.round(currentHeights[hitIdx] * 115));
+          telemetryCoordRef.current.textContent = `X:${Math.round(hitCell.x)} Y:${Math.round(hitCell.y)} · ${hVal}M`;
         }
         updateHoveredRegion(hitRegId);
         container.style.cursor = hitRegId ? 'pointer' : 'grab';
@@ -1033,10 +1101,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         pointerNdc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         pointerNdc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.setFromCamera(pointerNdc, camera);
-        const hits = raycaster.intersectObject(terrainMesh, false);
-        if (hits.length > 0) {
-          const pt = hits[0].point;
-          const hitCell = findNearestHexCell(pt.x + MAP_CENTER_X, pt.z + MAP_CENTER_Y);
+        const hits = raycaster.intersectObject(hexMesh, false);
+        if (hits.length > 0 && hits[0].instanceId !== undefined) {
+          const hitCell = terraHexCells[hits[0].instanceId];
           if (hitCell?.regionId) {
             handleSelectRegion(hitCell.regionId);
             return;
@@ -1127,10 +1194,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 
-    // 11. 60/120fps Render Loop + Collision-Free Label Projection
+    // 11. 60/120fps Spring-Cascade Loop + Collision-Free Label Projection
     let animFrameId = 0;
     const projVec = new THREE.Vector3();
     let currentElevScale = 1.0;
+    let currentBlueprintMix = 0.0;
+    let prevPinnedId: string | null = null;
+    let prevHoveredId: string | null = null;
+    let pinWaveStart = -10;
+    let hoverWaveStart = -10;
 
     const animate = () => {
       animFrameId = requestAnimationFrame(animate);
@@ -1205,35 +1277,135 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         telemetryYawTextRef.current.textContent = `${normalizedYaw}°`;
       }
 
-      const elapsedSec = performance.now() * 0.001;
+      const nowMs = performance.now();
+      const elapsedSec = nowMs * 0.001;
+      const mountElapsed = (nowMs - mountStartMs) * 0.001;
       const pinnedId = pinnedRegionRef.current;
       const hoveredId = hoveredRegionRef.current;
 
-      if (scanProgress < 1.0) {
-        scanProgress = Math.min(1.0, scanProgress + 0.028);
+      if (pinnedId !== prevPinnedId) {
+        prevPinnedId = pinnedId;
+        pinWaveStart = mountElapsed;
+      }
+      if (hoveredId !== prevHoveredId) {
+        prevHoveredId = hoveredId;
+        hoverWaveStart = mountElapsed;
       }
 
       const targetElevScale = isBlueprint ? 0.0 : showElevationRef.current ? 1.0 : 0.0;
       currentElevScale += (targetElevScale - currentElevScale) * 0.14;
+      currentBlueprintMix += ((isBlueprint ? 1.0 : 0.0) - currentBlueprintMix) * 0.16;
 
-      // Update Terrain Shader Uniforms
-      terrainMat.uniforms.uTime.value = elapsedSec;
-      terrainMat.uniforms.uElevScale.value = currentElevScale;
-      terrainMat.uniforms.uLensMode.value = lens === 'relief' ? 0.0 : lens === 'chronicle' ? 1.0 : 2.0;
-      terrainMat.uniforms.uGridOpacity.value = showHexLatticeRef.current
-        ? isBlueprint
-          ? 0.42
-          : 0.24
-        : 0.0;
-      terrainMat.uniforms.uHoveredRegionIdx.value = getRegionPaletteIndex(hoveredId);
-      terrainMat.uniforms.uPinnedRegionIdx.value = getRegionPaletteIndex(pinnedId);
-      terrainMat.uniforms.uScanProgress.value = scanProgress;
+      // Update Anodized Hex Shader Uniforms
+      hexShaderUniforms.uTime.value = elapsedSec;
+      hexShaderUniforms.uBlueprintMix.value = currentBlueprintMix;
+      hexShaderUniforms.uShowEngraving.value = showHexLatticeRef.current ? 1.0 : 0.0;
 
-      // Update Bathymetric Ocean Shader
+      // Active Chronicle Era lookup
+      const activeEra = MAP_ERAS[chronicleEraRef.current] || MAP_ERAS[0];
+      const activeEraRegions = new Set(activeEra.activeRegionIds);
+
+      // Update 4,706 Instanced Monoliths with Radial Spring-Cascade Physics (Zero GC allocations)
+      const instArray = hexMesh.instanceMatrix.array as Float32Array;
+      const flattenedLand = 2.9;
+      let matrixDirty = false;
+      let stateDirty = false;
+
+      for (let i = 0; i < hexCount; i++) {
+        const regId = tileRegionIds[i];
+        const baseH = hexAssets.baseHeights[i];
+        const isWater = tileIsWater[i];
+        const bootUnlocked = mountElapsed >= hexAssets.bootDelays[i];
+
+        let lift = 0;
+        let targetFocus = 0;
+        let targetDim = 0;
+
+        if (isBlueprint) {
+          const isPin = regId !== null && regId === pinnedId;
+          const isHov = regId !== null && regId === hoveredId;
+          targetFocus = isPin ? 1.0 : isHov ? 0.72 : 0;
+          targetDim = pinnedId && !isPin ? 0.75 : 0;
+        } else if (lens === 'chronicle') {
+          if (regId && activeEraRegions.has(regId)) {
+            lift = regId === pinnedId ? 3.8 : 2.6;
+            targetFocus = regId === pinnedId ? 1.0 : 0.76;
+          } else if (!isWater) {
+            lift = 3.1 - baseH;
+            targetDim = 0.84;
+          }
+        } else if (!isWater) {
+          const isPin = regId !== null && regId === pinnedId;
+          const isHov = regId !== null && regId === hoveredId;
+
+          if (isPin) {
+            const elapsedPin = mountElapsed - pinWaveStart;
+            const waveOpen = elapsedPin >= hexAssets.regionRadialDelays[i];
+            lift = waveOpen ? 3.8 : 0;
+            targetFocus = 1.0;
+          } else if (isHov) {
+            const elapsedHov = mountElapsed - hoverWaveStart;
+            const waveOpen = elapsedHov >= hexAssets.regionRadialDelays[i] * 0.65;
+            lift = waveOpen ? 1.9 : 0;
+            targetFocus = 0.72;
+            targetDim = pinnedId ? 0.35 : 0;
+          } else if (pinnedId) {
+            lift = -0.75;
+            targetDim = 0.78;
+          }
+        }
+
+        const sculptedY = isWater ? baseH : Math.max(WATER_LEVEL + 0.3, baseH + lift);
+        let targetY = isWater
+          ? baseH
+          : flattenedLand + (sculptedY - flattenedLand) * currentElevScale;
+
+        if (!bootUnlocked && !isWater) {
+          targetY = -2.2;
+        }
+
+        const stiffness = bootUnlocked ? 0.16 : 0.18;
+        const damping = 0.72;
+        const currY = currentHeights[i];
+        let vel = (heightVelocities[i] + (targetY - currY) * stiffness) * damping;
+        let nextY = currY + vel;
+        if (Math.abs(targetY - nextY) < 0.003 && Math.abs(vel) < 0.003) {
+          nextY = targetY;
+          vel = 0;
+        }
+        currentHeights[i] = nextY;
+        heightVelocities[i] = vel;
+
+        if (Math.abs(nextY - currY) > 0.0005) {
+          instArray[i * 16 + 13] = nextY;
+          matrixDirty = true;
+        }
+
+        const stIdx = i * 4;
+        const prevFocus = tileStateData[stIdx];
+        const prevDim = tileStateData[stIdx + 1];
+        const nextFocus = prevFocus + (targetFocus - prevFocus) * 0.18;
+        const nextDim = prevDim + (targetDim - prevDim) * 0.18;
+        if (
+          Math.abs(nextFocus - prevFocus) > 0.002 ||
+          Math.abs(nextDim - prevDim) > 0.002 ||
+          Math.abs(tileStateData[stIdx + 3] - lift) > 0.01
+        ) {
+          tileStateData[stIdx] = nextFocus;
+          tileStateData[stIdx + 1] = nextDim;
+          tileStateData[stIdx + 3] = lift;
+          stateDirty = true;
+        }
+      }
+
+      if (matrixDirty) hexMesh.instanceMatrix.needsUpdate = true;
+      if (stateDirty) tileStateAttr.needsUpdate = true;
+
+      // Update Smoked-Glass Ocean & War-Table Bezel
       waterMat.uniforms.uTime.value = elapsedSec;
-      waterMat.uniforms.uLensMode.value = terrainMat.uniforms.uLensMode.value;
+      waterMat.uniforms.uBlueprintMix.value = currentBlueprintMix;
       waterMesh.visible = !isBlueprint;
-      waterMesh.position.y = 1.65 * Math.max(0.2, currentElevScale);
+      bezelGroup.visible = !isBlueprint;
 
       // Rotate Northern Orbital Ring + Drift Atmospheric Motes
       anomalyRing.rotation.z = elapsedSec * 0.12;
@@ -1241,25 +1413,32 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       moteCloud.rotation.y = elapsedSec * 0.012;
       moteCloud.visible = !isBlueprint;
 
-      // City Beacons Visibility + Rhodes Pulse Ring
+      // Dynamic City Anchor Y-Sync + Rhodes Pulse Ring
       cityGroup.visible = !isBlueprint && showCitiesRef.current;
-      cityGroup.scale.set(1, Math.max(0.05, currentElevScale), 1);
+      cityEntries.forEach((ce) => {
+        ce.anchorGroup.position.y = Math.max(WATER_LEVEL + 0.15, currentHeights[ce.hexIdx]) + 0.04;
+      });
       if (rhodesBeacon.mesh && rhodesBeacon.mat) {
         const pulse = (elapsedSec * 0.45) % 1;
         rhodesBeacon.mesh.scale.setScalar(1 + pulse * 1.55);
         rhodesBeacon.mat.opacity = isBlueprint ? 0 : (1 - pulse) * 0.62;
       }
 
-      // Draped Region Perimeter Highlighting
-      const activeEra = MAP_ERAS[chronicleEraRef.current] || MAP_ERAS[0];
-      const activeEraRegions = new Set(activeEra.activeRegionIds);
+      // Nation Perimeter Highlighting synchronized to live kinetic tile elevation
       regionBorderMeshes.forEach((bObj, regId) => {
         const isPin = regId === pinnedId;
         const isHov = regId === hoveredId;
         const isEraActive = lens === 'chronicle' && activeEraRegions.has(regId);
 
-        bObj.line.scale.set(1, Math.max(0.01, currentElevScale), 1);
-        bObj.line.position.y = isBlueprint ? 0.4 : 0.1;
+        const repIdx = regionCentroidHexIdx.get(regId);
+        if (repIdx !== undefined) {
+          const repBaseAtScale =
+            flattenedLand + (hexAssets.baseHeights[repIdx] - flattenedLand) * currentElevScale;
+          const repLiftActual = currentHeights[repIdx] - repBaseAtScale;
+          bObj.line.scale.set(1, Math.max(0.001, currentElevScale), 1);
+          bObj.line.position.y =
+            flattenedLand * (1 - currentElevScale) + repLiftActual + 0.16 * (1 - currentElevScale);
+        }
 
         if (isPin) {
           bObj.mat.color.setRGB(1.45, 1.25, 0.16);
@@ -1280,7 +1459,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const routesOn = showRoutesRef.current || lens === 'chronicle';
       routesGroup.visible = routesOn;
       routesGroup.scale.set(1, isBlueprint ? 0.02 : Math.max(0.15, currentElevScale), 1);
-      routesGroup.position.y = isBlueprint ? 0.7 : 0;
+      routesGroup.position.y = isBlueprint ? 2.95 : 0;
       const activeFilter = routeFilterRef.current;
 
       const routeIsActiveMap = new Map<string, boolean>();
@@ -1326,8 +1505,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       terraRegions.forEach((reg) => {
         const wx = reg.emblemPixelCoords.x - MAP_CENTER_X;
         const wz = reg.emblemPixelCoords.y - MAP_CENTER_Y;
-        const localH = terrainAssets.sampleHeightAtPixel(reg.emblemPixelCoords.x, reg.emblemPixelCoords.y);
-        const wy = isBlueprint ? 1.5 : localH * currentElevScale + 9.0;
+        const repIdx = regionCentroidHexIdx.get(reg.id);
+        const localH = repIdx !== undefined ? currentHeights[repIdx] : 6.0;
+        const wy = isBlueprint ? 3.2 : localH + 2.8;
 
         projVec.set(wx, wy, wz).project(camera);
         if (projVec.z > 1) return;
@@ -1351,7 +1531,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         });
       });
 
-      terraCities.forEach((city) => {
+      cityEntries.forEach((ce) => {
+        const city = ce.city;
         const isRhodes = city.type === 'rhodes';
         const isCapital = city.type === 'capital';
         const isPin = city.regionId === pinnedId;
@@ -1365,8 +1546,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
         const wx = city.pixelCoords.x - MAP_CENTER_X;
         const wz = city.pixelCoords.y - MAP_CENTER_Y;
-        const localH = Math.max(2.0, terrainAssets.sampleHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y));
-        const wy = isBlueprint ? 2.0 : localH * currentElevScale + (isRhodes || isCapital ? 25 : 15);
+        const localH = Math.max(WATER_LEVEL + 0.15, currentHeights[ce.hexIdx]);
+        const wy = isBlueprint ? 3.2 : localH + ce.stemHeight + 1.8;
 
         projVec.set(wx, wy, wz).project(camera);
         if (projVec.z > 1) return;
@@ -1391,7 +1572,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         const rt = re.route;
         if (!routeIsActiveMap.get(rt.id)) return;
         re.curve.getPointAt(rt.labelT ?? 0.5, projVec);
-        projVec.y = isBlueprint ? 1.0 : projVec.y * Math.max(0.15, currentElevScale) + 2.2;
+        projVec.y = isBlueprint ? 3.2 : projVec.y * Math.max(0.15, currentElevScale) + 2.2;
         projVec.project(camera);
         if (projVec.z > 1) return;
 
@@ -1477,7 +1658,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     return () => {
       cancelAnimationFrame(animFrameId);
       resizeObserver.disconnect();
-      paletteSyncRef.current = null;
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
@@ -1499,7 +1679,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           else mat.dispose();
         }
       });
-      terrainAssets.dispose();
+      hexAssets.dispose();
+      envRenderTarget.dispose();
+      pmrem.dispose();
       bloomPass.dispose();
       composer.dispose();
       composerTarget.dispose();
@@ -1509,14 +1691,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
   return (
     <div
-      className={`relative flex-1 w-full ${
+      className={`relative w-full shrink-0 ${
         isHeaderCollapsed
-          ? 'h-[100dvh] md:h-screen'
-          : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)]'
-      } bg-[#080a0f] overflow-hidden select-none`}
+          ? 'h-[100dvh] md:h-screen max-h-[100dvh] md:max-h-screen'
+          : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)] max-h-[calc(100dvh-6.25rem)] md:max-h-[calc(100vh-3.5rem)]'
+      } bg-[#07090e] overflow-hidden select-none`}
     >
       {/* =========================================================================
-          1. WEBGL 3D RELIEF VIEWPORT & COLLISION-FREE PINS
+          1. WEBGL 3D WAR-TABLE VIEWPORT & COLLISION-FREE PINS
       ========================================================================= */}
       <div className="relative w-full h-full overflow-hidden touch-none">
         <div ref={mountRef} className="w-full h-full touch-none" />
@@ -1861,12 +2043,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
             <div className="prts-glass rounded-[2px] p-1 flex items-center gap-0.5 text-[10.5px] font-mono">
               <button
-                onClick={() => handleSwitchLens('relief')}
+                onClick={() => handleSwitchLens('tactical')}
                 className={`h-6 px-1.5 rounded-[1px] font-bold cursor-pointer ${
-                  mapLens === 'relief' ? 'bg-zinc-100 text-black' : 'text-zinc-400'
+                  mapLens === 'tactical' ? 'bg-zinc-100 text-black' : 'text-zinc-400'
                 }`}
               >
-                지형
+                전술
               </button>
               <button
                 onClick={() => handleSwitchLens('chronicle')}
@@ -1944,13 +2126,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 }`}
               >
                 <Hexagon className="w-3 h-3" />
-                <span>헥스</span>
+                <span>각인</span>
               </button>
               <button
                 onClick={() => {
                   playClickSound();
                   if (mapLens === 'blueprint') {
-                    handleSwitchLens('relief');
+                    handleSwitchLens('tactical');
                     setShowElevation(true);
                   } else {
                     setShowElevation(!showElevation);
@@ -1961,7 +2143,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 }`}
               >
                 <Layers className="w-3 h-3" />
-                <span>기복</span>
+                <span>고저차</span>
               </button>
               <button
                 onClick={() => {
@@ -2113,15 +2295,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             {/* 3 Tactical Lenses Switcher */}
             <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center gap-0.5 text-xs shadow-xl">
               <button
-                onClick={() => handleSwitchLens('relief')}
+                onClick={() => handleSwitchLens('tactical')}
                 className={`${
                   isLandscapeMobile ? 'h-6 px-2 text-[10px]' : 'h-7 px-2.5 text-xs'
                 } rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-colors ${
-                  mapLens === 'relief' ? 'bg-zinc-100 text-black font-bold' : 'text-zinc-400 hover:text-white'
+                  mapLens === 'tactical' ? 'bg-zinc-100 text-black font-bold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 <Box className="w-3.5 h-3.5" />
-                <span>지형 · 세력</span>
+                <span>전술 지형</span>
               </button>
               <button
                 onClick={() => handleSwitchLens('chronicle')}
@@ -2154,7 +2336,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   playClickSound();
                   setShowHexLattice(!showHexLattice);
                 }}
-                title="지형 위 3.0 헥스 격자선 오버레이 토글"
+                title="CNC 헥스 각인·적층 디테일 토글"
                 className={`${
                   isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
                 } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
@@ -2162,19 +2344,19 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 }`}
               >
                 <Hexagon className="w-3.5 h-3.5" />
-                <span>헥스</span>
+                <span>각인</span>
               </button>
               <button
                 onClick={() => {
                   playClickSound();
                   if (mapLens === 'blueprint') {
-                    handleSwitchLens('relief');
+                    handleSwitchLens('tactical');
                     setShowElevation(true);
                   } else {
                     setShowElevation(!showElevation);
                   }
                 }}
-                title="입체 지형 기복 토글"
+                title="입체 고저차 단차 토글"
                 className={`${
                   isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
                 } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
@@ -2184,7 +2366,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
-                <span>기복</span>
+                <span>고저차</span>
               </button>
               <button
                 onClick={() => {
@@ -2818,7 +3000,7 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({ 
             <span className="w-2 h-2 rounded-[1px] bg-[#f5dd1b]" />
             <div>
               <h3 className="text-base sm:text-lg font-black tracking-tight text-white">테라 지도 안내 & 범례</h3>
-              <p className="text-[11px] font-mono text-zinc-400 mt-0.5">TERRA TOPOGRAPHICAL ATLAS</p>
+              <p className="text-[11px] font-mono text-zinc-400 mt-0.5">PRTS PRECISION HEX WAR-TABLE</p>
             </div>
           </div>
           <button
@@ -2835,13 +3017,13 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({ 
         <div className="flex-1 overflow-y-auto overscroll-contain prts-modal-scroll p-5 space-y-5 text-xs sm:text-[13px]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1">
-              <div className="font-bold text-white text-xs">연속 조각 지형 + 3.0 헥스 격자</div>
+              <div className="font-bold text-white text-xs">아노다이징 메탈 헥스 & 키네틱 파동</div>
               <p className="text-zinc-300 text-[11px] leading-relaxed">
-                공식 테라 3.0 헥스 데이터를 고해상도 연속 산악·빙하·칼데라 지형으로 조각하고, 그 위에 정확한 세력 경계와 얇은 헥스 격자선을 겹쳐 표시합니다.
+                공식 테라 3.0 4,706개 육각 타일을 45° 챔퍼 베벨과 레이저 각인이 들어간 계단식 3D 모노리스로 구현했습니다. 세력을 가리키거나 선택하면 중심에서 국경까지 방사형 파동으로 솟아오릅니다.
               </p>
             </div>
             <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1">
-              <div className="font-bold text-white text-xs">3가지 전술 렌즈 (지형 · 연대기 · 2D 도면)</div>
+              <div className="font-bold text-white text-xs">3가지 전술 렌즈 (전술 지형 · 연대기 · 2D 도면)</div>
               <p className="text-zinc-300 text-[11px] leading-relaxed">
                 '연대기 궤적' 렌즈에서는 ERA 00~04 시대 스크러버로 시기별 작전 지역과 이동 경로를 순서대로 추적할 수 있습니다.
               </p>

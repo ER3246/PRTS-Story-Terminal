@@ -762,10 +762,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   // =========================================================================
   return (
     <div
-      className={`relative flex-1 w-full ${
+      className={`relative w-full shrink-0 ${
         isHeaderCollapsed
-          ? 'h-[100dvh] md:h-screen'
-          : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)]'
+          ? 'h-[100dvh] md:h-screen max-h-[100dvh] md:max-h-screen'
+          : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)] max-h-[calc(100dvh-6.25rem)] md:max-h-[calc(100vh-3.5rem)]'
       } bg-[#0b0c0f] overflow-hidden select-none flex flex-col font-sans animate-fadeIn`}
     >
       {/* 1. CLEAN SINGLE STICKY TOP CONTROL BAR */}
