@@ -30,7 +30,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '체르노보그 지하 방호 통로',
     category: 'chernobog',
     categoryLabel: '체르노보그',
-    url: '/images/backgrounds/bg_cherunder.png',
+    url: '/images/backgrounds/bg_cherunder.webp',
     description: '어두운 비상 조명과 방호 격벽이 늘어선 석관 구역 지하 통로'
   },
   cher_ruins: {
@@ -38,7 +38,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '체르노보그 도심 폐허와 연기',
     category: 'chernobog',
     categoryLabel: '체르노보그',
-    url: '/images/backgrounds/bg_cher_1.png',
+    url: '/images/backgrounds/bg_cher_1.webp',
     description: '리유니온의 습격으로 파괴되고 불타는 체르노보그 중심 대로'
   },
   cher_escape_avenue: {
@@ -46,7 +46,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '체르노보그 도심 탈출로',
     category: 'chernobog',
     categoryLabel: '체르노보그',
-    url: '/images/backgrounds/bg_cher_2.png',
+    url: '/images/backgrounds/bg_cher_2.webp',
     description: '시민들과 오퍼레이터들이 탈출을 위해 질주하는 대로'
   },
   cher_central_plaza: {
@@ -54,7 +54,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '체르노보그 중앙 광장',
     category: 'chernobog',
     categoryLabel: '체르노보그',
-    url: '/images/backgrounds/bg_chercen_1.png',
+    url: '/images/backgrounds/bg_chercen_1.webp',
     description: '천재지변 경보가 울리는 체르노보그 행정 중심 광장'
   },
   cher_destroyed_cityhall: {
@@ -62,7 +62,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '체르노보그 파괴된 청사',
     category: 'chernobog',
     categoryLabel: '체르노보그',
-    url: '/images/backgrounds/bg_chercen_2.png',
+    url: '/images/backgrounds/bg_chercen_2.webp',
     description: '운석 낙하와 폭격으로 무너져 내린 시청 청사 잔해'
   },
 
@@ -72,7 +72,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '용문 하층 슬럼가 골목',
     category: 'lungmen',
     categoryLabel: '용문',
-    url: '/images/backgrounds/bg_ltalley.png',
+    url: '/images/backgrounds/bg_ltalley.webp',
     description: '어두운 네온 불빛과 축축한 비가 내리는 용문 슬럼가 깊숙한 골목'
   },
   lungmen_day_view: {
@@ -80,7 +80,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '용문 이동도시 주간 전경',
     category: 'lungmen',
     categoryLabel: '용문',
-    url: '/images/backgrounds/bg_lungmen_d.png',
+    url: '/images/backgrounds/bg_lungmen_d.webp',
     description: '위풍당당하게 대지를 항해하는 용문 이동도시의 번화한 주간 전경'
   },
   lungmen_night_view: {
@@ -88,7 +88,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '용문 이동도시 야간 전경',
     category: 'lungmen',
     categoryLabel: '용문',
-    url: '/images/backgrounds/bg_lungmen_n.png',
+    url: '/images/backgrounds/bg_lungmen_n.webp',
     description: '화려한 사이버펑크 네온사인이 밝혀진 용문 상업지구의 야경'
   },
   lungmen_rain_street: {
@@ -96,7 +96,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '용문 외곽 빗속 거리',
     category: 'lungmen',
     categoryLabel: '용문',
-    url: '/images/backgrounds/bg_lungmen_r.png',
+    url: '/images/backgrounds/bg_lungmen_r.webp',
     description: '차가운 장대비가 쏟아지는 용문 외곽 상업지구 폐허'
   },
   lungmen_bridge: {
@@ -104,7 +104,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '용문 외곽 진입 교량',
     category: 'lungmen',
     categoryLabel: '용문',
-    url: '/images/backgrounds/bg_lungmenbridge.png',
+    url: '/images/backgrounds/bg_lungmenbridge.webp',
     description: '외곽 관문과 본성을 연결하는 거대한 전술 통제 교량'
   },
   lungmen_rooftop: {
@@ -112,7 +112,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '용문 도심 빌딩 옥상',
     category: 'lungmen',
     categoryLabel: '용문',
-    url: '/images/backgrounds/bg_rooftop.png',
+    url: '/images/backgrounds/bg_rooftop.webp',
     description: '리유니온 정예부대와의 포위 결전이 벌어진 고층 빌딩 옥상'
   },
   lungmen_subway: {
@@ -120,7 +120,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '용문 지하철 역사',
     category: 'lungmen',
     categoryLabel: '용문',
-    url: '/images/backgrounds/bg_lungmen_station.png',
+    url: '/images/backgrounds/bg_lungmen_station.webp',
     description: '어두운 선로와 플랫폼이 이어진 용문 지하 역사'
   },
 
@@ -130,7 +130,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '로도스 아일랜드 본함 외경',
     category: 'rhodes',
     categoryLabel: '로도스 아일랜드',
-    url: '/images/backgrounds/bg_ri_1.png',
+    url: '/images/backgrounds/bg_ri_1.webp',
     description: '거대한 육상함 형태로 테라 대륙을 가로지르는 로도스 아일랜드 본함'
   },
   rhodes_bridge: {
@@ -138,7 +138,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '로도스 본함 브릿지 (함교)',
     category: 'rhodes',
     categoryLabel: '로도스 아일랜드',
-    url: '/images/backgrounds/bg_bridge.png',
+    url: '/images/backgrounds/bg_bridge.webp',
     description: '항로 제어판과 전술 홀로그램이 구동되는 중앙 지휘 함교'
   },
   rhodes_corridor: {
@@ -146,7 +146,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '로도스 본함 메인 복도',
     category: 'rhodes',
     categoryLabel: '로도스 아일랜드',
-    url: '/images/backgrounds/bg_corridor.png',
+    url: '/images/backgrounds/bg_corridor.webp',
     description: '오퍼레이터들이 오가는 모던하고 기능적인 선내 복도'
   },
   rhodes_aircraft: {
@@ -154,7 +154,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '로도스 고속 수송기 내부',
     category: 'rhodes',
     categoryLabel: '로도스 아일랜드',
-    url: '/images/backgrounds/bg_aircraft.png',
+    url: '/images/backgrounds/bg_aircraft.webp',
     description: '작전 구역으로 오퍼레이터들을 신속 투입하는 전술 수송기'
   },
   rhodes_control_center: {
@@ -162,7 +162,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '로도스 중앙 전술 관제실',
     category: 'rhodes',
     categoryLabel: '로도스 아일랜드',
-    url: '/images/backgrounds/bg_indoor_2.png',
+    url: '/images/backgrounds/bg_indoor_2.webp',
     description: '통신 단말과 PRTS 인터페이스가 연결된 중앙 관제실'
   },
 
@@ -172,7 +172,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '우르수스 침엽수림 빙원',
     category: 'snowfield',
     categoryLabel: '설원/빙원',
-    url: '/images/backgrounds/bg_iceforest_1.png',
+    url: '/images/backgrounds/bg_iceforest_1.webp',
     description: '프로스트노바의 한기가 서린 울창한 북방 침엽수림'
   },
   snow_tundra: {
@@ -180,7 +180,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '북방 설원 황무지',
     category: 'snowfield',
     categoryLabel: '설원/빙원',
-    url: '/images/backgrounds/bg_snow_2.png',
+    url: '/images/backgrounds/bg_snow_2.webp',
     description: '눈보라가 몰아치는 우르수스 북원의 황량한 설원'
   },
   snow_village_ruins: {
@@ -188,7 +188,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '설원 폐허 마을',
     category: 'snowfield',
     categoryLabel: '설원/빙원',
-    url: '/images/backgrounds/bg_snowconutry_1.png',
+    url: '/images/backgrounds/bg_snowconutry_1.webp',
     description: '혹한 속에 버려진 우르수스 변경의 목조 가옥 잔해'
   },
 
@@ -198,7 +198,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '체르노보그 핵심 제어탑 상층',
     category: 'climax',
     categoryLabel: '핵심 결전지',
-    url: '/images/backgrounds/bg_top.png',
+    url: '/images/backgrounds/bg_top.webp',
     description: '패트리어트와 탈룰라가 자리잡은 핵심 제어탑 정상'
   },
   control_tower_burning: {
@@ -206,7 +206,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '불타는 제어탑 결전지',
     category: 'climax',
     categoryLabel: '핵심 결전지',
-    url: '/images/backgrounds/bg_topburning.png',
+    url: '/images/backgrounds/bg_topburning.webp',
     description: '탈룰라의 원초적 화염으로 용광로처럼 타오르는 제어탑 전장'
   },
   sarcophagus_core: {
@@ -214,7 +214,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '석관 중추 코어 챔버',
     category: 'climax',
     categoryLabel: '핵심 결전지',
-    url: '/images/backgrounds/bg_graduatecore.png',
+    url: '/images/backgrounds/bg_graduatecore.webp',
     description: '박사가 잠들어 있던 고대 유물 석관의 핵심 에너지실'
   },
 
@@ -224,7 +224,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '테라 대륙 황무지',
     category: 'wilderness',
     categoryLabel: '황야/자연',
-    url: '/images/backgrounds/bg_wild_a.png',
+    url: '/images/backgrounds/bg_wild_a.webp',
     description: '끝없이 펼쳐진 암석과 붉은 먼지의 변경 황무지'
   },
   ancient_ruins: {
@@ -232,7 +232,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '고대 문명 유적 폐허',
     category: 'wilderness',
     categoryLabel: '황야/자연',
-    url: '/images/backgrounds/bg_ruins_1.png',
+    url: '/images/backgrounds/bg_ruins_1.webp',
     description: '오리지늄에 침식된 미지의 고대 문명 잔해'
   },
   black_abyss: {
@@ -240,7 +240,7 @@ export const COMMON_BACKGROUNDS: Record<string, CommonBackgroundMeta> = {
     nameKo: '암전 / 어두운 심연',
     category: 'common',
     categoryLabel: '공통',
-    url: '/images/backgrounds/bg_black.png',
+    url: '/images/backgrounds/bg_black.webp',
     description: '독백 또는 회상 시 사용되는 칠흑의 공간'
   }
 };
@@ -252,7 +252,7 @@ export const COMMON_NPCS: Record<string, CommonNpcMeta> = {
     nameKo: '리유니온 전투원',
     faction: '리유니온',
     role: '일반 돌격 보병',
-    avatarUrl: '/images/characters/reunion_soldier.png',
+    avatarUrl: '/images/characters/reunion_soldier.webp',
     description: '무장 봉기에 가담한 리유니온의 일반 감염자 병사'
   },
   reunion_caster: {
@@ -260,7 +260,7 @@ export const COMMON_NPCS: Record<string, CommonNpcMeta> = {
     nameKo: '리유니온 캐스터',
     faction: '리유니온',
     role: '원거리 아츠 공격수',
-    avatarUrl: '/images/characters/reunion_caster.png',
+    avatarUrl: '/images/characters/reunion_caster.webp',
     description: '오리지늄 아츠를 난사해 전선을 교란하는 리유니온 술사'
   },
   lgd_officer: {
@@ -268,7 +268,7 @@ export const COMMON_NPCS: Record<string, CommonNpcMeta> = {
     nameKo: '용문 근위국 진압대원',
     faction: '용문 근위국',
     role: '도심 치안 및 방패 진압 대원',
-    avatarUrl: '/images/characters/lgd_officer.png',
+    avatarUrl: '/images/characters/lgd_officer.webp',
     description: '용문 근위국의 정규 중장갑 방패 진압 대원'
   },
   guard: {
@@ -276,7 +276,7 @@ export const COMMON_NPCS: Record<string, CommonNpcMeta> = {
     nameKo: '로도스 가드 오퍼레이터',
     faction: '로도스 아일랜드',
     role: '근접 방어 및 돌격 대원',
-    avatarUrl: '/images/characters/guard.png',
+    avatarUrl: '/images/characters/guard.webp',
     description: '로도스 아일랜드의 공식 정규 가드 오퍼레이터'
   },
   medic: {
@@ -284,7 +284,7 @@ export const COMMON_NPCS: Record<string, CommonNpcMeta> = {
     nameKo: '로도스 의료 오퍼레이터',
     faction: '로도스 아일랜드',
     role: '전선 응급 의료 및 치료 지원',
-    avatarUrl: '/images/characters/medic.png',
+    avatarUrl: '/images/characters/medic.webp',
     description: '로도스 아일랜드의 공식 정규 의료 오퍼레이터'
   },
   yeti_member: {
@@ -292,7 +292,7 @@ export const COMMON_NPCS: Record<string, CommonNpcMeta> = {
     nameKo: '눈의 악마 소대원',
     faction: '리유니온 / 눈의 악마 소대',
     role: '정예 냉기 전투원',
-    avatarUrl: '/images/characters/yeti_member.png',
+    avatarUrl: '/images/characters/yeti_member.webp',
     description: '프로스트노바를 따르는 우르수스 북원의 정예 감염자 전사'
   },
   shieldguard: {
@@ -300,7 +300,7 @@ export const COMMON_NPCS: Record<string, CommonNpcMeta> = {
     nameKo: '방패 위병',
     faction: '리유니온 / 불사군단',
     role: '불사군단 정예 방패병',
-    avatarUrl: '/images/characters/shieldguard.png',
+    avatarUrl: '/images/characters/shieldguard.webp',
     description: '패트리어트를 호위하는 우르수스 베테랑 중장갑 방패 위병'
   }
 };

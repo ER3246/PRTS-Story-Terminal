@@ -9,7 +9,7 @@ export const episode11: StoryArchive = {
   titleKo: '리턴 투 미스트',
   titleEn: 'Return to Mist',
   order: 11,
-  bannerImage: '/images/story_covers/ep11.png',
+  bannerImage: '/images/story_covers/ep11.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -96,7 +96,7 @@ export const episode11: StoryArchive = {
       focalCharacter: '알레데일 & 골딩 & 피스트 & 캐서린',
       location: '런디니움 오슈테리그 구 컴버랜드 저택(1072년), 세인트 마르솔 학교(1094년), 하이버리 구 11번 군수 공장(1097년), 성왕궁 서쪽 회당(1098년)',
       timeline: '26년 전(1072년) ~ 현재(1098년 봄)',
-      cgUrl: '/images/cgs/32_i15.png',
+      cgUrl: '/images/cgs/32_i15.webp',
       cgCaption: '컴버랜드 가문의 거대한 초대 증기 갑옷 뒤에 숨어 가장 위대한 기사가 되길 꿈꾸던 어린 알레데일',
       synopsis: '26년 전 어린 알레데일과 비나의 운명적 조우, 4년 전 내전 속 마지막 증기 기사 찰스 린치의 모습과 골딩·하이디의 접선, 1년 전 하이버리 구 11번 군수 공장에서 살카즈에 맞서다 결별한 캐서린과 피스트의 과거가 차례로 드러난다. 현재 시점, 성왕궁 서쪽 회당에서 테레시스가 윈더미어 공작군의 진격을 보고받는 사이, 컴버랜드 저택에 모인 자경단과 로도스는 드라코의 열쇠로 왕실 지하 통로(왕의 안식처)를 열어 더 샤드 빌딩에 접근할 작전을 수립한다.',
       narrativeText: '서사는 런디니움을 뒤흔든 세 개의 과거 시간대를 조명하며 시작된다. 26년 전(1072년), 왕궁 지하가 침입당해 보검 \'왕의 숨결\'과 갓난아기 비나 공주가 실종되던 날, 컴버랜드 저택의 어린 알레데일은 다락방의 초대 증기 갑옷 뒤에 숨어 위대한 기사가 되겠다고 맹세한다. 반역 모의를 엿듣다 창밖으로 추락한 알레데일을 받아낸 것은 황금빛 사자(한숨의 무리)와 그 등에 탄 어린 비나였다. 4년 전(1094년), 대공작들의 내전 포화 속에서 세인트 마르솔 학교의 교사 골딩은 다친 하이디 톰슨을 구하고 거리에서 마지막 증기 기사 찰스 린치의 그림자를 목격한다. 1년 전(1097년), 하이버리 구 11번 군수 공장에서 피스트가 살카즈 납품용 중합제를 파괴하다 발각되자, 할머니 캐서린은 피스트를 쫓아내며 남은 직원들을 지키기 위해 살카즈에 공장을 넘긴다. 그리고 현재(1098년), 컴버랜드 저택에 집결한 로도스와 자경단은 국검 \'왕의 숨결\'이 잠든 왕의 안식처를 개척해 샤드 빌딩의 재앙 폭풍을 막을 작전을 결의한다.',
@@ -106,17 +106,17 @@ export const episode11: StoryArchive = {
           title: '명예를 위하여',
           location: '26년 전(테라력 1072년), 오슈테리그 구 컴버랜드 공작 저택',
           timeMarker: '테라력 1072년',
-          cgUrl: '/images/cgs/32_i15.png',
+          cgUrl: '/images/cgs/32_i15.webp',
           cgCaption: '컴버랜드 가문의 차가운 초대 증기 갑옷 뒤에서 어른이 되어 적을 무찌르는 영예로운 기사를 꿈꾸던 어린 알레데일',
           visuals: [
             {
-              url: '/images/cgs/32_i15.png',
+              url: '/images/cgs/32_i15.webp',
               caption: '컴버랜드 가문의 거대한 초대 증기 갑옷 뒤에 숨어 영예로운 기사를 꿈꾸던 어린 알레데일',
               type: 'cg',
               triggerLine: '제일 대단한 증기 기사는 넌데, 사람들은 다 잊었나 봐! 빨리 어른이 되고 싶다……'
             },
             {
-              url: '/images/cgs/32_i01_1.png',
+              url: '/images/cgs/32_i01_1.webp',
               caption: '2층 창밖으로 추락한 어린 알레데일을 받아낸 황금빛 사자(한숨의 무리)와 입에 왕의 숨결을 문 사자 등에 탄 어린 비나',
               type: 'cg',
               triggerLine: '알레데일 컴버랜드, 언젠가 너는 비나와 다시 만나게 될 것이다.'
@@ -129,7 +129,7 @@ export const episode11: StoryArchive = {
             {
               speaker: '알레데일',
               speakerId: 'alledale',
-              avatarUrl: '/images/characters/alledale_child.png',
+              avatarUrl: '/images/characters/alledale_child.webp',
               variantId: 'child',
               text: '제일 대단한 증기 기사는 넌데, 사람들은 다 잊었나 봐! 하지만, 아버지는 진짜로 용감한 사람은 희생을 두려워하지 않고, 잊히는 건 더더욱 두려워하지 말아야 한다고 했어…… 빨리 어른이 되고 싶다…… 그리고 가장 영예로운 증기 기사가 되어, 적을 모조리 쓰러뜨릴 거야!',
               context: '다락방에서 가문의 초대 증기 갑옷을 어루만지며 속삭이던 맹세'
@@ -137,7 +137,7 @@ export const episode11: StoryArchive = {
             {
               speaker: '알레데일',
               speakerId: 'alledale',
-              avatarUrl: '/images/characters/alledale_child.png',
+              avatarUrl: '/images/characters/alledale_child.webp',
               variantId: 'child',
               text: '여긴 우리 집이야. 컴버랜드의 모든 사람이 그랬듯이, 나도 우리 가문을 물려받고 지킬 거야. 내 목숨의 끝이 올 때까지. 맹세해.',
               context: '시녀 에일쉬에게 컴버랜드 가문을 끝까지 지키겠다고 다짐하며'
@@ -231,7 +231,7 @@ export const episode11: StoryArchive = {
       focalCharacter: '시즈 & 알레데일 & 피스트 & 캐서린',
       location: '세인트 마르솔 학교, 컴버랜드 저택, 하이버리 구 11번 군수 공장',
       timeline: '1098년 4월 말',
-      cgUrl: '/images/cgs/32_i17.png',
+      cgUrl: '/images/cgs/32_i17.webp',
       cgCaption: '컴버랜드 저택의 어두운 방 안에서 피 묻은 붕대를 감아주며 속마음을 나누는 알레데일과 시즈',
       synopsis: '컴버랜드 저택의 초대 증기 갑옷 매각을 시즈가 막아내고, 11번 군수 공장에서는 피스트가 할머니 캐서린과 재회한다. 다마즈티가 교사 몰리를 납치해 테레시스와 연극 무대에서 대화를 나누는 가운데, 살카즈가 캐서린을 처형하려 하자 피스트는 옛 명찰을 달고 공장 노동자들과 함께 캐서린을 구출한다. 그날 밤 뱀파이어 생귀나르의 습격으로 컴버랜드 저택이 불바다가 되고, 알레데일은 에일쉬를 부르짖으며 캐스터 공작의 감시자들에게 끌려간다.',
       narrativeText: '알레데일이 자경단 무기 조달을 위해 가문의 초대 증기 갑옷을 팔려 하자, 시즈가 암상인 바더를 제압하고 갑옷 매각을 취소시킨다. 세인트 마르솔 학교에서는 다마즈티 클러스터가 교사 몰리를 기습해 납치한 뒤 연극 무대에서 섭정왕 테레시스와 제국의 흥망을 논한다. 한편 11번 군수 공장으로 찾아온 살카즈 용병대가 캐서린을 처형하려 하자, 피스트는 할머니가 숨겨둔 자신의 옛 명찰을 가슴에 달고 노동자 대열을 이끌어 캐서린을 구출하고 살카즈 용병 소녀 파프리카를 살려 보낸다. 저택으로 돌아온 시즈가 부상당한 알레데일에게 붕대를 감아주며 속마음을 나누지만, 그날 밤 뱀파이어 생귀나르가 저택을 기습해 불바다로 만든다. 집사 에일쉬가 화염에 갇히고, 캐스터 공작의 사주를 받은 감시자들은 절규하는 알레데일을 강제로 끌고 간다.',
@@ -272,11 +272,11 @@ export const episode11: StoryArchive = {
           title: '문명의 해석',
           location: '세인트 마르솔 학교 교실 및 연극 무대',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/32_i02.png',
+          cgUrl: '/images/cgs/32_i02.webp',
           cgCaption: '세인트 마르솔 학교의 텅 빈 연극 무대 위에서 연극 대사를 주고받으며 제국의 몰락을 논하는 테레시스와 몰리로 의태한 다마즈티 클러스터',
           visuals: [
             {
-              url: '/images/cgs/32_i02.png',
+              url: '/images/cgs/32_i02.webp',
               caption: '세인트 마르솔 학교 연극 무대 위에서 제국의 몰락과 살카즈의 미래를 논하는 테레시스와 다마즈티 클러스터',
               type: 'cg',
               triggerLine: '떨어지고 있는 자가 아무리 태양을 잡으려고 한들, 손에 쥐고 있는 건 번개뿐이란 걸 그들은 인정하려 하지 않는다.'
@@ -331,11 +331,11 @@ export const episode11: StoryArchive = {
           title: '정체',
           location: '11번 군수 공장 비밀 작업장 및 컴버랜드 공작 저택',
           timeMarker: '1098년 4월 말',
-          cgUrl: '/images/cgs/32_i17.png',
+          cgUrl: '/images/cgs/32_i17.webp',
           cgCaption: '컴버랜드 저택의 방 안에서 부상당한 알레데일의 상처에 약을 바르고 붕대를 감아주며 속마음을 나누는 시즈',
           visuals: [
             {
-              url: '/images/cgs/32_i17.png',
+              url: '/images/cgs/32_i17.webp',
               caption: '컴버랜드 저택의 방 안에서 서로의 상처를 보듬으며 현실의 고통을 나누는 알레데일과 시즈',
               type: 'cg',
               triggerLine: '이건 아무것도 아니야, 비나. 최근 몇 년 동안 나는 이미 깨달았어. 대부분의 일이 우리 뜻대로 될 수는 없다는 걸 말이야.'
@@ -377,17 +377,17 @@ export const episode11: StoryArchive = {
           title: '목숨을 목숨으로',
           location: '불타는 컴버랜드 저택 및 하이버리 구 처형장 골목',
           timeMarker: '1098년 4월 말',
-          cgUrl: '/images/cgs/32_i03.png',
+          cgUrl: '/images/cgs/32_i03.webp',
           cgCaption: '생귀나르의 습격으로 불타오르는 컴버랜드 저택 정원과 화염 속에서 포효하듯 우뚝 선 가문의 오래된 증기 갑옷',
           visuals: [
             {
-              url: '/images/cgs/32_i03.png',
+              url: '/images/cgs/32_i03.webp',
               caption: '생귀나르의 방화로 불타오르는 저택 정원과 화염 속에서 우뚝 선 컴버랜드 가문의 초대 증기 갑옷',
               type: 'cg',
               triggerLine: '에일쉬!!! 기다려, 내, 내가…… 내가 약속했잖아.'
             },
             {
-              url: '/images/cgs/32_i04.png',
+              url: '/images/cgs/32_i04.webp',
               caption: '할머니 캐서린을 구하기 위해 옛 공장 명찰을 가슴에 달고 11번 군수 공장 노동자 대열의 선두에 선 피스트',
               type: 'cg',
               triggerLine: '여러분, 나는 자경단으로서 여기 서 있는 게 아니야. 나는 여기 소속이야. 나는 할머니를 구할 거고, 여러분도 죽게 내버려 두지 않을 거야.'
@@ -423,17 +423,17 @@ export const episode11: StoryArchive = {
           title: '서로 다른 길',
           location: '고해신부 저택 만찬실, 방위군 집무실, 11번 군수 공장',
           timeMarker: '1098년 4월 말',
-          cgUrl: '/images/cgs/32_i05.png',
+          cgUrl: '/images/cgs/32_i05.webp',
           cgCaption: '고해신부 저택 만찬 식탁에 마주 앉아 리즈(나이팅게일)와 마왕의 유산을 두고 냉랭한 대화를 나누는 고해신부, 살루스, 샤이닝',
           visuals: [
             {
-              url: '/images/cgs/32_i05.png',
+              url: '/images/cgs/32_i05.webp',
               caption: '고해신부 저택 만찬 식탁에서 나이팅게일의 신체와 실험을 두고 대립하는 고해신부, 살루스, 샤이닝',
               type: 'cg',
               triggerLine: '하아, 샤이닝의 실험이 중단된 이후로 제 연구도 점점 어려워지고 있어요.'
             },
             {
-              url: '/images/cgs/32_i06.png',
+              url: '/images/cgs/32_i06.webp',
               caption: '11번 군수 공장을 떠나는 피스트에게 명찰을 던져주며 배웅하는 할머니 캐서린과 환하게 웃는 피스트',
               type: 'cg',
               triggerLine: '할머니, 꼭 돌아올게. 내 눈에는 할머니야말로 진정한 영웅이야. 과거에도, 지금도, 그리고 앞으로도.'
@@ -475,7 +475,7 @@ export const episode11: StoryArchive = {
       focalCharacter: '로고스 & 아스카론 & 시즈 & 다그다',
       location: '오슈테리그 구 방위군 총사령탑, 성왕궁 지하 비밀 통로 및 왕의 안식처',
       timeline: '1098년 5월 초',
-      cgUrl: '/images/cgs/32_i09.png',
+      cgUrl: '/images/cgs/32_i09.webp',
       cgCaption: '성왕궁 지하 왕의 안식처에 5m가 넘는 살카즈 주술 대못에 관통된 채 침묵 속에 잠들어 있는 증기기사단의 칠흑 갑옷들',
       synopsis: '지상에서는 아미야·박사·클로비시아가 보급로 데이터를 해킹하기 위해 방위군 총사령탑을 기습하고, 뱀파이어 생귀나르의 피의 해일에 맞서 로고스가 골필의 금빛 주문으로 맞선다. 같은 시각 지하에서는 시즈와 알레데일 일행이 드라코의 열쇠로 \'왕의 안식처\' 대문을 연다. 그곳에는 4년 전 빅토리아 귀족들의 배신으로 살카즈의 매복 함정에 빠져 전멸한 증기기사단 전원의 갑옷들이 참혹하게 도열해 있었다.',
       narrativeText: '작전은 지상과 지하의 2-Track으로 나뉘어 전개된다. 지상에서는 살카즈 보급로 기착지를 해킹하기 위해 아미야, 박사, 클로비시아, 피스트가 방위군 총사령탑을 기습한다. 레토 중령을 사이에 두고 맨프레드와 아스카론이 칼날을 겨누고, 뱀파이어 생귀나르가 피의 해일을 일으키자 로고스가 골필로 금빛 주문을 써 내려가며 막아선다. 같은 시각 지하 통로를 따라 진입한 시즈, 알레데일, 다그다, 토터 일행은 드라코의 열쇠로 왕의 안식처 대문을 연다. 석상들을 지나 안으로 들어선 일행의 눈앞에 나타난 것은 4년 전 제국 전체의 배신으로 살카즈의 5m 주술 대못에 관통당해 전멸한 증기기사단의 거대한 무덤이었다.',
@@ -566,11 +566,11 @@ export const episode11: StoryArchive = {
           title: '요동치는 대지',
           location: '오슈테리그 구 방위군 총사령탑 및 주변 거리',
           timeMarker: '1098년 5월',
-          cgUrl: '/images/cgs/32_i18.png',
+          cgUrl: '/images/cgs/32_i18.webp',
           cgCaption: '방위군 사령탑을 뒤덮은 생귀나르의 거대한 핏빛 해일을 골필의 금빛 주문으로 막아서는 젊은 밴시 군주 로고스',
           visuals: [
             {
-              url: '/images/cgs/32_i18.png',
+              url: '/images/cgs/32_i18.webp',
               caption: '방위군 사령탑 위에서 생귀나르의 피의 해일을 골필의 금빛 주문으로 가로막는 로고스',
               type: 'cg',
               triggerLine: '살카즈는 변하고 있다. 살카즈는 변해야 한다. 골필 아래, 금빛의 주문이 자동으로 쓰여나갔다.'
@@ -606,11 +606,11 @@ export const episode11: StoryArchive = {
           title: '영광의 사냥터',
           location: '성왕궁 지하 \'왕의 안식처\'',
           timeMarker: '1098년 5월 초',
-          cgUrl: '/images/cgs/32_i09.png',
+          cgUrl: '/images/cgs/32_i09.webp',
           cgCaption: '왕의 안식처에 5m가 넘는 살카즈 주술 대못에 관통된 채 침묵 속에 잠들어 있는 증기기사단의 칠흑 갑옷들',
           visuals: [
             {
-              url: '/images/cgs/32_i09.png',
+              url: '/images/cgs/32_i09.webp',
               caption: '왕의 안식처에 5m가 넘는 살카즈 주술 대못에 꿰뚫려 침묵 속에 도열해 있는 증기기사단의 유해와 갑옷들',
               type: 'cg',
               triggerLine: '이 영광스러운 기사들은 살카즈가 미리 준비해 둔 포위망에 들어왔던 거야. ……빅토리아 왕의 안식처에 설치된 살카즈의 포위망에.'
@@ -652,7 +652,7 @@ export const episode11: StoryArchive = {
       focalCharacter: '켈시 & 테레시스 & 증기기사 & 알레데일',
       location: '지상 사령탑, 왕의 안식처 중심부, 더 샤드 빌딩 상공, 런디니움 폐허',
       timeline: '1098년 5월 초',
-      cgUrl: '/images/cgs/32_i10.png',
+      cgUrl: '/images/cgs/32_i10.webp',
       cgCaption: '왕의 안식처 중심부에서 과거의 방황을 끝내고 빅토리아 왕권의 상징 보검 \'왕의 숨결\'을 쥐어 든 시즈',
       synopsis: '지상 사령탑에서 200년 전 카즈델 멸망의 기억에 잠식된 아미야를 향해 테레시스가 검을 내리치고, 켈시가 몸을 던져 치명상을 입으며 아미야와 박사를 후퇴시킨다. 지하 왕의 안식처에서는 시즈가 국검 \'왕의 숨결\'을 뽑아들지만 캐스터 공작에게 협박당한 알레데일이 칼을 겨누며 배신한다. 그때 4년을 홀로 생존한 마지막 증기기사 찰스 린치가 깨어나 폭주하고, 알레데일은 시즈의 포용에 굴레를 벗어던지며 무너지는 성역에 홀로 남아 마지막 증기기사를 가로막고 실종된다. 새벽 하늘 위로 살카즈의 거대 비행선이 재앙 구름을 뚫고 솟아오른다.',
       narrativeText: '지상에서는 아미야가 200년 전 켈시가 다국적 연합군을 이끌고 카즈델을 멸망시키던 참혹한 기억에 잠식되어 탑 아래로 추락한다. 박사가 아미야를 안아 든 순간 섭정왕 테레시스가 나타나 장검을 휘두르고, 켈시와 Mon3tr가 앞을 막아서 테레시스의 검에 가슴이 꿰뚫리는 치명상을 입으며 박사와 아미야를 철수시킨다. 같은 시각 지하 왕의 안식처에서는 시즈가 국검 \'왕의 숨결\'을 뽑아들지만, 캐스터 공작에게 협박받던 알레데일이 등 뒤에서 칼을 겨누며 배신한다. 바로 그 순간 살카즈의 대못이 박힌 채 4년간 버텨온 마지막 증기 기사 찰스 린치가 칠흑 갑옷을 일으켜 세운다. 시즈는 배신자라 자책하는 알레데일에게 사명의 굴레를 벗으라 외치며 증기 기사와 격돌한다. 성역이 무너지기 시작하자 알레데일은 시즈와 다그다를 문밖으로 밀어내고 닫히는 문 너머에 홀로 남아 마지막 증기 기사를 상대하며 잔해 속에 묻힌다. 자경단 은신처에서 시즈는 불타지 않고 돌아온 컴버랜드의 증기 갑옷을 마주하고, 샤드 빌딩 상공에는 살카즈의 거대 비행선이 재앙 폭풍의 눈으로 떠오른다.',
@@ -662,29 +662,29 @@ export const episode11: StoryArchive = {
           title: '대답해',
           location: '지상 방위군 사령탑 & 성왕궁 지하 왕의 안식처 중심부',
           timeMarker: '1098년 5월 초',
-          cgUrl: '/images/cgs/32_i10.png',
+          cgUrl: '/images/cgs/32_i10.webp',
           cgCaption: '왕의 안식처 중심부에서 과거의 망설임을 떨쳐내고 보검 \'왕의 숨결\'을 손에 쥐는 시즈',
           visuals: [
             {
-              url: '/images/cgs/32_i07.png',
+              url: '/images/cgs/32_i07.webp',
               caption: '아미야가 마왕의 공명으로 목격한 200년 전 카즈델 멸망의 기억 — 연합군 선두에서 심판을 선고하는 켈시',
               type: 'cg',
               triggerLine: '주변 여러 나라의 안정을 위해, 앞으로 200년 동안의 평화를 위해 야망의 불씨는 사전에 꺼버려야 한다.'
             },
             {
-              url: '/images/cgs/32_i08_2.png',
+              url: '/images/cgs/32_i08_2.webp',
               caption: '박사와 아미야를 베려는 테레시스의 장검 앞을 가로막아 치명상을 입는 켈시의 실루엣',
               type: 'cg',
               triggerLine: '익숙한 모습이 당신과 아미야 앞을 가로막았다. 새빨갛고 따뜻한 액체가 당신의 뺨, 그리고 아미야를 껴안은 당신의 손에 튀었다.'
             },
             {
-              url: '/images/cgs/32_i08_1.png',
+              url: '/images/cgs/32_i08_1.webp',
               caption: '테레시스의 검에 가슴이 꿰뚫린 채 피를 흘리면서도 박사에게 아미야를 데리고 철수하라 명하는 켈시',
               type: 'cg',
               triggerLine: '박사…… 아미야를 데리고…… 철수해.'
             },
             {
-              url: '/images/cgs/32_i10.png',
+              url: '/images/cgs/32_i10.webp',
               caption: '왕의 안식처 중심부에서 과거의 망설임을 떨쳐내고 빅토리아 보검 왕의 숨결을 손에 쥐는 시즈',
               type: 'cg',
               triggerLine: '시즈의 손이 검에 닿았다. 이곳이 바로 그녀의 빅토리아다.'
@@ -726,35 +726,35 @@ export const episode11: StoryArchive = {
           title: '운명을 향해',
           location: '성왕궁 지하 왕의 안식처 중심부 및 세인트 마르솔 학교',
           timeMarker: '1098년 5월 초',
-          cgUrl: '/images/cgs/32_i12.png',
+          cgUrl: '/images/cgs/32_i12.webp',
           cgCaption: '왕의 숨결을 쥔 시즈를 향해 거대한 무기를 치켜들고 포효하는 빅토리아 마지막 증기기사 찰스 린치',
           visuals: [
             {
-              url: '/images/cgs/32_i11.png',
+              url: '/images/cgs/32_i11.webp',
               caption: '왕의 안식처 잔해 속에서 새하얀 고압 증기를 뿜어내며 일어서는 칠흑의 마지막 증기기사',
               type: 'cg',
               triggerLine: '통풍구에서 밖으로 뿜어내는 새하얀 증기는 칠흑 갑옷에 대비되어 유난히 눈에 띄었다.'
             },
             {
-              url: '/images/cgs/32_i12.png',
+              url: '/images/cgs/32_i12.webp',
               caption: '왕의 숨결을 쥔 시즈를 침탈자로 규정하고 거대한 무기를 들어 올리며 포효하는 마지막 증기기사',
               type: 'cg',
               triggerLine: '“빅토리아.” 제국의 마지막 기사는 빅토리아를 빼앗으려는 모든 적수에게 복수한다.'
             },
             {
-              url: '/images/cgs/avg_5_7_shining.png',
+              url: '/images/cgs/avg_5_7_shining.webp',
               caption: '마지막 증기기사에게서 흐려진 이름과 맹세의 기억을 떠올리는 회상 잔상',
               type: 'cg',
               triggerLine: '우리는 증기 기사다. 우리는 목숨 걸고 빅토리아를 지킬 것을 맹세한다.'
             },
             {
-              url: '/images/cgs/32_i01_2.png',
+              url: '/images/cgs/32_i01_2.webp',
               caption: '26년 전 황금빛 꽃이 핀 정원에서 증기 갑옷 헬멧 너머로 황금 사자와 어린 비나를 바라보던 알레데일의 기억',
               type: 'cg',
               triggerLine: '알레데일 컴버랜드, 언젠가 너는 비나와 다시 만나게 될 것이다.'
             },
             {
-              url: '/images/cgs/32_i13.png',
+              url: '/images/cgs/32_i13.webp',
               caption: '무너지는 왕의 안식처에서 시즈와 다그다를 문밖으로 밀어내고 홀로 남아 증기기사를 마주하는 알레데일',
               type: 'cg',
               triggerLine: '용서해 줘…… 내가 상대해줄게, 나의 악몽…… 나의 희망이여.'
@@ -790,29 +790,29 @@ export const episode11: StoryArchive = {
           title: '불가항력',
           location: '자경단 은신처, 더 샤드 빌딩 상공, 트레이더스밀 시티, 웰링턴 영지',
           timeMarker: '1098년 5월 초 여명',
-          cgUrl: '/images/cgs/32_i16.png',
+          cgUrl: '/images/cgs/32_i16.webp',
           cgCaption: '불타버린 저택의 잿더미 속에서 불길에 사라지지 않고 기적처럼 회수된 컴버랜드 가문의 초대 증기 갑옷',
           visuals: [
             {
-              url: '/images/cgs/32_i16.png',
+              url: '/images/cgs/32_i16.webp',
               caption: '불타버린 컴버랜드 저택의 잿더미 속에서 기적처럼 온전히 회수된 가문의 증기 갑옷',
               type: 'cg',
               triggerLine: '……컴버랜드 가문의 증기 갑옷이잖아. 그렇구나…… 이건 불길에 사라지지 않았구나.'
             },
             {
-              url: '/images/cgs/32_i14_1.png',
+              url: '/images/cgs/32_i14_1.webp',
               caption: '더 샤드 빌딩 상공의 먹구름이 갈라지며 드러나는 인위적 대재앙 폭풍',
               type: 'cg',
               triggerLine: '런디니움뿐만 아니라, 주변 도시에서도 심한 진동이 느껴졌다.'
             },
             {
-              url: '/images/cgs/32_i14_2.png',
+              url: '/images/cgs/32_i14_2.webp',
               caption: '거대한 재앙 폭풍의 눈 한가운데에서 위용을 드러낸 살카즈의 거대 비행선',
               type: 'cg',
               triggerLine: '저건 재앙의 구름이다. 그리고 괴상한 형태의 비행체는 마치 이 폭풍의 눈 같았다.'
             },
             {
-              url: '/images/cgs/avg_ep11.png',
+              url: '/images/cgs/avg_ep11.webp',
               caption: '에피소드 11 리턴 투 미스트 타이틀 로고 — 안개 속으로 번져가는 테라의 새 시대',
               type: 'cg',
               triggerLine: '타라의 새로운 시대가 눈앞까지 다가온 게…… 이제 보이는군요.'
@@ -857,7 +857,7 @@ export const episode11: StoryArchive = {
         phaseEn: 'Part 1',
         title: '세 갈래의 회상과 성왕궁의 먹구름',
         location: '오슈테리그 컴버랜드 저택, 세인트 마르솔 학교, 하이버리 구 11번 군수 공장',
-        cgUrl: '/images/cgs/32_i15.png',
+        cgUrl: '/images/cgs/32_i15.webp',
         cgCaption: '컴버랜드 가문의 초대 증기 갑옷 뒤에 숨어 가장 위대한 기사를 꿈꾸던 어린 알레데일',
         summary: '26년 전 알레데일과 비나의 조우, 4년 전 내전과 증기기사의 출현, 1년 전 군수 공장에서 피스트와 캐서린의 결별이 교차하고, 현재 시점 컴버랜드 저택에서 왕의 안식처 진입 작전이 결의된다.',
         narrativeText: '26년 전 국검과 비나 공주 실종 사건 당시 알레데일은 황금 사자와 어린 비나에게 구조받으며 재회를 예언받는다. 4년 전 내전 속에서 골딩은 하이디를 구하고 마지막 증기 기사의 그림자를 목격한다. 1년 전 11번 군수 공장에서는 캐서린이 손자 피스트를 쫓아내며 살카즈에 공장을 넘긴다. 현재 시점, 컴버랜드 저택에 모인 자경단과 로도스는 드라코의 열쇠로 왕의 안식처를 열어 더 샤드 빌딩의 재앙 폭풍에 맞설 계획을 세운다.',
@@ -877,7 +877,7 @@ export const episode11: StoryArchive = {
         phaseEn: 'Part 2',
         title: '가문의 갑옷과 불타는 저택, 그리고 노동자의 명찰',
         location: '세인트 마르솔 학교, 컴버랜드 저택, 하이버리 구 11번 군수 공장',
-        cgUrl: '/images/cgs/32_i17.png',
+        cgUrl: '/images/cgs/32_i17.webp',
         cgCaption: '컴버랜드 저택의 방 안에서 서로의 상처를 보듬으며 현실의 고통을 나누는 알레데일과 시즈',
         summary: '시즈가 알레데일의 증기 갑옷 매각을 막고, 피스트는 옛 명찰을 달고 캐서린을 구출한다. 저택이 생귀나르의 방화로 불타오르고 알레데일은 캐스터 공작 측에 끌려간다.',
         narrativeText: '시즈가 암상인 바더를 제압해 알레데일의 갑옷 매각을 취소시킨다. 다마즈티는 몰리를 납치해 연극 무대에서 테레시스와 제국의 흥망을 논한다. 살카즈가 캐서린을 처형하려 하자 피스트는 옛 공장 명찰을 가슴에 달고 노동자들과 함께 처형장을 기습해 캐서린을 구출한다. 저택에서 시즈가 부상당한 알레데일에게 붕대를 감아주며 속마음을 나누지만, 그날 밤 생귀나르의 기습 방화로 저택이 불바다가 되고 알레데일은 에일쉬를 부르짖으며 끌려간다.',
@@ -897,7 +897,7 @@ export const episode11: StoryArchive = {
         phaseEn: 'Part 3',
         title: '방위군 사령탑의 핏빛 파도와 왕의 안식처',
         location: '오슈테리그 구 방위군 총사령탑, 성왕궁 지하 왕의 안식처',
-        cgUrl: '/images/cgs/32_i09.png',
+        cgUrl: '/images/cgs/32_i09.webp',
         cgCaption: '왕의 안식처에 5m가 넘는 살카즈 주술 대못에 관통된 채 침묵 속에 잠들어 있는 증기기사단의 칠흑 갑옷들',
         summary: '지상 사령탑에서 로고스가 생귀나르의 피의 해일을 막아서고, 지하에서는 시즈 일행이 왕의 안식처를 개방해 4년 전 전멸한 증기기사단의 유해를 마주한다.',
         narrativeText: '보급로 해킹을 위해 지상 방위군 사령탑을 기습한 로도스와 자경단 앞에 생귀나르가 등판해 피의 파도를 일으키지만, 로고스가 골필의 금빛 주문으로 이를 차단한다. 피스트는 공장 자주포를 통제해 사령탑을 포격한다. 같은 시각 지하에서는 시즈가 드라코의 열쇠로 왕의 안식처 문을 열고 진입하여, 4년 전 빅토리아 전체의 배신으로 살카즈 주술 대못에 관통되어 수장된 증기기사단 전원의 갑옷 군단을 발견한다.',
@@ -917,7 +917,7 @@ export const episode11: StoryArchive = {
         phaseEn: 'Part 4',
         title: '테레시스의 일격과 마지막 증기기사, 그리고 폭풍의 눈',
         location: '지상 사령탑, 왕의 안식처 중심부, 런디니움 폐허, 더 샤드 상공',
-        cgUrl: '/images/cgs/32_i10.png',
+        cgUrl: '/images/cgs/32_i10.webp',
         cgCaption: '왕의 안식처 중심부에서 과거의 망설임을 떨쳐내고 보검 \'왕의 숨결\'을 손에 쥐는 시즈',
         summary: '지상에서 켈시가 테레시스의 장검에 쓰러지고, 지하에서는 알레데일의 배신 속에서 마지막 증기기사 찰스 린치가 깨어난다. 알레데일은 성역에 홀로 남아 실종되고, 하늘에는 살카즈 비행선이 솟아오른다.',
         narrativeText: '지상 사령탑에서 켈시가 테레시스의 검에 꿰뚫려 중상을 입으며 박사와 아미야를 후퇴시킨다. 지하 왕의 안식처에서는 시즈가 국검 \'왕의 숨결\'을 쥐자 알레데일이 칼을 겨누며 배신하지만, 4년을 버틴 마지막 증기기사 찰스 린치가 깨어나 폭주한다. 시즈의 포용에 사명의 굴레를 벗어던진 알레데일은 시즈와 다그다를 탈출시키고 홀로 남아 증기기사를 막아서며 실종된다. 새벽 폐허에서 불타지 않은 컴버랜드 갑옷이 회수되고, 샤드 빌딩 상공에 거대 비행선이 부상한다.',
@@ -954,8 +954,8 @@ export const episode11: StoryArchive = {
       description: '아슬란 왕가의 유일한 후계자이자 글래스고의 두목. 드라코의 열쇠로 왕의 안식처 문을 열고 마침내 빅토리아 왕권의 상징인 보검 \'왕의 숨결\'을 손에 쥔다. 알레데일의 배신 앞에서도 변치 않는 신뢰를 보냈으며, 알레데일이 남긴 유지를 받들어 런디니움 해방의 군주로 우뚝 선다.',
       quote: '영원히 고결한 컴버랜드는 없어, 클로비시아. 알레데일은 목숨으로 그녀가 지키고 싶은 걸 지켰을 뿐이야. 이건 사명 때문이 아니라…… 알레데일 본인의 선택이야.',
       statusInChapter: '왕의 안식처에서 보검 왕의 숨결 계승 및 알레데일 추모',
-      avatarUrl: '/images/characters/siege.png',
-      illustUrl: '/images/characters/illust/siege.png'
+      avatarUrl: '/images/characters/siege.webp',
+      illustUrl: '/images/characters/illust/siege.webp'
     },
     {
       id: 'alledale',
@@ -966,23 +966,23 @@ export const episode11: StoryArchive = {
       description: '빅토리아 황실의 충신 로버트 컴버랜드 공작의 외동딸. 캐스터 공작의 협박과 가문의 사명에 얽매여 왕의 안식처에서 시즈에게 칼을 겨누며 배신했으나, 시즈의 진심 어린 호소에 사명의 굴레를 벗어던진다. 무너지는 왕의 안식처에서 시즈와 다그다를 문밖으로 밀어내고 홀로 남아 마지막 증기기사를 상대하며 잔해 속에 실종된다.',
       quote: '당신의 말을 들을게, 비나. 사명 따윈 이제 없어. 컴버랜드도 없고, 대공작도 없어. 그 우화를 끝내자. ……용서해 줘…… 내가 상대해줄게, 나의 악몽…… 나의 희망이여.',
       statusInChapter: '왕의 안식처에 홀로 남아 마지막 증기기사를 가로막고 실종',
-      avatarUrl: '/images/characters/alledale.png',
-      illustUrl: '/images/characters/illust/alledale.png',
+      avatarUrl: '/images/characters/alledale.webp',
+      illustUrl: '/images/characters/illust/alledale.webp',
       variants: [
         {
           id: 'current',
           label: '현재 시점 (런디니움)',
           timePeriod: '테라력 1098년 (현재)',
-          avatarUrl: '/images/characters/alledale.png',
-          illustUrl: '/images/characters/illust/alledale.png',
+          avatarUrl: '/images/characters/alledale.webp',
+          illustUrl: '/images/characters/illust/alledale.webp',
           description: '자경단 어텀 리프를 이끄는 성인 알레데일. 은발 숏컷의 펠라인 여성 지휘관.'
         },
         {
           id: 'child',
           label: '26년 전 비주얼 (과거 회상)',
           timePeriod: '테라력 1072년 (26년 전)',
-          avatarUrl: '/images/characters/alledale_child.png',
-          illustUrl: '/images/characters/illust/alledale_child.png',
+          avatarUrl: '/images/characters/alledale_child.webp',
+          illustUrl: '/images/characters/illust/alledale_child.webp',
           description: '26년 전 컴버랜드 저택에서 가문의 초대 증기 갑옷을 동경하던 어린 시절의 모습. 청록색 프릴 드레스를 입은 소녀.'
         }
       ]
@@ -996,8 +996,8 @@ export const episode11: StoryArchive = {
       description: '선왕이 마지막으로 책봉했던 증기 기사이자 빅토리아의 살아있는 전설. 4년 전 왕의 안식처에서 살카즈의 매복에 걸려 온몸에 주술 대못이 박힌 채 어둠 속에서 홀로 살아남아 있었다. 왕의 숨결을 쥔 시즈를 침탈자로 오인해 폭주하며 격돌했으나, 무너지는 성역 안에서 알레데일과 함께 닫힌 문 너머에 남겨진다.',
       quote: '“빅토리아.” (침울한 증기 분사음)',
       statusInChapter: '왕의 안식처 교전 후 닫힌 성역 잔해 속에 남겨짐',
-      avatarUrl: '/images/characters/steam_knight.png',
-      illustUrl: '/images/characters/illust/steam_knight.png'
+      avatarUrl: '/images/characters/steam_knight.webp',
+      illustUrl: '/images/characters/illust/steam_knight.webp'
     },
     {
       id: 'catherine',
@@ -1008,8 +1008,8 @@ export const episode11: StoryArchive = {
       description: '11번 군수 공장을 지켜온 원로 기술자이자 피스트(스테인리스)의 친할머니. 1년 전 손자 피스트를 공장에서 일부러 쫓아내며 남은 직원들을 보호하기 위해 살카즈에 공장을 넘겼다. 살카즈의 처형 위기 속에서 손자 피스트와 노동자들에게 구출되며, 자경단으로 떠나는 손자에게 명찰을 던져주며 배웅한다.',
       quote: '런디니움 중심에 있는 저 궁전을 차지한 사람이 누구든 간에, 우리가 일궈낸 이 도시는 내일도, 모레도 그대로 있을 거야. ……너는 지금 무엇을 위해 네 손에 쥔 흉기를 휘두르는지 알고 있니?',
       statusInChapter: '11번 군수 공장 처형 위기 탈출 및 피스트 배웅',
-      avatarUrl: '/images/characters/catherine.png',
-      illustUrl: '/images/characters/illust/catherine.png'
+      avatarUrl: '/images/characters/catherine.webp',
+      illustUrl: '/images/characters/illust/catherine.webp'
     },
     {
       id: 'feist',
@@ -1020,8 +1020,8 @@ export const episode11: StoryArchive = {
       description: '캐서린의 친손자이자 하이버리 공장 출신의 엔지니어. 할머니가 숨겨둔 옛 명찰을 가슴에 달고 노동자들과 함께 처형장을 기습해 할머니를 구출한다. 사령탑 전투에서는 직접 조립했던 이동식 자주포 위에 뛰어올라 화력을 통제하고 살카즈 보급로 데이터를 확보한다.',
       quote: '여러분, 나는 자경단으로서 여기 서 있는 게 아니야. 나는 여기 소속이야. 나는 할머니를 구할 거고, 여러분도 죽게 내버려 두지 않을 거야.',
       statusInChapter: '11번 군수 공장 할머니 구출 및 자주포 화력 통제',
-      avatarUrl: '/images/characters/feist.png',
-      illustUrl: '/images/characters/illust/feist.png'
+      avatarUrl: '/images/characters/feist.webp',
+      illustUrl: '/images/characters/illust/feist.webp'
     },
     {
       id: 'paprika',
@@ -1032,8 +1032,8 @@ export const episode11: StoryArchive = {
       description: '수디언 구에서 전사한 고참 살카즈 용병 \'그림\'을 따라 컬럼비아에서 런디니움으로 온 어린 용병 소녀. 11번 군수 공장의 캐서린을 처형하려던 용병대에 속해 있었으나, 캐서린에게 그림의 유품 장갑을 돌려받고 마음에 깊은 동요를 겪으며 피스트 일행의 도움으로 살아 돌아간다.',
       quote: '저랑 같이 있는 용병들 대부분은 사실 자기들이 뭐 때문에 싸우는지도 모를 거예요. 우리는 그냥 갈 곳이 없을 뿐이죠. 아무 데도 우리를 반겨주지 않으니까.',
       statusInChapter: '캐서린에게 그림의 유품 장갑 수령 및 구명',
-      avatarUrl: '/images/characters/paprika.png',
-      illustUrl: '/images/characters/illust/paprika.png'
+      avatarUrl: '/images/characters/paprika.webp',
+      illustUrl: '/images/characters/illust/paprika.webp'
     },
     {
       id: 'totter',
@@ -1044,8 +1044,8 @@ export const episode11: StoryArchive = {
       description: '알레데일이 고용한 노련한 사르곤 출신 용병. 왕의 안식처에서 알레데일의 배신에 가담해 다그다를 포위했으나, 마지막 증기기사가 깨어나자 부하들을 지키기 위해 시즈·다그다와 손을 잡고 결전에 임한다. 성역 탈출 후 자경단과 로도스 본대에 정식 합류한다.',
       quote: '기사 아가씨, 아무래도 내 은퇴 계획은 미루어질 것 같네. 저런 쇳덩어리를 상대하는 법은 사냥 학교에서도 가르쳐준 적이 없다고.',
       statusInChapter: '왕의 안식처 증기기사 교전 후 자경단 합류',
-      avatarUrl: '/images/characters/totter.png',
-      illustUrl: '/images/characters/illust/totter.png'
+      avatarUrl: '/images/characters/totter.webp',
+      illustUrl: '/images/characters/illust/totter.webp'
     },
     {
       id: 'kaltsit',
@@ -1056,8 +1056,8 @@ export const episode11: StoryArchive = {
       description: '불멸의 세월을 살아온 로도스의 중추. 방위군 총사령탑에서 마왕의 기억에 잠식되어 추락한 아미야를 베려는 테레시스의 장검 앞을 Mon3tr와 함께 가로막아 가슴이 꿰뚫리는 치명상을 입는다. 피를 흘리면서도 박사에게 아미야를 데리고 철수하라 명하며 쓰러진다.',
       quote: '박사…… 아미야를 데리고…… 철수해. ……너…… 너는 단지 파멸에 박차를 가하고 있을 뿐이다.',
       statusInChapter: '테레시스의 장검에 가슴이 관통당해 중상을 입고 후송',
-      avatarUrl: '/images/characters/kaltsit.png',
-      illustUrl: '/images/characters/illust/kaltsit.png'
+      avatarUrl: '/images/characters/kaltsit.webp',
+      illustUrl: '/images/characters/illust/kaltsit.webp'
     },
     {
       id: 'theresis',
@@ -1068,8 +1068,8 @@ export const episode11: StoryArchive = {
       description: '카즈델의 부흥을 이끄는 섭정왕. 세인트 마르솔 학교 연극 무대에서 제국의 몰락과 살카즈의 미래를 논했으며, 방위군 사령탑 전장에 직접 나타나 마왕(아미야)을 베려다 가로막는 켈시에게 치명상을 입힌다. 샤드 상공에 거대 비행선을 부상시키며 대전쟁을 개시한다.',
       quote: '떨어지고 있는 자가 아무리 태양을 잡으려고 한들, 손에 쥐고 있는 건 번개뿐이란 걸 그들은 인정하려 하지 않는다. ……그때 너에게 경고했던 것처럼, 나는 다시 한번 너를 죽일 것이다, 켈시.',
       statusInChapter: '사령탑 강림 켈시 저격 및 거대 비행선 부상 명령',
-      avatarUrl: '/images/characters/theresis.png',
-      illustUrl: '/images/characters/illust/theresis.png'
+      avatarUrl: '/images/characters/theresis.webp',
+      illustUrl: '/images/characters/illust/theresis.webp'
     },
     {
       id: 'logos',
@@ -1080,8 +1080,8 @@ export const episode11: StoryArchive = {
       description: '살카즈 밴시 왕정의 군주. 방위군 총사령탑 옥상에서 아미야를 덮쳐오는 뱀파이어 생귀나르의 거대한 피의 해일을 골필과 금빛 주문으로 단숨에 양단하고 결계를 전개해 일행을 완벽히 지켜낸다.',
       quote: '나는 밴시의 주인이다. 내 말이 곧 죽음의 왕궁이다. 더 이상 장황한 추억으로 너 자신을 옭아매지 마라. 과거의 오만에서 벗어나거라, 살카즈의 옛 왕이여.',
       statusInChapter: '사령탑 옥상 생귀나르 혈액 장막 금빛 주문 차단',
-      avatarUrl: '/images/characters/logos.png',
-      illustUrl: '/images/characters/illust/logos.png'
+      avatarUrl: '/images/characters/logos.webp',
+      illustUrl: '/images/characters/illust/logos.webp'
     },
     {
       id: 'sanguinarch',
@@ -1092,8 +1092,8 @@ export const episode11: StoryArchive = {
       description: '살카즈 뱀파이어 종족의 잔혹한 군주. 컴버랜드 저택을 기습 방화해 불바다로 만들고, 방위군 사령탑 옥상에서 병사들을 꼭두각시로 조종해 투신시키며 거대한 피의 파도를 일으켰으나 로고스에게 가로막힌다.',
       quote: '피는 생명이 끝났다고 마르지 않습니다. 피는 그저 당신의 헛된 움직임에 더 빨리 솟구칠 뿐이죠. ……살카즈가 티카즈로 불리고, 아직 터전이 있었던 시절…… 카즈델은 우리에게 전 세계나 다름없었습니다.',
       statusInChapter: '컴버랜드 저택 방화 및 사령탑 피의 해일 전개',
-      avatarUrl: '/images/characters/sanguinarch.png',
-      illustUrl: '/images/characters/illust/sanguinarch.png'
+      avatarUrl: '/images/characters/sanguinarch.webp',
+      illustUrl: '/images/characters/illust/sanguinarch.webp'
     },
     {
       id: 'shining',
@@ -1104,8 +1104,8 @@ export const episode11: StoryArchive = {
       description: '고해신부 가문의 어둠을 등진 방랑자. 거리에서 뱀파이어 괴물들에게 포위된 자경단을 구출하고, 고해신부·살루스와의 만찬에서 절연을 선언한다. 사령탑 전투에서 위병들을 막아서고, 치명상을 입은 켈시의 응급 수술을 집도해 목숨을 건져낸다.',
       quote: '……리즈 씨는 건강합니다. 당신들은 제 가족이 아닙니다. 앞으로 제게 초대장 같은 거 보낼 필요도 없어요.',
       statusInChapter: '고해신부 절연 선언 및 켈시 응급 소생 수술',
-      avatarUrl: '/images/characters/shining.png',
-      illustUrl: '/images/characters/illust/shining.png'
+      avatarUrl: '/images/characters/shining.webp',
+      illustUrl: '/images/characters/illust/shining.webp'
     },
     {
       id: 'salus',
@@ -1116,8 +1116,8 @@ export const episode11: StoryArchive = {
       description: '고해신부의 누이이자 오리지늄 인체 실험을 이끄는 잔혹한 연구자. 리즈(나이팅게일)의 신체에 집착하며 샤이닝을 도발했으나, 샤이닝의 단호한 결별 선언을 마주한다.',
       quote: '하아, 샤이닝의 실험이 중단된 이후로 제 연구도 점점 어려워지고 있어요. 리즈의 몸은 아주 특별해.',
       statusInChapter: '고해신부 저택 만찬 샤이닝 도발',
-      avatarUrl: '/images/characters/salus.png',
-      illustUrl: '/images/characters/illust/salus.png'
+      avatarUrl: '/images/characters/salus.webp',
+      illustUrl: '/images/characters/illust/salus.webp'
     },
     {
       id: 'damazti',
@@ -1128,8 +1128,8 @@ export const episode11: StoryArchive = {
       description: '무한히 분열하는 군체 종족 군주. 세인트 마르솔 학교의 교사 몰리를 납치해 그녀의 모습으로 의태한 뒤 골딩 곁에 잠입하고, 연극 무대 위에서 테레시스와 함께 제국의 파멸을 관람한다.',
       quote: '이 몰리 씨나 데리고 가시죠, 중령님. 그리고 잘 지켜보세요. 우리는 골딩 씨 곁에 남아서, 앞으로의 전쟁을 위해 더 많은 정보를 수집할 거라서요.',
       statusInChapter: '교사 몰리 납치 의태 및 골딩 곁 잠입',
-      avatarUrl: '/images/characters/damazti.png',
-      illustUrl: '/images/characters/illust/damazti.png'
+      avatarUrl: '/images/characters/damazti.webp',
+      illustUrl: '/images/characters/illust/damazti.webp'
     },
     {
       id: 'golding',
@@ -1140,8 +1140,8 @@ export const episode11: StoryArchive = {
       description: '4년 전부터 아이들을 지켜온 학교 교사이자 자경단의 정보원. 아이들에게 마지막 증기기사의 진실을 들려주었으며, 몰리로 위장한 다마즈티가 곁에 숨어든 사실을 모른 채 아이들이 살카즈 구호를 따라 하는 비극에 절망한다.',
       quote: '찰스 린치…… 사실 그는 폐하께서 생전에 선택하신 마지막 증기 기사입니다. 그리고 지금까지 남아있는 마지막 증기 기사이기도 하고요.',
       statusInChapter: '학교 아이들 보호 및 다마즈티 잠입 피격',
-      avatarUrl: '/images/characters/golding.png',
-      illustUrl: '/images/characters/illust/golding.png'
+      avatarUrl: '/images/characters/golding.webp',
+      illustUrl: '/images/characters/illust/golding.webp'
     },
     {
       id: 'heidi',
@@ -1152,8 +1152,8 @@ export const episode11: StoryArchive = {
       description: '4년 전 내전 당시 부상을 입고 골딩에게 치료받았던 로도스의 정보원. 빅토리아의 먹구름이 걷히고 아이들에게 평화가 돌아올 날을 위해 헌신한다.',
       quote: '전쟁은 우리 손에 또는 우리 후손들의 손에 의해 반드시 끝날 거예요. 빅토리아의 하늘을 뒤덮고 있는 먹구름이 걷히면 아이들의 얼굴에도 그늘이 사라질 겁니다.',
       statusInChapter: '4년 전 내전 회상 및 도심 정보망 유지',
-      avatarUrl: '/images/characters/heidi.png',
-      illustUrl: '/images/characters/illust/heidi.png'
+      avatarUrl: '/images/characters/heidi.webp',
+      illustUrl: '/images/characters/illust/heidi.webp'
     },
     {
       id: 'letto',
@@ -1164,8 +1164,8 @@ export const episode11: StoryArchive = {
       description: '가울 유민 출신의 방위군 지휘관. 4년 전 내전 직후 부하들을 지키기 위해 테레시스에게 협력했으나, 살카즈의 만행과 생귀나르의 위협 속에서 군인으로서의 맹세와 양심 사이에서 처절하게 고뇌한다.',
       quote: '군사위원회를 도와 런디니움을 관리하는 건 쉬운 일이 아니야. ……그 시대를 겪은 마지막 이가 죽으면 가울에 대한 우리 기억은 제국처럼 바람과 함께 사라지고 말 겁니다. 그래서 우리가 유일하게 할 수 있는 건 꺼져가는 잿불이라도 잡는 겁니다.',
       statusInChapter: '사령탑 대치 및 생귀나르 억압 속 고뇌',
-      avatarUrl: '/images/characters/letto.png',
-      illustUrl: '/images/characters/illust/letto.png'
+      avatarUrl: '/images/characters/letto.webp',
+      illustUrl: '/images/characters/illust/letto.webp'
     },
     {
       id: 'ascalon',
@@ -1176,8 +1176,8 @@ export const episode11: StoryArchive = {
       description: '그림자 속에서 로도스를 호위하는 수장. 11번 군수 공장 처형장에서 피스트를 도와 캐서린을 구출하고, 사령탑 상층에서는 맨프레드와 정면으로 격돌하며 물러서지 않는 결의를 보인다.',
       quote: '……그렇다. 그리고, 너랑 다르게. 나는 망설이지 않는다. 그리고 지금, 너희는 그런 불명예스러운 방식으로 전하의 죽음을 더럽히고 있다.',
       statusInChapter: '처형장 기습 캐서린 구출 및 맨프레드 결투',
-      avatarUrl: '/images/characters/ascalon.png',
-      illustUrl: '/images/characters/illust/ascalon.png'
+      avatarUrl: '/images/characters/ascalon.webp',
+      illustUrl: '/images/characters/illust/ascalon.webp'
     },
     {
       id: 'manfred',
@@ -1188,8 +1188,8 @@ export const episode11: StoryArchive = {
       description: '테레시스의 오른팔. 사령탑 상층에서 레토 중령을 보호하려는 아스카론과 맞붙으며 9일 전 성왕궁 침입 사건을 추궁한다.',
       quote: '9일 전, 네가 성왕궁 서쪽 회당에 침입했을 때도 장군님께서 주신 그 무기로 그분을 겨눌 생각이었나?',
       statusInChapter: '사령탑 상층 아스카론 요격 대치',
-      avatarUrl: '/images/characters/manfred.png',
-      illustUrl: '/images/characters/illust/manfred.png'
+      avatarUrl: '/images/characters/manfred.webp',
+      illustUrl: '/images/characters/illust/manfred.webp'
     },
     {
       id: 'dagda',
@@ -1200,8 +1200,8 @@ export const episode11: StoryArchive = {
       description: '왕실 기사의 긍지를 잇는 무투가. 왕의 안식처에서 전멸한 증기기사단의 유해 앞에서 오열했으나, 시즈와 함께 마지막 증기기사를 상대로 결전에 임한다. 알레데일의 마지막 밀침으로 살아남아 성역 밖으로 탈출한다.',
       quote: '시즈가 첫날에 이미 너희한테 말했을 텐데. 자경단과 함께 할 사람들은 글래스고 패거리이지, 알렉산드리나 전하나 탑의 기사가 아니라고. ……이…… 이렇게 많은 갑옷이. 모두 여기서 전사했구나.',
       statusInChapter: '왕의 안식처 증기기사단 참배 및 성역 탈출',
-      avatarUrl: '/images/characters/dagda.png',
-      illustUrl: '/images/characters/illust/dagda.png'
+      avatarUrl: '/images/characters/dagda.webp',
+      illustUrl: '/images/characters/illust/dagda.webp'
     },
     {
       id: 'indra',
@@ -1212,8 +1212,8 @@ export const episode11: StoryArchive = {
       description: '시즈의 오랜 충복. 왕의 안식처 입구 밖에서 모건과 함께 통로를 경계하던 중 캐스터 공작 측 자객들의 기습을 받았으나 완벽히 분쇄한다.',
       quote: '그들도 언젠가는 비나가 훌륭한 리더라는 걸 알게 될 거야. 그리고 예우는 마땅하고 안 하고가 없어. 그건 비나가 직접 쟁취해야 하는 거니까.',
       statusInChapter: '왕의 안식처 외부 통로 자객 요격 경계',
-      avatarUrl: '/images/characters/indra.png',
-      illustUrl: '/images/characters/illust/indra.png'
+      avatarUrl: '/images/characters/indra.webp',
+      illustUrl: '/images/characters/illust/indra.webp'
     },
     {
       id: 'morgan',
@@ -1224,8 +1224,8 @@ export const episode11: StoryArchive = {
       description: '글래스고의 지략가. 왕의 안식처 외부에서 인드라와 함께 경계를 섰으며, 알레데일이 남긴 "회고록에 잘 써 달라"는 유언을 전해 듣고 깊은 상념에 잠긴다.',
       quote: '내 회고록은 이미 시작됐어. 나는 이걸로 큰돈을 벌 거야! 회고록 제목은 《위대한 비나 폐하와 그녀의 위대한 친구들》이야. 이제 출판사만 찾으면 돼.',
       statusInChapter: '왕의 안식처 외부 경계 및 알레데일 유언 수령',
-      avatarUrl: '/images/characters/morgan.png',
-      illustUrl: '/images/characters/illust/morgan.png'
+      avatarUrl: '/images/characters/morgan.webp',
+      illustUrl: '/images/characters/illust/morgan.webp'
     },
     {
       id: 'amiya',
@@ -1236,8 +1236,8 @@ export const episode11: StoryArchive = {
       description: '로도스를 이끄는 카우투스 소녀. 사령탑 위에서 200년 전 카즈델 멸망의 참혹한 기억에 잠식되어 추락하고 테레시스의 장검에 베일 뻔했으나, 켈시의 희생으로 구출되어 테레시아의 진심을 깨닫는다.',
       quote: '박사님…… 테레시아 씨는 저에게 왜 자신이 살카즈 영혼들과 함께 서 있는지 전해주고 싶었던 거예요.',
       statusInChapter: '200년 전 카즈델 기억 잠식 및 켈시 희생 구출',
-      avatarUrl: '/images/characters/amiya.png',
-      illustUrl: '/images/characters/illust/amiya.png'
+      avatarUrl: '/images/characters/amiya.webp',
+      illustUrl: '/images/characters/illust/amiya.webp'
     },
     {
       id: 'doctor',
@@ -1248,8 +1248,8 @@ export const episode11: StoryArchive = {
       description: '현장 작전을 총괄한 전술가. 11번 군수 공장 잠입, 사령탑 기습, 추락하는 아미야 구조, 그리고 치명상을 입은 켈시의 후송까지 냉철한 판단으로 위기를 돌파한다.',
       quote: '그들은 폭풍을 무기로 삼을 거다. 이 기술이 완성되면 테라 전체가 위험해진다는 뜻이지. ……나 여기 있어. 네 곁을 떠나지 않아.',
       statusInChapter: '사령탑 아미야 구조 및 켈시 후송 지휘',
-      avatarUrl: '/images/characters/doctor.png',
-      illustUrl: '/images/characters/doctor.png'
+      avatarUrl: '/images/characters/doctor.webp',
+      illustUrl: '/images/characters/doctor.webp'
     },
     {
       id: 'clovicia',
@@ -1260,8 +1260,8 @@ export const episode11: StoryArchive = {
       description: '자경단을 이끄는 지도자. 사령탑 앞을 막아선 방위군을 설득하고 아미야·박사와 함께 보급선 데이터를 확보했으며, 알레데일의 희생을 전해 듣고 경의를 표한다.',
       quote: '우리가 하나로 뭉친 유일한 이유는 살카즈를 빨리 런디니움에서 몰아내기 위해서야.',
       statusInChapter: '방위군 사령탑 기습 총괄 및 보급선 확보',
-      avatarUrl: '/images/characters/clovicia.png',
-      illustUrl: '/images/characters/illust/clovicia.png'
+      avatarUrl: '/images/characters/clovicia.webp',
+      illustUrl: '/images/characters/illust/clovicia.webp'
     },
     {
       id: 'closer',
@@ -1272,8 +1272,8 @@ export const episode11: StoryArchive = {
       description: '로도스의 천재 엔지니어. 피스트의 자주포 통제와 연계해 드론으로 사령탑 관제실을 해킹, 살카즈 보급선 기착지 70%의 데이터를 추출하는 데 성공한다.',
       quote: '드론이 방위군 사령탑의 코어에 접근할 수만 있다면, 내가 30분 안에 시스템을 해킹해 최근 열흘간의 런디니움 교통 기록을 확보할 수 있어. ……획득한 데이터가…… 70%…… 뭐, 이 정도뿐이라도.',
       statusInChapter: '사령탑 관제실 원격 해킹 및 보급로 데이터 추출',
-      avatarUrl: '/images/characters/closer.png',
-      illustUrl: '/images/characters/illust/closer.png'
+      avatarUrl: '/images/characters/closer.webp',
+      illustUrl: '/images/characters/illust/closer.webp'
     },
     {
       id: 'reed',
@@ -1284,8 +1284,8 @@ export const episode11: StoryArchive = {
       description: '로도스 아일랜드 남부 사무소에 머물던 드라코 혈통의 소녀. 자신을 돌봐준 로도스에 평온을 돌려주겠다는 편지를 남긴 채, 언니 에블라나를 만나기 위해 런디니움을 향해 홀로 길을 떠난다.',
       quote: '로도스 아일랜드는…… 아주 조용한 곳이야. 너희들은 지금까지 내가 원하던 평온을 주었어. 그리고 지금 나는 이 평온을 너희에게 돌려주고 싶어.',
       statusInChapter: '로도스 남부 사무소 탈주 및 에블라나 탐색 여정',
-      avatarUrl: '/images/characters/reed.png',
-      illustUrl: '/images/characters/illust/reed.png'
+      avatarUrl: '/images/characters/reed.webp',
+      illustUrl: '/images/characters/illust/reed.webp'
     },
   ],
   glossary: [

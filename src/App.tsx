@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { Header } from './components/Header';
 import type { MainViewMode } from './components/Header';
@@ -6,19 +6,20 @@ import { Sidebar } from './components/Sidebar';
 import type { StoryCategoryFilter, StorySortMode } from './components/Sidebar';
 import { StoryViewer } from './components/StoryViewer';
 import { HomeDashboard } from './components/HomeDashboard';
-import { ChronicleRoadmapView } from './components/ChronicleRoadmapView';
-import { TerraMapView } from './components/TerraMapView';
 import { SideDrawer } from './components/SideDrawer';
 import { LightboxModal } from './components/LightboxModal';
-import { ReviewExportModal } from './components/ReviewExportModal';
-import { InfoLicenseModal, type InfoModalTab } from './components/InfoLicenseModal';
-import { ServiceNoticeModal } from './components/ServiceNoticeModal';
-import { FullscreenPwaGuideModal } from './components/FullscreenPwaGuideModal';
+import type { InfoModalTab } from './components/InfoLicenseModal';
 import { ScrollNavButtons } from './components/ScrollNavButtons';
 import { PrtsBootSequence } from './components/PrtsBootSequence';
-import { EditorStudioView } from './components/studio/EditorStudioView';
 import { APP_VERSION_CODE, APP_RELEASE_STAGE } from './version';
-import { getStoryArchive, storyRegistry, STORY_LINES } from './data/storyRegistry';
+import {
+  getStoryArchive,
+  hasFullStoryArchive,
+  isStoryLoaded,
+  loadStoryArchive,
+  storyRegistry,
+  STORY_LINES,
+} from './data/storyRegistry';
 import type { CharacterRef, GlossaryTerm, StoryArchive } from './types/story';
 import { useHashRoute, buildHash } from './hooks/useHashRoute';
 import { useFullscreen } from './hooks/useFullscreen';
@@ -33,8 +34,37 @@ import {
   playClickSound 
 } from './utils/soundEffects';
 
+const ChronicleRoadmapView = lazy(() =>
+  import('./components/ChronicleRoadmapView').then((m) => ({ default: m.ChronicleRoadmapView }))
+);
+const TerraMapView = lazy(() =>
+  import('./components/TerraMapView').then((m) => ({ default: m.TerraMapView }))
+);
+const EditorStudioView = lazy(() =>
+  import('./components/studio/EditorStudioView').then((m) => ({ default: m.EditorStudioView }))
+);
+const ReviewExportModal = lazy(() =>
+  import('./components/ReviewExportModal').then((m) => ({ default: m.ReviewExportModal }))
+);
+const InfoLicenseModal = lazy(() =>
+  import('./components/InfoLicenseModal').then((m) => ({ default: m.InfoLicenseModal }))
+);
+const ServiceNoticeModal = lazy(() =>
+  import('./components/ServiceNoticeModal').then((m) => ({ default: m.ServiceNoticeModal }))
+);
+const FullscreenPwaGuideModal = lazy(() =>
+  import('./components/FullscreenPwaGuideModal').then((m) => ({ default: m.FullscreenPwaGuideModal }))
+);
+
 const DEFAULT_STORY_ID = 'ep00';
 const BASE_TITLE = 'PRTS Archive // 명일방주 스토리 아카이브';
+
+const ViewLoadingFallback = ({ label = 'LOADING MODULE' }: { label?: string }) => (
+  <div className="flex-1 min-h-[60vh] flex flex-col items-center justify-center gap-3 text-zinc-400 font-mono text-xs select-none">
+    <div className="w-6 h-6 border border-white/20 border-t-[#f5dd1b] rounded-full animate-spin" />
+    <span className="tracking-widest text-[11px] text-zinc-400">PRTS // {label}</span>
+  </div>
+);
 
 const isKnownStoryId = (id: string | null | undefined): id is string =>
   !!id && storyRegistry.some((s) => s.id === id);
@@ -108,6 +138,25 @@ export function App() {
     setLastStoryId(routeStoryId);
   }
 
+  // 선택된 스토리 본문 동적 로드 (초기 번들에서 대용량 스토리 데이터 분리)
+  const [, setStoryLoadTick] = useState<number>(0);
+  const needsStoryLoad = hasFullStoryArchive(activeStoryId) && !isStoryLoaded(activeStoryId);
+
+  useEffect(() => {
+    if (!needsStoryLoad) return;
+    let cancelled = false;
+    loadStoryArchive(activeStoryId)
+      .then(() => {
+        if (!cancelled) setStoryLoadTick((n) => n + 1);
+      })
+      .catch((err) => {
+        console.error(`[PRTS Archive] Failed to load story chunk '${activeStoryId}':`, err);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeStoryId, needsStoryLoad]);
+
   const currentStory = getStoryArchive(activeStoryId);
   const validSubPageIds = getValidSubPageIds(currentStory);
   const activeSubPageId =
@@ -135,7 +184,7 @@ export function App() {
     }
   }, [goToStory, activeStoryId, navigate]);
 
-  // 잘못된/누락된 URL(존재하지 않는 스토리·파트)은 정규 URL로 교체 (히스토리 항목 추가 없음)
+  // 잘못된/누락된 URL(존재하지 않는 스토리·파트)은 정규 URL로 교체 (스토리 청크 로딩 중에는 보류)
   const canonicalRoute = {
     view: currentView,
     storyId: currentView === 'report' ? activeStoryId : null,
@@ -144,12 +193,13 @@ export function App() {
   const canonicalHash = buildHash(canonicalRoute);
   const routeHash = buildHash(route);
   useEffect(() => {
+    if (currentView === 'report' && needsStoryLoad) return;
     if (canonicalHash !== routeHash) {
       navigate(canonicalRoute, { replace: true });
     }
     // canonicalRoute는 canonicalHash로 완전히 표현됨
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canonicalHash, routeHash, navigate]);
+  }, [currentView, needsStoryLoad, canonicalHash, routeHash, navigate]);
 
   // 브라우저 탭 제목 동기화 (히스토리 목록에서도 식별 가능)
   useEffect(() => {
@@ -356,16 +406,18 @@ export function App() {
 
   if (currentView === 'studio') {
     return (
-      <EditorStudioView
-        initialStoryId={activeStoryId}
-        onExitToViewer={(targetStoryId) => {
-          if (targetStoryId) {
-            goToStory(targetStoryId);
-          } else {
-            goToView('report');
-          }
-        }}
-      />
+      <Suspense fallback={<ViewLoadingFallback label="INITIALIZING STUDIO" />}>
+        <EditorStudioView
+          initialStoryId={activeStoryId}
+          onExitToViewer={(targetStoryId) => {
+            if (targetStoryId) {
+              goToStory(targetStoryId);
+            } else {
+              goToView('report');
+            }
+          }}
+        />
+      </Suspense>
     );
   }
 
@@ -514,37 +566,45 @@ export function App() {
 
               {/* View 1: Report Document Viewer */}
               {currentView === 'report' && (
-                <StoryViewer
-                  story={currentStory}
-                  activeSubPageId={activeSubPageId}
-                  onChangeSubPage={(subId) => goToSubPage(subId)}
-                  onSelectCharacter={handleSelectCharacter}
-                  onSelectGlossary={handleSelectGlossary}
-                  onOpenLightbox={handleOpenLightbox}
-                  previousStory={previousStory}
-                  nextStory={nextStory}
-                  onSelectStory={(id, subPageId) => goToStory(id, subPageId)}
-                  isHeaderCollapsed={isHeaderCollapsed}
-                  onToggleCollapseHeader={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
-                />
+                needsStoryLoad ? (
+                  <ViewLoadingFallback label={`LOADING ARCHIVE // ${activeStoryId.toUpperCase()}`} />
+                ) : (
+                  <StoryViewer
+                    story={currentStory}
+                    activeSubPageId={activeSubPageId}
+                    onChangeSubPage={(subId) => goToSubPage(subId)}
+                    onSelectCharacter={handleSelectCharacter}
+                    onSelectGlossary={handleSelectGlossary}
+                    onOpenLightbox={handleOpenLightbox}
+                    previousStory={previousStory}
+                    nextStory={nextStory}
+                    onSelectStory={(id, subPageId) => goToStory(id, subPageId)}
+                    isHeaderCollapsed={isHeaderCollapsed}
+                    onToggleCollapseHeader={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                  />
+                )
               )}
 
               {/* View 2: Chronicle Roadmap Flowchart */}
               {currentView === 'chronicle' && (
-                <ChronicleRoadmapView
-                  onSelectStory={handleSelectStoryFromMapOrChronicle}
-                  isHeaderCollapsed={isHeaderCollapsed}
-                  onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
-                />
+                <Suspense fallback={<ViewLoadingFallback label="CHRONICLE TIMELINE" />}>
+                  <ChronicleRoadmapView
+                    onSelectStory={handleSelectStoryFromMapOrChronicle}
+                    isHeaderCollapsed={isHeaderCollapsed}
+                    onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                  />
+                </Suspense>
               )}
 
               {/* View 3: Terra Tactical Cartography Map */}
               {currentView === 'map' && (
-                <TerraMapView
-                  onSelectStory={handleSelectStoryFromMapOrChronicle}
-                  isHeaderCollapsed={isHeaderCollapsed}
-                  onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
-                />
+                <Suspense fallback={<ViewLoadingFallback label="TERRA 3D CARTOGRAPHY" />}>
+                  <TerraMapView
+                    onSelectStory={handleSelectStoryFromMapOrChronicle}
+                    isHeaderCollapsed={isHeaderCollapsed}
+                    onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                  />
+                </Suspense>
               )}
             </motion.div>
           </AnimatePresence>
@@ -641,35 +701,45 @@ export function App() {
       />
 
       {/* Review & Export Hub Modal */}
-      <ReviewExportModal
-        isOpen={isReviewExportOpen}
-        onClose={() => setIsReviewExportOpen(false)}
-        currentStory={currentStory}
-      />
+      <Suspense fallback={null}>
+        {isReviewExportOpen && (
+          <ReviewExportModal
+            isOpen={isReviewExportOpen}
+            onClose={() => setIsReviewExportOpen(false)}
+            currentStory={currentStory}
+          />
+        )}
 
-      {/* In-App Info, Copyright License & AI Content Disclaimer Modal */}
-      <InfoLicenseModal
-        isOpen={isInfoLicenseOpen}
-        onClose={() => setIsInfoLicenseOpen(false)}
-        initialTab={infoModalTab}
-      />
+        {/* In-App Info, Copyright License & AI Content Disclaimer Modal */}
+        {isInfoLicenseOpen && (
+          <InfoLicenseModal
+            isOpen={isInfoLicenseOpen}
+            onClose={() => setIsInfoLicenseOpen(false)}
+            initialTab={infoModalTab}
+          />
+        )}
 
-      {/* Service Environment & Performance Notice Modal (부팅 애니메이션 완료 후 노출) */}
-      <ServiceNoticeModal
-        isOpen={isServiceNoticeOpen && !isBooting}
-        onClose={() => setIsServiceNoticeOpen(false)}
-        onConfirmDismissToday={handleDismissNoticeToday}
-      />
+        {/* Service Environment & Performance Notice Modal (부팅 애니메이션 완료 후 노출) */}
+        {isServiceNoticeOpen && !isBooting && (
+          <ServiceNoticeModal
+            isOpen={isServiceNoticeOpen && !isBooting}
+            onClose={() => setIsServiceNoticeOpen(false)}
+            onConfirmDismissToday={handleDismissNoticeToday}
+          />
+        )}
 
-      {/* Fullscreen & PWA Install Guide Modal */}
-      <FullscreenPwaGuideModal
-        isOpen={isPwaGuideOpen}
-        onClose={() => setIsPwaGuideOpen(false)}
-        isIOS={isIOS}
-        isInstallable={isInstallable}
-        isStandalone={isStandalone}
-        onPromptInstall={promptInstall}
-      />
+        {/* Fullscreen & PWA Install Guide Modal */}
+        {isPwaGuideOpen && (
+          <FullscreenPwaGuideModal
+            isOpen={isPwaGuideOpen}
+            onClose={() => setIsPwaGuideOpen(false)}
+            isIOS={isIOS}
+            isInstallable={isInstallable}
+            isStandalone={isStandalone}
+            onPromptInstall={promptInstall}
+          />
+        )}
+      </Suspense>
 
       {/* Floating Scroll-to-Top and Bottom Navigation Buttons */}
       <ScrollNavButtons currentView={currentView} />

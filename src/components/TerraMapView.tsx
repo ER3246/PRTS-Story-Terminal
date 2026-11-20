@@ -2041,6 +2041,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       <img
                         src={resolveAssetUrl(reg.logoUrl)}
                         alt={reg.nameKo}
+                        loading="lazy"
+                        decoding="async"
                         draggable={false}
                         className="w-full h-full object-contain filter drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]"
                       />
@@ -3144,6 +3146,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 <img
                   src={resolveAssetUrl(pinnedRegion.logoUrl)}
                   alt=""
+                  loading="lazy"
+                  decoding="async"
                   className="absolute -right-3 -bottom-3 w-24 h-24 sm:w-28 sm:h-28 object-contain opacity-12 pointer-events-none"
                 />
               )}

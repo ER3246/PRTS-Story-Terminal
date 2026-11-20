@@ -60,7 +60,8 @@ raw_resources/
 assets_source/
 library/
 
-# Local Character CG Master Library (Crawler Cache: ~4,000 files, ~2.8GB)
+# Local Character CG Master Library & Raw Backups (NEVER COMMIT OR BUNDLE)
+local_assets/
 public/images/characters/library/
 public/images/characters/illust_legacy_backup/
 
@@ -69,10 +70,12 @@ public/images/characters/illust/avg_*
 public/images/characters/illust/char_*
 
 # 7. Local Tooling Scripts & Temporary Workspace Dumps
+*.py
 scripts/*
 !scripts/validate_stories.cjs
 !scripts/import_character_asset.cjs
-*.py
+!scripts/image_optimizer.py
+!scripts/optimize_images.py
 *.pyc
 *.npy
 __pycache__/

@@ -71,7 +71,7 @@ export const CharacterCgPickerModal: React.FC<CharacterCgPickerModalProps> = ({
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="캐릭터명, 파일명(amiya.png), 에셋 ID(cg_amiya) 검색..."
+              placeholder="캐릭터명, 파일명(amiya.webp), 에셋 ID(cg_amiya) 검색..."
               className="w-full h-9 pl-9 pr-3 rounded bg-[#080a10] border border-white/15 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#ffe600]"
             />
           </div>

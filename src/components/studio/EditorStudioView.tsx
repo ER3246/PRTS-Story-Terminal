@@ -21,7 +21,7 @@ import {
   sceneVisualAssets as initialSceneVisuals,
   type SceneVisualAssetItem,
 } from '../../data/db/sceneVisualAssets';
-import { loadedStories } from '../../data/storyRegistry';
+import { loadedStories, loadAllAvailableStories } from '../../data/storyRegistry';
 import type { CharacterCgAsset, CharacterMasterRecord } from '../../types/characterDb';
 import type { StoryArchive } from '../../types/story';
 import {
@@ -72,6 +72,20 @@ export const EditorStudioView: React.FC<EditorStudioViewProps> = ({
     loadedStories[initialStoryId] ? initialStoryId : 'ep12'
   );
 
+  useEffect(() => {
+    let mounted = true;
+    loadAllAvailableStories().then((all) => {
+      if (!mounted) return;
+      setStoriesMap((prev) => ({ ...all, ...prev }));
+      if (all[initialStoryId]) {
+        setActiveStoryId(initialStoryId);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [initialStoryId]);
+
   const [isLocalFsConnected, setIsLocalFsConnected] = useState<boolean>(false);
   const [availableDiskFiles, setAvailableDiskFiles] = useState<{
     avatars: string[];

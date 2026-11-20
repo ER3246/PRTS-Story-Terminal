@@ -160,7 +160,7 @@ export const StorySplashModal: React.FC<StorySplashModalProps> = ({
             className="md:col-span-5 relative bg-black min-h-[260px] md:min-h-[460px] flex items-center justify-center overflow-hidden border-b md:border-b-0 md:border-r border-white/[0.08]"
           >
             <img
-              src={resolveAssetUrl(story.splashVisualUrl || '/images/backgrounds/bg_black.png')}
+              src={resolveAssetUrl(story.splashVisualUrl || '/images/backgrounds/bg_black.webp')}
               alt={story.titleKo}
               fetchPriority="high"
               decoding="async"
@@ -169,7 +169,7 @@ export const StorySplashModal: React.FC<StorySplashModalProps> = ({
               className="w-full h-full object-cover object-center filter brightness-90 contrast-105 select-none"
               onError={(e) => {
                 // 이미지 로드 실패 시 블랙 배경 폴백
-                (e.target as HTMLImageElement).src = resolveAssetUrl('/images/backgrounds/bg_corridor.png');
+                (e.target as HTMLImageElement).src = resolveAssetUrl('/images/backgrounds/bg_corridor.webp');
               }}
             />
             <CopyrightBadge />

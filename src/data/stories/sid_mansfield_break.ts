@@ -9,7 +9,7 @@ export const sidMansfieldBreak: StoryArchive = {
   titleKo: '맨스필드 브레이크',
   titleEn: 'Mansfield Break',
   order: 1,
-  bannerImage: '/images/story_covers/sid_mansfield_break.png',
+  bannerImage: '/images/story_covers/sid_mansfield_break.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -57,7 +57,7 @@ export const sidMansfieldBreak: StoryArchive = {
       code: 'MB-01',
       location: '컬럼비아 국경 지대의 바 & 맨스필드 이동교도소 지하 공장',
       timeline: '테라력 1097년 겨울 저녁 ~ 넉 달 전',
-      cgUrl: '/images/cgs/avg_ac15_2.png',
+      cgUrl: '/images/cgs/avg_ac15_2.webp',
       cgCaption: '맨스필드 교도소 독방 안에서 붉은 수감복을 걸치고 책더미에 둘러싸인 채 책을 읽고 있는 앤소니 사이몬(마운틴)',
       synopsis: '컬럼비아 국경 도시의 바에서 라인 랩 생태과 주임 뮤엘시스와 조우한 사일런스와 메이어. 앤소니 탈옥의 내막을 묻는 뮤엘시스에게 사일런스는 넉 달 전 감옥에 잠입한 조력자 카프카와 억울하게 수감된 사이몬 가문의 비극을 회상하며 진실의 문을 연다.',
       narrativeText: `테라력 1097년 겨울, 컬럼비아 국경 지대의 불 꺼진 바에서 사일런스와 메이어는 라인 랩 생태과 주임 뮤엘시스와 은밀히 대면한다. 뮤엘시스는 앤소니 사이몬의 맨스필드 탈옥 사건에 얽힌 전말을 캐묻고, 사일런스는 6년 전 기업 전쟁으로 몰락한 사이몬 가문의 진실과 넉 달 전 감옥에 잠입시킨 카프카의 공작을 회상한다. 이동교도소 안팎에서 부조리한 음모와 침묵을 깨뜨리기 위한 치밀한 탈옥 작전의 서막이 오른다.`,
@@ -67,23 +67,23 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '밀회',
           location: '컬럼비아 국경 지대의 바 & 맨스필드 교도소 지하 공장',
           timeMarker: '1097년 겨울, 밤',
-          cgUrl: '/images/cgs/avg_ac15_1.png',
+          cgUrl: '/images/cgs/avg_ac15_1.webp',
           cgCaption: '라인 랩 구조과(사일런스)와 엔지니어링과(메이어), 그리고 로도스 아일랜드의 연계 관계를 나타낸 조직 분석 도식도',
           visuals: [
             {
-              url: '/images/cgs/avg_ac15_1.png',
+              url: '/images/cgs/avg_ac15_1.webp',
               caption: '라인 랩 구조과(사일런스)와 엔지니어링과(메이어), 그리고 로도스 아일랜드의 연계 관계를 나타낸 조직 분석 도식도',
               type: 'cg',
               triggerLine: 'Stage MB-01 Beat 2: 뮤엘시스가 자신의 신분을 밝히며 일문일답의 협상을 제안한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_3add_2.png',
+              url: '/images/cgs/avg_ac15_3add_2.webp',
               caption: '사이몬 컴퍼니(SIMON CO.)와 하이드브로 사, 그리고 앤소니를 둘러싼 라인 랩 각 부서의 이해관계를 확대한 분석 도식도',
               type: 'cg',
               triggerLine: 'Stage MB-01 Beat 3: 사일런스가 사이몬 가문이 하이드브로의 모함으로 파멸한 배경을 상술한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_2.png',
+              url: '/images/cgs/avg_ac15_2.webp',
               caption: '맨스필드 교도소 독방 안에서 붉은 수감복을 걸치고 책더미에 둘러싸인 채 책을 읽고 있는 앤소니 사이몬(마운틴)',
               type: 'cg',
               triggerLine: 'Stage MB-01 Beat 3: 뮤엘시스가 독방에 수감된 앤소니의 탈옥 과정을 캐묻는다.'
@@ -125,7 +125,7 @@ export const sidMansfieldBreak: StoryArchive = {
       code: 'MB-02',
       location: '맨스필드 C구역 감방 & 영안실 겸 의무실',
       timeline: '테라력 1097년 겨울 / 석 달 전 ~ 두 달 반 전',
-      cgUrl: '/images/cgs/avg_ac15_4.png',
+      cgUrl: '/images/cgs/avg_ac15_4.webp',
       cgCaption: 'C구역 복도에서 흉기를 든 B구역 암살자 죄수들을 홀로 가로막아서서 로빈을 비호하는 앤소니 사이몬',
       synopsis: '청소 시간 위장 교도관 제셀톤과 B구역 자객들이 앤소니를 습격하지만 앤소니는 압도적인 무력으로 제압한다. 기절한 로빈을 의무실로 데려온 앤소니는 그녀가 암살자임을 알고도 관용을 베풀며 탈옥 협조의 선택권을 건넨다. 한편 카프카는 모범수 파인콘으로부터 내부 도면을 확보하고, 사일런스는 연구자의 윤리와 옳은 일에 대한 신념을 다진다.',
       narrativeText: `C구역 청소 시간을 틈타 위장 교도관 제셀톤이 방조한 가운데 B구역 자객들이 앤소니의 감방을 기습하지만, 앤소니는 로빈을 등 뒤로 비호하며 압도적인 격투술로 자객들을 단숨에 제압한다. 자객들은 음독자살하고, 의무실에서 깨어난 로빈에게 앤소니는 관용을 베풀며 선택을 맡긴다. 카프카는 만기 출소를 앞둔 수감자 미나(파인콘)로부터 내부 도면을 확보하고, 사일런스는 연구자의 윤리를 곱씹으며 메이어를 주방으로 보내 앤소니와의 접선을 준비시킨다.`,
@@ -135,17 +135,17 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '다른 시각',
           location: '컬럼비아 국경 지대의 바 & 맨스필드 교도소 복도 및 의무실',
           timeMarker: '1097년 겨울, 밤 / 넉 달 전',
-          cgUrl: '/images/cgs/avg_ac15_3.png',
+          cgUrl: '/images/cgs/avg_ac15_3.webp',
           cgCaption: '거대한 무한궤도 플랫폼과 인공 암벽 지형 위에 세워진 맨스필드 주립 이동교도소의 파노라마 전경',
           visuals: [
             {
-              url: '/images/cgs/avg_ac15_3.png',
+              url: '/images/cgs/avg_ac15_3.webp',
               caption: '거대한 무한궤도 플랫폼과 인공 암벽 지형 위에 세워진 맨스필드 주립 이동교도소의 파노라마 전경',
               type: 'cg',
               triggerLine: 'Stage MB-02 Beat 1: 뮤엘시스가 이동 감옥의 순회 정박 주기와 탈옥 계획의 시간표를 계산한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_4.png',
+              url: '/images/cgs/avg_ac15_4.webp',
               caption: '복도에서 진압봉을 든 B구역 죄수 자객들을 압도적인 체구로 가로막아서서 로빈을 등 뒤로 보호하는 앤소니 사이몬',
               type: 'cg',
               triggerLine: 'Stage MB-03 Beat 3: 위장 교도관 제셀톤의 인솔로 들어온 B구역 자객들이 앤소니와 로빈을 습격한다.'
@@ -182,11 +182,11 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '초대',
           location: '맨스필드 영안실 겸 의무실 & 국경 지대 바',
           timeMarker: '두 달 반 전 / 심야',
-          cgUrl: '/images/backgrounds/bg_Morgue.png',
+          cgUrl: '/images/backgrounds/bg_Morgue.webp',
           cgCaption: '시신 안치대와 의료 기구가 뒤섞인 맨스필드 지하 의무실. 앤소니가 로빈에게 진심 어린 대화를 건넨 장소',
           visuals: [
             {
-              url: '/images/backgrounds/bg_Morgue.png',
+              url: '/images/backgrounds/bg_Morgue.webp',
               caption: '[배경] 맨스필드 이동교도소 지하 의무실',
               type: 'bg',
               triggerLine: 'Stage ST-01 Beat 1: 의무실 침상에서 눈을 뜬 로빈이 앤소니 및 돔마와 마주한다.'
@@ -223,11 +223,11 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '용감, 무모',
           location: '맨스필드 지하 공장 & 로도스 아일랜드 본함 복도',
           timeMarker: '석 달 전',
-          cgUrl: '/images/backgrounds/bg_corridor.png',
+          cgUrl: '/images/backgrounds/bg_corridor.webp',
           cgCaption: '로도스 아일랜드 본함 복도에서 사일런스에게 결의의 방향을 묻던 켈시의 회상',
           visuals: [
             {
-              url: '/images/backgrounds/bg_undergroundF.png',
+              url: '/images/backgrounds/bg_undergroundF.webp',
               caption: '[배경] 맨스필드 지하 공장 목공소',
               type: 'bg',
               triggerLine: 'Stage MB-04 Beat 3: 카프카가 파인콘에게 사일런스를 위해 감옥에 들어온 이유를 털어놓는다.'
@@ -269,7 +269,7 @@ export const sidMansfieldBreak: StoryArchive = {
       code: 'MB-03',
       location: '맨스필드 A구역 감방 & 탑 최상층 메인 관제실',
       timeline: '테라력 1097년 겨울 / 두 달 전 ~ 탈옥 결행 당일',
-      cgUrl: '/images/cgs/avg_ac15_6_2.png',
+      cgUrl: '/images/cgs/avg_ac15_6_2.webp',
       cgCaption: '긴급 침강 경보의 붉은 조명 속에서 굉음과 함께 지면 아래로 급강하하며 가라앉는 C구역 중앙 수감탑',
       synopsis: '하이드브로에 고용된 파라솔 사의 해결사 제셀톤 윌리엄스가 교도관으로 위장하여 로빈을 압박하고, 과거 사이몬 가문이 로빈 부친의 회사를 도산시켰다는 진실을 폭로한다. 복수와 양심 사이에서 방황하던 로빈은 탈옥 결행 날 관제실에서 폭탄을 들고 맞서지만, 앤소니는 추락하는 탑 속에서 로빈을 품에 안아 구출한다.',
       narrativeText: `탈옥 준비가 무르익어가던 중, 하이드브로의 고용을 받고 교도관으로 위장 잠입한 파라솔 사의 해결사 제셀톤 윌리엄스가 로빈에게 접근한다. 제셀톤은 과거 사이몬 가문이 부친의 회사를 도산시켰다는 사실을 폭로하며 앤소니 암살을 종용하고, 로빈은 고뇌 속에 스파이로 가담한다. 결행 당일 부패 간수장 랜달의 예비 카드 키로 관제실을 장악한 로빈이 폭탄으로 콘솔을 날리지만, C구역 수감탑이 지하로 급강하하는 위기 속에서 앤소니가 몸을 던져 로빈을 구해낸다.`,
@@ -279,11 +279,11 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '위험한 거래',
           location: '맨스필드 A구역 감방 & 영안실',
           timeMarker: '두 달 전',
-          cgUrl: '/images/backgrounds/bg_cellroomA.png',
+          cgUrl: '/images/backgrounds/bg_cellroomA.webp',
           cgCaption: '교도관 복장을 한 제셀톤 윌리엄스가 로빈에게 접근해 악마의 거래를 제안하는 독방',
           visuals: [
             {
-              url: '/images/backgrounds/bg_cellroomA.png',
+              url: '/images/backgrounds/bg_cellroomA.webp',
               caption: '[배경] 맨스필드 독방',
               type: 'bg',
               triggerLine: 'Stage MB-05 Beat 2: 제셀톤이 로빈의 감방으로 들어와 자신의 진짜 정체를 밝힌다.'
@@ -320,23 +320,23 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '계획 세우기',
           location: '맨스필드 영안실 겸 의무실 & 국경 지대 바',
           timeMarker: '한 달 반 전',
-          cgUrl: '/images/cgs/avg_ac15_5_2.png',
+          cgUrl: '/images/cgs/avg_ac15_5_2.webp',
           cgCaption: '중앙 C구역 수감탑의 평상시 모드와 긴급 침강 메커니즘을 나타낸 단면 설계도',
           visuals: [
             {
-              url: '/images/cgs/avg_ac15_5.png',
+              url: '/images/cgs/avg_ac15_5.webp',
               caption: '맨스필드 이동교도소의 A·B·C 구역 층별 평면 설계도',
               type: 'cg',
               triggerLine: 'Stage MB-06 Beat 1: 사일런스가 바 테이블 위에 감옥의 정밀 구조도를 펼쳐놓는다.'
             },
             {
-              url: '/images/cgs/avg_ac15_5_2.png',
+              url: '/images/cgs/avg_ac15_5_2.webp',
               caption: '중앙 C구역 수감탑의 평상시 모드와 긴급 침강 메커니즘을 나타낸 단면 설계도',
               type: 'cg',
               triggerLine: 'Stage MB-06 Beat 2: 탑 꼭대기의 관제실에서 전체 전력을 끊고 탑을 급강하시키는 루트를 설명한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_5_3.png',
+              url: '/images/cgs/avg_ac15_5_3.webp',
               caption: '지하 공장, 도서관, 진료소, 영안실 등 앤소니 탈옥 경로의 핵심 시설이 강조된 지하 구역 단면 설계도',
               type: 'cg',
               triggerLine: 'Stage MB-06 Beat 3: 돔마가 제공한 오래된 기초 구조 틈새로 땅굴을 파낸 과정을 설명한다.'
@@ -373,17 +373,17 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '배반',
           location: '맨스필드 메인 관제실 & 추락하는 C구역 수감탑 승강기',
           timeMarker: '탈옥 결행 당일',
-          cgUrl: '/images/cgs/avg_ac15_6_2.png',
+          cgUrl: '/images/cgs/avg_ac15_6_2.webp',
           cgCaption: '긴급 침강 경보의 붉은 조명 속에서 굉음과 함께 지면 아래로 급강하하며 가라앉는 C구역 중앙 수감탑',
           visuals: [
             {
-              url: '/images/cgs/avg_ac15_6.png',
+              url: '/images/cgs/avg_ac15_6.webp',
               caption: '중앙 교도관 관제실 통유리창 너머로 내려다보이는 A·B구역 연결 통로와 C구역 중앙 수감탑의 평상시 전경',
               type: 'cg',
               triggerLine: 'Stage MB-07 Beat 4: 폭발 화염 속에서 카프카가 필사적으로 침강 스위치를 눌러 작동시킨다.'
             },
             {
-              url: '/images/cgs/avg_ac15_6_2.png',
+              url: '/images/cgs/avg_ac15_6_2.webp',
               caption: '긴급 침강 경보의 붉은 조명 속에서 굉음과 함께 지면 아래로 급강하하며 가라앉는 C구역 중앙 수감탑',
               type: 'cg',
               triggerLine: 'Stage MB-07 Beat 5: 앤소니가 엘리베이터 틈으로 추락하려는 로빈을 품에 끌어안는다.'
@@ -425,7 +425,7 @@ export const sidMansfieldBreak: StoryArchive = {
       code: 'MB-04',
       location: '맨스필드 지하 영안실 겸 굴착 통로 & 국경 지대의 바',
       timeline: '테라력 1097년 겨울 / 탈옥 결행 심야 ~ 이튿날 새벽',
-      cgUrl: '/images/cgs/avg_ac15_10.png',
+      cgUrl: '/images/cgs/avg_ac15_10.webp',
       cgCaption: '사리아가 양손을 순백의 칼슘 손칼로 경화시켜 제셀톤의 검은 강철 칼날을 정면에서 부러뜨리며 압도하는 순간',
       synopsis: '영안실에서 돔마를 인질로 잡고 앤소니를 궁지로 몬 제셀톤. 로빈은 비수로 인질범을 찔러 돔마를 구출하고, 제셀톤의 피하 금속판 아츠에 맞서 복도를 통해 난입한 사리아가 순백의 칼슘 손칼로 제셀톤의 강철 칼날을 두 동강 내며 완패시킨다. 제셀톤은 실제 죄수로 수감되고, 숙소에 대기하던 앤소니가 바에 나타나 뮤엘시스의 물 분신을 물리치며 사일런스·메이어와 함께 로도스 아일랜드로 향한다.',
       narrativeText: `지하 영안실에서 돔마를 인질로 잡은 제셀톤이 전류 족쇄와 피하 금속 아츠로 앤소니를 궁지에 몰아넣는다. 로빈이 비수로 인질범을 찔러 돔마를 구출하자, 외부 경비들을 제압하며 복도로 걸어 들어온 사리아가 순백의 칼슘 손칼로 제셀톤의 강철 칼날을 두 동강 내며 일격에 쓰러뜨린다. 위장 교도관 신분이 탄로 난 제셀톤은 맨스필드의 실제 죄수로 수감되고, 숙소에 있던 앤소니가 바에 나타나 뮤엘시스의 물 분신을 퇴각시키며 사일런스 일행과 함께 로도스 아일랜드로 새 출발을 내딛는다.`,
@@ -435,41 +435,41 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '격전의 최후',
           location: '맨스필드 지하 영안실',
           timeMarker: '탈옥 결행 심야',
-          cgUrl: '/images/cgs/avg_ac15_10.png',
+          cgUrl: '/images/cgs/avg_ac15_10.webp',
           cgCaption: '사리아가 양손을 순백의 칼슘 손칼로 경화시켜 제셀톤의 검은 강철 칼날을 정면에서 부러뜨리며 압도하는 순간',
           visuals: [
             {
-              url: '/images/cgs/avg_ac15_8.png',
+              url: '/images/cgs/avg_ac15_8.webp',
               caption: '모자를 비스듬히 눌러쓰고 비열한 미소를 띠며 앤소니의 족쇄를 조이는 원격 저지 장치를 꺼내 든 제셀톤 윌리엄스',
               type: 'cg',
               triggerLine: 'Stage MB-08 Beat 2: 제셀톤이 차선책으로 준비해둔 전류 족쇄를 가동한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_8_2.png',
+              url: '/images/cgs/avg_ac15_8_2.webp',
               caption: '붉은 전기 스파크가 튀는 원격 저지 장치를 작동시켜 앤소니와 카프카의 전류 족쇄에 고압 전류를 방출하는 제셀톤',
               type: 'cg',
               triggerLine: 'Stage MB-08 Beat 2: 앤소니가 신음하면서도 돔마를 향한 손길을 거두지 않는다.'
             },
             {
-              url: '/images/cgs/avg_ac15_9.png',
+              url: '/images/cgs/avg_ac15_9.webp',
               caption: '영안실에 난입한 사리아의 손등과 손목 위로 흰색 칼슘 결정체가 솟아오르며 경화되기 시작하는 순간',
               type: 'cg',
               triggerLine: 'Stage MB-08 Beat 4: 죽음의 신이 도래했다는 제셀톤의 말을 비웃으며 사리아가 강림한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_9_2.png',
+              url: '/images/cgs/avg_ac15_9_2.webp',
               caption: '밀도 높은 육면체 칼슘 결정체들이 빽빽하게 손을 뒤덮어 예리하고 단단한 순백의 칼슘 손칼(칼날)을 형성한 사리아의 오른손',
               type: 'cg',
               triggerLine: 'Stage MB-08 Beat 4: 사리아가 결정화된 손칼을 쥐며 제셀톤의 오리지늄 아츠를 정면으로 마주한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_10.png',
+              url: '/images/cgs/avg_ac15_10.webp',
               caption: '제셀톤이 휘두른 거대한 강철 칼날을 칼슘 결정화 손칼로 정면에서 가볍게 받아내며 부러뜨리는 사리아',
               type: 'cg',
               triggerLine: 'Stage MB-08 Beat 5: 사리아가 "넌 너무 현실에 안주하고 고집불통이다"라며 일격을 가한다.'
             },
             {
-              url: '/images/cgs/avg_ac15_10_1.png',
+              url: '/images/cgs/avg_ac15_10_1.webp',
               caption: '부러진 제셀톤의 금속 무기 파편이 흩날리는 가운데, 사리아의 칼슘 손칼에 가슴을 베여 뒤로 날아가 처박히는 제셀톤',
               type: 'cg',
               triggerLine: 'Stage MB-08 Beat 5: 제셀톤이 완벽히 무력화되어 바닥에 처박힌다.'
@@ -508,11 +508,11 @@ export const sidMansfieldBreak: StoryArchive = {
           title: '정확한 대가',
           location: '컬럼비아 국경 지대의 바 & 로도스 아일랜드 이동 차량',
           timeMarker: '이튿날 새벽',
-          cgUrl: '/images/cgs/avg_ac15_3add.png',
+          cgUrl: '/images/cgs/avg_ac15_3add.webp',
           cgCaption: '라인 랩 각 부서(생태과·엔지니어링과·에너지과·구조과·방위과)와 하이드브로 사, 그리고 그 중심에 놓인 앤소니의 역학 관계를 정리한 도식도',
           visuals: [
             {
-              url: '/images/cgs/avg_ac15_3add.png',
+              url: '/images/cgs/avg_ac15_3add.webp',
               caption: '라인 랩 각 부서(생태과·엔지니어링과·에너지과·구조과·방위과)와 하이드브로 사, 그리고 그 중심에 놓인 앤소니의 역학 관계를 정리한 도식도',
               type: 'cg',
               triggerLine: 'Stage ST-02 Beat 1: 사일런스가 사리아의 개입 경위와 뮤엘시스의 진짜 목적을 추리해 낸다.'
@@ -560,7 +560,7 @@ export const sidMansfieldBreak: StoryArchive = {
         phaseEn: 'Part 1',
         title: '국경 지대의 밀회와 감옥의 정찰',
         location: '컬럼비아 국경 지대의 바 & 맨스필드 교도소 지하 공장',
-        cgUrl: '/images/cgs/avg_ac15_2.png',
+        cgUrl: '/images/cgs/avg_ac15_2.webp',
         cgCaption: '맨스필드 교도소 독방 안에서 붉은 수감복을 걸치고 책더미에 둘러싸인 채 책을 읽고 있는 앤소니 사이몬(마운틴)',
         narrativeText: '국경 지대의 바에서 사일런스와 메이어는 생태과 주임 뮤엘시스를 만난다. 뮤엘시스는 앤소니 탈옥의 경위를 묻고, 사일런스는 6년 전 기업 전쟁으로 몰락한 사이몬 가문의 진실과 넉 달 전 카프카를 감옥에 잠입시켰던 과정을 회상한다. 당시 앤소니는 아이언포지 시티에서 체포되어 맨스필드에 수감되었다. 넉 달 전, 맨스필드 지하 공장에 들어간 카프카는 도박판과 죄수들의 패싸움을 이용해 내부 동선을 정찰하고, 킬러 로빈은 병든 아버지를 위해 앤소니 암살 의뢰를 받고 수감된다.',
         summary: '뮤엘시스와 사일런스의 협상 속에 카프카의 맨스필드 잠입과 로빈의 암살 청부 내막이 교차 서술된다.',
@@ -592,7 +592,7 @@ export const sidMansfieldBreak: StoryArchive = {
         phaseEn: 'Part 2',
         title: 'C구역의 기습과 의무실의 관용',
         location: '맨스필드 C구역 감방 & 영안실 겸 의무실',
-        cgUrl: '/images/cgs/avg_ac15_4.png',
+        cgUrl: '/images/cgs/avg_ac15_4.webp',
         cgCaption: 'C구역 복도에서 흉기를 든 B구역 암살자 죄수들을 홀로 가로막아서서 로빈을 비호하는 앤소니 사이몬',
         narrativeText: '청소 시간, 위장 교도관 제셀톤이 방조한 가운데 B구역 자객들이 앤소니의 감방을 기습하지만 앤소니는 압도적인 무력으로 제압한다. 자객들은 음독자살하고, 기절한 로빈과 카프카를 의무실로 데려온 앤소니는 로빈의 무기를 보고도 암살을 계속할지 탈옥에 협조할지 선택을 맡긴다. 카프카는 만기 출소를 앞둔 수감자 미나(파인콘)로부터 내부 도면을 확보하고, 사일런스는 연구자의 윤리를 곱씹으며 메이어를 주방으로 보내 앤소니와의 접선을 준비시킨다.',
         summary: '앤소니가 자객들을 격퇴하고 로빈에게 선택권을 주며, 사일런스는 옳은 일을 관철하겠다는 신념을 다진다.',
@@ -624,7 +624,7 @@ export const sidMansfieldBreak: StoryArchive = {
         phaseEn: 'Part 3',
         title: '악마의 거래와 추락하는 수감탑',
         location: '맨스필드 A구역 감방 & 메인 관제실',
-        cgUrl: '/images/cgs/avg_ac15_6_2.png',
+        cgUrl: '/images/cgs/avg_ac15_6_2.webp',
         cgCaption: '긴급 침강 경보의 붉은 조명 속에서 굉음과 함께 지면 아래로 급강하하며 가라앉는 C구역 중앙 수감탑',
         narrativeText: '위장 교도관 제셀톤이 로빈에게 사이몬 가문이 부친의 회사를 망하게 한 과거를 폭로하며 암살을 종용한다. 돔마는 앤소니를 위해 목숨을 건 희생을 각오하고, 사일런스는 탑 침강과 지하 굴착 통로를 결합한 탈옥 계획을 세운다. 결행 당일, 랜달 간수장의 예비 카드로 관제실에 매복한 로빈이 폭탄으로 콘솔을 날리지만 카프카가 탑을 급강하시키고 앤소니가 추락하는 로빈을 끌어안아 구출한다.',
         summary: '제셀톤의 이간질 속에서 결행된 탈옥 작전 중, 추락하는 수감탑 속에서 앤소니가 로빈의 목숨을 구해낸다.',
@@ -656,7 +656,7 @@ export const sidMansfieldBreak: StoryArchive = {
         phaseEn: 'Part 4',
         title: '사리아의 철권과 새로운 지평선',
         location: '맨스필드 지하 영안실 & 국경 지대의 바',
-        cgUrl: '/images/cgs/avg_ac15_10.png',
+        cgUrl: '/images/cgs/avg_ac15_10.webp',
         cgCaption: '사리아가 양손을 순백의 칼슘 손칼로 경화시켜 제셀톤의 검은 강철 칼날을 정면에서 부러뜨리며 압도하는 순간',
         narrativeText: '영안실에서 제셀톤이 돔마를 인질로 잡고 족쇄 장치와 피하 금속 아츠로 앤소니를 몰아붙인다. 로빈이 비수로 인질범을 찔러 돔마를 구하고, 복도로 난입한 사리아가 순백의 칼슘 손칼로 제셀톤의 강철 칼날을 두 동강 내며 완패시킨다. 제셀톤은 실제 죄수로 수감되고, 바에서 사일런스는 뮤엘시스의 정치적 거래를 거절하며 앤소니와 함께 물 분신을 퇴각시킨다. 앤소니는 마운틴으로서 사일런스·메이어와 함께 로도스 아일랜드로 향한다.',
         summary: '사리아의 난입으로 제셀톤이 분쇄되고 탈옥이 성공하며, 사일런스는 정치적 타협 대신 인간의 존엄성을 선택한다.',
@@ -701,7 +701,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Mountain (Anthony Simon)',
       faction: '사이몬 가문 / 로도스 아일랜드',
       role: '수감자 ➔ 로도스 아일랜드 가드 오퍼레이터',
-      avatarUrl: '/images/characters/mountain.png',
+      avatarUrl: '/images/characters/mountain.webp',
       description: '컬럼비아 유력 가문 사이몬 컴퍼니의 후계자. 6년 전 하이드브로 사의 모함으로 가문이 몰락한 뒤 아이언포지 시티에서 체포되어 맨스필드 이동교도소에 수감되었으나, 사일런스와 카프카의 도움으로 탈옥 후 로도스에 합류한다.',
       statusInChapter: '탈옥 주도 및 제셀톤과의 결전',
       spoilerLevel: 2
@@ -712,7 +712,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Silence (Olivia Silence)',
       faction: '라인 랩 구조과 (전) / 로도스 아일랜드',
       role: '의료 연구원 (메딕 오퍼레이터)',
-      avatarUrl: '/images/characters/silence.png',
+      avatarUrl: '/images/characters/silence.webp',
       description: '전 라인 랩 구조과의 핵심 연구원. 다이아볼릭 위기 이후 이프리트를 구출해 로도스 아일랜드로 왔으며, 앤소니의 억울한 처지를 알고 카프카를 보내 탈옥을 배후 지원한다.',
       statusInChapter: '탈옥 배후 지원 및 뮤엘시스와의 국경 교섭',
       spoilerLevel: 2
@@ -723,7 +723,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Muelsyse',
       faction: '라인 랩 / 생태과',
       role: '생태과 주임',
-      avatarUrl: '/images/characters/muelsyse.png',
+      avatarUrl: '/images/characters/muelsyse.webp',
       description: '라인 랩 생태과의 주임이자 엘프. 하이드브로 사와 에너지과(퍼디낸드)를 견제하기 위해 사리아와 사일런스를 동시에 떠보며 앤소니를 정치적 카드로 확보하려 한다.',
       statusInChapter: '국경 지대 바에서의 물 분신 협상',
       spoilerLevel: 2
@@ -734,7 +734,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Kafka',
       faction: '로도스 아일랜드',
       role: '스페셜리스트 오퍼레이터 (전 컬럼비아 갱단)',
-      avatarUrl: '/images/characters/kafka.png',
+      avatarUrl: '/images/characters/kafka.webp',
       description: '컬럼비아 뒷골목 출신의 리베리 소녀. 과거 자신을 바른길로 이끌어준 사일런스의 부탁을 받고, 앤소니 탈옥을 돕기 위해 일부러 경범죄를 저질러 맨스필드에 위장 수감된다.',
       statusInChapter: '감옥 내 잠입 및 관제실 교란 작전 수행',
       spoilerLevel: 2
@@ -745,7 +745,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Robin',
       faction: '로도스 아일랜드 (전 프리랜서 용병)',
       role: '스나이퍼 오퍼레이터 (전 맨스필드 수감자)',
-      avatarUrl: '/images/characters/robin.png',
+      avatarUrl: '/images/characters/robin.webp',
       description: '병든 아버지를 부양하기 위해 제셀톤에게 고용되어 앤소니를 암살하려 교도소에 들어온 저격수. 앤소니와 돔마의 인품에 감화되어 암살을 거두고, 비수로 인질범을 찔러 돔마를 구출하는 등 탈옥에 결정적 기여를 한다.',
       statusInChapter: '암살 임무 포기 및 돔마 구출 비수 기습',
       spoilerLevel: 2
@@ -756,7 +756,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Mayer',
       faction: '라인 랩 엔지니어링과 / 로도스 아일랜드',
       role: '엔지니어링과 연구원 (랩 루트라 대표)',
-      avatarUrl: '/images/characters/mayer.png',
+      avatarUrl: '/images/characters/mayer.webp',
       description: '라인 랩 엔지니어링과의 천재 기계공학 연구원이자 기계 수달 미보(Meebo)의 개발자. 사일런스를 도와 외부에서 탈옥 지원 및 장비 조달을 맡는다.',
       statusInChapter: '사일런스의 외부 탈옥 작전 및 장비 지원',
       spoilerLevel: 2
@@ -767,7 +767,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Pinecone (Mina)',
       faction: '로도스 아일랜드',
       role: '스나이퍼 오퍼레이터 (전 건설 노동자 수감자)',
-      avatarUrl: '/images/characters/pinecone.png',
+      avatarUrl: '/images/characters/pinecone.webp',
       description: '임금 사기 브로커의 집을 부숴 6개월형을 받고 맨스필드에 수감되었던 리베리 소녀. 시설 정비 모범수로 도면 정보를 카프카에게 제공했으며, 합법적으로 만기 출소한 뒤 외부에서 탈옥 일행의 차량과 이동을 지원하고 로도스에 합류한다.',
       statusInChapter: '도면 정보 제공 및 출소 후 외부 지원',
       spoilerLevel: 2
@@ -778,7 +778,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Jesselton Williams',
       faction: '파라솔 사 / 하이드브로 사',
       role: '파라솔 사 상급 해결사 / 위장 교도관',
-      avatarUrl: '/images/characters/jesselton.png',
+      avatarUrl: '/images/characters/jesselton.webp',
       description: '파라솔 제약 소속 상급 해결사이자 하이드브로에 고용되어 맨스필드에 교도관으로 위장 잠입한 암살자. 과거 라인 랩 방위과 면접에서 사리아에게 "그릇이 작다"며 불합격당한 전적이 있으며, 에너지과의 피하 금속판 시술과 철 조작 아츠를 사용했으나 사리아의 칼슘 손칼에 완패해 실제 죄수로 수감된다.',
       statusInChapter: '위장 잠입 앤소니 암살 시도 및 사리아에게 완패 후 수감',
       spoilerLevel: 3
@@ -789,8 +789,8 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Domma',
       faction: '맨스필드 이동교도소',
       role: '맨스필드 영안실 장의사 겸 의무실 담당',
-      avatarUrl: '/images/characters/domma.png',
-      illustUrl: '/images/characters/illust/domma.png',
+      avatarUrl: '/images/characters/domma.webp',
+      illustUrl: '/images/characters/illust/domma.webp',
       description: '맨스필드 이동교도소 사체 안치실과 의무실을 지키는 비감염자 장의사 겸 의무실 담당자. 앤소니의 신의를 깊이 믿고 교도소의 비밀 배수로와 통로 지도를 제공해 탈옥을 적극 돕는다.',
       statusInChapter: '탈옥 비밀 통로 제공 및 앤소니 조력',
       spoilerLevel: 2
@@ -801,8 +801,8 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Barton',
       faction: '맨스필드 이동교도소',
       role: '맨스필드 경비대장',
-      avatarUrl: '/images/characters/barton.png',
-      illustUrl: '/images/characters/illust/barton.png',
+      avatarUrl: '/images/characters/barton.webp',
+      illustUrl: '/images/characters/illust/barton.webp',
       description: '맨스필드 이동교도소의 경비대장이자 거구의 집행관. 죄수들의 폭동과 규율 위반에 극도로 엄격하지만 로빈에게 통제 키를 도난당하며 혼란에 빠진다.',
       statusInChapter: '교도소 폭동 진압 및 보안 통제',
       spoilerLevel: 2
@@ -813,7 +813,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: 'Saria',
       faction: '라인 랩 방위과 (전) / 로도스 아일랜드',
       role: '전 방위과 주임 (디펜더 오퍼레이터)',
-      avatarUrl: '/images/characters/saria.png',
+      avatarUrl: '/images/characters/saria.webp',
       description: '전 라인 랩 방위과 주임이자 와이번. 다이아볼릭 위기 이후 총괄 크리스틴의 통제 불능한 야망에 반발해 사직했으며, 맨스필드 복도로 진입하여 순백의 칼슘 손칼로 제셀톤을 격파하고 앤소니를 구출한다.',
       statusInChapter: '영안실 진입 및 제셀톤 완패 격퇴',
       spoilerLevel: 2
@@ -824,7 +824,7 @@ export const sidMansfieldBreak: StoryArchive = {
       nameEn: "Kal'tsit",
       faction: '로도스 아일랜드',
       role: '의료 총괄 및 최고 지휘관',
-      avatarUrl: '/images/characters/kaltsit.png',
+      avatarUrl: '/images/characters/kaltsit.webp',
       description: '로도스 아일랜드의 의료 부문 총괄이자 최고 의사결정권자 중 한 명. 공식 개입은 거절했으나 사일런스에게 "자신이 좋은 일을 하고 있다는 생각을 끝까지 관철하라"며 개인적 조언을 남긴다.',
       statusInChapter: '본함 복도에서의 사일런스 독자 행보 조언',
       spoilerLevel: 1

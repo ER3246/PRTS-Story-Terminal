@@ -9,7 +9,7 @@ export const episode10: StoryArchive = {
   titleKo: '섀터 포인트',
   titleEn: 'Shatterpoint',
   order: 10,
-  bannerImage: '/images/story_covers/ep10.png',
+  bannerImage: '/images/story_covers/ep10.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -91,7 +91,7 @@ export const episode10: StoryArchive = {
       focalCharacter: '시즈 & 박사 & 피스트',
       location: '런디니움 더 샤드 빌딩 상공, 수디언구 309번 출입구 및 지하 파이프라인',
       timeline: '테라력 1098년 4월',
-      cgUrl: '/images/cgs/27_i01.png',
+      cgUrl: '/images/cgs/27_i01.webp',
       cgCaption: '더 샤드 빌딩 관측창에서 다가오는 대재앙 폭풍과 건조 중인 비행선을 내려다보는 테레시스와 테레시아',
       synopsis: '오슈테리그 구역의 재앙 제어탑 더 샤드 빌딩에서 테레시스와 부활한 테레시아가 비행선 완공과 폭풍을 주시한다. 527km 밖 채굴 플랫폼에 로도스 본함이 정박한 가운데 박사, 아미야, 시즈, 글래스고 일행은 수디언구 309번 출입구로 진입한다. 살카즈 사령관 맨프레드가 수성포 S-309의 10% 출력 포격으로 검문소를 미끼 삼아 초토화시키자, 자경단 소속 피스트와 락락이 박사 일행을 지하 파이프라인으로 유도한다.',
       narrativeText: '빅토리아의 심장 런디니움 상공으로 전대미문의 재앙 폭풍이 집결하고 있었다. 오슈테리그 구역의 거대한 마천루 탑 더 샤드 빌딩에서 살카즈의 섭정왕 테레시스와 부활한 선대 마왕 테레시아는 폭풍을 제어해 테라 전역에 재앙을 투사할 비행선의 완공을 내려다본다. 한편 도시 외곽 527km 지점 채굴 플랫폼에 로도스 본함이 정박하고, 켈시와 와파린의 지휘 아래 박사, 아미야, 시즈, 글래스고 패거리가 런디니움 내부로의 은밀한 침투를 개시한다. 수디언구 309번 피난민 검문소에 도달한 일행은 살카즈 순찰대와 더블린 부대의 대치 속에서 위기에 처하지만, 살카즈 사령관 맨프레드는 자국 출입구마저 미끼로 삼아 런디니움 수성포 S-309의 10% 출력 경고 포격을 감행한다. 포화로 지면이 갈라지는 절체절명의 순간, 수제 기계장치 락 17호를 앞세운 런디니움 시민 자경단의 피스트와 락락이 박사 일행을 지하 파이프라인으로 안전하게 이끈다.',
@@ -101,17 +101,17 @@ export const episode10: StoryArchive = {
           title: '쫓기는 자',
           location: '런디니움 더 샤드 빌딩 상공 관측실 및 외곽 527km 채굴 플랫폼',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i01.png',
+          cgUrl: '/images/cgs/27_i01.webp',
           cgCaption: '더 샤드 빌딩 상공에서 폭풍을 내려다보는 테레시스와 테레시아',
           visuals: [
             {
-              url: '/images/cgs/27_i01.png',
+              url: '/images/cgs/27_i01.webp',
               caption: '더 샤드 빌딩 관측창에서 다가오는 대재앙 폭풍과 건조 중인 비행선을 내려다보는 테레시스와 테레시아',
               type: 'cg',
               triggerLine: '만약 살카즈에게 신생의 기회가 남아있다면, 지금이야말로 그 유일한 기회다.'
             },
             {
-              url: '/images/cgs/27_i12.png',
+              url: '/images/cgs/27_i12.webp',
               caption: '샤드 빌딩 심처에서 집결한 살카즈 십왕정 군주 회의 (나흐체러르 킹, 생귀나르, 다마즈티, 고해신부)',
               type: 'cg',
               triggerLine: '공사는 이제 마무리 단계다.'
@@ -141,11 +141,11 @@ export const episode10: StoryArchive = {
           title: '목표 탈환',
           location: '빅토리아 런디니움 외곽 나포 항공기 및 수디언구 309번 출입구',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i02.png',
+          cgUrl: '/images/cgs/27_i02.webp',
           cgCaption: '309번 출입구 앞 거대한 런디니움 성벽과 굳게 닫힌 강철 철문을 바라보는 시즈 일행',
           visuals: [
             {
-              url: '/images/cgs/27_i02.png',
+              url: '/images/cgs/27_i02.webp',
               caption: '309번 출입구 앞 거대한 런디니움 성벽과 굳게 닫힌 강철 철문을 바라보는 시즈 일행',
               type: 'cg',
               triggerLine: '비나, 집에 돌아온 걸 환영한다.'
@@ -202,17 +202,17 @@ export const episode10: StoryArchive = {
           title: '경고 사격',
           location: '수디언구 S-309 방벽 수성포대 및 출입구 지상 구역',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i23.png',
+          cgUrl: '/images/cgs/27_i23.webp',
           cgCaption: '런디니움 수성포 S-309의 10% 출력 포격이 지면을 가르고 건물을 분쇄하는 압도적 광경',
           visuals: [
             {
-              url: '/images/cgs/27_i16.png',
+              url: '/images/cgs/27_i16.webp',
               caption: '수성포 방벽 위에서 차가운 눈으로 도심과 검문소를 내려다보는 사령관 맨프레드와 외드레르',
               type: 'cg',
               triggerLine: '출력은…… 10%면 충분하다.'
             },
             {
-              url: '/images/cgs/27_i23.png',
+              url: '/images/cgs/27_i23.webp',
               caption: '런디니움 수성포 S-309의 10% 출력 포격이 지면을 가르고 건물을 분쇄하는 압도적 광경',
               type: 'cg',
               triggerLine: '이 도시에 있는 모든 반항 세력들에게 알려주어라.'
@@ -242,17 +242,17 @@ export const episode10: StoryArchive = {
           title: '도시의 숨결',
           location: '런디니움 수디언구 지하 파이프라인 및 외곽 폐광산 본함 전선',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i20.png',
+          cgUrl: '/images/cgs/27_i20.webp',
           cgCaption: '런디니움 도심 지하 깊숙이 미로처럼 뻗어 있는 거대한 하수 및 증기 파이프라인 수로',
           visuals: [
             {
-              url: '/images/cgs/27_i20.png',
+              url: '/images/cgs/27_i20.webp',
               caption: '런디니움 도심 지하 깊숙이 미로처럼 뻗어 있는 거대한 하수 및 증기 파이프라인 수로',
               type: 'cg',
               triggerLine: '파이프라인. 깊고 어둑한, 끝이 보이지 않는 파이프라인.'
             },
             {
-              url: '/images/cgs/27_i17.png',
+              url: '/images/cgs/27_i17.webp',
               caption: '런디니움 의사당 어둠 속에서 고해신부 본인의 목에 직접 칼날을 겨누며 기습하는 바벨의 자객 아스카론',
               type: 'cg',
               triggerLine: '왕좌 앞에는 두 분의 통치자가 기다리고 계신다.'
@@ -294,7 +294,7 @@ export const episode10: StoryArchive = {
       focalCharacter: '클로비시아 & 하이디 & 혼 & W',
       location: '수디언구 자경단 비밀 은신처, 피스트의 작업실, 폐기된 로시콜 화학 공장(구 젤리 공장)',
       timeline: '테라력 1098년 4월',
-      cgUrl: '/images/cgs/27_i03.png',
+      cgUrl: '/images/cgs/27_i03.webp',
       cgCaption: '자경단 전사들 앞에서 투구를 벗고 런디니움의 자유를 위해 맹세하는 지휘관 클로비시아',
       synopsis: '부상당한 부하 샐리를 살리기 위해 고군분투하던 혼 중위는 샐리의 사망에 비통함을 삼킨다. 자경단 비밀 은신처에서 로도스는 지휘관 클로비시아와 정식 연대를 맺는다. 자경단 전달자 하이디 톰슨이 폐기된 로시콜 화학 공장에 수감되자 긴급 구출 작전이 전개된다. 박사 일행이 하이디를 구출하고 혼이 고문받던 병사들을 이끌고 탈출하는 가운데, W가 나타나 외드레르와 폭발 속에서 대검을 맞댄다.',
       narrativeText: '수디언구 지하 자경단 비밀 은신처에서 로도스 아일랜드는 자경단 최고 지휘관인 클로비시아를 접견하고 런디니움 해방을 위한 공식 연합 전선을 결성한다. 락락은 과거 자신의 아버지를 처형하던 살카즈 무리 속에 순백의 마왕 테레시아가 함께 서 있었음을 회상하여 아미야에게 깊은 심리적 동요를 안긴다. 한편 탈출 후 은신처를 전전하던 혼 중위는 부상당한 부하 샐리의 치료약을 구하려 애쓰지만 결국 샐리가 숨을 거두며 비통함에 잠긴다. 설상가상으로 자경단의 핵심 통신원인 하이디 톰슨이 체포되어 폐기된 로시콜 화학 공장 심문실에 수감되고, 대원 빌이 동료들을 위해 자수를 결단한다. 박사, 아미야, 피스트, 락락이 잠입하여 하이디를 구출하고, 혼 중위는 수감된 병사 9명을 설득해 방패를 들게 한다. 그때 남쪽 벽을 폭파하며 나타난 용병 W가 배신자로 돌아선 옛 동료 외드레르와 격돌하며 과거 바벨의 깊은 상처가 수면 위로 떠오른다.',
@@ -304,11 +304,11 @@ export const episode10: StoryArchive = {
           title: '동족이 아닐지라도',
           location: '수디언구 자경단 지하 본부 및 방벽 감시탑',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i03.png',
+          cgUrl: '/images/cgs/27_i03.webp',
           cgCaption: '투구를 벗고 전사들을 독려하는 자경단 지휘관 클로비시아',
           visuals: [
             {
-              url: '/images/cgs/27_i03.png',
+              url: '/images/cgs/27_i03.webp',
               caption: '투구를 벗고 전사들을 독려하며 동료를 결코 버리지 않겠다고 맹세하는 클로비시아',
               type: 'cg',
               triggerLine: '우리는, 절대로 동료를 버리지 않아.'
@@ -338,11 +338,11 @@ export const episode10: StoryArchive = {
           title: '이어지는 아픔 & 애도할 틈도 없이',
           location: '피스트의 지하 기계 작업실 및 수디언구 슬럼가',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i13.png',
+          cgUrl: '/images/cgs/27_i13.webp',
           cgCaption: '자경단 작업실에서 락 17호의 프레임을 정밀 용접하며 결의를 다지는 피스트',
           visuals: [
             {
-              url: '/images/cgs/27_i13.png',
+              url: '/images/cgs/27_i13.webp',
               caption: '자경단 작업실에서 락 17호의 프레임을 정밀 용접하며 결의를 다지는 피스트',
               type: 'cg',
               triggerLine: '자경단의 불씨는 결코 꺼지지 않는다.'
@@ -372,23 +372,23 @@ export const episode10: StoryArchive = {
           title: '타향의 옛 친구',
           location: '폐기된 로시콜 화학 공장 (구 젤리 공장) 지하 심문실',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i22.png',
+          cgUrl: '/images/cgs/27_i22.webp',
           cgCaption: '화학 공장 심문실에서 포로들을 심문하며 포위망을 조여오는 맨프레드 사령관',
           visuals: [
             {
-              url: '/images/cgs/27_i22.png',
+              url: '/images/cgs/27_i22.webp',
               caption: '화학 공장 심문실에서 포로들을 심문하며 포위망을 조여오는 맨프레드 사령관',
               type: 'cg',
               triggerLine: '세 곳 전부 동시에 습격당했습니다.'
             },
             {
-              url: '/images/cgs/27_i14_1.png',
+              url: '/images/cgs/27_i14_1.webp',
               caption: '어둠 속에서 만드라고라와 스쳐 지나간 뒤 다섯 명 전원 무사 귀환을 명하는 혼 중위',
               type: 'cg',
               triggerLine: '명심해. 우리는 다섯 명으로 왔다. 갈 때도 반드시 다섯 명으로 돌아간다.'
             },
             {
-              url: '/images/cgs/27_i14_2.png',
+              url: '/images/cgs/27_i14_2.webp',
               caption: '부하들에게 수신호를 보내며 살카즈 감옥 돌입 작전 개시를 명하는 혼 중위',
               type: 'cg',
               triggerLine: '내 수신호에 주목해…… 작전 개시!'
@@ -418,11 +418,11 @@ export const episode10: StoryArchive = {
           title: '지난날의 그림자',
           location: '로시콜 화학 공장 붕괴 구역 및 외곽 연결 회랑',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i04.png',
+          cgUrl: '/images/cgs/27_i04.webp',
           cgCaption: '화염과 연기 속에서 거대한 대검을 부딪치며 격돌하는 외드레르와 W',
           visuals: [
             {
-              url: '/images/cgs/27_i04.png',
+              url: '/images/cgs/27_i04.webp',
               caption: '화염과 연기 속에서 거대한 대검을 부딪치며 격돌하는 외드레르와 W',
               type: 'cg',
               triggerLine: '이네스는 죽었다, W.'
@@ -464,7 +464,7 @@ export const episode10: StoryArchive = {
       focalCharacter: '만드라고라 & 미저리 & 다마즈티 & 외드레르',
       location: '수디언구 지상 폐허, 지하 수로 분기점, 수성포 승강기 및 통제 통로',
       timeline: '테라력 1098년 4월',
-      cgUrl: '/images/cgs/27_i05_1.png',
+      cgUrl: '/images/cgs/27_i05_1.webp',
       cgCaption: '부서진 석상 폐허 바닥에서 피를 흘리며 숨진 전우의 손을 잡는 만드라고라',
       synopsis: '지상 6팀 거점이 뱀파이어 생귀나르에게 전멸당하고, 미저리가 공간 액화 아츠로 혼 일행을 구출하며 백파이프의 생존을 전한다. 맨프레드의 칼날에 거대 석상이 부서지고 만드라고라와 타라 밀정 킬리언이 쓰러진다. 구출된 빌이 다마즈티의 변신체임이 밝혀지고 수성포의 전면 포격이 예고된다. 클로비시아의 결단 아래 열차 탈취 탈출 작전이 시작되고, 생귀나르가 지하 파이프라인의 강철 방어문을 찢으며 덮친다.',
       narrativeText: '수디언구 지상 6팀 거점은 뱀파이어 생귀나르의 피의 주술에 의해 단 한 명의 생존자도 남기지 못한 채 전멸한다. 공장 출구에서 맨프레드의 대군에 포위당한 혼 중위 일행은 미저리의 지면 위상 액화 아츠 덕분에 극적으로 구출되며, 백파이프가 살아남아 안전하다는 소식을 듣고 안도한다. 한편 탈출하던 더블린의 만드라고라는 타라 밀정 킬리언과 함께 맨프레드에게 몰리고, 킬리언은 리더 에블라나가 자신들을 소모품으로 버렸다는 유언을 남긴 채 숨을 거둔다. 거대 석상이 분쇄되고 쓰러진 만드라고라 앞에 미저리가 나타나 삶과 죽음의 교차로를 묻는다. 은신처에서는 구출된 빌이 피스트의 메탈 크랩 조카 약속을 기억하지 못해 다마즈티 클러스터의 위장체임이 들통나고, 수성포의 전면 발사가 선언된다. 수디언구가 붕괴 위기에 처하자 클로비시아는 기차역 열차 탈취를 명령하고, 피스트와 혼이 수성포 통제실로 쇄도하는 가운데 생귀나르가 지하 방어문을 찢으며 덮쳐온다.',
@@ -474,11 +474,11 @@ export const episode10: StoryArchive = {
           title: '만신창이 & 원한의 끝',
           location: '공장 외곽 슬럼가 골목 및 지상 수로 폐허',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i21.png',
+          cgUrl: '/images/cgs/27_i21.webp',
           cgCaption: '공간을 왜곡하며 지면을 액화시켜 살카즈 부대를 가라앉히는 미저리의 차원 아츠',
           visuals: [
             {
-              url: '/images/cgs/27_i21.png',
+              url: '/images/cgs/27_i21.webp',
               caption: '공간을 왜곡하며 지면을 액화시켜 살카즈 부대를 가라앉히는 미저리의 차원 아츠',
               type: 'cg',
               triggerLine: '백파이프는 무사하다, 혼 중위.'
@@ -508,17 +508,17 @@ export const episode10: StoryArchive = {
           title: '교차로',
           location: '수디언구 빗물 저장소 인근 부서진 석상 폐허',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i05_1.png',
+          cgUrl: '/images/cgs/27_i05_1.webp',
           cgCaption: '부서진 석상 바닥에서 피를 흘리며 숨진 전우의 손을 잡는 만드라고라',
           visuals: [
             {
-              url: '/images/cgs/27_i05_1.png',
+              url: '/images/cgs/27_i05_1.webp',
               caption: '부서진 거대 석상 아래에서 피투성이가 된 채 킬리언의 손을 잡는 만드라고라',
               type: 'cg',
               triggerLine: '타라인…… 날 타라인이라고 불러 주는구나.'
             },
             {
-              url: '/images/cgs/27_i05_2.png',
+              url: '/images/cgs/27_i05_2.webp',
               caption: '단검을 쥐고 어둠 속에서 모습을 드러내며 질문을 던지는 미저리',
               type: 'cg',
               triggerLine: '그 재회의 끝이 죽음일지라도?'
@@ -548,11 +548,11 @@ export const episode10: StoryArchive = {
           title: '조준',
           location: '수디언구 자경단 지하 본부 은신처',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i24.png',
+          cgUrl: '/images/cgs/27_i24.webp',
           cgCaption: '가짜 빌의 몸에 올라탄 수제 메탈 크랩과 정체가 폭로된 다마즈티 클러스터',
           visuals: [
             {
-              url: '/images/cgs/27_i24.png',
+              url: '/images/cgs/27_i24.webp',
               caption: '가짜 빌의 몸에 올라탄 수제 메탈 크랩과 정체가 폭로된 다마즈티 클러스터',
               type: 'cg',
               triggerLine: '인간의 기억이란 참으로 흥미롭군요. 하지만 늦었습니다.'
@@ -615,7 +615,7 @@ export const episode10: StoryArchive = {
       focalCharacter: '박사 & 아미야 & 혼 & 시즈 & 테레시아',
       location: '수성포 S-309 최상층 통제실, 런디니움 왕성 지하 비밀 통로, 지상 기차역 플랫폼, 오슈테리그',
       timeline: '테라력 1098년 4월',
-      cgUrl: '/images/cgs/27_i19.png',
+      cgUrl: '/images/cgs/27_i19.webp',
       cgCaption: '추락하는 방벽 잔해 위에서 로벤과 미저리에게 구출되는 혼 중위와 타오르는 불길',
       synopsis: '박사와 아미야가 기폭장치를 눌러 수성포 통제실을 대폭파시킨다. 방패가 부서진 혼 중위가 검으로 맨프레드를 결투로 붙잡아 두고, 무너지는 성벽에서 추락하는 혼을 로벤과 미저리가 구출한다. 지하에서 시즈가 3살 때의 기억으로 왕실 비밀 통로를 열고 생귀나르의 맹공을 로고스·아스카론·W가 막아선다. 다그다가 이사벨 몬터규의 기사 부대를 이끌고 역을 돌파해 열차가 출발하는 순간, 아미야는 파괴된 수성포 잔해 위에서 온화하고 슬픈 눈으로 바라보는 백발의 테레시아를 목격한다.',
       narrativeText: '수성포 S-309 최상층 통제실에서 미저리의 순간 공간 전이로 침투한 박사와 아미야는 함께 손을 겹쳐 기폭 스위치를 내리누른다. 거대한 오리지늄 주포 포탑이 연쇄 폭발을 일으키며 산산조각 나고, 방벽 위에서는 방패마저 깨진 혼 중위가 홀로 검을 쥔 채 사령관 맨프레드의 발목을 결투로 묶어둔다. 성벽이 붕괴하며 수백 미터 아래로 추락하던 혼을 로벤과 미저리가 기적적으로 낚아채 구출한다. 한편 지하에서는 시즈가 세 살 때 왕궁 지하에서 마주했던 기억을 되살려 빅토리아 왕실 비밀 대피 통로의 버튼을 누르고 지반을 융기시켜 시민들의 탈출로를 연다. 뒤쫓아온 뱀파이어 생귀나르의 살육은 지원군으로 나타난 엘리트 오퍼레이터 로고스와 아스카론, W의 연합 폭격으로 차단된다. 지상 기차역에서는 다그다가 탑의 기사 동료인 이사벨 몬터규의 용병 부대를 이끌고 나타나 포위망을 분쇄하고, 장갑열차가 폭풍 속으로 기적을 울리며 발차한다. 그 순간 아미야는 불타는 성벽 잔해 위에서 자신을 슬픈 눈으로 배웅하는 선대 마왕 테레시아를 목격한다.',
@@ -625,71 +625,71 @@ export const episode10: StoryArchive = {
           title: '튼튼하고 높은 성벽',
           location: '수성포 S-309 주포탑 통제실 및 지상 기차역 플랫폼',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/27_i15.png',
+          cgUrl: '/images/cgs/27_i15.webp',
           cgCaption: '피바다 속의 생귀나르',
           visuals: [
             {
-              url: '/images/cgs/27_i15.png',
+              url: '/images/cgs/27_i15.webp',
               caption: '피바다 속의 생귀나르',
               type: 'cg',
               triggerLine: '저는…… 당신들 몸에서 유일하게 가치 있는 물건으로 이 바닥을 깨끗하게 청소하는 걸 전혀 개의치 않습니다.'
             },
             {
-              url: '/images/cgs/27_i07.png',
+              url: '/images/cgs/27_i07.webp',
               caption: '부서진 방벽 위에서 맨프레드를 막아서며 부하들과 최후의 결의를 다지는 혼 중위',
               type: 'cg',
               triggerLine: '차라리 대공작들에게 들려주지 뭐! 우리 동포들이…… 너희의 학살 아래서 어떻게 울부짖고 있는지 말이야!'
             },
             {
-              url: '/images/cgs/27_i18_1.png',
+              url: '/images/cgs/27_i18_1.webp',
               caption: '어린 시절 런디니움 왕궁 지하에서 마주했던 비밀 버튼과 왕가의 기억',
               type: 'cg',
               triggerLine: '세 살 되던 해, 시즈는 처음으로 왕궁 지하에 내려왔었다.'
             },
             {
-              url: '/images/cgs/27_i18_2.png',
+              url: '/images/cgs/27_i18_2.webp',
               caption: '기억 속 빅토리아 왕실의 문장과 고대 유산이 잠들어 있던 지하 석실 전경',
               type: 'cg',
               triggerLine: '그것은 빅토리아의 사자가 남긴 마지막 약속이었다.'
             },
             {
-              url: '/images/cgs/27_i19.png',
+              url: '/images/cgs/27_i19.webp',
               caption: '무너지는 방벽에서 추락하는 혼 중위를 극적으로 낚아채 구출하는 로벤과 미저리',
               type: 'cg',
               triggerLine: '우린 아직도 여기 서 있다.'
             },
             {
-              url: '/images/cgs/27_i06.png',
+              url: '/images/cgs/27_i06.webp',
               caption: '지하 통로에서 뱀파이어 생귀나르를 막아서는 로고스, 아스카론, W',
               type: 'cg',
               triggerLine: '어설픈 캐스터로 내 발을 묶기엔 부족하지.'
             },
             {
-              url: '/images/cgs/27_i10.png',
+              url: '/images/cgs/27_i10.webp',
               caption: '열차 안에서 창밖을 바라보는 아미야와 플랫폼에서 시민들을 엄호하는 자경단',
               type: 'cg',
               triggerLine: '열차가 출발한다! 전원 탑승하라!'
             },
             {
-              url: '/images/cgs/27_i08_2.png',
+              url: '/images/cgs/27_i08_2.webp',
               caption: '파괴된 수성포 잔해 위에 서서 달리는 열차를 바라보는 순백의 테레시아',
               type: 'cg',
               triggerLine: '잔해 위에 선 순백의 그림자.'
             },
             {
-              url: '/images/cgs/27_i08_1.png',
+              url: '/images/cgs/27_i08_1.webp',
               caption: '포구에 앉은 파울 비스트가 날아오르며 고개를 돌리는 테레시아',
               type: 'cg',
               triggerLine: '퍼덕이는 날갯짓과 함께 돌아보는 시선.'
             },
             {
-              url: '/images/cgs/27_i09.png',
+              url: '/images/cgs/27_i09.webp',
               caption: '온화하고 슬픈 눈으로 열차를 배웅하는 테레시아의 시선',
               type: 'cg',
               triggerLine: '아미야…… 부디 너의 길을 걸어가렴.'
             },
             {
-              url: '/images/cgs/27_i11.png',
+              url: '/images/cgs/27_i11.webp',
               caption: '성벽의 거대한 화염을 등지고 어둠 속 런디니움 중심부로 질주하는 장갑열차',
               type: 'cg',
               triggerLine: '열차는 폭풍 속으로 달린다.'
@@ -731,11 +731,11 @@ export const episode10: StoryArchive = {
           title: '이상의 그림자',
           location: '런디니움 샤드 빌딩 테레시아의 방 및 오슈테리그 자경단 기지',
           timeMarker: '1098년 4월',
-          cgUrl: '/images/cgs/avg_ep10.png',
+          cgUrl: '/images/cgs/avg_ep10.webp',
           cgCaption: '런디니움 상공에 드리운 거대한 이상의 그림자와 섀터 포인트의 서막',
           visuals: [
             {
-              url: '/images/cgs/avg_ep10.png',
+              url: '/images/cgs/avg_ep10.webp',
               caption: '런디니움 상공에 드리운 거대한 이상의 그림자와 섀터 포인트의 서막',
               type: 'cg',
               triggerLine: '박사…… 당신, 애드워드 아르토리우스의 유품을 가지고 있습니까?'
@@ -813,7 +813,7 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 1',
         title: '폭풍이 모이는 탑과 수디언구의 포성',
         location: '런디니움 더 샤드 빌딩 관측실 및 수디언구 309번 출입구',
-        cgUrl: '/images/cgs/27_i01.png',
+        cgUrl: '/images/cgs/27_i01.webp',
         cgCaption: '더 샤드 빌딩 관측창에서 다가오는 대재앙 폭풍과 건조 중인 비행선을 내려다보는 테레시스와 테레시아',
         summary: '더 샤드 빌딩에서 테레시스와 테레시아가 비행선 완공과 폭풍을 주시한다. 309번 출입구로 진입한 로도스와 시즈 일행은 수성포 S-309의 10% 출력 포격을 마주하고, 시민 자경단 피스트와 락락의 안내로 지하 파이프라인으로 대피한다.',
         narrativeText: '더 샤드 빌딩 상공에서 테레시스와 부활한 테레시아가 비행선 완공과 거대한 폭풍을 내려다보는 가운데, 로도스 선발대와 시즈가 수디언구 309번 출입구에 도달한다. 맨프레드는 309번 출입구를 미끼 삼아 수성포 S-309의 10% 출력 포격을 감행해 일대를 초토화시키지만, 시민 자경단의 피스트와 락락이 박사 일행을 지하 파이프라인으로 안전하게 이끈다.',
@@ -833,7 +833,7 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 2',
         title: '지하의 불씨와 옛 친구들의 그림자',
         location: '수디언구 자경단 은신처 및 로시콜 화학 공장 심문실',
-        cgUrl: '/images/cgs/27_i03.png',
+        cgUrl: '/images/cgs/27_i03.webp',
         cgCaption: '자경단 전사들 앞에서 투구를 벗고 런디니움의 자유를 위해 맹세하는 지휘관 클로비시아',
         summary: '자경단 지휘관 클로비시아와 로도스가 연대 협정을 맺는다. 로시콜 화학 공장에 수감된 하이디를 구출하고 혼 중위가 병사들을 규합하는 동안, W가 난입해 외드레르와 폭발 속에서 대검을 맞대며 결투를 벌인다.',
         narrativeText: '자경단 은신처에서 클로비시아와 로도스가 동료를 버리지 않겠다는 맹세로 연합한다. 통신원 하이디가 폐화학 공장에 수감되자 긴급 구출 작전이 전개되고, 혼 중위는 고문받던 병사 9명을 구해낸다. 그 순간 나타난 W가 살카즈의 앞잡이로 돌아선 외드레르와 대검을 부딪치며 이네스의 죽음과 바벨의 상처로 격돌한다.',
@@ -853,7 +853,7 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 3',
         title: '부서진 석상과 가면 속의 배신자',
         location: '수디언구 빗물 저장소 석상 폐허 및 수성포 승강기 회랑',
-        cgUrl: '/images/cgs/27_i05_1.png',
+        cgUrl: '/images/cgs/27_i05_1.webp',
         cgCaption: '부서진 석상 폐허 바닥에서 피를 흘리며 숨진 전우의 손을 잡는 만드라고라',
         summary: '미저리가 혼 일행을 구출하고 백파이프의 생존을 전한다. 맨프레드의 칼날에 거대 석상이 부서지고 만드라고라와 킬리언이 쓰러진다. 구출된 빌이 다마즈티의 변신체임이 밝혀지고 수성포의 전면 포격이 예고된다. 뱀파이어 생귀나르가 지하 방어문을 찢으며 덮친다.',
         narrativeText: '공장 출구에서 미저리가 위상 액화 아츠로 혼 일행을 구출한다. 더블린의 만드라고라는 킬리언의 희생과 석상의 파괴 속에서 쓰러지고 미저리와 마주한다. 자경단 거점에서는 빌의 의태를 취했던 다마즈티 클러스터의 정체가 탄로나며 수성포 전면 발사가 카운트다운에 들어간다. 생귀나르가 지하 방어문을 파괴하며 시즈 일행을 덮친다.',
@@ -873,7 +873,7 @@ export const episode10: StoryArchive = {
         phaseEn: 'Part 4',
         title: '무너지는 성벽과 폭풍 속으로 달리는 열차',
         location: '수성포 S-309 최상층 통제실, 지상 기차역 및 오슈테리그',
-        cgUrl: '/images/cgs/27_i19.png',
+        cgUrl: '/images/cgs/27_i19.webp',
         cgCaption: '무너지는 방벽에서 추락하는 혼 중위를 극적으로 낚아채 구출하는 로벤과 미저리',
         summary: '박사와 아미야가 수성포 통제실을 자폭 폭파시킨다. 방패가 부서진 혼이 결투로 맨프레드를 묶어두고 추락하는 순간 로벤과 미저리가 구출한다. 시즈가 왕실 비밀 통로를 열고 장갑열차가 출발하자 아미야는 잔해 위의 백발 테레시아를 목격한다.',
         narrativeText: '박사와 아미야가 수성포 통제실 기폭 스위치를 눌러 S-309를 대폭파시킨다. 방벽 위에서 혼 중위가 결투로 맨프레드의 발을 묶고 추락하는 찰나 로벤과 미저리가 기적적으로 구출해낸다. 시즈가 세 살 때의 기억으로 왕실 비밀 통로 버튼을 눌러 피난로를 열고, 다그다가 이사벨 몬터규의 기사 부대를 이끌고 나타나 역의 포위를 뚫는다. 열차가 폭풍 속으로 달릴 때 아미야는 잔해 위에 선 백발의 테레시아를 응시한다.',
@@ -910,8 +910,8 @@ export const episode10: StoryArchive = {
       description: '런디니움의 슬럼가에서 패거리를 이끌던 망명 군주. 고향의 참상을 목도하고 도망치던 과거를 딛고 세 살 때의 왕실 기억을 되살려 비밀 통로를 열고 빅토리아를 구하기 위해 일어선다.',
       quote: '……응. 이게 바로…… 우리의 런디니움이야.',
       statusInChapter: '수디언구 잠입 및 왕실 대피 통로 개방',
-      avatarUrl: '/images/characters/siege.png',
-      illustUrl: '/images/characters/illust/siege.png'
+      avatarUrl: '/images/characters/siege.webp',
+      illustUrl: '/images/characters/illust/siege.webp'
     },
     {
       id: 'amiya',
@@ -922,8 +922,8 @@ export const episode10: StoryArchive = {
       description: '로도스 아일랜드의 대표이자 카우투스 소녀. 런디니움 작전에서 테레시아의 순백의 존재를 감지하고 깊은 고뇌 속에서도 박사와 함께 수성포 기폭장치를 누르며 대원들을 이끈다.',
       quote: '우리가 마주해야 할 진실이 아무리 아플지라도…… 우리는 물러서지 않겠습니다.',
       statusInChapter: '수성포 통제실 기폭 및 테레시아 목격',
-      avatarUrl: '/images/characters/amiya.png',
-      illustUrl: '/images/characters/illust/amiya.png'
+      avatarUrl: '/images/characters/amiya.webp',
+      illustUrl: '/images/characters/illust/amiya.webp'
     },
     {
       id: 'doctor',
@@ -934,8 +934,8 @@ export const episode10: StoryArchive = {
       description: '로도스 아일랜드의 현장 최고 지휘관. 수성포의 궤도를 드론으로 분산시키고 아미야의 손을 감싸 쥐며 수성포 S-309를 대폭파시키는 결단을 내린다.',
       quote: '아미야, 내 손을 잡아. 기폭장치를 눌러야 할 때 알려줘. 난 똑같이 했을 거다.',
       statusInChapter: '수성포 통제실 침투 및 자폭 지휘',
-      avatarUrl: '/images/characters/doctor.png',
-      illustUrl: '/images/characters/doctor.png'
+      avatarUrl: '/images/characters/doctor.webp',
+      illustUrl: '/images/characters/doctor.webp'
     },
     {
       id: 'horn',
@@ -946,8 +946,8 @@ export const episode10: StoryArchive = {
       description: '힐록 사태 후 미저리의 도움으로 탈출해 186일간 수디언구에서 부하 17명과 사투를 벌여온 불굴의 지휘관. 동포들을 직접 구출하고 방패가 깨진 채 맨프레드와 결투를 벌인다.',
       quote: '차라리 대공작들에게 들려주지 뭐! 우리 동포들이…… 너희의 학살 아래서 어떻게 울부짖고 있는지 말이야!',
       statusInChapter: '186일간 게릴라전 지휘 및 성벽 위 사투',
-      avatarUrl: '/images/characters/horn.png',
-      illustUrl: '/images/characters/illust/horn.png'
+      avatarUrl: '/images/characters/horn.webp',
+      illustUrl: '/images/characters/illust/horn.webp'
     },
     {
       id: 'feist',
@@ -958,8 +958,8 @@ export const episode10: StoryArchive = {
       description: '수제 기계장치 락 17호를 다루는 청년 엔지니어. 박사 일행을 위협하는 척하며 지하 파이프라인으로 대피시키고 수성포 승강기 통로를 개척한다.',
       quote: '하핫, 더블린 녀석들도 왔네. 게다가 성질 급한 저 캐스터가 직접 나섰어! 락락, 준비해! 저 양쪽이 서로 싸우게 만드는 거야!',
       statusInChapter: '수디언구 자경단 인솔 및 승강기 해킹',
-      avatarUrl: '/images/characters/feist.png',
-      illustUrl: '/images/characters/illust/feist.png'
+      avatarUrl: '/images/characters/feist.webp',
+      illustUrl: '/images/characters/illust/feist.webp'
     },
     {
       id: 'rockrock',
@@ -970,8 +970,8 @@ export const episode10: StoryArchive = {
       description: '피스트와 함께 수디언구를 지키는 자경단 부대장. 아버지가 살카즈 군사위원회에 처형당할 당시 순백의 테레시아를 목격했던 아픈 기억을 증언한다.',
       quote: '그 순백의 살카즈 군주…… 아버지를 처형하던 무리 속에 그녀가 똑똑히 서 있었어.',
       statusInChapter: '309번 출입구 기습 및 자경단 엄호',
-      avatarUrl: '/images/characters/rockrock.png',
-      illustUrl: '/images/characters/illust/rockrock.png'
+      avatarUrl: '/images/characters/rockrock.webp',
+      illustUrl: '/images/characters/illust/rockrock.webp'
     },
     {
       id: 'clovicia',
@@ -982,8 +982,8 @@ export const episode10: StoryArchive = {
       description: '살카즈의 철권통치에 맞서 런디니움 전역의 시민 자경단을 통솔하는 여걸. 투구를 벗고 동료를 절대 버리지 않겠다는 신념으로 로도스와 굳건한 동맹을 맺는다.',
       quote: '우리는, 절대로 동료를 버리지 않아.',
       statusInChapter: '자경단 총지휘 및 기차역 탈취 탈출 지휘',
-      avatarUrl: '/images/characters/clovicia.png',
-      illustUrl: '/images/characters/illust/clovicia.png'
+      avatarUrl: '/images/characters/clovicia.webp',
+      illustUrl: '/images/characters/illust/clovicia.webp'
     },
     {
       id: 'manfred',
@@ -994,8 +994,8 @@ export const episode10: StoryArchive = {
       description: '섭정왕 테레시스의 제자이자 군사위원회의 명장. 자국 출입구를 미끼 삼아 수성포 포격을 감행하고, 방벽 위에서 혼 중위와 치열한 검술 결투를 벌인다.',
       quote: '출력은…… 10%면 충분하다. 이 도시에 있는 모든 반항 세력들에게 알려주어라.',
       statusInChapter: '수성포 가동 지휘 및 혼과 결투',
-      avatarUrl: '/images/characters/manfred.png',
-      illustUrl: '/images/characters/illust/manfred.png'
+      avatarUrl: '/images/characters/manfred.webp',
+      illustUrl: '/images/characters/illust/manfred.webp'
     },
     {
       id: 'theresis',
@@ -1006,8 +1006,8 @@ export const episode10: StoryArchive = {
       description: '빅토리아의 심장 런디니움을 장악한 카즈델의 실질적 지배자. 더 샤드 빌딩에서 비행선을 건조하며 전 테라를 향한 살카즈의 신생과 복수를 선포한다.',
       quote: '만약 살카즈에게 신생의 기회가 남아있다면, 지금이야말로 그 유일한 기회다.',
       statusInChapter: '샤드 빌딩 비행선 건조 총괄 및 십왕정 소집',
-      avatarUrl: '/images/characters/theresis.png',
-      illustUrl: '/images/characters/illust/theresis.png'
+      avatarUrl: '/images/characters/theresis.webp',
+      illustUrl: '/images/characters/illust/theresis.webp'
     },
     {
       id: 'theresa',
@@ -1018,8 +1018,8 @@ export const episode10: StoryArchive = {
       description: '과거 바벨의 군주였으나 육신이 부활하여 테레시스 곁에 선 선대 마왕. 파괴된 수성포 잔해 위에서 장갑열차를 타고 떠나는 아미야를 온화하고 슬픈 눈으로 배웅한다.',
       quote: '테레시스…… 아미야도 여기 있어. 나는 느껴져.',
       statusInChapter: '샤드 빌딩 관측 및 수성포 잔해에서 아미야 응시',
-      avatarUrl: '/images/characters/theresa.png',
-      illustUrl: '/images/characters/illust/theresa.png'
+      avatarUrl: '/images/characters/theresa.webp',
+      illustUrl: '/images/characters/illust/theresa.webp'
     },
     {
       id: 'heidi',
@@ -1030,8 +1030,8 @@ export const episode10: StoryArchive = {
       description: '런디니움 귀족 사회에 숨어들어 켈시의 정보망을 운영하던 음유시인. 로시콜 화학 공장에 체포되어 고문받던 중 박사와 피스트 일행에게 극적으로 구출된다.',
       quote: '오랜만이에요, 켈시 선생님. 그리고…… 어서 오세요, 빅토리아의 손님 여러분.',
       statusInChapter: '화학 공장 감옥 생존 및 구출 성공',
-      avatarUrl: '/images/characters/heidi.png',
-      illustUrl: '/images/characters/illust/heidi.png'
+      avatarUrl: '/images/characters/heidi.webp',
+      illustUrl: '/images/characters/illust/heidi.webp'
     },
     {
       id: 'hoederer',
@@ -1042,8 +1042,8 @@ export const episode10: StoryArchive = {
       description: '과거 바벨 출신의 용병대장. 군사위원회에 투항한 척 맨프레드의 신임을 얻으면서도 살아남은 이네스와 비밀리에 접선해 바벨의 잔존 세력을 규합한다.',
       quote: '내가 뭣 때문에 한쪽 눈을 잃었다고 생각하나? 그래, 이네스가 죽었다.',
       statusInChapter: '승강기 교전 및 이네스와 밀회',
-      avatarUrl: '/images/characters/hoederer.png',
-      illustUrl: '/images/characters/illust/hoederer.png'
+      avatarUrl: '/images/characters/hoederer.webp',
+      illustUrl: '/images/characters/illust/hoederer.webp'
     },
     {
       id: 'w',
@@ -1054,8 +1054,8 @@ export const episode10: StoryArchive = {
       description: '테레시아의 복수를 위해 독자적으로 움직이는 폭탄마. 로시콜 공장 벽을 날려버리며 난입해 외드레르와 결투를 벌이고, 지하에서는 생귀나르의 진격을 폭탄으로 차단한다.',
       quote: '그 할망구 부탁이 아니라면, 나도 오고 싶지 않았어.',
       statusInChapter: '화학 공장 기습 난입 및 생귀나르 저지',
-      avatarUrl: '/images/characters/w.png',
-      illustUrl: '/images/characters/illust/w.png'
+      avatarUrl: '/images/characters/w.webp',
+      illustUrl: '/images/characters/illust/w.webp'
     },
     {
       id: 'ascalon',
@@ -1066,8 +1066,8 @@ export const episode10: StoryArchive = {
       description: '어둠 속에서 바벨의 의지를 수행하는 최고위 암살자. 고해신부의 친위대를 암습하고 외드레르와 W의 자멸적 결투를 단검으로 막아선다.',
       quote: '……W. 쓸데없는 말을 할 때마다, 피가 더 빠르게 흘러나온다.',
       statusInChapter: '고해신부 기습 및 W·외드레르 중재',
-      avatarUrl: '/images/characters/ascalon.png',
-      illustUrl: '/images/characters/illust/ascalon.png'
+      avatarUrl: '/images/characters/ascalon.webp',
+      illustUrl: '/images/characters/illust/ascalon.webp'
     },
     {
       id: 'mandragora',
@@ -1078,8 +1078,8 @@ export const episode10: StoryArchive = {
       description: '거대 석상을 조종하는 타라의 간부. 맨프레드에게 패배하고 킬리언의 희생을 겪으며 에블라나에게 버림받았음을 깨닫고 미저리 앞에서 참회와 회한 속에 쓰러진다.',
       quote: '타라인…… 날 타라인이라고 불러 주는구나. 리더, 미안해…… 집에 돌아가자.',
       statusInChapter: '석상 파괴 및 빗물 저장소에서 피습',
-      avatarUrl: '/images/characters/mandragora.png',
-      illustUrl: '/images/characters/illust/mandragora.png'
+      avatarUrl: '/images/characters/mandragora.webp',
+      illustUrl: '/images/characters/illust/mandragora.webp'
     },
     {
       id: 'misery',
@@ -1090,8 +1090,8 @@ export const episode10: StoryArchive = {
       description: '공간의 위상과 굴절을 다루는 로도스 최정예 비밀 요원. 지면 액화 아츠로 혼 일행을 구출하고, 통제실 폭파 후 추락하는 혼을 기적적으로 낚아채 구출한다.',
       quote: '미저리. 로도스 아일랜드의 미저리야. 나중에 백파이프를 통해 제대로 된 설명을 들을 수 있을 거야. 지금은 동료나 마찬가지니까. 그리고…… 내 가장 친한 친구가 마지막으로 사귀었던 친구야.',
       statusInChapter: '위상 액화 아츠 전개 및 혼 추락 구출',
-      avatarUrl: '/images/characters/misery.png',
-      illustUrl: '/images/characters/illust/misery.png'
+      avatarUrl: '/images/characters/misery.webp',
+      illustUrl: '/images/characters/illust/misery.webp'
     },
     {
       id: 'sanguinarch',
@@ -1102,8 +1102,8 @@ export const episode10: StoryArchive = {
       description: '살카즈 왕정군을 이끄는 잔혹하고 오만한 흡혈귀들의 군주. 수디언구 6팀 거점을 전멸시키고 지하 파이프라인 방어문을 찢으며 침투하나 로고스와 W에게 저지당한다.',
       quote: '저는…… 당신들 몸에서 유일하게 가치 있는 물건으로 이 바닥을 깨끗하게 청소하는 걸 전혀 개의치 않습니다.',
       statusInChapter: '수디언구 6팀 학살 및 지하 방어문 파괴',
-      avatarUrl: '/images/characters/sanguinarch.png',
-      illustUrl: '/images/characters/illust/sanguinarch.png'
+      avatarUrl: '/images/characters/sanguinarch.webp',
+      illustUrl: '/images/characters/illust/sanguinarch.webp'
     },
     {
       id: 'damazti',
@@ -1114,8 +1114,8 @@ export const episode10: StoryArchive = {
       description: '타인의 모습과 기억을 완벽히 모방하는 군체 생명체. 정보원 토마스와 자경단 대원 빌로 의태하여 침투했으나 피스트의 메탈 크랩 시험에 덜미가 잡힌다.',
       quote: '우린 그저 옛 친구로서 도우러 온 것뿐이야, 맨프레드. 그 카우투스 소녀는…… 꽤 흥미롭더군.',
       statusInChapter: '토마스 및 빌 의태 침투와 정체 폭로',
-      avatarUrl: '/images/characters/damazti.png',
-      illustUrl: '/images/characters/illust/damazti.png'
+      avatarUrl: '/images/characters/damazti.webp',
+      illustUrl: '/images/characters/illust/damazti.webp'
     },
     {
       id: 'alledale',
@@ -1126,8 +1126,8 @@ export const episode10: StoryArchive = {
       description: '빅토리아의 옛 충신 고 컴버랜드 공작의 딸. 장갑열차를 타고 도착한 시즈와 박사를 맞이하며, 박사에게 애드워드 아르토리우스의 유품을 지니고 있는지 묻는다.',
       quote: '집에 돌아온 걸 환영해, 알렉산드리나…… 전하. 그리고 박사…… 애드워드 아르토리우스의 유품, 혹시 당신이 갖고 있어?',
       statusInChapter: '오슈테리그 자경단 접선 및 박사 심문',
-      avatarUrl: '/images/characters/alledale.png',
-      illustUrl: '/images/characters/illust/alledale.png'
+      avatarUrl: '/images/characters/alledale.webp',
+      illustUrl: '/images/characters/illust/alledale.webp'
     },
     {
       id: 'dagda',
@@ -1138,8 +1138,8 @@ export const episode10: StoryArchive = {
       description: '과거 왕실을 지키던 탑의 기사 출신 무투가. 시즈의 명을 받아 탑의 기사 동료인 이사벨 몬터규를 찾아내 용병단을 이끌고 기차역 포위망을 돌파한다.',
       quote: '탑의 기사의 명예는 런디니움의 백성들과 함께한다!',
       statusInChapter: '탑의 기사 수색 및 기차역 돌파 구원',
-      avatarUrl: '/images/characters/dagda.png',
-      illustUrl: '/images/characters/illust/dagda.png'
+      avatarUrl: '/images/characters/dagda.webp',
+      illustUrl: '/images/characters/illust/dagda.webp'
     },
     {
       id: 'indra',
@@ -1150,8 +1150,8 @@ export const episode10: StoryArchive = {
       description: '시즈의 오랜 충복이자 글래스고의 선봉 주먹. 309번 검문소 진입과 나포 수송기 탈환에서 선두로 적들을 격파하며 시즈의 곁을 사수한다.',
       quote: '비나 두목의 길을 막는 놈들은 모조리 이 주먹으로 박살을 내주마!',
       statusInChapter: '나포기 진압 및 309번 출입구 돌격',
-      avatarUrl: '/images/characters/indra.png',
-      illustUrl: '/images/characters/illust/indra.png'
+      avatarUrl: '/images/characters/indra.webp',
+      illustUrl: '/images/characters/illust/indra.webp'
     },
     {
       id: 'morgan',
@@ -1162,8 +1162,8 @@ export const episode10: StoryArchive = {
       description: '글래스고 패거리의 두뇌 역할을 맡고 있는 지략가. 로시콜 화학 공장 잠입 당시 다그다와 함께 양동 교란을 성공시키며 본대의 퇴로를 확보한다.',
       quote: '골목 싸움은 머리를 써야 하는 법이지. 살카즈 녀석들, 제대로 낚였어.',
       statusInChapter: '화학 공장 양동 기습 및 퇴로 개척',
-      avatarUrl: '/images/characters/morgan.png',
-      illustUrl: '/images/characters/illust/morgan.png'
+      avatarUrl: '/images/characters/morgan.webp',
+      illustUrl: '/images/characters/illust/morgan.webp'
     },
     {
       id: 'kaltsit',
@@ -1174,8 +1174,8 @@ export const episode10: StoryArchive = {
       description: '런디니움 외곽 채굴 플랫폼에서 본함을 지휘하는 로도스의 중추. 본함 앞에 나타난 나흐체러르 킹에게 패트리어트의 최후를 전하고 도심 침투조를 지원한다.',
       quote: '불드록카스티는 마지막 순간까지 자신의 신념을 위해 방패를 들었다. 그는 후회 없이 전사했다.',
       statusInChapter: '채굴 플랫폼 본함 지휘 및 나흐체러르 킹 접견',
-      avatarUrl: '/images/characters/kaltsit.png',
-      illustUrl: '/images/characters/illust/kaltsit.png'
+      avatarUrl: '/images/characters/kaltsit.webp',
+      illustUrl: '/images/characters/illust/kaltsit.webp'
     },
     {
       id: 'closer',
@@ -1186,8 +1186,8 @@ export const episode10: StoryArchive = {
       description: '로도스의 천재 엔지니어. 수성포의 포격을 드론으로 교란하고 피스트의 락 17호에 해킹 자폭 모듈을 설치하여 통제실 폭파와 탈출로 개척을 완수한다.',
       quote: '드론 전부 띄워! 수성포 광학 조준을 교란시켜야 해!',
       statusInChapter: '수성포 조준 교란 및 락 17호 개조',
-      avatarUrl: '/images/characters/closer.png',
-      illustUrl: '/images/characters/illust/closer.png'
+      avatarUrl: '/images/characters/closer.webp',
+      illustUrl: '/images/characters/illust/closer.webp'
     }
   ],
   glossary: [

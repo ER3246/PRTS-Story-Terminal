@@ -9,7 +9,7 @@ export const sidLoneTrail: StoryArchive = {
   titleKo: '론 트레일',
   titleEn: 'Lone Trail',
   order: 3,
-  bannerImage: '/images/story_covers/sid_lone_trail.png',
+  bannerImage: '/images/story_covers/sid_lone_trail.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -57,17 +57,17 @@ export const sidLoneTrail: StoryArchive = {
       code: 'CW-01',
       location: '컬럼비아 트리마운츠 라인 랩 본부 및 맥스 특별구',
       timeline: '테라력 1099년 11월 초순',
-      cgUrl: '/images/cgs/38_i07.png',
+      cgUrl: '/images/cgs/38_i07.webp',
       cgCaption: '라인 랩 총괄 연구원실에 침입한 오올헤약의 목을 물 분신 아츠로 휘감아 위협하는 생태과 주임 뮤엘시스',
       visuals: [
         {
-          url: '/images/cgs/29_i10.png',
+          url: '/images/cgs/29_i10.webp',
           caption: '어린 시절의 크리스틴 라이트가 부모님의 복엽 비행기를 바라보며 창공을 동경하는 회상',
           type: 'cg',
           triggerLine: 'Stage CW-ST-1: 천년만년이 흐른 뒤 인간이 뭇별의 곁을 거닐게 되는 때가 온다면……'
         },
         {
-          url: '/images/cgs/38_i07.png',
+          url: '/images/cgs/38_i07.webp',
           caption: '라인 랩 총괄 연구원실에 침입한 오올헤약의 목을 물 분신 아츠로 휘감아 위협하는 생태과 주임 뮤엘시스',
           type: 'cg',
           triggerLine: 'Stage CW-ST-1: 기왕 들킨 김에, 그냥 익사시켜서 폐기된 기동 장갑에 넣어버려야겠네.'
@@ -81,17 +81,17 @@ export const sidLoneTrail: StoryArchive = {
           title: '짙은 먹구름',
           location: '맥스 특별구 연방 이동감옥 & 라인 랩 총괄 사무실',
           timeMarker: '1099년 11월 초순',
-          cgUrl: '/images/cgs/29_i10.png',
+          cgUrl: '/images/cgs/29_i10.webp',
           cgCaption: '어린 시절의 크리스틴 라이트가 부모님의 복엽 비행기를 바라보며 창공을 동경하는 회상',
           visuals: [
             {
-              url: '/images/cgs/29_i10.png',
+              url: '/images/cgs/29_i10.webp',
               caption: '어린 시절의 크리스틴 라이트가 부모님의 복엽 비행기를 바라보며 창공을 동경하는 회상',
               type: 'cg',
               triggerLine: 'Stage CW-ST-1 Beat 1: 천년만년이 흐른 뒤, 인간이 뭇별의 곁을 거닐게 되는 때가 온다면……'
             },
             {
-              url: '/images/cgs/38_i07.png',
+              url: '/images/cgs/38_i07.webp',
               caption: '라인 랩 총괄 연구원실에 침입한 오올헤약의 목을 물 분신 아츠로 휘감아 위협하는 생태과 주임 뮤엘시스',
               type: 'cg',
               triggerLine: 'Stage CW-ST-1 Beat 9: 기왕 들킨 김에, 그냥 익사시켜서 폐기된 기동 장갑에 넣어버려야겠네.'
@@ -249,23 +249,23 @@ export const sidLoneTrail: StoryArchive = {
       code: 'CW-02',
       location: '라인 랩 생태과 지하 특수 구역 및 도심 외곽 골목',
       timeline: '테라력 1099년 11월 중순',
-      cgUrl: '/images/cgs/38_i03.png',
+      cgUrl: '/images/cgs/38_i03.webp',
       cgCaption: '초점 발생기 은신처 입구에서 사리아의 맨주먹 일격에 제압당해 바닥에 쓰러진 채 패배를 인정하며 미소 짓는 오올헤약',
       visuals: [
         {
-          url: '/images/cgs/38_i03.png',
+          url: '/images/cgs/38_i03.webp',
           caption: '초점 발생기 은신처 입구에서 사리아의 맨주먹 일격에 제압당해 바닥에 쓰러진 채 패배를 인정하며 미소 짓는 오올헤약',
           type: 'cg',
           triggerLine: 'Stage CW-6 Beat 5~6: 꾸밈없고 소박한 힘. 이런, 졌네. 사리아, 이건 어때?'
         },
         {
-          url: '/images/cgs/38_i02.png',
+          url: '/images/cgs/38_i02.webp',
           caption: '거대한 대검 아츠 장비를 등 뒤에 전개한 로즈몬티스와 휠체어에 앉아 심판을 자청하는 노년의 로켄 윌리엄스',
           type: 'cg',
           triggerLine: 'Stage CW-6 Beat 7: 당신은 로켄이야. 매주 금요일 저녁이면 양육원에 왔어.'
         },
         {
-          url: '/images/cgs/38_i06.png',
+          url: '/images/cgs/38_i06.webp',
           caption: '실험실 복도에서 마주 선 사리아에게 균형을 버리고 근원을 되찾으라고 조언한 뒤 각자의 길로 나아가는 사일런스와 사리아',
           type: 'cg',
           triggerLine: 'Stage CW-6 Beat 16: 사리아, 너의 그런 말을 들으려고 여기 온 게 아니야.'
@@ -366,23 +366,23 @@ export const sidLoneTrail: StoryArchive = {
           title: '집결',
           location: '쓰레기장 격납고 입구 & 초점 발생기 생태원',
           timeMarker: '발사 30분 전',
-          cgUrl: '/images/cgs/38_i03.png',
+          cgUrl: '/images/cgs/38_i03.webp',
           cgCaption: '초점 발생기 은신처 입구에서 사리아의 맨주먹 일격에 제압당해 바닥에 쓰러진 채 패배를 인정하며 미소 짓는 오올헤약',
           visuals: [
             {
-              url: '/images/cgs/38_i03.png',
+              url: '/images/cgs/38_i03.webp',
               caption: '초점 발생기 은신처 입구에서 사리아의 맨주먹 일격에 제압당해 바닥에 쓰러진 채 패배를 인정하며 미소 짓는 오올헤약',
               type: 'cg',
               triggerLine: 'Stage CW-6 Beat 5~6: 꾸밈없고 소박한 힘. 이런, 졌네. 사리아, 이건 어때?'
             },
             {
-              url: '/images/cgs/38_i02.png',
+              url: '/images/cgs/38_i02.webp',
               caption: '거대한 대검 아츠 장비를 등 뒤에 전개한 로즈몬티스와 휠체어에 앉아 심판을 자청하는 노년의 로켄 윌리엄스',
               type: 'cg',
               triggerLine: 'Stage CW-6 Beat 7: 당신은 로켄이야. 매주 금요일 저녁이면 양육원에 왔어.'
             },
             {
-              url: '/images/cgs/38_i06.png',
+              url: '/images/cgs/38_i06.webp',
               caption: '실험실 복도에서 마주 선 사리아에게 균형을 버리고 근원을 되찾으라고 조언한 뒤 각자의 길로 나아가는 사일런스와 사리아',
               type: 'cg',
               triggerLine: 'Stage CW-6 Beat 16: 사리아, 너의 그런 말을 들으려고 여기 온 게 아니야.'
@@ -449,47 +449,47 @@ export const sidLoneTrail: StoryArchive = {
       code: 'CW-03',
       location: '트리마운츠 지하 제1통제구역 및 5,000m 상공',
       timeline: '테라력 1099년 11월 21일',
-      cgUrl: '/images/cgs/38_i10.png',
+      cgUrl: '/images/cgs/38_i10.webp',
       cgCaption: '트리마운츠 도심 밤하늘 위로 거대한 고리 형태의 초점 발생기(아크 1호)가 눈부신 빛의 기둥을 내뿜으며 떠오르는 광경',
       visuals: [
         {
-          url: '/images/cgs/38_i10.png',
+          url: '/images/cgs/38_i10.webp',
           caption: '트리마운츠 도심 밤하늘 위로 거대한 고리 형태의 초점 발생기(아크 1호)가 눈부신 빛의 기둥을 내뿜으며 떠오르는 광경',
           type: 'cg',
           triggerLine: 'Stage CW-7 Beat 4: ……저게…… 뭐지?'
         },
         {
-          url: '/images/cgs/38_i01.png',
+          url: '/images/cgs/38_i01.webp',
           caption: '상공 5,000m의 초점 발생기를 추적하기 위해 퍼디낸드가 빼돌려 둔 고고도 점검 비행체 앞에 함께 선 사리아와 퍼디낸드 클루니',
           type: 'cg',
           triggerLine: 'Stage CW-7 Beat 3: ……비행체 소리?! 퍼디낸드, 저 비행체는 어디서 구한 거지?'
         },
         {
-          url: '/images/cgs/38_i15_1.png',
+          url: '/images/cgs/38_i15_1.webp',
           caption: '폭주하는 에너지 우물의 초고열 열풍을 뚫고 전달물질 중추를 멈추기 위해 결연히 달려가는 사일런스의 모습',
           type: 'cg',
           triggerLine: 'Stage CW-8 Beat 5: 뜨거운 바람에 얼굴은 타버릴 것만 같았지만……'
         },
         {
-          url: '/images/cgs/38_i15_2.png',
+          url: '/images/cgs/38_i15_2.webp',
           caption: '에너지 우물의 강렬한 발사광 속에서 사일런스의 뒷모습과 크리스틴의 비상을 지켜보며 축복하는 야라 B. 윌슨 주임',
           type: 'cg',
           triggerLine: 'Stage CW-8 Beat 6: 발사 준비는 끝난 것 같네... 크리스틴, 넌 네가 꿈꾸는 높은 하늘로 날아가렴.'
         },
         {
-          url: '/images/cgs/38_i16.png',
+          url: '/images/cgs/38_i16.webp',
           caption: '에너지 우물에서 쏘아 올려진 거대한 빛기둥이 초점 발생기에 적중하는 광경을 거리에서 함께 올려다보는 저스틴 피츠로이 Jr.와 내스티 루노레이',
           type: 'cg',
           triggerLine: 'Stage CW-8 Beat 8: 이건…… 제가 상상한 것보다 아름답군요.'
         },
         {
-          url: '/images/cgs/38_i11.png',
+          url: '/images/cgs/38_i11.webp',
           caption: '고도 5,000m 비행체 창밖의 고에너지를 배경으로 블레이크 대령의 총구 앞에서 과학자로서의 광기 어린 자부심을 외치는 퍼디낸드 클루니',
           type: 'cg',
           triggerLine: 'Stage CW-9 Beat 8: 권력, 훈장, 국방부에서의 지위…… 가엾게도 그런 것에서 눈을 돌리지 못하는 당신을 비웃고 있지.'
         },
         {
-          url: '/images/cgs/38_i09.png',
+          url: '/images/cgs/38_i09.webp',
           caption: '파르비스의 눈앞 자살 직후 절망에 빠진 사일런스의 멱살을 잡고 눈물로 다그치며 일으켜 세우는 성장한 이프리트',
           type: 'cg',
           triggerLine: 'Stage CW-9 Beat 2: 무슨 소리야, 사일런스! 넌 내가 이 땅에서 본 가장 강한 사람이야!'
@@ -503,17 +503,17 @@ export const sidLoneTrail: StoryArchive = {
           title: '공중누각',
           location: '트리마운츠 상공 5,000m & 군부 작전실 격납고',
           timeMarker: '11월 21일 19시 59분',
-          cgUrl: '/images/cgs/38_i10.png',
+          cgUrl: '/images/cgs/38_i10.webp',
           cgCaption: '트리마운츠 도심 밤하늘 위로 거대한 고리 형태의 초점 발생기(아크 1호)가 눈부신 빛의 기둥을 내뿜으며 떠오르는 광경',
           visuals: [
             {
-              url: '/images/cgs/38_i10.png',
+              url: '/images/cgs/38_i10.webp',
               caption: '트리마운츠 도심 밤하늘 위로 거대한 고리 형태의 초점 발생기(아크 1호)가 눈부신 빛의 기둥을 내뿜으며 떠오르는 광경',
               type: 'cg',
               triggerLine: 'Stage CW-7 Beat 4: ……저게…… 뭐지?'
             },
             {
-              url: '/images/cgs/38_i01.png',
+              url: '/images/cgs/38_i01.webp',
               caption: '상공 5,000m의 초점 발생기를 추적하기 위해 퍼디낸드가 빼돌려 둔 고고도 점검 비행체 앞에 함께 선 사리아와 퍼디낸드 클루니',
               type: 'cg',
               triggerLine: 'Stage CW-7 Beat 3: ……비행체 소리?! 퍼디낸드, 저 비행체는 어디서 구한 거지?'
@@ -546,23 +546,23 @@ export const sidLoneTrail: StoryArchive = {
           title: '과거와 현재의 만남',
           location: '지하 제1통제구역 & 지상 에너지 우물 시설',
           timeMarker: '11월 21일 20시 30분',
-          cgUrl: '/images/cgs/38_i15_1.png',
+          cgUrl: '/images/cgs/38_i15_1.webp',
           cgCaption: '폭주하는 에너지 우물의 초고열 열풍을 뚫고 전달물질 중추를 멈추기 위해 결연히 달려가는 사일런스의 모습',
           visuals: [
             {
-              url: '/images/cgs/38_i15_1.png',
+              url: '/images/cgs/38_i15_1.webp',
               caption: '폭주하는 에너지 우물의 초고열 열풍을 뚫고 전달물질 중추를 멈추기 위해 결연히 달려가는 사일런스의 모습',
               type: 'cg',
               triggerLine: 'Stage CW-8 Beat 5: 뜨거운 바람에 얼굴은 타버릴 것만 같았지만……'
             },
             {
-              url: '/images/cgs/38_i15_2.png',
+              url: '/images/cgs/38_i15_2.webp',
               caption: '에너지 우물의 강렬한 발사광 속에서 사일런스의 뒷모습과 크리스틴의 비상을 지켜보며 축복하는 야라 B. 윌슨 주임',
               type: 'cg',
               triggerLine: 'Stage CW-8 Beat 6: 발사 준비는 끝난 것 같네... 크리스틴, 넌 네가 꿈꾸는 높은 하늘로 날아가렴.'
             },
             {
-              url: '/images/cgs/38_i16.png',
+              url: '/images/cgs/38_i16.webp',
               caption: '에너지 우물에서 쏘아 올려진 거대한 빛기둥이 초점 발생기에 적중하는 광경을 거리에서 함께 올려다보는 저스틴 피츠로이 Jr.와 내스티 루노레이',
               type: 'cg',
               triggerLine: 'Stage CW-8 Beat 8: 이건…… 제가 상상한 것보다 아름답군요.'
@@ -601,17 +601,17 @@ export const sidLoneTrail: StoryArchive = {
           title: '원한과 갈등',
           location: '초점 발생기 서비스 모듈 & 에너지 우물 코어실',
           timeMarker: '발사 직전',
-          cgUrl: '/images/cgs/38_i11.png',
+          cgUrl: '/images/cgs/38_i11.webp',
           cgCaption: '고도 5,000m 비행체 창밖의 고에너지를 배경으로 블레이크 대령의 총구 앞에서 과학자로서의 광기 어린 자부심을 외치는 퍼디낸드 클루니',
           visuals: [
             {
-              url: '/images/cgs/38_i11.png',
+              url: '/images/cgs/38_i11.webp',
               caption: '고도 5,000m 비행체 창밖의 고에너지를 배경으로 블레이크 대령의 총구 앞에서 과학자로서의 광기 어린 자부심을 외치는 퍼디낸드 클루니',
               type: 'cg',
               triggerLine: 'Stage CW-9 Beat 8: 권력, 훈장, 국방부에서의 지위…… 가엾게도 그런 것에서 눈을 돌리지 못하는 당신을 비웃고 있지.'
             },
             {
-              url: '/images/cgs/38_i09.png',
+              url: '/images/cgs/38_i09.webp',
               caption: '파르비스의 눈앞 자살 직후 절망에 빠진 사일런스의 멱살을 잡고 눈물로 다그치며 일으켜 세우는 성장한 이프리트',
               type: 'cg',
               triggerLine: 'Stage CW-9 Beat 2: 무슨 소리야, 사일런스! 넌 내가 이 땅에서 본 가장 강한 사람이야!'
@@ -676,47 +676,47 @@ export const sidLoneTrail: StoryArchive = {
       code: 'CW-04',
       location: '스텔라리아 통제탑 및 상공 6,000m 차단층 너머',
       timeline: '테라력 1099년 11월 21일 심야 ~ 12월',
-      cgUrl: '/images/cgs/38_i13.png',
+      cgUrl: '/images/cgs/38_i13.webp',
       cgCaption: '가짜 하늘(차단층)이 찢어지고 두 개의 달과 은하수가 드러난 진짜 밤하늘 아래, 황무지에서 나란히 하늘을 올려다보는 사일런스와 부상당한 사리아',
       visuals: [
         {
-          url: '/images/cgs/38_i08.png',
+          url: '/images/cgs/38_i08.webp',
           caption: '천장이 개방된 스텔라리아의 플라네타륨 사당 안에서 떠다니는 천체 구체들 사이에 마주 선 크리스틴 라이트와 사리아',
           type: 'cg',
           triggerLine: "Stage CW-10 Beat 13: 그 '별'을 저쪽 위치에 놓아줄래, 사리아?"
         },
         {
-          url: '/images/cgs/38_i04.png',
+          url: '/images/cgs/38_i04.webp',
           caption: '스텔라리아 긴급 탈출구 아래로 추락하며 손을 뻗는 사리아와 우주선 위에서 대지를 내려다보며 작별을 고하는 크리스틴 라이트',
           type: 'cg',
           triggerLine: 'Stage CW-10 Beat 11: 사리아…… 너는 늘 내가 이 땅을 제대로 보길 바랐잖아. 난 봤어. 이 땅도…… 너무 아름다워.'
         },
         {
-          url: '/images/cgs/29_i10.png',
+          url: '/images/cgs/29_i10.webp',
           caption: '추락하는 사리아가 크리스틴의 고향 그루터기에서 나눴던 대화를 떠올리는 주마등 회상',
           type: 'cg',
           triggerLine: 'Stage CW-ST-3 Beat 8: 사리아, 뭐가 보여?'
         },
         {
-          url: '/images/cgs/38_i13.png',
+          url: '/images/cgs/38_i13.webp',
           caption: '가짜 하늘(차단층)이 찢어지고 두 개의 달과 은하수가 드러난 진짜 밤하늘 아래, 황무지에서 나란히 하늘을 올려다보는 사일런스와 부상당한 사리아',
           type: 'cg',
           triggerLine: 'Stage CW-ST-3 Beat 10: 먹구름이 걷혔네. 이제 우린 하늘을 더 똑똑히 볼 수 있게 됐어.'
         },
         {
-          url: '/images/cgs/38_i14.png',
+          url: '/images/cgs/38_i14.webp',
           caption: "에너지 우물 대형 스크린에 비친 잭슨 부통령과, 그의 어깨에 앉아 켈시·박사에게 말을 건네는 기계 파울비스트 형태의 대통령 '마크 맥스'",
           type: 'cg',
           triggerLine: 'Stage CW-ST-3 Beat 16: ……대통령. 켈시, 오랜만이군... 우리 아버지는?'
         },
         {
-          url: '/images/cgs/38_i05.png',
+          url: '/images/cgs/38_i05.webp',
           caption: '수분을 소진해 물에 잠긴 라인 랩 본부 생태원 바닥에 가라앉아 있던 뮤엘시스의 손을 박사가 붙잡아 건져 올리는 수중 재회',
           type: 'cg',
           triggerLine: 'Stage CW-ST-3 Beat 20: 박사, 그러다 빠져 죽어…… 내 걱정은 안 해도 돼.'
         },
         {
-          url: '/images/cgs/38_i12.png',
+          url: '/images/cgs/38_i12.webp',
           caption: '차단층 너머 우주의 별바다를 배경으로 스텔라리아의 생명유지 동면 캡슐 안에서 영원한 잠에 빠져드는 개척자 크리스틴 라이트',
           type: 'cg',
           triggerLine: "Stage CW-ST-4 Beat 11: '우주'…… 프리스턴으로부터 처음 이 개념을 알게 되었을 때 나는..."
@@ -730,17 +730,17 @@ export const sidLoneTrail: StoryArchive = {
           title: '별 사이에 흩어져',
           location: '스텔라리아 플라네타륨 관측 브릿지 & 상공 6,000m',
           timeMarker: '차단층 관통 직전',
-          cgUrl: '/images/cgs/38_i08.png',
+          cgUrl: '/images/cgs/38_i08.webp',
           cgCaption: '천장이 개방된 스텔라리아의 플라네타륨 사당 안에서 떠다니는 천체 구체들 사이에 마주 선 크리스틴 라이트와 사리아',
           visuals: [
             {
-              url: '/images/cgs/38_i08.png',
+              url: '/images/cgs/38_i08.webp',
               caption: '천장이 개방된 스텔라리아의 플라네타륨 사당 안에서 떠다니는 천체 구체들 사이에 마주 선 크리스틴 라이트와 사리아',
               type: 'cg',
               triggerLine: "Stage CW-10 Beat 13: 그 '별'을 저쪽 위치에 놓아줄래, 사리아?"
             },
             {
-              url: '/images/cgs/38_i04.png',
+              url: '/images/cgs/38_i04.webp',
               caption: '스텔라리아 긴급 탈출구 아래로 추락하며 손을 뻗는 사리아와 우주선 위에서 대지를 내려다보며 작별을 고하는 크리스틴 라이트',
               type: 'cg',
               triggerLine: 'Stage CW-10 Beat 11: 사리아…… 너는 늘 내가 이 땅을 제대로 보길 바랐잖아. 난 봤어. 이 땅도…… 너무 아름다워.'
@@ -779,29 +779,29 @@ export const sidLoneTrail: StoryArchive = {
           title: '남은 사람들',
           location: '테라 황무지 & 제1통제구역 & 수몰된 생태원',
           timeMarker: '차단층 파괴 직후',
-          cgUrl: '/images/cgs/38_i13.png',
+          cgUrl: '/images/cgs/38_i13.webp',
           cgCaption: '가짜 하늘(차단층)이 찢어지고 두 개의 달과 은하수가 드러난 진짜 밤하늘 아래, 황무지에서 나란히 하늘을 올려다보는 사일런스와 부상당한 사리아',
           visuals: [
             {
-              url: '/images/cgs/29_i10.png',
+              url: '/images/cgs/29_i10.webp',
               caption: '추락하는 사리아가 크리스틴의 고향 그루터기에서 나눴던 대화를 떠올리는 주마등 회상',
               type: 'cg',
               triggerLine: 'Stage CW-ST-3 Beat 8: 사리아, 뭐가 보여?'
             },
             {
-              url: '/images/cgs/38_i13.png',
+              url: '/images/cgs/38_i13.webp',
               caption: '가짜 하늘(차단층)이 찢어지고 두 개의 달과 은하수가 드러난 진짜 밤하늘 아래, 황무지에서 나란히 하늘을 올려다보는 사일런스와 부상당한 사리아',
               type: 'cg',
               triggerLine: 'Stage CW-ST-3 Beat 10: 먹구름이 걷혔네. 이제 우린 하늘을 더 똑똑히 볼 수 있게 됐어.'
             },
             {
-              url: '/images/cgs/38_i14.png',
+              url: '/images/cgs/38_i14.webp',
               caption: "에너지 우물 대형 스크린에 비친 잭슨 부통령과, 그의 어깨에 앉아 켈시·박사에게 말을 건네는 기계 파울비스트 형태의 대통령 '마크 맥스'",
               type: 'cg',
               triggerLine: 'Stage CW-ST-3 Beat 16: ……대통령. 켈시, 오랜만이군... 우리 아버지는?'
             },
             {
-              url: '/images/cgs/38_i05.png',
+              url: '/images/cgs/38_i05.webp',
               caption: '수분을 소진해 물에 잠긴 라인 랩 본부 생태원 바닥에 가라앉아 있던 뮤엘시스의 손을 박사가 붙잡아 건져 올리는 수중 재회',
               type: 'cg',
               triggerLine: 'Stage CW-ST-3 Beat 20: 박사, 그러다 빠져 죽어…… 내 걱정은 안 해도 돼.'
@@ -842,7 +842,7 @@ export const sidLoneTrail: StoryArchive = {
           title: '미래의 문을 열어',
           location: '맥스 특별구 감옥 & 라인 랩 대강당 & 우주 궤도',
           timeMarker: '사태 보름 후',
-          cgUrl: '/images/cgs/38_i12.png',
+          cgUrl: '/images/cgs/38_i12.webp',
           cgCaption: '차단층 너머 우주의 별바다를 배경으로 스텔라리아의 생명유지 동면 캡슐 안에서 영원한 잠에 빠져드는 개척자 크리스틴 라이트',
           summary: '블레이크와 함께 감옥에서 구출된 퍼디낸드가 뒤로 물러나고, 사일런스가 《과학 윤리 선언》을 발표하는 가운데 크리스틴은 우주에서 영원한 동면에 든다.',
           narrativeText: `사태가 수습된 지 보름 뒤, 맥스 특별구 연방 이동감옥. 블레이크 대령과 같은 감방에 수감된 퍼디낸드 클루니는 밀반입한 펜으로 원고지 앞뒷면에 고에너지 물리학 이론을 쉼 없이 써 내려가며, 조용히 최후를 기다리라는 블레이크에게 대지로 진리를 가져갈 사람은 자신이라며 호통을 친다. 직후 복도에서는 라인 랩 비즈니스과 주임 저스틴 피츠로이가 차기 주 지방 검사로 승진할 교도소장을 막대한 부로 매수하여, 퍼디낸드와 블레이크 두 사람을 감옥에서 은밀히 빼돌린다.
@@ -913,17 +913,17 @@ export const sidLoneTrail: StoryArchive = {
         phaseEn: 'Part 1',
         title: '트리마운츠의 암운과 라인 랩의 균열',
         location: '컬럼비아 트리마운츠 라인 랩 본부 및 맥스 특별구',
-        cgUrl: '/images/cgs/38_i07.png',
+        cgUrl: '/images/cgs/38_i07.webp',
         cgCaption: '라인 랩 총괄실에 침입한 오올헤약과 대치하는 뮤엘시스',
         visuals: [
           {
-            url: '/images/cgs/29_i10.png',
+            url: '/images/cgs/29_i10.webp',
             caption: '어린 시절 부모님의 비행기를 바라보는 크리스틴의 기억',
             type: 'cg',
             triggerLine: 'Stage CW-ST-1: 천년만년이 흐른 뒤 인간이 뭇별의 곁을 거닐게 될 때……'
           },
           {
-            url: '/images/cgs/38_i07.png',
+            url: '/images/cgs/38_i07.webp',
             caption: '총괄실의 기밀을 방어하기 위해 물 아츠를 겨누는 뮤엘시스',
             type: 'cg',
             triggerLine: 'Stage CW-ST-1: 그냥 익사시켜서 폐기된 기동 장갑에 넣어버려야겠네.'
@@ -953,23 +953,23 @@ export const sidLoneTrail: StoryArchive = {
         phaseEn: 'Part 2',
         title: '로켄 수조의 유령과 고립된 생태원',
         location: '라인 랩 생태과 지하 특수 구역 및 도심 외곽 골목',
-        cgUrl: '/images/cgs/38_i03.png',
+        cgUrl: '/images/cgs/38_i03.webp',
         cgCaption: '초점 발생기 은신처 입구에서 사리아의 맨주먹에 제압당해 패배를 인정하는 오올헤약',
         visuals: [
           {
-            url: '/images/cgs/38_i03.png',
+            url: '/images/cgs/38_i03.webp',
             caption: '사리아의 맨주먹에 패배한 오올헤약',
             type: 'cg',
             triggerLine: 'Stage CW-6: 이런, 졌네. 꾸밈없고 소박한 힘.'
           },
           {
-            url: '/images/cgs/38_i02.png',
+            url: '/images/cgs/38_i02.webp',
             caption: '대검을 든 로즈몬티스와 심판을 기다리는 로켄',
             type: 'cg',
             triggerLine: 'Stage CW-6: 당신은 로켄이야. 매주 금요일 저녁이면 양육원에 왔어.'
           },
           {
-            url: '/images/cgs/38_i06.png',
+            url: '/images/cgs/38_i06.webp',
             caption: '서로에게 조언을 건네고 각자의 길로 헤어지는 사일런스와 사리아',
             type: 'cg',
             triggerLine: 'Stage CW-6: 사리아, 너의 그런 말을 들으려고 여기 온 게 아니야.'
@@ -999,47 +999,47 @@ export const sidLoneTrail: StoryArchive = {
         phaseEn: 'Part 3',
         title: '호라이즌 아크 발사와 제1통제구역의 보존자',
         location: '트리마운츠 지하 제1통제구역 및 5,000m 상공',
-        cgUrl: '/images/cgs/38_i10.png',
+        cgUrl: '/images/cgs/38_i10.webp',
         cgCaption: '트리마운츠 도심을 뒤흔들며 밤하늘로 치솟는 호라이즌 아크의 거대한 빛기둥',
         visuals: [
           {
-            url: '/images/cgs/38_i10.png',
+            url: '/images/cgs/38_i10.webp',
             caption: '도심 밤하늘로 떠오르는 고리 모양 초점 발생기',
             type: 'cg',
             triggerLine: 'Stage CW-7: 저게…… 뭐지?'
           },
           {
-            url: '/images/cgs/38_i01.png',
+            url: '/images/cgs/38_i01.webp',
             caption: '고고도 점검 비행체 앞에 함께 선 사리아와 퍼디낸드',
             type: 'cg',
             triggerLine: 'Stage CW-7: 비행체 소리?! 퍼디낸드, 저 비행체는 어디서 구한 거지?'
           },
           {
-            url: '/images/cgs/38_i15_1.png',
+            url: '/images/cgs/38_i15_1.webp',
             caption: '에너지 우물의 열풍을 뚫고 달리는 사일런스',
             type: 'cg',
             triggerLine: 'Stage CW-8: 뜨거운 바람에 얼굴은 타버릴 것만 같았지만……'
           },
           {
-            url: '/images/cgs/38_i15_2.png',
+            url: '/images/cgs/38_i15_2.webp',
             caption: '사일런스의 뒷모습과 크리스틴의 비상을 축복하는 야라 주임',
             type: 'cg',
             triggerLine: 'Stage CW-8: 발사 준비는 끝난 것 같네...'
           },
           {
-            url: '/images/cgs/38_i16.png',
+            url: '/images/cgs/38_i16.webp',
             caption: '빛기둥을 함께 올려다보는 저스틴 피츠로이와 내스티 루노레이',
             type: 'cg',
             triggerLine: 'Stage CW-8: 이건…… 제가 상상한 것보다 아름답군요.'
           },
           {
-            url: '/images/cgs/38_i11.png',
+            url: '/images/cgs/38_i11.webp',
             caption: '블레이크 대령의 총구 앞에서 과학자의 자부심을 외치는 퍼디낸드',
             type: 'cg',
             triggerLine: 'Stage CW-9: 권력, 훈장, 국방부에서의 지위…… 가엾게도 그런 것에서 눈을 돌리지 못하는 당신을 비웃고 있지.'
           },
           {
-            url: '/images/cgs/38_i09.png',
+            url: '/images/cgs/38_i09.webp',
             caption: '절망한 사일런스의 멱살을 잡고 눈물로 다그치는 이프리트',
             type: 'cg',
             triggerLine: 'Stage CW-9: 무슨 소리야, 사일런스! 넌 내가 이 땅에서 본 가장 강한 사람이야!'
@@ -1069,47 +1069,47 @@ export const sidLoneTrail: StoryArchive = {
         phaseEn: 'Part 4',
         title: '차단층의 붕괴와 열린 뭇별의 밤하늘',
         location: '스텔라리아 통제탑 및 상공 6,000m 차단층 너머',
-        cgUrl: '/images/cgs/38_i13.png',
+        cgUrl: '/images/cgs/38_i13.webp',
         cgCaption: '가짜 하늘이 걷히고 테라 대륙 전체에 쏟아지는 진짜 별빛과 두 개의 달',
         visuals: [
           {
-            url: '/images/cgs/38_i08.png',
+            url: '/images/cgs/38_i08.webp',
             caption: '플라네타륨 사당 안에서 마주 선 크리스틴과 사리아',
             type: 'cg',
             triggerLine: "Stage CW-10: 그 '별'을 저쪽 위치에 놓아줄래, 사리아?"
           },
           {
-            url: '/images/cgs/38_i04.png',
+            url: '/images/cgs/38_i04.webp',
             caption: '긴급 탈출구 아래로 추락하는 사리아와 작별을 고하는 크리스틴',
             type: 'cg',
             triggerLine: 'Stage CW-10: 사리아…… 너는 늘 내가 이 땅을 제대로 보길 바랐잖아. 난 봤어. 이 땅도…… 너무 아름다워.'
           },
           {
-            url: '/images/cgs/29_i10.png',
+            url: '/images/cgs/29_i10.webp',
             caption: '추락 중 어린 시절 크리스틴과의 대화를 떠올리는 사리아의 주마등',
             type: 'cg',
             triggerLine: 'Stage CW-ST-3: 사리아, 뭐가 보여?'
           },
           {
-            url: '/images/cgs/38_i13.png',
+            url: '/images/cgs/38_i13.webp',
             caption: '차단층이 깨지고 드러난 진짜 밤하늘 아래 나란히 선 사일런스와 사리아',
             type: 'cg',
             triggerLine: 'Stage CW-ST-3: 먹구름이 걷혔네. 이제 우린 하늘을 더 똑똑히 볼 수 있게 됐어.'
           },
           {
-            url: '/images/cgs/38_i14.png',
+            url: '/images/cgs/38_i14.webp',
             caption: '부통령 어깨 위의 기계 새 대통령 마크 맥스와 켈시·박사의 독대',
             type: 'cg',
             triggerLine: 'Stage CW-ST-3: ……대통령. 켈시, 오랜만이군... 우리 아버지는?'
           },
           {
-            url: '/images/cgs/38_i05.png',
+            url: '/images/cgs/38_i05.webp',
             caption: '수몰된 생태원 바닥에 가라앉은 뮤엘시스를 건져 올리는 박사',
             type: 'cg',
             triggerLine: 'Stage CW-ST-3: 박사, 그러다 빠져 죽어…… 내 걱정은 안 해도 돼.'
           },
           {
-            url: '/images/cgs/38_i12.png',
+            url: '/images/cgs/38_i12.webp',
             caption: '차단층 너머 우주에서 영원한 잠에 빠져든 개척자 크리스틴 라이트',
             type: 'cg',
             triggerLine: "Stage CW-ST-4: '우주'…… 프리스턴으로부터 처음 이 개념을 알게 되었을 때 나는..."
@@ -1159,7 +1159,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Silence',
       faction: '라인 랩 / 로도스 아일랜드',
       role: '구조생물학 연구원 / 과학 윤리 선언 발의자',
-      avatarUrl: '/images/characters/silence.png',
+      avatarUrl: '/images/characters/silence.webp',
       description: '라인 랩 전 주임 연구원이자 로도스 아일랜드 협력 연구원. 과학의 무분별한 질주가 초래한 비극을 목격하고, 모든 생명을 지키는 과학 윤리의 기준을 세우고자 헌신한다.',
       statusInChapter: '트리마운츠 사태 개입 및 과학 윤리 선언 발의',
       quote: '하지만 우리가 직면한 진짜 문제는…… 그 이후엔 어떻게 할 건지에 대해서야. 나는 과학이 모든 사람들에게 닿을 수 있게 만들 거야.',
@@ -1171,7 +1171,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Saria',
       faction: '라인 랩 / 독립',
       role: '전 방위과(경비과) 주임 / 라인 랩 공동 창립자',
-      avatarUrl: '/images/characters/saria.png',
+      avatarUrl: '/images/characters/saria.webp',
       description: '라인 랩의 공동 창립자이자 전 방위과(경비과) 주임. 칼슘 경화 아츠와 맨주먹의 힘을 앞세워, 법과 윤리의 경계를 넘어 폭주하는 연구를 단죄하고 통제탑에 직접 뛰어든다.',
       statusInChapter: '통제탑 돌입 및 크리스틴과의 결전 후 생환',
       quote: '맞아, 나는 통제할 수 없는 걸 두려워한다. 하지만 그건 혼돈이 두려워서가 아니라, 혼돈이 가져오는 후퇴가 두려워서야.',
@@ -1183,7 +1183,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Muelsyse',
       faction: '라인 랩',
       role: '생태과 주임 / 엘프',
-      avatarUrl: '/images/characters/muelsyse.png',
+      avatarUrl: '/images/characters/muelsyse.webp',
       description: '라인 랩 생태과 주임이자 테라 대륙 최후의 엘프. 물 분신 아츠를 다루며 종족의 기억과 생태를 복원하고자 하는 오랜 꿈을 품고 크리스틴의 곁을 지켜왔다.',
       statusInChapter: '생태원 방호 및 추락하는 사리아 완충 구조',
       quote: '박사, 그러다 빠져 죽어…… 내 걱정은 안 해도 돼.',
@@ -1195,7 +1195,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Kristen Wright',
       faction: '라인 랩',
       role: '라인 랩 총괄 연구원',
-      avatarUrl: '/images/characters/kristen.png',
+      avatarUrl: '/images/characters/kristen.webp',
       description: '라인 랩의 최고 수장이자 천재 물리학자. 비행 사고로 목숨을 잃은 부모의 유지를 이어, 테라 대륙을 둘러싼 가짜 하늘의 차단층을 돌파해 미지의 우주로 나아가고자 문명 전체를 건 도박을 감행한다.',
       statusInChapter: '스텔라리아 조종 및 차단층 돌파 후 동면',
       quote: '사리아…… 너는 늘 내가 이 땅을 제대로 보길 바랐잖아. 난 봤어. 이 땅도…… 너무 아름다워.',
@@ -1207,7 +1207,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: "Kal'tsit",
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 최고 의료 책임자',
-      avatarUrl: '/images/characters/kaltsit.png',
+      avatarUrl: '/images/characters/kaltsit.webp',
       description: '로도스 아일랜드 의료부 총책임자. 지하 깊은 곳의 선사 문명 유적으로 향해 보존자 트레버 프리스턴과 접견하고, 테라 문명의 보존을 위한 책임을 다한다.',
       statusInChapter: '제1통제구역 진입 및 보존자 접견',
       quote: '박사, 당장 여기를 떠나야 한다. 바로 이 황무지 밑에…… 우리가 찾아야 할 것이 있다.',
@@ -1219,7 +1219,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Doctor',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 전술 지휘관',
-      avatarUrl: '/images/characters/doctor.png',
+      avatarUrl: '/images/characters/doctor.webp',
       description: '체르노보그 석관에서 깨어난 로도스의 지휘관. 지하 제1통제구역에서 보존자로부터 동포이자 창조자로 지목받으며 과거 선사 문명의 기억 편린을 마주한다.',
       statusInChapter: '제1통제구역 탐색 및 보존자 잔재 데이터 인수',
       quote: '로도스 아일랜드는 그런 짓 안 해. 로즈몬티스, 멈춰도 돼.',
@@ -1231,7 +1231,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Ferdinand Clooney',
       faction: '라인 랩',
       role: '전 에너지과 주임',
-      avatarUrl: '/images/characters/ferdinand.png',
+      avatarUrl: '/images/characters/ferdinand.webp',
       description: '라인 랩 전 에너지과 주임. 359호 기지 사태 이후 실각하여 군부와 결탁했으나, 진정한 과학적 진실을 마주하고 대지로 진리를 전하는 역할을 자처한다.',
       statusInChapter: '사리아와 합작 비행 및 감옥에서 연구 지속',
       quote: '그 진리들을 대지로 가져갈 사람은 이 퍼디낸드 클루니야, 멍청한 것아!',
@@ -1243,7 +1243,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Hoolheyak',
       faction: '메이랜더 재단 / 이중 정보원',
       role: '메이랜더 특수요원 / 쿠쿨칸의 후예',
-      avatarUrl: '/images/characters/hoolheyak.png',
+      avatarUrl: '/images/characters/hoolheyak.webp',
       description: '메이랜더 재단 특수요원이자 고대 깃털 뱀(쿠쿨칸)의 기억을 계승한 리베리. 재단을 배신하고 크리스틴·군부와 이중 거래를 진행하며, 보존자에게서 거대한 달의 계시를 확인하고 데이터를 백업해 로도스에 넘긴다.',
       statusInChapter: '사리아에게 패배 후 보존자 데이터 백업 인계',
       quote: '이런, 졌네. 사리아, 이건 어때? 차라리 나를 깔끔하게 죽여 줘.',
@@ -1255,7 +1255,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Trevor Friston',
       faction: '선사 문명 유산 / 제1통제구역',
       role: '보존자 (The Preserver)',
-      avatarUrl: '/images/characters/friston.png',
+      avatarUrl: '/images/characters/friston.webp',
       description: '수만 년 전 구인류 문명의 최후 생존 지성체. 지하 석관의 메인프레임에 자발적으로 의식을 가둔 채 문명의 복원을 기다려왔으며, 스텔라리아에 에너지를 전송하고 기억이 역순 소멸된다.',
       statusInChapter: '박사 접견 후 에너지 방출로 인한 소멸',
       quote: '명령이다. 대답해라, 하인이여…… 우리 뜻대로 되는 건 하나도 없는 것 같군.',
@@ -1267,8 +1267,8 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Parvis',
       faction: '라인 랩',
       role: '구조과 주임 / 노학자',
-      avatarUrl: '/images/characters/parvis.png',
-      illustUrl: '/images/characters/illust/parvis.png',
+      avatarUrl: '/images/characters/parvis.webp',
+      illustUrl: '/images/characters/illust/parvis.webp',
       description: '사일런스의 스승이자 라인 랩 구조과의 원로 주임. 노화와 치매로 지적 능력이 쇠퇴해가는 공포 속에서, 스텔라리아를 안정화하기 위해 스스로 전달물질에 융합되어 사망한다.',
       statusInChapter: '전달물질 융합 자살 및 사망',
       quote: '적어도 이러는 게, 무능한 치매 노인이 되는 것보다는…… 훨씬 나을 게야.',
@@ -1280,8 +1280,8 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Loken Williams',
       faction: '전 로켄 수조 연구소',
       role: '수조 연구소 소장',
-      avatarUrl: '/images/characters/loken.png',
-      illustUrl: '/images/characters/illust/loken.png',
+      avatarUrl: '/images/characters/loken.webp',
+      illustUrl: '/images/characters/illust/loken.webp',
       description: '로즈몬티스의 뇌 수술을 집도했던 광기의 과학자. 석관 역설계로 동면 캡슐을 완성한 뒤, 열린 밤하늘 아래서 로즈몬티스의 심판을 받으며 숨을 거둔다.',
       statusInChapter: '석관 역설계 후 열린 하늘 아래서 사망',
       quote: '부탁이다, 기억을 떠올리거라. 나에 대한 원망을 떠올려서, 네 몸과 머리, 그리고 정신을 분노로 가득 채우거라!',
@@ -1293,7 +1293,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Tin Man',
       faction: '메이랜더 재단',
       role: '재단 대표 대리 / 컬럼비아의 막후',
-      avatarUrl: '/images/characters/tinman.png',
+      avatarUrl: '/images/characters/tinman.webp',
       description: '컬럼비아의 보이지 않는 질서를 통제하는 메이랜더 재단의 핵심 실력자. 오올헤약과 내스티에게 참수당했으나 새 의체로 부활하여 오올헤약을 제압한다.',
       statusInChapter: '참수 패배 후 부활하여 오올헤약 제압',
       quote: '나 같은 늙은이에게 시간은 언제나 너무 빠르게 흘러가죠.',
@@ -1305,7 +1305,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Rosmontis',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터',
-      avatarUrl: '/images/characters/rosmontis.png',
+      avatarUrl: '/images/characters/rosmontis.webp',
       description: '과거 로켄 수조의 끔찍한 인체 실험 피해자. 로켄을 향한 증오를 이겨내고 그에게 진정한 사형을 선고한 뒤, 숨을 거둔 로켄을 기억에서 영원히 지운다.',
       statusInChapter: '로켄 심판 유예 및 트라우마 극복',
       quote: '법과 감옥이 당신을 심판할 수 없다면, 내가 당신에게 사형을 선고하겠어. 하지만 지금은 아니야.',
@@ -1317,7 +1317,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Ifrit',
       faction: '로도스 아일랜드',
       role: '캐스터 오퍼레이터',
-      avatarUrl: '/images/characters/ifrit.png',
+      avatarUrl: '/images/characters/ifrit.webp',
       description: '라인 랩의 비인도적 실험으로 태어난 화염의 아이. 로즈몬티스를 끌어안아 증오를 멈추게 하고, 파르비스의 자살로 절망한 사일런스의 멱살을 잡고 일으켜 세우며 진정한 어른으로 성장한다.',
       statusInChapter: '로즈몬티스 구원 및 사일런스 격려',
       quote: '무슨 소리야, 사일런스! 넌 내가 이 땅에서 본 가장 강한 사람이야!',
@@ -1329,7 +1329,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Yara B. Wilson',
       faction: '라인 랩 / 인적자원조사과',
       role: '인적자원조사과 주임',
-      avatarUrl: '/images/characters/yara.png',
+      avatarUrl: '/images/characters/yara.webp',
       description: '라인 랩 인적자원조사과 주임이자 메이랜더 재단의 핵심 요원(과거 대배우 마리안 블레이크). 냉철한 통찰력으로 사태를 조망하며 부통령 암살을 막고 사일런스를 축복한다.',
       statusInChapter: '부통령 구출 및 에너지 우물에서 사일런스 축복',
       quote: '발사 준비는 끝난 것 같네... 크리스틴, 넌 네가 꿈꾸는 높은 하늘로 날아가렴.',
@@ -1341,7 +1341,7 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Nasti Lunorei',
       faction: '라인 랩 / 엔지니어링과',
       role: '엔지니어링과 주임',
-      avatarUrl: '/images/characters/nasty.png',
+      avatarUrl: '/images/characters/nasty.webp',
       description: '라인 랩 엔지니어링과 주임이자 살카즈 밴시. 천재적인 공학자로서 호라이즌 아크와 스텔라리아의 비행 추진 시스템을 직접 설계하여 크리스틴의 도약을 지원한다.',
       statusInChapter: '초점 발생기 추진 엔진 설계 및 발사 지원',
       quote: '……성공이다.',
@@ -1353,8 +1353,8 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Conrad Jackson',
       faction: '컬럼비아 연방 정부',
       role: '컬럼비아 연방 부통령',
-      avatarUrl: '/images/characters/jackson.png',
-      illustUrl: '/images/characters/illust/jackson.png',
+      avatarUrl: '/images/characters/jackson.webp',
+      illustUrl: '/images/characters/illust/jackson.webp',
       description: '컬럼비아 연방의 부통령. 차기 대권을 노리며 라인 랩을 공식 시찰하던 중 암살 위기에 처하나 회피하며, 어깨 위의 기계 새 대통령 마크 맥스와 함께 통치한다.',
       statusInChapter: '라인 랩 공식 시찰 및 암살 위기 탈출',
       quote: '이건 정치적 사고다, 정치적 사고라고! 내 참모들, 어서 보고서를 가져와!',
@@ -1366,8 +1366,8 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Justin FitzRoy',
       faction: '라인 랩 / 비즈니스과',
       role: '비즈니스과 주임',
-      avatarUrl: '/images/characters/justin.png',
-      illustUrl: '/images/characters/illust/justin.png',
+      avatarUrl: '/images/characters/justin.webp',
+      illustUrl: '/images/characters/illust/justin.webp',
       description: '라인 랩 비즈니스과 주임. 피츠로이 가문의 일원이자 계산적이고 실리적인 인물로, 30번 죄수(로켄)를 석방시키고 크리스틴의 프로젝트와 컬럼비아 정계의 흐름을 주시한다.',
       statusInChapter: '로켄 석방 주도 및 전황 관망',
       quote: '당신의 병에 대한 특효약은 바로…… 권력과 부입니다. 효과는 백 프로 장담합니다, 라인 랩의 이름으로.',
@@ -1379,8 +1379,8 @@ export const sidLoneTrail: StoryArchive = {
       nameEn: 'Blake',
       faction: '컬럼비아 국방부',
       role: '국방부 대령',
-      avatarUrl: '/images/characters/blake.png',
-      illustUrl: '/images/characters/illust/blake.png',
+      avatarUrl: '/images/characters/blake.webp',
+      illustUrl: '/images/characters/illust/blake.webp',
       description: '컬럼비아 국방부 소속 대령. 국가 군사력 강화를 위해 라인 랩의 기술과 슈퍼 무기를 손에 넣으려 특수부대를 이끌고 본부를 기습 점거한다.',
       statusInChapter: '라인 랩 본부 기습 점거 지휘',
       quote: '모니터를 봐라. 퍼디낸드가 제공한 침입 노선에 따르면 서쪽에 에너지과 전용 배관이 있다. 전 부대 돌입하라.',

@@ -2241,10 +2241,12 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                     </div>
 
                                     <div className="space-y-4 pl-3 border-l border-white/[0.1]">
-                                      {act.stages.map((st) => (
+                                      {act.stages.map((st, stIdx) => (
                                         <div
                                           key={st.stageCode}
-                                          className="p-5 rounded-[2px] bg-[#141519] border border-white/[0.07] space-y-4"
+                                          className={`p-5 rounded-[2px] bg-[#141519] border border-white/[0.07] space-y-4 ${
+                                            stIdx >= 2 ? 'prts-cv-auto' : ''
+                                          }`}
                                         >
                                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
                                             <div className="flex items-center gap-2.5 min-w-0 flex-1">

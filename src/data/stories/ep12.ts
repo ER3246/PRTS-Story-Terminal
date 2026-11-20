@@ -9,7 +9,7 @@ export const episode12: StoryArchive = {
   titleKo: '천둥 속의 고요',
   titleEn: 'All Quiet Under the Thunder',
   order: 12,
-  bannerImage: '/images/story_covers/ep12.png',
+  bannerImage: '/images/story_covers/ep12.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -150,7 +150,7 @@ export const episode12: StoryArchive = {
       focalCharacter: '시즈 & 골딩 & 레토 & 아스카론',
       location: '빅토리아 고속 전함 갑판, 런디니움 노포트 구 외곽, 자경단 지하 기지, 11번 군수 공장 폐허',
       timeline: '1098년 5월 하순',
-      cgUrl: '/images/cgs/37_i01_1.png',
+      cgUrl: '/images/cgs/37_i01_1.webp',
       cgCaption: '질주하는 고속 전함 갑판 위에서 더 샤드 빌딩 상공의 먹구름과 비행선을 바라보는 빅토리아 군관과 병사',
       stages: [
         {
@@ -160,13 +160,13 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 5월 하순',
           visuals: [
             {
-              url: '/images/cgs/37_i01_1.png',
+              url: '/images/cgs/37_i01_1.webp',
               caption: '질주하는 빅토리아 고속 전함 갑판 위에서 더 샤드 빌딩 꼭대기를 바라보는 군관과 젊은 병사',
               type: 'cg',
               triggerLine: '그들이 주둔하는 이동식 요새는 벌써 런디니움 주변까지 이르렀다.'
             },
             {
-              url: '/images/cgs/37_i01_2.png',
+              url: '/images/cgs/37_i01_2.webp',
               caption: '더 샤드 빌딩 상공에 나타난 살카즈 대형 무장 공중 비행선과 휘몰아치는 재앙의 번개',
               type: 'cg',
               triggerLine: '재앙의 폭풍과 번개 속에서 거대한 비행선의 윤곽이 모습을 드러냈다.'
@@ -216,13 +216,13 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 5월 하순',
           visuals: [
             {
-              url: '/images/cgs/37_i14.png',
+              url: '/images/cgs/37_i14.webp',
               caption: '런디니움 도시 주체에서 기술적인 이유로 분리되어 외곽에 고립된 노포트 구의 정밀 정보 분석 화면',
               type: 'cg',
               triggerLine: '원거리 관측 소대에서 현장을 촬영한 여러 장의 사진을 제공했습니다.'
             },
             {
-              url: '/images/cgs/37_i02.png',
+              url: '/images/cgs/37_i02.webp',
               caption: '노포트 구 외곽 전선에 배치된 윈더미어 공작의 이동식 요새 "갈라바에 철 방패"의 정찰 사진',
               type: 'cg',
               triggerLine: '정보원은 최근 8시간 동안 윈더미어 공작의 이동식 요새인 갈라바에 철 방패의 이상한 배치전환을 포착했습니다.'
@@ -260,7 +260,7 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 5월 하순',
           visuals: [
             {
-              url: '/images/cgs/37_i09.png',
+              url: '/images/cgs/37_i09.webp',
               caption: '어둠 속에서 그림자 단검을 겨누며 캐스터 공작의 대행자 \'회색 모자\'를 기습·대치하는 이네스',
               type: 'cg',
               triggerLine: '분위기가 팽팽하네, 내가 잘못 찾아왔나? / \'회색 모자\' 씨, 준비가 아주 철저하시네요.'
@@ -384,7 +384,7 @@ export const episode12: StoryArchive = {
       focalCharacter: '시즈 & 베어드 & 델핀 & 켈시',
       location: '노포트 구 차단벽 거리, 글래스고 옛 복싱장 아지트, 세인트 마르솔 학교, 후송 차량',
       timeline: '1098년 5월 말',
-      cgUrl: '/images/cgs/37_i03.png',
+      cgUrl: '/images/cgs/37_i03.webp',
       cgCaption: '어둠 속에서 글래스고 옛 아지트의 낡은 소파를 어루만지며 과거 한나, 모건, 베어드와의 추억을 회상하는 시즈',
       stages: [
         {
@@ -493,7 +493,7 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 5월 말',
           visuals: [
             {
-              url: '/images/cgs/37_i03.png',
+              url: '/images/cgs/37_i03.webp',
               caption: '어둠 속에서 글래스고 옛 아지트의 낡은 소파를 어루만지며 과거 한나, 모건, 베어드와의 추억을 회상하는 시즈',
               type: 'cg',
               triggerLine: '시즈는 그런 날들이 영원할 거라고 믿었었다. 여기는 그녀들의 글래스고이자 집이다.'
@@ -562,7 +562,7 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 5월 말',
           visuals: [
             {
-              url: '/images/cgs/37_i05.png',
+              url: '/images/cgs/37_i05.webp',
               caption: '은신처에서 창밖을 응시하며 W에게 "가끔은 지칠 때가 있다"고 쓸쓸히 털어놓는 켈시',
               type: 'cg',
               triggerLine: '하지만 가끔…… 지칠 때는 있지.'
@@ -606,7 +606,7 @@ export const episode12: StoryArchive = {
       focalCharacter: '델핀 & 이네스 & 아미야 & 에블라나',
       location: '노포트 구 낡은 호텔 로비, 폐허 골목, 노포트 공중 독(Airship Dock), 거대 비행선 격납고',
       timeline: '1098년 5월 말 ~ 6월 초',
-      cgUrl: '/images/cgs/37_i04.png',
+      cgUrl: '/images/cgs/37_i04.webp',
       cgCaption: '아무도 남지 않은 텅 빈 옛 방에서 "왕의 숨결" 칼자루를 쥐고 홀로 고뇌하는 시즈',
       stages: [
         {
@@ -672,7 +672,7 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 5월 말',
           visuals: [
             {
-              url: '/images/cgs/37_i04.png',
+              url: '/images/cgs/37_i04.webp',
               caption: '친구들이 떠난 텅 빈 방에서 국가의 보검 "왕의 숨결" 칼자루를 쥐고 홀로 고뇌하는 시즈',
               type: 'cg',
               triggerLine: '시즈는 본인의 우유부단함이 이렇게 원망스러운 적은 처음이었다.'
@@ -741,13 +741,13 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 6월 초',
           visuals: [
             {
-              url: '/images/cgs/37_i10.png',
+              url: '/images/cgs/37_i10.webp',
               caption: '거대한 비행선 공중 독에서 마왕의 왕관과 고대 살카즈 원혼(레버넌트)의 분노를 정면으로 마주하며 올려다보는 아미야',
               type: 'cg',
               triggerLine: '뒤틀린 키메라…… 이종족 마왕이라고?! 네가 뭔데 그 왕관을 갖고 있는 것이냐? / 당신 말이 맞아요, 레버넌트. 저는 봤어야 했고, 이제 봤어요.'
             },
             {
-              url: '/images/cgs/37_i06.png',
+              url: '/images/cgs/37_i06.webp',
               caption: '불타는 공중 독 상공에서 에블라나의 생명의 불꽃에 포위되어 난색을 표하는 다마즈티 클러스터',
               type: 'cg',
               triggerLine: '드라코, 넌 정말 흥을 깨는 데 선수라니까. 그럼 나랑 수다를 떠는 건 어때?'
@@ -803,7 +803,7 @@ export const episode12: StoryArchive = {
       focalCharacter: '이네스 & 외드레르 & W & 골딩 & 다마즈티 & 나흐체러르 킹',
       location: '세인트 마르솔 학교 교실, 노포트 구 상공, 전장 폐허, 윈더미어 공작 기함, 런디니움 외곽 황야',
       timeline: '1098년 6월 초',
-      cgUrl: '/images/cgs/37_i08.png',
+      cgUrl: '/images/cgs/37_i08.webp',
       cgCaption: '살카즈 군대의 포화와 화마를 뚫고 흙먼지와 그을음투성이가 되어 재회한 바벨 삼총사(외드레르, W, 이네스)',
       stages: [
         {
@@ -856,7 +856,7 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 6월 초',
           visuals: [
             {
-              url: '/images/cgs/37_i11.png',
+              url: '/images/cgs/37_i11.webp',
               caption: '평화롭게 숨을 거둔 교사 골딩의 소원을 받아들여 그녀의 모습으로 변신하며 슬픔을 배우는 다마즈티',
               type: 'cg',
               triggerLine: '제 모습으로 변해주세요, 다마즈티. 오해하지 마, 골딩. 우리는 네 감정을 더 잘 느끼고 싶은 것뿐이야.'
@@ -894,7 +894,7 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 6월 초',
           visuals: [
             {
-              url: '/images/cgs/37_i07.png',
+              url: '/images/cgs/37_i07.webp',
               caption: '노포트 구 상공 수백 미터에서 허공으로 몸을 던져 그림자 아츠로 전장의 모든 활로를 꿰뚫어 보는 이네스',
               type: 'cg',
               triggerLine: '이 높이여야만 그녀의 눈길이 닿는 거대한 그림자를 스스로 통제할 수 있었다.'
@@ -926,13 +926,13 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 6월 초',
           visuals: [
             {
-              url: '/images/cgs/37_i08.png',
+              url: '/images/cgs/37_i08.webp',
               caption: '포화와 흙먼지를 뒤집어쓴 채 서로의 얼굴을 바라보며 쓴웃음을 짓는 바벨 용병 삼총사(외드레르, W, 이네스)',
               type: 'cg',
               triggerLine: '이렇게 초라한 모습을 얼마 만에 보는 거지, 이네스? 장담하는데 앞으로 다시는 볼 일 없을 거야.'
             },
             {
-              url: '/images/cgs/37_i12.png',
+              url: '/images/cgs/37_i12.webp',
               caption: '아미야의 앞에 나타나 "꼬마 이종족 마왕, 넌 어디를 향해 갈 거야?"라고 묻는 다마즈티 클러스터의 분신',
               type: 'cg',
               triggerLine: '꼬마 이종족 마왕, 넌 어디를 향해 갈 거야? 널 믿고 따르는 사람들을 어디로 데려갈 거야?'
@@ -1020,13 +1020,13 @@ export const episode12: StoryArchive = {
           timeMarker: '1098년 6월 초',
           visuals: [
             {
-              url: '/images/cgs/37_i13.png',
+              url: '/images/cgs/37_i13.webp',
               caption: '재앙의 구름 아래 왕좌에 앉아 흔들림 없는 부식의 대군을 내려다보는 살카즈 십왕정의 최고령 군주 나흐체러르 킹',
               type: 'cg',
               triggerLine: '나흐체러르 킹은 그의 왕좌에 앉아서 자신의 대군을 내려다보고 있다.'
             },
             {
-              url: '/images/cgs/avg_ep12.png',
+              url: '/images/cgs/avg_ep12.webp',
               caption: 'EPISODE 12 경천동지(All Quiet Under the Thunder) 종막 공식 로고 엠블럼',
               type: 'cg',
               triggerLine: '재앙의 천둥소리가 멎은 전장 위로 고요한 폭풍의 전야가 찾아왔다.'
@@ -1084,7 +1084,7 @@ export const episode12: StoryArchive = {
         phaseEn: 'Part 1',
         title: '고립된 노포트 구와 선의의 배신',
         location: '빅토리아 고속 전함 갑판, 런디니움 노포트 구 외곽, 자경단 지하 기지, 11번 군수 공장',
-        cgUrl: '/images/cgs/37_i01_1.png',
+        cgUrl: '/images/cgs/37_i01_1.webp',
         cgCaption: '질주하는 고속 전함 갑판 위에서 더 샤드 빌딩 상공의 먹구름과 비행선을 바라보는 빅토리아 군관과 병사',
         summary: '살카즈 군사위원회의 대형 무장 비행선이 윈더미어 공작의 고속 전함을 격침하고 노포트 구가 분리·고립된다. 레토 중령이 골딩에게 자경단 정보 유출을 폭로하는 가운데 캐스터 측 대행자가 로도스에게 설계도 탈취를 강요하고, 하이버리 구에서는 노동자들이 문을 닫아 피스트와 락락을 살린다.',
         narrativeText: '살카즈 군사위원회가 건조한 대형 무장 비행선이 더 샤드 빌딩 상공에 출현해 윈더미어 공작의 고속 전함을 시험 포격으로 격침하고, 노포트 구가 런디니움 본체에서 분리·고립된다. 레토 중령은 오슈테리그 구의 교사 골딩에게 자경단 거점 괴멸이 그녀의 편지와 변장한 다마즈티(\'몰리\') 때문이었음을 폭로하고, 아스카론이 어둠 속에서 박사를 탈출시키는 가운데 캐스터 공작의 대행자 \'회색 모자\'가 로도스와 시즈에게 노포트 구의 비행선 설계도 탈취 거래를 강요한다. 하이버리 구 지하 철수 과정에서는 11번 공장 직원들이 문을 잠가 피스트와 락락을 살리고 클로비시아와 캐서린이 문 반대편에 고립된다.',
@@ -1104,7 +1104,7 @@ export const episode12: StoryArchive = {
         phaseEn: 'Part 2',
         title: '굶주린 거리, 옛 추억과 부서진 이상',
         location: '노포트 구 차단벽 거리, 글래스고 옛 복싱장 아지트, 세인트 마르솔 학교, 후송 트럭',
-        cgUrl: '/images/cgs/37_i03.png',
+        cgUrl: '/images/cgs/37_i03.webp',
         cgCaption: '어둠 속에서 글래스고 옛 아지트의 낡은 소파를 어루만지며 과거 한나, 모건, 베어드와의 추억을 회상하는 시즈',
         summary: '봉쇄된 노포트 구에서 기근과 폭동이 일어나는 가운데 리유니온의 레드가 감염자들을 규합하고, 시즈 일행은 옛 아지트 복싱장에서 베어드 및 델핀과 재회한다. 차단벽 밖에서 켈시가 의식을 회복하는 사이, 델핀은 호텔 소형 통신기지로 구원 신호를 보낼 계획을 제안한다.',
         narrativeText: '봉쇄된 노포트 구에서 극심한 식량 기근과 약탈이 벌어지고, 신생 리유니온의 \'붉은 검\' 레드가 감염자들을 규합한다. 차단벽 밖에서는 W와 샤이닝, 나이팅게일(리즈)이 중태에 빠진 켈시를 트럭으로 후송해 의식을 회복시키고, 노포트 구 내부로 진입한 시즈 일행은 옛 아지트인 \'어퍼컷\' 복싱장에서 오랜 친구 베어드, 그리고 신분을 숨긴 델핀과 재회한다. 선셋 스트리트 호텔의 살카즈 지배인 콜버트와 도어맨 퍼시벌이 내보낸 식량 수레로 인해 거리 폭동이 일어나자, 델핀은 호텔 안의 소형 통신기지로 대공작에게 구원 신호를 보낼 계획을 제안한다.',
@@ -1130,7 +1130,7 @@ export const episode12: StoryArchive = {
         phaseEn: 'Part 3',
         title: '윈더미어의 혈통, 비행선의 그림자',
         location: '호텔 로비 임시 진료소, 창고 안쪽, 공중 독 격납고, 비행선 진입로',
-        cgUrl: '/images/cgs/37_i04.png',
+        cgUrl: '/images/cgs/37_i04.webp',
         cgCaption: '친구들이 떠난 텅 빈 옛 방에서 국가의 보검 "왕의 숨결" 칼자루를 쥐고 홀로 고뇌하는 시즈',
         summary: '이네스가 델핀의 정체를 간파하고 회색 모자가 더블린의 교관과 결탁해 국검 왕의 숨결을 노리는 가운데, 지배인 콜버트가 호텔에 불을 질러 구원 신호를 올린다. 공중 독 격납고에서는 아미야의 마왕 공명과 에블라나의 보랏빛 화염이 격돌한다.',
         narrativeText: '급성 감염자가 속출하는 호텔 임시 진료소에서 이네스는 델핀이 윈더미어 공작의 딸이자 후계자임을 간파한다. 시즈가 텅 빈 복싱장에서 \'왕의 숨결\' 칼자루를 쥐고 고뇌하는 사이, 박사가 캐스터 공작의 장기말 노릇을 거부하자 \'회색 모자\'는 더블린 붉은 강철 경비대 지휘관 \'교관\'과 결탁해 시즈의 국검을 노린다. 호텔 통신기지가 이미 사라진 절체절명의 상황에서 노인 콜버트가 자신이 평생 가꾼 선셋 스트리트 호텔에 스스로 불을 질러 거대한 연기 기둥으로 구원 신호를 올리고, 공중 독 격납고에서는 비행선 동력원의 고대 원혼 레버넌트의 분노를 마주한 아미야의 마왕 공명과 더블린 수장 에블라나의 보랏빛 화염이 격돌한다.',
@@ -1156,7 +1156,7 @@ export const episode12: StoryArchive = {
         phaseEn: 'Part 4',
         title: '진지한 초대, 고요한 전장',
         location: '세인트 마르솔 학교 교실, 살카즈 비행선 상공 갑판, 전장 폐허, 런디니움 외곽 황야',
-        cgUrl: '/images/cgs/37_i08.png',
+        cgUrl: '/images/cgs/37_i08.webp',
         cgCaption: '포화와 흙먼지를 뒤집어쓴 채 서로의 얼굴을 바라보며 쓴웃음을 짓는 바벨 용병 삼총사(외드레르, W, 이네스)',
         summary: '시즈와 델핀이 수천 명의 난민과 함께 차단벽을 무너뜨려 탈출하지만 베어드는 매클래런의 손에 숨을 거둔다. 골딩의 죽음과 로고스의 문답을 거친 다마즈티가 두 생명으로 거듭나고, 이네스가 바벨 동료들과 재회하는 뒤로 나흐체러르 킹의 부식 대군이 모습을 드러낸다.',
         narrativeText: '공중 독의 격전과 호텔의 연기 기둥을 신호로 시즈와 델핀이 수천 명의 난민들과 함께 차단벽을 맨손으로 밀어 무너뜨리고 탈출하지만, 홀로 비디오룸 사장 매클래런을 구하러 돌아간 베어드는 광기에 빠진 매클래런의 칼에 찔려 벽면에 "나도 바란다."라는 유언을 남기고 숨을 거둔다. 같은 시각 오슈테리그 구 세인트 마르솔 학교에서는 죄책감에 무너진 골딩이 다마즈티 앞에서 스스로 목숨을 끊고, 비행선 수백 미터 상공 갑판에서 뛰어내린 이네스는 외드레르·W와 재회한다. 골딩의 죽음과 로고스의 말에 감화된 다마즈티가 모든 분신을 동시에 소멸시키고 두 명의 새 생명으로 거듭나는 가운데, 런디니움 외곽 황야에는 나흐체러르 킹의 부식 대군이 모습을 드러낸다.',
@@ -1199,8 +1199,8 @@ export const episode12: StoryArchive = {
       description: '하이버리 11번 군수 공장의 원로 엔지니어이자 피스트의 할머니. 안전가옥 습격 이후 지하 점검 통로를 통해 철수하던 중, 도시를 떠나기 두려워한 공장 노동자들이 방폭 대문을 안에서 잠그면서 클로비시아와 함께 문 반대편에 고립된다.',
       quote: '피스트, 예전에는 가끔 이런 생각을 했어…… 사실 우리는 운이 꽤 좋은 거라고. 우리도 고통을 겪었고 치유되지 않는 상처도 있어…… 하지만 내일 누굴 죽일지, 아니면 누구한테 죽임을 당할지 걱정할 필요는 없었어.',
       statusInChapter: '하이버리 구 지하 점검 통로 철수 중 문 반대편에 고립되어 클로비시아와 함께 런디니움에 남겨짐',
-      avatarUrl: '/images/characters/catherine.png',
-      illustUrl: '/images/characters/illust/catherine.png'
+      avatarUrl: '/images/characters/catherine.webp',
+      illustUrl: '/images/characters/illust/catherine.webp'
     },
     {
       id: 'gray_hat',
@@ -1211,8 +1211,8 @@ export const episode12: StoryArchive = {
       description: '캐스터 공작을 섬기는 냉혹한 대행자. 로도스 본함의 은폐 위치를 미끼로 박사와 시즈를 협박해 노포트 구의 살카즈 비행선 설계도를 탈취하게 만들고, 박사가 통제를 거부하자 더블린의 \'교관\'과 결탁해 국검을 넘기려 한다.',
       quote: '아주 시원시원하군, 로도스 아일랜드의 박사. 알렉산드리나의 단말기로 이미 안전한 곳의 위치를 보냈으니 거기서 대기해. 계획을 벗어난 행동은 내가 안전을 책임질 수 없으니까.',
       statusInChapter: '로도스 본함 위치를 빌미로 비행선 설계도 탈취 강요 및 더블린 \'교관\'과 국검 뒷거래',
-      avatarUrl: '/images/characters/gray_hat.png',
-      illustUrl: '/images/characters/illust/gray_hat.png'
+      avatarUrl: '/images/characters/gray_hat.webp',
+      illustUrl: '/images/characters/illust/gray_hat.webp'
     },
     {
       id: 'soldier',
@@ -1247,8 +1247,8 @@ export const episode12: StoryArchive = {
       description: '살카즈 대형 무장 비행선의 동력원에 깃든 고대 살카즈의 원혼. 공중 독에 침입한 아미야의 머리 위에 마왕의 왕관이 떠오른 것을 보고 이종족 키메라 마왕이라며 극도의 분노를 터뜨린다.',
       quote: '뒤틀린 키메라…… 이종족 마왕이라고?! 으하하하, 내 앞에 이종족 마왕이 서 있다니?!! 네가 뭔데 그 왕관을 갖고 있는 것이냐? 네가 뭔데 이러한 고통과 함께 서 있는 것이냐?',
       statusInChapter: '공중 독에서 원혼 그림자 장벽 전개 및 이종족 마왕 아미야에게 격분',
-      avatarUrl: '/images/characters/revenant.png',
-      illustUrl: '/images/characters/illust/revenant.png'
+      avatarUrl: '/images/characters/revenant.webp',
+      illustUrl: '/images/characters/illust/revenant.webp'
     },
     {
       id: 'dublinn_officer',
@@ -1271,8 +1271,8 @@ export const episode12: StoryArchive = {
       description: '윈더미어 공작의 외동딸이자 후계자. 신분을 숨긴 채 노포트 구에서 베어드, 카도르와 함께 시민들을 구호하다가 이네스에게 정체를 들킨 뒤, 로도스 아일랜드 및 시즈와 협력해 난민들을 이끌고 어머니의 함대로 탈출시킨다.',
       quote: '저 사람은 \'회색 모자\'잖아. 너희 뒤에 있는 건 캐스터 공작이구나. 걱정하지 마. 윈더미어 공작은 왕의 숨결에 관심 없으니까. 내가 장담할 수 있어.',
       statusInChapter: '노포트 구 난민 구호 및 어머니 윈더미어 공작 함대와의 합류 성사',
-      avatarUrl: '/images/characters/delphine.png',
-      illustUrl: '/images/characters/illust/delphine.png'
+      avatarUrl: '/images/characters/delphine.webp',
+      illustUrl: '/images/characters/illust/delphine.webp'
     },
     {
       id: 'siege',
@@ -1283,8 +1283,8 @@ export const episode12: StoryArchive = {
       description: '국검 \'왕의 숨결\'을 품고 노포트 구로 돌아와 옛 친구 베어드와 재회한다. 자신의 자격을 두고 고뇌했으나 수천 명의 난민들과 함께 맨손으로 차단벽을 밀어 무너뜨리고 탈출을 이끌며, 베어드의 비극적인 죽음 앞에 전함 갑판에서 뜨거운 눈물을 흘린다.',
       quote: '다들 우리를 믿어서 내 뒤에 서기로 한 게 아니야. 그저…… 갈 곳이 없는 것뿐이지. ……난 그냥…… 재가 눈에 들어가서 그래.',
       statusInChapter: '노포트 구 난민 대탈출 선봉 지휘 및 친구 베어드의 죽음에 오열',
-      avatarUrl: '/images/characters/siege.png',
-      illustUrl: '/images/characters/illust/siege.png'
+      avatarUrl: '/images/characters/siege.webp',
+      illustUrl: '/images/characters/illust/siege.webp'
     },
     {
       id: 'baird',
@@ -1295,8 +1295,8 @@ export const episode12: StoryArchive = {
       description: '시즈, 인드라, 모건의 옛 글래스고 동료. 노포트 구가 분리된 후에도 \'어퍼컷\' 복싱장을 지키며 시즈 일행과 재회했으나, 대탈출 직전 청각장애가 있는 비디오룸 사장 매클래런을 구하러 홀로 돌아갔다가 빈 통조림에 눈이 먼 매클래런의 칼에 찔리고 버터플라이 나이프를 빼앗긴다. 죽어가는 몸으로 문장학자의 벽면 유언 끝에 "나도 바란다."라는 네 글자를 남기고 숨을 거둔다.',
       quote: '매클래런, 하, 진짜 너무하네. 티켓값 외상한 적도 없을 텐데. 빨리…… 애들이랑 합류해야 해. 비나는…… 늘 걱정이 많으니까.',
       statusInChapter: '노포트 구 \'어퍼컷\' 복싱장 사수 및 매클래런 구출 시도 중 피살 ("나도 바란다." 유언)',
-      avatarUrl: '/images/characters/baird.png',
-      illustUrl: '/images/characters/illust/baird.png'
+      avatarUrl: '/images/characters/baird.webp',
+      illustUrl: '/images/characters/illust/baird.webp'
     },
     {
       id: 'cador',
@@ -1307,8 +1307,8 @@ export const episode12: StoryArchive = {
       description: '노포트 구에서 베어드, 델핀과 함께 고립된 시민들을 돌보던 성실한 자경단 대원. 폭도들의 습격과 기근 속에서도 베어드를 끝까지 보좌하며 시민들을 구호하고, 차단벽 돌파 작전에서 난민 대열의 후방을 지킨다.',
       quote: '베어드는 내 동료니까 당연히 내가 책임져야지.',
       statusInChapter: '노포트 구 복싱장 거점 방어 및 난민 대피 유도',
-      avatarUrl: '/images/characters/cador.png',
-      illustUrl: '/images/characters/illust/cador.png'
+      avatarUrl: '/images/characters/cador.webp',
+      illustUrl: '/images/characters/illust/cador.webp'
     },
     {
       id: 'golding',
@@ -1319,8 +1319,8 @@ export const episode12: StoryArchive = {
       description: '오슈테리그 구 세인트 마르솔 학교의 교사이자 자경단 정보원. 자신이 믿었던 동료 몰리가 다마즈티의 분신이었고 자신의 편지 때문에 자경단 정보망이 괴멸되었음을 알고 절망한다. 결국 학교 교실에서 다마즈티에게 자신의 모습으로 변해달라는 소원을 남기고 스스로 생을 마감하며, 다마즈티 군체 전체의 자진 소멸과 진화라는 거대한 나비효과를 낳는다.',
       quote: '제 모습으로 변해주세요, 다마즈티. ……남이 하는 대로 따라가도록 자신을 포기하는 게 아니에요. 삶 자체를 포기하는 거예요. 이건 나약한 자의 선택이에요. 하지만 전…… 적어도 두 번 다시 살카즈의 편이 되지는 않을 거예요.',
       statusInChapter: '자경단 정보 유출 죄책감으로 교실에서 자살 (다마즈티의 각성 계기)',
-      avatarUrl: '/images/characters/golding.png',
-      illustUrl: '/images/characters/illust/golding.png'
+      avatarUrl: '/images/characters/golding.webp',
+      illustUrl: '/images/characters/illust/golding.webp'
     },
     {
       id: 'ines',
@@ -1331,8 +1331,8 @@ export const episode12: StoryArchive = {
       description: '그림자 아츠의 달인이자 전 바벨 용병. 선셋 스트리트 호텔에서 델핀이 윈더미어 공작의 딸임을 단번에 간파하고, 이륙한 살카즈 비행선 위에서 맨프레드에게 포위되자 수백 미터 상공 허공으로 몸을 던져 그림자 아츠로 전장의 활로를 꿰뚫은 뒤 지상에서 외드레르, W와 재회한다.',
       quote: '높은 곳일수록 더 완전하고 거대한 그림자를 찾을 수 있어. ……훗, 사람을 한 번도 죽여 본 적 없는 살카즈 용병이라.',
       statusInChapter: '델핀 정체 간파, 이륙한 살카즈 비행선 상공에서 결사 도약, 외드레르·W와 재회',
-      avatarUrl: '/images/characters/ines.png',
-      illustUrl: '/images/characters/illust/ines.png'
+      avatarUrl: '/images/characters/ines.webp',
+      illustUrl: '/images/characters/illust/ines.webp'
     },
     {
       id: 'hoederer',
@@ -1343,8 +1343,8 @@ export const episode12: StoryArchive = {
       description: '바벨 용병 삼총사의 중심축. 군사위원회 감옥에 수감된 상태에서 왕정 군인이 가져다준 살카즈 역사서를 읽으며 때를 기다리다 탈출하고, 비행선 상공에서 뛰어내린 이네스를 자신의 오리지늄 아츠(\'재\') 쿠션으로 받아내며 W, 이네스와 재회한다.',
       quote: '……너는 예전에 내 오리지늄 아츠를 재라고 표현했었지. ……정말 시끄럽군. 차라리 감옥으로 돌아가는 게 낫겠어. 적어도 거긴 조용하거든.',
       statusInChapter: '군사위원회 감옥 수감 중 역사서 탐독 및 탈출 후 W와 함께 이네스 도약 수용·재회',
-      avatarUrl: '/images/characters/hoederer.png',
-      illustUrl: '/images/characters/illust/hoederer.png'
+      avatarUrl: '/images/characters/hoederer.webp',
+      illustUrl: '/images/characters/illust/hoederer.webp'
     },
     {
       id: 'w',
@@ -1355,8 +1355,8 @@ export const episode12: StoryArchive = {
       description: '테레시스에게 중상을 입은 켈시를 샤이닝과 함께 트럭에 태우고 험한 황야를 거칠게 질주하며 안전가옥으로 후송한다. 이후 비행선 상공에서 뛰어내린 이네스를 위해 폭약 연기로 착지 신호를 올리고 특유의 거친 농담과 함께 반가운 재회를 나눈다.',
       quote: '이렇게 초라한 모습을 얼마 만에 보는 거지, 이네스? 외드레르, 저 녀석이 떨어지는 모습 봤어? 날개 부러진 파울비스트 같았잖아, 하하!',
       statusInChapter: '켈시 응급 후송 차량 운전 및 이네스와의 감격적 재회',
-      avatarUrl: '/images/characters/w.png',
-      illustUrl: '/images/characters/illust/w.png'
+      avatarUrl: '/images/characters/w.webp',
+      illustUrl: '/images/characters/illust/w.webp'
     },
     {
       id: 'amiya',
@@ -1367,8 +1367,8 @@ export const episode12: StoryArchive = {
       description: '중태에 빠진 켈시를 지키며 작전을 총괄한다. 비행선 공중 독 격납고에 돌입해 머리 위에 마왕의 왕관을 띄우며 고대 살카즈 원혼 레버넌트의 원념을 제압하고, 소멸을 앞둔 다마즈티에게 생명과 공존의 가치를 일깨운다.',
       quote: '이 전쟁은 끊임없이 새로운 감염자를 만들어내고 있어요…… 이미 봤어요, 박사님. 과거의 환영에서는 여기보다 훨씬 비참한 상황도 많이 봤는걸요. 저희는 일이 그 지경까지 되지 않게 하려고 온 거잖아요.',
       statusInChapter: '공중 독 돌입, 마왕 왕관 각성으로 레버넌트 제압, 다마즈티와 공존 문답',
-      avatarUrl: '/images/characters/amiya.png',
-      illustUrl: '/images/characters/illust/amiya.png'
+      avatarUrl: '/images/characters/amiya.webp',
+      illustUrl: '/images/characters/illust/amiya.webp'
     },
     {
       id: 'doctor',
@@ -1379,8 +1379,8 @@ export const episode12: StoryArchive = {
       description: '캐스터 공작 측 \'회색 모자\'의 협박과 비행선 설계도 탈취 압박을 지혜롭게 회피하고, 윈더미어 공작의 딸 델핀과 시즈를 연대시켜 차단벽을 무너뜨리고 수천 난민을 대탈출시키는 현장 전술을 완벽히 지휘한다.',
       quote: '아미야, 뛸 수 있겠어? ……당신은 진정으로 로도스 아일랜드의 지지자가 될 수는 없을 거야.',
       statusInChapter: '회색 모자의 통제 거부 및 노포트 구 난민 대탈출 전술 지휘',
-      avatarUrl: '/images/characters/doctor.png',
-      illustUrl: '/images/characters/illust/doctor.png'
+      avatarUrl: '/images/characters/doctor.webp',
+      illustUrl: '/images/characters/illust/doctor.webp'
     },
     {
       id: 'kaltsit',
@@ -1391,8 +1391,8 @@ export const episode12: StoryArchive = {
       description: '테레시스에게 입은 중상으로 사경을 헤매다 은신처에서 간신히 의식을 되찾는다. W에게 자신이 역사를 통제하는 초인이 아니며 가끔은 깊은 피로를 느낀다고 쓸쓸히 고백한다.',
       quote: '하지만 가끔…… 지칠 때는 있지. 난 자신이 어둠 속에 숨어 역사의 방향을 틀어쥐려는 사람이라고 자만하지 않아. 가끔은 내가 원하는 대로 일이 진행되길 바랄 때도 있지만.',
       statusInChapter: '은신처에서 중상 회복 중 및 심경 고백',
-      avatarUrl: '/images/characters/kaltsit.png',
-      illustUrl: '/images/characters/illust/kaltsit.png'
+      avatarUrl: '/images/characters/kaltsit.webp',
+      illustUrl: '/images/characters/illust/kaltsit.webp'
     },
     {
       id: 'damazti',
@@ -1403,8 +1403,8 @@ export const episode12: StoryArchive = {
       description: '단일 의식을 공유하는 군체 생명체. 교사 몰리로 위장해 골딩을 이용해 자경단 거점을 붕괴시켰으나, 골딩의 자살과 로고스의 문답에 충격을 받고 진화를 택한다. 스스로 전 테라의 모든 분신을 일시에 소멸시키며 두 명의 새로운 다마즈티 개체로 거듭난다.',
       quote: '꼬마 이종족 마왕, 넌 어디를 향해 갈 거야? 널 믿고 따르고 아껴주는 사람을 어디로 데려갈 거야? ……하지만 괜찮아. 넌 네 길을 찾을 거니까. 우리도 그럴 거고.',
       statusInChapter: '몰리 위장으로 자경단 붕괴 유도, 골딩 자살과 로고스 문답 후 모든 군체 동시 자진 소멸 및 2인 신생 개체로 진화',
-      avatarUrl: '/images/characters/damazti.png',
-      illustUrl: '/images/characters/illust/damazti.png'
+      avatarUrl: '/images/characters/damazti.webp',
+      illustUrl: '/images/characters/illust/damazti.webp'
     },
     {
       id: 'ascalon',
@@ -1415,8 +1415,8 @@ export const episode12: StoryArchive = {
       description: '어둠 속에서 카운트다운을 세며 박사를 감시망에서 탈출시키고, 공중 독 격납고 돌입 작전에서 아미야의 측면을 엄호한다.',
       quote: '박사, 3초 뒤에 내가 움직일 거야. 지금 이 상황에서 반드시 벗어나야 해. 본함에 주둔한 오퍼레이터들이라면 혹시 모를 위기에도 잘 대처할 수 있을 테니 위험을 감수할 필요가 있어. ……셋. 둘.',
       statusInChapter: '박사 호위 및 공중 독 돌입 엄호',
-      avatarUrl: '/images/characters/ascalon.png',
-      illustUrl: '/images/characters/illust/ascalon.png'
+      avatarUrl: '/images/characters/ascalon.webp',
+      illustUrl: '/images/characters/illust/ascalon.webp'
     },
     {
       id: 'logos',
@@ -1427,8 +1427,8 @@ export const episode12: StoryArchive = {
       description: '골필과 고대 언령을 다루는 밴시의 군주. 하이버리 구에서 자경단 철수를 엄호하며 다마즈티와 마주쳐 생사의 섭리와 멈춰 선 군체의 권태를 꾸짖고, 결국 다마즈티가 진화를 선택하게 만든다.',
       quote: '이 땅의 모든 사물은 진화하고 있다. 하지만 넌 언제나 제자리에 머물러서 진화의 결과만 모방하고 있지. 새 생명은 멸망에서 나온다.',
       statusInChapter: '하이버리 구 철수 엄호 및 다마즈티와의 생사·진화 문답',
-      avatarUrl: '/images/characters/logos.png',
-      illustUrl: '/images/characters/illust/logos.png'
+      avatarUrl: '/images/characters/logos.webp',
+      illustUrl: '/images/characters/illust/logos.webp'
     },
     {
       id: 'eblana',
@@ -1439,8 +1439,8 @@ export const episode12: StoryArchive = {
       description: '웰링턴 공작의 후원을 받는 더블린의 수장. 살카즈의 비행선 공중 독에 보랏빛 생명의 불꽃을 몰고 난입해 다마즈티를 가두며 비행선 쟁탈전에 본격적으로 뛰어든다.',
       quote: '난 그 어떤 것도 감출 필요가 없어. 내 불길은 언젠가 날 위해 모든 걸 태워버릴 거니까. 다마즈티가 내 불길 속에서 내게 굴복할 장면이 벌써 기대되는걸. 넌 날 기억하게 될 거야, 다마즈티.',
       statusInChapter: '공중 독 격납고 난입, 보랏빛 불꽃으로 다마즈티 격리 및 비행선 쟁탈전 개시',
-      avatarUrl: '/images/characters/eblana.png',
-      illustUrl: '/images/characters/illust/eblana.png'
+      avatarUrl: '/images/characters/eblana.webp',
+      illustUrl: '/images/characters/illust/eblana.webp'
     },
     {
       id: 'windermere',
@@ -1451,8 +1451,8 @@ export const episode12: StoryArchive = {
       description: '갈라바에 철 방패를 거느린 강력한 여장군. 고속 전함이 격침당하자 분노했으나, 노포트 구에서 피어오른 연기 신호를 보고 딸 델핀의 생존을 확인하여 전함 함대를 이끌고 진격해 탈출한 난민들을 전원 수용한다.',
       quote: '난 그저 델핀을 집에 데려가려고 여기 온 것뿐이야. 배는 방향을 돌리지 말고 노포트 구로 더 빨리 몰아! 저 폭풍이 형성되기 전에 델핀을 찾아야 한다!',
       statusInChapter: '선셋 스트리트 호텔 연기 신호 포착 후 전함 함대 출격, 딸 델핀 및 노포트 난민 수용',
-      avatarUrl: '/images/characters/windermere.png',
-      illustUrl: '/images/characters/illust/windermere.png'
+      avatarUrl: '/images/characters/windermere.webp',
+      illustUrl: '/images/characters/illust/windermere.webp'
     },
     {
       id: 'caster',
@@ -1463,8 +1463,8 @@ export const episode12: StoryArchive = {
       description: '노포트 구 분리가 살카즈의 미끼임을 간파하고 각 공작들의 세력 균형을 계산하며, 비행선 쟁탈전의 추이를 냉정하게 관망한다.',
       quote: '……\'기술적인 이유\'라. 정말 형편없군, 안 그래? 하지만 아주 잘 먹히지. 그자들은 우리 모두가 본인의 명성을 끔찍이 아낀다는 걸 잘 아니까. 게다가 그자들은 하늘을 나는 요새라는 작은 미끼까지 던졌어.',
       statusInChapter: '노포트 구 사태 분석 및 전황 관망',
-      avatarUrl: '/images/characters/caster.png',
-      illustUrl: '/images/characters/illust/caster.png'
+      avatarUrl: '/images/characters/caster.webp',
+      illustUrl: '/images/characters/illust/caster.webp'
     },
     {
       id: 'wellington',
@@ -1475,8 +1475,8 @@ export const episode12: StoryArchive = {
       description: '빅토리아의 노회한 대공작이자 에블라나의 든든한 후원자. 황야 전선에서 에블라나와 함께 진군하던 중 당도한 나흐체러르 킹의 부식 대군을 바라보며 대전쟁의 피할 수 없는 도래를 직감한다.',
       quote: '제 눈에…… 나흐체러르 킹이 보입니다. 이 전장은 사람을 두렵게 하면서도 존경스럽게 합니다. 가울의 올드 가디언 이후로 전 오랫동안 이런 상대를 만나지 못했습니다.',
       statusInChapter: '에블라나와 함께 전선 진주 및 나흐체러르 킹 대군과 조우',
-      avatarUrl: '/images/characters/wellington.png',
-      illustUrl: '/images/characters/illust/wellington.png'
+      avatarUrl: '/images/characters/wellington.webp',
+      illustUrl: '/images/characters/illust/wellington.webp'
     },
     {
       id: 'nachzehrer',
@@ -1487,8 +1487,8 @@ export const episode12: StoryArchive = {
       description: '살카즈 군사위원회의 가장 강력하고 두려운 최고령 군주. 런디니움 외곽 황야에 수많은 부식 군대를 이끌고 나타나 재앙 구름 아래 왕좌에 앉아 빅토리아 공작군과의 전면 대전을 개막한다.',
       quote: '나흐체러르 킹은 그의 왕좌에 앉아서 자신의 대군을 내려다보고 있다. 나흐체러르의 군대는 동요하지도, 약해지지도 않는다.',
       statusInChapter: '런디니움 외곽 황야에 부식 대군과 함께 왕좌 진주',
-      avatarUrl: '/images/characters/nachzehrer.png',
-      illustUrl: '/images/characters/illust/nachzehrer.png'
+      avatarUrl: '/images/characters/nachzehrer.webp',
+      illustUrl: '/images/characters/illust/nachzehrer.webp'
     },
     {
       id: 'leto',
@@ -1499,8 +1499,8 @@ export const episode12: StoryArchive = {
       description: '살카즈 군사위원회의 압박 아래 방위군을 이끄는 냉정한 군관. 노포트 구를 본체에서 분리·차단시켰으며, 골딩에게 그녀의 편지와 몰리 때문에 자경단이 파멸했음을 잔혹하게 폭로한다.',
       quote: '런디니움 자경단의 정보를 어디에서 얻었냐고 물었지? 좋아, 대답해 주지. 어느 나약한 선생님께 얻었어. 너 자신을 봐, 골딩. 네 실수와 위축, 두려움 때문에 남긴 흔적을 보라고…… 감상적인 사람에게 첩보 업무는 어울리지 않아.',
       statusInChapter: '노포트 구 기술적 분리 집행 및 골딩에게 정보 누출 진상 폭로',
-      avatarUrl: '/images/characters/leto.png',
-      illustUrl: '/images/characters/illust/leto.png'
+      avatarUrl: '/images/characters/leto.webp',
+      illustUrl: '/images/characters/illust/leto.webp'
     },
     {
       id: 'manfred',
@@ -1511,8 +1511,8 @@ export const episode12: StoryArchive = {
       description: '테레시스의 오른팔이자 비행선 건조 총괄 지휘관. 노포트 구 분리를 통해 대공작들을 유인하고, 공중 독에서 테레시아 전하를 알현하며 작전을 진두지휘한다.',
       quote: '군사위원회의 계획대로 일부 구역은 이미 런디니움에서 분리, 현재 지정 위치에 진입하여 도시 중심부와 대공작들의 포위망 사이에 멈춰있습니다. 곧 윈더미어 공작은 본인의 고속 전함이 파괴되었다는 소식을 듣게 될 테지만, 비행선의 위력을 무시할 수 없을 테니 나흐체러르 킹 각하께서 전선을 넓히는 데 도움이 될 것입니다.',
       statusInChapter: '테레시아에게 비행선 작전 보고 및 공중 독에서 에블라나·이네스와 대치',
-      avatarUrl: '/images/characters/manfred.png',
-      illustUrl: '/images/characters/illust/manfred.png'
+      avatarUrl: '/images/characters/manfred.webp',
+      illustUrl: '/images/characters/illust/manfred.webp'
     },
     {
       id: 'paprika',
@@ -1523,8 +1523,8 @@ export const episode12: StoryArchive = {
       description: '순진한 살카즈 소녀 병사. 노포트 구의 살카즈 빈민 노인들에게 식량을 나눠주려 애쓰다 비행선 통로에서 이네스와 마주치며 전쟁의 냉혹한 실상에 혼란스러워한다.',
       quote: '맨프레드 장군께서는 저보고 전쟁이 뭔지 배우라고 하셨어요. ……사람이 다른 사람을 죽이는 거요. 제 눈에 보이는 건 그저 익숙한 얼굴이 한 명씩 죽고, 새로운 얼굴이 바로 그 자리를 대체하는 거예요.',
       statusInChapter: '노포트 구 살카즈 노인 배급 지원 및 비행선 통로에서 이네스 조우',
-      avatarUrl: '/images/characters/paprika.png',
-      illustUrl: '/images/characters/illust/paprika.png'
+      avatarUrl: '/images/characters/paprika.webp',
+      illustUrl: '/images/characters/illust/paprika.webp'
     },
     {
       id: 'dagda',
@@ -1535,8 +1535,8 @@ export const episode12: StoryArchive = {
       description: '글래스고 패거리의 충직한 기사. 노포트 구의 옛 아지트 \'어퍼컷\' 복싱장을 둘러보며 시즈의 과거를 이해하고, 차단벽 돌파 작전에서 선봉에 서서 길을 연다.',
       quote: '오오! 여기서 지내는 동안 정말 좋았겠다! ……증기의 기사들의 결말을 목격하고 나니 자신이 없어졌어…… 시즈, 너 왜…… 우는 거야?',
       statusInChapter: '옛 복싱장 수색 및 차단벽 돌파 지원',
-      avatarUrl: '/images/characters/dagda.png',
-      illustUrl: '/images/characters/illust/dagda.png'
+      avatarUrl: '/images/characters/dagda.webp',
+      illustUrl: '/images/characters/illust/dagda.webp'
     },
     {
       id: 'indra',
@@ -1547,8 +1547,8 @@ export const episode12: StoryArchive = {
       description: '글래스고의 호탕한 주먹. 옛 복싱장에 들어서며 베어드와 감격스러운 재회를 나누었으나, 대탈출 후 매클래런의 손에 들린 베어드의 나이프를 발견하고 친구의 비극적 죽음을 직감해 격분한다.',
       quote: '봐, 다그다, 여기가 바로 예전에 우리가 살던 집이야! ……비나, 너도 베어드를 버리는 거야? 다른 사람도 아니고 베어드야. 우리 모두 녀석을 한 번 버렸었잖아!',
       statusInChapter: '옛 아지트 복귀 및 베어드의 나이프를 든 매클래런 추궁',
-      avatarUrl: '/images/characters/indra.png',
-      illustUrl: '/images/characters/illust/indra.png'
+      avatarUrl: '/images/characters/indra.webp',
+      illustUrl: '/images/characters/illust/indra.webp'
     },
     {
       id: 'morgan',
@@ -1559,8 +1559,8 @@ export const episode12: StoryArchive = {
       description: '글래스고의 날카로운 관찰자. 피난 대열 끝에 합류한 매클래런의 손에 쥐어진 베어드의 버터플라이 나이프를 가장 먼저 발견하고 절규하며 시즈의 슬픔을 곁에서 지킨다.',
       quote: '잠깐, 저 버터플라이 나이프는 베어드 건데 왜 매클래런이 들고 있는 거지? ……노포트 구는 돌아올 거야. 노포트 구 사람도 여전히 있으니까. 비나, 난…… 전쟁은 끝날 거야, 그렇지?',
       statusInChapter: '노포트 구 피난 대열 수습 및 베어드의 비극 확인 후 슬픔',
-      avatarUrl: '/images/characters/morgan.png',
-      illustUrl: '/images/characters/illust/morgan.png'
+      avatarUrl: '/images/characters/morgan.webp',
+      illustUrl: '/images/characters/illust/morgan.webp'
     },
     {
       id: 'clovicia',
@@ -1571,8 +1571,8 @@ export const episode12: StoryArchive = {
       description: '런디니움 자경단의 지도자. 알레데일을 잃은 슬픔 속에서도 대원들을 이끌고 하이버리 구 지하 통로로 철수하려 했으나, 문을 잠근 노동자들로 인해 캐서린과 함께 문 반대편 살카즈 측에 고립된다.',
       quote: '도시에서 철수하기로 한 런디니움 시민 자경단의 인원이…… 이게 다야? 내가 생각한 것보다 피해가 훨씬 크네.',
       statusInChapter: '하이버리 구 지하 점검 통로에서 방폭문 잠김으로 캐서린과 함께 고립',
-      avatarUrl: '/images/characters/clovicia.png',
-      illustUrl: '/images/characters/illust/clovicia.png'
+      avatarUrl: '/images/characters/clovicia.webp',
+      illustUrl: '/images/characters/illust/clovicia.webp'
     },
     {
       id: 'feist',
@@ -1583,8 +1583,8 @@ export const episode12: StoryArchive = {
       description: '캐서린의 손자이자 젊은 엔지니어. 지하 점검 통로에서 노동자들에 의해 락락과 함께 문 너머로 밀려난 뒤 방폭문이 닫히며 할머니 캐서린과 생이별하고 절규한다.',
       quote: '우리가 옮긴 생산 라인 두 개 빼고 나머지는 다 폐기했어. ……내가 저번처럼 할머니와 클로비시아를 구할 거야. 하지만 부상자들은 시간을 더 지체할 수 없어.',
       statusInChapter: '지하 철수 중 방폭문 너머로 밀려나 할머니 캐서린과 생이별',
-      avatarUrl: '/images/characters/feist.png',
-      illustUrl: '/images/characters/illust/feist.png'
+      avatarUrl: '/images/characters/feist.webp',
+      illustUrl: '/images/characters/illust/feist.webp'
     },
     {
       id: 'shining',
@@ -1595,8 +1595,8 @@ export const episode12: StoryArchive = {
       description: '생사의 갈림길에 선 켈시의 상처를 지혈하며 W와 함께 험로를 뚫고 후송하고, 안전가옥에서 켈시와 나이팅게일을 헌신적으로 보살핀다.',
       quote: 'W 씨, 좀 천천히 운전하셔도 될 것 같은데요. 이런 흔들림은 켈시 선생님의 회복에도 좋지 않을 거예요.',
       statusInChapter: '켈시 후송 차량 내 응급 치료 전담',
-      avatarUrl: '/images/characters/shining.png',
-      illustUrl: '/images/characters/illust/shining.png'
+      avatarUrl: '/images/characters/shining.webp',
+      illustUrl: '/images/characters/illust/shining.webp'
     },
     {
       id: 'talulah',
@@ -1607,8 +1607,8 @@ export const episode12: StoryArchive = {
       description: '과거의 죄책감을 짊어진 채 나인과 함께 신생 리유니온을 이끈다. 죽은 친구 알리나의 말을 떠올리며 감자를 깎고, 런디니움으로 다가오는 대전쟁의 폭풍 속에서 감염자들의 길을 모색한다.',
       quote: '처리해야 할 감자가 두 바구니 남았다고 해서 그냥 셰프를 도와준 것뿐이야. 알리나…… 그러니까…… 내 친구가 예전에 알려준 거야.',
       statusInChapter: '런디니움 외곽 막사에서 전황 관찰 및 개입 준비',
-      avatarUrl: '/images/characters/talulah.png',
-      illustUrl: '/images/characters/illust/talulah.png'
+      avatarUrl: '/images/characters/talulah.webp',
+      illustUrl: '/images/characters/illust/talulah.webp'
     },
     {
       id: 'nine',
@@ -1619,8 +1619,8 @@ export const episode12: StoryArchive = {
       description: '신생 리유니온의 영수. 런디니움 외곽에서 절망에 빠진 감염자들을 다독이고, 퍼시벌의 무전을 받아 레드 등을 노포트 구로 파견해 감염자들을 규합한다.',
       quote: '절망의 가장자리에 있는 감염자들에게, 여전히 동료가 있고, 쓸모없는 존재가 아니라는 걸 알려줘야 해.',
       statusInChapter: '외곽 거점에서 감염자 규합 및 노포트 구 잠입 지휘',
-      avatarUrl: '/images/characters/nine.png',
-      illustUrl: '/images/characters/illust/nine.png'
+      avatarUrl: '/images/characters/nine.webp',
+      illustUrl: '/images/characters/illust/nine.webp'
     },
     {
       id: 'colbert',
@@ -1631,8 +1631,8 @@ export const episode12: StoryArchive = {
       description: '선셋 스트리트 호텔에서 40년간 도어맨부터 지배인까지 일하며 노포트 구를 고향으로 여겨온 살카즈 노인. 통신기지가 사라져 구원 요청이 불가능해지자, 자신이 평생 아껴온 호텔 카펫에 스스로 불을 질러 거대한 연기 기둥으로 윈더미어 공작 함대를 불러들인다.',
       quote: '아니요, 콜버트는 그저 자신을 빅토리아 사람이라고 생각하는 평범한 살카즈 청소부일 뿐입니다.',
       statusInChapter: '난민 구출 신호를 올리기 위해 자신이 40년간 가꾼 호텔에 스스로 방화',
-      avatarUrl: '/images/characters/colbert.png',
-      illustUrl: '/images/characters/illust/colbert.png'
+      avatarUrl: '/images/characters/colbert.webp',
+      illustUrl: '/images/characters/illust/colbert.webp'
     },
     {
       id: 'percival',
@@ -1643,8 +1643,8 @@ export const episode12: StoryArchive = {
       description: '선셋 스트리트 호텔의 도어맨으로 위장해 있던 신생 리유니온의 스파이. 노포트 구 분리 직후 호텔의 군용 통신기지를 뜯어 공개 방송으로 위장한 암호 통신을 보내 레드와 나인 일행을 노포트 구로 불러들인다.',
       quote: '내가 호텔에 있던 통신기지를 뜯어서 겨우 장소를 찾아 소식을 보낸 거란 말이야.',
       statusInChapter: '호텔 소형 통신기지 해체·탈취 후 리유니온 본대에 노포트 구 사태 발신 및 감염자 규합',
-      avatarUrl: '/images/characters/percival.png',
-      illustUrl: '/images/characters/illust/percival.png'
+      avatarUrl: '/images/characters/percival.webp',
+      illustUrl: '/images/characters/illust/percival.webp'
     },
     {
       id: 'red',
@@ -1655,8 +1655,8 @@ export const episode12: StoryArchive = {
       description: '퍼시벌의 무전을 듣고 노포트 구에 잠입한 리유니온의 검사. 폭도들의 약탈로부터 감염자들을 구하고 살카즈 보급대를 기습하며 갈 곳 없는 감염자들을 새로운 리유니온으로 인도한다.',
       quote: '예전에 우르수스에 있을 때는 다들 날 \'붉은 검\'이라고 불렀어. 반드시 우리를 보게 해야 해. 우리의 목소리를 듣고 우리가 종기나 궤양이 아니라는 걸 인정하게 해야 해.',
       statusInChapter: '노포트 구 잠입 후 감염자 보호 및 살카즈 보급선 기습',
-      avatarUrl: '/images/characters/red.png',
-      illustUrl: '/images/characters/illust/red.png'
+      avatarUrl: '/images/characters/red.webp',
+      illustUrl: '/images/characters/illust/red.webp'
     },
     {
       id: 'ermengarde',
@@ -1667,8 +1667,8 @@ export const episode12: StoryArchive = {
       statusInChapter: '격침된 윈더미어 고속 전함 잔해 조사 및 황야 전선에서 나흐체러르 군대에 공간 주술 지원 후 테레시아 알현',
       quote: '이 고속 군함은 아주 확실하게 파괴됐네요. 흠, 켈시 님은 이러한 미래가 우리에게 그 어떤 것도 줄 수 없다고 계속 경고했었어요. 하지만 아직도 이해가 안 가요. 제 스승님한테 왜 필라인 친구가 있는 것일까요?',
       description: '리치 왕정의 젊은 전달자. 살카즈 비행선 주포에 격침된 윈더미어 고속 전함 잔해를 조사하며 스승의 옛 친구인 켈시를 언급하고, 황야 전선에서 리치의 공간 주술 장치로 더블린 선봉 함대의 기동력을 마비시킨 뒤 테레시아에게 감사를 받는다.',
-      avatarUrl: '/images/characters/ermengarde.png',
-      illustUrl: '/images/characters/illust/ermengarde.png'
+      avatarUrl: '/images/characters/ermengarde.webp',
+      illustUrl: '/images/characters/illust/ermengarde.webp'
     }
   ],
   glossary: [

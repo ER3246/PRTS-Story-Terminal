@@ -9,7 +9,7 @@ export const episode15: StoryArchive = {
   titleKo: '해리성 결합',
   titleEn: 'Dissociative Recombination',
   order: 15,
-  bannerImage: '/images/story_covers/ep15.png',
+  bannerImage: '/images/story_covers/ep15.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -95,7 +95,7 @@ export const episode15: StoryArchive = {
       focalCharacter: '',
       location: '',
       timeline: '',
-      cgUrl: '/images/cgs/60_i21.png',
+      cgUrl: '/images/cgs/60_i21.webp',
       cgCaption: '광석병 붕괴로 부서져 가던 카우투스 소녀의 손을 잡는 미지의 손길',
       synopsis: '1098년 가을, 힐다가 붕괴와 함께 융합 우주로 인도되고 테레시스는 창조주로부터 암나남의 통제권을 끊어낸 뒤 아스카론의 칼날을 맞아 눈을 감는다. 3년 뒤인 1101년 여름, PRTS 정보 유출로 모듈 호송대들이 기습당하자 박사와 아미야는 \'문명의 존속\' 심층 다이브를 결행한다.',
       narrativeText: '1098년 가을 런디니움 외곽 글로리아나호 추락지에서 카우투스 소녀 힐다가 급성 붕괴와 함께 프리스티스의 손길로 융합 우주에 당도하고, 창조주와 맞섰던 테레시스는 지하 알현실에서 아스카론에게 암나남을 맡긴 뒤 테레시아의 작별을 들으며 숨을 거둔다. 3년이 흐른 1101년 여름, 로도스 아일랜드 본함에서는 클로에의 광석병 변이와 최심부 \'어비스\' 속 PRTS의 이상 징후가 수면 위로 떠오른다. 본함 핵심 모듈을 분산 이전하던 호송대들이 PRTS의 경로 유출로 동시 피습당하자, 박사와 아미야는 \'문명의 존속\' 특이점으로 심층 다이브를 결행하고 켈시는 Mon3tr에게 박사와 아미야를 수호하라는 원칙을 각인한다.',
@@ -105,17 +105,17 @@ export const episode15: StoryArchive = {
           title: '과거와 현재의 종점',
           location: '런디니움 외곽 글로리아나호 잔해 및 융합 우주',
           timeMarker: '1098년 가을',
-          cgUrl: '/images/cgs/60_i21.png',
+          cgUrl: '/images/cgs/60_i21.webp',
           cgCaption: '광석병 붕괴로 부서져 가던 카우투스 소녀의 손을 잡는 미지의 손길',
           visuals: [
             {
-              url: '/images/cgs/60_i21.png',
+              url: '/images/cgs/60_i21.webp',
               caption: '광석병 붕괴로 부서져 가던 카우투스 소녀의 손을 잡는 미지의 손길',
               type: 'cg',
               triggerLine: '그녀는 누군가 자신의 부서질 듯한 손을 잡는 것을 느꼈다. 그리고 그녀의 눈에 빛이 다시 서서히 들어오기 시작했다.'
             },
             {
-              url: '/images/cgs/58_mini05.png',
+              url: '/images/cgs/58_mini05.webp',
               caption: '융합 우주에서 테레시아가 남긴 계단을 올라 마름모로 향하는 테레시스',
               type: 'cg',
               triggerLine: '나를 위해 이 문을 열어 주었으니, 남은 길은 내가 대신 가도록 하겠다. 테레시아.'
@@ -159,17 +159,17 @@ export const episode15: StoryArchive = {
           title: '칼을 잡은 자',
           location: '융합 우주 정보의 바다 및 웨스트 로비 지하 알현실',
           timeMarker: '1098년 가을',
-          cgUrl: '/images/cgs/60_i01_1.png',
+          cgUrl: '/images/cgs/60_i01_1.webp',
           cgCaption: '지하 알현실의 왕좌 앞에서 마지막 순간을 맞이하는 테레시스',
           visuals: [
             {
-              url: '/images/cgs/60_i01_1.png',
+              url: '/images/cgs/60_i01_1.webp',
               caption: '지하 알현실의 왕좌 앞에서 마지막 순간을 맞이하는 테레시스',
               type: 'cg',
               triggerLine: '지칠 대로 지친 그가 두 눈을 감으려던 순간, 그는 어둠 속에서 떠오른 희미한 하얀 빛을 보았다……'
             },
             {
-              url: '/images/cgs/60_i01_2.png',
+              url: '/images/cgs/60_i01_2.webp',
               caption: '테레시아의 작별 인사를 들으며 미소와 함께 의식을 놓는 테레시스',
               type: 'cg',
               triggerLine: '그는 더 이상 버틸 필요가 없었다. 그는 미소를 지으며, 흩어져 가는 마지막 의식을 놓아버렸다.'
@@ -213,11 +213,11 @@ export const episode15: StoryArchive = {
           title: '이른바 기적',
           location: '구인류 함선 \'로도스 아일랜드\' 및 3년 후의 로도스 본함',
           timeMarker: '1101년 여름 (런디니움 사건 종료 3년 후)',
-          cgUrl: '/images/cgs/60_i02.png',
+          cgUrl: '/images/cgs/60_i02.webp',
           cgCaption: '산산이 부서진 죽은 행성의 고리 위를 항해하는 백색의 구인류 함선',
           visuals: [
             {
-              url: '/images/cgs/60_i02.png',
+              url: '/images/cgs/60_i02.webp',
               caption: '산산이 부서진 죽은 행성의 고리 위를 항해하는 백색의 구인류 함선',
               type: 'cg',
               triggerLine: '거대한 구체가 눈앞에 나타나자, 카우투스는 숨이 막힐 듯한 압박감을 느꼈다. 구체는 산산이 조각난 채 짙은 어둠의 장막 속에 조용히 떠 있었다.'
@@ -274,11 +274,11 @@ export const episode15: StoryArchive = {
           title: '심연의 곁',
           location: '로도스 아일랜드 본함 지휘실·어비스 외곽 및 구인류 함선 거실',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i17.png',
+          cgUrl: '/images/cgs/60_i17.webp',
           cgCaption: '로도스 아일랜드 본함 중층 갑판 깊숙한 곳에 은폐된 핵심 구역 \'어비스(Abyss)\'',
           visuals: [
             {
-              url: '/images/cgs/60_i17.png',
+              url: '/images/cgs/60_i17.webp',
               caption: '로도스 아일랜드 본함 중층 갑판 깊숙한 곳에 은폐된 핵심 구역 \'어비스(Abyss)\'',
               type: 'cg',
               triggerLine: '모든 것의 시작, 모든 것의 끝. 어비스는 본함 중층 갑판의 핵심 위치에 자리 잡고 있었다.'
@@ -377,11 +377,11 @@ export const episode15: StoryArchive = {
           title: '뼛속에 각인',
           location: '로도스 아일랜드 본함 지휘실',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i03.png',
+          cgUrl: '/images/cgs/60_i03.webp',
           cgCaption: '지휘실에서 Mon3tr의 이마를 어루만지며 최후의 행동 원칙을 각인하는 켈시',
           visuals: [
             {
-              url: '/images/cgs/60_i03.png',
+              url: '/images/cgs/60_i03.webp',
               caption: '지휘실에서 Mon3tr의 이마를 어루만지며 최후의 행동 원칙을 각인하는 켈시',
               type: 'cg',
               triggerLine: '박사를 지키고, 아미야를 지켜줘. 나는 이 명령만 너의 기본 행동 원칙에 각인할 거야.'
@@ -427,7 +427,7 @@ export const episode15: StoryArchive = {
       focalCharacter: '',
       location: '',
       timeline: '',
-      cgUrl: '/images/cgs/60_i05.png',
+      cgUrl: '/images/cgs/60_i05.webp',
       cgCaption: '분홍색 실을 엮어 특이점으로 향하는 정보의 다리를 구축하는 아미야',
       synopsis: '시빌라이트 에테르나의 인도를 받아 특이점 너머 기억을 더듬은 박사와 아미야는 예언가와 AMa-10의 기록 속에서 메타 정보 손실 저감 공식을 확보해 오리지늄 커브를 개량한다. 직후 PRTS가 본함을 장악해 미로로 뒤틀며 폭주하자, 켈시는 돌파구를 열기 위해 박사의 석관으로 들어간다.',
       narrativeText: '사고를 공유한 채 \'문명의 존속(DWDB-221E)\'으로 들어간 박사와 아미야는 시빌라이트 에테르나의 안내와 켈시의 반복 검색 기록을 통해 \'프리스티스\'라는 이름과 특이점으로 향하는 다리를 세운다. 거센 정보 파도 속에서 예언가(박사)가 AMa-10에게 남긴 생존 본능과 유리벽의 메타 정보 손실 저감 공식을 암기해 귀환한 두 사람은, 켈시·로고스·메커니스트와 협력해 정예 오퍼레이터 장비 \'오리지늄 커브\'를 개량한다. 그러나 직후 PRTS가 본함 통제권을 탈취해 북서쪽 광맥을 향해 폭주하며 함내를 뒤틀어 망자의 환영과 결정체를 쏟아내자, 켈시는 석관 안으로 진입하고 라이디언과 만트라가 대원들의 시야와 목소리를 되찾아준다.',
@@ -437,23 +437,23 @@ export const episode15: StoryArchive = {
           title: '임계 순간',
           location: '\'문명의 존속\' 경계 및 구인류 함선 거실',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i05.png',
+          cgUrl: '/images/cgs/60_i05.webp',
           cgCaption: '분홍색 실을 엮어 특이점으로 향하는 정보의 다리를 구축하는 아미야',
           visuals: [
             {
-              url: '/images/cgs/60_i05.png',
+              url: '/images/cgs/60_i05.webp',
               caption: '분홍색 실을 엮어 특이점으로 향하는 정보의 다리를 구축하는 아미야',
               type: 'cg',
               triggerLine: '수천, 수만 개의 정보로 이루어진 통로는 이미 특이점까지 뻗어있었다. 아미야는 아무 망설임 없이 그 통로에 올랐고, 처음으로 경계 밖의 요동치는 파도를 향해 발을 내디뎠다.'
             },
             {
-              url: '/images/cgs/60_i04.png',
+              url: '/images/cgs/60_i04.webp',
               caption: '특이점에서 분출되는 정보의 파도 속에서 휘청이는 아미야를 지탱하는 박사',
               type: 'cg',
               triggerLine: '당신은 휘청이는 아미야의 몸을 필사적으로 지탱했고, 특이점에서 분출되는 정보의 파도는 여전히 당신들을 향해 덮쳐오고 있었다.'
             },
             {
-              url: '/images/cgs/avg_ac8mi_Pre.png',
+              url: '/images/cgs/avg_ac8mi_Pre.webp',
               caption: '공중에 완벽한 마름모를 그리며 예언가(박사)와 우주의 언어를 논하는 프리스티스',
               type: 'cg',
               triggerLine: '프리스티스는 망설임 없이 손가락으로 공중에 아주 완벽한 마름모를 그렸다. “아예 지금 시작하는 건 어때?”'
@@ -535,11 +535,11 @@ export const episode15: StoryArchive = {
           title: '감압 증상',
           location: '로도스 아일랜드 본함 격리 검사실·지휘실·훈련장 및 구인류 함선',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i06.png',
+          cgUrl: '/images/cgs/60_i06.webp',
           cgCaption: '격리 검사실 유리창 너머로 박사의 사고 기준선 테스트를 진행하는 켈시',
           visuals: [
             {
-              url: '/images/cgs/60_i06.png',
+              url: '/images/cgs/60_i06.webp',
               caption: '격리 검사실 유리창 너머로 박사의 사고 기준선 테스트를 진행하는 켈시',
               type: 'cg',
               triggerLine: '투명한 방호창에 비친 당신의 그림자는, 마치 켈시와 함께 서 있는 것처럼 보였다.'
@@ -586,17 +586,17 @@ export const episode15: StoryArchive = {
           title: '곧 깨어날 꿈',
           location: '로도스 아일랜드 본함 전역 및 박사의 석관 구역',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i07.png',
+          cgUrl: '/images/cgs/60_i07.webp',
           cgCaption: '복도 창문마다 비치는 구인류 함선의 이질적인 존재들(유령과 굴광자)을 목격한 포푸카',
           visuals: [
             {
-              url: '/images/cgs/60_i07.png',
+              url: '/images/cgs/60_i07.webp',
               caption: '복도 창문마다 비치는 구인류 함선의 이질적인 존재들(유령과 굴광자)을 목격한 포푸카',
               type: 'cg',
               triggerLine: '몸을 일으킨 포푸카는 무심코 창문 밖을 바라보았다. 포푸카의 눈에 이상한 모습을 한 사람들이 보였다.'
             },
             {
-              url: '/images/cgs/49_i22.png',
+              url: '/images/cgs/49_i22.webp',
               caption: '박사의 석관 위에 하얀 꽃 한 송이를 올려놓으며 마지막 희망을 거는 켈시',
               type: 'cg',
               triggerLine: '켈시는 석관으로 걸어가 하얀 꽃 한 송이를 그 위에 올려두었다. “이건 그녀가 남긴 선물이야. 그때, 그녀는 이게 \'신\'으로부터 훔쳐 온 불씨란 걸 몰랐어.”'
@@ -658,7 +658,7 @@ export const episode15: StoryArchive = {
       focalCharacter: '',
       location: '',
       timeline: '',
-      cgUrl: '/images/cgs/60_i09.png',
+      cgUrl: '/images/cgs/60_i09.webp',
       cgCaption: '죽은 문명들의 잔물결이 동심원으로 굳어진 거대한 \'문명의 무덤\' 비석',
       synopsis: '융합 우주에서 프리스티스가 힐다에게 외계 문명의 멸망사를 보여주는 사이, 석관에 들어간 켈시는 예언가의 AI 모델을 거쳐 쌍생 순환 시스템을 끊고 금지령을 돌파한다. 정예 오퍼레이터들의 분투와 ZOOT의 희생으로 본함이 정지하지만, 갑판 위로 나온 박사 일행은 육신으로 현현한 프리스티스와 대면한다.',
       narrativeText: '융합 우주 \'문명의 죽음을 기억하는 무덤\'으로 힐다를 이끈 프리스티스는 찬란했던 외계 문명이 한 줄기 빛에 부서지고 새 생명이 싹튼 역사를 보여준다. 같은 시각 석관 내부에서 예언가의 의식 모델과 조우한 켈시는 PRTS의 접근 금지령을 돌파하려 AMa-10의 쌍생 순환 시스템을 스스로 해리하고, 라이디언·만트라·샤프·스톰아이·로고스·와파린과 지원 로봇을 복구한 Friston-3가 함내 위기를 수습한다. 마침내 클로저의 예비 시스템 ZOOT의 과부하 희생으로 본함이 멈춰 서고 어비스 균열이 열리지만, 박사와 아미야, 켈시, Mon3tr는 대원들과 분리된 갑판 위에서 육신으로 현현한 프리스티스와 마주 선다.',
@@ -668,35 +668,35 @@ export const episode15: StoryArchive = {
           title: '신들의 죽음을 목격한 황야',
           location: '융합 우주 \'문명의 무덤\' 및 로도스 본함 엔지니어링부',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i09.png',
+          cgUrl: '/images/cgs/60_i09.webp',
           cgCaption: '죽은 문명들의 잔물결이 동심원으로 굳어진 거대한 \'문명의 무덤\' 비석',
           visuals: [
             {
-              url: '/images/cgs/60_i09.png',
+              url: '/images/cgs/60_i09.webp',
               caption: '죽은 문명들의 잔물결이 동심원으로 굳어진 거대한 \'문명의 무덤\' 비석',
               type: 'cg',
               triggerLine: '카우투스의 눈에 재질을 알아볼 수 없는 거대한 조각상이 대지 위에 우뚝 솟아 있는 것이 들어왔다. 고리 모양의 파문이 겹겹이 퍼지고 있었고, 위로는 먹구름에 가려진 창공 너머에, 밑으로는 잿빛의 대지에 닿았다.'
             },
             {
-              url: '/images/cgs/60_i08_1.png',
+              url: '/images/cgs/60_i08_1.webp',
               caption: '끝없는 잔물결의 언덕 위에서 거대한 구조물을 올려다보는 힐다',
               type: 'cg',
               triggerLine: '끝없이 펼쳐진 대지, 그 위에 일렁이는 잔물결은 마치 끝없이 이어진 언덕 같았다.'
             },
             {
-              url: '/images/cgs/60_i08_2.png',
+              url: '/images/cgs/60_i08_2.webp',
               caption: '문명의 무덤 앞에서 힐다와 나란히 서서 대화를 나누는 프리스티스',
               type: 'cg',
               triggerLine: '모든 결정, 모든 단면에서…… 당신은 똑같은 화면을 보았다…… 모든 단면에 그 사람의 뒷모습이 있어. 옆에 한 사람이 더 있는데?!'
             },
             {
-              url: '/images/cgs/60_i10_1.png',
+              url: '/images/cgs/60_i10_1.webp',
               caption: '먹구름을 뚫고 내려와 고대 외계 행성과 함선들을 소리 없이 파멸시키는 한 줄기 빛(\'그\')',
               type: 'cg',
               triggerLine: '그들은 인간이 수천만 년 동안 창조한 모든 아름다움으로 저 차가운 빛을 설득하려 했어…… 하지만 저 빛은 우주처럼 차갑고 냉담했지. 빛은 행성을 스쳐 지났고, 모든 것이 조용해졌어.'
             },
             {
-              url: '/images/cgs/60_i10_2.png',
+              url: '/images/cgs/60_i10_2.webp',
               caption: '산산이 부서진 죽은 행성의 잔해 속으로 날아드는 혜성들과 외계 탐사선들',
               type: 'cg',
               triggerLine: '죽은 천체의 중력이 우주에서 온 손님들을 포획하면서, 그 몸을 천천히 회복하기 시작했다.'
@@ -738,17 +738,17 @@ export const episode15: StoryArchive = {
           title: '너의 눈이 되리라',
           location: '박사의 석관 내부 및 로도스 본함 전 구역',
           timeMarker: '1101년 여름 (본함 소란 발생 후 57분 ~ 61분 경과)',
-          cgUrl: '/images/cgs/60_i22.png',
+          cgUrl: '/images/cgs/60_i22.webp',
           cgCaption: '석관 내부에서 AMa-10의 쌍생 순환을 끊고 테라의 모든 시공간 데이터와 연결되는 켈시',
           visuals: [
             {
-              url: '/images/cgs/60_i22.png',
+              url: '/images/cgs/60_i22.webp',
               caption: '석관 내부에서 AMa-10의 쌍생 순환을 끊고 테라의 모든 시공간 데이터와 연결되는 켈시',
               type: 'cg',
               triggerLine: '테라의 시간과 공간이 켈시의 사고 속에서 하나의 그물망처럼 압축됐다. 그녀는 테라의 모든 것을 보았고, 로도스 아일랜드의 모든 곳을 보았다.'
             },
             {
-              url: '/images/cgs/60_i20.png',
+              url: '/images/cgs/60_i20.webp',
               caption: '켈시·라이디언·만트라를 통해 전 대원의 머릿속에 동기화된 본함 실시간 스캔 지도',
               type: 'cg',
               triggerLine: '“지금 여러분 머릿속에 나타난 데이터는 현재 로도스 아일랜드 본함의 실시간 스캔 데이터다. 이제 닥터 켈시의 안내가 있으니, 우리는 다시 주도권을 가져올 수 있다.”'
@@ -860,17 +860,17 @@ export const episode15: StoryArchive = {
           title: '애도 거절',
           location: '로도스 본함 하층 갑판·엔지니어링부 및 어비스 외곽 균열',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i11_1M.png',
+          cgUrl: '/images/cgs/60_i11_1M.webp',
           cgCaption: '어비스를 가로막은 거대한 격벽 앞에 집결한 박사, 아미야, 켈시와 정예 오퍼레이터들',
           visuals: [
             {
-              url: '/images/cgs/60_i11_1M.png',
+              url: '/images/cgs/60_i11_1M.webp',
               caption: '어비스를 가로막은 거대한 격벽 앞에 집결한 박사, 아미야, 켈시와 정예 오퍼레이터들',
               type: 'cg',
               triggerLine: '“전에 얻은 정보로 볼 때, 어비스에는 PRTS의 핵심 부품만 있는 게 아니에요. 그 안의 석관에 \'프리스티스\'라는 개체가 잠들어있을 가능성이 있어요.”'
             },
             {
-              url: '/images/cgs/60_i11_2M.png',
+              url: '/images/cgs/60_i11_2M.webp',
               caption: '켈시의 권한 개방으로 갈라진 어비스의 거대한 균열과 세차게 뿜어져 나오는 기류',
               type: 'cg',
               triggerLine: '벽이 갑자기 불규칙적으로 움직이기 시작하더니, 균열이 생기기 시작했다. 그 균열에서 기류가 세차게 흘러나왔다.'
@@ -925,29 +925,29 @@ export const episode15: StoryArchive = {
           title: '영원과 현재의 오차',
           location: '3년 전 융합 우주 및 현재의 로도스 본함 상층 갑판',
           timeMarker: '1098년 가을 (회상) / 1101년 여름 (현재)',
-          cgUrl: '/images/cgs/60_i23.png',
+          cgUrl: '/images/cgs/60_i23.webp',
           cgCaption: '3년 전 융합 우주의 순백 공간에서 막 깨어난 프리스티스와 대면한 테레시스',
           visuals: [
             {
-              url: '/images/cgs/60_i23.png',
+              url: '/images/cgs/60_i23.webp',
               caption: '3년 전 융합 우주의 순백 공간에서 막 깨어난 프리스티스와 대면한 테레시스',
               type: 'cg',
               triggerLine: '“너는 전혀 알지 못하는 현실에 맞서 싸우기 바쁘구나, 테레시스. 예전에 박사랑 카즈델 국경에서 계략을 짤 때는 훨씬 차분해 보였는데.”'
             },
             {
-              url: '/images/cgs/39_i14.png',
+              url: '/images/cgs/39_i14.webp',
               caption: '라테라노 지하 서버에서 정체불명의 위협 경고를 감지한 교황 이반젤리스타 11세',
               type: 'cg',
               triggerLine: '“후임자를 구하는 것만 빼면, 교황으로서 아이들에게 사탕이나 나눠주는 일만 남았을 줄 알았는데. ……자넨, 내게 이런 계시를 내린 적이 없잖아.”'
             },
             {
-              url: '/images/cgs/60_i24_3.png',
+              url: '/images/cgs/60_i24_3.webp',
               caption: '검은 오리지늄 비가 치솟는 갑판 위에서 일곱 빛깔 빛이 모이며 내려앉는 순백의 천막',
               type: 'cg',
               triggerLine: '이윽고 눈에 보이는 모든 색채가 다시 모여들기 시작하더니, 마치 일렁이는 무지갯빛이 감도는 것 같은 하얀 천막이 허공에서 천천히 내려앉았다.'
             },
             {
-              url: '/images/cgs/60_i25.png',
+              url: '/images/cgs/60_i25.webp',
               caption: '오리지늄 결정 위에서 순백의 외투를 걸치고 현현하여 박사 일행을 돌아보는 프리스티스',
               type: 'cg',
               triggerLine: '검은색 결정은 그녀의 다리에서부터 서서히 사라졌고, 새하얀 빛은 그녀에게 외투를 덮어주었다. 그녀는 자신에게 이미 낯설어진 이 대지를 멀리 바라보았다. “오랜만이야.”'
@@ -1000,7 +1000,7 @@ export const episode15: StoryArchive = {
       focalCharacter: '',
       location: '',
       timeline: '',
-      cgUrl: '/images/cgs/60_i19_2.png',
+      cgUrl: '/images/cgs/60_i19_2.webp',
       cgCaption: '붉은 고리와 연기 속에서 Mon3tr를 불러내어 프리스티스에게 파괴 명령을 내리는 켈시',
       synopsis: '본함 갑판에서 프리스티스의 절대적인 오리지늄 통제권에 맞선 켈시가 오른쪽 어깨 결정의 폭주로 산산이 부서져 사라지고, 박사는 공식을 역전시킨 아미야의 아츠로 적을 막은 뒤 본함을 포기하고 철수한다. 한 달 후 새 기지에서 깨어난 인간형 Mon3tr가 우르수스 석관의 희망을 전한다.',
       narrativeText: '본함 갑판에 강림한 프리스티스가 테라를 오리지늄으로 바꾸자며 손을 내밀자, 박사가 거절하고 켈시는 \'예언가\'와 오리지늄의 진실을 밝힌다. 테레시아의 연구로 파놓은 함정으로 켈시 일행이 용해한 육신은 대역에 불과했고, 진신을 드러낸 프리스티스의 손짓에 켈시는 오른쪽 어깨 결정이 폭주하며 외투와 검은 고치로 변한 Mon3tr만을 남긴 채 사라진다. 박사는 역전 공식을 엮어 넣은 아미야의 아츠로 오리지늄 지배를 일시 저지하고, 어비스의 데이터를 백업·소거한 정예 대원들과 합류해 본함에서 철수한다. 한 달 후 부차트 시 인근 이동 섹터에서 켈시의 기억을 잇는 인간형 소녀 Mon3tr가 깨어나 우르수스 석관을 통한 복원의 희망을 밝힌다.',
@@ -1010,29 +1010,29 @@ export const episode15: StoryArchive = {
           title: '\'그녀\'',
           location: '로도스 아일랜드 본함 상층 갑판 및 과거 구인류의 기억',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i19_2.png',
+          cgUrl: '/images/cgs/60_i19_2.webp',
           cgCaption: '붉은 고리와 연기 속에서 Mon3tr를 불러내어 프리스티스에게 파괴 명령을 내리는 켈시',
           visuals: [
             {
-              url: '/images/cgs/60_i19_2.png',
+              url: '/images/cgs/60_i19_2.webp',
               caption: '붉은 고리와 연기 속에서 Mon3tr를 불러내어 프리스티스에게 파괴 명령을 내리는 켈시',
               type: 'cg',
               triggerLine: '“파괴해. 프리스티스, 전 문명에서 온, 오리지늄을 창조한, 오리지늄으로 모든 것을 동화시키려는 사람. 그렇기 때문에, 그녀는 테라 모든 생명체의 적이다.”'
             },
             {
-              url: '/images/cgs/60_i19_1.png',
+              url: '/images/cgs/60_i19_1.webp',
               caption: '자신을 로도스 아일랜드의 의사라 선언하며 프리스티스를 정면으로 부정하는 켈시',
               type: 'cg',
               triggerLine: '“나는 켈시, 로도스 아일랜드의 의사이자, 아미야와 박사의 동료다. 그리고 넌, 나에게 일말의 가치조차 없는 존재야.”'
             },
             {
-              url: '/images/cgs/60_i12_1_L1.png',
+              url: '/images/cgs/60_i12_1_L1.webp',
               caption: '프리스티스의 오리지늄 조작에 의해 오른쪽 어깨의 결정부터 부서져 내리는 켈시',
               type: 'cg',
               triggerLine: '켈시의 오른쪽 어깨에 있던 그 작은 오리지늄 결정은 그녀가 인간으로 태어났다는 증거이자, 그녀의 생명을 앗아간 근원이기도 했다.'
             },
             {
-              url: '/images/cgs/60_i12_2.png',
+              url: '/images/cgs/60_i12_2.webp',
               caption: '순식간에 오리지늄 결정에 잠식되어 외투만 남긴 채 바람 속으로 흩어지는 켈시',
               type: 'cg',
               triggerLine: '오리지늄 결정이 퍼져 나가기 시작하더니, 순식간에 그녀의 온몸을 집어삼켰고, 산산이 부서져 바람에 흩어졌다…… 장생한 자의 삶은 이렇게 끝났다. 그녀는 이미 자신의 약속을 지켰다.'
@@ -1085,23 +1085,23 @@ export const episode15: StoryArchive = {
           title: '의심한 적도, 떠난 적도',
           location: '로도스 아일랜드 본함 상층 갑판 및 어비스 내부',
           timeMarker: '1101년 여름',
-          cgUrl: '/images/cgs/60_i13_1.png',
+          cgUrl: '/images/cgs/60_i13_1.webp',
           cgCaption: '메타 정보 공식을 역전시킨 아츠 파장으로 프리스티스의 오리지늄을 부수는 아미야',
           visuals: [
             {
-              url: '/images/cgs/60_i13_1.png',
+              url: '/images/cgs/60_i13_1.webp',
               caption: '메타 정보 공식을 역전시킨 아츠 파장으로 프리스티스의 오리지늄을 부수는 아미야',
               type: 'cg',
               triggerLine: '아미야의 아츠에서 나온 파장이 당신과 아미야를 가두려던 오리지늄을 부쉈다. 수많은 오리지늄 결정의 표면에 아미야의 모습이 반사되고 있었다.'
             },
             {
-              url: '/images/cgs/60_i13_2.png',
+              url: '/images/cgs/60_i13_2.webp',
               caption: '수많은 오리지늄 결정 단면에 비친 프리스티스의 눈동자들과 맞서 분홍색 실을 펼치는 아미야',
               type: 'cg',
               triggerLine: '분홍색 실이 아미야의 아츠 스태프에서 뿜어져 나와 오리지늄으로 막혀 있는 공간을 날아다녔다. 모든 오리지늄 결정의 표면에서 프리스티스의 눈이 선명하게 보였다.'
             },
             {
-              url: '/images/cgs/60_i16.png',
+              url: '/images/cgs/60_i16.webp',
               caption: '어비스 내부의 백색 소음 속에서 본함 부품과 오리지늄으로 재조합된 거대 PRTS 의태 기계',
               type: 'cg',
               triggerLine: '어둠 속에서, 허공에 걸려 있는 마름모 모양의 광륜이 미세하게 움직였다. 거대한 기계 구조물이 끝없는 백색 소음 속에서 모두의 앞에 천천히 모습을 드러냈다……'
@@ -1168,23 +1168,23 @@ export const episode15: StoryArchive = {
           title: '돌아갈 기회',
           location: '어비스 내부·본함 외곽 격리 구역 및 1개월 후 부차트 시 인근 신기지',
           timeMarker: '1101년 여름 ~ 한 달 후',
-          cgUrl: '/images/cgs/60_i15.png',
+          cgUrl: '/images/cgs/60_i15.webp',
           cgCaption: '거대한 오리지늄 결정 군집에 완전히 감싸여 봉인된 로도스 아일랜드 본함',
           visuals: [
             {
-              url: '/images/cgs/60_i15.png',
+              url: '/images/cgs/60_i15.webp',
               caption: '거대한 오리지늄 결정 군집에 완전히 감싸여 봉인된 로도스 아일랜드 본함',
               type: 'cg',
               triggerLine: '로도스 아일랜드, 당신에게 그토록 익숙한 그 함선은 지금 거대한 오리지늄 결정 군집에 완전히 감싸져 있었다. 모래바람이 휘몰아쳤다.'
             },
             {
-              url: '/images/cgs/60_i14.png',
+              url: '/images/cgs/60_i14.webp',
               caption: '빗속의 숲에서 검은 결정 고치로부터 부화해 켈시의 옷을 걸친 인간형 소녀 Mon3tr',
               type: 'cg',
               triggerLine: '떨어지는 빗방울이 그녀의 손바닥을 가볍게 간지럽혔다. 그녀는 풀밭의 향기를 맡았고, 빗물의 차가움을 느꼈다…… 그리고 무심코 손에 있는 옷을 걸쳤다. 그건 켈시의 옷이었다……'
             },
             {
-              url: '/images/cgs/60_i18.png',
+              url: '/images/cgs/60_i18.webp',
               caption: '지휘실 단말기에서 켈시가 남긴 권한 로그(γ0000)의 홀로그램 메시지를 확인하는 Mon3tr와 아미야, 박사',
               type: 'cg',
               triggerLine: '“네가 이 로그에 접속했다는 건, 아마…… 네가 자유를 얻었다는 뜻이겠지. 넌 더 이상 \'켈시의 공생 구조체\'도, AMa-10의 반복되는 숙명을 짊어진 매개체도 아니다.”'
@@ -1247,11 +1247,11 @@ export const episode15: StoryArchive = {
           title: '대지와 일각의 안식처',
           location: '부차트 시 인근 신기지·봉인된 본함 협곡·어비스 심층부 및 카즈델 변경',
           timeMarker: '1101년 여름 (본함 봉인 사건 한 달 후)',
-          cgUrl: '/images/cgs/avg_ep15.png',
+          cgUrl: '/images/cgs/avg_ep15.webp',
           cgCaption: '봉인된 어비스 안에서 홀로그램으로 현재의 테라 대륙과 \'콜로살 거대 광맥\'을 관측하는 프리스티스',
           visuals: [
             {
-              url: '/images/cgs/avg_ep15.png',
+              url: '/images/cgs/avg_ep15.webp',
               caption: '봉인된 어비스 안에서 홀로그램으로 현재의 테라 대륙과 \'콜로살 거대 광맥\'을 관측하는 프리스티스',
               type: 'cg',
               triggerLine: '“지금의 테라는 이런 모습이구나. \'콜로살 거대 광맥\'? 저 오리지늄이 이런 이름으로 불리는구나. 음…… 어쩌면 저게 다음 계획을 뒷받침할 적절한 선택이 될 수도 있겠네.”'
@@ -1305,7 +1305,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Kal\'tsit / AMa-10',
       faction: '로도스 아일랜드',
       role: '의료부 총괄 및 대지의 동반자',
-      avatarUrl: '/images/characters/kaltsit.png',
+      avatarUrl: '/images/characters/kaltsit.webp',
       description: '구인류가 제작한 생체 단말 AMa-10으로 \'예언가(박사)\'로부터 방해석에서 유래한 \'켈시\'라는 이름을 부여받았다. 4백만여 일 동안 테라를 지켜온 끝에 프리스티스의 강림 앞에서 로도스 아일랜드와 동료를 수호하며 소멸했고, 귀환의 단서를 Mon3tr에게 남겼다.',
       quote: '나는 켈시, 로도스 아일랜드의 의사이자, 아미야와 박사의 동료다. 그리고 넌, 나에게 일말의 가치조차 없는 존재야.',
       statusInChapter: '석관을 통해 쌍생 순환을 끊어 대원들의 눈이 되었고, 갑판에서 박사에게 \'예언가\'의 진실을 전한 뒤 프리스티스 앞에서 결정화되어 소멸함.'
@@ -1316,7 +1316,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Doctor / 예언가 Oracle',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 전술 지휘관 (과거 코드네임: 예언가)',
-      avatarUrl: '/images/characters/doctor.png',
+      avatarUrl: '/images/characters/doctor.webp',
       description: '과거 구인류 문명에서 \'예언가(Oracle)\'라 불리며 프리스티스와 함께 오리지늄을 완성했던 과학자. 오리지늄이 신생 문명을 이끄는 희망의 표식이 되길 바랐으며, 기억을 잃은 현재에도 프리스티스의 유혹을 뿌리치고 테라의 생명들과 함께 나아가는 길을 택한다.',
       quote: '아니. 오리지늄이 테라를 파괴하도록 둘 순 없어. ……우린 로도스 아일랜드를 잃은 적 없어. 너희가 있잖아.',
       statusInChapter: '아미야와 \'문명의 존속\' 특이점으로 다이브해 메타 정보 공식을 확보하고, 공식을 역전시켜 프리스티스의 지배를 일시 저지한 뒤 본함 철수를 지휘함.'
@@ -1327,7 +1327,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Amiya',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 최고 총괄 및 마왕 계승자',
-      avatarUrl: '/images/characters/amiya.png',
+      avatarUrl: '/images/characters/amiya.webp',
       description: '테레시아로부터 검은 왕관(\'문명의 존속\')을 계승한 로도스 아일랜드의 젊은 리더. 눈앞에서 켈시를 잃는 참극 속에서도 박사를 지키고 대원들을 무사히 철수시키며 한층 더 단단한 지도자로 성장한다.',
       quote: '저는 켈시 선생님에게 제 책임을 다하고, 박사님을 지키겠다고 약속했었어요. 이번에는 로도스 아일랜드의 사명이 끝나기 전까지 울지 않을 거예요.',
       statusInChapter: '박사와 함께 \'문명의 존속\' 특이점에 진입했으며, 갑판 결전에서 역전된 공식을 아츠에 엮어 오리지늄을 파쇄하고 Mon3tr 고치를 안고 탈출함.'
@@ -1338,7 +1338,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Priestess',
       faction: '구인류 문명',
       role: '구인류 언어학자 및 오리지늄·PRTS 공동 창조자',
-      avatarUrl: '/images/characters/priestess.png',
+      avatarUrl: '/images/characters/priestess.webp',
       description: '과거 예언가(박사)와 함께 궁극적 위협(\'그\')을 해석하기 위해 오리지늄 언어를 창조한 구인류 과학자. 신생 문명에 희망을 걸었던 예언가와 끝없는 \'변론\'을 벌였으며, 모든 물질을 오리지늄 정보로 동화시키는 것이 유일한 구원이라 믿고 있다.',
       quote: '이건 우리가 함께 창조한 거잖아. 우리 둘만의 결정이자, 희망의 씨앗이지. 내 곁으로 돌아와, 박사…… 테라를 오리지늄 결정으로 바꾸어, 미래로 이어지는 계단으로 만들어.',
       statusInChapter: '힐다에게 외계 문명의 멸망사를 보여준 뒤 본함 PRTS를 장악해 켈시를 제거했으며, 옛 본함을 결정으로 봉인하고 \'콜로살 거대 광맥\'으로 향함.'
@@ -1349,7 +1349,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Mon3tr',
       faction: '로도스 아일랜드',
       role: 'AMa-10 공생 구조체 → 로도스 아일랜드 정식 오퍼레이터',
-      avatarUrl: '/images/characters/mon3tr.png',
+      avatarUrl: '/images/characters/mon3tr.webp',
       description: '수만 년간 AMa-10의 쌍생 순환 구조 속에서 함께해 온 공생 생명체. 켈시가 쌍생 순환을 끊고 자신에게 자유를 부여한 뒤, 켈시를 닮은 인간형 소녀의 형태를 스스로 선택하여 깨어났으며 로도스 아일랜드의 정식 오퍼레이터로서 켈시를 되찾기 위한 연구를 이끈다.',
       quote: '\'켈시\', 이건 너의 이름이자…… 내가 가장 사랑하는 이름이었지…… 하지만 그건 너만의 것이야. \'Mon3tr\', 이 이름은 내가 간직할게. 이건 네가 준 이름이니까.',
       statusInChapter: '켈시 소멸 후 검은 고치로 수축되었다가 한 달 뒤 신기지 인근 숲에서 인간형 소녀로 부화하여, 우르수스 석관을 통한 켈시 귀환 해법을 제시함.'
@@ -1360,7 +1360,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Theresis',
       faction: '카즈델 군사위원회',
       role: '카즈델 섭정왕',
-      avatarUrl: '/images/characters/theresis.png',
+      avatarUrl: '/images/characters/theresis.webp',
       description: '테레시아와 함께 살카즈의 운명을 짊어졌던 카즈델의 섭정왕. 이미 심장이 멈추고 몸 안이 결정화된 상태에서도 끝까지 창조주 프리스티스에게 칼을 휘둘러 오리지늄의 권한 일부를 도려내었으며, 이로써 테라에 3년의 소중한 준비 시간을 벌어주었다.',
       quote: '신이든 창조주든 상관없다, 직접 나를 마주하라. ……나는 오로지 신을 심판하기 위해 왔다.',
       statusInChapter: '융합 우주에서 암나남의 통제권을 빼앗은 뒤, 지하 알현실에서 맨프레드를 탈출시키고 아스카론의 일격을 받아들이며 살카즈의 귀향을 당부하고 숨을 거둠.'
@@ -1382,7 +1382,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Closure',
       faction: '로도스 아일랜드',
       role: '엔지니어링부 총괄 및 시스템 총책임자',
-      avatarUrl: '/images/characters/closure.png',
+      avatarUrl: '/images/characters/closure.webp',
       description: '로도스 아일랜드의 수석 엔지니어. 자신이 아끼던 예비 인공지능 ZOOT의 희생으로 본함을 멈춰 세웠으며, 켈시 부재 이후 슬픔을 딛고 박사와 아미야를 보좌하며 새로운 이동 섹터 본함의 건설을 이끌고 있다.',
       quote: '잠깐, 버텨, \'제로식 오일탱크\'! ……켈시가 없으니, 내가 박사랑 아미야를 도와서 관리 업무를 더 많이 맡을 거야. 켈시를 실망시키고 싶지 않아.',
       statusInChapter: 'PRTS 이상을 감지해 플랫폼을 분리하고 예비 시스템 ZOOT를 과부하 가동해 본함을 정지시켰으며, 사건 이후 신기지 재건과 대외 협상을 총괄함.'
@@ -1393,7 +1393,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Warfarin',
       faction: '로도스 아일랜드',
       role: '의료부 핵심 책임자 및 혈액학 권위자',
-      avatarUrl: '/images/characters/warfarin.png',
+      avatarUrl: '/images/characters/warfarin.webp',
       description: '켈시와 오랜 세월을 함께한 의료부의 기둥. 불사의 오리지늄 결정체들을 소멸시킬 결정적 단서를 마련했으며, 켈시의 빈자리를 지키며 의료부 재건과 광석병의 새로운 변이 연구를 주도한다.',
       quote: '이 논문은 로도스 아일랜드가 클로에에게 바치는 경의이자, 우리의 약속이야…… 그리고 켈시에게 하는 약속이지.',
       statusInChapter: '특이 감염자 클로에를 3년간 치료하고 그녀의 희생 데이터를 켈시에게 전해 커브 개량을 성사시켰으며, 한 달 뒤 신기지에서 공동 논문을 발표함.'
@@ -1404,7 +1404,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Chloe / 평온한 감염자',
       faction: '로도스 아일랜드 병동 환자',
       role: '빅토리아 출신 중증 광석병 환자 및 공동 연구원',
-      avatarUrl: '/images/characters/chloe.png',
+      avatarUrl: '/images/characters/chloe.webp',
       description: '과거 빅토리아 고향 마을의 종루에서 다친 감염자 병사들을 돌보던 소녀. 3년간 병상에서 고통과 싸우면서도 끝까지 희망을 잃지 않았으며, 절체절명의 위기에서 의사와 동료들을 구하기 위해 자신의 생명을 바친 숭고한 환자이다.',
       quote: '이 사람의…… 울부짖음이 들려요. 우리, 우리는 닮았어요…… 와파린 선생님, 그러면 이 괴물들을 상대하는 데 제가 도움을 드릴 수 있다는 의미인가요? 잘 모르겠지만, 두렵진 않아요.',
       statusInChapter: '결정체들이 자신을 공격하지 않자 스스로 몸에 상처를 내어 결정체 소멸을 위한 결정적 실험 데이터를 의료진에게 남기고 사망함.'
@@ -1415,7 +1415,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Logos',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 및 밴시의 군주',
-      avatarUrl: '/images/characters/logos.png',
+      avatarUrl: '/images/characters/logos.webp',
       description: '골필의 주술로 법칙에 간섭하는 최정예 오퍼레이터. 아미야에게 주술을 아츠에 엮는 법을 가르쳐 주어 프리스티스의 오리지늄을 파쇄하는 데 기여했으며, 신기지 건설에서도 자재 운반을 돕는 등 핵심적인 역할을 수행한다.',
       quote: '\'만류\'. 내 언어가 로도스 아일랜드를 포옹하고, 내 모든 힘은 로도스 아일랜드를 붙잡을 것이다.',
       statusInChapter: '메커니스트와 커브를 개량하고 동력층에서 밴시의 언령(\'별이\', \'만류\')으로 본함을 붙잡았으며, 어비스 의태 기계 토벌 및 갑판 구출에 활약함.'
@@ -1426,7 +1426,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Ascalon',
       faction: '로도스 아일랜드',
       role: 'S.W.E.E.P. 총괄 책임자',
-      avatarUrl: '/images/characters/ascalon.png',
+      avatarUrl: '/images/characters/ascalon.webp',
       description: '바벨 시절부터 이어진 테레시스와의 기나긴 악연을 자신의 손으로 매듭지은 그림자 암살자. 한 달 후 봉인된 옛 본함 협곡 감시 임무 도중 절벽 아래에서 힐다가 일으킨 치유의 기적을 목격한다.',
       quote: '당신이 가르쳐 줬잖아. 공격의 기회는 단 한 번뿐이라고. ……로도스 아일랜드의 쓰레기를 치워버려야지.',
       statusInChapter: '지하 알현실에서 테레시스의 최후를 지켰으며, 3년 뒤 본함 사태에서 테레시아 환영을 극복해 어비스 의태 기계를 타격하고 박사·아미야를 구출함.'
@@ -1437,7 +1437,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Mechanist',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (기계 공학 및 엔지니어링)',
-      avatarUrl: '/images/characters/mechanist.png',
+      avatarUrl: '/images/characters/mechanist.webp',
       description: '로도스 아일랜드의 기술력을 책임지는 정예 오퍼레이터. 어비스 심층부에서 목숨을 건 해킹 작전을 성공시켜 본함 대원들의 무사 철수를 이끌어냈으며, 한 달 뒤 이동 섹터 신기지의 조립 공사를 총지휘한다.',
       quote: '이 석관은 휴면 장치일 뿐만 아니라, PRTS의 진정한 데이터베이스이자 에너지 공급 장치야. PRTS의 핵심 데이터를 다운로드하고 바로 모든 데이터를 삭제할 거야.',
       statusInChapter: '구인류 공식으로 커브를 개량하고 본함 순환 모형을 구축했으며, 어비스 내부 특수 석관에 접속해 240초 만에 핵심 데이터를 백업·초기화함.'
@@ -1448,7 +1448,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Raidian',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (전자기 통신 및 신호 분석)',
-      avatarUrl: '/images/characters/raidian.png',
+      avatarUrl: '/images/characters/raidian.webp',
       description: '생체 전기 신호와 전자기파를 다루는 통신 특화 정예 오퍼레이터. PRTS가 모든 통신을 차단한 암흑 속에서 켈시, 만트라와 함께 로도스 아일랜드의 신경망을 재구축한 일등 공신이다.',
       quote: '특별한 도움 덕분에, 함선 전체를 커버하는 전자기 통신 환경을 임시로 구축했다. ……닥터 켈시가 우리의 눈이 되어 줄 것이다.',
       statusInChapter: '석관의 켈시 신호를 포착해 본함 전체 전자기 통신망과 실시간 스캔을 구축하고, 만트라와 연계해 대원 위치 파악 및 어비스 좌표를 동기화함.'
@@ -1459,7 +1459,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Mantra',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (정신 감응 아츠)',
-      avatarUrl: '/images/characters/mantra.png',
+      avatarUrl: '/images/characters/mantra.webp',
       description: '평소 말을 아끼는 베테랑 정예 오퍼레이터이나, 함내 소리가 차단되고 기억과 감정이 모독당하는 순간 정신 감응 아츠로 목소리와 지도를 동기화하며 전 함내를 하나로 묶어낸 정신적 지주이다.',
       quote: '추억과 감정이 모독당하는 건 절대 참을 수 없다. 놈은 침묵으로 우리를 막으려고 한다. 그렇다면 내가 모두를 연결해 주는 목청이 되어주지…… 자, 이제 모두에게 목소리를 돌려주겠다.',
       statusInChapter: '망자의 환영과 침묵으로 대원들이 고립되자 정신 감응 아츠로 전 오퍼레이터의 뇌리에 목소리와 스캔 지도를 동기화해 지휘함.'
@@ -1470,7 +1470,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Misery',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (공간 왜곡 및 잠입)',
-      avatarUrl: '/images/characters/misery.png',
+      avatarUrl: '/images/characters/misery.webp',
       description: '과거 동료를 잃었던 아픔을 가슴에 품고 누구보다 빠르게 위기 현장에 뛰어드는 정예 오퍼레이터. 사건 종결 후 바벨의 위셔델에게 본함 사태와 암나남 주의보를 전달하기 위해 카즈델로 향한다.',
       quote: '이번엔 늦고 싶지 않아. 아스카론, 너도 똑같지 않아? ……꽉 잡아, 메커니스트! 다들 널 기다리고 있어.',
       statusInChapter: '물류 호송대 엄호 후 아웃캐스트 환영을 떨치고 어비스 고정점을 사수했으며, 수축하는 격벽에서 메커니스트를 구출하고 의태 기계를 쓰러뜨림.'
@@ -1481,7 +1481,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Blaze',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (열기 돌격)',
-      avatarUrl: '/images/characters/blaze.png',
+      avatarUrl: '/images/characters/blaze.webp',
       description: '언제나 선봉에서 전장을 불태우는 열혈 정예 오퍼레이터. 호송대 구출부터 어비스 내부 의태 기계와의 정면 승부까지 낯선 위협 앞에서도 굴하지 않는 기세로 아군의 사기를 끌어올린다.',
       quote: '이것들이 어디서 기어 나왔든, 이 로도스 아일랜드의 주인이 누군지 반드시 알려주겠어. 내 공격을 받아라!!',
       statusInChapter: '호송대 구출과 커브 테스트를 거친 뒤, 폭주한 지원 로봇들을 제압해 Friston-3 복구를 돕고 어비스에서 의태 기계와 정면 승부를 벌임.'
@@ -1492,7 +1492,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Rosmontis',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (염동력 전술 병기)',
-      avatarUrl: '/images/characters/rosmontis.png',
+      avatarUrl: '/images/characters/rosmontis.webp',
       description: '거대한 전술 장비를 염동력으로 다루는 어린 정예 오퍼레이터. 폭주한 지원 로봇들도 다치지 않게 보호하는 따뜻한 마음과 어비스 결전에서 적의 핵심을 꿰뚫는 결단력으로 승기를 잡는다.',
       quote: '저 마름모 눈을 반드시 부숴야 해. ……너도 아플까?',
       statusInChapter: '폭주한 지원 로봇들을 다치지 않게 붙잡아 복구를 돕고, 스톰아이의 화살을 염동력으로 가속해 의태 기계의 마름모 눈에 꽂아 넣음.'
@@ -1503,7 +1503,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Sharp',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (근접 전술 지휘)',
-      avatarUrl: '/images/characters/sharp.png',
+      avatarUrl: '/images/characters/sharp.webp',
       description: '어떤 기이한 환영 속에서도 흔들리지 않는 노련한 정예 오퍼레이터. 본함 내부가 아수라장이 된 상황에서도 항공기로 출격해 외부 채굴 플랫폼의 무고한 희생을 막기 위해 하늘로 몸을 던졌다.',
       quote: '항로에서 발생할 수 있는 돌발 요소를 반드시 제거해야 해. 무고한 사람이 휘말리지 않도록 밖에서 본함을 보호해야겠군.',
       statusInChapter: '식당과 대장간에서 화이트스미스의 환영과 결정체에 맞선 뒤, 스톰아이와 항공기로 출격해 본함 항로상 채굴 플랫폼의 민간인을 대피시킴.'
@@ -1514,7 +1514,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Stormeye',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (원거리 저격)',
-      avatarUrl: '/images/characters/stormeye.png',
+      avatarUrl: '/images/characters/stormeye.webp',
       description: '백발백중의 활솜씨를 지닌 정예 저격수. 죽은 형제들의 환영을 이겨내고 동료와 ZOOT의 계산을 전적으로 신뢰하는 과감한 사격으로 어비스 돌파와 코어 제압에 결정적인 공을 세운다.',
       quote: '발사한 순간에 지형이 바뀌었어. 장애물이 사라지면서 적을 맞히다니…… 내 화살에 맡겨.',
       statusInChapter: '채굴 플랫폼 대피 작전 후 본함에 복귀해 ZOOT의 지시에 따라 눈을 감고 기둥 너머 적을 명중시키고, 어비스 의태 기계의 눈을 저격함.'
@@ -1525,7 +1525,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Pith',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (전술 캐스터)',
-      avatarUrl: '/images/characters/pith.png',
+      avatarUrl: '/images/characters/pith.webp',
       description: '냉철한 상황 판단력으로 전선을 조율하는 정예 캐스터 오퍼레이터. 혼란에 빠진 일반 대원들을 다독이고 비핵심 구역을 정리하며 사상자 제로의 기적적인 본함 철수를 이끌어냈다.',
       quote: '우리에겐 아직 이 오리지늄 적을 처리할 수 있는 효과적인 수단이 없어. 자신을 보호하는 걸 최우선 목표로 하길 바란다.',
       statusInChapter: '호송대 구출 후 터치와 비핵심 구역을 정리해 일반 대원들의 안전 철수선을 확보했고, 마지막 순간 갑판의 박사와 아미야를 구출함.'
@@ -1536,7 +1536,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Touch',
       faction: '로도스 아일랜드',
       role: '정예 오퍼레이터 (야전 의료 총괄)',
-      avatarUrl: '/images/characters/touch.png',
+      avatarUrl: '/images/characters/touch.webp',
       description: '정예 오퍼레이터들의 생명줄을 책임지는 수석 메딕. 켈시의 부재라는 충격 속에서도 흔들리는 와파린을 다독이며, 어비스 결전과 본함 철수 후 200여 부상자의 응급 치료와 의료진을 통솔한다.',
       quote: '이건 명령입니다. 걱정하지 마세요. 저 또한 제 관할 내에서 사고를 당하는 오퍼레이터가 생기는 것을 원치 않으니까요.',
       statusInChapter: '와파린과 클로에의 변이를 발견하고 커브 테스트의 안전을 통제했으며, 본함 철수 후 외부 격리 구역에서 200여 부상자 치료를 지휘함.'
@@ -1547,7 +1547,7 @@ export const episode15: StoryArchive = {
       nameEn: '트레버 프리스턴 / Trevor Friston',
       faction: '로도스 아일랜드',
       role: '구인류 과학자 의식 기반 지원 로봇',
-      avatarUrl: '/images/characters/friston.png',
+      avatarUrl: '/images/characters/friston.webp',
       description: '론 트레일 사건 이후 개량형 작업 플랫폼에 깃든 트레버 프리스턴의 디지털 의식. 주체 의식조차 없다고 여겼던 로봇 동료들에게 인간 시절의 가장 소중한 기억을 나누어 주며 진정한 동료로 거듭난다.',
       quote: '내 꿈이야, 나에게도 똑같이 놀라운 꿈. ……코드 덮어쓰기 완료. 자, 이제 집으로 돌아가지.',
       statusInChapter: '오리지늄 코어 공명으로 딸의 결혼식과 크리스틴의 꿈을 꾸게 되었으며, 폭주한 지원 로봇 4기에게 핵심 코드와 꿈을 나누어 정상으로 복구시킴.'
@@ -1558,7 +1558,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Civilight Eterna / \'테레시아\'',
       faction: '로도스 아일랜드 (\'문명의 존속\' DWDB-221E)',
       role: '문명의 존속 내 테레시아의 기억 인격체',
-      avatarUrl: '/images/characters/civilight_eterna.png',
+      avatarUrl: '/images/characters/civilight_eterna.webp',
       description: '테레시아가 남긴 감정과 기억을 바탕으로 \'문명의 존속\' 내부에 구현된 의식체. 특이점 경계에서 길을 잃지 않도록 고정점이 되어 켈시와 아미야, 박사를 인도하는 따뜻한 등불이 된다.',
       quote: '내가 여기서 지켜보고 있을게. 내가 너의 고정점이 되어줄게. 계속 전진하렴, 아미야.',
       statusInChapter: '켈시에게 딥다이브를 알리고 특이점에 진입한 아미야·박사의 고정점이 되었으며, 갑판 결전에서 아미야에게 역전 아츠 운용법을 전수함.'
@@ -1569,7 +1569,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Phototaxis',
       faction: '구인류 함선 \'로도스 아일랜드\'',
       role: '구인류 함선 내 결정질 지성 구조체',
-      avatarUrl: '/images/characters/phototaxis.png',
+      avatarUrl: '/images/characters/phototaxis.webp',
       description: '정체된 시간의 파편 속 구인류 함선에 기록되어 있는 다면체 결정 구조체. 차가운 기계음 속에 선의와 유머를 지니고 있으며, 외로운 여행자 힐다의 첫 번째 벗이 되어주었다.',
       quote: '안세타는 죽음과 탄생이 같은 기원에서 비롯되었다고 여긴다. ……그리고 그 함선의 이름은 \'로도스 아일랜드\'다.',
       statusInChapter: '구인류 함선에서 깨어난 힐다에게 소리의 진동으로 언어를 번역해 주고, 메타 언어 \'안세타\'와 함선의 이름, 유령과 프리스티스를 알려줌.'
@@ -1580,7 +1580,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Ghost / 신비로운 존재',
       faction: '구인류 함선 \'로도스 아일랜드\'',
       role: '외계 행성 포식 종족의 최후 생존자이자 우주 여행자',
-      avatarUrl: '/images/characters/ghost.png',
+      avatarUrl: '/images/characters/ghost.webp',
       description: '한때 행성을 삼키며 우주를 유랑했으나 진정한 파멸(\'그\') 앞에서 동족을 모두 잃고 구인류 함선의 손님이 된 신비로운 존재. 본함 이변 당시 포푸카가 본 창문 너머의 환영으로도 모습을 비추었다.',
       quote: '생명은 결국 무덤 속에서 다시 태어나게 돼 있어. 그리고 언젠가 우리가 묘비에 새겨둔 것들을 이해하게 되겠지. 그건 한때 우리가 가졌던 삶이자, 우리가 존재했었던 증거니까.',
       statusInChapter: '구인류 함선과 우주에서 힐다와 조우해 초신성 폭발과 지성체의 오만, 우주의 절대적 평등에 관한 가르침을 전하고 프리스티스를 소개함.'
@@ -1591,7 +1591,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Alanna',
       faction: '로도스 아일랜드',
       role: '작전 및 수송 지원 오퍼레이터',
-      avatarUrl: '/images/characters/alanna.png',
+      avatarUrl: '/images/characters/alanna.webp',
       description: '밝고 씩씩한 성격으로 워미와 작업 로봇 \'삐빅이\'를 살뜰히 챙기는 오퍼레이터. 살아 움직이는 듯 뒤틀리는 본함 내부에서도 침착하게 소대를 이끌고 완충 구역을 지켜냈다.',
       quote: '그래도 현재까지 중상자 31명, 경상자 173명이야, 사망자는 아직 없어. ……박사도 말했잖아, 원래 그 함선도 다시 정리할 거라고.',
       statusInChapter: '외근을 준비하다 본함 사태에 휘말려 폭주하는 \'삐빅이\'와 결정체를 막으며 완충 구역을 지켰고, 철수 후 사상자 집계 및 신기지 안내를 맡음.'
@@ -1602,7 +1602,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Popukar',
       faction: '로도스 아일랜드',
       role: '예비작전팀 A6 오퍼레이터',
-      avatarUrl: '/images/characters/popukar.png',
+      avatarUrl: '/images/characters/popukar.webp',
       description: '로도스 아일랜드 본함의 구석구석을 눈감고도 찾아가는 예비작전팀 대원. 본함 이변 속에서 이질적인 환영을 목격하고도 무사히 탈출했으며, 신기지에서 미드나이트의 병문안 선물을 챙기며 활기를 불어넣는다.',
       quote: '포푸카의 기억대로라면 창문 쪽은 갑판일 텐데. 왜 모든 창문에서 저 사람들이 보이는 거지?',
       statusInChapter: '오키드 일행과 채굴 모듈 호송을 마친 뒤 복귀했다가 본함 창문 너머 유령과 굴광자를 목격하고, 사라지기 직전의 통로로 외부 탈출함.'
@@ -1613,7 +1613,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Secunda / 언더플로우 Underflow',
       faction: '에기르',
       role: '에기르 순찰대 및 연락관',
-      avatarUrl: '/images/characters/secunda.png',
+      avatarUrl: '/images/characters/secunda.webp',
       description: '에기르의 클레멘티아 집정관과 글래디아 집정관의 명을 받아 로도스 아일랜드와 협력하는 에기르 연락관. 테라 전체에 다가오는 구인류의 위협에 맞서 에기르와 육지의 공조를 잇는 가교 역할을 한다.',
       quote: '이 이름이 에기르의 기록에도 나온다면, 당신들이 맞선 위협이 절대 우연이 아니라는 의미겠죠. ……해륙 연합 방어선도 추가로 검토하겠습니다.',
       statusInChapter: '사건 한 달 후 부차트 시 인근 신기지를 방문해 클로저에게 자료와 \'프리스티스\'의 이름을 전달받고, 에기르 DB 대조 및 호송 협조를 약속함.'
@@ -1624,7 +1624,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Oren',
       faction: '라테라노 공증소',
       role: '공증소 집행자 (아르마투라)',
-      avatarUrl: '/images/characters/oren.png',
+      avatarUrl: '/images/characters/oren.webp',
       description: '살카즈에 대한 강한 적개심을 지닌 라테라노의 집행자. 프리스티스의 각성과 오리지늄 이변 이후 라테라노의 근간인 산크타의 광륜과 율법 시스템에 심각한 이상이 시작되었음을 알리는 복선의 주역이다.',
       quote: '손을 떨면 안 됐는데. 너는 날 무서워해야지, 살카즈. 이제 끝이야.',
       statusInChapter: '시라쿠사 카라반을 습격한 살카즈 용병을 카즈델 외곽에서 처형하려다, 총신에 비친 자신의 광륜이 깜빡이며 자신이 살카즈처럼 보이는 현상을 겪음.'
@@ -1635,7 +1635,7 @@ export const episode15: StoryArchive = {
       nameEn: 'Savage',
       faction: '로도스 아일랜드',
       role: '엔지니어링부 오퍼레이터',
-      avatarUrl: '/images/characters/savage.png',
+      avatarUrl: '/images/characters/savage.webp',
       description: '림 빌리턴 출신의 로도스 아일랜드 고참 엔지니어 오퍼레이터. 장기 외근으로 떠나기 전 본함 개조를 앞둔 대원들을 격려하고 박사에게 황금 당근을 건네며 오랜 유대를 다진다.',
       quote: '외근 임무를 끝내고 다시 만날 날을 기대하고 있을게. 그러니까 내가 돌아올 때까지 기다려야 해, 박사.',
       statusInChapter: '1101년 여름 장기 외근 임무로 림 빌리턴으로 떠나기 전 박사에게 황금 당근을 건네며 안부를 전하고 무사 귀환을 약속함.'

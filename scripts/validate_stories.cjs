@@ -32,13 +32,57 @@ const CG_ASSETS_PATH = path.join(__dirname, '../src/data/db/characterCgAssets.ts
 const MASTER_DB_PATH = path.join(__dirname, '../src/data/db/characterMasterDb.ts');
 const ASSET_HELPER_PATH = path.join(__dirname, '../src/utils/characterAssetHelper.ts');
 
-function getPngDimensions(filePath) {
+function getImageDimensions(filePath) {
   try {
     const buf = fs.readFileSync(filePath);
-    if (buf.slice(0, 8).toString('hex') === '89504e470d0a1a0a') {
+    // PNG: 89 50 4E 47 0D 0A 1A 0A
+    if (buf.length >= 24 && buf.slice(0, 8).toString('hex') === '89504e470d0a1a0a') {
       const width = buf.readUInt32BE(16);
       const height = buf.readUInt32BE(20);
       return { width, height, valid: true };
+    }
+    // WebP: "RIFF" <4 bytes> "WEBP"
+    if (
+      buf.length >= 30 &&
+      buf.toString('ascii', 0, 4) === 'RIFF' &&
+      buf.toString('ascii', 8, 12) === 'WEBP'
+    ) {
+      const chunkHeader = buf.toString('ascii', 12, 16);
+      if (chunkHeader === 'VP8X' && buf.length >= 30) {
+        const width = 1 + (buf[24] | (buf[25] << 8) | (buf[26] << 16));
+        const height = 1 + (buf[27] | (buf[28] << 8) | (buf[29] << 16));
+        return { width, height, valid: true };
+      }
+      if (chunkHeader === 'VP8 ' && buf.length >= 30) {
+        const width = buf.readUInt16LE(26) & 0x3fff;
+        const height = buf.readUInt16LE(28) & 0x3fff;
+        return { width, height, valid: true };
+      }
+      if (chunkHeader === 'VP8L' && buf.length >= 25) {
+        const b1 = buf[21];
+        const b2 = buf[22];
+        const b3 = buf[23];
+        const b4 = buf[24];
+        const width = 1 + (((b2 & 0x3f) << 8) | b1);
+        const height = 1 + (((b4 & 0x0f) << 10) | (b3 << 2) | ((b2 & 0xc0) >> 6));
+        return { width, height, valid: true };
+      }
+    }
+    // JPEG: FF D8
+    if (buf.length >= 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+      let offset = 2;
+      while (offset + 9 < buf.length) {
+        if (buf[offset] !== 0xff) break;
+        const marker = buf[offset + 1];
+        const len = buf.readUInt16BE(offset + 2);
+        if ((marker >= 0xc0 && marker <= 0xc3) || (marker >= 0xc5 && marker <= 0xc7)) {
+          const height = buf.readUInt16BE(offset + 5);
+          const width = buf.readUInt16BE(offset + 7);
+          return { width, height, valid: true };
+        }
+        if (len < 2) break;
+        offset += 2 + len;
+      }
     }
   } catch (e) {
     // ignore
@@ -233,7 +277,7 @@ function validateStoryFile(filename, context) {
     if (!fs.existsSync(avatarPath)) {
       errors.push(`[아바타 누락] 캐릭터 '${nameKo}'(${charId})의 avatarUrl 파일이 존재하지 않습니다: ${avatarUrl}`);
     } else {
-      const dims = getPngDimensions(avatarPath);
+      const dims = getImageDimensions(avatarPath);
       if (dims.valid) {
         if (dims.width !== dims.height) {
           errors.push(`[아바타 규격 위반] 캐릭터 '${nameKo}'(${charId}) 아바타 비율이 1:1 정방형이 아닙니다: ${dims.width}x${dims.height} (${avatarUrl})`);
@@ -258,12 +302,21 @@ function validateStoryFile(filename, context) {
     // Orphan avatar prevention: Every character with a non-empty avatarUrl must also resolve to an existing standing illustUrl & CG asset
     const explicitIllust = (ch.illustUrl || '').trim();
     const aliasId = context.assetAliases[charId] || charId;
-    const resolvedIllustUrl =
-      explicitIllust && explicitIllust !== avatarUrl && explicitIllust.includes('/illust/')
-        ? explicitIllust
-        : fs.existsSync(path.join(PUBLIC_DIR, 'images/characters/illust', `${charId}.png`))
-        ? `/images/characters/illust/${charId}.png`
-        : `/images/characters/illust/${aliasId}.png`;
+    const resolveCharIllustUrl = () => {
+      if (explicitIllust && explicitIllust !== avatarUrl && explicitIllust.includes('/illust/')) {
+        return explicitIllust;
+      }
+      for (const candidateId of [charId, aliasId]) {
+        for (const ext of ['webp', 'png']) {
+          const rel = `/images/characters/illust/${candidateId}.${ext}`;
+          if (fs.existsSync(path.join(PUBLIC_DIR, rel.replace(/^\//, '')))) {
+            return rel;
+          }
+        }
+      }
+      return `/images/characters/illust/${aliasId}.webp`;
+    };
+    const resolvedIllustUrl = resolveCharIllustUrl();
 
     const resolvedIllustPath = path.join(PUBLIC_DIR, resolvedIllustUrl.replace(/^\//, ''));
     if (!fs.existsSync(resolvedIllustPath)) {
@@ -381,7 +434,7 @@ function validateStoryFile(filename, context) {
       if (!fs.existsSync(cgPath)) {
         errors.push(`[씬 CG 파일 누락] 씬 CG 파일이 존재하지 않습니다: ${cgUrl}`);
       } else {
-        const dims = getPngDimensions(cgPath);
+        const dims = getImageDimensions(cgPath);
         if (dims.valid) {
           const ratio = dims.width / dims.height;
           if (dims.width <= dims.height || ratio < 1.2) {
@@ -499,7 +552,7 @@ function validateGlobalCharacterDatabases() {
       if (!fs.existsSync(avPath)) {
         errors.push(`[CG DB 아바타 파일 없음] '${asset.assetId}' -> ${asset.avatarUrl}`);
       } else {
-        const dims = getPngDimensions(avPath);
+        const dims = getImageDimensions(avPath);
         if (dims.valid && dims.width !== dims.height) {
           errors.push(`[CG DB 아바타 비율 오류] '${asset.assetId}'가 1:1이 아닙니다: ${dims.width}x${dims.height}`);
         }
@@ -648,11 +701,11 @@ function runAll() {
 
   const masterDir = path.join(__dirname, '../src/assets/character_masters');
   if (fs.existsSync(masterDir)) {
-    const masterFiles = fs.readdirSync(masterDir).filter(f => f.endsWith('.png'));
+    const masterFiles = fs.readdirSync(masterDir).filter(f => /\.(png|webp)$/i.test(f));
     let masterErrors = 0;
     masterFiles.forEach(mf => {
       const p = path.join(masterDir, mf);
-      const dims = getPngDimensions(p);
+      const dims = getImageDimensions(p);
       if (!dims.valid || dims.width < 120 || dims.height < 120) {
         masterErrors++;
         totalErrors++;

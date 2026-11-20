@@ -2025,6 +2025,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                               <img
                                 src={resolveAssetUrl(story.splashVisualUrl)}
                                 alt=""
+                                loading="lazy"
+                                decoding="async"
                                 draggable={false}
                                 onContextMenu={(e) => e.preventDefault()}
                                 className="w-full h-full object-cover opacity-35 select-none"
@@ -2434,6 +2436,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                             <img
                                               src={resolveAssetUrl(story.splashVisualUrl)}
                                               alt=""
+                                              loading="lazy"
+                                              decoding="async"
                                               draggable={false}
                                               onContextMenu={(e) => e.preventDefault()}
                                               className="w-full h-full object-cover object-center opacity-45 group-hover:opacity-75 group-hover:scale-105 transition-all duration-300 select-none"
@@ -2811,6 +2815,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                     <img
                                       src={resolveAssetUrl(story.splashVisualUrl)}
                                       alt={story.titleKo}
+                                      loading="lazy"
+                                      decoding="async"
                                       draggable={false}
                                       onContextMenu={(e) => e.preventDefault()}
                                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none"
@@ -3007,6 +3013,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                               <img
                                 src={resolveAssetUrl(story.splashVisualUrl)}
                                 alt=""
+                                loading="lazy"
+                                decoding="async"
                                 draggable={false}
                                 onContextMenu={(e) => e.preventDefault()}
                                 className="w-full h-full object-cover opacity-40 group-hover:opacity-65 transition-opacity select-none"
@@ -3115,6 +3123,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     <img
                       src={resolveAssetUrl(inspectedStory.splashVisualUrl)}
                       alt={inspectedStory.titleKo}
+                      decoding="async"
                       draggable={false}
                       onContextMenu={(e) => e.preventDefault()}
                       className="w-full h-full object-cover object-center opacity-80 select-none"

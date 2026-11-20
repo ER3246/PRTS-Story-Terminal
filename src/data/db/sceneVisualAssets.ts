@@ -12,1318 +12,1318 @@ export interface SceneVisualAssetItem {
 
 export const sceneVisualAssets: SceneVisualAssetItem[] = [
   {
-    "fileName": "21_i1.png",
-    "url": "/images/cgs/21_i1.png",
+    "fileName": "21_i1.webp",
+    "url": "/images/cgs/21_i1.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i10.png",
-    "url": "/images/cgs/21_i10.png",
+    "fileName": "21_i10.webp",
+    "url": "/images/cgs/21_i10.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i12.png",
-    "url": "/images/cgs/21_i12.png",
+    "fileName": "21_i12.webp",
+    "url": "/images/cgs/21_i12.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i13.png",
-    "url": "/images/cgs/21_i13.png",
+    "fileName": "21_i13.webp",
+    "url": "/images/cgs/21_i13.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i14.png",
-    "url": "/images/cgs/21_i14.png",
+    "fileName": "21_i14.webp",
+    "url": "/images/cgs/21_i14.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i15.png",
-    "url": "/images/cgs/21_i15.png",
+    "fileName": "21_i15.webp",
+    "url": "/images/cgs/21_i15.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i16.png",
-    "url": "/images/cgs/21_i16.png",
+    "fileName": "21_i16.webp",
+    "url": "/images/cgs/21_i16.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i2.png",
-    "url": "/images/cgs/21_i2.png",
+    "fileName": "21_i2.webp",
+    "url": "/images/cgs/21_i2.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i3.png",
-    "url": "/images/cgs/21_i3.png",
+    "fileName": "21_i3.webp",
+    "url": "/images/cgs/21_i3.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i5.png",
-    "url": "/images/cgs/21_i5.png",
+    "fileName": "21_i5.webp",
+    "url": "/images/cgs/21_i5.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i7.png",
-    "url": "/images/cgs/21_i7.png",
+    "fileName": "21_i7.webp",
+    "url": "/images/cgs/21_i7.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i8.png",
-    "url": "/images/cgs/21_i8.png",
+    "fileName": "21_i8.webp",
+    "url": "/images/cgs/21_i8.webp",
     "type": "cg"
   },
   {
-    "fileName": "21_i9.png",
-    "url": "/images/cgs/21_i9.png",
+    "fileName": "21_i9.webp",
+    "url": "/images/cgs/21_i9.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i01.png",
-    "url": "/images/cgs/27_i01.png",
+    "fileName": "27_i01.webp",
+    "url": "/images/cgs/27_i01.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i02.png",
-    "url": "/images/cgs/27_i02.png",
+    "fileName": "27_i02.webp",
+    "url": "/images/cgs/27_i02.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i03.png",
-    "url": "/images/cgs/27_i03.png",
+    "fileName": "27_i03.webp",
+    "url": "/images/cgs/27_i03.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i04.png",
-    "url": "/images/cgs/27_i04.png",
+    "fileName": "27_i04.webp",
+    "url": "/images/cgs/27_i04.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i05_1.png",
-    "url": "/images/cgs/27_i05_1.png",
+    "fileName": "27_i05_1.webp",
+    "url": "/images/cgs/27_i05_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i05_2.png",
-    "url": "/images/cgs/27_i05_2.png",
+    "fileName": "27_i05_2.webp",
+    "url": "/images/cgs/27_i05_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i06.png",
-    "url": "/images/cgs/27_i06.png",
+    "fileName": "27_i06.webp",
+    "url": "/images/cgs/27_i06.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i07.png",
-    "url": "/images/cgs/27_i07.png",
+    "fileName": "27_i07.webp",
+    "url": "/images/cgs/27_i07.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i08_1.png",
-    "url": "/images/cgs/27_i08_1.png",
+    "fileName": "27_i08_1.webp",
+    "url": "/images/cgs/27_i08_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i08_2.png",
-    "url": "/images/cgs/27_i08_2.png",
+    "fileName": "27_i08_2.webp",
+    "url": "/images/cgs/27_i08_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i09.png",
-    "url": "/images/cgs/27_i09.png",
+    "fileName": "27_i09.webp",
+    "url": "/images/cgs/27_i09.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i10.png",
-    "url": "/images/cgs/27_i10.png",
+    "fileName": "27_i10.webp",
+    "url": "/images/cgs/27_i10.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i11.png",
-    "url": "/images/cgs/27_i11.png",
+    "fileName": "27_i11.webp",
+    "url": "/images/cgs/27_i11.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i12.png",
-    "url": "/images/cgs/27_i12.png",
+    "fileName": "27_i12.webp",
+    "url": "/images/cgs/27_i12.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i13.png",
-    "url": "/images/cgs/27_i13.png",
+    "fileName": "27_i13.webp",
+    "url": "/images/cgs/27_i13.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i14_1.png",
-    "url": "/images/cgs/27_i14_1.png",
+    "fileName": "27_i14_1.webp",
+    "url": "/images/cgs/27_i14_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i14_2.png",
-    "url": "/images/cgs/27_i14_2.png",
+    "fileName": "27_i14_2.webp",
+    "url": "/images/cgs/27_i14_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i15.png",
-    "url": "/images/cgs/27_i15.png",
+    "fileName": "27_i15.webp",
+    "url": "/images/cgs/27_i15.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i16.png",
-    "url": "/images/cgs/27_i16.png",
+    "fileName": "27_i16.webp",
+    "url": "/images/cgs/27_i16.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i17.png",
-    "url": "/images/cgs/27_i17.png",
+    "fileName": "27_i17.webp",
+    "url": "/images/cgs/27_i17.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i18_1.png",
-    "url": "/images/cgs/27_i18_1.png",
+    "fileName": "27_i18_1.webp",
+    "url": "/images/cgs/27_i18_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i18_2.png",
-    "url": "/images/cgs/27_i18_2.png",
+    "fileName": "27_i18_2.webp",
+    "url": "/images/cgs/27_i18_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i19.png",
-    "url": "/images/cgs/27_i19.png",
+    "fileName": "27_i19.webp",
+    "url": "/images/cgs/27_i19.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i20.png",
-    "url": "/images/cgs/27_i20.png",
+    "fileName": "27_i20.webp",
+    "url": "/images/cgs/27_i20.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i21.png",
-    "url": "/images/cgs/27_i21.png",
+    "fileName": "27_i21.webp",
+    "url": "/images/cgs/27_i21.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i22.png",
-    "url": "/images/cgs/27_i22.png",
+    "fileName": "27_i22.webp",
+    "url": "/images/cgs/27_i22.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i23.png",
-    "url": "/images/cgs/27_i23.png",
+    "fileName": "27_i23.webp",
+    "url": "/images/cgs/27_i23.webp",
     "type": "cg"
   },
   {
-    "fileName": "27_i24.png",
-    "url": "/images/cgs/27_i24.png",
+    "fileName": "27_i24.webp",
+    "url": "/images/cgs/27_i24.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i01.png",
-    "url": "/images/cgs/29_i01.png",
+    "fileName": "29_i01.webp",
+    "url": "/images/cgs/29_i01.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i02.png",
-    "url": "/images/cgs/29_i02.png",
+    "fileName": "29_i02.webp",
+    "url": "/images/cgs/29_i02.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i03.png",
-    "url": "/images/cgs/29_i03.png",
+    "fileName": "29_i03.webp",
+    "url": "/images/cgs/29_i03.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i04.png",
-    "url": "/images/cgs/29_i04.png",
+    "fileName": "29_i04.webp",
+    "url": "/images/cgs/29_i04.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i05.png",
-    "url": "/images/cgs/29_i05.png",
+    "fileName": "29_i05.webp",
+    "url": "/images/cgs/29_i05.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i06.png",
-    "url": "/images/cgs/29_i06.png",
+    "fileName": "29_i06.webp",
+    "url": "/images/cgs/29_i06.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i07.png",
-    "url": "/images/cgs/29_i07.png",
+    "fileName": "29_i07.webp",
+    "url": "/images/cgs/29_i07.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i08.png",
-    "url": "/images/cgs/29_i08.png",
+    "fileName": "29_i08.webp",
+    "url": "/images/cgs/29_i08.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i09.png",
-    "url": "/images/cgs/29_i09.png",
+    "fileName": "29_i09.webp",
+    "url": "/images/cgs/29_i09.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i10.png",
-    "url": "/images/cgs/29_i10.png",
+    "fileName": "29_i10.webp",
+    "url": "/images/cgs/29_i10.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i11.png",
-    "url": "/images/cgs/29_i11.png",
+    "fileName": "29_i11.webp",
+    "url": "/images/cgs/29_i11.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_i12.png",
-    "url": "/images/cgs/29_i12.png",
+    "fileName": "29_i12.webp",
+    "url": "/images/cgs/29_i12.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i01_1.png",
-    "url": "/images/cgs/32_i01_1.png",
+    "fileName": "32_i01_1.webp",
+    "url": "/images/cgs/32_i01_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i01_2.png",
-    "url": "/images/cgs/32_i01_2.png",
+    "fileName": "32_i01_2.webp",
+    "url": "/images/cgs/32_i01_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i02.png",
-    "url": "/images/cgs/32_i02.png",
+    "fileName": "32_i02.webp",
+    "url": "/images/cgs/32_i02.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i03.png",
-    "url": "/images/cgs/32_i03.png",
+    "fileName": "32_i03.webp",
+    "url": "/images/cgs/32_i03.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i04.png",
-    "url": "/images/cgs/32_i04.png",
+    "fileName": "32_i04.webp",
+    "url": "/images/cgs/32_i04.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i05.png",
-    "url": "/images/cgs/32_i05.png",
+    "fileName": "32_i05.webp",
+    "url": "/images/cgs/32_i05.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i06.png",
-    "url": "/images/cgs/32_i06.png",
+    "fileName": "32_i06.webp",
+    "url": "/images/cgs/32_i06.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i07.png",
-    "url": "/images/cgs/32_i07.png",
+    "fileName": "32_i07.webp",
+    "url": "/images/cgs/32_i07.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i08_1.png",
-    "url": "/images/cgs/32_i08_1.png",
+    "fileName": "32_i08_1.webp",
+    "url": "/images/cgs/32_i08_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i08_2.png",
-    "url": "/images/cgs/32_i08_2.png",
+    "fileName": "32_i08_2.webp",
+    "url": "/images/cgs/32_i08_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i09.png",
-    "url": "/images/cgs/32_i09.png",
+    "fileName": "32_i09.webp",
+    "url": "/images/cgs/32_i09.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i10.png",
-    "url": "/images/cgs/32_i10.png",
+    "fileName": "32_i10.webp",
+    "url": "/images/cgs/32_i10.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i11.png",
-    "url": "/images/cgs/32_i11.png",
+    "fileName": "32_i11.webp",
+    "url": "/images/cgs/32_i11.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i12.png",
-    "url": "/images/cgs/32_i12.png",
+    "fileName": "32_i12.webp",
+    "url": "/images/cgs/32_i12.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i13.png",
-    "url": "/images/cgs/32_i13.png",
+    "fileName": "32_i13.webp",
+    "url": "/images/cgs/32_i13.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i14_1.png",
-    "url": "/images/cgs/32_i14_1.png",
+    "fileName": "32_i14_1.webp",
+    "url": "/images/cgs/32_i14_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i14_2.png",
-    "url": "/images/cgs/32_i14_2.png",
+    "fileName": "32_i14_2.webp",
+    "url": "/images/cgs/32_i14_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i15.png",
-    "url": "/images/cgs/32_i15.png",
+    "fileName": "32_i15.webp",
+    "url": "/images/cgs/32_i15.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i16.png",
-    "url": "/images/cgs/32_i16.png",
+    "fileName": "32_i16.webp",
+    "url": "/images/cgs/32_i16.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i17.png",
-    "url": "/images/cgs/32_i17.png",
+    "fileName": "32_i17.webp",
+    "url": "/images/cgs/32_i17.webp",
     "type": "cg"
   },
   {
-    "fileName": "32_i18.png",
-    "url": "/images/cgs/32_i18.png",
+    "fileName": "32_i18.webp",
+    "url": "/images/cgs/32_i18.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i01_1.png",
-    "url": "/images/cgs/37_i01_1.png",
+    "fileName": "37_i01_1.webp",
+    "url": "/images/cgs/37_i01_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i01_2.png",
-    "url": "/images/cgs/37_i01_2.png",
+    "fileName": "37_i01_2.webp",
+    "url": "/images/cgs/37_i01_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i02.png",
-    "url": "/images/cgs/37_i02.png",
+    "fileName": "37_i02.webp",
+    "url": "/images/cgs/37_i02.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i03.png",
-    "url": "/images/cgs/37_i03.png",
+    "fileName": "37_i03.webp",
+    "url": "/images/cgs/37_i03.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i04.png",
-    "url": "/images/cgs/37_i04.png",
+    "fileName": "37_i04.webp",
+    "url": "/images/cgs/37_i04.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i05.png",
-    "url": "/images/cgs/37_i05.png",
+    "fileName": "37_i05.webp",
+    "url": "/images/cgs/37_i05.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i06.png",
-    "url": "/images/cgs/37_i06.png",
+    "fileName": "37_i06.webp",
+    "url": "/images/cgs/37_i06.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i07.png",
-    "url": "/images/cgs/37_i07.png",
+    "fileName": "37_i07.webp",
+    "url": "/images/cgs/37_i07.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i08.png",
-    "url": "/images/cgs/37_i08.png",
+    "fileName": "37_i08.webp",
+    "url": "/images/cgs/37_i08.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i09.png",
-    "url": "/images/cgs/37_i09.png",
+    "fileName": "37_i09.webp",
+    "url": "/images/cgs/37_i09.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i10.png",
-    "url": "/images/cgs/37_i10.png",
+    "fileName": "37_i10.webp",
+    "url": "/images/cgs/37_i10.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i11.png",
-    "url": "/images/cgs/37_i11.png",
+    "fileName": "37_i11.webp",
+    "url": "/images/cgs/37_i11.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i12.png",
-    "url": "/images/cgs/37_i12.png",
+    "fileName": "37_i12.webp",
+    "url": "/images/cgs/37_i12.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i13.png",
-    "url": "/images/cgs/37_i13.png",
+    "fileName": "37_i13.webp",
+    "url": "/images/cgs/37_i13.webp",
     "type": "cg"
   },
   {
-    "fileName": "37_i14.png",
-    "url": "/images/cgs/37_i14.png",
+    "fileName": "37_i14.webp",
+    "url": "/images/cgs/37_i14.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i01.png",
-    "url": "/images/cgs/38_i01.png",
+    "fileName": "38_i01.webp",
+    "url": "/images/cgs/38_i01.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i02.png",
-    "url": "/images/cgs/38_i02.png",
+    "fileName": "38_i02.webp",
+    "url": "/images/cgs/38_i02.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i03.png",
-    "url": "/images/cgs/38_i03.png",
+    "fileName": "38_i03.webp",
+    "url": "/images/cgs/38_i03.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i04.png",
-    "url": "/images/cgs/38_i04.png",
+    "fileName": "38_i04.webp",
+    "url": "/images/cgs/38_i04.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i05.png",
-    "url": "/images/cgs/38_i05.png",
+    "fileName": "38_i05.webp",
+    "url": "/images/cgs/38_i05.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i06.png",
-    "url": "/images/cgs/38_i06.png",
+    "fileName": "38_i06.webp",
+    "url": "/images/cgs/38_i06.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i07.png",
-    "url": "/images/cgs/38_i07.png",
+    "fileName": "38_i07.webp",
+    "url": "/images/cgs/38_i07.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i08.png",
-    "url": "/images/cgs/38_i08.png",
+    "fileName": "38_i08.webp",
+    "url": "/images/cgs/38_i08.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i09.png",
-    "url": "/images/cgs/38_i09.png",
+    "fileName": "38_i09.webp",
+    "url": "/images/cgs/38_i09.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i10.png",
-    "url": "/images/cgs/38_i10.png",
+    "fileName": "38_i10.webp",
+    "url": "/images/cgs/38_i10.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i11.png",
-    "url": "/images/cgs/38_i11.png",
+    "fileName": "38_i11.webp",
+    "url": "/images/cgs/38_i11.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i12.png",
-    "url": "/images/cgs/38_i12.png",
+    "fileName": "38_i12.webp",
+    "url": "/images/cgs/38_i12.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i13.png",
-    "url": "/images/cgs/38_i13.png",
+    "fileName": "38_i13.webp",
+    "url": "/images/cgs/38_i13.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i14.png",
-    "url": "/images/cgs/38_i14.png",
+    "fileName": "38_i14.webp",
+    "url": "/images/cgs/38_i14.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i15_1.png",
-    "url": "/images/cgs/38_i15_1.png",
+    "fileName": "38_i15_1.webp",
+    "url": "/images/cgs/38_i15_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i15_2.png",
-    "url": "/images/cgs/38_i15_2.png",
+    "fileName": "38_i15_2.webp",
+    "url": "/images/cgs/38_i15_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "38_i16.png",
-    "url": "/images/cgs/38_i16.png",
+    "fileName": "38_i16.webp",
+    "url": "/images/cgs/38_i16.webp",
     "type": "cg"
   },
   {
-    "fileName": "ac5_2.png",
-    "url": "/images/cgs/ac5_2.png",
+    "fileName": "ac5_2.webp",
+    "url": "/images/cgs/ac5_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "ac5_7.png",
-    "url": "/images/cgs/ac5_7.png",
+    "fileName": "ac5_7.webp",
+    "url": "/images/cgs/ac5_7.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_5_7_shining.png",
-    "url": "/images/cgs/avg_5_7_shining.png",
+    "fileName": "avg_5_7_shining.webp",
+    "url": "/images/cgs/avg_5_7_shining.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_1.png",
-    "url": "/images/cgs/avg_ac15_1.png",
+    "fileName": "avg_ac15_1.webp",
+    "url": "/images/cgs/avg_ac15_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_10.png",
-    "url": "/images/cgs/avg_ac15_10.png",
+    "fileName": "avg_ac15_10.webp",
+    "url": "/images/cgs/avg_ac15_10.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_10_1.png",
-    "url": "/images/cgs/avg_ac15_10_1.png",
+    "fileName": "avg_ac15_10_1.webp",
+    "url": "/images/cgs/avg_ac15_10_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_2.png",
-    "url": "/images/cgs/avg_ac15_2.png",
+    "fileName": "avg_ac15_2.webp",
+    "url": "/images/cgs/avg_ac15_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_3.png",
-    "url": "/images/cgs/avg_ac15_3.png",
+    "fileName": "avg_ac15_3.webp",
+    "url": "/images/cgs/avg_ac15_3.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_3add.png",
-    "url": "/images/cgs/avg_ac15_3add.png",
+    "fileName": "avg_ac15_3add.webp",
+    "url": "/images/cgs/avg_ac15_3add.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_3add_2.png",
-    "url": "/images/cgs/avg_ac15_3add_2.png",
+    "fileName": "avg_ac15_3add_2.webp",
+    "url": "/images/cgs/avg_ac15_3add_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_4.png",
-    "url": "/images/cgs/avg_ac15_4.png",
+    "fileName": "avg_ac15_4.webp",
+    "url": "/images/cgs/avg_ac15_4.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_5.png",
-    "url": "/images/cgs/avg_ac15_5.png",
+    "fileName": "avg_ac15_5.webp",
+    "url": "/images/cgs/avg_ac15_5.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_5_2.png",
-    "url": "/images/cgs/avg_ac15_5_2.png",
+    "fileName": "avg_ac15_5_2.webp",
+    "url": "/images/cgs/avg_ac15_5_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_5_3.png",
-    "url": "/images/cgs/avg_ac15_5_3.png",
+    "fileName": "avg_ac15_5_3.webp",
+    "url": "/images/cgs/avg_ac15_5_3.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_6.png",
-    "url": "/images/cgs/avg_ac15_6.png",
+    "fileName": "avg_ac15_6.webp",
+    "url": "/images/cgs/avg_ac15_6.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_6_2.png",
-    "url": "/images/cgs/avg_ac15_6_2.png",
+    "fileName": "avg_ac15_6_2.webp",
+    "url": "/images/cgs/avg_ac15_6_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_8.png",
-    "url": "/images/cgs/avg_ac15_8.png",
+    "fileName": "avg_ac15_8.webp",
+    "url": "/images/cgs/avg_ac15_8.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_8_2.png",
-    "url": "/images/cgs/avg_ac15_8_2.png",
+    "fileName": "avg_ac15_8_2.webp",
+    "url": "/images/cgs/avg_ac15_8_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_9.png",
-    "url": "/images/cgs/avg_ac15_9.png",
+    "fileName": "avg_ac15_9.webp",
+    "url": "/images/cgs/avg_ac15_9.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac15_9_2.png",
-    "url": "/images/cgs/avg_ac15_9_2.png",
+    "fileName": "avg_ac15_9_2.webp",
+    "url": "/images/cgs/avg_ac15_9_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_1.png",
-    "url": "/images/cgs/avg_ac9_1.png",
+    "fileName": "avg_ac9_1.webp",
+    "url": "/images/cgs/avg_ac9_1.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_2.png",
-    "url": "/images/cgs/avg_ac9_2.png",
+    "fileName": "avg_ac9_2.webp",
+    "url": "/images/cgs/avg_ac9_2.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_3.png",
-    "url": "/images/cgs/avg_ac9_3.png",
+    "fileName": "avg_ac9_3.webp",
+    "url": "/images/cgs/avg_ac9_3.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_4.png",
-    "url": "/images/cgs/avg_ac9_4.png",
+    "fileName": "avg_ac9_4.webp",
+    "url": "/images/cgs/avg_ac9_4.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_5.png",
-    "url": "/images/cgs/avg_ac9_5.png",
+    "fileName": "avg_ac9_5.webp",
+    "url": "/images/cgs/avg_ac9_5.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_6.png",
-    "url": "/images/cgs/avg_ac9_6.png",
+    "fileName": "avg_ac9_6.webp",
+    "url": "/images/cgs/avg_ac9_6.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_7.png",
-    "url": "/images/cgs/avg_ac9_7.png",
+    "fileName": "avg_ac9_7.webp",
+    "url": "/images/cgs/avg_ac9_7.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ac9_8.png",
-    "url": "/images/cgs/avg_ac9_8.png",
+    "fileName": "avg_ac9_8.webp",
+    "url": "/images/cgs/avg_ac9_8.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ep09.png",
-    "url": "/images/cgs/avg_ep09.png",
+    "fileName": "avg_ep09.webp",
+    "url": "/images/cgs/avg_ep09.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ep10.png",
-    "url": "/images/cgs/avg_ep10.png",
+    "fileName": "avg_ep10.webp",
+    "url": "/images/cgs/avg_ep10.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ep11.png",
-    "url": "/images/cgs/avg_ep11.png",
+    "fileName": "avg_ep11.webp",
+    "url": "/images/cgs/avg_ep11.webp",
     "type": "cg"
   },
   {
-    "fileName": "avg_ep12.png",
-    "url": "/images/cgs/avg_ep12.png",
+    "fileName": "avg_ep12.webp",
+    "url": "/images/cgs/avg_ep12.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep00_climax.png",
-    "url": "/images/cgs/ep00_climax.png",
+    "fileName": "ep00_climax.webp",
+    "url": "/images/cgs/ep00_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep00_escalation.png",
-    "url": "/images/cgs/ep00_escalation.png",
+    "fileName": "ep00_escalation.webp",
+    "url": "/images/cgs/ep00_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep00_incident.png",
-    "url": "/images/cgs/ep00_incident.png",
+    "fileName": "ep00_incident.webp",
+    "url": "/images/cgs/ep00_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep00_resolution.png",
-    "url": "/images/cgs/ep00_resolution.png",
+    "fileName": "ep00_resolution.webp",
+    "url": "/images/cgs/ep00_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep01_climax.png",
-    "url": "/images/cgs/ep01_climax.png",
+    "fileName": "ep01_climax.webp",
+    "url": "/images/cgs/ep01_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep01_escalation.png",
-    "url": "/images/cgs/ep01_escalation.png",
+    "fileName": "ep01_escalation.webp",
+    "url": "/images/cgs/ep01_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep01_incident.png",
-    "url": "/images/cgs/ep01_incident.png",
+    "fileName": "ep01_incident.webp",
+    "url": "/images/cgs/ep01_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep01_resolution.png",
-    "url": "/images/cgs/ep01_resolution.png",
+    "fileName": "ep01_resolution.webp",
+    "url": "/images/cgs/ep01_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep02_climax.png",
-    "url": "/images/cgs/ep02_climax.png",
+    "fileName": "ep02_climax.webp",
+    "url": "/images/cgs/ep02_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep02_escalation.png",
-    "url": "/images/cgs/ep02_escalation.png",
+    "fileName": "ep02_escalation.webp",
+    "url": "/images/cgs/ep02_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep02_incident.png",
-    "url": "/images/cgs/ep02_incident.png",
+    "fileName": "ep02_incident.webp",
+    "url": "/images/cgs/ep02_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep02_resolution.png",
-    "url": "/images/cgs/ep02_resolution.png",
+    "fileName": "ep02_resolution.webp",
+    "url": "/images/cgs/ep02_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep03_climax.png",
-    "url": "/images/cgs/ep03_climax.png",
+    "fileName": "ep03_climax.webp",
+    "url": "/images/cgs/ep03_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep03_escalation.png",
-    "url": "/images/cgs/ep03_escalation.png",
+    "fileName": "ep03_escalation.webp",
+    "url": "/images/cgs/ep03_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep03_incident.png",
-    "url": "/images/cgs/ep03_incident.png",
+    "fileName": "ep03_incident.webp",
+    "url": "/images/cgs/ep03_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep03_resolution.png",
-    "url": "/images/cgs/ep03_resolution.png",
+    "fileName": "ep03_resolution.webp",
+    "url": "/images/cgs/ep03_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep04_climax.png",
-    "url": "/images/cgs/ep04_climax.png",
+    "fileName": "ep04_climax.webp",
+    "url": "/images/cgs/ep04_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep04_escalation.png",
-    "url": "/images/cgs/ep04_escalation.png",
+    "fileName": "ep04_escalation.webp",
+    "url": "/images/cgs/ep04_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep04_incident.png",
-    "url": "/images/cgs/ep04_incident.png",
+    "fileName": "ep04_incident.webp",
+    "url": "/images/cgs/ep04_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep04_resolution.png",
-    "url": "/images/cgs/ep04_resolution.png",
+    "fileName": "ep04_resolution.webp",
+    "url": "/images/cgs/ep04_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep05_climax.png",
-    "url": "/images/cgs/ep05_climax.png",
+    "fileName": "ep05_climax.webp",
+    "url": "/images/cgs/ep05_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep05_escalation.png",
-    "url": "/images/cgs/ep05_escalation.png",
+    "fileName": "ep05_escalation.webp",
+    "url": "/images/cgs/ep05_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep05_incident.png",
-    "url": "/images/cgs/ep05_incident.png",
+    "fileName": "ep05_incident.webp",
+    "url": "/images/cgs/ep05_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep05_resolution.png",
-    "url": "/images/cgs/ep05_resolution.png",
+    "fileName": "ep05_resolution.webp",
+    "url": "/images/cgs/ep05_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep06_climax.png",
-    "url": "/images/cgs/ep06_climax.png",
+    "fileName": "ep06_climax.webp",
+    "url": "/images/cgs/ep06_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep06_escalation.png",
-    "url": "/images/cgs/ep06_escalation.png",
+    "fileName": "ep06_escalation.webp",
+    "url": "/images/cgs/ep06_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep06_incident.png",
-    "url": "/images/cgs/ep06_incident.png",
+    "fileName": "ep06_incident.webp",
+    "url": "/images/cgs/ep06_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep06_resolution.png",
-    "url": "/images/cgs/ep06_resolution.png",
+    "fileName": "ep06_resolution.webp",
+    "url": "/images/cgs/ep06_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep07_climax.png",
-    "url": "/images/cgs/ep07_climax.png",
+    "fileName": "ep07_climax.webp",
+    "url": "/images/cgs/ep07_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep07_escalation.png",
-    "url": "/images/cgs/ep07_escalation.png",
+    "fileName": "ep07_escalation.webp",
+    "url": "/images/cgs/ep07_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep07_incident.png",
-    "url": "/images/cgs/ep07_incident.png",
+    "fileName": "ep07_incident.webp",
+    "url": "/images/cgs/ep07_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep07_resolution.png",
-    "url": "/images/cgs/ep07_resolution.png",
+    "fileName": "ep07_resolution.webp",
+    "url": "/images/cgs/ep07_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep08_climax.png",
-    "url": "/images/cgs/ep08_climax.png",
+    "fileName": "ep08_climax.webp",
+    "url": "/images/cgs/ep08_climax.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep08_escalation.png",
-    "url": "/images/cgs/ep08_escalation.png",
+    "fileName": "ep08_escalation.webp",
+    "url": "/images/cgs/ep08_escalation.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep08_incident.png",
-    "url": "/images/cgs/ep08_incident.png",
+    "fileName": "ep08_incident.webp",
+    "url": "/images/cgs/ep08_incident.webp",
     "type": "cg"
   },
   {
-    "fileName": "ep08_resolution.png",
-    "url": "/images/cgs/ep08_resolution.png",
+    "fileName": "ep08_resolution.webp",
+    "url": "/images/cgs/ep08_resolution.webp",
     "type": "cg"
   },
   {
-    "fileName": "29_g10_senioroffice.png",
-    "url": "/images/backgrounds/29_g10_senioroffice.png",
+    "fileName": "29_g10_senioroffice.webp",
+    "url": "/images/backgrounds/29_g10_senioroffice.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g1_outdoorbase.png",
-    "url": "/images/backgrounds/29_g1_outdoorbase.png",
+    "fileName": "29_g1_outdoorbase.webp",
+    "url": "/images/backgrounds/29_g1_outdoorbase.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g2_edgeofbase.png",
-    "url": "/images/backgrounds/29_g2_edgeofbase.png",
+    "fileName": "29_g2_edgeofbase.webp",
+    "url": "/images/backgrounds/29_g2_edgeofbase.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g3_cottage.png",
-    "url": "/images/backgrounds/29_g3_cottage.png",
+    "fileName": "29_g3_cottage.webp",
+    "url": "/images/backgrounds/29_g3_cottage.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g4_corridor.png",
-    "url": "/images/backgrounds/29_g4_corridor.png",
+    "fileName": "29_g4_corridor.webp",
+    "url": "/images/backgrounds/29_g4_corridor.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g5_laboratory.png",
-    "url": "/images/backgrounds/29_g5_laboratory.png",
+    "fileName": "29_g5_laboratory.webp",
+    "url": "/images/backgrounds/29_g5_laboratory.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g6_mainstreet.png",
-    "url": "/images/backgrounds/29_g6_mainstreet.png",
+    "fileName": "29_g6_mainstreet.webp",
+    "url": "/images/backgrounds/29_g6_mainstreet.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g7_mainstreet_n.png",
-    "url": "/images/backgrounds/29_g7_mainstreet_n.png",
+    "fileName": "29_g7_mainstreet_n.webp",
+    "url": "/images/backgrounds/29_g7_mainstreet_n.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g8_alley_n.png",
-    "url": "/images/backgrounds/29_g8_alley_n.png",
+    "fileName": "29_g8_alley_n.webp",
+    "url": "/images/backgrounds/29_g8_alley_n.webp",
     "type": "bg"
   },
   {
-    "fileName": "29_g9_headquarter.png",
-    "url": "/images/backgrounds/29_g9_headquarter.png",
+    "fileName": "29_g9_headquarter.webp",
+    "url": "/images/backgrounds/29_g9_headquarter.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_Morgue.png",
-    "url": "/images/backgrounds/bg_Morgue.png",
+    "fileName": "bg_Morgue.webp",
+    "url": "/images/backgrounds/bg_Morgue.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_aircraft.png",
-    "url": "/images/backgrounds/bg_aircraft.png",
+    "fileName": "bg_aircraft.webp",
+    "url": "/images/backgrounds/bg_aircraft.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_bar_1.png",
-    "url": "/images/backgrounds/bg_bar_1.png",
+    "fileName": "bg_bar_1.webp",
+    "url": "/images/backgrounds/bg_bar_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_barracks.png",
-    "url": "/images/backgrounds/bg_barracks.png",
+    "fileName": "bg_barracks.webp",
+    "url": "/images/backgrounds/bg_barracks.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_battlefield.png",
-    "url": "/images/backgrounds/bg_battlefield.png",
+    "fileName": "bg_battlefield.webp",
+    "url": "/images/backgrounds/bg_battlefield.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_beach_1.png",
-    "url": "/images/backgrounds/bg_beach_1.png",
+    "fileName": "bg_beach_1.webp",
+    "url": "/images/backgrounds/bg_beach_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_beach_2.png",
-    "url": "/images/backgrounds/bg_beach_2.png",
+    "fileName": "bg_beach_2.webp",
+    "url": "/images/backgrounds/bg_beach_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_black.png",
-    "url": "/images/backgrounds/bg_black.png",
+    "fileName": "bg_black.webp",
+    "url": "/images/backgrounds/bg_black.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_bridge.png",
-    "url": "/images/backgrounds/bg_bridge.png",
+    "fileName": "bg_bridge.webp",
+    "url": "/images/backgrounds/bg_bridge.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cellroomA.png",
-    "url": "/images/backgrounds/bg_cellroomA.png",
+    "fileName": "bg_cellroomA.webp",
+    "url": "/images/backgrounds/bg_cellroomA.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cellroomC.png",
-    "url": "/images/backgrounds/bg_cellroomC.png",
+    "fileName": "bg_cellroomC.webp",
+    "url": "/images/backgrounds/bg_cellroomC.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cher_0.png",
-    "url": "/images/backgrounds/bg_cher_0.png",
+    "fileName": "bg_cher_0.webp",
+    "url": "/images/backgrounds/bg_cher_0.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cher_1.png",
-    "url": "/images/backgrounds/bg_cher_1.png",
+    "fileName": "bg_cher_1.webp",
+    "url": "/images/backgrounds/bg_cher_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cher_2.png",
-    "url": "/images/backgrounds/bg_cher_2.png",
+    "fileName": "bg_cher_2.webp",
+    "url": "/images/backgrounds/bg_cher_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cher_3.png",
-    "url": "/images/backgrounds/bg_cher_3.png",
+    "fileName": "bg_cher_3.webp",
+    "url": "/images/backgrounds/bg_cher_3.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cher_5.png",
-    "url": "/images/backgrounds/bg_cher_5.png",
+    "fileName": "bg_cher_5.webp",
+    "url": "/images/backgrounds/bg_cher_5.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cher_9.png",
-    "url": "/images/backgrounds/bg_cher_9.png",
+    "fileName": "bg_cher_9.webp",
+    "url": "/images/backgrounds/bg_cher_9.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_chercen_1.png",
-    "url": "/images/backgrounds/bg_chercen_1.png",
+    "fileName": "bg_chercen_1.webp",
+    "url": "/images/backgrounds/bg_chercen_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_chercen_2.png",
-    "url": "/images/backgrounds/bg_chercen_2.png",
+    "fileName": "bg_chercen_2.webp",
+    "url": "/images/backgrounds/bg_chercen_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_cherunder.png",
-    "url": "/images/backgrounds/bg_cherunder.png",
+    "fileName": "bg_cherunder.webp",
+    "url": "/images/backgrounds/bg_cherunder.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_coldforest.png",
-    "url": "/images/backgrounds/bg_coldforest.png",
+    "fileName": "bg_coldforest.webp",
+    "url": "/images/backgrounds/bg_coldforest.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_corridor.png",
-    "url": "/images/backgrounds/bg_corridor.png",
+    "fileName": "bg_corridor.webp",
+    "url": "/images/backgrounds/bg_corridor.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_corridor_2.png",
-    "url": "/images/backgrounds/bg_corridor_2.png",
+    "fileName": "bg_corridor_2.webp",
+    "url": "/images/backgrounds/bg_corridor_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_graduatecore.png",
-    "url": "/images/backgrounds/bg_graduatecore.png",
+    "fileName": "bg_graduatecore.webp",
+    "url": "/images/backgrounds/bg_graduatecore.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_grani_farm.png",
-    "url": "/images/backgrounds/bg_grani_farm.png",
+    "fileName": "bg_grani_farm.webp",
+    "url": "/images/backgrounds/bg_grani_farm.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_grani_ruins.png",
-    "url": "/images/backgrounds/bg_grani_ruins.png",
+    "fileName": "bg_grani_ruins.webp",
+    "url": "/images/backgrounds/bg_grani_ruins.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_hotel.png",
-    "url": "/images/backgrounds/bg_hotel.png",
+    "fileName": "bg_hotel.webp",
+    "url": "/images/backgrounds/bg_hotel.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_iceforest_1.png",
-    "url": "/images/backgrounds/bg_iceforest_1.png",
+    "fileName": "bg_iceforest_1.webp",
+    "url": "/images/backgrounds/bg_iceforest_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_indoor_1.png",
-    "url": "/images/backgrounds/bg_indoor_1.png",
+    "fileName": "bg_indoor_1.webp",
+    "url": "/images/backgrounds/bg_indoor_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_indoor_2.png",
-    "url": "/images/backgrounds/bg_indoor_2.png",
+    "fileName": "bg_indoor_2.webp",
+    "url": "/images/backgrounds/bg_indoor_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_laccolith.png",
-    "url": "/images/backgrounds/bg_laccolith.png",
+    "fileName": "bg_laccolith.webp",
+    "url": "/images/backgrounds/bg_laccolith.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_light.png",
-    "url": "/images/backgrounds/bg_light.png",
+    "fileName": "bg_light.webp",
+    "url": "/images/backgrounds/bg_light.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_lmstreet_1.png",
-    "url": "/images/backgrounds/bg_lmstreet_1.png",
+    "fileName": "bg_lmstreet_1.webp",
+    "url": "/images/backgrounds/bg_lmstreet_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_ltalley.png",
-    "url": "/images/backgrounds/bg_ltalley.png",
+    "fileName": "bg_ltalley.webp",
+    "url": "/images/backgrounds/bg_ltalley.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_lungmen_d.png",
-    "url": "/images/backgrounds/bg_lungmen_d.png",
+    "fileName": "bg_lungmen_d.webp",
+    "url": "/images/backgrounds/bg_lungmen_d.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_lungmen_n.png",
-    "url": "/images/backgrounds/bg_lungmen_n.png",
+    "fileName": "bg_lungmen_n.webp",
+    "url": "/images/backgrounds/bg_lungmen_n.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_lungmen_r.png",
-    "url": "/images/backgrounds/bg_lungmen_r.png",
+    "fileName": "bg_lungmen_r.webp",
+    "url": "/images/backgrounds/bg_lungmen_r.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_lungmen_station.png",
-    "url": "/images/backgrounds/bg_lungmen_station.png",
+    "fileName": "bg_lungmen_station.webp",
+    "url": "/images/backgrounds/bg_lungmen_station.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_lungmenbridge.png",
-    "url": "/images/backgrounds/bg_lungmenbridge.png",
+    "fileName": "bg_lungmenbridge.webp",
+    "url": "/images/backgrounds/bg_lungmenbridge.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_prison_commandroom.png",
-    "url": "/images/backgrounds/bg_prison_commandroom.png",
+    "fileName": "bg_prison_commandroom.webp",
+    "url": "/images/backgrounds/bg_prison_commandroom.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_prison_corridor.png",
-    "url": "/images/backgrounds/bg_prison_corridor.png",
+    "fileName": "bg_prison_corridor.webp",
+    "url": "/images/backgrounds/bg_prison_corridor.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_ri_1.png",
-    "url": "/images/backgrounds/bg_ri_1.png",
+    "fileName": "bg_ri_1.webp",
+    "url": "/images/backgrounds/bg_ri_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_rooftop.png",
-    "url": "/images/backgrounds/bg_rooftop.png",
+    "fileName": "bg_rooftop.webp",
+    "url": "/images/backgrounds/bg_rooftop.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_room_2.png",
-    "url": "/images/backgrounds/bg_room_2.png",
+    "fileName": "bg_room_2.webp",
+    "url": "/images/backgrounds/bg_room_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_ruins_1.png",
-    "url": "/images/backgrounds/bg_ruins_1.png",
+    "fileName": "bg_ruins_1.webp",
+    "url": "/images/backgrounds/bg_ruins_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_siesta_office.png",
-    "url": "/images/backgrounds/bg_siesta_office.png",
+    "fileName": "bg_siesta_office.webp",
+    "url": "/images/backgrounds/bg_siesta_office.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_siesta_sea.png",
-    "url": "/images/backgrounds/bg_siesta_sea.png",
+    "fileName": "bg_siesta_sea.webp",
+    "url": "/images/backgrounds/bg_siesta_sea.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_siesta_street.png",
-    "url": "/images/backgrounds/bg_siesta_street.png",
+    "fileName": "bg_siesta_street.webp",
+    "url": "/images/backgrounds/bg_siesta_street.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_siesta_volcano.png",
-    "url": "/images/backgrounds/bg_siesta_volcano.png",
+    "fileName": "bg_siesta_volcano.webp",
+    "url": "/images/backgrounds/bg_siesta_volcano.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_snow_2.png",
-    "url": "/images/backgrounds/bg_snow_2.png",
+    "fileName": "bg_snow_2.webp",
+    "url": "/images/backgrounds/bg_snow_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_snowconutry_1.png",
-    "url": "/images/backgrounds/bg_snowconutry_1.png",
+    "fileName": "bg_snowconutry_1.webp",
+    "url": "/images/backgrounds/bg_snowconutry_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_thundercloud.png",
-    "url": "/images/backgrounds/bg_thundercloud.png",
+    "fileName": "bg_thundercloud.webp",
+    "url": "/images/backgrounds/bg_thundercloud.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_top.png",
-    "url": "/images/backgrounds/bg_top.png",
+    "fileName": "bg_top.webp",
+    "url": "/images/backgrounds/bg_top.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_topburning.png",
-    "url": "/images/backgrounds/bg_topburning.png",
+    "fileName": "bg_topburning.webp",
+    "url": "/images/backgrounds/bg_topburning.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_undergroundF.png",
-    "url": "/images/backgrounds/bg_undergroundF.png",
+    "fileName": "bg_undergroundF.webp",
+    "url": "/images/backgrounds/bg_undergroundF.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_victoria.png",
-    "url": "/images/backgrounds/bg_victoria.png",
+    "fileName": "bg_victoria.webp",
+    "url": "/images/backgrounds/bg_victoria.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_village.png",
-    "url": "/images/backgrounds/bg_village.png",
+    "fileName": "bg_village.webp",
+    "url": "/images/backgrounds/bg_village.webp",
     "type": "bg"
   },
   {
-    "fileName": "bg_wild_a.png",
-    "url": "/images/backgrounds/bg_wild_a.png",
+    "fileName": "bg_wild_a.webp",
+    "url": "/images/backgrounds/bg_wild_a.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_grani_1.png",
-    "url": "/images/backgrounds/cg_grani_1.png",
+    "fileName": "cg_grani_1.webp",
+    "url": "/images/backgrounds/cg_grani_1.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_grani_2.png",
-    "url": "/images/backgrounds/cg_grani_2.png",
+    "fileName": "cg_grani_2.webp",
+    "url": "/images/backgrounds/cg_grani_2.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_grani_3.png",
-    "url": "/images/backgrounds/cg_grani_3.png",
+    "fileName": "cg_grani_3.webp",
+    "url": "/images/backgrounds/cg_grani_3.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_grani_4.png",
-    "url": "/images/backgrounds/cg_grani_4.png",
+    "fileName": "cg_grani_4.webp",
+    "url": "/images/backgrounds/cg_grani_4.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_grani_5.png",
-    "url": "/images/backgrounds/cg_grani_5.png",
+    "fileName": "cg_grani_5.webp",
+    "url": "/images/backgrounds/cg_grani_5.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_grani_6.png",
-    "url": "/images/backgrounds/cg_grani_6.png",
+    "fileName": "cg_grani_6.webp",
+    "url": "/images/backgrounds/cg_grani_6.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_grani_ex.png",
-    "url": "/images/backgrounds/cg_grani_ex.png",
+    "fileName": "cg_grani_ex.webp",
+    "url": "/images/backgrounds/cg_grani_ex.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_siesta_boss.png",
-    "url": "/images/backgrounds/cg_siesta_boss.png",
+    "fileName": "cg_siesta_boss.webp",
+    "url": "/images/backgrounds/cg_siesta_boss.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_siesta_report.png",
-    "url": "/images/backgrounds/cg_siesta_report.png",
+    "fileName": "cg_siesta_report.webp",
+    "url": "/images/backgrounds/cg_siesta_report.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_siesta_volcano.png",
-    "url": "/images/backgrounds/cg_siesta_volcano.png",
+    "fileName": "cg_siesta_volcano.webp",
+    "url": "/images/backgrounds/cg_siesta_volcano.webp",
     "type": "bg"
   },
   {
-    "fileName": "cg_siesta_volcano2.png",
-    "url": "/images/backgrounds/cg_siesta_volcano2.png",
+    "fileName": "cg_siesta_volcano2.webp",
+    "url": "/images/backgrounds/cg_siesta_volcano2.webp",
     "type": "bg"
   },
   {
-    "fileName": "ep00_banner.png",
-    "url": "/images/banners/ep00_banner.png",
+    "fileName": "ep00_banner.webp",
+    "url": "/images/banners/ep00_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep01_banner.png",
-    "url": "/images/banners/ep01_banner.png",
+    "fileName": "ep01_banner.webp",
+    "url": "/images/banners/ep01_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep02_banner.png",
-    "url": "/images/banners/ep02_banner.png",
+    "fileName": "ep02_banner.webp",
+    "url": "/images/banners/ep02_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep03_banner.png",
-    "url": "/images/banners/ep03_banner.png",
+    "fileName": "ep03_banner.webp",
+    "url": "/images/banners/ep03_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep04_banner.png",
-    "url": "/images/banners/ep04_banner.png",
+    "fileName": "ep04_banner.webp",
+    "url": "/images/banners/ep04_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep05_banner.png",
-    "url": "/images/banners/ep05_banner.png",
+    "fileName": "ep05_banner.webp",
+    "url": "/images/banners/ep05_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep06_banner.png",
-    "url": "/images/banners/ep06_banner.png",
+    "fileName": "ep06_banner.webp",
+    "url": "/images/banners/ep06_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep07_banner.png",
-    "url": "/images/banners/ep07_banner.png",
+    "fileName": "ep07_banner.webp",
+    "url": "/images/banners/ep07_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep08_banner.png",
-    "url": "/images/banners/ep08_banner.png",
+    "fileName": "ep08_banner.webp",
+    "url": "/images/banners/ep08_banner.webp",
     "type": "banner"
   },
   {
-    "fileName": "ep09_banner.png",
-    "url": "/images/banners/ep09_banner.png",
+    "fileName": "ep09_banner.webp",
+    "url": "/images/banners/ep09_banner.webp",
     "type": "banner"
   }
 ];

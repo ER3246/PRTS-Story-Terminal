@@ -50,7 +50,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '설원 부족 자치령',
     emblemPixelCoords: { x: 310, y: 386 },
     badgeColor: '#8566d6',
-    logoUrl: '/images/logos/sami.png',
+    logoUrl: '/images/logos/sami.webp',
     elevation: 2,
     description: '원시림과 만년설 속에서 자연의 정령과 영혼을 숭배하는 설원 부족 연맹. 북부 빙원의 초자연적 침식을 막아내는 테라 최북단의 방파제 역할을 한다.',
     relatedStoryIds: ['ep16', 'sid_uncharted_land']
@@ -62,7 +62,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '디에티 그라이퍼부르크',
     emblemPixelCoords: { x: 470, y: 407 },
     badgeColor: '#c93b44',
-    logoUrl: '/images/logos/ursus.png',
+    logoUrl: '/images/logos/ursus.webp',
     elevation: 2,
     description: '북방의 광대한 영토를 지배하는 군사 절대주의 제국. 가혹한 감염자 광산 노역과 억압 정책으로 인해 체르노보그를 기점으로 리유니온의 대규모 폭동이 발발했다.',
     relatedStoryIds: ['ep00', 'ep01', 'ep02', 'ep03', 'ep04', 'ep05', 'ep06', 'ep07', 'ep08', 'ep16', 'ep17', 'sid_children_of_ursus', 'sid_our_people', 'sid_walk_in_dust']
@@ -74,7 +74,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '카발레리에키',
     emblemPixelCoords: { x: 361, y: 452 },
     badgeColor: '#28945a',
-    logoUrl: '/images/logos/kazimierz.png',
+    logoUrl: '/images/logos/kazimierz.webp',
     elevation: 1,
     description: '기사도 정신이 상업 자본주의에 잠식되어 거대한 기사 스포츠 토너먼트(기사제)로 변질된 국가. 상인연합회와 감염자 기사들의 갈등이 첨예하다.',
     relatedStoryIds: ['sid_grani', 'sid_maria_nearl', 'sid_pinus_sylvestris', 'sid_near_light', 'sid_obscure_wanderer']
@@ -86,7 +86,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '맥스 D.C. / 트리마운츠',
     emblemPixelCoords: { x: 242, y: 476 },
     badgeColor: '#2e5ea8',
-    logoUrl: '/images/logos/columbia.png',
+    logoUrl: '/images/logos/columbia.webp',
     elevation: 1,
     description: '자유와 개척, 첨단 공학 기술을 앞세워 급부상한 신흥 초강대국. 라인 랩을 위시한 첨단 과학 연구와 은밀한 우주 개척 프로젝트가 진행된다.',
     relatedStoryIds: ['sid_mansfield_break', 'sid_dorothys_vision', 'sid_lone_trail', 'sid_uncharted_land', 'sid_to_be_continued', 'sid_greening_valley', 'collab_lucent_arrowhead']
@@ -98,7 +98,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '도솔레스 (경제 중심)',
     emblemPixelCoords: { x: 183, y: 484 },
     badgeColor: '#1b899e',
-    logoUrl: '/images/logos/bolivar.png',
+    logoUrl: '/images/logos/bolivar.webp',
     elevation: 1,
     description: '컬럼비아, 라이타니엔 등 외세 열강들의 대리 전쟁터가 된 비극의 나라. 칸델라 시장의 통치 아래 중립과 향락을 누리는 수양도시 도솔레스가 자리 잡고 있다.',
     relatedStoryIds: ['sid_dossoles_holiday', 'sid_bolivar_diagnosis']
@@ -110,7 +110,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '투리쿰',
     emblemPixelCoords: { x: 318, y: 513 },
     badgeColor: '#4ea8de',
-    logoUrl: '/images/logos/kjerag.png',
+    logoUrl: '/images/logos/kjerag.webp',
     elevation: 4,
     description: '성산의 만년설 아래 외부 문명과 격리되어 있던 설산 종교 국가. 실버애쉬 가문의 근대화 개혁과 3대 가문 간의 정치적 대립이 발생했다.',
     relatedStoryIds: ['sid_break_the_ice', 'sid_silberneherze', 'sid_snow_realm', 'sid_preluding_lights']
@@ -122,7 +122,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '츠빌링슈튀르메',
     emblemPixelCoords: { x: 433, y: 510 },
     badgeColor: '#52627a',
-    logoUrl: '/images/logos/leithanien.png',
+    logoUrl: '/images/logos/leithanien.webp',
     elevation: 2,
     description: '고도의 음악과 클래식 아츠를 숭상하는 선제후 귀족 연방. 과거 폭군 헤르쿤프트쇼른(구 황제)의 몰락 이후 쌍둥이 여제의 집권 체제가 유지되고 있다.',
     relatedStoryIds: ['sid_twilight_wolumonde', 'sid_lingering_echoes', 'sid_zwillingsturme']
@@ -134,7 +134,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '파괴된 카즈델 (황무지)',
     emblemPixelCoords: { x: 543, y: 502 },
     badgeColor: '#8a3fa8',
-    logoUrl: '/images/logos/kazdel.png',
+    logoUrl: '/images/logos/kazdel.webp',
     elevation: 1,
     description: '살카즈(마족)들의 비극적인 고향. 유랑과 내전, 주변 열강의 침략으로 인해 정규 국경이 없는 황무지로 존재하며, 라이타니엔과 염국 사이 중립 지대에 자리 잡고 있다.',
     relatedStoryIds: ['sid_darknights_memoir', 'sid_babel', 'sid_great_overture', 'sid_kazdelian_rescue', 'ep14', 'ep15', 'ep16']
@@ -146,7 +146,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '백조 (경성)',
     emblemPixelCoords: { x: 639, y: 462 },
     badgeColor: '#cfa032',
-    logoUrl: '/images/logos/yan.png',
+    logoUrl: '/images/logos/yan.webp',
     elevation: 2,
     description: '테라 동방의 유구한 고대 천자 제국. 카즈델 동쪽에 접해 있으며, 12 신수 "쉐이(Sui)"의 파편 형제들의 각성을 경계하고 있다.',
     relatedStoryIds: ['ep00', 'ep01', 'ep02', 'ep03', 'ep04', 'ep05', 'ep06', 'ep07', 'ep08', 'sid_ancient_forge', 'sid_code_of_brawl', 'sid_who_is_real', 'sid_invitation_to_wine', 'sid_vernal_winds', 'sid_destiny', 'sid_here_people_sows', 'sid_joy_of_reunion', 'sid_mirror_anthology', 'sid_four_seasons', 'collab_nine_colored_deer']
@@ -158,7 +158,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '쿠사리카와 (북조) / 미츠쿠에 (남조)',
     emblemPixelCoords: { x: 645, y: 396 },
     badgeColor: '#5c62c4',
-    logoUrl: '/images/logos/higashi.png',
+    logoUrl: '/images/logos/higashi.webp',
     elevation: 1,
     description: '염국 북동방 열도의 섬나라. 북조와 남조의 오랜 내전과 닌자, 귀족 가문의 암투가 이어지는 고립주의 국가이다.',
     relatedStoryIds: ['collab_monster_hunter', 'collab_mh2_lightning']
@@ -170,7 +170,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '볼시니',
     emblemPixelCoords: { x: 487, y: 524 },
     badgeColor: '#b55d24',
-    logoUrl: '/images/logos/siracusa.png',
+    logoUrl: '/images/logos/siracusa.webp',
     elevation: 1,
     description: '마피아 패밀리들이 정부를 대신해 도시의 질서를 좌우하는 폭력과 배신의 땅. 라이타니엔 남동쪽에 위치한다.',
     relatedStoryIds: ['sid_il_siracusano', 'sid_opening_act', 'sid_crossroads', 'sid_echoes_wilderness', 'sid_code_of_brawl']
@@ -182,7 +182,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '런디니움',
     emblemPixelCoords: { x: 383, y: 549 },
     badgeColor: '#7c4cd6',
-    logoUrl: '/images/logos/victoria.png',
+    logoUrl: '/images/logos/victoria.webp',
     elevation: 2,
     description: '테라 중원을 호령하는 유서 깊은 열강이었으나, 국왕 사후 왕위 공백 상태에서 살카즈 군사위원회의 런디니움 점령으로 인해 거대한 전란의 소용돌이에 휩싸였다.',
     relatedStoryIds: ['ep09', 'ep10', 'ep11', 'ep12', 'ep13', 'ep14', 'sid_light_spark', 'sid_firelight_casts', 'sid_burnt_elegy']
@@ -194,7 +194,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '아테누스 (Athenius)',
     emblemPixelCoords: { x: 273, y: 586 },
     badgeColor: '#d46234',
-    logoUrl: '/images/logos/minos.png',
+    logoUrl: '/images/logos/minos.webp',
     elevation: 1,
     description: '고대 테라의 영웅 서사와 철학, 체육 문화를 계승한 연합 도시 국가. 빅토리아 서남쪽에 위치한다.',
     relatedStoryIds: []
@@ -206,7 +206,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '신 시에스타',
     emblemPixelCoords: { x: 334, y: 593 },
     badgeColor: '#1ca6bf',
-    logoUrl: '/images/logos/siesta.png',
+    logoUrl: '/images/logos/siesta.webp',
     elevation: 1,
     description: '거대한 클라리사이드 해안과 온천, 록 페스티벌로 유명한 독립 휴양 도시. 이동도시로의 전환을 이뤄냈다.',
     relatedStoryIds: ['sid_heart_of_surging_flame', 'sid_so_long_adele', 'sid_to_be_continued']
@@ -218,7 +218,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '라테라노 성도',
     emblemPixelCoords: { x: 450, y: 586 },
     badgeColor: '#e6d267',
-    logoUrl: '/images/logos/laterano.png',
+    logoUrl: '/images/logos/laterano.webp',
     elevation: 1,
     description: '산크타 종족의 율법과 총기, 디저트의 신성 낙원. 수호총과 율법의 신비 속에 숨겨진 고대 통제 시스템의 비밀을 안고 있다.',
     relatedStoryIds: ['sid_guiding_ahead', 'sid_hortus_escapismo', 'sid_pilgrimage']
@@ -230,7 +230,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '마이닝 시티',
     emblemPixelCoords: { x: 546, y: 590 },
     badgeColor: '#c43774',
-    logoUrl: '/images/logos/rim_billiton.png',
+    logoUrl: '/images/logos/rim_billiton.webp',
     elevation: 1,
     description: '카우투스 종족 중심의 대규모 오리지늄 광업 및 중공업 채굴 연합국. 로도스 아일랜드 본함의 전신인 육상 순양함이 건조된 곳이다.',
     relatedStoryIds: ['sid_babel', 'sid_orange_earth']
@@ -242,7 +242,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '샤르-아가 (황금의 도시)',
     emblemPixelCoords: { x: 229, y: 631 },
     badgeColor: '#ba841c',
-    logoUrl: '/images/logos/sargon.png',
+    logoUrl: '/images/logos/sargon.webp',
     elevation: 1,
     description: '끝없는 사막과 열대 정글이 펼쳐진 서남부 고대 제국. 파디샤(군주)들의 영지 갈등과 지하 첨단 두린족 도시가 공존한다.',
     relatedStoryIds: ['sid_gavial_returns', 'sid_ideal_city', 'sid_shake_off_the_sun', 'sid_ruins_paradise', 'sid_walk_in_dust', 'collab_originium_dust']
@@ -254,7 +254,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '페르도니도라 / 그란파로',
     emblemPixelCoords: { x: 439, y: 659 },
     badgeColor: '#6a9929',
-    logoUrl: '/images/logos/iberia.png',
+    logoUrl: '/images/logos/iberia.webp',
     elevation: 1,
     description: '남부 황금 해양 강국이었으나, "대침묵" 사건 이후 심해로부터 밀려오는 시본(Seaborn)의 공포에 맞서고 있다.',
     relatedStoryIds: ['sid_under_tides', 'sid_stultifera_navis', 'sid_path_of_life']
@@ -276,7 +276,7 @@ export const terraRegions: TerraRegion[] = [
     capital: '밀리아리움',
     emblemPixelCoords: { x: 586, y: 867 },
     badgeColor: '#1e7cb8',
-    logoUrl: '/images/logos/aegir.png',
+    logoUrl: '/images/logos/aegir.webp',
     elevation: -1,
     description: '테라 동남부 깊은 바다속에 은폐되어 있던 초고도 과학 문명 국가. 심해 괴생명체 시본과의 처절한 생존 전쟁을 벌이고 있다.',
     relatedStoryIds: ['sid_under_tides', 'sid_stultifera_navis', 'sid_path_of_life', 'sid_escape_sea']

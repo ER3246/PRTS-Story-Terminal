@@ -1,28 +1,4 @@
 import type { StoryArchive, StoryCategoryType, ArchiveStatus, OmnibusSubEpisode, StoryCategory, StoryDocFormat, StorySubPage } from '../types/story';
-import { episode00 } from './stories/ep00';
-import { episode01 } from './stories/ep01';
-import { episode02 } from './stories/ep02';
-import { episode03 } from './stories/ep03';
-import { episode04 } from './stories/ep04';
-import { episode05 } from './stories/ep05';
-import { episode06 } from './stories/ep06';
-import { episode07 } from './stories/ep07';
-import { episode08 } from './stories/ep08';
-import { episode09 } from './stories/ep09';
-import { episode10 } from './stories/ep10';
-import { episode11 } from './stories/ep11';
-import { episode12 } from './stories/ep12';
-import { episode13 } from './stories/ep13';
-import { episode14 } from './stories/ep14';
-import { episode15 } from './stories/ep15';
-import { episode16 } from './stories/ep16';
-import { sidGrani } from './stories/sid_grani';
-import { sidAncientForge } from './stories/sid_ancient_forge';
-import { sidHeartOfSurgingFlame } from './stories/sid_heart_of_surging_flame';
-import { sidLoneTrail } from './stories/sid_lone_trail';
-import { sidDorothysVision } from './stories/sid_dorothys_vision';
-import { sidMansfieldBreak } from './stories/sid_mansfield_break';
-import { sidDarknightsMemoir } from './stories/sid_darknights_memoir';
 
 export interface StoryLineMeta {
   id: string;
@@ -226,7 +202,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 0,
     isOmnibus: false,
     officialSynopsis: '지하 깊은 곳의 석관에서 깨어난 박사. 그리고 닥쳐오는 천재지변과 리유니온의 맹공. 로도스 아일랜드의 구출 부대는 체르노보그의 불길 속에서 박사를 데리고 탈출로를 개척해야 한다.',
-    splashVisualUrl: '/images/story_covers/ep00.png',
+    splashVisualUrl: '/images/story_covers/ep00.webp',
     seriesTabs: [
       { id: 'ep00', label: 'EP 00', code: 'EP 00' },
       { id: 'ep01', label: 'EP 01', code: 'EP 01' },
@@ -261,7 +237,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '체르노보그 탈출 도중 마주친 살카즈 용병들과 리유니온 지휘관 탈룰라의 압도적인 불꽃. 에이스 소대와 수많은 대원들의 희생 속에 절망적인 탈출 작전이 이어진다.',
-    splashVisualUrl: '/images/story_covers/ep01.png',
+    splashVisualUrl: '/images/story_covers/ep01.webp',
     releaseOrder: 0.1,
     releaseYear: 1,
     chronologicalOrder: 11,
@@ -285,7 +261,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '체르노보그에서 가까스로 탈출한 로도스 아일랜드는 거대한 이동도시 용문에 도착한다. 웨이 옌우 총독과의 회담, 그리고 다가오는 또 다른 위협.',
-    splashVisualUrl: '/images/story_covers/ep02.png',
+    splashVisualUrl: '/images/story_covers/ep02.webp',
     releaseOrder: 0.2,
     releaseYear: 1,
     chronologicalOrder: 12,
@@ -309,7 +285,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '용문 외곽 슬럼가에서 벌어지는 수색 작전. 아미야와 로도스 부대는 그곳에서 미샤와 조우하고, 리유니온의 간부 스컬슈레더와 처절한 격돌을 벌인다.',
-    splashVisualUrl: '/images/story_covers/ep03.png',
+    splashVisualUrl: '/images/story_covers/ep03.webp',
     releaseOrder: 0.3,
     releaseYear: 1,
     chronologicalOrder: 13,
@@ -333,7 +309,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: false,
     officialSynopsis: '체르노보그 폐허 구역으로 진입한 로도스. 프로스트노바의 극한의 냉기와 엄습하는 분리대. 얼어붙은 대지 위에서 생존을 위한 혈투가 시작된다.',
-    splashVisualUrl: '/images/story_covers/ep04.png',
+    splashVisualUrl: '/images/story_covers/ep04.webp',
     releaseOrder: 0.4,
     releaseYear: 1,
     chronologicalOrder: 14,
@@ -357,7 +333,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 5,
     isOmnibus: false,
     officialSynopsis: '용문 시내로 침투한 메피스토의 좀비 부대와 파우스트의 저격. 첸 팀장과 근위국, 그리고 로도스 아일랜드의 연합 반격 작전.',
-    splashVisualUrl: '/images/story_covers/ep05.png',
+    splashVisualUrl: '/images/story_covers/ep05.webp',
     releaseOrder: 0.5,
     releaseYear: 1,
     chronologicalOrder: 15,
@@ -381,7 +357,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 6,
     isOmnibus: false,
     officialSynopsis: '용문의 차가운 밤거리와 체르노보그의 과거. 프로스트노바의 비극적인 운명과 눈보라 속 최후의 대결, 그리고 아미야의 맹세.',
-    splashVisualUrl: '/images/story_covers/ep06.png',
+    splashVisualUrl: '/images/story_covers/ep06.webp',
     releaseOrder: 0.6,
     releaseYear: 1,
     chronologicalOrder: 16,
@@ -405,7 +381,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 7,
     isOmnibus: false,
     officialSynopsis: '체르노보그 코어로 진격하는 연합군. 방패를 든 거인 패트리어트의 장렬한 최후, 그리고 탈룰라의 내면에 도사린 불사의 뱀의 실체가 드러난다.',
-    splashVisualUrl: '/images/story_covers/ep07.png',
+    splashVisualUrl: '/images/story_covers/ep07.webp',
     releaseOrder: 0.7,
     releaseYear: 1,
     chronologicalOrder: 17,
@@ -429,7 +405,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 8,
     isOmnibus: false,
     officialSynopsis: '체르노보그 제어탑 상층부의 결전. 아미야의 정서 변환과 첸의 적소, 그리고 20여 년에 걸친 탈룰라의 비극적 과거 회상과 구원의 싸움.',
-    splashVisualUrl: '/images/story_covers/ep08.png',
+    splashVisualUrl: '/images/story_covers/ep08.webp',
     releaseOrder: 0.8,
     releaseYear: 2,
     chronologicalOrder: 18,
@@ -454,7 +430,7 @@ export const storyRegistry: StoryListItem[] = [
     docFormat: 'multi_part',
     isOmnibus: false,
     officialSynopsis: '빅토리아의 번영 뒤에 도사린 음모. 타라족 저항군 더블린(귀혼대)의 봉기와 힐록 카운티의 비극, 제2폭풍돌격대의 사투와 로도스 아일랜드 정예 오퍼레이터 아웃캐스트의 숭고한 산화, 그리고 로도스 본함에서 벌어진 네오 리유니온의 탈룰라 탈환 작전.',
-    splashVisualUrl: '/images/story_covers/ep09.png',
+    splashVisualUrl: '/images/story_covers/ep09.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 폭풍 전야의 힐록 카운티', code: 'PART 1' },
@@ -493,7 +469,7 @@ export const storyRegistry: StoryListItem[] = [
     isOmnibus: false,
     docFormat: 'multi_part',
     officialSynopsis: '빅토리아 수도 런디니움을 장악한 카즈델 살카즈 군사위원회와 섭정왕 테레시스. 더 샤드 빌딩 상공에 거대한 폭풍이 모여들고, 수디언구 309번 출입구에서 시작된 수성포의 포화 속에서 로도스 아일랜드와 런디니움 시민 자경단이 조우한다. 186일간 게릴라전을 버텨온 폭풍돌격대 혼 중위의 전우 구출, 화학 공장의 비밀 결전, 그리고 무너지는 성벽을 뚫고 폭풍 속으로 질주하는 장갑열차의 사투.',
-    splashVisualUrl: '/images/story_covers/ep10.png',
+    splashVisualUrl: '/images/story_covers/ep10.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 폭풍이 모이는 탑과 수디언구의 포성', code: 'PART 1' },
@@ -532,7 +508,7 @@ export const storyRegistry: StoryListItem[] = [
     isOmnibus: false,
     docFormat: 'multi_part',
     officialSynopsis: '런디니움 지하 성역 왕의 안식처 침투와 지상 방위군 사령탑 기습이 동시에 전개되는 결전. 뱀파이어 생귀나르의 핏빛 해일에 맞선 로고스의 주술과 테레시스의 일격에 쓰러진 켈시, 그리고 국검 왕의 숨결을 둘러싼 알레데일의 선택과 마지막 증기 기사 찰스 린치의 격돌.',
-    splashVisualUrl: '/images/story_covers/ep11.png',
+    splashVisualUrl: '/images/story_covers/ep11.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 세 갈래의 회상과 성왕궁의 먹구름', code: 'PART 1' },
@@ -571,7 +547,7 @@ export const storyRegistry: StoryListItem[] = [
     isOmnibus: false,
     docFormat: 'multi_part',
     officialSynopsis: '런디니움 노포트 구가 도시 본체에서 분리·고립되며 수만 명의 시민과 난민이 갇힌다. 공중 전함을 노리는 대공작들과 더블린의 각축 속에서 난민을 구출하려는 로도스 아일랜드와 글래스고 패거리의 사투, 골딩의 소원을 이어받은 다마즈티 클러스터, 이네스의 결사 도약과 황야에 나타난 나흐체러르 킹의 부식 군대.',
-    splashVisualUrl: '/images/story_covers/ep12.png',
+    splashVisualUrl: '/images/story_covers/ep12.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 고립된 노포트 구와 선의의 배신', code: 'PART 1' },
@@ -610,7 +586,7 @@ export const storyRegistry: StoryListItem[] = [
     isOmnibus: false,
     docFormat: 'multi_part',
     officialSynopsis: '노포트 구 탈출 직후, 빅토리아 대공작군과 카즈델 군사위원회의 포격 속에 런디니움 외곽 전선은 폐허로 변해간다. 윈더미어 공작의 전사와 파라곤 부대의 부활, 폐양조장에서 산화한 가드의 희생, 그리고 문명 너머 별바다에서 펼쳐진 뱀파이어 군주 생귀나르와의 결전 끝에 최종 총공세의 막이 오른다.',
-    splashVisualUrl: '/images/story_covers/ep13.png',
+    splashVisualUrl: '/images/story_covers/ep13.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 상처 입은 대지와 흩어진 불씨', code: 'PART 1' },
@@ -649,7 +625,7 @@ export const storyRegistry: StoryListItem[] = [
     isOmnibus: false,
     docFormat: 'multi_part',
     officialSynopsis: '태초의 오리지늄 암나남이 불러온 진홍빛 폭풍 속에서 연합군은 세 갈래로 나뉘어 진격한다. 최후의 증기 기사 찰스 린치의 산화와 시즈의 검의 자리 각성, 군사위원회 기함 비행선 강습을 거쳐, 오리지늄 내부 융합 우주의 바벨탑 정상에서 테레시아와의 영원한 작별과 타라의 독립으로 제2부가 막을 내린다.',
-    splashVisualUrl: '/images/story_covers/ep14.png',
+    splashVisualUrl: '/images/story_covers/ep14.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 성벽의 포화와 로도스의 이함', code: 'PART 1' },
@@ -688,7 +664,7 @@ export const storyRegistry: StoryListItem[] = [
     isOmnibus: false,
     docFormat: 'multi_part',
     officialSynopsis: '런디니움 결전 3년 후인 1101년 여름, 로도스 아일랜드 본함 심층부에서 깨어난 프리스티스가 PRTS를 장악하고 본함을 집어삼킨다. AMa-10의 굴레를 스스로 끊어낸 켈시가 산화하며 본함을 잃은 로도스 아일랜드는 한 달 뒤 새 거점에서 재건을 시작하고, 인간형으로 깨어난 Mon3tr와 함께 우르수스의 석관을 찾아 나선다.',
-    splashVisualUrl: '/images/story_covers/ep15.png',
+    splashVisualUrl: '/images/story_covers/ep15.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 과거와 현재의 종점, 그리고 3년의 유예', code: 'PART 1' },
@@ -727,7 +703,7 @@ export const storyRegistry: StoryListItem[] = [
     isOmnibus: false,
     docFormat: 'multi_part',
     officialSynopsis: '1101년 가을, 석관의 단서를 쫓던 박사 일행은 두절된 라이디언 소대를 구출하려 우르수스 크라이니 세베르 광산으로 향한다. 오카 인체 실험과 유로지비의 정신 속박, 제4군단의 포화 속에서 콜로살 광맥의 고갈을 목도한 로도스는 생존 광부들을 이끌고 철수하지만, 우르수스는 대지를 향한 전면전을 예고한다.',
-    splashVisualUrl: '/images/story_covers/ep16.png',
+    splashVisualUrl: '/images/story_covers/ep16.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 요약 및 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 제국 의회의 심판과 변방 광산의 그림자', code: 'PART 1' },
@@ -765,7 +741,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 17,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 실장 / LEVEL 5 기밀 데이터] 테라의 질서가 무너져 내리는 임계점(相變临界). 켈시 에스페란타(Kal\'tsit Esperanta)와 함께하는 새로운 여정, 그리고 테라 문명의 본질을 뒤흔드는 궁극의 변이 현상에 맞선 로도스 아일랜드의 결사적 전술 작전.',
-    splashVisualUrl: '/images/story_covers/ep17.png',
+    splashVisualUrl: '/images/story_covers/ep17.webp',
     seriesTabs: [
       { id: 'ep15', label: 'EP 15', code: 'EP 15' },
       { id: 'ep16', label: 'EP 16', code: 'EP 16' },
@@ -800,7 +776,7 @@ export const storyRegistry: StoryListItem[] = [
     docFormat: 'multi_part',
     isOmnibus: false,
     officialSynopsis: '카즈델의 끝없는 내전 속에서 탄생한 용병 W의 기원과 바벨의 나날. 테레시아의 이상과 박사의 냉혹한 전술 지휘, 그리고 바벨 붕괴 이후 리유니온 잠입과 체르노보그 참극의 서막으로 이어지는 비극의 연대기.',
-    splashVisualUrl: '/images/story_covers/sid_darknights_memoir.png',
+    splashVisualUrl: '/images/story_covers/sid_darknights_memoir.webp',
     seriesTabs: [
       { id: 'overview', label: '전체 서사 개요', code: 'OVERVIEW' },
       { id: 'part_1', label: 'Part 1: 전장의 탄생과 만남', code: 'DM-01' },
@@ -836,7 +812,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '켈시의 백 년에 걸친 테라 방랑기. 우르수스 황제의 칼날들과의 대치, 이신과의 대화, 그리고 바벨 이전의 흔적들을 잇는 장대한 사색.',
-    splashVisualUrl: '/images/story_covers/sid_walk_in_dust.png',
+    splashVisualUrl: '/images/story_covers/sid_walk_in_dust.webp',
     releaseOrder: 12,
     releaseYear: 2,
     chronologicalOrder: 2,
@@ -860,7 +836,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: true,
     officialSynopsis: '박사가 기억을 잃기 전 남겨둔 6가지의 사색과 기억의 파편. 아미야와의 약속, 켈시의 신뢰, 그리고 지나간 날들의 고백.',
-    splashVisualUrl: '/images/story_covers/sid_vigilo.png',
+    splashVisualUrl: '/images/story_covers/sid_vigilo.webp',
     omnibusSubEpisodes: [
       { id: 'vig_01', order: 1, titleKo: '바벨', mainCharacter: '박사 & 아미야', synopsis: '희망이라는 이름의 싹. 동면 직전 박사가 아미야에게 건넨 조용한 약속.' },
       { id: 'vig_02', order: 2, titleKo: '메모리아 (Memoria)', mainCharacter: '켈시', synopsis: '지워진 기억과 남아있는 감정의 무게. 켈시와 나눈 침묵 속의 회고.' },
@@ -892,7 +868,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: false,
     officialSynopsis: '살카즈의 비원과 로도스 아일랜드 본함의 발굴. 테레시아와 박사, 켈시 세 사람의 이상과 피할 수 없었던 비극의 분기점.',
-    splashVisualUrl: '/images/story_covers/sid_babel.png',
+    splashVisualUrl: '/images/story_covers/sid_babel.webp',
     releaseOrder: 39,
     releaseYear: 5,
     chronologicalOrder: 1,
@@ -916,7 +892,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 5,
     isOmnibus: false,
     officialSynopsis: '런디니움 전쟁 종결 직후의 빅토리아. 황폐해진 왕도의 재건과 대공작들의 세력 재편 속에서 알렉산드리나(비나)와 글래스고 패거리가 마주하는 시대의 전환점.',
-    splashVisualUrl: '/images/story_covers/sid_great_overture.png',
+    splashVisualUrl: '/images/story_covers/sid_great_overture.webp',
     releaseOrder: 52,
     releaseYear: 5,
     chronologicalOrder: 44.5,
@@ -944,7 +920,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: true,
     officialSynopsis: '체르노보그 제59중학교 폐쇄 구역에서 벌어진 악몽 같은 일주일간의 참극. 살아남은 다섯 소녀의 가슴속에 지워지지 않는 흉터와 극복의 일상.',
-    splashVisualUrl: '/images/story_covers/sid_children_of_ursus.png',
+    splashVisualUrl: '/images/story_covers/sid_children_of_ursus.webp',
     omnibusSubEpisodes: [
       { id: 'urs_01', order: 1, titleKo: '그 축복받은 사람들, 우리들', mainCharacter: '굼 (Gummy)', synopsis: '언제나 음식을 챙기고 세 번 이상 베어 무는 소녀의 지울 수 없는 방어기제.' },
       { id: 'urs_02', order: 2, titleKo: '이스투카의 침묵', mainCharacter: '이스투카 (Istina)', synopsis: '도서관 창가에서 책장을 넘기며 회피했던 그날의 진실.' },
@@ -975,7 +951,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '우르수스 제국 내에서 살아가는 평범한 이들과 감염자들의 또 다른 초상. 거대한 제국의 수레바퀴 아래 피어나는 들불 같은 연대.',
-    splashVisualUrl: '/images/story_covers/sid_our_people.png',
+    splashVisualUrl: '/images/story_covers/sid_our_people.webp',
     releaseOrder: 36,
     releaseYear: 6,
     chronologicalOrder: 37.5,
@@ -1003,7 +979,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '라테라노 성도에서 열리는 만국 화해 회의. 산크타의 율법과 안도아인의 절규, 교황청의 고뇌와 피아메타의 속죄의 총성.',
-    splashVisualUrl: '/images/story_covers/sid_guiding_ahead.png',
+    splashVisualUrl: '/images/story_covers/sid_guiding_ahead.webp',
     releaseOrder: 21,
     releaseYear: 3,
     chronologicalOrder: 46,
@@ -1027,7 +1003,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '라테라노 국경의 잊혀진 수도원. 산크타와 살카즈의 공존의 실험실, 그리고 붕괴하는 이상향의 마지막 종소리.',
-    splashVisualUrl: '/images/story_covers/sid_hortus_escapismo.png',
+    splashVisualUrl: '/images/story_covers/sid_hortus_escapismo.webp',
     releaseOrder: 34,
     releaseYear: 4,
     chronologicalOrder: 49,
@@ -1051,7 +1027,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 성도 너머 황야를 걷는 순례자들과 라테라노 율법의 근원을 파헤치는 대서사.',
-    splashVisualUrl: '/images/story_covers/sid_pilgrimage.png',
+    splashVisualUrl: '/images/story_covers/sid_pilgrimage.webp',
     releaseOrder: 51,
     releaseYear: 6,
     chronologicalOrder: 71,
@@ -1079,7 +1055,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '설산의 종교 국가 쉐라그. 실버애쉬의 과감한 근대화 쿠데타와 성녀 엔시아, 로도스 아일랜드의 외교적 중재 작전.',
-    splashVisualUrl: '/images/story_covers/sid_break_the_ice.png',
+    splashVisualUrl: '/images/story_covers/sid_break_the_ice.webp',
     releaseOrder: 18,
     releaseYear: 2,
     chronologicalOrder: 25,
@@ -1103,7 +1079,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '쉐라그 전역을 관통하는 철도 개통식에 닥친 테러 위협과 은심호의 비밀. 만년설 아래 잠든 신수의 맥박과 세 가문의 화해.',
-    splashVisualUrl: '/images/story_covers/sid_silberneherze.png',
+    splashVisualUrl: '/images/story_covers/sid_silberneherze.webp',
     releaseOrder: 38,
     releaseYear: 5,
     chronologicalOrder: 55,
@@ -1127,7 +1103,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 카란 신화의 정점과 쉐라그의 미래 국경을 둘러싼 최종 국면.',
-    splashVisualUrl: '/images/story_covers/sid_snow_realm.png',
+    splashVisualUrl: '/images/story_covers/sid_snow_realm.webp',
     releaseOrder: 53,
     releaseYear: 6,
     chronologicalOrder: 73,
@@ -1155,7 +1131,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '패밀리가 지배하는 범죄의 도시 볼시니. 텍사스의 귀환과 신생 시라쿠사를 향한 피비린내 나는 연극의 피날레.',
-    splashVisualUrl: '/images/story_covers/sid_il_siracusano.png',
+    splashVisualUrl: '/images/story_covers/sid_il_siracusano.webp',
     releaseOrder: 25,
     releaseYear: 3,
     chronologicalOrder: 51,
@@ -1179,7 +1155,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '볼시니 오페라 극장의 막이 오르기 전, 무대 뒤에서 암약했던 패밀리 조직원들과 예술가들의 막후 기록.',
-    splashVisualUrl: '/images/story_covers/sid_opening_act.png',
+    splashVisualUrl: '/images/story_covers/sid_opening_act.webp',
     releaseOrder: 40,
     releaseYear: 5,
     chronologicalOrder: 53,
@@ -1203,7 +1179,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: true,
     officialSynopsis: '시라쿠사의 거친 골목에서 교차하는 운명들. 펜치, 라플란드, 텍사스, 그리고 시민들의 선택을 담은 옴니버스.',
-    splashVisualUrl: '/images/story_covers/sid_crossroads.png',
+    splashVisualUrl: '/images/story_covers/sid_crossroads.webp',
     omnibusSubEpisodes: [
       { id: 'cr_01', order: 1, titleKo: '황야의 메아리', mainCharacter: '비질', synopsis: '새로운 법과 질서를 세우려는 젊은 수장의 고뇌.' },
       { id: 'cr_02', order: 2, titleKo: '늑대의 비웃음', mainCharacter: '라플란드', synopsis: '과거의 사슬을 비웃으며 황야를 응시하는 회색 늑대.' },
@@ -1260,7 +1236,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '카시미어 메이저 기사 대회의 상업주의와 부패. 가문을 지키기 위해 검을 든 견습 기사 마리아 니어의 고군분투.',
-    splashVisualUrl: '/images/story_covers/sid_maria_nearl.png',
+    splashVisualUrl: '/images/story_covers/sid_maria_nearl.webp',
     releaseOrder: 8,
     releaseYear: 1,
     chronologicalOrder: 22.5,
@@ -1284,7 +1260,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: true,
     officialSynopsis: '붉은 소나무 기사단 소녀들의 반란과 우정. 네온사인 뒤편 슬럼가에서 기사단의 깃발을 지키기 위한 투쟁.',
-    splashVisualUrl: '/images/story_covers/sid_pinus_sylvestris.png',
+    splashVisualUrl: '/images/story_covers/sid_pinus_sylvestris.webp',
     omnibusSubEpisodes: [
       { id: 'ps_01', order: 1, titleKo: '니어 라이트', mainCharacter: '플레임테일 (Sona)', synopsis: '우리를 소모품으로 보지 마라. 지하 클럽에서 결의한 붉은 소나무의 창단.' },
       { id: 'ps_02', order: 2, titleKo: '정의의 방패', mainCharacter: '저스티스', synopsis: '묵묵히 방패를 들고 동료들의 등을 지켜온 전사의 땀방울.' },
@@ -1314,7 +1290,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '대기사령을 밝히는 네온사인과 어둠. 빛의 기사 마가렛 니어의 귀환, 붉은 소나무 기사단, 그리고 카시미어의 운명을 건 영광의 결전.',
-    splashVisualUrl: '/images/story_covers/sid_near_light.png',
+    splashVisualUrl: '/images/story_covers/sid_near_light.webp',
     releaseOrder: 17,
     releaseYear: 2,
     chronologicalOrder: 23.5,
@@ -1338,7 +1314,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: true,
     officialSynopsis: '기사 메이저가 끝난 뒤, 카시미어 국경과 황야를 유랑하는 이들의 쓸쓸하고도 아름다운 여정.',
-    splashVisualUrl: '/images/story_covers/sid_obscure_wanderer.png',
+    splashVisualUrl: '/images/story_covers/sid_obscure_wanderer.webp',
     omnibusSubEpisodes: [
       { id: 'ow_01', order: 1, titleKo: '에인션트 포지', mainCharacter: '샤이닝 & 나이팅게일', synopsis: '죄를 짊어진 채 걸어가는 방랑 의사들의 치료 행렬.' },
       { id: 'ow_02', order: 2, titleKo: '오래된 시계탑', mainCharacter: '모스티마', synopsis: '시간의 균열을 뒤로하고 홀로 발걸음을 옮기는 메신저.' },
@@ -1372,7 +1348,7 @@ export const storyRegistry: StoryListItem[] = [
     docFormat: 'omnibus',
     isOmnibus: true,
     officialSynopsis: '용문의 설날(춘절), 갑자기 난입한 정체불명의 대장장이 니엔. 용문과 로도스 아일랜드를 배경으로 펼쳐지는 좌충우돌 B급 무협 영화 제작기와 쉐이(岁)의 파편들이 품은 태고의 비밀.',
-    splashVisualUrl: '/images/story_covers/sid_ancient_forge.png',
+    splashVisualUrl: '/images/story_covers/sid_ancient_forge.webp',
     subPages: [
       { id: 'overview', label: '개요 (전체 줄거리)', isOverview: true },
       { id: 'af_01', label: '01. 대장장이의 등장과 B급 시나리오', code: 'AF-01' },
@@ -1407,7 +1383,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '두루마리 그림 속에 갇힌 수묵화의 세계. 시의 붓끝에서 펼쳐지는 환상과 현실의 경계.',
-    splashVisualUrl: '/images/story_covers/sid_who_is_real.png',
+    splashVisualUrl: '/images/story_covers/sid_who_is_real.webp',
     releaseOrder: 11,
     releaseYear: 2,
     chronologicalOrder: 26,
@@ -1431,7 +1407,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '상촉의 산봉우리와 술잔에 비친 천년의 달. 링의 시조와 쉐이의 파편을 둘러싼 사마대인들의 음모.',
-    splashVisualUrl: '/images/story_covers/sid_invitation_to_wine.png',
+    splashVisualUrl: '/images/story_covers/sid_invitation_to_wine.webp',
     releaseOrder: 20,
     releaseYear: 3,
     chronologicalOrder: 45,
@@ -1455,7 +1431,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: false,
     officialSynopsis: '염국 옥문의 관문과 황사의 바람. 총웨(Chongyue)의 무예와 도시를 지키는 장수들의 의기투합.',
-    splashVisualUrl: '/images/story_covers/sid_vernal_winds.png',
+    splashVisualUrl: '/images/story_covers/sid_vernal_winds.webp',
     releaseOrder: 29,
     releaseYear: 4,
     chronologicalOrder: 62,
@@ -1479,7 +1455,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 5,
     isOmnibus: true,
     officialSynopsis: '염국 백성들과 관리들의 묵묵한 일상과 쉐이의 그림자가 닿지 않는 인간들의 소소한 운명.',
-    splashVisualUrl: '/images/story_covers/sid_destiny.png',
+    splashVisualUrl: '/images/story_covers/sid_destiny.webp',
     omnibusSubEpisodes: [
       { id: 'des_01', order: 1, titleKo: '회서리', mainCharacter: '염국 사마', synopsis: '조정의 명령과 백성의 삶 사이에서 붓을 쥐는 관원의 일기.' },
       { id: 'des_02', order: 2, titleKo: '나루터의 배', mainCharacter: '어부', synopsis: '흐르는 강물 위에서 천년의 풍류를 노래하는 늙은 사공.' }
@@ -1507,7 +1483,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 6,
     isOmnibus: false,
     officialSynopsis: '대황의 농경지와 황금빛 벼이삭. 슈의 농업 축복과 천재지변을 이겨내며 흙을 일구는 민초들의 생명력.',
-    splashVisualUrl: '/images/story_covers/sid_here_people_sows.png',
+    splashVisualUrl: '/images/story_covers/sid_here_people_sows.webp',
     releaseOrder: 35,
     releaseYear: 5,
     chronologicalOrder: 65,
@@ -1531,7 +1507,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 7,
     isOmnibus: false,
     officialSynopsis: '오랜 헤어짐 끝에 염국 고향에서 다시 만난 가족들의 눈물과 따스한 식탁.',
-    splashVisualUrl: '/images/story_covers/sid_joy_of_reunion.png',
+    splashVisualUrl: '/images/story_covers/sid_joy_of_reunion.webp',
     releaseOrder: 42,
     releaseYear: 6,
     chronologicalOrder: 68,
@@ -1555,7 +1531,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 8,
     isOmnibus: true,
     officialSynopsis: '거울 속에 비친 과거와 현재. 염국의 화원과 정자에서 흘러나오는 사색의 앤솔러지.',
-    splashVisualUrl: '/images/story_covers/sid_mirror_anthology.png',
+    splashVisualUrl: '/images/story_covers/sid_mirror_anthology.webp',
     omnibusSubEpisodes: [
       { id: 'ma_01', order: 1, titleKo: '만경강하', mainCharacter: '염국 화공', synopsis: '비단천에 스며드는 먹물처럼 지나가는 시간의 무게.' },
       { id: 'ma_02', order: 2, titleKo: '옛 벗과의 차 한 잔', mainCharacter: '총웨 & 링', synopsis: '수백 년의 세월을 뛰어넘어 마주 앉은 형제자매의 담소.' }
@@ -1583,7 +1559,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 9,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 염국 사직의 사계절을 아우르는 쉐이 형제자매들의 장대한 결속과 대재앙 대비 기록.',
-    splashVisualUrl: '/images/story_covers/sid_four_seasons.png',
+    splashVisualUrl: '/images/story_covers/sid_four_seasons.webp',
     releaseOrder: 56,
     releaseYear: 6,
     chronologicalOrder: 81,
@@ -1612,7 +1588,7 @@ export const storyRegistry: StoryListItem[] = [
     docFormat: 'multi_part',
     isOmnibus: false,
     officialSynopsis: '컬럼비아의 철벽 교도소 맨스필드. 사이몬 가문의 몰락과 하이드브로 사의 음모, 억울하게 수감된 앤소니(마운틴)를 구출하기 위한 사일런스·카프카의 기상천외한 탈옥 작전, 그리고 하이드브로가 고용한 파라솔 사의 암살자 제셀톤 윌리엄스와 전 방위과 주임 사리아의 필연적인 격돌.',
-    splashVisualUrl: '/images/story_covers/sid_mansfield_break.png',
+    splashVisualUrl: '/images/story_covers/sid_mansfield_break.webp',
     subPages: [
       { id: 'overview', label: '전체 서사 개요', isOverview: true },
       { id: 'part_1', label: 'Part 1: 철창 안의 밀약', code: 'MB-01' },
@@ -1644,7 +1620,7 @@ export const storyRegistry: StoryListItem[] = [
     docFormat: 'multi_part',
     isOmnibus: false,
     officialSynopsis: '트리마운츠 서방 100km 개척지의 고독한 연구소와 신경 공명 물질. 누구도 상처받지 않는 유토피아를 꿈꾼 도로시의 이상주의와 이를 군사 병기화하려는 퍼디낸드의 음모, 그리고 두 개의 분리된 전선(359호 기지 & 트리마운츠 도심)에서 격돌하는 진실의 기록.',
-    splashVisualUrl: '/images/story_covers/sid_dorothys_vision.png',
+    splashVisualUrl: '/images/story_covers/sid_dorothys_vision.webp',
     subPages: [
       { id: 'overview', label: '전체 서사 개요', isOverview: true },
       { id: 'part_1', label: 'Part 1: 개척지의 어둠', code: 'DV-01' },
@@ -1676,7 +1652,7 @@ export const storyRegistry: StoryListItem[] = [
     docFormat: 'multi_part',
     isOmnibus: false,
     officialSynopsis: '컬럼비아의 우주를 향한 위대한 도전. 라인 랩 총괄 크리스틴 라이트의 영구 비행체 "스텔라리아"와 테라의 가짜 하늘을 꿰뚫는 빛기둥, 그리고 수만 년의 고독 속에서 문명의 개척자를 기다려온 구인류 보존자의 마지막 목소리.',
-    splashVisualUrl: '/images/story_covers/sid_lone_trail.png',
+    splashVisualUrl: '/images/story_covers/sid_lone_trail.webp',
     subPages: [
       { id: 'overview', label: '전체 서사 개요', isOverview: true },
       { id: 'part_1', label: 'Part 1: 트리마운츠의 암운', code: 'CW-01' },
@@ -1707,7 +1683,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 뚫린 하늘 너머 미지의 영역과 컬럼비아 개척선의 최전선 탐사 기록.',
-    splashVisualUrl: '/images/story_covers/sid_uncharted_land.png',
+    splashVisualUrl: '/images/story_covers/sid_uncharted_land.webp',
     releaseOrder: 57,
     releaseYear: 6,
     chronologicalOrder: 71,
@@ -1735,7 +1711,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '카시미어 변방의 조용한 물방울 마을을 찾아온 기마경찰 그라니. 그리고 오래된 보물을 쫓아 몰려든 현상금 사냥꾼들과 어비설 헌터 스카디, 전 리유니온 지휘관 밥의 얽히고설킨 인정극과 로도스로 이어지는 심해의 그림자.',
-    splashVisualUrl: '/images/story_covers/sid_grani.png',
+    splashVisualUrl: '/images/story_covers/sid_grani.webp',
     releaseOrder: 1,
     releaseYear: 1,
     chronologicalOrder: 19.5,
@@ -1759,7 +1735,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '이베리아의 버려진 해안 도시 살비엔토. 어비설 헌터스 글래디아, 스펙터, 스카디와 심해의 괴물 시본의 전율적인 조우.',
-    splashVisualUrl: '/images/story_covers/sid_under_tides.png',
+    splashVisualUrl: '/images/story_covers/sid_under_tides.webp',
     releaseOrder: 13,
     releaseYear: 2,
     chronologicalOrder: 32,
@@ -1783,7 +1759,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '안개 속에서 모습을 드러낸 전설의 거함 스툴티페라 나비스. 등대지기와 재판관, 심해의 사냥꾼들이 펼치는 최후의 수호전.',
-    splashVisualUrl: '/images/story_covers/sid_stultifera_navis.png',
+    splashVisualUrl: '/images/story_covers/sid_stultifera_navis.webp',
     releaseOrder: 26,
     releaseYear: 3,
     chronologicalOrder: 39,
@@ -1807,7 +1783,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: false,
     officialSynopsis: '이베리아와 에기르를 잇는 통로에서 던지는 질문. 인간으로서 살아갈 것인가, 심해의 진화에 굴복할 것인가.',
-    splashVisualUrl: '/images/story_covers/sid_path_of_life.png',
+    splashVisualUrl: '/images/story_covers/sid_path_of_life.webp',
     releaseOrder: 44,
     releaseYear: 5,
     chronologicalOrder: 48,
@@ -1831,7 +1807,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 5,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 에기르 해저 도시의 진실과 심해의 파도를 거슬러 오르는 사냥꾼들의 마지막 결전.',
-    splashVisualUrl: '/images/story_covers/sid_escape_sea.png',
+    splashVisualUrl: '/images/story_covers/sid_escape_sea.webp',
     releaseOrder: 58,
     releaseYear: 6,
     chronologicalOrder: 72,
@@ -1859,7 +1835,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '라이타니엔 국경의 작은 이동도시 월루몽드. 의문의 방화 살인 사건과 폭동, 그리고 안토니오 헌병 대장의 비극적인 황혼.',
-    splashVisualUrl: '/images/story_covers/sid_twilight_wolumonde.png',
+    splashVisualUrl: '/images/story_covers/sid_twilight_wolumonde.webp',
     releaseOrder: 6,
     releaseYear: 1,
     chronologicalOrder: 20,
@@ -1883,7 +1859,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '비텐베르크 대공의 영지에서 울려 퍼지는 첼로와 아츠의 불협화음. 에벤홀츠와 크라이데, 비극적인 운명의 이중주.',
-    splashVisualUrl: '/images/story_covers/sid_lingering_echoes.png',
+    splashVisualUrl: '/images/story_covers/sid_lingering_echoes.webp',
     releaseOrder: 27,
     releaseYear: 3,
     chronologicalOrder: 36,
@@ -1907,7 +1883,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '쌍둥이 여제가 다스리는 음악과 아츠의 수도. 고탑의 비밀과 시원의 음악, 황실의 숨겨진 제단에서 펼쳐지는 가을의 대서사.',
-    splashVisualUrl: '/images/story_covers/sid_zwillingsturme.png',
+    splashVisualUrl: '/images/story_covers/sid_zwillingsturme.webp',
     releaseOrder: 37.5,
     releaseYear: 4,
     chronologicalOrder: 52,
@@ -1935,7 +1911,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '빅토리아 타라족의 비극과 더블린의 봉기. 그림자에서 벗어나 장작을 지피는 리드의 불꽃과 참회의 행진.',
-    splashVisualUrl: '/images/story_covers/sid_firelight_casts.png',
+    splashVisualUrl: '/images/story_covers/sid_firelight_casts.webp',
     releaseOrder: 28.5,
     releaseYear: 4,
     chronologicalOrder: 43,
@@ -1959,7 +1935,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 타라 자치령의 부흥과 잿더미 위에서 부르는 슬픈 엘레지.',
-    splashVisualUrl: '/images/story_covers/sid_burnt_elegy.png',
+    splashVisualUrl: '/images/story_covers/sid_burnt_elegy.webp',
     releaseOrder: 59,
     releaseYear: 6,
     chronologicalOrder: 74,
@@ -1987,7 +1963,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '독립 이동도시 시에스타의 흑요석 음악 축제. 휴양을 즐기던 로도스 아일랜드와 시장의 딸 실론, 경호원 슈바르츠. 그리고 화산 폭발을 은폐하고 도시를 집어삼키려는 크로닌의 음모에 맞선 작전.',
-    splashVisualUrl: '/images/story_covers/sid_heart_of_surging_flame.png',
+    splashVisualUrl: '/images/story_covers/sid_heart_of_surging_flame.webp',
     releaseOrder: 3,
     releaseYear: 1,
     chronologicalOrder: 21.5,
@@ -2011,7 +1987,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '아카후알라 열대우림에서 펼쳐지는 부족 간의 난투극과 거대 메카 로봇의 등장. 족장 가비알의 화려한 귀향.',
-    splashVisualUrl: '/images/story_covers/sid_gavial_returns.png',
+    splashVisualUrl: '/images/story_covers/sid_gavial_returns.webp',
     releaseOrder: 7,
     releaseYear: 1,
     chronologicalOrder: 21,
@@ -2035,7 +2011,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '볼리바르의 인공 휴양도시 도솔레스. 칸델라 시장의 철인 3종 경기와 모터보트 레이스, 그리고 수영복을 입은 첸의 활약.',
-    splashVisualUrl: '/images/story_covers/sid_dossoles_holiday.png',
+    splashVisualUrl: '/images/story_covers/sid_dossoles_holiday.webp',
     releaseOrder: 14,
     releaseYear: 2,
     chronologicalOrder: 36.5,
@@ -2059,7 +2035,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: false,
     officialSynopsis: '사막 지하 깊은 곳에 은폐된 두린족의 유토피아 쎄루에르차. 미끄럼틀과 탄산음료가 넘치는 환상적인 지하 바캉스.',
-    splashVisualUrl: '/images/story_covers/sid_ideal_city.png',
+    splashVisualUrl: '/images/story_covers/sid_ideal_city.webp',
     releaseOrder: 24.5,
     releaseYear: 3,
     chronologicalOrder: 37,
@@ -2083,7 +2059,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 5,
     isOmnibus: false,
     officialSynopsis: '새로운 시에스타의 화산 기슭. 아델레(에이야퍄들라)의 부모님 연구를 좇는 여정과 사랑스러운 양구름들의 기적.',
-    splashVisualUrl: '/images/story_covers/sid_so_long_adele.png',
+    splashVisualUrl: '/images/story_covers/sid_so_long_adele.webp',
     releaseOrder: 31,
     releaseYear: 4,
     chronologicalOrder: 50,
@@ -2107,7 +2083,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 6,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 끝없는 태양빛이 내리쬐는 남방 제도에서의 유쾌하고도 치열한 여름 작전.',
-    splashVisualUrl: '/images/story_covers/sid_shake_off_the_sun.png',
+    splashVisualUrl: '/images/story_covers/sid_shake_off_the_sun.webp',
     releaseOrder: 60,
     releaseYear: 5,
     chronologicalOrder: 66,
@@ -2131,7 +2107,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 7,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 고대 리조트 폐허에서 펼쳐지는 보물찾기와 오퍼레이터들의 휴가.',
-    splashVisualUrl: '/images/story_covers/sid_ruins_paradise.png',
+    splashVisualUrl: '/images/story_covers/sid_ruins_paradise.webp',
     releaseOrder: 61,
     releaseYear: 6,
     chronologicalOrder: 67,
@@ -2159,7 +2135,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '용문의 거친 밤, 펭귄 로지스틱스의 배송 작전과 시라쿠사 마피아들의 유쾌하고도 위험천만한 시내 난투극.',
-    splashVisualUrl: '/images/story_covers/sid_code_of_brawl.png',
+    splashVisualUrl: '/images/story_covers/sid_code_of_brawl.webp',
     releaseOrder: 3.5,
     releaseYear: 1,
     chronologicalOrder: 19.3,
@@ -2183,7 +2159,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: true,
     officialSynopsis: '전장을 누비는 오퍼레이터들의 숨겨진 이면. 헬라그, 이프리트, 제시카, 익제큐터 등의 비화 기록.',
-    splashVisualUrl: '/images/story_covers/sid_operational_intelligence.png',
+    splashVisualUrl: '/images/story_covers/sid_operational_intelligence.webp',
     omnibusSubEpisodes: [
       { id: 'oi_01', order: 1, titleKo: '오후의 일화', mainCharacter: '헬라그 & 패트리어트', synopsis: '우르수스의 전장을 기억하는 노병들의 짧고 묵직한 조우.' },
       { id: 'oi_02', order: 2, titleKo: '사격 훈련장', mainCharacter: '제시카 & 도베르만', synopsis: '자신감을 잃은 신참 스나이퍼와 엄격한 교관의 격려.' },
@@ -2213,7 +2189,7 @@ export const storyRegistry: StoryListItem[] = [
     docFormat: 'omnibus',
     isOmnibus: true,
     officialSynopsis: '로도스 아일랜드 본함의 나른한 오후, 오퍼레이터들이 나누는 따스한 커피 한 잔과 소소한 일상의 기쁨.',
-    splashVisualUrl: '/images/story_covers/sid_stories_of_afternoon.png',
+    splashVisualUrl: '/images/story_covers/sid_stories_of_afternoon.webp',
     subPages: [
       { id: 'overview', label: '개요 (일상의 기록)', isOverview: true },
       { id: 'sa_01', label: '01. 오늘의 식단', code: 'SA-01' },
@@ -2254,7 +2230,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: true,
     officialSynopsis: '되감기는 바람처럼 스쳐 지나가는 과거의 인연들. 팬텀, 수르트, 메테오라이트의 기억 조각 옴니버스.',
-    splashVisualUrl: '/images/story_covers/sid_rewinding_breeze.png',
+    splashVisualUrl: '/images/story_covers/sid_rewinding_breeze.webp',
     omnibusSubEpisodes: [
       { id: 'rb_01', order: 1, titleKo: '비욘드 히어', mainCharacter: '팬텀', synopsis: '무대 위의 환영과 크림슨 극단의 지울 수 없는 저주.' },
       { id: 'rb_02', order: 2, titleKo: '기억의 조각', mainCharacter: '수르트', synopsis: '뜨거운 불꽃검을 쥐고 자신의 과거를 찾아 헤매는 방랑.' }
@@ -2282,7 +2258,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 5,
     isOmnibus: true,
     officialSynopsis: '로도스 아일랜드의 창문 너머를 응시하는 이들의 이야기. 아스테시아, 아드나키엘, 플린트, 빈스톡, 아이리스 등 각자의 자리에서 새로운 지평을 향해 나아가는 이들의 결심.',
-    splashVisualUrl: '/images/story_covers/sid_beyond_here.png',
+    splashVisualUrl: '/images/story_covers/sid_beyond_here.webp',
     omnibusSubEpisodes: [
       { id: 'bh_01', order: 1, titleKo: '프렐류드 라이츠', mainCharacter: '사일런스', synopsis: '진실을 향해 망원경을 조준하는 젊은 과학자의 펜촉.' },
       { id: 'bh_02', order: 2, titleKo: '기타와 앰프', mainCharacter: '비그나', synopsis: '락앤롤의 선율로 전장의 공포를 날려버리는 소녀의 연주.' }
@@ -2310,7 +2286,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 6,
     isOmnibus: true,
     officialSynopsis: '새로운 시대를 예고하는 작은 등불들. 카넬리안과 베나, 쉐라그와 컬럼비아를 비추는 전주곡.',
-    splashVisualUrl: '/images/story_covers/sid_preluding_lights.png',
+    splashVisualUrl: '/images/story_covers/sid_preluding_lights.webp',
     omnibusSubEpisodes: [
       { id: 'pl_01', order: 1, titleKo: '어 라이트 스파크', mainCharacter: '카넬리안', synopsis: '동생의 소식을 좇아 대상의 호위를 맡은 여검사의 여정.' },
       { id: 'pl_02', order: 2, titleKo: '빅토리아의 인형', mainCharacter: '베나', synopsis: '고아원에서 아이들의 꿈을 지키는 요술인형과 소녀.' }
@@ -2338,7 +2314,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 7,
     isOmnibus: true,
     officialSynopsis: '어둠 속을 밝히는 작은 불꽃. 칼라돈의 미용실과 골든글로우, 쿼츠가 밝히는 따뜻한 온기.',
-    splashVisualUrl: '/images/story_covers/sid_light_spark.png',
+    splashVisualUrl: '/images/story_covers/sid_light_spark.webp',
     omnibusSubEpisodes: [
       { id: 'ls_01', order: 1, titleKo: '투 비 컨티뉴드', mainCharacter: '골든글로우', synopsis: '오리지늄 아츠로 털이 곤두서는 소녀가 지켜낸 따스한 단골손님들과의 약속.' },
       { id: 'ls_02', order: 2, titleKo: '골목길의 수호자', mainCharacter: '재키 & 쿼츠', synopsis: '빅토리아 소도시의 어둠을 헤치고 정의를 수호하는 순찰.' }
@@ -2366,7 +2342,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 8,
     isOmnibus: true,
     officialSynopsis: '끝나지 않은 모험과 다음 장으로 이어지는 이야기들. 시에스타와 컬럼비아의 유쾌한 옴니버스.',
-    splashVisualUrl: '/images/story_covers/sid_to_be_continued.png',
+    splashVisualUrl: '/images/story_covers/sid_to_be_continued.webp',
     omnibusSubEpisodes: [
       { id: 'tbc_01', order: 1, titleKo: '나무 그늘 속에 잠들다', mainCharacter: '로도스 메신저', synopsis: '목적지를 향해 날아가는 비행선에서 피어나는 짧은 잡담.' },
       { id: 'tbc_02', order: 2, titleKo: '새로운 계약서', mainCharacter: '오퍼레이터 계약 담당', synopsis: '테라의 별빛 아래 새로운 동료를 맞이하는 순간.' }
@@ -2394,7 +2370,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 9,
     isOmnibus: true,
     officialSynopsis: '바람이 머무는 숲속 나무 그늘 아래, 오퍼레이터들이 나누는 깊은 휴식과 치유의 시간.',
-    splashVisualUrl: '/images/story_covers/sid_resting_shade.png',
+    splashVisualUrl: '/images/story_covers/sid_resting_shade.webp',
     omnibusSubEpisodes: [
       { id: 'rs_01', order: 1, titleKo: '그리닝 밸리를 향해', mainCharacter: '자연 감시관', synopsis: '재앙의 상처를 치유하는 원시림의 고요한 숨결.' }
     ],
@@ -2421,7 +2397,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 10,
     isOmnibus: true,
     officialSynopsis: '푸른 골짜기를 향해 걸어가는 개척자들의 발자국과 새로운 보금자리를 찾는 희망의 노래.',
-    splashVisualUrl: '/images/story_covers/sid_greening_valley.png',
+    splashVisualUrl: '/images/story_covers/sid_greening_valley.webp',
     omnibusSubEpisodes: [
       { id: 'gv_01', order: 1, titleKo: '대지가 오렌지 한 알이 될 때까지', mainCharacter: '개척대원', synopsis: '거친 바위산을 넘어 푸른 초원을 발견한 순간의 벅찬 감동.' }
     ],
@@ -2472,7 +2448,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 12,
     isOmnibus: false,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 세 강대국의 분쟁에 찢긴 볼리바르 내전의 상처를 진단하는 의료진의 기록.',
-    splashVisualUrl: '/images/story_covers/sid_bolivar_diagnosis.png',
+    splashVisualUrl: '/images/story_covers/sid_bolivar_diagnosis.webp',
     releaseOrder: 63,
     releaseYear: 6,
     chronologicalOrder: 76,
@@ -2496,7 +2472,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 13,
     isOmnibus: true,
     officialSynopsis: '[중섭 최신 / 기밀 데이터] 카즈델 황폐 구역에서 펼쳐지는 인도주의적 수색 구출 작전 옴니버스.',
-    splashVisualUrl: '/images/story_covers/sid_kazdelian_rescue.png',
+    splashVisualUrl: '/images/story_covers/sid_kazdelian_rescue.webp',
     omnibusSubEpisodes: [
       { id: 'kr_01', order: 1, titleKo: '오퍼레이션 오리지늄 더스트', mainCharacter: '구출팀장', synopsis: '무너진 살카즈 옛 요새에서 포착된 희미한 비콘 신호.' }
     ],
@@ -2527,7 +2503,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 1,
     isOmnibus: false,
     officialSynopsis: '지구의 레인보우 식스 대원들이 테라 대륙의 사르곤 국경에 불시착한다. 연구원 매드 닥터의 음모와 타치안카, 애쉬 소대의 결사항전.',
-    splashVisualUrl: '/images/story_covers/collab_originium_dust.png',
+    splashVisualUrl: '/images/story_covers/collab_originium_dust.webp',
     releaseOrder: 11.5,
     releaseYear: 2,
     chronologicalOrder: 21.8,
@@ -2551,7 +2527,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 2,
     isOmnibus: false,
     officialSynopsis: '레인보우 팀의 두 번째 테라 작전. 퓨즈, 야나, 도카에비와 함께하는 컬럼비아 과학 시설 지하 기밀 탈환 작전.',
-    splashVisualUrl: '/images/story_covers/collab_lucent_arrowhead.png',
+    splashVisualUrl: '/images/story_covers/collab_lucent_arrowhead.webp',
     releaseOrder: 38.5,
     releaseYear: 5,
     chronologicalOrder: 56,
@@ -2575,7 +2551,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 3,
     isOmnibus: false,
     officialSynopsis: '던전밥과의 환상적인 만남. 라이오스 일행과 테라의 오리지늄 생물, 감염 버섯, 고대 괴수를 이용한 기상천외한 요리 대작전.',
-    splashVisualUrl: '/images/story_covers/collab_delicious_terra.png',
+    splashVisualUrl: '/images/story_covers/collab_delicious_terra.webp',
     releaseOrder: 47,
     releaseYear: 5,
     chronologicalOrder: 54,
@@ -2599,7 +2575,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 4,
     isOmnibus: false,
     officialSynopsis: '몬스터 헌터와의 협력. 히가시의 깊은 숲속에 나타난 미지의 화룡 리오레우스와 아이루, 그리고 로도스 수색대의 장렬한 사냥.',
-    splashVisualUrl: '/images/story_covers/collab_monster_hunter.png',
+    splashVisualUrl: '/images/story_covers/collab_monster_hunter.webp',
     releaseOrder: 29.5,
     releaseYear: 4,
     chronologicalOrder: 40,
@@ -2647,7 +2623,7 @@ export const storyRegistry: StoryListItem[] = [
     seriesOrder: 5,
     isOmnibus: false,
     officialSynopsis: 'BanG Dream! Ave Mujica 협력 이벤트. 현실의 무대에서 방황하던 소녀들이 테라 대륙으로 전이되어 불협화음의 가면을 벗고 서로의 진심을 마주하는 비화.',
-    splashVisualUrl: '/images/story_covers/collab_soothing_sleep.png',
+    splashVisualUrl: '/images/story_covers/collab_soothing_sleep.webp',
     releaseOrder: 56.5,
     releaseYear: 6,
     chronologicalOrder: 73,
@@ -2707,32 +2683,76 @@ export const storyRegistry: StoryListItem[] = [
   }
 ];
 
-export const loadedStories: Record<string, StoryArchive> = {
-  ep00: episode00,
-  ep01: episode01,
-  ep02: episode02,
-  ep03: episode03,
-  ep04: episode04,
-  ep05: episode05,
-  ep06: episode06,
-  ep07: episode07,
-  ep08: episode08,
-  ep09: episode09,
-  ep10: episode10,
-  ep11: episode11,
-  ep12: episode12,
-  ep13: episode13,
-  ep14: episode14,
-  ep15: episode15,
-  ep16: episode16,
-  sid_grani: sidGrani,
-  sid_ancient_forge: sidAncientForge,
-  sid_heart_of_surging_flame: sidHeartOfSurgingFlame,
-  sid_lone_trail: sidLoneTrail,
-  sid_dorothys_vision: sidDorothysVision,
-  sid_mansfield_break: sidMansfieldBreak,
-  sid_darknights_memoir: sidDarknightsMemoir,
+const STORY_LOADERS: Record<string, () => Promise<StoryArchive>> = {
+  ep00: () => import('./stories/ep00').then((m) => m.episode00),
+  ep01: () => import('./stories/ep01').then((m) => m.episode01),
+  ep02: () => import('./stories/ep02').then((m) => m.episode02),
+  ep03: () => import('./stories/ep03').then((m) => m.episode03),
+  ep04: () => import('./stories/ep04').then((m) => m.episode04),
+  ep05: () => import('./stories/ep05').then((m) => m.episode05),
+  ep06: () => import('./stories/ep06').then((m) => m.episode06),
+  ep07: () => import('./stories/ep07').then((m) => m.episode07),
+  ep08: () => import('./stories/ep08').then((m) => m.episode08),
+  ep09: () => import('./stories/ep09').then((m) => m.episode09),
+  ep10: () => import('./stories/ep10').then((m) => m.episode10),
+  ep11: () => import('./stories/ep11').then((m) => m.episode11),
+  ep12: () => import('./stories/ep12').then((m) => m.episode12),
+  ep13: () => import('./stories/ep13').then((m) => m.episode13),
+  ep14: () => import('./stories/ep14').then((m) => m.episode14),
+  ep15: () => import('./stories/ep15').then((m) => m.episode15),
+  ep16: () => import('./stories/ep16').then((m) => m.episode16),
+  sid_grani: () => import('./stories/sid_grani').then((m) => m.sidGrani),
+  sid_ancient_forge: () => import('./stories/sid_ancient_forge').then((m) => m.sidAncientForge),
+  sid_heart_of_surging_flame: () => import('./stories/sid_heart_of_surging_flame').then((m) => m.sidHeartOfSurgingFlame),
+  sid_lone_trail: () => import('./stories/sid_lone_trail').then((m) => m.sidLoneTrail),
+  sid_dorothys_vision: () => import('./stories/sid_dorothys_vision').then((m) => m.sidDorothysVision),
+  sid_mansfield_break: () => import('./stories/sid_mansfield_break').then((m) => m.sidMansfieldBreak),
+  sid_darknights_memoir: () => import('./stories/sid_darknights_memoir').then((m) => m.sidDarknightsMemoir),
 };
+
+// Runtime on-demand cache for loaded full StoryArchives (populated lazily via loadStoryArchive)
+export const loadedStories: Record<string, StoryArchive> = {};
+const inFlightStoryLoads = new Map<string, Promise<StoryArchive>>();
+
+export function hasFullStoryArchive(id: string): boolean {
+  return Boolean(STORY_LOADERS[id]);
+}
+
+export function isStoryLoaded(id: string): boolean {
+  return Boolean(loadedStories[id]);
+}
+
+export async function loadStoryArchive(id: string): Promise<StoryArchive> {
+  if (loadedStories[id]) {
+    return loadedStories[id];
+  }
+  const loader = STORY_LOADERS[id];
+  if (!loader) {
+    return getStoryArchive(id);
+  }
+  const existing = inFlightStoryLoads.get(id);
+  if (existing) {
+    return existing;
+  }
+  const promise = loader()
+    .then((archive) => {
+      loadedStories[id] = archive;
+      inFlightStoryLoads.delete(id);
+      return archive;
+    })
+    .catch((err) => {
+      inFlightStoryLoads.delete(id);
+      throw err;
+    });
+  inFlightStoryLoads.set(id, promise);
+  return promise;
+}
+
+export async function loadAllAvailableStories(): Promise<Record<string, StoryArchive>> {
+  const ids = Object.keys(STORY_LOADERS);
+  await Promise.all(ids.map((id) => loadStoryArchive(id)));
+  return loadedStories;
+}
 
 export type StoryAccessState = 'available' | 'overview_only' | 'locked';
 
@@ -2740,7 +2760,7 @@ export function getStoryAccessState(story: { id: string; isUnlocked?: boolean; s
   if (story.isUnlocked === false || story.status === 'locked') {
     return 'locked';
   }
-  if (loadedStories[story.id]) {
+  if (loadedStories[story.id] || STORY_LOADERS[story.id]) {
     return 'available';
   }
   return 'overview_only';
@@ -2763,49 +2783,51 @@ export function getStoryArchive(id: string): StoryArchive {
   }
   const meta = storyRegistry.find((s) => s.id === id);
   if (!meta) {
-    return loadedStories['ep00'];
+    if (loadedStories['ep00']) return loadedStories['ep00'];
+    if (id !== 'ep00') return getStoryArchive('ep00');
   }
 
   // Synthesize an interactive StoryArchive for Overview Only / WIP / Locked stories
+  const resolvedMeta = meta!;
   return {
-    id: meta.id,
-    code: meta.code,
-    category: meta.category,
-    categoryLabel: meta.categoryLabel,
-    actGroup: meta.actGroup,
-    titleKo: meta.titleKo,
-    titleEn: meta.titleEn,
-    order: meta.seriesOrder,
-    bannerImage: meta.splashVisualUrl || '/images/hero.png',
-    status: meta.status,
-    docFormat: meta.docFormat || (meta.isOmnibus ? 'omnibus' : 'single'),
-    isOmnibus: meta.isOmnibus,
-    storyLineId: meta.storyLineId,
-    storyLineTitle: meta.storyLineTitle,
-    officialSynopsis: meta.officialSynopsis,
-    omnibusSubEpisodes: meta.omnibusSubEpisodes,
-    seriesTabs: meta.seriesTabs,
+    id: resolvedMeta.id,
+    code: resolvedMeta.code,
+    category: resolvedMeta.category,
+    categoryLabel: resolvedMeta.categoryLabel,
+    actGroup: resolvedMeta.actGroup,
+    titleKo: resolvedMeta.titleKo,
+    titleEn: resolvedMeta.titleEn,
+    order: resolvedMeta.seriesOrder,
+    bannerImage: resolvedMeta.splashVisualUrl || '/images/backgrounds/bg_corridor.webp',
+    status: resolvedMeta.status,
+    docFormat: resolvedMeta.docFormat || (resolvedMeta.isOmnibus ? 'omnibus' : 'single'),
+    isOmnibus: resolvedMeta.isOmnibus,
+    storyLineId: resolvedMeta.storyLineId,
+    storyLineTitle: resolvedMeta.storyLineTitle,
+    officialSynopsis: resolvedMeta.officialSynopsis,
+    omnibusSubEpisodes: resolvedMeta.omnibusSubEpisodes,
+    seriesTabs: resolvedMeta.seriesTabs,
     systemMeta: {
       recordedTime: 'TERRA-STD ARCHIVE',
-      securityLevel: meta.status === 'locked' ? 'LEVEL 5 RESTRICTED' : 'LEVEL 3 CONFIDENTIAL',
+      securityLevel: resolvedMeta.status === 'locked' ? 'LEVEL 5 RESTRICTED' : 'LEVEL 3 CONFIDENTIAL',
       operatorInCharge: 'PRTS AI Subsystem'
     },
     meta: {
-      timeline: meta.timeline,
-      location: meta.storyLineTitle,
+      timeline: resolvedMeta.timeline,
+      location: resolvedMeta.storyLineTitle,
       factions: ['로도스 아일랜드'],
-      mainCharacters: meta.omnibusSubEpisodes?.map((s) => s.mainCharacter || '').filter(Boolean) || []
+      mainCharacters: resolvedMeta.omnibusSubEpisodes?.map((s) => s.mainCharacter || '').filter(Boolean) || []
     },
     content: {
-      prtsGreeting: `[PRTS ARCHIVE] ${meta.titleKo} (${meta.code}) 테라 연대기 기본 아카이브 개요.`,
-      logline: meta.officialSynopsis,
-      background: meta.officialSynopsis,
-      acts: meta.omnibusSubEpisodes ? meta.omnibusSubEpisodes.map((sub, idx) => ({
+      prtsGreeting: `[PRTS ARCHIVE] ${resolvedMeta.titleKo} (${resolvedMeta.code}) 테라 연대기 기본 아카이브 개요.`,
+      logline: resolvedMeta.officialSynopsis,
+      background: resolvedMeta.officialSynopsis,
+      acts: resolvedMeta.omnibusSubEpisodes ? resolvedMeta.omnibusSubEpisodes.map((sub, idx) => ({
         step: idx + 1,
         phase: `파트 ${idx + 1}`,
         phaseEn: `Part ${idx + 1}`,
         title: sub.titleKo,
-        location: meta.storyLineTitle,
+        location: resolvedMeta.storyLineTitle,
         narrativeText: sub.narrativeText || sub.synopsis,
         summary: sub.synopsis,
         quotes: sub.quotes || [],
@@ -2815,18 +2837,18 @@ export function getStoryArchive(id: string): StoryArchive {
           step: 1,
           phase: '파트 1',
           phaseEn: 'Part 1',
-          title: `${meta.titleKo} 공식 개요`,
-          location: meta.storyLineTitle,
-          narrativeText: meta.officialSynopsis,
-          summary: meta.officialSynopsis,
+          title: `${resolvedMeta.titleKo} 공식 개요`,
+          location: resolvedMeta.storyLineTitle,
+          narrativeText: resolvedMeta.officialSynopsis,
+          summary: resolvedMeta.officialSynopsis,
           quotes: [],
           involvedCharacters: []
         }
       ],
       analysis: {
-        theme: meta.titleKo,
+        theme: resolvedMeta.titleKo,
         tacticalEvaluation: '공식 기록 보관 상태입니다 (상세 전술 분석 미수록).',
-        loreImpact: `${meta.storyLineTitle} 연계 에피소드.`,
+        loreImpact: `${resolvedMeta.storyLineTitle} 연계 에피소드.`,
         unresolvedHooks: []
       }
     },

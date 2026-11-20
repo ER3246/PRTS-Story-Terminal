@@ -9,7 +9,7 @@ export const episode13: StoryArchive = {
   titleKo: '흉조의 소용돌이',
   titleEn: 'The Whirlpool That Is Passion',
   order: 13,
-  bannerImage: '/images/story_covers/ep13.png',
+  bannerImage: '/images/story_covers/ep13.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -90,7 +90,7 @@ export const episode13: StoryArchive = {
       focalCharacter: '가드 & 윈더미어 공작 & 박사 & 시즈',
       location: '빅토리아 황야 전선, 윈더미어 기함 갑판, 지하 용암 동굴(디얄 석상 유적), 밴시의 협곡',
       timeline: '1098년 여름',
-      cgUrl: '/images/cgs/43_i01.png',
+      cgUrl: '/images/cgs/43_i01.webp',
       cgCaption: '체르노보그의 악몽과 스카우트·패트리어트의 환영',
       synopsis: '빅토리아 대공작들과 카즈델 군사위원회의 포격 속에 런디니움 외곽 전선이 무너지는 가운데, 가드는 버림받은 감염자 병사들을 구호하고 윈더미어 공작은 생귀나르와의 사투 끝에 전사한다. 살루스에게 납치된 아미야를 박사가 지켜내고 로고스와 아스카론이 구출에 성공한다.',
       narrativeText: '런디니움 외곽 전선은 빅토리아 대공작들과 카즈델 군사위원회의 포격 속에 폐허로 변해간다. 외드레르와 바벨 3인방이 리치 왕정의 전달자 에르망가르드를 추적해 살카즈의 보존 계획과 고대 카즈델의 환영을 목격하는 동안, 가드는 체르노보그의 악몽 속에서 버림받은 빅토리아 감염자 병사들을 구호하며 어린 시절 림 빌리턴 소금 호수의 기억을 나눈다. 노스포트 난민들을 수용한 윈더미어 공작의 기함에서는 뱀파이어 생귀나르와의 사투 끝에 윈더미어 공작이 딸 델핀의 손을 잡고 장렬히 전사한다. 직후 고해신부 살루스가 대지를 갈라 아미야를 지하 동굴로 납치하자 박사는 부러진 오른손에 날카로운 돌을 쥐고 몸을 던져 아미야를 지켜내고, 로고스와 아스카론이 구출에 성공해 밴시의 협곡을 뚫고 전장으로 복귀한다.',
@@ -134,7 +134,7 @@ export const episode13: StoryArchive = {
           narrativeText: `불타는 체르노보그에서 에이스 대장과 스카우트, 패트리어트가 자신을 살리고 쓰러지던 악몽에서 깨어난 가드는 퍼시벌과 함께 네오 리유니온 구호소 막사에서 부상자들을 돌본다. 그곳에는 떠돌이 살카즈 행상인을 비롯해 빅토리아 정규군에서 버림받은 감염자 병사들이 수용되어 있었는데, 전우 빅터가 참호에서 급성 오리지늄 붕괴로 산산이 부서지는 참상을 겪은 분노한 부사관과 부상당한 병사가 살카즈의 저주라며 절규하자 가드는 그들 역시 곧 죽을 감염자임을 냉정히 일깨운다. 작전 후 가드는 일곱 살 무렵 고향 림 빌리턴에서 광석병에 걸린 할머니가 다른 감염자들과 함께 안개 낀 소금 호수로 작은 배를 저어 들어간 뒤 수정이 깨지는 소리와 함께 오리지늄 분진으로 흩날리던 기억을 레드에게 털어놓는다. 이후 탈룰라가 굶주린 빅토리아 소년 병사에게 황동 단추도 받지 않고 죽이 든 솥을 내어주고, 가드와 퍼시벌은 밤새 오리지늄 분진으로 붕괴해 군복과 오르골만 남은 부사관의 유해 앞에서 빅토리아 국가를 흥얼거리며 리유니온으로서 전장을 돌파할 결의를 다진다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i01.png',
+              url: '/images/cgs/43_i01.webp',
               caption: '체르노보그의 악몽과 스카우트·패트리어트의 환영',
               type: 'cg',
               triggerLine: '우리 대장님, 그리고 그 전설적인 살카즈 척후, 그리고…… 대위, 최후의 순혈 웬디고. 모두 죽었다. 내 눈앞에서, 내 등 뒤에서.'
@@ -177,7 +177,7 @@ export const episode13: StoryArchive = {
           narrativeText: `노포트 구 난민들을 수용한 윈더미어 공작의 고속 군함에 고해신부 호위대와 다마즈티의 분신이 침투해 병사로 위장한 채 접근하고, 다마즈티는 델핀의 눈앞에서 윈더미어 공작과 델핀의 모습으로 잇달아 변신한 뒤 자결하며 혼란을 일으킨다. 곧이어 쏟아지는 빗속에서 뱀파이어 생귀나르가 기함 갑판에 직접 강림하고, 윈더미어 공작은 딸과 난민들을 지키기 위해 소드베어러들과 함께 생귀나르에게 맞서 싸우다 치명상을 입는다. 적들이 물러난 갑판 위에서 윈더미어 공작은 피투성이가 된 채 딸 델핀의 손을 붙잡고, 델핀의 검술을 칭찬하며 미리 준비해 둔 조금 큰 코트 이야기를 유언으로 남긴 채 숨을 거둔다. 한편 난민 대열 속에서 푸른 머리의 고해신부 살루스가 대지를 갈라 의식을 잃은 아미야를 지하 통로로 납치하자, 박사는 아미야와 함께했던 기억들을 떠올리며 무너지는 돌다리 아래로 망설임 없이 뛰어내린다. 살카즈 아종들의 거대한 디얄(Diαl) 석상들이 용암 위에 매달린 지하 동굴에서 박사는 오른팔 요골이 부러지는 중상을 입고도 날카로운 돌멩이를 쥐고 살루스 앞을 가로막아 아미야의 손을 붙잡고, 뒤이어 난입한 아스카론과 로고스가 살루스를 격퇴하나 살루스가 발동한 함정으로 인해 일행은 '밴시의 협곡'으로 전이된다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i07.png',
+              url: '/images/cgs/43_i07.webp',
               caption: '델핀의 손을 붙잡은 채 빅토리아의 미래를 당부하며 숨을 거두는 윈더미어 공작',
               type: 'cg',
               triggerLine: '어머니의 몸이 점점 차가워지고 있다. 난 차마 손을 놓을 수 없었다. 어머니의 심장소리가 점점 멀어지고 있다.'
@@ -301,7 +301,7 @@ export const episode13: StoryArchive = {
       focalCharacter: '시즈 & 델핀 & 외드레르 & 나이팅게일',
       location: '체틀리 카운티 카뮈강 유역 시청 및 제단, 베헤모스 유해 \'스파인\', 런디니움 교외 W의 은신처, 리유니온 숲속 야영지',
       timeline: '1098년 여름',
-      cgUrl: '/images/cgs/43_i14_4.png',
+      cgUrl: '/images/cgs/43_i14_4.webp',
       cgCaption: '대지에 망치를 내리꽂는 시즈',
       synopsis: '시즈와 델핀, 글래스고 일행이 카뮈강 유역에서 혼의 폭풍돌격대를 구출하고 시즈가 진정한 국민의 군대 \'파라곤 부대\'의 부활을 선포한다. 한편 외드레르와 이네스는 공중 요새 \'스파인\'에 잠입해 울술라와 격돌하고, 안전가옥 습격으로 나이팅게일이 고해신부를 따라나선다.',
       narrativeText: '시즈와 델핀, 글래스고 일행은 체틀리 카운티 카뮈강 유역에서 2주 넘게 고립되어 싸우던 혼의 폭풍돌격대와 미저리를 구출한다. 윈더미어 군벌과 귀족의 오만에 환멸을 느낀 시즈는 카뮈강 대지에 왕실의 상징인 망치를 내리꽂으며 귀족 군벌의 사병이 아닌 진정한 국민의 군대 \'파라곤 부대\'의 부활을 선포한다. 한편 외드레르와 이네스는 비밀 통로를 거쳐 거수 베헤모스의 유골로 건조된 군사위원회의 거대 공중 요새 \'스파인\'에 잠입하여 군사위원회 최연소 소령 울술라와 격돌하고, 런디니움 교외 W의 안전가옥에서는 고해신부 수장 키사르투슈타지와 살루스가 급습해 나이팅게일(리즈)을 납치하자 나이팅게일은 샤이닝과 켈시를 지키기 위해 스스로 고해신부를 따라나선다.',
@@ -315,13 +315,13 @@ export const episode13: StoryArchive = {
           narrativeText: `체틀리 카운티에 도착한 시즈와 델핀 일행은 도강 중 전사한 척후병의 방수 노트에서 두 개 분대 23명이 카뮈강 나루터 옆 시청 건물을 2주 넘게 사수하고 있다는 기록을 발견한다. 일행은 포위망을 뚫고 혼의 폭풍돌격대 및 로도스 오퍼레이터 미저리와 합류하여 살카즈의 이동식 전쟁 제단 코어를 타격하고, 시즈가 폭발의 충격파에 내동댕이쳐지는 부상을 입으면서도 고도딘 공작군의 전함이 도착할 때까지 거점을 지켜낸다. 전투 후 혼은 전차에서 회수한 검은 상자가 과거 가울 전쟁 당시 공작들이 버렸던 폭풍돌격대의 전신, 전설적인 '파라곤 부대'의 군사 식별 코드임을 알려준다. 그때 영지로 도주하던 참모단에서 이탈한 '기운이 바닥난 자작'이 찾아와 델핀에게 미천한 감염자들을 버리고 캐스터 공작의 보호 아래로 들어가자고 회유하나, 델핀과 시즈는 알레데일의 비극을 떠올리며 이를 단호히 물리친다. 시즈는 불안해하는 병사들과 난민들 앞에서 누구에게도 의지하지 않고 우리 손으로 런디니움을 되찾자고 외치며 대지에 망치를 힘껏 내리꽂고, 글래스고와 델핀, 모든 장병이 '파라곤 부대'를 연호하며 하나가 된 뒤 모닥불 곁에서 내일의 진격을 다짐한다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i14_4.png',
+              url: '/images/cgs/43_i14_4.webp',
               caption: '대지에 망치를 힘껏 내리꽂아 혼란에 빠진 진영을 침묵시키고 \'파라곤 부대\'의 구호를 일깨우는 시즈',
               type: 'cg',
               triggerLine: '\'쾅\'! 대지에 내리친 망치는 모든 소리를 지웠다. 나는 모두의 소리를 들었다. \'파라곤 부대!\' \'파라곤 부대!\' \'파라곤 부대!\''
             },
             {
-              url: '/images/cgs/43_i09.png',
+              url: '/images/cgs/43_i09.webp',
               caption: '전투가 끝난 뒤 모닥불 곁에 모여 앉아 숨을 돌리는 시즈와 델핀, 글래스고 동료들',
               type: 'cg',
               triggerLine: '그러고 보니, 이상한 꿈을 하나 꿨는데…… 어떤 금빛의 야수가 우리 캠프에서 산책을 하고 있었어.'
@@ -364,7 +364,7 @@ export const episode13: StoryArchive = {
           narrativeText: `외드레르, 이네스, W는 전장에 설치된 17개의 뱀파이어 마법진을 파괴하며 테레시스가 대공작들의 포위망을 뚫고 막대한 강철과 결정 유닛을 런디니움으로 반입한 비밀 수송로의 실체를 추적한다. 행군 도중 이네스는 테레시아의 환영을 본 뒤로 살얼음판 위의 아이처럼 불안해하는 W의 내면을 짚어내며 그녀가 진정으로 원하는 바를 직시하게 하려 한다. 기착지 동굴 깊숙이 진입한 순간 공간이 크게 울리며 바퀴조차 달리지 않았던 평화롭고 고요한 고대 카즈델의 환영이 펼쳐지고, 그 침묵 너머로 백골만 남은 거대한 베헤모스가 신경다발을 뻗어 화물 상자를 들어 올린 채 살아 떠도는 광경이 드러난다. 바로 그 기착지에서 외드레르와 이네스는 과거 스카 마켓('흉터의 상점') 시절 알던 소녀였으나 이제는 전설 속 영웅 '시간 도둑 울술라'의 이름을 쓰고 해골 수송선의 운전사(지휘관)가 된 울술라와 마주한다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i10.png',
+              url: '/images/cgs/43_i10.webp',
               caption: '고대 카즈델의 시공 환영 너머 안개 속을 유영하는 거대한 베헤모스의 백골',
               type: 'cg',
               triggerLine: '백골만 남게 된 가여운 생물은 가볍게 몸을 움직이고 있다. 신경다발은 쭉 뻗어나가며, 거대한 화물 상자를 들어 올렸다. 그것은 확실히 아직 산 채로 이곳에서 떠돌고 있었다.'
@@ -407,7 +407,7 @@ export const episode13: StoryArchive = {
           narrativeText: `카즈델 빈민가 출신의 고아였던 울술라는 테레시스와 테레시아가 이끄는 군사위원회 덕분에 자신 같은 소녀도 고대 왕정의 순혈들과 같은 전략 테이블에 앉아 최연소 소령이 될 수 있었다며, 군사위원회야말로 카즈델이 진정한 국가가 될 기반이라고 역설한다. 그러나 외드레르는 이 전쟁이 끝난 뒤 과연 대지에 카즈델이 남아 있을지 반문하고, 협상이 결렬되자 외드레르가 울술라와 호위대를 붙잡아 두는 10분 동안 이네스가 그림자를 이용해 베헤모스의 신경다발과 척추 선실 내부로 잠입한다. 울술라는 고대 유물인 회중시계 스태프로 주변의 시간을 늦추고 되돌리며 이네스를 거세게 몰아붙이고, 베헤모스가 공간 표류를 시작하며 거대한 난류가 해골 내부를 덮친다. 위기의 순간 외드레르가 잿불과 뼛가루를 뚫고 합류해 이네스와 등을 맞대고 완벽한 호흡으로 활로를 열고, 두 사람은 서로의 손을 맞잡은 채 카즈델 전장의 환영과 시공 난류를 돌파해 지상으로 귀환한다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i12.png',
+              url: '/images/cgs/43_i12.webp',
               caption: '뼛가루와 잿불 속에서 등을 맞대고 싸우는 외드레르와 이네스',
               type: 'cg',
               triggerLine: '인정할 수밖에 없다, 외드레르는 확실히 괜찮은 파트너라는 걸. 나는 사실 우리가 서로를 배신하지 않아서 다행이라고 생각했다.'
@@ -440,11 +440,11 @@ export const episode13: StoryArchive = {
           title: '왕관을 노리는 자',
           location: '런디니움 교외 W의 안전가옥, 리유니온 숲속 야영지',
           timeMarker: '1098년 여름',
-          cgUrl: '/images/cgs/43_i13.png',
+          cgUrl: '/images/cgs/43_i13.webp',
           cgCaption: '검을 뽑으려는 샤이닝의 옷소매를 붙잡고 미소 짓는 나이팅게일(리즈)',
           visuals: [
             {
-              url: '/images/cgs/43_i13.png',
+              url: '/images/cgs/43_i13.webp',
               caption: '검을 뽑으려는 샤이닝의 옷소매를 붙잡고 미소 짓는 나이팅게일(리즈)',
               type: 'cg',
               triggerLine: '검집에서 금방이라도 낮과 밤이 흘러내릴 것만 같았다. 그 순간 어떤 손이 샤이닝의 소매를 붙잡았다.'
@@ -491,7 +491,7 @@ export const episode13: StoryArchive = {
       focalCharacter: '아미야 & 마그달레네 & 프리다 & 왕정군 장교(\'삽\') & 가드',
       location: '살루스의 정신 미궁, 브렌트우드 마을 온실 및 혈액 제단, 브렌트우드 폐가, 숲속 구 폐양조장 리유니온 거점',
       timeline: '1098년 여름',
-      cgUrl: '/images/cgs/43_i02.png',
+      cgUrl: '/images/cgs/43_i02.webp',
       cgCaption: '화염 속에서 약초 꽃잎을 건네는 가드',
       synopsis: `정신 미궁에 빠진 아미야가 마왕들의 파멸 예언을 거부하고 스스로를 찔러 현실로 귀환하는 사이, 브렌트우드 마을의 정원사들은 마지막 꽃씨를 쏘아 올리고 산화한다. 인근 폐양조장에서 화재가 발생하자 가드는 메이스를 탈출시킨 뒤 홀로 남아 불멸의 유언을 남기고 스러진다.`,
       narrativeText: `살루스의 저주로 정신 미궁에 빠진 아미야는 역대 마왕들의 원념과 파멸의 예언을 거부하며 스스로의 가슴을 찔러 현실로 귀환한다. 브렌트우드 마을에서는 살카즈 군사위원회가 주민들을 강제 동원해 거대한 혈액 제단을 건설하고 있었고, 정원사 마그달레네와 촌장 대리 프리다는 왕정군 장교('삽')의 묵인 아래 마을 온실의 마지막 꽃씨들을 축포에 담아 쏘아 올린 뒤 산화한다. 브렌트우드 인근 폐양조장에서는 감염자 난민들의 광기 어린 증오로 화재가 발생하고, 가드는 비감염자 관리인 메이스를 탈출시킨 뒤 무너지는 화염 속에 홀로 남아 "우리의 죽음을 이 대지에 보여주자"는 불멸의 유언을 녹음기에 남긴 채 산화한다.`,
@@ -607,7 +607,7 @@ export const episode13: StoryArchive = {
           narrativeText: `다음 날 아침, 나흐체러르 킹의 군단으로 차출되기 전 마지막 작별 인사를 건네러 온 왕정군 장교('삽')는 왜 어젯밤 마을을 떠나지 않았느냐며 안타까워하고, 성미가 급한 생귀나르의 요구로 오늘 마을 주민 전체를 열쇠(산 제물)로 삼는 피의 의식이 앞당겨졌음을 알린다. 마그달레네가 주민들에게 알리려 몸부림치자, 장교는 "네가 내 시체를 밟고 넘어가지 않는 한 의식을 방해하게 두지 않겠다"며 마그달레네의 손을 잡아 자신의 칼 위에 얹고 스스로의 몸을 찔러 자결함으로써 그녀가 도망칠 명분과 길을 열어준다. 온실을 뛰쳐나온 마그달레네가 공사장으로 달려갔을 때, 윌의 죽음을 확인하고 절망한 프리다가 벽을 폭파한 뒤 아버지 웨스트 촌장이 농경 축제를 위해 남겨두었던 축포(폭죽)를 한낮의 하늘로 쏘아 올리고, 몰려든 살카즈 병사들에게 온몸이 찢기며 장렬히 산화한다. 제단이 가동되며 주민들의 몸에서 피가 빠져나가는 절체절명의 순간 피스트와 락락이 짚라인을 내려 마그달레네와 시민들을 구출하고, 때맞춰 도착한 시즈·혼·델핀의 파라곤 부대가 전차 포격으로 거대한 핏빛 촉수가 솟구치는 마법진 코어를 분쇄한다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i08.png',
+              url: '/images/cgs/43_i08.webp',
               caption: '브렌트우드 마을의 무너진 건물 위로 솟구쳐 올라 하늘을 뒤덮는 거대한 핏빛 기둥과 촉수',
               type: 'cg',
               triggerLine: '우리가 직접 쌓아올린 건물 위로 핏빛 기둥이 솟아오르며, 축제를 위한 불꽃과 뒤섞였다. 칠흑 같은 심연에서 핏빛이 끓어오르고 있었다.'
@@ -680,7 +680,7 @@ export const episode13: StoryArchive = {
           narrativeText: `가드와 레드는 브렌트우드 인근 숲속에 숨겨진 리유니온의 구 양조장 공방에 도착한다. 그곳은 리유니온 제복을 입은 비감염자 관리인 메이스가 과거 자신을 구해주고 숨진 리유니온 감염자 의사의 유지를 이어받아, 감염자 시신들을 안치하고 진통 효과가 있는 온실 꽃잎을 가꾸며 난민들을 돌보던 거점이었다. 그러나 거점에 몰려든 빅토리아 감염자 난민들이 앞서 가드가 구호소에서 만났던 '떠돌이 살카즈 행상인(마찬가지로 감염자)'을 단지 살카즈라는 이유만으로 철사로 묶어 집단 구타해 살해하고 빵과 약을 빼앗은 참극이 벌어져 있었다. 설상가상으로 살해당한 살카즈 감염자의 시신이 기존 감염자 시신 분진이 가득 쌓인 창고 안에서 급격한 활성 오리지늄 붕괴를 일으키며 양조장 전체에 연쇄 폭발과 대화재가 번진다. 가드는 자신을 적대하던 난민들까지 전원 밖으로 대피시킨 뒤, 고인이 된 의사가 남긴 진통 약초 꽃잎을 회수하기 위해 메이스와 함께 걸린 레버를 당긴다. 철제 구조물이 무너져 내리자 가드는 메이스를 출구 밖으로 힘껏 밀쳐내고, 불길 속으로 뛰어올라 흩날리는 꽃잎을 잡아 메이스에게 건넨다. 퇴로가 완전히 막힌 불길 속에서 가드는 홀로 남아 녹음기를 켜고, 우리가 함께 가시밭길을 헤쳐나가야 할 대상이 과연 '감염자'뿐인지 묻는 유언을 남기며 숨을 거둔다. 뒤늦게 도착한 나인, 탈룰라, 퍼시벌, 노웰은 전소된 잔해 아래에서 녹음기를 쥔 가드의 손을 수습하고, 레드는 가드의 꽃무늬 손수건을 나무 아래에 묻어주며, 나인은 살카즈 행상인을 살해한 범인들을 리유니온에서 영구 추방하고 억압자들에게 맞서는 새로운 방향성을 천명한다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i02.png',
+              url: '/images/cgs/43_i02.webp',
               caption: '무너져 내리는 양조장의 맹렬한 화염 속에서 뛰어올라 진통 약초 꽃잎을 건네는 가드',
               type: 'cg',
               triggerLine: '하아, 그래, 나는 메이스를 밀어냈다. 그 후, 나는 전력을 다해 뛰어올라 흩날리는 꽃잎을 회수했다.'
@@ -719,7 +719,7 @@ export const episode13: StoryArchive = {
       focalCharacter: '외드레르 & 르네 레토 & 두카렐 & 아미야 & 탈룰라',
       location: '브렌트우드 외곽 숲, 런디니움 요양원 및 왕궁, 더 샤드, 베헤모스 유해 \'스파인\', 문명 너머의 별바다, 브렌트우드 갈대밭 습지',
       timeline: '1098년 여름',
-      cgUrl: '/images/cgs/43_i04.png',
+      cgUrl: '/images/cgs/43_i04.webp',
       cgCaption: '별바다 위를 유영하는 베헤모스 유해와 생귀나르·아미야·로고스',
       synopsis: '왕궁에서 레토 중령이 생귀나르에게 일격을 가하고 자결하는 가운데, 베헤모스를 별바다로 도약시키며 태초의 오리지늄 의식을 완성한 생귀나르를 아미야와 로고스·바벨 일행이 심연으로 추락시킨다. 대공작들이 3일 후 총공세를 결의하고 마지막 증기 기사가 재가동된다.',
       narrativeText: '스파인 강습 직전 숲속에서 외드레르와 이네스는 W에게 그녀를 따르는 수많은 살카즈 용병들의 리더로서 책임을 다할 것을 당부한다. 한편 해임된 런디니움 방위군 르네 레토 중령은 구수호자 노병을 안락사시킨 뒤 왕궁에서 생귀나르의 얼굴에 피를 뿜으며 자결한다. 베헤모스 유해 상공에서 생귀나르는 아미야의 검은 창에 찔리자 만 년 전 순수한 \'티카즈의 피\'를 런디니움으로 보내 태초의 오리지늄 의식을 완성시킨 뒤, 스스로 손목을 그은 수비병들의 피로 베헤모스를 문명 너머 별바다로 도약시킨다. 아미야와 로고스, 바벨 3인방은 별바다에서 생귀나르를 심연으로 추락시키고 울술라를 생포해 귀환하며, 갈대밭에서 탈룰라와 에블라나가 격돌하는 가운데 대공작들의 3일 후 총공세 합의와 마지막 증기 기사의 재가동이 확인된다.',
@@ -733,7 +733,7 @@ export const episode13: StoryArchive = {
           narrativeText: `마왕이 마왕을 죽이고 도시가 불타던 고대 카즈델의 꿈을 동시에 꾼 외드레르, 이네스, W는 표류하던 베헤모스 유해('스파인')가 기착지로 돌아왔음을 직감한다. 날이 밝기 전 숲속에서 외드레르는 단순히 테레시스만 죽이면 그만이라는 W에게, 지금 테레시스가 죽으면 연합군의 학살 앞에 카즈델이 절멸할 것이며 리유니온 시절부터 지금까지 W를 믿고 모여든 수많은 살카즈 용병들의 목숨과 희망에 리더로서 어떻게 응답할지 생각하라고 꾸짖는다. 이네스 또한 테레시아의 존재와 W의 속내를 짚어내고, W는 테레시아가 남긴 말("이 세상이 편안히 잠들 수 있도록")을 되뇌며 각오를 다진다. 이어 시즈와 델핀의 파라곤 부대가 외곽에서 수비대의 주의를 끄는 사이, 아미야, 로고스, 외드레르, 이네스, W로 이루어진 강습조가 혈관이 맥동하는 베헤모스 유해 내부로 전격 진입한다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i11.png',
+              url: '/images/cgs/43_i11.webp',
               caption: '숲속에서 카즈델의 미래와 리더의 책임을 두고 마주 선 외드레르, 이네스, W',
               type: 'cg',
               triggerLine: '잘 생각해 봐, 저 목숨들이 네게 어떤 의미인지. 테레시스뿐만이 아니야…… 잊지 말라고, 테레시아도 있다는 걸.'
@@ -848,13 +848,13 @@ export const episode13: StoryArchive = {
           narrativeText: `생귀나르의 명령에 따라 울술라와 스파인 수비병들이 일제히 손목을 그어 자신들의 선혈로 베헤모스의 근육과 신경을 대체시키자, 수비병들은 피가 말라 죽어가고 해골은 시공의 폭풍 속으로 표류하기 시작한다. 외드레르는 과다출혈로 쓰러진 울술라를 선실 안으로 끌고 들어와 지혈해 살려내고 그녀의 역회전 회중시계를 챙긴다. 한편 수백 년 만에 온기를 되찾은 베헤모스의 유골은 전장을 벗어나 아무도 닿을 수 없는 문명 바깥의 경계—고요한 하늘과 바다, 찬란한 별무리가 펼쳐진 시공—위에 멈춰 선다. 그곳에서 생귀나르는 자신의 진명인 두카렐(Duq'arael)을 밝히며 이종족 키메라에 불과한 아미야를 조롱하지만, 아미야는 삶을 살육과 과거의 전통에 가두려는 두카렐을 정면으로 부정하며 검지 반지를 파열시켜 힘을 해방한다. 아미야는 마왕의 공명을 통해 과거 두카렐이 평화와 카즈델의 복구를 원했던 자신의 친형—뱀파이어 마왕 '피투성이 왕자'—의 가슴을 직접 꿰뚫어 살해했으며, 죽어가던 형이 보여준 '조용한 산골 마을에서 웃으며 부상자를 치료하는 시골 의사(두카렐 자신)'의 평온한 환영에 오히려 분노와 두려움을 느꼈음을 꿰뚫어 본다. 격분한 두카렐이 최후의 혈계를 펼치는 순간, 선실에서 수비대를 돌파한 이네스의 그림자, W의 폭탄, 외드레르의 대검이 두카렐의 빈틈을 찌르고, 로고스와 아미야가 함께 부르는 장송의 엘레지(만가)가 혈계를 산산이 부수며 백색 예복의 두카렐을 해골 아래 끝없는 시공의 심연 속으로 추락시킨다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i05_2.png',
+              url: '/images/cgs/43_i05_2.webp',
               caption: '뒤집히는 피의 바다와 달빛 아래 검지 반지가 파열되며 생귀나르의 태고 혈통주의를 정면으로 부정하고 힘을 해방하는 아미야',
               type: 'cg',
               triggerLine: '……당신을 부정합니다. 저는 부정합니다, 당신이 \'마왕\', 살카즈, 그리고 카즈델을 힘과 전통으로 귀결시키는 것을. 아미야의 반지가 파열되고, 비산한다.'
             },
             {
-              url: '/images/cgs/43_i06.png',
+              url: '/images/cgs/43_i06.webp',
               caption: '모든 역사와 환상이 부서진 베헤모스의 유골 위에서 살카즈의 영혼들에게조차 외면당한 채 끝없는 시공의 심연으로 추락하는 생귀나르',
               type: 'cg',
               triggerLine: '그는 발 아래가 빈 것을 느낀다. 흰 옷을 입은 남자가 해골에서 추락한다.'
@@ -891,13 +891,13 @@ export const episode13: StoryArchive = {
           narrativeText: `베헤모스의 조종실에서 고대 거수의 의식('흐릿한 소리')과 교감한 외드레르는 "토끼, 양, 밴시, 살카즈가 한때 당신을 사냥했던 뱀파이어를 무찌를 것"이라며 귀환을 걸고 내기를 제안하고, 아미야 일행의 승리를 확인한 베헤모스는 강습조와 포로가 된 울술라를 브렌트우드의 켈시·박사·시즈·델핀 곁으로 무사히 돌려보낸다. 한편 브렌트우드 외곽 갈대밭 습지에서는 더블린의 지도자 에블라나가 죽은 자들을 되살리는 보랏빛 불꽃으로 리유니온 대열을 가로막고, 탈룰라가 앞으로 나서 타오르는 붉은 화염으로 에블라나와 정면 격돌하며 그녀를 "죽음을 권세의 도구로 쓰는 거짓된 폭군"이라 일갈한 뒤 물러난다. 비 내리는 동굴에서는 염국 표국 전달자로 위장한 첸이 나인에게 추방당한 두 빅토리아 감염자와 모닥불을 나누며 가드의 희생과 리유니온의 행방을 파악하고, 체틀리 카운티에 숨어 지내던 백파이프는 부상병으로부터 폭풍돌격대의 전신인 '파라곤 부대'가 부활했다는 소식을 듣는다. 대공작 진영에서는 캐스터 공작, 고도딘 공작, 웰링턴 공작이 회동하여 웰링턴 공작의 지휘 아래 3일 후 런디니움 총공세를 개시하기로 결정하고, 개조한 통신기를 점검하던 클로저는 런디니움 내부 클로비시아의 생존 무전과 함께 로도스 아일랜드 본함(Landship)의 런디니움 이함 신청 승인 방송을 수신한다. 그 시각 런디니움의 적막한 어둠 속에서는 생존해 있던 마지막 증기 기사 찰스 린치의 갑주가 뜨거운 열기와 안광을 뿜어내고, 더 샤드에서는 테레시아와 맨프레드가 충전이 완료된 빌딩 위에서 다가오는 진정한 재앙의 먹구름을 응시한다.`,
           visuals: [
             {
-              url: '/images/cgs/43_i03.png',
+              url: '/images/cgs/43_i03.webp',
               caption: '갈대밭 습지에서 보랏빛 죽음의 불꽃을 두른 에블라나와 붉은 화염을 일으킨 탈룰라의 격돌',
               type: 'cg',
               triggerLine: '탈룰라 아르토리우스, 에드워드의 딸, 빅토리아의 정당한 왕위 후계자. 이것이…… 진정한 너구나.'
             },
             {
-              url: '/images/cgs/avg_ep13.png',
+              url: '/images/cgs/avg_ep13.webp',
               caption: '런디니움의 적막한 어둠 속에서 투구의 불빛과 열기를 뿜어내는 마지막 증기 기사',
               type: 'cg',
               triggerLine: '그녀는 손을 뻗어 기사를 만지려 했지만, 갑주에 남은 열기에 놀라 물러났다. 갑주는 그저 침묵했다.'
@@ -959,8 +959,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Amiya',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 총사령관 / 카우투스 마왕',
-      avatarUrl: '/images/characters/amiya.png',
-      illustUrl: '/images/characters/illust/amiya.png',
+      avatarUrl: '/images/characters/amiya.webp',
+      illustUrl: '/images/characters/illust/amiya.webp',
       description: '로도스 아일랜드의 젊은 리더이자 테레시아의 검은 왕관을 계승한 카우투스 마왕. 고해신부 살루스의 정신 미궁에서 검은 검으로 스스로를 찔러 환각을 깨뜨렸으며, 별바다 결전에서 생귀나르(두카렐)의 과거를 꿰뚫어 보고 합동 일격으로 그를 심연에 추락시킨다.',
       quote: '……당신을 부정합니다. 저는 부정합니다, 당신이 \'마왕\', 살카즈, 그리고 카즈델을 힘과 전통으로 귀결시키는 것을. 저는 부정합니다, 당신이 미래를 과거에 맡기고, 삶을 살육에 맡기는 것을.',
       statusInChapter: '살루스의 정신 미궁을 타파하고 문명 너머 별바다 결전에서 두카렐을 심연으로 격파'
@@ -971,8 +971,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Doctor',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 수석 전술 지휘관',
-      avatarUrl: '/images/characters/doctor.png',
-      illustUrl: '/images/characters/illust/doctor.png',
+      avatarUrl: '/images/characters/doctor.webp',
+      illustUrl: '/images/characters/illust/doctor.webp',
       description: '로도스 아일랜드의 전술 지휘관. 살루스가 아미야를 지하 디얄 석상 용암 동굴로 납치하자 무너지는 돌다리 아래로 투신해 부러진 팔로 아미야를 지켜냈으며, 이후 브렌트우드 폐가 합동 전략 회의에서 다국적 연합 전선의 중추 역할을 수행한다.',
       quote: '아미야! 정신 차려! 약속했잖아…… 그 목소리를 받아들이지 않겠다고!',
       statusInChapter: '지하 균열로 투신해 아미야를 수호하고 브렌트우드 다국적 연합 합동 작전을 지휘'
@@ -983,8 +983,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Logos',
       faction: '로도스 아일랜드 / 밴시 왕정',
       role: '로도스 아일랜드 엘리트 오퍼레이터 · 밴시의 젊은 군주',
-      avatarUrl: '/images/characters/logos.png',
-      illustUrl: '/images/characters/illust/logos.png',
+      avatarUrl: '/images/characters/logos.webp',
+      illustUrl: '/images/characters/illust/logos.webp',
       description: '로도스 아일랜드 엘리트 오퍼레이터이자 밴시 왕정의 젊은 군주. 지하 디얄 석상 동굴에서 살루스를 격퇴하고 생명의 언령으로 \'밴시의 협곡\' 시공 환영을 찢어발겼으며, 별바다 결전에서 아미야와 만가를 합창해 두카렐의 혈계를 분쇄한다.',
       quote: '밴시가 만가를 부른다. 하지만 이는 만남의 종말을 선고하는 노래가 아닌, 새로 태어날 생명에게 바치는 소망의 노래다. 살카즈에게 필요한 것은 그 속에서 죽을 날만을 기다리는 도시가 아닌, 생명의 탄생과 성장이다.',
       statusInChapter: '밴시의 협곡 시공 환영 돌파, 파프리카 수송대 징발 및 별바다 결전에서 두카렐 격파'
@@ -995,8 +995,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Kal\'tsit',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 최고 의료 책임자',
-      avatarUrl: '/images/characters/kaltsit.png',
-      illustUrl: '/images/characters/illust/kaltsit.png',
+      avatarUrl: '/images/characters/kaltsit.webp',
+      illustUrl: '/images/characters/illust/kaltsit.webp',
       description: '로도스 아일랜드 최고 의료 책임자이자 대지의 역사를 짊어진 관찰자. 중상을 추스르며 안전가옥을 습격한 고해신부 수장과 맞섰고, 브렌트우드 합동 전략 회의를 주재하며 살카즈가 왜 광석병에 가장 취약한 종족인지에 대한 근원적 화두를 던진다.',
       quote: '가장 기본적인 문제부터 설명을 시작하도록 하지. 살카즈 자신조차 이미 잊어버린, 가장 기본적인 문제다. “살카즈라는 종족은 어째서 광석병에 가장 취약한 것인가?”',
       statusInChapter: 'W의 안전가옥 고해신부 습격 방어 및 브렌트우드 합동 전략 회의 주재로 강습 승인'
@@ -1007,8 +1007,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Siege / Vina',
       faction: '글래스고 패거리 / 파라곤 부대',
       role: '파라곤 부대 리더',
-      avatarUrl: '/images/characters/siege.png',
-      illustUrl: '/images/characters/illust/siege.png',
+      avatarUrl: '/images/characters/siege.webp',
+      illustUrl: '/images/characters/illust/siege.webp',
       description: '빅토리아 아슬란 왕가의 적통이자 글래스고 패거리의 리더. 난민을 버리려던 시어러 소위를 제압해 야영지 내분을 평정하고 고립된 혼 부대를 구출했으며, 귀족들의 회유를 뿌리친 뒤 백성을 지키는 \'파라곤 부대\'를 재건해 브렌트우드 제단을 격파한다.',
       quote: '\'파라곤 부대\', 그들은 일찍이 이런 영광스러운 이름으로 불렸다. ……가서 그 전쟁을 일으킨 망할 녀석들의 얼굴을 힘껏 때려 준 뒤, 이 검은 물건을 공작들의 얼굴에 던지며 이렇게 말하자…… 여기는 우리 땅이다!',
       statusInChapter: '시어러 소위 제압, 체틀리 카운티 구원, \'파라곤 부대\' 재건 및 브렌트우드 제단 파괴'
@@ -1019,8 +1019,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Delphine Windermere',
       faction: '윈더미어 공작군 / 파라곤 부대',
       role: '윈더미어 공작의 후계자 · 파라곤 부대 지휘관',
-      avatarUrl: '/images/characters/delphine.png',
-      illustUrl: '/images/characters/illust/delphine.png',
+      avatarUrl: '/images/characters/delphine.webp',
+      illustUrl: '/images/characters/illust/delphine.webp',
       description: '윈더미어 공작의 외동딸이자 정당한 작위 후계자. 노포트 구 탈출 직후 기함 갑판에서 어머니의 임종을 지켜본 뒤, 참모단이 주력함을 끌고 도주하자 어머니가 남긴 큰 코트를 걸치고 시즈의 곁에 서서 재건된 파라곤 부대의 핵심 지휘관으로 거듭난다.',
       quote: '이 옷…… 역시 나한테는 너무 크네. 하지만 지금은 다들 내 얘기를 들어 줬으면 좋겠어. ……이 옷이 상징하는 것이 어쩌면 누군가에게 도움을 줄 수 있으니까.',
       statusInChapter: '어머니 윈더미어 공작의 임종을 지킨 후 유품 코트를 걸치고 파라곤 부대 합류'
@@ -1031,8 +1031,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Duke of Windermere',
       faction: '빅토리아 윈더미어 공작령',
       role: '빅토리아 대공작 · 윈더미어 공작군 총사령관',
-      avatarUrl: '/images/characters/duke_of_windermere.png',
-      illustUrl: '/images/characters/illust/duke_of_windermere.png',
+      avatarUrl: '/images/characters/duke_of_windermere.webp',
+      illustUrl: '/images/characters/illust/duke_of_windermere.webp',
       description: '빅토리아의 유력 대공작이자 호탕하고 결단력 있는 군인 군주. 노포트 구 난민과 감염자 병사들을 기함에 수용하고 갑판에 강림한 뱀파이어 생귀나르와 정면으로 맞서다 치명상을 입었으며, 딸 델핀에게 코트 유언을 남긴 채 장렬히 전사한다.',
       quote: '울지 말거라. 네가 검을 휘두르는 모습을 봤다, 델핀…… 훌륭하더구나. ……네 키가…… 조금 더 클 거라고 생각했단다. 그래서 옷이 조금 클 거야. 델…… 핀, 초조해하지 말거라……',
       statusInChapter: '기함 갑판에서 뱀파이어 생귀나르와 일기토 끝에 딸 델핀의 손을 잡고 장렬히 전사'
@@ -1043,8 +1043,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Hoederer',
       faction: '바벨 / 살카즈 용병단',
       role: '살카즈 베테랑 용병 지휘관 · 역사 기록자',
-      avatarUrl: '/images/characters/hoederer.png',
-      illustUrl: '/images/characters/illust/hoederer.png',
+      avatarUrl: '/images/characters/hoederer.webp',
+      illustUrl: '/images/characters/illust/hoederer.webp',
       description: '바벨 시절부터 이네스, W와 생사를 함께해 온 살카즈 베테랑 용병이자 냉철한 역사 기록자. 에르망가르드와 울술라와의 조우로 베헤모스 유해 \'스파인\'의 실체를 밝히고 W에게 리더의 책임을 일깨웠으며, 베헤모스와의 내기로 강습조의 무사 귀환을 이끈다.',
       quote: '내기 하나 하지 않겠나, 베헤모스? 당신이 봤던 그 이상한 사람들…… 그러니까 토끼, 양, 밴시, 살카즈가 한때 당신을 사냥했던 뱀파이어를 무찌를 거다.',
       statusInChapter: '에르망가르드 및 울술라 교전, W에게 리더의 책임 일깨움, 베헤모스와의 내기로 일행 귀환 견인'
@@ -1055,8 +1055,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Ines',
       faction: '바벨 / 살카즈 용병단',
       role: '그림자 아츠 척후 · 베테랑 용병',
-      avatarUrl: '/images/characters/ines.png',
-      illustUrl: '/images/characters/illust/ines.png',
+      avatarUrl: '/images/characters/ines.webp',
+      illustUrl: '/images/characters/illust/ines.webp',
       description: '상대의 그림자와 내면을 꿰뚫어 보는 오리지늄 아츠의 달인이자 외드레르·W의 오랜 동료. 환영 속 테레시아를 보고 동요하는 W의 중심을 잡아주었으며, \'스파인\'에서 시간을 되돌리는 울술라를 돌파하고 별바다에서 두카렐의 그림자를 꿰매 합동 일격을 돕는다.',
       quote: '외드레르, 이번엔 나랑 동시에 뛰어오르는 거야. 역사의 소용돌이 같은 것에 휘말리지 마. 역사의 조각에 눈이 멀어…… 네 눈앞에 펼쳐진 삶을 잊어선 안 돼.',
       statusInChapter: '스파인 내부 정찰, 외드레르와의 협공으로 울술라 돌파 및 두카렐 결전 지원'
@@ -1067,8 +1067,8 @@ export const episode13: StoryArchive = {
       nameEn: 'W',
       faction: '바벨 / 살카즈 용병단',
       role: '살카즈 용병단 리더 · 폭파 전문가',
-      avatarUrl: '/images/characters/w.png',
-      illustUrl: '/images/characters/illust/w.png',
+      avatarUrl: '/images/characters/w.webp',
+      illustUrl: '/images/characters/illust/w.webp',
       description: '살카즈 용병단의 리더이자 바벨의 유지를 잇는 폭파 전문가. 시공 환영 속 테레시아의 모습에 동요했으나 외드레르·이네스의 일침으로 자신을 따르는 용병들의 미래를 책임질 각오를 다졌으며, 별바다 결전에서 결정적인 폭파 공격으로 두카렐 격파에 기여한다.',
       quote: '쓸데없는 걱정 하지 마, 외드레르. 뭘 해야 하는지는 나도 알아. 전투 전에 사기를 떨어뜨렸으니 즉결처형 감이지만, 이번만 봐줄게. 검이나 잘 닦아둬, 내일이면 싸워야 하니까.',
       statusInChapter: '시공 환상 끝자락의 테레시아 목격 후 리더의 책임을 자각하고 스파인 강습에 참여'
@@ -1079,8 +1079,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Sanguinarch / Duq\'arael',
       faction: '카즈델 군사위원회 / 뱀파이어 왕정',
       role: '뱀파이어 왕정의 군주 · 선혈의 지배자',
-      avatarUrl: '/images/characters/sanguinarch.png',
-      illustUrl: '/images/characters/illust/sanguinarch.png',
+      avatarUrl: '/images/characters/sanguinarch.webp',
+      illustUrl: '/images/characters/illust/sanguinarch.webp',
       description: '살카즈 뱀파이어 왕정의 군주 두카렐. 윈더미어 공작을 살해하고 브렌트우드 혈액 제단을 가동해 만 년 전 순수한 \'티카즈의 피\'를 추출함으로써 태초 오리지늄(\'씨앗\') 의식을 완성했으나, 별바다에서 친형을 살해한 과거를 아미야에게 간파당하고 시공의 심연으로 추락한다.',
       quote: '나…… 뱀파이어 생귀나르 두카렐에게, 모든 선혈의 지배자에게 당신을 보이란 말입니다!',
       statusInChapter: '윈더미어 공작 살해, 만 년 전 티카즈의 피 추출 및 별바다 결전에서 심연으로 추락'
@@ -1091,8 +1091,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Salus',
       faction: '카즈델 군사위원회 / 고해신부단',
       role: '고해신부단 간부',
-      avatarUrl: '/images/characters/salus.png',
-      illustUrl: '/images/characters/illust/salus.png',
+      avatarUrl: '/images/characters/salus.webp',
+      illustUrl: '/images/characters/illust/salus.webp',
       description: '고해신부단 수장 키사르투슈타지를 보좌하는 고해신부 간부. 난민 대열에 숨어들어 아미야를 지하 디얄 석상 동굴로 납치하고 마왕의 왕관을 찬탈하려 했으나 박사의 저항과 아스카론·로고스의 기습에 저지되었으며, 이후 수장과 함께 W의 안전가옥 습격에 동행한다.',
       quote: '이거 봐, 이게 뭐라고 생각해? 돌? 정말 감동적이네. 하지만 말해 두겠는데, 그렇게 앞을 가로막는다고 해서 변하는 건 아무것도 없어.',
       statusInChapter: '아미야를 지하 디얄 석상 동굴로 납치했으나 저지되었고 W의 안전가옥 습격에 동행'
@@ -1103,8 +1103,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Confessor / Quisartushtaj',
       faction: '카즈델 군사위원회 / 고해신부단',
       role: '고해신부단 최고 수장 (불멸의 희망) · 샤이닝의 아버지',
-      avatarUrl: '/images/characters/confessor.png',
-      illustUrl: '/images/characters/illust/confessor.png',
+      avatarUrl: '/images/characters/confessor.webp',
+      illustUrl: '/images/characters/illust/confessor.webp',
       description: '고해신부단 최고 수장(\'불멸의 희망\')이자 샤이닝·리즈 비극의 장본인. 수천 년간 자식의 육체에 인격을 덮어쓰며 검은 왕관을 노려왔으며, W의 안전가옥을 급습해 켈시와 샤이닝을 몰아붙인 끝에 스스로 인질이 되어 따라나선 나이팅게일(리즈)을 데리고 퇴각한다.',
       quote: '제가 그녀를 데려가겠습니다. 그리고 당신을 대신해서 그녀를 유지시키고, 그녀를 채워나갈 겁니다…… 이 감옥에서 왕관을 빚어내겠습니다.',
       statusInChapter: 'W의 안전가옥 습격 및 스스로 인질이 된 나이팅게일(리즈)을 데리고 퇴각'
@@ -1115,8 +1115,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Shining / Quisartsinag',
       faction: '로도스 아일랜드 / 사도 (Followers)',
       role: '전 고해신부 · 로도스 협력 메딕 오퍼레이터',
-      avatarUrl: '/images/characters/shining.png',
-      illustUrl: '/images/characters/illust/shining.png',
+      avatarUrl: '/images/characters/shining.webp',
+      illustUrl: '/images/characters/illust/shining.webp',
       description: '고해신부단을 등지고 나이팅게일(리즈)을 구해 탈주한 로도스 협력 메딕 오퍼레이터. 안전가옥에서 아버지 키사르투슈타지의 기습에 봉인한 검을 뽑으려 했으나 모든 기억 봉인을 용서한다는 리즈의 진심에 구원받으며, 인질로 떠난 그녀를 반드시 되찾겠다고 결의한다.',
       quote: '리즈 씨는…… 스스로 선택을 내렸어요. ……그리고 제가 해야 할 일은…… 훗. 리즈 씨를 쫓아가는 거예요.',
       statusInChapter: 'W의 안전가옥에서 고해신부 수장과 대치한 뒤 인질이 된 나이팅게일 구출을 결의'
@@ -1127,8 +1127,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Nightingale / Liz',
       faction: '로도스 아일랜드 / 사도 (Followers)',
       role: '로도스 메딕 오퍼레이터',
-      avatarUrl: '/images/characters/nightingale.png',
-      illustUrl: '/images/characters/illust/nightingale.png',
+      avatarUrl: '/images/characters/nightingale.webp',
+      illustUrl: '/images/characters/illust/nightingale.webp',
       description: '고해신부의 생체 감옥에서 구조된 사도(Followers)의 일원이자 로도스 메딕 오퍼레이터. 키사르투슈타지의 정신 침식 속에서도 스스로 새장의 환각을 깨고 샤이닝의 소매를 붙잡아 용서를 전했으며, 부상당한 동료들을 지키기 위해 자진해 고해신부 수장을 따라나선다.',
       quote: '샤이닝 씨, 전 샤이닝이라는 이름이 더 마음에 들어요. ……전 당신을 이미 용서했어요. 당신이 모질게 그 실험실에 있었던 모든 기억들을 봉인해버리기 이전부터……',
       statusInChapter: '고해신부 수장의 새장 환각을 깨고 샤이닝을 용서한 뒤 동료를 위해 스스로 인질로 동행'
@@ -1139,8 +1139,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Ursula',
       faction: '카즈델 군사위원회',
       role: '군사위원회 최연소 소령 · 스파인 지휘관',
-      avatarUrl: '/images/characters/ursula.png',
-      illustUrl: '/images/characters/illust/ursula.png',
+      avatarUrl: '/images/characters/ursula.webp',
+      illustUrl: '/images/characters/illust/ursula.webp',
       description: '카즈델 빈민가 출신의 군사위원회 최연소 소령이자 베헤모스 수송선 \'스파인\'의 지휘관. 유물 회중시계 스태프로 국소 시간을 역행시키며 외드레르·이네스와 격돌했고, 생귀나르의 명령에 따라 손목을 그어 피를 바치려다 외드레르의 지혈로 목숨을 건지고 포로가 된다.',
       quote: '나처럼 빈민가 출신의 가난한 소녀도 고대의 순수한 피를 가진 왕정의 구성원들과 같은 전략 테이블을 볼 수 있도록 기회를 준 것도 그분들이라고. ……군사위원회야말로…… \'카즈델\'이 진정한 \'국가\'가 될 수 있는 기반이야.',
       statusInChapter: '스파인 기착지에서 외드레르·이네스와 교전 후 생귀나르를 위해 손목을 그었다가 외드레르에게 구조·생포됨'
@@ -1151,8 +1151,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Ermengarde',
       faction: '카즈델 리치 왕정',
       role: '리치 왕정의 전달자',
-      avatarUrl: '/images/characters/ermengarde.png',
-      illustUrl: '/images/characters/illust/ermengarde.png',
+      avatarUrl: '/images/characters/ermengarde.webp',
+      illustUrl: '/images/characters/illust/ermengarde.webp',
       description: '공간 주술을 다루는 리치 왕정의 젊은 전달자. 황야 마법진에서 외드레르·이네스·W에게 포위되자 7천 년 전 붉은 베헤모스의 환영을 열어 보였으며, 카즈델 본토 리치들이 도시를 여러 조각으로 분할해 살카즈의 명맥을 보존할 두 번째 계획을 준비했음을 밝히고 떠난다.',
       quote: '그래서 계획의 두 번째 단계에 대해서 말인데…… 지금 카즈델에 남아 있는 리치들은 이미 카즈델을 조각낼 계획을 세워뒀어요.',
       statusInChapter: '황야 마법진에서 바벨 3인방과 조우 및 리치들의 카즈델 분할 보존 계획 공개'
@@ -1163,8 +1163,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Guard',
       faction: '네오 리유니온 (전 로도스 아일랜드)',
       role: '리유니온 청년 간부',
-      avatarUrl: '/images/characters/guard.png',
-      illustUrl: '/images/characters/illust/guard.png',
+      avatarUrl: '/images/characters/guard.webp',
+      illustUrl: '/images/characters/illust/guard.webp',
       description: '체르노보그에서 살아남아 네오 리유니온에 합류한 청년 간부. 브렌트우드 폐양조장 거점에서 살카즈 행상인 피살로 시신 오리지늄 연쇄 폭발과 대화재가 발생하자 적대하던 난민들과 관리인 메이스를 끝까지 대피시킨 뒤, 녹음기에 감염자 밖의 연대를 묻는 유언을 남기고 산화한다.',
       quote: '아니면…… 우리와 힘을 합쳐야 할 사람들, 함께 가시밭길을 헤쳐나가길 원하는 사람들이…… 과연 감염자뿐일까? 정말…… 그들뿐일까?',
       statusInChapter: '빅토리아 감염자 병사 구호 및 폐양조장 대화재 속에서 메이스와 난민들을 구하고 녹음기 유언을 남긴 채 산화'
@@ -1175,8 +1175,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Nine',
       faction: '네오 리유니온',
       role: '네오 리유니온 지도자',
-      avatarUrl: '/images/characters/nine.png',
-      illustUrl: '/images/characters/illust/nine.png',
+      avatarUrl: '/images/characters/nine.webp',
+      illustUrl: '/images/characters/illust/nine.webp',
       description: '탈룰라를 구출해 네오 리유니온을 이끄는 지도자. 전소된 폐양조장에서 가드의 녹음기를 수습해 유언을 곱씹은 뒤 살카즈 행상인을 살해한 난민 가담자들을 영구 추방했으며, 리유니온의 목적은 단순한 도피처가 아니라 억압하는 왕족과 귀족을 겨냥하는 것임을 천명한다.',
       quote: '우리가 해야하는 건 모든 왕족과 귀족에게, 그리고 높은 곳에서 우리를 괴롭게 만드는 원흉들에게, 우리를 분열시키고, 억압하고 소멸하려고 하는 모든 사람들에게 알리는 거야. 그들이 멸시하던 칼날이 지금 그들의 머리 위에 있다는 사실을.',
       statusInChapter: '전소된 양조장에서 가드의 녹음기 수습, 살인 가담자 추방 및 리유니온 노선 천명'
@@ -1187,8 +1187,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Talulah Artorius',
       faction: '네오 리유니온',
       role: '전 리유니온 영수 · 드라코의 후예',
-      avatarUrl: '/images/characters/talulah.png',
-      illustUrl: '/images/characters/illust/talulah.png',
+      avatarUrl: '/images/characters/talulah.webp',
+      illustUrl: '/images/characters/illust/talulah.webp',
       description: '전 리유니온 영수이자 에드워드 아르토리우스의 딸인 드라코 전사. 굶주린 빅토리아 병사에게 죽을 나누고 노웰·가드의 진심을 새기며 과오를 성찰했고, 브렌트우드 외곽 갈대밭에서 복종을 요구하는 에블라나를 \'거짓된 폭군\'이라 일갈하며 붉은 화염으로 맞부딪친다.',
       quote: '네가 어떻게 말하든, 넌 단지 거짓된 폭군에 불과해. 죽음은 그저 네가 권세를 부리기 위한 도구일 뿐이야. 난 이미 진정한 폭군을 본 적이 있지. 리유니온의 앞에서 썩 꺼져.',
       statusInChapter: '굶주린 빅토리아 병사에게 죽 배급, 노웰과의 문답 및 갈대밭에서 에블라나와 화염 격돌'
@@ -1199,8 +1199,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Percival',
       faction: '네오 리유니온',
       role: '리유니온 의료 및 후방 담당 간부',
-      avatarUrl: '/images/characters/percival.png',
-      illustUrl: '/images/characters/illust/percival.png',
+      avatarUrl: '/images/characters/percival.webp',
+      illustUrl: '/images/characters/illust/percival.webp',
       description: '노포트 구에서 난민 탈출을 도왔던 네오 리유니온의 후방·의료 간부. 임시 구호소에서 빅토리아 감염자 병사들을 치료하며 오리지늄 분진으로 스러진 부사관 앞에서 빅토리아 국가를 흥얼거려 국적과 종족을 초월한 감염자 연대의 의미를 되새긴다.',
       quote: '우리, 여기에 있는 모든 사람들, 우르수스인, 컬럼비아인, 빅토리아인, 아니면 살카즈, 필라인, 리베리…… 우리가 지금 지닌 유일한 신분은, 그저 리유니온일 뿐이에요.',
       statusInChapter: '임시 구호소에서 빅토리아 감염자 병사들을 치료하고 폐양조장 난민 대피를 지휘'
@@ -1211,8 +1211,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Red',
       faction: '네오 리유니온',
       role: '리유니온 핵심 전사 (붉은 검)',
-      avatarUrl: '/images/characters/red.png',
-      illustUrl: '/images/characters/illust/red.png',
+      avatarUrl: '/images/characters/red.webp',
+      illustUrl: '/images/characters/illust/red.webp',
       description: '우르수스 시절 \'붉은 검\'이라 불렸던 네오 리유니온의 핵심 전사. 가드와 함께 폐양조장을 정찰하다 폭발이 일어나자 난민들을 외곽으로 인솔했고, 산화한 가드의 꽃무늬 손수건을 나무 아래에 묻어주며 살카즈 행상인 살해범 추방을 집행한다.',
       quote: '모든 사람한테 전할게. 그리고 범인들은…… 내가 처리할게.',
       statusInChapter: '가드와 함께 폐양조장 정찰 및 가드 사후 그의 꽃무늬 손수건을 나무 아래에 매장'
@@ -1223,8 +1223,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Nowell',
       faction: '네오 리유니온',
       role: '안경사 겸 수선공 · 불사의 장생자 (Ageless)',
-      avatarUrl: '/images/characters/nowell.png',
-      illustUrl: '/images/characters/illust/nowell.png',
+      avatarUrl: '/images/characters/nowell.webp',
+      illustUrl: '/images/characters/illust/nowell.webp',
       description: '네오 리유니온 야영지의 온화한 안경사였으나, 실체는 수백 년간 전쟁을 겪어온 불사의 \'장생자(Ageless)\'이다. 탈룰라에게 자신의 정체를 고백한 뒤 빅토리아의 역사를 배후에서 조종하는 \'운명의 손\'이나 영원한 안식의 방법을 찾기 위해 홀로 런디니움으로 향한다.',
       quote: '수백 년 동안이나 연구했어…… \'장생자\', \'신\', \'조종자\', \'오래된 존재\'를 연구했고, 나 자신을 연구했어. ……난 그들을 죽일 방법을 알고 싶어. 아니면 날 죽일 수 있는 방법이라도.',
       statusInChapter: '탈룰라에게 장생자로서의 정체 고백 및 양조장 화재 후 런디니움 조사차 일시 이탈'
@@ -1235,8 +1235,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Mace',
       faction: '구 양조장 리유니온 대피소',
       role: '폐양조장 거점 관리인 (비감염자)',
-      avatarUrl: '/images/characters/mace.png',
-      illustUrl: '/images/characters/illust/mace.png',
+      avatarUrl: '/images/characters/mace.webp',
+      illustUrl: '/images/characters/illust/mace.webp',
       description: '브렌트우드 인근 폐양조장 대피소를 홀로 지키던 비감염자 관리인. 과거 생명을 구해준 리유니온 의사의 유지를 이어 감염자 시신을 안치하고 약초를 가꾸었으며, 대화재 속에서 자신을 출구 밖으로 밀쳐내고 뛰어들어 온 가드에게 약초 꽃잎을 건네받고 목숨을 건진다.',
       quote: '그 의사는 내 목숨을 구해줬고, 난 그 의사한테 이 양조장을 지켜주겠다고 약속했어.',
       statusInChapter: '작고한 리유니온 의사의 약초 온실을 지키다 가드의 희생으로 꽃잎을 건네받고 생존'
@@ -1247,8 +1247,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Magdalene / Vendela',
       faction: '브렌트우드 마을 온실',
       role: '브렌트우드 유리 온실 정원사',
-      avatarUrl: '/images/characters/vendela.png',
-      illustUrl: '/images/characters/illust/vendela.png',
+      avatarUrl: '/images/characters/vendela.webp',
+      illustUrl: '/images/characters/illust/vendela.webp',
       description: '브렌트우드 마을의 유리 온실을 지키는 필라인 정원사. 살카즈의 징용 속에서도 피스트와 락락을 화분 상자에 숨겨주며 짓밟힌 온실을 지켜냈고, 혈액 제단 가동일 왕정군 장교(\'삽\')의 자결과 축포를 쏘며 산화한 프리다의 희생 끝에 짚라인으로 구조된다.',
       quote: '프리다 씨는 웨스트 씨가 농경 축제를 위해 남겨놓은 축포를 쏘아올렸다. ……한낮에 펼쳐진 불꽃놀이…… 브렌트우드 마을에 이른 축제가 성대하게 열렸다.',
       statusInChapter: '온실에 피스트·락락 은신 지원, 왕정군 장교(\'삽\')와 프리다의 희생 속에 자경단에 구조됨'
@@ -1259,8 +1259,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Frida West',
       faction: '브렌트우드 마을',
       role: '브렌트우드 촌장 대리',
-      avatarUrl: '/images/characters/frida.png',
-      illustUrl: '/images/characters/illust/frida.png',
+      avatarUrl: '/images/characters/frida.webp',
+      illustUrl: '/images/characters/illust/frida.webp',
       description: '처형된 브렌트우드 전임 촌장의 딸이자 젊은 촌장 대리. 희생을 막으려 순응하는 악역을 자처하면서도 몰래 농경 축제 꽃씨를 전했으며, 혈액 제단이 조기 가동되자 공사장 벽을 폭파하고 아버지의 유품 축포를 한낮의 하늘에 쏘아 올려 위험을 알린 뒤 산화한다.',
       quote: '내가 몰래 내년 축제를 위해 사둔 그 씨앗들 받았어? ……내년 농경 축제 때는 그 씨앗들이 가장 아름다운 꽃을 피워냈으면 좋겠어.',
       statusInChapter: '마그달레네에게 농경 축제 꽃씨 전달 후, 혈액 제단 가동 시 축포를 쏘아 올리며 살카즈들에게 찢겨 산화'
@@ -1271,8 +1271,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Royal Court Officer / Shovel',
       faction: '카즈델 군사위원회',
       role: '브렌트우드 주둔 살카즈 왕정군 지휘관',
-      avatarUrl: '/images/characters/royal_court_officer.png',
-      illustUrl: '/images/characters/illust/royal_court_officer.png',
+      avatarUrl: '/images/characters/royal_court_officer.webp',
+      illustUrl: '/images/characters/illust/royal_court_officer.webp',
       description: '전쟁과 학살에 회의를 느끼며 스스로를 명령대로 움직이는 \'삽\'이라 부르던 브렌트우드 주둔 살카즈 장교. 마그달레네의 온실 장미를 아껴 자경단 은신을 눈감아주고 탈출 경로를 열어주었으며, 혈액 제단 가동일 그녀가 도망칠 수 있도록 스스로의 몸을 찔러 자결한다.',
       quote: '짓밟히지 말아야 할 것들도 있는 법이야, \'정원사\'. ……훗, 그럼 다시 자기 소개를 해야겠군. 내 이름은 \'삽\'이다.',
       statusInChapter: '마그달레네의 상처 치료 및 탈출 루트 제공 후, 자신의 칼에 마그달레네의 손을 얹어 자결'
@@ -1283,8 +1283,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Horn / Rita Skamandros',
       faction: '빅토리아 폭풍돌격대 / 파라곤 부대',
       role: '제2폭풍돌격대 지휘관 · 파라곤 부대 주력 지휘관',
-      avatarUrl: '/images/characters/horn.png',
-      illustUrl: '/images/characters/illust/horn.png',
+      avatarUrl: '/images/characters/horn.webp',
+      illustUrl: '/images/characters/illust/horn.webp',
       description: '빅토리아 제2폭풍돌격대 지휘관인 루포 장교. 체틀리 카운티 시청에서 미저리와 2주 넘게 버텨낸 끝에 시즈 일행과 합류해 이동식 제단을 격파했으며, 전차에서 \'파라곤 부대\'의 검은 식별 코드 상자를 회수해 시즈에게 건네고 재건된 부대의 주력 지휘관으로 나선다.',
       quote: '이 검은 상자는 분명 빅토리아 군 거예요. ……\'파라곤 부대\'. 저희 폭풍돌격대의 전신이자, 전설적인 부대예요.',
       statusInChapter: '체틀리 카운티 카뮈강 시청 사수, \'파라곤 부대\' 식별 코드 발견 및 브렌트우드 제단 격파'
@@ -1295,8 +1295,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Misery',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 엘리트 오퍼레이터',
-      avatarUrl: '/images/characters/misery.png',
-      illustUrl: '/images/characters/illust/misery.png',
+      avatarUrl: '/images/characters/misery.webp',
+      illustUrl: '/images/characters/illust/misery.webp',
       description: '로도스 아일랜드의 베테랑 엘리트 오퍼레이터. 체틀리 카운티에서 혼의 폭풍돌격대와 합류해 2주간의 고립 방어전을 함께 치렀으며, 카뮈강 전투에서 살카즈 이동식 전쟁 제단의 구조를 간파하고 공간 왜곡 아츠로 적 포격수를 제압해 코어 타격의 활로를 연다.',
       quote: '내 예상이 맞다면, 저 물건의 주술 코어는 작동하는 사람이 에너지를 공급해야 하는 구조일 거야. 저 전쟁 제단은 일종의 매개체 역할을 하는 거지.',
       statusInChapter: '체틀리 카운티에서 혼 부대를 지원하고 살카즈 이동식 전쟁 제단 코어를 타격'
@@ -1307,8 +1307,8 @@ export const episode13: StoryArchive = {
       nameEn: '2nd Lt. Shearer',
       faction: '윈더미어 공작군 / 파라곤 부대',
       role: '윈더미어 공작군 군의관 겸 소위',
-      avatarUrl: '/images/characters/shearer.png',
-      illustUrl: '/images/characters/illust/shearer.png',
+      avatarUrl: '/images/characters/shearer.webp',
+      illustUrl: '/images/characters/illust/shearer.webp',
       description: '윈더미어 공작군에 남았던 군의관 출신 소위. 공작 사후 참모단이 도주하자 감염자와 난민을 버리고 강행군하려다 시즈의 주먹에 단숨에 제압당했으나, 이후 최전선에서 모두를 지키는 시즈와 델핀의 진정성에 감화되어 파라곤 부대의 충실한 부관으로 복무한다.',
       quote: '행군 속도를 조금 늦춘다…… 하지만 행군은 이대로 진행한다……',
       statusInChapter: '난민 유기를 주장하다 시즈의 주먹에 제압된 후 파라곤 부대의 충실한 장교로 복무'
@@ -1319,8 +1319,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Paprika',
       faction: '카즈델 군사위원회',
       role: '살카즈 군사위원회 수송 소대장',
-      avatarUrl: '/images/characters/paprika.png',
-      illustUrl: '/images/characters/illust/paprika.png',
+      avatarUrl: '/images/characters/paprika.webp',
+      illustUrl: '/images/characters/illust/paprika.webp',
       description: '평범한 카즈델 출신 병사들과 마법진 자재를 운반하던 어린 살카즈 용병 소대장. 밴시의 협곡 환영을 깨고 나타난 로고스의 위엄에 눌려 박사와 아미야를 트럭에 태워 브렌트우드까지 수송했다가 W와 외드레르 일행에게 포박되며, 아미야의 검은 왕관을 보고 경악한다.',
       quote: '……잠깐만, 머리 위에 떠 있는 그건…… \'검은 왕관\'이잖아요? 당신이 맨프레드 장군이 말했던 바로 그……',
       statusInChapter: '로고스에게 트럭을 징발당해 아미야·박사를 브렌트우드까지 수송한 뒤 외드레르 일행에게 포박됨'
@@ -1331,8 +1331,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Lt. Col. René Leto',
       faction: '런디니움 도시방위군',
       role: '해임된 전 런디니움 방위군 사령관',
-      avatarUrl: '/images/characters/leto.png',
-      illustUrl: '/images/characters/illust/leto.png',
+      avatarUrl: '/images/characters/leto.webp',
+      illustUrl: '/images/characters/illust/leto.webp',
       description: '해임된 전 런디니움 방위군 사령관이자 골 유민 후예 장교. 요양원의 90세 골 구수호자 노병과 샴페인을 나누며 고백을 남기고 안락사시킨 뒤, 왕궁으로 걸어 들어가 생귀나르 면전에서 가울인의 검으로 목을 그어 자신의 피를 뒤집어씌움으로써 뱀파이어의 긍지를 모독한다.',
       quote: '네놈에게, 내 피를 네게 \'하사\'하겠다는 거다, 이 더러운 거머리 같은 놈아! 이제 다시는 네놈의 순결한 피를 자랑할 수 없을 거다! 왜냐하면, 이 비열한 르네 레토가 그 피를 더럽혔으니까!',
       statusInChapter: '골 구수호자 노병 안락사 후 왕궁에서 뱀파이어 생귀나르 면전에서 목을 그어 자결'
@@ -1343,8 +1343,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Eblana',
       faction: '더블린',
       role: '더블린의 지도자 · 자색 불꽃의 드라코',
-      avatarUrl: '/images/characters/eblana.png',
-      illustUrl: '/images/characters/illust/eblana.png',
+      avatarUrl: '/images/characters/eblana.webp',
+      illustUrl: '/images/characters/illust/eblana.webp',
       description: '타라 독립 조직 더블린의 지도자이자 죽은 자를 부리는 자색 불꽃의 드라코. 브렌트우드 외곽 갈대밭에서 보랏빛 화염으로 네오 리유니온의 행군을 가로막고 탈룰라에게 복종을 요구했으나, 탈룰라에게 \'거짓된 폭군\'이라는 일갈을 들으며 붉은 불꽃과 격돌한다.',
       quote: '네 불길에 난 감동했어, 탈룰라. 나와 함께라면 우리는 분명 원하는 모든 걸 이룰 수 있을 거야. 내 옆으로 와. 나한테 복종하면 타라가 네 편에 서게 될 거야.',
       statusInChapter: '브렌트우드 외곽 갈대밭 습지에서 네오 리유니온을 가로막고 탈룰라와 화염 격돌'
@@ -1355,8 +1355,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Closure',
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 수석 엔지니어',
-      avatarUrl: '/images/characters/closure.png',
-      illustUrl: '/images/characters/illust/closure.png',
+      avatarUrl: '/images/characters/closure.webp',
+      illustUrl: '/images/characters/illust/closure.webp',
       description: '로도스 아일랜드 수석 엔지니어이자 박사 일행의 기술 지원 담당. 전선 후방에서 전용 통신설비를 거듭 개조해 런디니움 시내 저항군 사령관 클로비시아의 생존 무전을 포착했으며, 마침내 고도딘 공작령에 정박해 있던 로도스 본함의 런디니움 이함 승인 무전을 수신한다.',
       quote: '봐봐, 이렇게 여러 번 개조하니까 이 로도스 아일랜드 전용 통신설비도 다른 채널의 신호를 받을 수 있게 됐잖아! ……잠깐만, 로도스 아일랜드 채널에서 온 메시지도 있어.',
       statusInChapter: '개조 통신기로 클로비시아의 생존 무전 및 로도스 아일랜드 본함의 런디니움 이함 승인 수신'
@@ -1367,8 +1367,8 @@ export const episode13: StoryArchive = {
       nameEn: 'Charles Lynch / The Last Steam Knight',
       faction: '빅토리아 제국',
       role: '빅토리아 최후의 증기 기사',
-      avatarUrl: '/images/characters/steam_knight.png',
-      illustUrl: '/images/characters/illust/steam_knight.png',
+      avatarUrl: '/images/characters/steam_knight.webp',
+      illustUrl: '/images/characters/illust/steam_knight.webp',
       description: '빅토리아 황금기를 수호했던 최후의 증기 갑주이자 노기사 찰스 린치. \'왕의 안식처\' 붕괴 때 전사한 것으로 알려졌으나 살카즈에게 점령당한 런디니움의 적막한 어둠 속에서 뜨거운 증기와 함께 재가동하여, 빈민가를 약탈하던 살카즈 용병들을 처단하고 최후 결전을 예고한다.',
       quote: '……',
       statusInChapter: '점령당한 런디니움의 적막한 거리 어둠 속에서 살카즈 약탈병들을 처단하며 재가동'

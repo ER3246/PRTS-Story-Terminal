@@ -231,7 +231,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
   const [directCategoryFilter, setDirectCategoryFilter] = useState<'all' | 'operator' | 'npc' | 'token'>('all');
   const [selectedDirectAvatarPath, setSelectedDirectAvatarPath] = useState<string>(activeAsset.avatarFileName || '');
   const [directCustomFileName, setDirectCustomFileName] = useState<string>(
-    activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.png`
+    activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.webp`
   );
   const [directUploadedDataUrl, setDirectUploadedDataUrl] = useState<string | null>(null);
   const [isDirectSaving, setIsDirectSaving] = useState(false);
@@ -270,7 +270,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
   // Update direct filename when activeAsset changes
   useEffect(() => {
-    setDirectCustomFileName(activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.png`);
+    setDirectCustomFileName(activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.webp`);
     setDirectUploadedDataUrl(null);
     setSelectedDirectAvatarPath(activeAsset.avatarFileName || '');
   }, [activeAsset.assetId, activeAsset.avatarFileName]);
@@ -862,7 +862,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
     const fileName =
 
-      activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.png`;
+      activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.webp`;
 
 
 
@@ -1134,13 +1134,11 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
 
 
-          // Determine clean canonical project filename (e.g. ace.png, alina.png, not raw avg_npc_*.png)
+          // Determine clean canonical project filename (e.g. ace.webp, alina.webp, not raw avg_npc_*.png)
           const targetCanonicalName =
             activeAsset.avatarFileName ||
-            `${activeAsset.assetId.replace(/^cg_/, '')}.png`;
-          const finalCanonicalName = targetCanonicalName.endsWith('.png')
-            ? targetCanonicalName
-            : `${targetCanonicalName}.png`;
+            `${activeAsset.assetId.replace(/^cg_/, '')}.webp`;
+          const finalCanonicalName = `${targetCanonicalName.replace(/\.(png|jpg|jpeg|webp)$/i, '')}.webp`;
 
           // If local dev server FS is available, persist file to public/images/characters/illust/
           if (isLocalFsConnected) {
@@ -1385,9 +1383,9 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
 
       activeAsset.avatarFileName ||
 
-      `${activeAsset.assetId.replace(/^cg_/, '')}.png`;
+      `${activeAsset.assetId.replace(/^cg_/, '')}.webp`;
 
-    const finalName = targetFileName.endsWith('.png') ? targetFileName : `${targetFileName}.png`;
+    const finalName = `${targetFileName.replace(/\.(png|jpg|jpeg|webp)$/i, '')}.webp`;
 
 
 
@@ -1836,8 +1834,8 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
                               updateCropCoords(50, 18, 2.5);
                               setShowStandingLibBrowser(false);
                               if (isLocalFsConnected) {
-                                const canon = activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.png`;
-                                const finalFn = canon.endsWith('.png') ? canon : `${canon}.png`;
+                                const canon = activeAsset.avatarFileName || `${activeAsset.assetId.replace(/^cg_/, '')}.webp`;
+                                const finalFn = `${canon.replace(/\.(png|jpg|jpeg|webp)$/i, '')}.webp`;
                                 try {
                                   const up = await fetch('/__prts_admin_api/upload-asset', {
                                     method: 'POST',
@@ -1875,7 +1873,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
                           </span>
                         )}
                         <span className="text-[9px] font-mono text-zinc-400 truncate w-full text-center">
-                          {item.fileName.replace('.png', '')}
+                          {item.fileName.replace(/\.(png|webp)$/i, '')}
                         </span>
                       </button>
                     );
@@ -2441,7 +2439,7 @@ const AssetDetailEditor: React.FC<AssetDetailEditorProps> = ({
                         </span>
                       )}
                       <span className="text-[9px] font-mono text-zinc-400 truncate w-full text-center mt-0.5">
-                        {fn.replace('.png', '')}
+                        {fn.replace(/\.(png|webp)$/i, '')}
                       </span>
                     </button>
                   );
@@ -3386,9 +3384,9 @@ export const CgCropStudioTab: React.FC<CgCropStudioTabProps> = ({
 
       category: 'npc_named',
 
-      avatarFileName: `${cleanBase}.png`,
+      avatarFileName: `${cleanBase}.webp`,
 
-      avatarUrl: `/images/characters/${cleanBase}.png`,
+      avatarUrl: `/images/characters/${cleanBase}.webp`,
 
       cropConfig: { x: 50, y: 50, zoom: 1.0 },
 

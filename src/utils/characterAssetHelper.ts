@@ -17,8 +17,9 @@ export interface CharacterAssetQuery {
   illustUrl?: string;
 }
 
-// Global runtime avatar cache-buster to instantly invalidate browser memory/disk caches on crop/asset update
-let globalAvatarCacheBuster = Date.now();
+// 개발 모드 또는 스튜디오에서 명시적으로 갱신한 경우에만 캐시 버스터를 적용하여,
+// 프로덕션 환경에서는 브라우저/CDN 영구 캐시 히트율을 극대화합니다.
+let globalAvatarCacheBuster = import.meta.env.DEV ? Date.now() : 0;
 
 export function getGlobalAvatarCacheBuster(): number {
   return globalAvatarCacheBuster;
@@ -84,7 +85,7 @@ export const CHARACTER_ASSET_ALIASES: Record<string, string> = {
 export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): string {
   if (typeof char === 'string') {
     const aliasId = CHARACTER_ASSET_ALIASES[char] || char;
-    return `/images/characters/${aliasId}.png`;
+    return `/images/characters/${aliasId}.webp`;
   }
 
   // If explicitly set to empty string (''), respect it as NO VISUAL RECORD!
@@ -97,7 +98,7 @@ export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): strin
   }
 
   const aliasId = CHARACTER_ASSET_ALIASES[char.id] || char.id;
-  return `/images/characters/${aliasId}.png`;
+  return `/images/characters/${aliasId}.webp`;
 }
 
 /**
@@ -114,7 +115,7 @@ export function getCharacterAvatarUrl(char: CharacterAssetQuery | string): strin
 export function getCharacterIllustUrl(char: CharacterAssetQuery | string): string {
   if (typeof char === 'string') {
     const aliasId = CHARACTER_ASSET_ALIASES[char] || char;
-    return `/images/characters/illust/${aliasId}.png`;
+    return `/images/characters/illust/${aliasId}.webp`;
   }
 
   // If explicitly set to empty string (''), respect it as NO VISUAL RECORD
@@ -146,6 +147,6 @@ export function getCharacterIllustUrl(char: CharacterAssetQuery | string): strin
 
   // Case 2: Standard full standing illust path
   const aliasId = CHARACTER_ASSET_ALIASES[char.id] || char.id;
-  return `/images/characters/illust/${aliasId}.png`;
+  return `/images/characters/illust/${aliasId}.webp`;
 }
 

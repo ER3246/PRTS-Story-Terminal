@@ -33,12 +33,13 @@ export const TacticalAvatar: React.FC<TacticalAvatarProps> = ({
     setLoadError(false);
   }
 
-  // 전역 캐시 무효화 파라미터 결합
+  // 개발/편집기 갱신 시에만 캐시 무효화 파라미터 결합 (프로덕션은 깔끔한 URL로 CDN/브라우저 캐시 활용)
   const finalSrc = useMemo(() => {
     if (!src) return '';
     if (src.startsWith('data:') || src.startsWith('blob:')) return src;
     if (src.includes('?v=')) return src;
     const buster = getGlobalAvatarCacheBuster();
+    if (!buster) return src;
     return `${src}${src.includes('?') ? '&' : '?'}v=${buster}`;
   }, [src]);
 

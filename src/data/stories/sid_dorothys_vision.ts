@@ -9,7 +9,7 @@ export const sidDorothysVision: StoryArchive = {
   titleKo: '도로시의 비전',
   titleEn: "Dorothy's Vision",
   order: 2,
-  bannerImage: '/images/story_covers/sid_dorothys_vision.png',
+  bannerImage: '/images/story_covers/sid_dorothys_vision.webp',
   status: 'restored',
   docFormat: 'multi_part',
   isOmnibus: false,
@@ -57,7 +57,7 @@ export const sidDorothysVision: StoryArchive = {
       code: 'DV-01',
       location: '트리마운츠 도심 뒷골목 및 100km 외곽 359호 개척기지 거주 구역',
       timeline: '테라력 1098년 봄 비 오는 밤 ~ 황혼',
-      cgUrl: '/images/backgrounds/29_g1_outdoorbase.png',
+      cgUrl: '/images/backgrounds/29_g1_outdoorbase.webp',
       cgCaption: '황량한 컬럼비아 사막 황야에 세워진 359호 개척기지 전경',
       synopsis: '트리마운츠 도심에서 오올헤약의 기습에 납치된 뮤엘시스와, 359호 기지에서 동료들의 실종에 절망해 프틸롭시스를 인질로 잡은 사니. 100km 떨어진 두 전선에서 로도스 아일랜드와 사리아의 은밀한 진실 추적이 시작된다.',
       narrativeText: `테라력 1098년 봄, 본 사건은 100km 떨어진 두 개의 독립된 전선에서 동시 다발적으로 점화된다. 도심 트리마운츠에서는 생태과 주임 뮤엘시스가 오올헤약의 기습을 받아 납치되고, 사리아의 긴급 연락을 받은 박사와 메커니스트가 도심 뒷골목 수색에 나선다. 한편 서방 사막의 359호 개척기지에서는 실종된 동료들의 진실을 밝히려는 개척대장 사니가 조이스(프틸롭시스)와 엘레나(아스트젠)를 인질로 납치하고, 급파된 사일런스와 그레이는 비무장으로 어둠에 잠긴 개척민 거주구로 걸어 들어간다.`,
@@ -67,11 +67,11 @@ export const sidDorothysVision: StoryArchive = {
           title: '역행',
           location: '트리마운츠 번화가 뒷골목 & 359호 개척기지',
           timeMarker: '1098년 봄, 비 오는 심야',
-          cgUrl: '/images/backgrounds/29_g8_alley_n.png',
+          cgUrl: '/images/backgrounds/29_g8_alley_n.webp',
           cgCaption: '어둠과 빗줄기에 젖어든 트리마운츠 번화가 뒷골목. 뮤엘시스가 오올헤약의 기습에 납치된 장소',
           visuals: [
             {
-              url: '/images/backgrounds/29_g8_alley_n.png',
+              url: '/images/backgrounds/29_g8_alley_n.webp',
               caption: '[배경] 트리마운츠 번화가 뒷골목',
               type: 'bg',
               triggerLine: 'Stage ST-01 Beat 1: 봄비가 쏟아지는 트리마운츠 도심의 번화가 뒷골목.'
@@ -118,11 +118,11 @@ export const sidDorothysVision: StoryArchive = {
           title: '트리마운츠 가도',
           location: '트리마운츠 도심 뒷골목 & 359호 기지 외곽 감시소',
           timeMarker: '1098년 봄 오후',
-          cgUrl: '/images/backgrounds/29_g2_edgeofbase.png',
+          cgUrl: '/images/backgrounds/29_g2_edgeofbase.webp',
           cgCaption: '개척지 359호 기지로 이어지는 황량한 가도 외곽 경계선 및 보안 감시소',
           visuals: [
             {
-              url: '/images/backgrounds/29_g2_edgeofbase.png',
+              url: '/images/backgrounds/29_g2_edgeofbase.webp',
               caption: '[배경] 개척지 359호 기지 외곽 감시소',
               type: 'bg',
               triggerLine: 'Stage DV-01 Beat 5: 359호 기지 외곽 감시소에 도착한 사일런스와 그레이는 바리케이드를 친 트리마운츠 경찰 보안관 메리 배너와 마주친다.'
@@ -163,11 +163,11 @@ export const sidDorothysVision: StoryArchive = {
           title: '개척자 오두막',
           location: '359호 개척기지 거주 구역 오두막 & 실험동 통로',
           timeMarker: '1098년 봄 황혼',
-          cgUrl: '/images/backgrounds/29_g3_cottage.png',
+          cgUrl: '/images/backgrounds/29_g3_cottage.webp',
           cgCaption: '단전된 채 추위와 광석병에 신음하는 359호 기지 개척자 오두막 전경',
           visuals: [
             {
-              url: '/images/backgrounds/29_g3_cottage.png',
+              url: '/images/backgrounds/29_g3_cottage.webp',
               caption: '[배경] 개척지 359호 기지 개척자 오두막',
               type: 'bg',
               triggerLine: 'Stage DV-02 Beat 2: 전기가 끊겨 얼어붙은 개척자 오두막 안에는 중증 광석병 환자들이 가쁜 숨을 몰아쉬며 신음하고 있었다.'
@@ -213,7 +213,7 @@ export const sidDorothysVision: StoryArchive = {
       code: 'DV-02',
       location: '트리마운츠 도심 바 "딱 한 잔만 더" 및 뒷골목 / 359호 기지 복도',
       timeline: '테라력 1098년 봄 심야',
-      cgUrl: '/images/cgs/29_i02.png',
+      cgUrl: '/images/cgs/29_i02.webp',
       cgCaption: '사리아의 일격으로 산산이 조각난 기동 장갑의 외피 사이로 드러난 실종되었던 뮤엘시스의 모습. 박사의 긴급한 제지로 치명타를 피한 그녀가 구출의 손길을 마주한다.',
       synopsis: '트리마운츠 술집에서 로켄 연구소 출신 외과의사를 추적한 사리아 일행. 뒷골목에서 박사를 덮친 7번째 기동 장갑을 박사의 기지와 사리아의 완급 조절로 격파하고, 생체 코어로 갇혀 있던 뮤엘시스를 기적적으로 구출해낸다.',
       narrativeText: `트리마운츠 도심에서는 사리아, 박사, 메커니스트가 파괴된 기동 장갑 부품을 추적해 과거 '로켄 수조 연구소' 출신의 알코올 중독 외과의사를 찾아낸다. 현장에 나타난 정보원 오올헤약의 암살 공작을 저지한 뒤, 골목에서 박사를 겨냥해 돌진해 온 7번째 기동 장갑을 박사의 번뜩이는 육감과 사리아의 절묘한 타격 조절로 외피만 부수어 생체 코어로 결속되어 있던 뮤엘시스를 무사히 구출한다. 같은 시각 359호 기지 복도에서는 공포에 질린 개척민의 자살 시도 속에서 프틸롭시스가 피실험자들의 집단 무의식 신호를 수신한다.`,
@@ -223,11 +223,11 @@ export const sidDorothysVision: StoryArchive = {
           title: '기동 장갑',
           location: '트리마운츠 바 "딱 한 잔만 더" & 라인 랩 본부 & 359호 기지 통로',
           timeMarker: '1098년 봄 밤',
-          cgUrl: '/images/backgrounds/29_g4_corridor.png',
+          cgUrl: '/images/backgrounds/29_g4_corridor.webp',
           cgCaption: '불안정한 신경 펄스가 흐르는 359호 기지 실험 구역 통로',
           visuals: [
             {
-              url: '/images/backgrounds/29_g4_corridor.png',
+              url: '/images/backgrounds/29_g4_corridor.webp',
               caption: '[배경] 359호 기지 실험 구역 통로',
               type: 'bg',
               triggerLine: 'Stage DV-03 Beat 6: 359호 기지 지하 복도를 전진하는 사일런스와 엘레나의 곁으로 미세한 진동과 신경 펄스가 흘러넘치고 있었다.'
@@ -266,17 +266,17 @@ export const sidDorothysVision: StoryArchive = {
           title: '사람 없는 골목',
           location: '트리마운츠 바 & 번화가 뒷골목 & 359호 기지 복도',
           timeMarker: '1098년 봄 심야',
-          cgUrl: '/images/cgs/29_i02.png',
+          cgUrl: '/images/cgs/29_i02.webp',
           cgCaption: '사리아의 일격으로 산산이 조각난 기동 장갑의 외피 사이로 드러난 뮤엘시스의 눈동자. 박사의 다급한 제지로 치명타를 비껴 친 기적의 구출',
           visuals: [
             {
-              url: '/images/cgs/29_i01.png',
+              url: '/images/cgs/29_i01.webp',
               caption: '트리마운츠의 바 "딱 한 잔만 더"에서 로켄 수조 연구소 출신 외과의사에게 "시에스타 아이스티"를 권하며 압박하는 오올헤약과 이를 주시하는 사리아',
               type: 'cg',
               triggerLine: 'Stage DV-04 Beat 4: 일 얘기는 그만. 다들 기분 전환하려고 술집에 온 거 아니야? 아니면 여기…… 표정이 안 보이는 사람과 표정이 없는 사람, 이 둘과 수다 떨지언정 옛 친구와 술 한 잔도 하기 싫다는 건가?'
             },
             {
-              url: '/images/cgs/29_i02.png',
+              url: '/images/cgs/29_i02.webp',
               caption: '사리아의 일격으로 산산이 조각난 기동 장갑의 외피 사이로 드러난 뮤엘시스의 눈동자. 박사의 다급한 제지로 치명타를 비껴 친 기적의 구출',
               type: 'cg',
               triggerLine: 'Stage DV-04 Beat 9: 기동 장갑이 쓰러졌다. 더 많은 조각이 흩날리면서, 안쪽에서부터 더 많은 머리카락, 약간의 피부 그리고 한쪽 눈이 드러났다.'
@@ -328,7 +328,7 @@ export const sidDorothysVision: StoryArchive = {
       code: 'DV-03',
       location: '트리마운츠 도심 & 359호 기지 최하층 메인 실험실',
       timeline: '테라력 1098년 봄 자정 ~ 심야',
-      cgUrl: '/images/cgs/29_i03.png',
+      cgUrl: '/images/cgs/29_i03.webp',
       cgCaption: '359호 기지 핵심 실험실 중앙에서 꽃봉오리 형태의 전극을 머리에 쓴 채 잠든 개척자 피실험자들과 케이블을 타고 중추로 흐르는 은색 전달물질',
       synopsis: '뮤엘시스가 남긴 "359" 암호와 퍼디낸드의 출격. 359호 기지 실험실에서 드러난 피실험자들의 참혹한 진실과 도로시의 고뇌, 그리고 개척민들에게 전달물질을 강제 주사해 신경망을 폭주시킨 퍼디낸드의 배신.',
       narrativeText: `구출된 뮤엘시스가 식은땀으로 박사의 옷자락에 '359'라는 숫자를 남기며 사건의 무대가 359호 기지임을 알린다. 퍼디낸드가 군용 시약을 챙겨 359호 기지 감시소로 향하는 사이, 359호 기지에서는 사니 일행의 도로시 암살 시도가 수포로 돌아가고 핵심 격벽이 열린다. 전극에 묶인 채 잠든 피실험자들의 진심을 전해 들은 사니가 눈물로 무기를 거두지만, 기지에 당도한 퍼디낸드가 개척민들에게 전달물질을 강제 주사하며 거대한 신경 폭주가 시작된다.`,
@@ -338,11 +338,11 @@ export const sidDorothysVision: StoryArchive = {
           title: '도로시의 약속',
           location: '트리마운츠 임시 치료소 & 359호 기지 최하층 도로시 연구실',
           timeMarker: '1098년 봄 자정',
-          cgUrl: '/images/backgrounds/29_g5_laboratory.png',
+          cgUrl: '/images/backgrounds/29_g5_laboratory.webp',
           cgCaption: '수천 미터의 케이블과 신경 전달물질이 응집된 도로시의 지하 핵심 실험실',
           visuals: [
             {
-              url: '/images/backgrounds/29_g5_laboratory.png',
+              url: '/images/backgrounds/29_g5_laboratory.webp',
               caption: '[배경] 도로시의 지하 핵심 실험실',
               type: 'bg',
               triggerLine: 'Stage DV-05 Beat 4: 수천 가닥의 전선과 유리관이 거대한 식물 뿌리처럼 얽혀 있었고, 은색의 액체 오리지늄 전달물질이 기괴한 맥동을 일으키고 있었다.'
@@ -381,11 +381,11 @@ export const sidDorothysVision: StoryArchive = {
           title: '단꿈에서 깨어나',
           location: '359호 기지 메인 실험실 & 기지 감시소',
           timeMarker: '1098년 봄 심야',
-          cgUrl: '/images/cgs/29_i03.png',
+          cgUrl: '/images/cgs/29_i03.webp',
           cgCaption: '359호 기지 핵심 실험실 중앙에서 꽃봉오리 형태의 전극을 머리에 쓴 채 잠든 개척자 피실험자들과 케이블을 타고 중추로 흐르는 은색 전달물질',
           visuals: [
             {
-              url: '/images/cgs/29_i03.png',
+              url: '/images/cgs/29_i03.webp',
               caption: '359호 기지 핵심 실험실 중앙에서 꽃봉오리 형태의 전극을 머리에 쓴 채 잠든 개척자 피실험자들과 케이블을 타고 중추로 흐르는 은색 전달물질',
               type: 'cg',
               triggerLine: 'Stage DV-06 Beat 1: 거대한 기계가 어둠 속에서 침묵하고 있다. 뒤얽힌 케이블은 마치 무성한 식물의 줄기와 같았으며 속이 가득 찬 꽃봉오리가 달려 있다.'
@@ -431,7 +431,7 @@ export const sidDorothysVision: StoryArchive = {
       code: 'DV-04',
       location: '트리마운츠 라인 랩 총괄실 & 359호 기지 중앙 붕괴 구역',
       timeline: '테라력 1098년 봄 새벽 ~ 아침 ~ 밤',
-      cgUrl: '/images/cgs/29_i07.png',
+      cgUrl: '/images/cgs/29_i07.webp',
       cgCaption: '까치발을 들고 눈물을 닦아주려는 환상 속 어린아이의 손을 거두며, 타인의 미래를 억압하지 않기로 결단하는 도로시의 각성',
       synopsis: '트리마운츠 본부에서 크리스틴과 1,497일 만에 독대한 사리아와 박사의 협상, 오올헤약의 이면 공작으로 감시소를 포위한 정부군. 359호 기지에서 각성한 은색 거수를 해체하기 위해 코어로 뛰어든 도로시의 결단과 스승에게 결별을 선언한 아스트젠. 그리고 거짓 하늘 너머를 응시하는 크리스틴의 고독한 시선.',
       narrativeText: `트리마운츠 본부에서 사리아가 총괄 크리스틴과 1,497일 만에 독대하고 박사의 전략적 협상으로 퍼디낸드의 연구 및 작전 권한을 박탈하는 사이, 오올헤약의 이면 공작으로 정부군이 359호 기지 감시소를 포위한다. 100km 떨어진 359호 기지에서는 기지를 찢고 솟구쳐 오른 은색 거수를 상대로 그레이가 결사적인 전격 유도전을 벌이고, 도로시가 직접 코어로 뛰어들어 거짓 낙원의 환상을 깨부수며 스스로 심장을 찢게 만든다. 감시소를 탈출한 퍼디낸드는 분노한 개척민들에게 삼켜지고, 비가 갠 트리마운츠의 밤하늘 아래 크리스틴이 별하늘을 향해 손을 뻗는다.`,
@@ -441,23 +441,23 @@ export const sidDorothysVision: StoryArchive = {
           title: '광기의 신호',
           location: '트리마운츠 라인 랩 본부 & 359호 기지 중앙 붕괴 구역 및 감시실',
           timeMarker: '1098년 봄 새벽',
-          cgUrl: '/images/cgs/29_i04.png',
+          cgUrl: '/images/cgs/29_i04.webp',
           cgCaption: '359호 기지 실험동 건물을 찢고 솟구쳐 오른 거대한 기하학적 은색 공명체 (도로시의 개척자)',
           visuals: [
             {
-              url: '/images/cgs/29_i11.png',
+              url: '/images/cgs/29_i11.webp',
               caption: '박사·사리아·뮤엘시스·메커니스트가 크리스틴 라이트를 만나기 위해 잠입하는 트리마운츠 도심 라인 랩 본부 빌딩 외경',
               type: 'cg',
               triggerLine: 'Stage DV-07 Beat 2: ……라인 랩 본부인가. 매일 사무실에서 총괄의 행방을 묻는 직원들이, 그녀가 바로 자신들의 머리 위에 있다는 건 몰랐겠지.'
             },
             {
-              url: '/images/cgs/29_i04.png',
+              url: '/images/cgs/29_i04.webp',
               caption: '359호 기지 실험동 건물을 찢고 솟구쳐 오른 거대한 기하학적 은색 공명체 (도로시의 개척자)',
               type: 'cg',
               triggerLine: 'Stage DV-07 Beat 7: 건물은 내부 가장 깊은 곳에서부터…… 억지로 찢겼다. 무언가가 조금씩 또 빠르게 껍데기를 뚫고 있었다.'
             },
             {
-              url: '/images/cgs/29_i08.png',
+              url: '/images/cgs/29_i08.webp',
               caption: '359호 기지 감시실에서 개인 실험실 열쇠를 주며 회유하는 퍼디낸드 클루니에게 아츠 스태프를 겨누며 완전한 결별을 선언하는 엘레나 우르비카(아스트젠)',
               type: 'cg',
               triggerLine: 'Stage DV-07 Beat 9: 마지막 부탁이야…… 그 입 좀 다물어. 오늘부터, 엘레나 우르비카는 당신이 마음대로 쥐락펴락할 수 있는 멍청한 조수가 아니야. 퍼디낸드 클루니, 당신과 난 이제 끝이야.'
@@ -502,29 +502,29 @@ export const sidDorothysVision: StoryArchive = {
           title: '마음속 연결고리',
           location: '트리마운츠 총괄실 & 359호 기지 전장 및 도로시의 내면세계',
           timeMarker: '1098년 봄 동틀 녘',
-          cgUrl: '/images/cgs/29_i07.png',
+          cgUrl: '/images/cgs/29_i07.webp',
           cgCaption: '까치발을 들고 눈물을 닦아주려는 환상 속 어린아이의 손을 거두며, 타인의 미래를 억압하지 않기로 결단하는 도로시의 각성',
           visuals: [
             {
-              url: '/images/cgs/29_i12.png',
+              url: '/images/cgs/29_i12.webp',
               caption: '개척자 오두막을 지키기 위해 밤하늘의 은색 거수를 향해 전격의 빛구슬을 쏘아 올리며 유인하는 그레이 더 라이트닝베어러',
               type: 'cg',
               triggerLine: 'Stage DV-08 Beat 1: 그레이의 손에서 생긴 작은 빛이 머리 위에서 방황하는 그 그림자를 향해 날아갔다.'
             },
             {
-              url: '/images/cgs/29_i06.png',
+              url: '/images/cgs/29_i06.webp',
               caption: '스스로 전달물질을 주사해 중추 의식에 접속한 도로시가 마주한 동화 속 낙원 — 고통도 폭풍도 없는 평화로운 들판',
               type: 'cg',
               triggerLine: 'Stage DV-08 Beat 3: 그녀는 푸른 나무와 붉은 장미가 피어나는 아침도, 아름답고 행복으로 가득 찬 낮도, 고요하고 아득한 밤도 보았다.'
             },
             {
-              url: '/images/cgs/29_i07.png',
+              url: '/images/cgs/29_i07.webp',
               caption: '까치발을 들고 눈물을 닦아주려는 환상 속 어린아이의 손을 거두며, 타인의 미래를 억압하지 않기로 결단하는 도로시의 각성',
               type: 'cg',
               triggerLine: 'Stage DV-08 Beat 5: 도로시, 왜 울어? 여긴 내가 평생 쫓아온…… 꿈의 땅이야. 하지만 너희의 미래는 내 것이 아니야.'
             },
             {
-              url: '/images/cgs/29_i05.png',
+              url: '/images/cgs/29_i05.webp',
               caption: '도로시의 결단과 함께 실험실로 돌아가 스스로 심장을 찢어발기며 무너져 내리는 기하학적 거수',
               type: 'cg',
               triggerLine: 'Stage DV-08 Beat 7: 그저 모든 힘을 흡수하고 한 치의 망설임 없이 자기 심장을 찢고 있었다. 거대한 기하학 물체가 빠르게 무너져 내렸다.'
@@ -571,17 +571,17 @@ export const sidDorothysVision: StoryArchive = {
           title: '출발',
           location: '359호 기지 폐허 & 트리마운츠 도심 라인 랩 로비 및 테라스',
           timeMarker: '1098년 봄 아침 ~ 밤',
-          cgUrl: '/images/cgs/29_i10.png',
+          cgUrl: '/images/cgs/29_i10.webp',
           cgCaption: '비 갠 뒤 맑아진 밤하늘 아래, 머리 위의 거짓된 하늘 너머 유일한 진실(별하늘)을 향해 손을 뻗는 총괄 크리스틴 라이트',
           visuals: [
             {
-              url: '/images/cgs/29_i09.png',
+              url: '/images/cgs/29_i09.webp',
               caption: '100km 떨어진 359호 개척기지의 사일런스와 트리마운츠 도심의 사리아가 동시에 몰려오는 비구름을 올려다보는 분할 컷신',
               type: 'cg',
               triggerLine: 'Stage ST-02 Beat 3: 100km 정도 떨어진 곳에 있으면서도…… 두 사람은 같은 생각을 하고 있었다. 트리마운츠에 곧 비가 내리겠네.'
             },
             {
-              url: '/images/cgs/29_i10.png',
+              url: '/images/cgs/29_i10.webp',
               caption: '비 갠 뒤 맑아진 밤하늘 아래, 머리 위의 거짓된 하늘 너머 유일한 진실(별하늘)을 향해 손을 뻗는 총괄 크리스틴 라이트',
               type: 'cg',
               triggerLine: 'Stage ST-02 Beat 10: 진실은 빛나는 별들 사이에 숨어있다. 그리고 하늘은 그리 멀지 않아 보인다. 그녀가 손을 뻗으면 분명히 만질 수 있을 것이다……'
@@ -651,7 +651,7 @@ export const sidDorothysVision: StoryArchive = {
         phaseEn: 'Part 1',
         title: '개척지의 어둠과 도심의 납치극',
         location: '트리마운츠 번화가 뒷골목 및 359호 개척기지',
-        cgUrl: '/images/backgrounds/29_g1_outdoorbase.png',
+        cgUrl: '/images/backgrounds/29_g1_outdoorbase.webp',
         cgCaption: '황량한 컬럼비아 황야에 세워진 359호 개척기지 전경',
         narrativeText: '트리마운츠 도심 뒷골목에서 뮤엘시스가 정보원 오올헤약의 기습에 납치되고, 사리아의 연락을 받은 박사와 메커니스트가 수색을 개시한다. 100km 외곽 359호 기지에서는 실종된 동료들의 진실을 밝히려는 개척대장 사니가 프틸롭시스와 엘레나를 인질로 납치하고, 급파된 사일런스와 그레이는 비무장으로 개척민 거주구에 진입한다.',
         summary: '도심에서 발생한 뮤엘시스 납치 사건과 359호 기지에서 발생한 프틸롭시스 인질극으로 두 개의 분리된 작전이 개시된다.',
@@ -677,7 +677,7 @@ export const sidDorothysVision: StoryArchive = {
         phaseEn: 'Part 2',
         title: '기갑 속의 조종사와 뮤엘시스 구출',
         location: '트리마운츠 바 "딱 한 잔만 더" & 뒷골목 / 359호 기지 복도',
-        cgUrl: '/images/cgs/29_i02.png',
+        cgUrl: '/images/cgs/29_i02.webp',
         cgCaption: '사리아의 일격으로 부서진 기동 장갑 외피 사이로 드러난 뮤엘시스의 모습',
         narrativeText: '트리마운츠 술집에서 옛 로켄 연구소 출신 의사의 음독자살을 막아낸 사리아. 뒷골목에서 박사를 덮친 7번째 기동 장갑을 박사의 기지와 사리아의 완급 조절로 코어를 비껴 쳐 파괴하고, 생체 코어로 갇혀 있던 뮤엘시스를 구출해낸다. 같은 시각 359호 기지에서는 프틸롭시스가 피실험자들의 집단 무의식 신호를 수신한다.',
         summary: '트리마운츠 뒷골목에서 7번째 기동 장갑 외피만을 격파하여 뮤엘시스를 구출하고, 359호 기지에서는 집단 무의식의 실체가 감지된다.',
@@ -703,7 +703,7 @@ export const sidDorothysVision: StoryArchive = {
         phaseEn: 'Part 3',
         title: '신경 물질의 실체와 은색 거수의 각성',
         location: '트리마운츠 라인 랩 본부 & 359호 기지 최하층 메인 실험실',
-        cgUrl: '/images/cgs/29_i04.png',
+        cgUrl: '/images/cgs/29_i04.webp',
         cgCaption: '기지 중앙 건물을 찢고 솟구쳐 나와 기지 전체를 집어삼키는 은색 거수',
         narrativeText: '뮤엘시스가 박사의 옷자락에 남긴 "359" 암호로 박사 일행은 라인 랩 본부 침투를 준비한다. 359호 기지에서는 꽃봉오리 전극에 묶인 피실험자들의 비극이 드러나고, 사니는 피실험자들의 진심을 듣고 무기를 거둔다. 그러나 퍼디낸드가 개척민들에게 전달물질을 강제 주사하자 기지 건물을 찢고 은색 거수가 폭주하며 아스트젠은 스승과의 결별을 선언한다.',
         summary: '꽃봉오리 전극의 비극과 퍼디낸드의 강제 주사로 은색 거수가 탄생하고, 아스트젠이 스승에게 독립을 선언한다.',
@@ -729,7 +729,7 @@ export const sidDorothysVision: StoryArchive = {
         phaseEn: 'Part 4',
         title: '마음속 연결고리와 하늘을 향한 서막',
         location: '359호 기지 폐허 및 트리마운츠 도심 라인 랩 테라스',
-        cgUrl: '/images/cgs/29_i10.png',
+        cgUrl: '/images/cgs/29_i10.webp',
         cgCaption: '비 갠 뒤 맑아진 밤하늘 아래, 머리 위의 거짓된 하늘 너머 유일한 진실(별하늘)을 향해 손을 뻗는 총괄 크리스틴 라이트',
         narrativeText: '박사가 크리스틴과 담판을 벌여 정부군을 움직이고, 그레이의 전격 유인 속에서 도로시가 코어로 뛰어들어 동화의 환상을 깨뜨리고 거수를 해체한다. 퍼디낸드는 도주 끝에 개척자들에게 삼켜지며, 크리스틴은 중추를 개인 실험실로 회수한 뒤 거짓 하늘 너머의 별을 향해 손을 뻗는다.',
         summary: '도로시의 자발적 희생으로 거수가 해체되고 사건이 종결되며, 크리스틴 라이트가 머리 위의 거짓된 하늘 너머를 응시한다.',
@@ -776,7 +776,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '라인 랩 오리지늄 아츠 응용과 / 로도스 아일랜드',
       role: '오리지늄 아츠 응용과 주임',
       statusInChapter: '전달물질 코어 다이브 및 신경 동기화 해제',
-      avatarUrl: '/images/characters/dorothy.png',
+      avatarUrl: '/images/characters/dorothy.webp',
       description: '개척민 출신의 천재 과학자. 전달물질을 통해 누구도 고통받지 않는 평등한 유토피아를 꿈꿨으나 비극을 초래하고, 스스로 환상을 깨부수며 속죄의 길을 걷는다.'
     },
     {
@@ -786,7 +786,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '라인 랩 에너지과 (전) / 로도스 아일랜드',
       role: '오퍼레이터 (전 에너지과 연구원)',
       statusInChapter: '퍼디낸드와의 결별 선언 및 로도스 협력',
-      avatarUrl: '/images/characters/astgenne.png',
+      avatarUrl: '/images/characters/astgenne.webp',
       description: '아스테시아의 쌍둥이 동생이자 에너지과 출신 연구원. 퍼디낸드의 제자였으나 스승의 비윤리적 야욕에 반발해 결별을 선언하고 독립된 연구자로 거듭난다.'
     },
     {
@@ -796,7 +796,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '로도스 아일랜드 (전 라인 랩 구조과)',
       role: '로도스 메딕 오퍼레이터 (전 구조과 연구원)',
       statusInChapter: '개척기지 잠입 및 비인도적 실험 진상 규명',
-      avatarUrl: '/images/characters/silence.png',
+      avatarUrl: '/images/characters/silence.webp',
       description: '프틸롭시스의 실종을 추적해 359호 기지로 향한 인물. 과학자의 윤리와 인간성을 목숨 걸고 지키며 도로시의 거짓된 유토피아를 바로잡는다.'
     },
     {
@@ -806,7 +806,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '전 라인 랩 방위과',
       role: '전 방위과 주임',
       statusInChapter: '오올헤약 제압 및 뮤엘시스 구출, 본부 담판',
-      avatarUrl: '/images/characters/saria.png',
+      avatarUrl: '/images/characters/saria.webp',
       description: '라인 랩의 타락을 감시하는 독자적인 수호자. 박사의 외침에 기동 장갑을 부수고 뮤엘시스를 구출하며 크리스틴과의 담판을 이끌어낸다.'
     },
     {
@@ -816,7 +816,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '로도스 아일랜드',
       role: '로도스 아일랜드 지휘관',
       statusInChapter: '기동 장갑 내 뮤엘시스 식별 및 본부 협상 지휘',
-      avatarUrl: '/images/characters/doctor.png',
+      avatarUrl: '/images/characters/doctor.webp',
       description: '트리마운츠 도심 수색을 지휘하며 7번째 기동 장갑에 갇힌 뮤엘시스를 식별해 살려내고, 총괄실에서 크리스틴을 움직여 정부군 투입을 이끌어낸다.'
     },
     {
@@ -826,7 +826,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '라인 랩 생태과',
       role: '생태과 주임',
       statusInChapter: '기동 장갑 납치 감금 및 박사·사리아에 의한 구출',
-      avatarUrl: '/images/characters/muelsyse.png',
+      avatarUrl: '/images/characters/muelsyse.webp',
       description: '생태과 주임이자 크리스틴의 친구. 퍼디낸드의 음모로 납치되어 기동 장갑의 생체 제어 코어로 갇혀 있었으나, 박사와 사리아에 의해 극적으로 구출된다.'
     },
     {
@@ -836,7 +836,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '라인 랩 에너지과',
       role: '에너지과 주임',
       statusInChapter: '전달물질 무인 병기화 시도, 지하 도주 및 개척민에 피습',
-      avatarUrl: '/images/characters/ferdinand.png',
+      avatarUrl: '/images/characters/ferdinand.webp',
       description: '라인 랩의 실권을 노리며 전달물질을 군사 병기화하려 획책한 야심가. 정부군에 포위되자 지하로 도주했으나 황무지에서 분노한 개척민 무리에게 삼켜진다.'
     },
     {
@@ -846,7 +846,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '로도스 아일랜드 (전 라인 랩 데이터 분석가)',
       role: '데이터 분석관 (조이스)',
       statusInChapter: '359호 기지 인질 억류 및 집단 무의식 대변',
-      avatarUrl: '/images/characters/ptilopsis.png',
+      avatarUrl: '/images/characters/ptilopsis.webp',
       description: '359호 기지에서 사니 일행에게 인질로 잡혔던 로도스 오퍼레이터. 혼수 속에서 피실험자들의 집단 무의식 진심을 전해 파국을 막아낸다.'
     },
     {
@@ -856,7 +856,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '로도스 아일랜드',
       role: '엔지니어링 오퍼레이터 (아서)',
       statusInChapter: '박사 호위 및 라인 랩 본부 외곽 기동 장갑 11대 요격',
-      avatarUrl: '/images/characters/mechanist.png',
+      avatarUrl: '/images/characters/mechanist.webp',
       description: '박사를 호위하며 기동 장갑의 기계적 구조를 분석하고, 라인 랩 본부 밖에서 오올헤약과 기동 장갑 11대를 홀로 묶어둔 베테랑 엔지니어.'
     },
     {
@@ -866,7 +866,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '로도스 아일랜드',
       role: '엔지니어 오퍼레이터',
       statusInChapter: '전격 아츠로 거주구 난방 복구 및 은색 거수 유인',
-      avatarUrl: '/images/characters/greyy_alter.png',
+      avatarUrl: '/images/characters/greyy_alter.webp',
       description: '성장한 모습으로 전장에 나선 어린 엔지니어. 오두막의 난방 전력을 복구하고, 강력한 번개 구슬로 은색 거수를 유인해 개척민들을 결사 수호한다.'
     },
     {
@@ -876,7 +876,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '컬럼비아 비밀 정보원',
       role: '정보 브로커',
       statusInChapter: '뮤엘시스 납치, 퍼디낸드 도주 지원 및 크리스틴 밀약',
-      avatarUrl: '/images/characters/hoolheyak.png',
+      avatarUrl: '/images/characters/hoolheyak.webp',
       description: '퍼디낸드와 군부 사이를 오가며 이득을 취하던 미스터리한 정보원. 사건 종결 후 크리스틴의 중추 회수를 지적하며 새로운 협력 파트너로 나선다.'
     },
     {
@@ -886,8 +886,8 @@ export const sidDorothysVision: StoryArchive = {
       faction: '359호 개척기지 개척대',
       role: '359호 개척기지 개척대 대장',
       statusInChapter: '프틸롭시스 인질극 주도, 도로시 암살 시도 및 참회',
-      avatarUrl: '/images/characters/sonny.png',
-      illustUrl: '/images/characters/illust/sonny.png',
+      avatarUrl: '/images/characters/sonny.webp',
+      illustUrl: '/images/characters/illust/sonny.webp',
       description: '실종된 동료들을 찾기 위해 인질극을 벌이고 도로시를 암살하려 했던 개척대장. 피실험자들의 진심을 깨닫고 참회하며 새로운 개척의 길을 걷는다.'
     },
     {
@@ -897,8 +897,8 @@ export const sidDorothysVision: StoryArchive = {
       faction: '트리마운츠 경찰서',
       role: '트리마운츠 경찰서 보안관 (경장)',
       statusInChapter: '기지 외곽 감시소 경비 및 사니와의 화해',
-      avatarUrl: '/images/characters/mary.png',
-      illustUrl: '/images/characters/illust/mary.png',
+      avatarUrl: '/images/characters/mary.webp',
+      illustUrl: '/images/characters/illust/mary.webp',
       description: '사니의 중학교 소꿉친구이자 인질극 진압을 위해 파견된 보안관. 4년 전의 비극적인 상처를 딛고 사니의 진심을 이해하며 배웅한다.'
     },
     {
@@ -908,8 +908,8 @@ export const sidDorothysVision: StoryArchive = {
       faction: '라인 랩 구조과',
       role: '라인 랩 구조과 주임',
       statusInChapter: '퍼디낸드 견제 및 사리아 일행 본부 침입 묵인',
-      avatarUrl: '/images/characters/parvis.png',
-      illustUrl: '/images/characters/illust/parvis.png',
+      avatarUrl: '/images/characters/parvis.webp',
+      illustUrl: '/images/characters/illust/parvis.webp',
       description: '사일런스의 옛 스승이자 노회한 구조과 주임. 퍼디낸드의 군사적 야심을 경계하며, 본부에 침투한 사리아 일행을 모른 척 통과시켜 준다.'
     },
     {
@@ -919,7 +919,7 @@ export const sidDorothysVision: StoryArchive = {
       faction: '라인 랩',
       role: '라인 랩 총괄 연구원',
       statusInChapter: '정부군 투입 지시, 중추 비밀 회수 및 별하늘 응시',
-      avatarUrl: '/images/characters/kristen.png',
+      avatarUrl: '/images/characters/kristen.webp',
       description: '라인 랩의 설립자이자 총괄. 정부군을 움직여 사태를 수습한 뒤, 359호 기지의 신경 중추를 개인 실험실로 은밀히 회수하여 거짓 하늘 너머를 응시한다.'
     }
   ],

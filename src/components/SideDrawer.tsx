@@ -123,9 +123,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             const rawIllustUrl = activeVariant?.illustUrl || getCharacterIllustUrl(selectedCharacter);
             const resolvedIllustUrl = rawIllustUrl ? resolveAssetUrl(rawIllustUrl) : '';
             const buster = getGlobalAvatarCacheBuster();
-            const finalIllustUrl = resolvedIllustUrl
-              ? (resolvedIllustUrl.includes('?v=') ? resolvedIllustUrl : `${resolvedIllustUrl}${resolvedIllustUrl.includes('?') ? '&' : '?'}v=${buster}`)
-              : '';
+            const finalIllustUrl = resolvedIllustUrl && buster && !resolvedIllustUrl.includes('?v=')
+              ? `${resolvedIllustUrl}${resolvedIllustUrl.includes('?') ? '&' : '?'}v=${buster}`
+              : resolvedIllustUrl;
             const rawAvatarUrl = activeVariant?.avatarUrl || getCharacterAvatarUrl(selectedCharacter);
             const resolvedAvatarUrl = rawAvatarUrl ? resolveAssetUrl(rawAvatarUrl) : '';
             const hasValidIllust = Boolean(finalIllustUrl && finalIllustUrl.trim() !== '' && !illustError);
@@ -163,6 +163,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                       key={finalIllustUrl}
                       src={finalIllustUrl}
                       alt={selectedCharacter.nameKo}
+                      decoding="async"
                       onError={() => setIllustError(true)}
                       draggable={false}
                       onContextMenu={(e) => e.preventDefault()}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { StoryArchive } from '../types/story';
-import { storyRegistry, STORY_LINES, getStoryArchive } from '../data/storyRegistry';
+import { storyRegistry, STORY_LINES, loadStoryArchive } from '../data/storyRegistry';
 import { generateStoryMarkdown, generateStatusMasterMarkdown, downloadFile } from '../utils/exportMarkdown';
 import { 
   X, 
@@ -53,9 +53,9 @@ export const ReviewExportModal: React.FC<ReviewExportModalProps> = ({
     downloadFile('PRTS_Archive_Status_Master.md', md);
   };
 
-  const handleDownloadSingleStory = (storyId: string) => {
+  const handleDownloadSingleStory = async (storyId: string) => {
     playClickSound();
-    const archive = getStoryArchive(storyId);
+    const archive = await loadStoryArchive(storyId);
     if (!archive) return;
     const md = generateStoryMarkdown(archive);
     const safeCode = archive.code.replace(/[\s/\\:]+/g, '_');

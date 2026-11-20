@@ -17,12 +17,16 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 
 const ROOT_DIR = process.cwd();
-const LIB_DIR = path.resolve(ROOT_DIR, 'public/images/characters/library');
+const LIB_DIR = fs.existsSync(path.resolve(ROOT_DIR, 'local_assets/character_library'))
+  ? path.resolve(ROOT_DIR, 'local_assets/character_library')
+  : path.resolve(ROOT_DIR, 'public/images/characters/library');
 const ILLUST_DIR = path.resolve(ROOT_DIR, 'public/images/characters/illust');
 const AVATAR_DIR = path.resolve(ROOT_DIR, 'public/images/characters');
 const CG_ASSETS_PATH = path.resolve(ROOT_DIR, 'src/data/db/characterCgAssets.ts');
+const OPTIMIZER_SCRIPT = path.resolve(ROOT_DIR, 'scripts/image_optimizer.py');
 
 function printUsage() {
   console.log(`
@@ -46,19 +50,24 @@ async function run() {
   const rawCharId = args[0].toLowerCase().trim().replace(/^cg_/, '');
   const libTarget = args[1].trim();
 
-  // 1. Resolve source file from library
+  // 1. Resolve source file from library (supports .webp or .png/.jpg)
   let sourcePath = path.resolve(LIB_DIR, libTarget);
   if (!fs.existsSync(sourcePath)) {
-    // Try searching inside subdirectories (npcs, operators, named_characters, avatars)
     const subs = ['npcs', 'operators', 'named_characters', 'avatars'];
+    const base = path.basename(libTarget);
+    const stem = base.replace(/\.(png|jpg|jpeg|webp)$/i, '');
+    const candidates = [base, `${stem}.webp`, `${stem}.png`];
     let found = false;
     for (const sub of subs) {
-      const candidate = path.resolve(LIB_DIR, sub, path.basename(libTarget));
-      if (fs.existsSync(candidate)) {
-        sourcePath = candidate;
-        found = true;
-        break;
+      for (const candName of candidates) {
+        const candidate = path.resolve(LIB_DIR, sub, candName);
+        if (fs.existsSync(candidate)) {
+          sourcePath = candidate;
+          found = true;
+          break;
+        }
       }
+      if (found) break;
     }
     if (!found) {
       console.error(`❌ [오류] 원본 라이브러리에서 파일을 찾을 수 없습니다: ${libTarget}`);
@@ -67,17 +76,24 @@ async function run() {
     }
   }
 
-  // 2. Standardize target canonical filename (e.g. ace.png, talulah.png)
-  const canonicalName = `${rawCharId}.png`;
+  // 2. Standardize target canonical filename as optimized WebP (e.g. ace.webp, talulah.webp)
+  const canonicalName = `${rawCharId}.webp`;
   const targetIllustPath = path.resolve(ILLUST_DIR, canonicalName);
 
   if (!fs.existsSync(ILLUST_DIR)) {
     fs.mkdirSync(ILLUST_DIR, { recursive: true });
   }
 
-  // 3. Copy from raw library to project illust directory
-  fs.copyFileSync(sourcePath, targetIllustPath);
-  console.log(`✅ [복사 완료] ${path.relative(ROOT_DIR, sourcePath)} -> ${path.relative(ROOT_DIR, targetIllustPath)}`);
+  // 3. Optimize and place into project illust directory
+  try {
+    execFileSync('python', [OPTIMIZER_SCRIPT, '--kind', 'illust', sourcePath, targetIllustPath], {
+      stdio: 'inherit',
+    });
+    console.log(`✅ [WebP 최적화 임포트 완료] ${path.relative(ROOT_DIR, sourcePath)} -> ${path.relative(ROOT_DIR, targetIllustPath)}`);
+  } catch {
+    fs.copyFileSync(sourcePath, targetIllustPath);
+    console.log(`✅ [복사 완료(폴백)] ${path.relative(ROOT_DIR, sourcePath)} -> ${path.relative(ROOT_DIR, targetIllustPath)}`);
+  }
 
   // 4. Update characterCgAssets.ts if record exists
   if (fs.existsSync(CG_ASSETS_PATH)) {
