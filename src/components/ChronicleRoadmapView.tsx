@@ -1,12 +1,20 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { storyRegistry, STORY_LINES, getStoryAccessState } from '../data/storyRegistry';
-import type { StoryListItem, StoryLineMeta } from '../data/storyRegistry';
+import type { StoryListItem } from '../data/storyRegistry';
 import { terraRegions } from '../data/terraRegions';
 import { StorySplashModal, FilmReelIcon } from './StorySplashModal';
+import { ChronicleEraStream } from './chronicle/ChronicleEraStream';
+import {
+  TIMELINE_ERAS,
+  STRATEGIC_LANES,
+  buildAllStoryConnections,
+  buildSmartConnectionPath,
+  type NodeBox,
+  type StoryConnection,
+} from './chronicle/chronicleData';
 import {
   Search,
   GitBranch,
-  Calendar,
   Clock,
   Layers,
   X,
@@ -20,19 +28,15 @@ import {
   Sparkles,
   ArrowRight,
   BookOpen,
-  Compass,
   Link2,
   Eye,
-  Filter,
-  ChevronDown,
   ChevronRight,
-  Check,
   MapPin,
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
+import { getStoryProgress } from '../utils/readingProgress';
 import { CopyrightBadge } from './CopyrightedImage';
-import { useViewport } from '../hooks/useViewport';
 
 interface ChronicleRoadmapViewProps {
   onSelectStory: (id: string) => void;
@@ -43,354 +47,9 @@ interface ChronicleRoadmapViewProps {
   onToggleHeaderCollapse?: () => void;
 }
 
-export type ChronicleBrowseMode = 'story_line' | 'chronological' | 'release';
+export type ChronicleBrowseMode = 'stream' | 'story_line' | 'matrix';
 
-export interface TimelineEra {
-  id: string;
-  code: string;
-  titleKo: string;
-  titleEn: string;
-  periodKo: string;
-  color: string;
-  description: string;
-  minOrder: number;
-  maxOrder: number;
-}
-
-const TIMELINE_ERAS: TimelineEra[] = [
-  {
-    id: 'era_00',
-    code: 'ERA 00',
-    titleKo: '여명 이전 · 테라의 기원',
-    titleEn: 'Before the Dawn',
-    periodKo: '1089년 ~ 1096년',
-    color: '#68929e',
-    description: '바벨의 창설과 테레시아의 비원, 구 로도스 아일랜드 결성기',
-    minOrder: 0,
-    maxOrder: 4.9,
-  },
-  {
-    id: 'era_01',
-    code: 'ERA 01',
-    titleKo: '체르노보그 & 용문 사변',
-    titleEn: 'Chernobog & Lungmen Crisis',
-    periodKo: '1096년 12월 ~ 1097년 2월',
-    color: '#f5dd1b',
-    description: '박사의 석관 각성과 리유니온 항쟁, 체르노보그 핵심 도시 결전',
-    minOrder: 5,
-    maxOrder: 18.9,
-  },
-  {
-    id: 'era_02',
-    code: 'ERA 02',
-    titleKo: '대륙 각지의 격동',
-    titleEn: 'Terran Turmoil',
-    periodKo: '1097년 봄 ~ 1098년 정월',
-    color: '#7b9ab0',
-    description: '카시미어 메이저, 쉐라그 정변, 맨스필드 탈옥 등 열강의 암류',
-    minOrder: 19,
-    maxOrder: 29.9,
-  },
-  {
-    id: 'era_03',
-    code: 'ERA 03',
-    titleKo: '석양의 런디니움 & 개척기',
-    titleEn: 'Victoria Crisis & Frontier',
-    periodKo: '1098년 ~ 1099년 겨울',
-    color: '#c99746',
-    description: '빅토리아 왕도 전쟁, 스툴티페라 나비스, 론 트레일 우주 개척',
-    minOrder: 30,
-    maxOrder: 59.9,
-  },
-  {
-    id: 'era_04',
-    code: 'ERA 04',
-    titleKo: '분열의 서곡 & 미지의 경계',
-    titleEn: 'Dissociation & Deep Abyss',
-    periodKo: '1100년 ~ 1101년',
-    color: '#8a7096',
-    description: '원초 오리지늄 변이, 에기르 심해 원정 및 대륙의 새로운 국면',
-    minOrder: 60,
-    maxOrder: 999,
-  },
-];
-
-interface StrategicLane {
-  id: string;
-  code: string;
-  titleKo: string;
-  subtitleKo: string;
-  color: string;
-  storyLineIds: string[];
-  isCompactLane?: boolean;
-}
-
-// 6대 전략 권역/서사 노선 (시간대별 매트릭스의 세로 행 구성)
-const STRATEGIC_LANES: StrategicLane[] = [
-  {
-    id: 'LANE_CORE',
-    code: 'CORE SPINE',
-    titleKo: '바벨 & 메인 테마',
-    subtitleKo: '로도스 아일랜드 중심 서사 · 방주(RL) & 내일을 위하여(Act I~III)',
-    color: '#f5dd1b',
-    storyLineIds: ['SL_RL', 'MAIN_ACT_1', 'MAIN_ACT_2', 'MAIN_ACT_3'],
-  },
-  {
-    id: 'LANE_WEST',
-    code: 'THEATER 01',
-    titleKo: '빅토리아 · 타라 · 라이타니엔',
-    subtitleKo: '왕권과 혁명의 불씨, 고탑의 음악 · 다시 불붙은 장작(TA) & 고탑의 그림자(LE)',
-    color: '#8a7096',
-    storyLineIds: ['SL_TA', 'SL_LE'],
-  },
-  {
-    id: 'LANE_NORTH',
-    code: 'THEATER 02',
-    titleKo: '우르수스 · 카시미어 · 쉐라그',
-    subtitleKo: '동토의 상흔과 기사도, 설산의 개혁 · 들불(UR) & 네온 불빛(KA) & 설산과 은철(KJ)',
-    color: '#b89648',
-    storyLineIds: ['SL_UR', 'SL_KA', 'SL_KJ'],
-  },
-  {
-    id: 'LANE_CENTRAL',
-    code: 'THEATER 03',
-    titleKo: '컬럼비아 · 시라쿠사 · 라테라노',
-    subtitleKo: '첨단 과학과 마피아, 성도의 율법 · 미래를 잡는 사람(RH) & 일곱 언덕(SI) & 축복(LA)',
-    color: '#648c74',
-    storyLineIds: ['SL_RH', 'SL_SI', 'SL_LA'],
-  },
-  {
-    id: 'LANE_EAST_ABYSS',
-    code: 'THEATER 04',
-    titleKo: '염국(쉐이) · 에기르(심해)',
-    subtitleKo: '신수 쉐이의 천년 풍류와 시본의 위협 · 영원한 오늘(SU) & 깊은 바닷속으로(AE)',
-    color: '#5e9096',
-    storyLineIds: ['SL_SU', 'SL_AE'],
-  },
-  {
-    id: 'LANE_TALES',
-    code: 'SUB-ARCHIVE',
-    titleKo: '여름의 리듬 · 테라 기담 · 이계',
-    subtitleKo: '휴양지 모험, 오퍼레이터 옴니버스 비화 및 이계 협력 작전 (ST · TS · MS)',
-    color: '#8a94a0',
-    storyLineIds: ['SL_ST', 'SL_TS', 'SL_COLLAB'],
-    isCompactLane: true,
-  },
-];
-
-export interface StoryConnection {
-  fromId: string;
-  toId: string;
-  type: 'series' | 'cross';
-  reasonKo: string;
-  color: string;
-}
-
-// 명일방주 공식 설정(Terra: A Journey & 인게임 서사 계통도)에 기반한 교차 서사 인과 연결망
-const CROSS_LORE_LINKS: { fromId: string; toId: string; reasonKo: string }[] = [
-  {
-    fromId: 'sid_babel',
-    toId: 'sid_darknights_memoir',
-    reasonKo: '테레시아 암살 사건 및 바벨 해체 직후 W·호더·이네스의 행적',
-  },
-  {
-    fromId: 'sid_darknights_memoir',
-    toId: 'ep00',
-    reasonKo: '스카우트 소대의 체르노보그 잠입 및 박사 석관 구출 작전 개시',
-  },
-  {
-    fromId: 'sid_darknights_memoir',
-    toId: 'ep10',
-    reasonKo: '호더·이네스·W의 런디니움 살카즈 군사위원회 잠입으로 직결',
-  },
-  {
-    fromId: 'sid_vigilo',
-    toId: 'ep00',
-    reasonKo: '석관 동면 직전 박사가 아미야·켈시와 나눈 기억과 각성',
-  },
-  {
-    fromId: 'ep01',
-    toId: 'sid_children_of_ursus',
-    reasonKo: '체르노보그 함락 당시 제4자치구 피터헤임 중학교 고립 사건',
-  },
-  {
-    fromId: 'ep08',
-    toId: 'sid_code_of_brawl',
-    reasonKo: '용문 사태 직후 펭귄 로지스틱스와 시라쿠사 마피아의 용문 시내 충돌',
-  },
-  {
-    fromId: 'ep08',
-    toId: 'sid_twilight_wolumonde',
-    reasonKo: '체르노보그 결전 이후 리유니온 잔당(머드락 소대)의 라이타니엔 유입',
-  },
-  {
-    fromId: 'ep08',
-    toId: 'ep09',
-    reasonKo: '리유니온 붕괴 이후 더블린의 부상과 빅토리아 힐록 백작령 봉기',
-  },
-  {
-    fromId: 'ep09',
-    toId: 'ep10',
-    reasonKo: '백파이프와 첸의 힐록 백작령 조사로 포착된 런디니움 점령 사태',
-  },
-  {
-    fromId: 'ep09',
-    toId: 'sid_firelight_casts',
-    reasonKo: '힐록 백작령 참극 이후 더블린에서 이탈한 그림자 리드(락라흐)의 각성',
-  },
-  {
-    fromId: 'sid_firelight_casts',
-    toId: 'ep13',
-    reasonKo: '자각한 리드와 타라족 세력의 런디니움 외곽 전선 합류',
-  },
-  {
-    fromId: 'ep14',
-    toId: 'sid_great_overture',
-    reasonKo: '런디니움 전쟁 종결 직후 빅토리아 재건과 비나(시즈)의 정치적 결단',
-  },
-  {
-    fromId: 'ep14',
-    toId: 'ep15',
-    reasonKo: '런디니움 결전 이후 원초 오리지늄 변이와 로도스 본함의 새로운 위기',
-  },
-  {
-    fromId: 'sid_code_of_brawl',
-    toId: 'sid_il_siracusano',
-    reasonKo: '용문에서 시작된 시라쿠사 패밀리의 추적과 텍사스의 볼시니 귀환',
-  },
-  {
-    fromId: 'sid_obscure_wanderer',
-    toId: 'ep10',
-    reasonKo: '카시미어를 떠난 사도 샤이닝·나이팅게일 일행의 런디니움 진입',
-  },
-  {
-    fromId: 'sid_beyond_here',
-    toId: 'sid_dorothys_vision',
-    reasonKo: '사일런스의 라인 랩 복귀 결심 및 359호 개척 기지 공동 조사',
-  },
-  {
-    fromId: 'sid_preluding_lights',
-    toId: 'sid_break_the_ice',
-    reasonKo: '카란 무역회사의 사전 물밑 공작과 쉐라그 성산의 근대화 정변',
-  },
-  {
-    fromId: 'sid_lone_trail',
-    toId: 'sid_silberneherze',
-    reasonKo: '트리마운츠 사태 이후 라인 랩 생태과 주임 뮤엘시스의 쉐라그 방문',
-  },
-  {
-    fromId: 'sid_hortus_escapismo',
-    toId: 'sid_zwillingsturme',
-    reasonKo: '집행관 페데리코(이그제큐터)가 수배자 아르투리아를 라이타니엔 수도까지 추적',
-  },
-  {
-    fromId: 'sid_heart_of_surging_flame',
-    toId: 'sid_so_long_adele',
-    reasonKo: '구 시에스타 화산 활동 이후 신 시에스타 이전 및 아델레의 화산 연구',
-  },
-  {
-    fromId: 'sid_gavial_returns',
-    toId: 'sid_ideal_city',
-    reasonKo: '아카후알라에서 인연을 맺은 두린족 기술자들의 지하도시 쎄루에르차 초청',
-  },
-];
-
-const RELEASE_YEARS_META = [
-  { year: 1, label: 'YEAR 01', period: '2020', subtitle: '여명의 개막 · 체르노보그에서 용문까지', color: '#f5dd1b' },
-  { year: 2, label: 'YEAR 02', period: '2021', subtitle: '대륙으로 뻗어나가는 발걸음과 과거의 그림자', color: '#7b9ab0' },
-  { year: 3, label: 'YEAR 03', period: '2022', subtitle: '네온 불빛의 기사도와 심해의 각성, 런디니움 잠입', color: '#b89648' },
-  { year: 4, label: 'YEAR 04', period: '2023', subtitle: '스툴티페라 나비스와 시라쿠사, 그리고 별하늘을 뚫은 론 트레일', color: '#648c74' },
-  { year: 5, label: 'YEAR 05', period: '2024', subtitle: '바벨의 기원과 런디니움 대단원, 대황성의 황금 물결', color: '#c99746' },
-  { year: 6, label: 'YEAR 06', period: '2025~2026', subtitle: '임계 상전이와 테라의 미지 경계를 향한 최신 작전', color: '#8a7096' },
-];
-
-interface NodeBox {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-  centerX: number;
-  centerY: number;
-}
-
-function buildSmartConnectionPath(
-  from: NodeBox,
-  to: NodeBox,
-  isCross: boolean = false
-): { d: string; startX: number; startY: number; endX: number; endY: number } {
-  const dy = to.centerY - from.centerY;
-  const dxGap = to.left - from.right;
-
-  // 1) 같은 행(Row)에서 바로 인접한 카드 간 직결 (예: EP 00 -> EP 01 -> EP 02)
-  if (!isCross && Math.abs(dy) < 24 && dxGap >= -6 && dxGap < 70) {
-    const startX = from.right - 2;
-    const startY = from.centerY;
-    const endX = to.left + 2;
-    const endY = to.centerY;
-    return {
-      d: `M ${startX} ${startY} L ${endX} ${endY}`,
-      startX,
-      startY,
-      endX,
-      endY,
-    };
-  }
-
-  // 2) 같은 행(Row)이지만 중간에 다른 카드들을 건너뛰는 경우 -> 카드에 가려지지 않도록 상단 아치형 우회 궤적
-  if (Math.abs(dy) < 24 && dxGap >= 70) {
-    const startX = from.centerX + 16;
-    const startY = from.top + 2;
-    const endX = to.centerX - 16;
-    const endY = to.top + 2;
-    const span = Math.abs(endX - startX);
-    const archHeight = Math.min(42, Math.max(20, span * 0.055));
-    const ctrlY = Math.min(from.top, to.top) - archHeight;
-    return {
-      d: `M ${startX} ${startY} C ${startX + span * 0.22} ${ctrlY}, ${endX - span * 0.22} ${ctrlY}, ${endX} ${endY}`,
-      startX,
-      startY,
-      endX,
-      endY,
-    };
-  }
-
-  // 3) 같은 셀 내에서 다음 줄(Row 2)로 줄바꿈되는 경우 (예: EP 04 우측 끝 -> EP 05 좌측 시작)
-  // 카드를 가로지르지 않고 1열과 2열 사이의 수평 통로(midY)를 따라 꺾여서 진행
-  if (to.left < from.right && to.top >= from.bottom - 10 && to.top - from.bottom < 80) {
-    const startX = from.centerX;
-    const startY = from.bottom - 2;
-    const endX = to.centerX;
-    const endY = to.top + 2;
-    const midY = (from.bottom + to.top) / 2;
-    const r = 8;
-    const dirX = endX < startX ? -1 : 1;
-    const d = [
-      `M ${startX} ${startY}`,
-      `L ${startX} ${midY - r}`,
-      `Q ${startX} ${midY} ${startX + dirX * r} ${midY}`,
-      `L ${endX - dirX * r} ${midY}`,
-      `Q ${endX} ${midY} ${endX} ${midY + r}`,
-      `L ${endX} ${endY}`,
-    ].join(' ');
-    return { d, startX, startY, endX, endY };
-  }
-
-  // 4) 서로 다른 행/노선 간 대각선 및 장거리 연결
-  const isMovingRight = to.left >= from.right - 20;
-  const startX = isMovingRight ? from.right - 2 : from.centerX;
-  const startY = isMovingRight ? from.centerY : dy > 0 ? from.bottom - 2 : from.top + 2;
-  const endX = isMovingRight ? to.left + 2 : to.centerX;
-  const endY = isMovingRight ? to.centerY : dy > 0 ? to.top + 2 : to.bottom - 2;
-
-  const cDist = Math.max(55, Math.abs(endX - startX) * 0.42);
-  const d = isMovingRight
-    ? `M ${startX} ${startY} C ${startX + cDist} ${startY}, ${endX - cDist} ${endY}, ${endX} ${endY}`
-    : `M ${startX} ${startY} C ${startX} ${(startY + endY) / 2}, ${endX} ${(startY + endY) / 2}, ${endX} ${endY}`;
-
-  return { d, startX, startY, endX, endY };
-}
-
-export type ZoomTier = 'macro' | 'compact' | 'detail';
+type ZoomTier = 'macro' | 'compact' | 'detail';
 const MIN_CHRONICLE_ZOOM = 0.38;
 const MAX_CHRONICLE_ZOOM = 1.6;
 const MINIMAP_W = 208;
@@ -408,58 +67,34 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   onConsumeInitialStory,
   onNavigateToMapRegion,
   isHeaderCollapsed,
-  onToggleHeaderCollapse
+  onToggleHeaderCollapse,
 }) => {
-  const { isMobile } = useViewport();
-  const [browseMode, setBrowseMode] = useState<ChronicleBrowseMode>('chronological');
-  const [prevFocusStoryReq, setPrevFocusStoryReq] = useState<string | null | undefined>(null);
-  if (initialFocusStoryId && initialFocusStoryId !== prevFocusStoryReq) {
-    setPrevFocusStoryReq(initialFocusStoryId);
-    if (browseMode !== 'chronological') {
-      setBrowseMode('chronological');
-    }
-  }
+  const [browseMode, setBrowseMode] = useState<ChronicleBrowseMode>('stream');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'available' | 'overview_only'>('all');
   const [focusedLineId, setFocusedLineId] = useState<string | null>(null);
+  const [activeThreadStoryId, setActiveThreadStoryId] = useState<string | null>(null);
   const [activeStoryLineHubId, setActiveStoryLineHubId] = useState<string>('MAIN_ACT_1');
-  const [selectedReleaseYear, setSelectedReleaseYear] = useState<number | 'all'>('all');
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState<boolean>(false);
-  const [mobileChronoCanvas, setMobileChronoCanvas] = useState<boolean>(false);
-  const [openDropdown, setOpenDropdown] = useState<'era' | 'series' | null>(null);
-  const hudDropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!openDropdown) return;
-    const handleOutside = (e: MouseEvent | TouchEvent) => {
-      if (hudDropdownRef.current && !hudDropdownRef.current.contains(e.target as Node)) {
-        setOpenDropdown(null);
-      }
-    };
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpenDropdown(null);
-    };
-    document.addEventListener('mousedown', handleOutside);
-    document.addEventListener('touchstart', handleOutside);
-    document.addEventListener('keydown', handleEsc);
-    return () => {
-      document.removeEventListener('mousedown', handleOutside);
-      document.removeEventListener('touchstart', handleOutside);
-      document.removeEventListener('keydown', handleEsc);
-    };
-  }, [openDropdown]);
-
-  // 우측 전술 브리핑 도크 선택 상태 (초기 진입 시 닫힌 상태로 시작하여 화면 전체 조망 보장)
   const [inspectedStory, setInspectedStory] = useState<StoryListItem | null>(null);
   const [hoveredStoryId, setHoveredStoryId] = useState<string | null>(null);
   const [sheetDragY, setSheetDragY] = useState<number>(0);
   const sheetTouchStartY = useRef<number | null>(null);
 
-  // 상세 스플래시 모달 상태 (도크에서 크게 보기 원할 때)
   const [selectedModalStory, setSelectedModalStory] = useState<StoryListItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // 2D 물리 캔버스 상태 (GPU transform 직접 제어 + 관성 패닝 + 3단계 시맨틱 줌)
+  // Sync external focus request safely during render
+  const [prevFocusStoryReq, setPrevFocusStoryReq] = useState<string | null | undefined>(null);
+  if (initialFocusStoryId && initialFocusStoryId !== prevFocusStoryReq) {
+    setPrevFocusStoryReq(initialFocusStoryId);
+    const target = storyRegistry.find((s) => s.id === initialFocusStoryId);
+    if (target) {
+      setInspectedStory(target);
+    }
+  }
+
+  // Matrix 2D GPU Physics State (only mounted in 'matrix' 3rd tab)
   const [zoomTier, setZoomTier] = useState<ZoomTier>('detail');
   const [activeRulerEraId, setActiveRulerEraId] = useState<string>('era_00');
   const [isDraggingCanvas, setIsDraggingCanvas] = useState<boolean>(false);
@@ -491,7 +126,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   const minimapViewportRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  // 키보드(WASD / 방향키) 및 물리 관성 애니메이션 루프 상태
   const keysDownRef = useRef<Set<string>>(new Set());
   const rafIdRef = useRef<number | null>(null);
   const physicsRafRef = useRef<number | null>(null);
@@ -501,18 +135,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     isModalOpenRef.current = isModalOpen;
   }, [isModalOpen]);
 
-  const dragTrackingRef = useRef<{
-    isDown: boolean;
-    startX: number;
-    startY: number;
-    lastX: number;
-    lastY: number;
-    lastMoveAt: number;
-    initialPanX: number;
-    initialPanY: number;
-    hasMoved: boolean;
-    moveDistance: number;
-  }>({
+  const dragTrackingRef = useRef({
     isDown: false,
     startX: 0,
     startY: 0,
@@ -525,9 +148,106 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     moveDistance: 0,
   });
 
-  // 노드 좌표 측정 캐시 (SVG 성좌 연결선 & 미니맵 렌더링용)
   const [nodeCoords, setNodeCoords] = useState<Record<string, NodeBox>>({});
 
+  const storyMap = useMemo(() => new Map(storyRegistry.map((s) => [s.id, s])), []);
+  const lineMetaMap = useMemo(() => new Map(STORY_LINES.map((l) => [l.id, l])), []);
+
+  const allConnections = useMemo(
+    () =>
+      buildAllStoryConnections(
+        storyRegistry,
+        (lineId) => lineMetaMap.get(lineId)?.themeColor || '#71717a'
+      ),
+    [lineMetaMap]
+  );
+
+  const filteredStories = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return storyRegistry.filter((s) => {
+      if (statusFilter !== 'all') {
+        const st = getStoryAccessState(s);
+        if (statusFilter === 'available' && st !== 'available') return false;
+        if (statusFilter === 'overview_only' && st !== 'overview_only') return false;
+      }
+      if (!q) return true;
+      const lm = lineMetaMap.get(s.storyLineId);
+      return (
+        s.titleKo.toLowerCase().includes(q) ||
+        s.titleEn.toLowerCase().includes(q) ||
+        s.code.toLowerCase().includes(q) ||
+        s.timeline.toLowerCase().includes(q) ||
+        (lm && lm.titleKo.toLowerCase().includes(q))
+      );
+    });
+  }, [searchQuery, statusFilter, lineMetaMap]);
+
+  const filteredIdSet = useMemo(() => new Set(filteredStories.map((s) => s.id)), [filteredStories]);
+
+  const activeTargetId = hoveredStoryId || inspectedStory?.id || null;
+
+  const { highlightedStoryIds, activeConnections } = useMemo(() => {
+    const ids = new Set<string>();
+    const conns: StoryConnection[] = [];
+
+    if (focusedLineId) {
+      storyRegistry.forEach((s) => {
+        if (
+          s.storyLineId === focusedLineId ||
+          (focusedLineId === 'MAIN_ALL' && s.storyLineId.startsWith('MAIN_'))
+        ) {
+          ids.add(s.id);
+        }
+      });
+    }
+
+    if (activeTargetId) {
+      ids.add(activeTargetId);
+      const targetStory = storyMap.get(activeTargetId);
+      if (targetStory) {
+        allConnections.forEach((c) => {
+          if (c.fromId === activeTargetId || c.toId === activeTargetId) {
+            conns.push(c);
+            ids.add(c.fromId);
+            ids.add(c.toId);
+          }
+        });
+      }
+    }
+
+    return { highlightedStoryIds: ids, activeConnections: conns };
+  }, [focusedLineId, activeTargetId, allConnections, storyMap]);
+
+  const inspectedConnections = useMemo(() => {
+    if (!inspectedStory) return { incoming: [], outgoing: [] };
+    const incoming = allConnections
+      .filter((c) => c.toId === inspectedStory.id)
+      .map((c) => ({ ...c, story: storyMap.get(c.fromId)! }))
+      .filter((c) => Boolean(c.story));
+    const outgoing = allConnections
+      .filter((c) => c.fromId === inspectedStory.id)
+      .map((c) => ({ ...c, story: storyMap.get(c.toId)! }))
+      .filter((c) => Boolean(c.story));
+    return { incoming, outgoing };
+  }, [inspectedStory, allConnections, storyMap]);
+
+  const inspectedRegions = useMemo(() => {
+    if (!inspectedStory) return [];
+    return terraRegions.filter((r) => r.relatedStoryIds.includes(inspectedStory.id));
+  }, [inspectedStory]);
+
+  const availableCount = useMemo(
+    () => storyRegistry.filter((s) => getStoryAccessState(s) === 'available').length,
+    []
+  );
+  const overviewOnlyCount = useMemo(
+    () => storyRegistry.filter((s) => getStoryAccessState(s) === 'overview_only').length,
+    []
+  );
+
+  // =========================================================================
+  // MATRIX GPU CAMERA PHYSICS & MEASUREMENT (Only active in 'matrix' tab)
+  // =========================================================================
   const applyCameraToDom = useCallback(() => {
     const cam = cameraRef.current;
     if (stageRef.current) {
@@ -620,12 +340,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         cam.targetY = cam.y;
         cam.vx *= 0.89;
         cam.vy *= 0.89;
-        if (Math.hypot(cam.vx, cam.vy) >= 0.25) {
-          keepGoing = true;
-        } else {
-          cam.vx = 0;
-          cam.vy = 0;
-        }
+        keepGoing = true;
+      } else {
+        cam.vx = 0;
+        cam.vy = 0;
       }
 
       applyCameraToDom();
@@ -649,158 +367,11 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     };
   }, []);
 
-  const storyMap = useMemo(() => {
-    const map = new Map<string, StoryListItem>();
-    storyRegistry.forEach((s) => map.set(s.id, s));
-    return map;
-  }, []);
-
-  const lineMetaMap = useMemo(() => {
-    const map = new Map<string, StoryLineMeta>();
-    STORY_LINES.forEach((l) => map.set(l.id, l));
-    return map;
-  }, []);
-
-  // 전체 서사 연결 그래프 생성 (서사 내 직계 연결 + 타 서사 간 교차 인과 연결)
-  const allConnections = useMemo<StoryConnection[]>(() => {
-    const list: StoryConnection[] = [];
-
-    // 1. 각 서사 라인 내부의 시계열 직계 연작 연결
-    STORY_LINES.forEach((line) => {
-      if (line.id === 'SL_TS' || line.id === 'SL_COLLAB') return; // 독립 단편/콜라보 모음은 직계 화살표 생략
-      const lineStories = storyRegistry
-        .filter((s) => s.storyLineId === line.id)
-        .sort((a, b) => a.chronologicalOrder - b.chronologicalOrder || a.seriesOrder - b.seriesOrder);
-
-      for (let i = 0; i < lineStories.length - 1; i++) {
-        const curr = lineStories[i];
-        const next = lineStories[i + 1];
-        list.push({
-          fromId: curr.id,
-          toId: next.id,
-          type: 'series',
-          reasonKo: `${line.titleKo} 연작 직계 후속 작전 (${curr.code} → ${next.code})`,
-          color: line.themeColor,
-        });
-      }
-    });
-
-    // 2. 메인 테마 Act 간 연결 (EP 08 -> EP 09는 교차에도 있으나 직계로도 보장, EP 14 -> EP 15)
-    // 교차 서사 인과 연결 추가
-    CROSS_LORE_LINKS.forEach((cross) => {
-      const fromStory = storyMap.get(cross.fromId);
-      const toStory = storyMap.get(cross.toId);
-      if (!fromStory || !toStory) return;
-
-      // 중복 방지 (이미 직계에 있으면 사유만 업데이트)
-      const existing = list.find((c) => c.fromId === cross.fromId && c.toId === cross.toId);
-      if (existing) {
-        existing.reasonKo = cross.reasonKo;
-        return;
-      }
-
-      const lineMeta = lineMetaMap.get(toStory.storyLineId);
-      list.push({
-        fromId: cross.fromId,
-        toId: cross.toId,
-        type: 'cross',
-        reasonKo: cross.reasonKo,
-        color: lineMeta?.themeColor || '#f5dd1b',
-      });
-    });
-
-    return list;
-  }, [storyMap, lineMetaMap]);
-
-  // 공통 검색 및 상태 필터
-  const applyFilters = useCallback(
-    (items: StoryListItem[]) => {
-      return items.filter((story) => {
-        const q = searchQuery.toLowerCase().trim();
-        const matchesSearch =
-          !q ||
-          story.titleKo.toLowerCase().includes(q) ||
-          story.titleEn.toLowerCase().includes(q) ||
-          story.code.toLowerCase().includes(q) ||
-          story.timeline.toLowerCase().includes(q) ||
-          story.storyLineTitle.toLowerCase().includes(q);
-
-        let matchesStatus = true;
-        const state = getStoryAccessState(story);
-        if (statusFilter === 'available') matchesStatus = state === 'available';
-        if (statusFilter === 'overview_only') matchesStatus = state === 'overview_only';
-
-        return matchesSearch && matchesStatus;
-      });
-    },
-    [searchQuery, statusFilter]
-  );
-
-  // 현재 활성 포커스 대상 스토리 및 연관 스토리 집합 계산
-  const activeTargetId = hoveredStoryId || inspectedStory?.id || null;
-
-  const { highlightedStoryIds, activeConnections } = useMemo(() => {
-    const ids = new Set<string>();
-    const conns: StoryConnection[] = [];
-
-    if (focusedLineId) {
-      storyRegistry.forEach((s) => {
-        if (
-          s.storyLineId === focusedLineId ||
-          (focusedLineId === 'MAIN_ALL' && s.storyLineId.startsWith('MAIN_'))
-        ) {
-          ids.add(s.id);
-        }
-      });
-      allConnections.forEach((c) => {
-        if (ids.has(c.fromId) || ids.has(c.toId)) {
-          conns.push(c);
-          ids.add(c.fromId);
-          ids.add(c.toId);
-        }
-      });
-      return { highlightedStoryIds: ids, activeConnections: conns };
-    }
-
-    if (activeTargetId) {
-      const target = storyMap.get(activeTargetId);
-      if (target) {
-        ids.add(target.id);
-        // 같은 서사 라인 전체 포함 (단편 모음 제외)
-        if (target.storyLineId !== 'SL_TS' && target.storyLineId !== 'SL_COLLAB') {
-          storyRegistry.forEach((s) => {
-            if (s.storyLineId === target.storyLineId) {
-              ids.add(s.id);
-            }
-          });
-        }
-        // 직계 및 교차 연결된 모든 노드 포함
-        allConnections.forEach((c) => {
-          const isSameLineSeries =
-            c.type === 'series' &&
-            storyMap.get(c.fromId)?.storyLineId === target.storyLineId &&
-            target.storyLineId !== 'SL_TS';
-          const isDirectTouch = c.fromId === target.id || c.toId === target.id;
-
-          if (isSameLineSeries || isDirectTouch) {
-            conns.push(c);
-            ids.add(c.fromId);
-            ids.add(c.toId);
-          }
-        });
-      }
-    }
-
-    return { highlightedStoryIds: ids, activeConnections: conns };
-  }, [focusedLineId, activeTargetId, allConnections, storyMap]);
-
-  // 스테이지 내 모든 노드의 로컬 좌표(고정 카드 크기 기준) & 시대 구간 측정
   const measureNodePositions = useCallback(() => {
     const stageEl = stageRef.current;
     if (!stageEl) return;
 
     const coords: Record<string, NodeBox> = {};
-
     nodeRefs.current.forEach((el, id) => {
       if (!el || !el.isConnected) return;
       let x = 0;
@@ -847,7 +418,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   }, [applyCameraToDom]);
 
   useEffect(() => {
-    if (browseMode !== 'chronological') return;
+    if (browseMode !== 'matrix') return;
     let raf1 = 0;
     let raf2 = 0;
     raf1 = requestAnimationFrame(() => {
@@ -868,29 +439,25 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       ro?.disconnect();
       window.removeEventListener('resize', measureNodePositions);
     };
-  }, [browseMode, searchQuery, statusFilter, mobileChronoCanvas, measureNodePositions]);
+  }, [browseMode, searchQuery, statusFilter, measureNodePositions]);
 
-  // 마우스 드래그 캔버스 이동 (GPU 직접 제어 + 관성 감속 물리)
+  // Matrix Drag + Inertia Effect
   useEffect(() => {
-    if (browseMode !== 'chronological') return;
+    if (browseMode !== 'matrix') return;
 
     const onPointerMove = (e: PointerEvent) => {
       if (!dragTrackingRef.current.isDown) return;
       const dx = e.clientX - dragTrackingRef.current.startX;
       const dy = e.clientY - dragTrackingRef.current.startY;
       const dist = Math.hypot(dx, dy);
-
       dragTrackingRef.current.moveDistance = dist;
-      if (dist > 5) {
-        dragTrackingRef.current.hasMoved = true;
-      }
+      if (dist > 5) dragTrackingRef.current.hasMoved = true;
 
-      const now = performance.now();
       const frameDx = e.clientX - dragTrackingRef.current.lastX;
       const frameDy = e.clientY - dragTrackingRef.current.lastY;
       dragTrackingRef.current.lastX = e.clientX;
       dragTrackingRef.current.lastY = e.clientY;
-      dragTrackingRef.current.lastMoveAt = now;
+      dragTrackingRef.current.lastMoveAt = performance.now();
 
       const cam = cameraRef.current;
       cam.vx = cam.vx * 0.45 + frameDx * 0.55;
@@ -907,7 +474,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       if (!dragTrackingRef.current.isDown) return;
       dragTrackingRef.current.isDown = false;
       setIsDraggingCanvas(false);
-
       const elapsed = performance.now() - dragTrackingRef.current.lastMoveAt;
       const cam = cameraRef.current;
       if (elapsed > 80) {
@@ -923,7 +489,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
     window.addEventListener('pointercancel', onPointerUp);
-
     return () => {
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
@@ -931,9 +496,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     };
   }, [browseMode, applyCameraToDom, schedulePhysicsTick]);
 
-  // 마우스 휠 줌 (커서 위치 고정 스무스 줌)
+  // Matrix Cursor-Anchored Wheel Zoom & Pinch Zoom
   useEffect(() => {
-    if (browseMode !== 'chronological') return;
+    if (browseMode !== 'matrix') return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -942,177 +507,35 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       const rect = container.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
-
       const cam = cameraRef.current;
-      cam.vx = 0;
-      cam.vy = 0;
+
+      const delta = e.deltaY < 0 ? 0.08 : -0.08;
       const prevZoom = cam.isAnimating ? cam.targetZoom : cam.zoom;
       const prevX = cam.isAnimating ? cam.targetX : cam.x;
       const prevY = cam.isAnimating ? cam.targetY : cam.y;
+      const nextZoom = Math.min(MAX_CHRONICLE_ZOOM, Math.max(MIN_CHRONICLE_ZOOM, Number((prevZoom + delta).toFixed(2))));
+      if (nextZoom === prevZoom) return;
 
-      const zoomFactor = Math.exp(-e.deltaY * 0.0018);
-      const nextScale = Math.min(MAX_CHRONICLE_ZOOM, Math.max(MIN_CHRONICLE_ZOOM, Number((prevZoom * zoomFactor).toFixed(3))));
-      if (nextScale === prevZoom) return;
-
-      const ratio = nextScale / prevZoom;
-      cam.targetZoom = nextScale;
-      cam.targetX = mouseX - (mouseX - prevX) * ratio;
-      cam.targetY = mouseY - (mouseY - prevY) * ratio;
-      cam.isAnimating = true;
-      schedulePhysicsTick();
+      const scaleRatio = nextZoom / prevZoom;
+      cam.vx = 0;
+      cam.vy = 0;
+      cam.zoom = nextZoom;
+      cam.x = mouseX - (mouseX - prevX) * scaleRatio;
+      cam.y = mouseY - (mouseY - prevY) * scaleRatio;
+      cam.targetZoom = cam.zoom;
+      cam.targetX = cam.x;
+      cam.targetY = cam.y;
+      cam.isAnimating = false;
+      applyCameraToDom();
     };
 
     container.addEventListener('wheel', onWheel, { passive: false });
-    return () => {
-      container.removeEventListener('wheel', onWheel);
-    };
-  }, [browseMode, schedulePhysicsTick]);
-
-  // 모바일 두 손가락 핀치 줌 (Pinch-to-Zoom) 및 핀치 중심 캔버스 이동
-  useEffect(() => {
-    if (browseMode !== 'chronological') return;
-    const container = containerRef.current;
-    if (!container) return;
-
-    let initialPinchDist = 0;
-    let initialZoom = 1;
-    let lastMidX = 0;
-    let lastMidY = 0;
-    let isPinching = false;
-
-    const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 2) {
-        const t0 = e.touches[0];
-        const t1 = e.touches[1];
-        initialPinchDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
-        initialZoom = cameraRef.current.zoom;
-        const rect = container.getBoundingClientRect();
-        lastMidX = (t0.clientX + t1.clientX) / 2 - rect.left;
-        lastMidY = (t0.clientY + t1.clientY) / 2 - rect.top;
-        isPinching = true;
-        cameraRef.current.isAnimating = false;
-        cameraRef.current.vx = 0;
-        cameraRef.current.vy = 0;
-        dragTrackingRef.current.isDown = false;
-        dragTrackingRef.current.hasMoved = true;
-        dragTrackingRef.current.moveDistance = 999;
-        setIsDraggingCanvas(false);
-      }
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 2 && isPinching) {
-        if (e.cancelable) e.preventDefault();
-        const t0 = e.touches[0];
-        const t1 = e.touches[1];
-        const currentDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
-        if (initialPinchDist <= 0) {
-          initialPinchDist = currentDist;
-          initialZoom = cameraRef.current.zoom;
-          return;
-        }
-
-        const rect = container.getBoundingClientRect();
-        const currentMidX = (t0.clientX + t1.clientX) / 2 - rect.left;
-        const currentMidY = (t0.clientY + t1.clientY) / 2 - rect.top;
-
-        const deltaMidX = currentMidX - lastMidX;
-        const deltaMidY = currentMidY - lastMidY;
-        lastMidX = currentMidX;
-        lastMidY = currentMidY;
-
-        const cam = cameraRef.current;
-        const scaleMultiplier = currentDist / initialPinchDist;
-        const targetScale = Math.min(MAX_CHRONICLE_ZOOM, Math.max(MIN_CHRONICLE_ZOOM, Number((initialZoom * scaleMultiplier).toFixed(3))));
-        const prevScale = cam.zoom;
-
-        if (targetScale === prevScale) {
-          cam.x += deltaMidX;
-          cam.y += deltaMidY;
-        } else {
-          const ratio = targetScale / prevScale;
-          cam.x = currentMidX - (currentMidX - cam.x) * ratio + deltaMidX;
-          cam.y = currentMidY - (currentMidY - cam.y) * ratio + deltaMidY;
-          cam.zoom = targetScale;
-        }
-        cam.targetX = cam.x;
-        cam.targetY = cam.y;
-        cam.targetZoom = cam.zoom;
-        applyCameraToDom();
-      }
-    };
-
-    const onTouchEnd = (e: TouchEvent) => {
-      if (e.touches.length < 2 && isPinching) {
-        isPinching = false;
-        initialPinchDist = 0;
-        if (e.touches.length === 1) {
-          const t = e.touches[0];
-          const cam = cameraRef.current;
-          dragTrackingRef.current = {
-            isDown: true,
-            startX: t.clientX,
-            startY: t.clientY,
-            lastX: t.clientX,
-            lastY: t.clientY,
-            lastMoveAt: performance.now(),
-            initialPanX: cam.x,
-            initialPanY: cam.y,
-            hasMoved: true,
-            moveDistance: 999,
-          };
-          setIsDraggingCanvas(true);
-        }
-      }
-    };
-
-    container.addEventListener('touchstart', onTouchStart, { passive: false });
-    container.addEventListener('touchmove', onTouchMove, { passive: false });
-    container.addEventListener('touchend', onTouchEnd);
-    container.addEventListener('touchcancel', onTouchEnd);
-
-    return () => {
-      container.removeEventListener('touchstart', onTouchStart);
-      container.removeEventListener('touchmove', onTouchMove);
-      container.removeEventListener('touchend', onTouchEnd);
-      container.removeEventListener('touchcancel', onTouchEnd);
-    };
+    return () => container.removeEventListener('wheel', onWheel);
   }, [browseMode, applyCameraToDom]);
 
-  // 키보드(WASD 및 방향키) 실시간 캔버스 이동 (Shift 가속)
+  // Matrix WASD / Arrow Keys
   useEffect(() => {
-    if (browseMode !== 'chronological') return;
-
-    const MOVEMENT_KEY_CODES = new Set([
-      'KeyW',
-      'KeyA',
-      'KeyS',
-      'KeyD',
-      'ArrowUp',
-      'ArrowDown',
-      'ArrowLeft',
-      'ArrowRight',
-    ]);
-
-    const isInputActive = () => {
-      const el = document.activeElement;
-      if (!el) return false;
-      const tag = el.tagName;
-      return (
-        tag === 'INPUT' ||
-        tag === 'TEXTAREA' ||
-        tag === 'SELECT' ||
-        (el as HTMLElement).isContentEditable
-      );
-    };
-
-    const hasActiveMovementKey = () => {
-      for (const code of MOVEMENT_KEY_CODES) {
-        if (keysDownRef.current.has(code)) return true;
-      }
-      return false;
-    };
-
+    if (browseMode !== 'matrix') return;
     const stopLoop = () => {
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
@@ -1120,139 +543,76 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       }
     };
 
-    const updatePan = () => {
-      // 모달 활성화 또는 인풋 포커스 상태에서는 키 조작 중단
-      if (isModalOpenRef.current || isInputActive() || !!document.querySelector('[role="dialog"]')) {
-        keysDownRef.current.clear();
-        stopLoop();
-        return;
-      }
-
-      if (!hasActiveMovementKey()) {
-        stopLoop();
-        return;
-      }
-
-      const activeKeys = keysDownRef.current;
-      const isBoost = activeKeys.has('ShiftLeft') || activeKeys.has('ShiftRight');
-      const baseSpeed = isBoost ? 32 : 14;
-
-      let moveX = 0;
-      let moveY = 0;
-
-      if (activeKeys.has('KeyW') || activeKeys.has('ArrowUp')) moveY += baseSpeed;
-      if (activeKeys.has('KeyS') || activeKeys.has('ArrowDown')) moveY -= baseSpeed;
-      if (activeKeys.has('KeyA') || activeKeys.has('ArrowLeft')) moveX += baseSpeed;
-      if (activeKeys.has('KeyD') || activeKeys.has('ArrowRight')) moveX -= baseSpeed;
-
-      // 대각선 이동 시 속도 정규화
-      if (moveX !== 0 && moveY !== 0) {
-        moveX *= Math.SQRT1_2;
-        moveY *= Math.SQRT1_2;
-      }
-
-      if (moveX !== 0 || moveY !== 0) {
-        const cam = cameraRef.current;
-        cam.isAnimating = false;
-        cam.vx = 0;
-        cam.vy = 0;
-        cam.x += moveX;
-        cam.y += moveY;
-        cam.targetX = cam.x;
-        cam.targetY = cam.y;
-        applyCameraToDom();
-      }
-
-      rafIdRef.current = requestAnimationFrame(updatePan);
-    };
-
-    const normalizeKeyCode = (e: KeyboardEvent): string | null => {
+    const normalizeKey = (e: KeyboardEvent): string | null => {
       const code = e.code;
-      const keyLower = e.key ? e.key.toLowerCase() : '';
-
-      if (code === 'KeyW' || keyLower === 'w' || keyLower === 'ㅈ') return 'KeyW';
-      if (code === 'KeyA' || keyLower === 'a' || keyLower === 'ㅁ') return 'KeyA';
-      if (code === 'KeyS' || keyLower === 's' || keyLower === 'ㄴ') return 'KeyS';
-      if (code === 'KeyD' || keyLower === 'd' || keyLower === 'ㅇ') return 'KeyD';
-      if (code === 'ArrowUp' || e.key === 'ArrowUp') return 'ArrowUp';
-      if (code === 'ArrowDown' || e.key === 'ArrowDown') return 'ArrowDown';
-      if (code === 'ArrowLeft' || e.key === 'ArrowLeft') return 'ArrowLeft';
-      if (code === 'ArrowRight' || e.key === 'ArrowRight') return 'ArrowRight';
-      if (code === 'ShiftLeft' || code === 'ShiftRight' || e.key === 'Shift') {
-        return code === 'ShiftRight' ? 'ShiftRight' : 'ShiftLeft';
+      if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ShiftLeft', 'ShiftRight'].includes(code)) {
+        return code;
       }
       return null;
     };
 
+    const updatePan = () => {
+      const keys = keysDownRef.current;
+      let moveX = 0;
+      let moveY = 0;
+      if (keys.has('KeyW') || keys.has('ArrowUp')) moveY += 1;
+      if (keys.has('KeyS') || keys.has('ArrowDown')) moveY -= 1;
+      if (keys.has('KeyA') || keys.has('ArrowLeft')) moveX += 1;
+      if (keys.has('KeyD') || keys.has('ArrowRight')) moveX -= 1;
+
+      if (moveX !== 0 || moveY !== 0) {
+        const len = Math.hypot(moveX, moveY);
+        const speed = keys.has('ShiftLeft') || keys.has('ShiftRight') ? 28 : 13;
+        const cam = cameraRef.current;
+        cam.x += (moveX / len) * speed;
+        cam.y += (moveY / len) * speed;
+        cam.targetX = cam.x;
+        cam.targetY = cam.y;
+        applyCameraToDom();
+        rafIdRef.current = requestAnimationFrame(updatePan);
+      } else {
+        rafIdRef.current = null;
+      }
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isInputActive() || isModalOpenRef.current || !!document.querySelector('[role="dialog"]')) {
-        return;
-      }
-
-      const matchedCode = normalizeKeyCode(e);
-      if (!matchedCode) return;
-
-      // 방향키 스크롤 등 브라우저 기본 스크롤 동작 방지
-      if (matchedCode.startsWith('Arrow')) {
-        e.preventDefault();
-      }
-
-      keysDownRef.current.add(matchedCode);
-
-      if (hasActiveMovementKey() && rafIdRef.current === null) {
+      if (isModalOpenRef.current) return;
+      const ae = document.activeElement;
+      if (ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || (ae as HTMLElement).isContentEditable)) return;
+      const code = normalizeKey(e);
+      if (!code) return;
+      if (code.startsWith('Arrow')) e.preventDefault();
+      keysDownRef.current.add(code);
+      if (code !== 'ShiftLeft' && code !== 'ShiftRight' && rafIdRef.current === null) {
         rafIdRef.current = requestAnimationFrame(updatePan);
       }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      const matchedCode = normalizeKeyCode(e);
-      if (!matchedCode) return;
-
-      keysDownRef.current.delete(matchedCode);
-      if (matchedCode === 'ShiftLeft' || matchedCode === 'ShiftRight') {
-        keysDownRef.current.delete('ShiftLeft');
-        keysDownRef.current.delete('ShiftRight');
-      }
-
-      if (!hasActiveMovementKey()) {
-        stopLoop();
-      }
+      const code = normalizeKey(e);
+      if (!code) return;
+      keysDownRef.current.delete(code);
+      if (!keysDownRef.current.size) stopLoop();
     };
 
-    const keysDown = keysDownRef.current;
-
-    const handleBlur = () => {
-      keysDown.clear();
-      stopLoop();
-    };
-
+    const keysMap = keysDownRef.current;
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
-    window.addEventListener('blur', handleBlur);
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
-      window.removeEventListener('blur', handleBlur);
       stopLoop();
-      keysDown.clear();
+      keysMap.clear();
     };
   }, [browseMode, applyCameraToDom]);
 
   const handleCanvasPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
     if (e.pointerType === 'touch' && !e.isPrimary) return;
-    // 마우스 드래그 시작 시 키보드 및 관성 루프 정리
-    keysDownRef.current.clear();
-    if (rafIdRef.current !== null) {
-      cancelAnimationFrame(rafIdRef.current);
-      rafIdRef.current = null;
-    }
     const cam = cameraRef.current;
     cam.vx = 0;
     cam.vy = 0;
     cam.isAnimating = false;
-
     dragTrackingRef.current = {
       isDown: true,
       startX: e.clientX,
@@ -1268,18 +628,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     setIsDraggingCanvas(true);
   };
 
-  // 특정 스토리 노드로 카메라 부드럽게 포커싱
   const focusOnStoryNode = useCallback(
     (storyId: string) => {
-      const story = storyMap.get(storyId);
-      if (!story) return;
       playClickSound();
-      setInspectedStory(story);
+      const target = storyMap.get(storyId);
+      if (target) setInspectedStory(target);
 
-      if (browseMode === 'chronological') {
-        const coord = nodeCoords[storyId];
+      if (browseMode === 'matrix') {
         const container = containerRef.current;
-        if (coord && container) {
+        const coord = nodeCoords[storyId];
+        if (container && coord) {
           const cam = cameraRef.current;
           const activeZoom = cam.isAnimating ? cam.targetZoom : cam.zoom;
           cam.vx = 0;
@@ -1295,36 +653,20 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     [browseMode, nodeCoords, storyMap, schedulePhysicsTick]
   );
 
-  // 외부 뷰(홈/커맨드 팔레트/테라 지도)에서 특정 스토리 포커스 요청 수신 시 1회 이동
+  // Consume external focus request cleanly inside requestAnimationFrame
   useEffect(() => {
-    if (!initialFocusStoryId || browseMode !== 'chronological') return;
-    if (!nodeCoords[initialFocusStoryId]) return;
+    if (!initialFocusStoryId) return;
     const raf = requestAnimationFrame(() => {
-      focusOnStoryNode(initialFocusStoryId);
+      if (browseMode === 'matrix' && nodeCoords[initialFocusStoryId]) {
+        focusOnStoryNode(initialFocusStoryId);
+      }
       onConsumeInitialStory?.();
     });
     return () => cancelAnimationFrame(raf);
   }, [initialFocusStoryId, browseMode, nodeCoords, focusOnStoryNode, onConsumeInitialStory]);
 
-  // 연대기 2D 캔버스 재마운트/전환 시 ref 기반 카메라 위치 즉시 동기화
-  useEffect(() => {
-    if (browseMode !== 'chronological') return;
-    const raf = requestAnimationFrame(() => {
-      applyCameraToDom();
-    });
-    return () => cancelAnimationFrame(raf);
-  }, [browseMode, mobileChronoCanvas, applyCameraToDom]);
-
-  // 특정 시대로 카메라 이동 (모바일 세로 타임라인 & 데스크톱 2D 캔버스 겸용)
-  const scrollToEra = (eraId: string) => {
+  const scrollMatrixToEra = (eraId: string) => {
     playClickSound();
-    if (isMobile && !mobileChronoCanvas) {
-      const mobileTarget = document.getElementById(`mobile-era-${eraId}`);
-      if (mobileTarget) {
-        mobileTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return;
-      }
-    }
     const target = document.getElementById(`matrix-era-${eraId}`);
     if (target) {
       const cam = cameraRef.current;
@@ -1347,14 +689,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     const prevZoom = cam.isAnimating ? cam.targetZoom : cam.zoom;
     const prevX = cam.isAnimating ? cam.targetX : cam.x;
     const prevY = cam.isAnimating ? cam.targetY : cam.y;
-
     const nextScale = Math.min(MAX_CHRONICLE_ZOOM, Math.max(MIN_CHRONICLE_ZOOM, Number((prevZoom + delta).toFixed(2))));
     if (nextScale === prevZoom) return;
 
     const centerX = container.clientWidth / 2;
     const centerY = container.clientHeight / 2;
     const ratio = nextScale / prevZoom;
-
     cam.vx = 0;
     cam.vy = 0;
     cam.targetZoom = nextScale;
@@ -1384,7 +724,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     const scaleX = (container.clientWidth - 60) / (stage.scrollWidth || 3200);
     const scaleY = (container.clientHeight - 80) / (stage.scrollHeight || 1100);
     const fitScale = Math.min(1.0, Math.max(MIN_CHRONICLE_ZOOM, Number(Math.min(scaleX, scaleY).toFixed(2))));
-
     const cam = cameraRef.current;
     cam.vx = 0;
     cam.vy = 0;
@@ -1395,8 +734,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     schedulePhysicsTick();
   };
 
-  // 미니맵 클릭/드래그 점프
-  const isMinimapScrubbingRef = useRef<boolean>(false);
+  const isMinimapScrubbingRef = useRef(false);
   const jumpToMinimapPoint = useCallback(
     (clientX: number, clientY: number, rect: DOMRect) => {
       const container = containerRef.current;
@@ -1405,7 +743,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       const fracY = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
       const worldX = fracX * stageSize.width;
       const worldY = fracY * stageSize.height;
-
       const cam = cameraRef.current;
       const z = cam.isAnimating ? cam.targetZoom : cam.zoom;
       cam.vx = 0;
@@ -1420,997 +757,556 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     [stageSize.width, stageSize.height, applyCameraToDom]
   );
 
-  const availableCount = useMemo(
-    () => storyRegistry.filter((s) => getStoryAccessState(s) === 'available').length,
-    []
-  );
-  const overviewOnlyCount = useMemo(
-    () => storyRegistry.filter((s) => getStoryAccessState(s) === 'overview_only').length,
-    []
-  );
-
-  // 선택된 스토리의 선행 / 후속 / 교차 연결 정보 계산
-  const inspectedConnections = useMemo(() => {
-    if (!inspectedStory) return { incoming: [], outgoing: [] };
-    const incoming = allConnections
-      .filter((c) => c.toId === inspectedStory.id)
-      .map((c) => ({ ...c, story: storyMap.get(c.fromId)! }))
-      .filter((c) => Boolean(c.story));
-    const outgoing = allConnections
-      .filter((c) => c.fromId === inspectedStory.id)
-      .map((c) => ({ ...c, story: storyMap.get(c.toId)! }))
-      .filter((c) => Boolean(c.story));
-    return { incoming, outgoing };
-  }, [inspectedStory, allConnections, storyMap]);
-
-  const inspectedRegions = useMemo(() => {
-    if (!inspectedStory) return [];
-    return terraRegions.filter((r) => r.relatedStoryIds.includes(inspectedStory.id));
-  }, [inspectedStory]);
-
-  const cycleMobileStatusFilter = () => {
-    playClickSound();
-    setStatusFilter((prev) =>
-      prev === 'all' ? 'available' : prev === 'available' ? 'overview_only' : 'all'
-    );
-  };
-
+  // =========================================================================
+  // RENDER
+  // =========================================================================
   return (
     <div
       className={`relative flex-1 w-full ${
         isHeaderCollapsed
           ? 'h-[100dvh] md:h-screen'
           : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)]'
-      } bg-[#0c0c0e] overflow-hidden select-none flex flex-col font-sans animate-fadeIn`}
+      } bg-[#0b0c0f] overflow-hidden select-none flex flex-col font-sans animate-fadeIn`}
     >
-      {/* =========================================================================
-          1-A. MOBILE NATIVE COMPACT 2-ROW COMMAND BAR (md:hidden)
-      ========================================================================= */}
-      {!isHeaderCollapsed && (
-        <div className="md:hidden flex-shrink-0 z-30 bg-[#0e0f12]/95 backdrop-blur-md border-b border-white/[0.08] px-3 py-2 space-y-2">
-        {/* Row 1: 3 Mode Segmented Tabs + Search Icon + Status Cycle + Fullscreen */}
-        <div className="flex items-center gap-1.5">
-          <div className="flex-1 grid grid-cols-3 p-0.5 rounded-[2px] bg-[#141519] border border-white/[0.08] text-[11px] font-sans">
-            <button
-              onClick={() => {
-                playTabSwitchSound();
-                setBrowseMode('chronological');
-              }}
-              className={`h-7 rounded-[1px] flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                browseMode === 'chronological'
-                  ? 'bg-zinc-100 text-black font-bold'
-                  : 'text-zinc-400 font-medium'
-              }`}
-            >
-              <Clock className="w-3 h-3 flex-shrink-0" />
-              <span>시간순</span>
-            </button>
-            <button
-              onClick={() => {
-                playTabSwitchSound();
-                setBrowseMode('story_line');
-              }}
-              className={`h-7 rounded-[1px] flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                browseMode === 'story_line'
-                  ? 'bg-zinc-100 text-black font-bold'
-                  : 'text-zinc-400 font-medium'
-              }`}
-            >
-              <GitBranch className="w-3 h-3 flex-shrink-0" />
-              <span>서사별</span>
-            </button>
-            <button
-              onClick={() => {
-                playTabSwitchSound();
-                setBrowseMode('release');
-              }}
-              className={`h-7 rounded-[1px] flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                browseMode === 'release'
-                  ? 'bg-zinc-100 text-black font-bold'
-                  : 'text-zinc-400 font-medium'
-              }`}
-            >
-              <Calendar className="w-3 h-3 flex-shrink-0" />
-              <span>출시순</span>
-            </button>
-          </div>
-
-          {/* Search Toggle Button */}
-          <button
-            onClick={() => {
-              playClickSound();
-              setIsMobileSearchOpen((p) => !p);
-            }}
-            className={`w-8 h-8 rounded-[2px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
-              isMobileSearchOpen || searchQuery
-                ? 'bg-white/[0.1] border-[#f5dd1b] text-[#f5dd1b]'
-                : 'bg-[#141519] border-white/[0.08] text-zinc-300'
-            }`}
-            title="스토리 검색"
-          >
-            <Search className="w-3.5 h-3.5" />
-          </button>
-
-          {/* Status Filter Cycle Button (전체 90 -> 요약본 13 -> 개요 72) */}
-          <button
-            onClick={cycleMobileStatusFilter}
-            className={`h-8 px-2.5 rounded-[2px] border text-[11px] font-sans flex items-center gap-1 flex-shrink-0 transition-colors cursor-pointer ${
-              statusFilter === 'available'
-                ? 'bg-white/[0.08] border-[#f5dd1b]/70 text-white font-bold'
-                : statusFilter === 'overview_only'
-                ? 'bg-white/[0.1] border-white/30 text-white font-bold'
-                : 'bg-[#141519] border-white/[0.08] text-zinc-300'
-            }`}
-            title="수록 상태 필터 전환"
-          >
-            <span
-              className={`w-1.5 h-1.5 ${
-                statusFilter === 'available'
-                  ? 'bg-[#f5dd1b]'
-                  : statusFilter === 'overview_only'
-                  ? 'bg-zinc-400'
-                  : 'bg-zinc-200'
-              }`}
-            />
-            <span>
-              {statusFilter === 'available'
-                ? `요약본 ${availableCount}`
-                : statusFilter === 'overview_only'
-                ? `개요 ${overviewOnlyCount}`
-                : `전체 ${storyRegistry.length}`}
-            </span>
-          </button>
-
-          {/* Fullscreen Toggle Button */}
-          {onToggleHeaderCollapse && (
-            <button
-              onClick={() => {
-                playClickSound();
-                onToggleHeaderCollapse();
-              }}
-              className={`h-8 rounded-[2px] border flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer ${
-                isHeaderCollapsed
-                  ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold px-2 gap-1'
-                  : 'w-8 bg-[#141519] border-white/[0.08] text-zinc-300'
-              }`}
-              title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 접기 (UI 단축)'}
-            >
-              {isHeaderCollapsed ? (
-                <PanelTopOpen className="w-3.5 h-3.5" />
-              ) : (
-                <PanelTopClose className="w-3.5 h-3.5" />
-              )}
-              {isHeaderCollapsed && <span className="text-[11px] font-sans">복원</span>}
-            </button>
-          )}
-        </div>
-
-        {/* Expandable Search Input Row */}
-        {(isMobileSearchOpen || searchQuery) && (
-          <div className="relative flex items-center gap-1.5">
-            <div className="relative flex-1">
-              <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="스토리명, 작전 코드(EP/SID), 연도 검색..."
-                autoFocus={isMobileSearchOpen}
-                className="w-full h-8 pl-8 pr-8 bg-[#141519] border border-white/25 focus:border-[#f5dd1b] rounded-[2px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white cursor-pointer"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-            <button
-              onClick={() => {
-                setSearchQuery('');
-                setIsMobileSearchOpen(false);
-              }}
-              className="h-8 px-2.5 rounded-[2px] bg-[#181a20] text-zinc-300 text-[11px] flex-shrink-0 cursor-pointer"
-            >
-              닫기
-            </button>
-          </div>
-        )}
-
-        {/* Row 2: Context-Sensitive Single-Line Horizontal Scroll Tags */}
-        {!isHeaderCollapsed && browseMode === 'chronological' && (
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
-            {/* 세로 타임라인 vs 2D 노선도 전환 칩 */}
-            <button
-              onClick={() => {
-                playClickSound();
-                setMobileChronoCanvas((p) => !p);
-              }}
-              className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1 flex-shrink-0 font-bold cursor-pointer transition-colors ${
-                mobileChronoCanvas
-                  ? 'bg-zinc-100 border-white text-black'
-                  : 'bg-[#16181d] border-white/20 text-zinc-200'
-              }`}
-            >
-              <Layers className="w-3 h-3" />
-              <span>{mobileChronoCanvas ? '2D 노선도 뷰' : '세로 타임라인'}</span>
-            </button>
-
-            <div className="w-[1px] h-4 bg-white/10 flex-shrink-0 mx-0.5" />
-
-            {TIMELINE_ERAS.map((era) => (
-              <button
-                key={era.id}
-                onClick={() => scrollToEra(era.id)}
-                className="h-6.5 px-2.5 text-[11px] rounded-[2px] border border-white/[0.1] bg-[#141519] active:bg-white/[0.1] text-zinc-200 flex items-center gap-1.5 flex-shrink-0 cursor-pointer"
-              >
-                <span className="w-1.5 h-1.5 rounded-[1px]" style={{ backgroundColor: era.color }} />
-                <span className="font-mono font-bold text-[10.5px] text-white">{era.code}</span>
-                <span className="text-[10.5px] text-zinc-300">{era.titleKo.split('·')[0].trim()}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {!isHeaderCollapsed && browseMode === 'story_line' && (
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
-            {STORY_LINES.map((line) => {
-              const isSelected = activeStoryLineHubId === line.id;
-              const shortLabel = line.id.startsWith('MAIN_')
-                ? line.titleKo.replace('내일을 위하여 · ', '')
-                : line.titleKo;
-              return (
-                <button
-                  key={line.id}
-                  onClick={() => {
-                    playClickSound();
-                    setActiveStoryLineHubId(line.id);
-                  }}
-                  className={`h-7 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 transition-colors cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
-                      : 'bg-[#141519] border-white/[0.09] text-zinc-300'
-                  }`}
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-[1px] flex-shrink-0"
-                    style={{ backgroundColor: isSelected ? '#000000' : line.themeColor }}
-                  />
-                  <span>{shortLabel}</span>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {!isHeaderCollapsed && browseMode === 'release' && (
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
-            <button
-              onClick={() => {
-                playClickSound();
-                setSelectedReleaseYear('all');
-              }}
-              className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1 flex-shrink-0 cursor-pointer ${
-                selectedReleaseYear === 'all'
-                  ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
-                  : 'bg-[#141519] border-white/[0.09] text-zinc-300'
-              }`}
-            >
-              <span>전체 연차</span>
-            </button>
-            {RELEASE_YEARS_META.map((ym) => (
-              <button
-                key={ym.year}
-                onClick={() => {
-                  playClickSound();
-                  setSelectedReleaseYear(ym.year);
-                }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 cursor-pointer ${
-                  selectedReleaseYear === ym.year
-                    ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-bold'
-                    : 'bg-[#141519] border-white/[0.09] text-zinc-300'
-                }`}
-              >
-                <span className="font-mono font-bold text-[10.5px]">Y{ym.year}</span>
-                <span className="text-[10.5px] opacity-85">{ym.period}</span>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-      )}
-
-      {/* =========================================================================
-          1-B. DESKTOP UNIFIED SINGLE-ROW COMMAND BAR (hidden md:block)
-      ========================================================================= */}
-      {!isHeaderCollapsed && (
-        <div
-          ref={hudDropdownRef}
-          className="hidden md:flex flex-shrink-0 z-30 h-12 bg-[#0e0f12]/96 backdrop-blur-md border-b border-white/[0.09] px-4 lg:px-8 items-center justify-between gap-3"
-        >
-          {/* Left: Browse Mode Tabs + Contextual Popover Filters (Era / Series) */}
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="hidden xl:flex items-center gap-2 pr-2.5 mr-0.5 border-r border-white/[0.08]">
-              <span className="w-1.5 h-3.5 bg-[#f5dd1b]" />
-              <span className="text-xs font-extrabold text-white tracking-tight whitespace-nowrap">
-                스토리 목록
+      {/* 1. CLEAN SINGLE STICKY TOP CONTROL BAR */}
+      <div className="z-30 bg-[#0d0e13]/95 backdrop-blur-md border-b border-white/[0.08] px-3 sm:px-6 py-2.5 flex-shrink-0">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2.5">
+          {/* Brand & Mode Switcher */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-2">
+              <span className="w-1 h-4 bg-[#f5dd1b]" />
+              <span className="text-sm sm:text-base font-black tracking-tight text-white">
+                스토리 연대기
+              </span>
+              <span className="hidden lg:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-white/[0.05] text-zinc-400 border border-white/[0.08] rounded-[2px]">
+                NARRATIVE ATLAS
               </span>
             </div>
 
-            {/* 3대 브라우징 모드 전환 */}
-            <div className="flex items-center gap-0.5 p-0.5 rounded-[2px] bg-[#141519] border border-white/[0.09] text-xs font-sans shrink-0">
+            <div className="flex items-center bg-[#12141a] p-0.5 rounded-[2px] border border-white/[0.08] text-xs">
               <button
+                type="button"
                 onClick={() => {
                   playTabSwitchSound();
-                  setBrowseMode('chronological');
-                  setOpenDropdown(null);
+                  setBrowseMode('stream');
                 }}
-                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-                  browseMode === 'chronological'
+                className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 cursor-pointer transition-colors ${
+                  browseMode === 'stream'
                     ? 'bg-zinc-100 text-black font-bold'
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] font-medium'
+                    : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
-                <Clock className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>시간순</span>
+                <Clock className="w-3.5 h-3.5" />
+                <span>연대기 스트림</span>
               </button>
-
               <button
+                type="button"
                 onClick={() => {
                   playTabSwitchSound();
                   setBrowseMode('story_line');
-                  setOpenDropdown(null);
                 }}
-                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
+                className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 cursor-pointer transition-colors ${
                   browseMode === 'story_line'
                     ? 'bg-zinc-100 text-black font-bold'
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] font-medium'
+                    : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
-                <GitBranch className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>서사별</span>
+                <GitBranch className="w-3.5 h-3.5" />
+                <span>서사 사가</span>
               </button>
-
               <button
+                type="button"
                 onClick={() => {
                   playTabSwitchSound();
-                  setBrowseMode('release');
-                  setOpenDropdown(null);
+                  setBrowseMode('matrix');
                 }}
-                className={`relative h-7 px-3 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-                  browseMode === 'release'
+                className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 cursor-pointer transition-colors ${
+                  browseMode === 'matrix'
                     ? 'bg-zinc-100 text-black font-bold'
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] font-medium'
+                    : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
-                <Calendar className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>출시순</span>
+                <Layers className="w-3.5 h-3.5" />
+                <span>계통 매트릭스</span>
               </button>
             </div>
-
-            {/* Chronological-Only Compact Popover Controls */}
-            {browseMode === 'chronological' && (
-              <div className="flex items-center gap-1.5 pl-1 border-l border-white/[0.08]">
-                {/* Era Quick Jump Popover */}
-                <div className="relative">
-                  <button
-                    onClick={() => {
-                      playClickSound();
-                      setOpenDropdown((prev) => (prev === 'era' ? null : 'era'));
-                    }}
-                    className={`h-8 px-2.5 rounded-[2px] border text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-                      openDropdown === 'era'
-                        ? 'bg-[#1d1f26] border-white/30 text-white font-semibold'
-                        : 'bg-[#141519] hover:bg-[#1a1c22] border-white/[0.09] text-zinc-200'
-                    }`}
-                  >
-                    <Compass className="w-3.5 h-3.5 text-zinc-400" />
-                    <span>시대 이동</span>
-                    <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${openDropdown === 'era' ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {openDropdown === 'era' && (
-                    <div className="absolute top-full left-0 mt-1.5 w-72 bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl p-1.5 z-50 space-y-1">
-                      <div className="px-2 py-1 text-[10px] font-mono text-zinc-500 uppercase tracking-wider border-b border-white/[0.06]">
-                        연대기 시대 바로가기
-                      </div>
-                      {TIMELINE_ERAS.map((era) => (
-                        <button
-                          key={era.id}
-                          onClick={() => {
-                            scrollToEra(era.id);
-                            setOpenDropdown(null);
-                          }}
-                          className="w-full px-2.5 py-2 rounded-[2px] hover:bg-[#1a1c22] text-left flex items-center justify-between gap-2 transition-colors cursor-pointer group"
-                        >
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="w-2 h-2 rounded-[1px] shrink-0" style={{ backgroundColor: era.color }} />
-                            <div className="min-w-0">
-                              <div className="text-xs font-bold text-zinc-100 group-hover:text-white truncate">
-                                <span className="font-mono text-zinc-400 mr-1.5">{era.code}</span>
-                                {era.titleKo.split('·')[0].trim()}
-                              </div>
-                              <div className="text-[10px] font-mono text-zinc-500">{era.periodKo}</div>
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#f5dd1b] shrink-0" />
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Series Focus Popover */}
-                <div className="relative flex items-center">
-                  {(() => {
-                    const activeLineMeta = focusedLineId && focusedLineId !== 'MAIN_ALL'
-                      ? lineMetaMap.get(focusedLineId)
-                      : null;
-                    const activeLabel = focusedLineId === 'MAIN_ALL'
-                      ? '메인 테마'
-                      : activeLineMeta
-                      ? activeLineMeta.titleKo
-                      : '전체 시리즈';
-                    const activeColor = focusedLineId === 'MAIN_ALL'
-                      ? '#f5dd1b'
-                      : activeLineMeta?.themeColor;
-
-                    return (
-                      <>
-                        <button
-                          onClick={() => {
-                            playClickSound();
-                            setOpenDropdown((prev) => (prev === 'series' ? null : 'series'));
-                          }}
-                          className={`h-8 px-2.5 rounded-[2px] border text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-                            focusedLineId
-                              ? 'bg-[#1a1c22] border-[#f5dd1b]/60 text-white font-semibold'
-                              : openDropdown === 'series'
-                              ? 'bg-[#1d1f26] border-white/30 text-white font-semibold'
-                              : 'bg-[#141519] hover:bg-[#1a1c22] border-white/[0.09] text-zinc-200'
-                          }`}
-                        >
-                          {activeColor ? (
-                            <span className="w-2 h-2 rounded-[1px] shrink-0" style={{ backgroundColor: activeColor }} />
-                          ) : (
-                            <Filter className="w-3.5 h-3.5 text-zinc-400" />
-                          )}
-                          <span className="max-w-[140px] truncate">{activeLabel}</span>
-                          <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${openDropdown === 'series' ? 'rotate-180' : ''}`} />
-                        </button>
-
-                        {focusedLineId && (
-                          <button
-                            onClick={() => {
-                              playClickSound();
-                              setFocusedLineId(null);
-                            }}
-                            title="시리즈 강조 해제"
-                            className="ml-1 w-6 h-8 rounded-[2px] bg-[#141519] hover:bg-[#1f2228] border border-white/[0.09] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        )}
-                      </>
-                    );
-                  })()}
-
-                  {openDropdown === 'series' && (
-                    <div className="absolute top-full left-0 mt-1.5 w-[440px] max-w-[90vw] bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl p-2 z-50">
-                      <div className="flex items-center justify-between px-2 pb-1.5 mb-1.5 border-b border-white/[0.06] text-[10px] font-mono text-zinc-400">
-                        <span>시리즈 궤적 강조 필터</span>
-                        {focusedLineId && (
-                          <button
-                            onClick={() => {
-                              playClickSound();
-                              setFocusedLineId(null);
-                              setOpenDropdown(null);
-                            }}
-                            className="text-[#f5dd1b] hover:underline cursor-pointer"
-                          >
-                            초기화
-                          </button>
-                        )}
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-1 max-h-[340px] overflow-y-auto pr-0.5">
-                        <button
-                          onClick={() => {
-                            playClickSound();
-                            setFocusedLineId(null);
-                            setOpenDropdown(null);
-                          }}
-                          className={`px-2.5 py-2 rounded-[2px] text-xs text-left flex items-center justify-between cursor-pointer transition-colors ${
-                            focusedLineId === null
-                              ? 'bg-white/[0.1] text-white font-bold'
-                              : 'text-zinc-300 hover:bg-[#1a1c22]'
-                          }`}
-                        >
-                          <span>전체 시리즈 표시</span>
-                          {focusedLineId === null && <Check className="w-3.5 h-3.5 text-[#f5dd1b]" />}
-                        </button>
-
-                        <button
-                          onClick={() => {
-                            playClickSound();
-                            setFocusedLineId(focusedLineId === 'MAIN_ALL' ? null : 'MAIN_ALL');
-                            setOpenDropdown(null);
-                          }}
-                          className={`px-2.5 py-2 rounded-[2px] text-xs text-left flex items-center justify-between cursor-pointer transition-colors ${
-                            focusedLineId === 'MAIN_ALL'
-                              ? 'bg-white/[0.1] text-white font-bold'
-                              : 'text-zinc-300 hover:bg-[#1a1c22]'
-                          }`}
-                        >
-                          <span className="flex items-center gap-2 truncate">
-                            <span className="w-2 h-2 rounded-[1px] bg-[#f5dd1b] shrink-0" />
-                            <span>메인 테마 (Act I~III)</span>
-                          </span>
-                          {focusedLineId === 'MAIN_ALL' && <Check className="w-3.5 h-3.5 text-[#f5dd1b]" />}
-                        </button>
-
-                        {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_') && l.id !== 'SL_COLLAB').map((line) => {
-                          const isFocused = focusedLineId === line.id;
-                          return (
-                            <button
-                              key={line.id}
-                              onClick={() => {
-                                playClickSound();
-                                setFocusedLineId(isFocused ? null : line.id);
-                                setOpenDropdown(null);
-                              }}
-                              className={`px-2.5 py-2 rounded-[2px] text-xs text-left flex items-center justify-between gap-2 cursor-pointer transition-colors ${
-                                isFocused
-                                  ? 'bg-white/[0.1] text-white font-bold'
-                                  : 'text-zinc-300 hover:bg-[#1a1c22]'
-                              }`}
-                            >
-                              <span className="flex items-center gap-2 min-w-0">
-                                <span
-                                  className="w-2 h-2 rounded-[1px] shrink-0"
-                                  style={{ backgroundColor: line.themeColor }}
-                                />
-                                <span className="truncate">{line.titleKo}</span>
-                              </span>
-                              {isFocused && <Check className="w-3.5 h-3.5 text-[#f5dd1b] shrink-0" />}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Right: Search + Status Segmented Filter + Immersion Toggle */}
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="relative w-44 lg:w-52">
-              <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          {/* Search & Concise Filters */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end">
+            <div className="relative flex-1 sm:w-56 md:w-64">
+              <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="스토리명, 코드 검색..."
-                className="w-full h-8 pl-8 pr-7 bg-[#141519] hover:bg-[#191b20] focus:bg-[#0c0c0e] border border-white/[0.09] focus:border-white/30 rounded-[2px] text-xs font-sans text-white placeholder:text-zinc-500 outline-none transition-colors"
+                placeholder="스토리명, 코드, 연도 검색..."
+                className="w-full h-8 pl-8 pr-7 bg-[#12141a] focus:bg-[#090a0d] border border-white/[0.08] focus:border-[#f5dd1b]/60 rounded-[2px] text-xs text-zinc-100 placeholder:text-zinc-500 outline-none transition-colors"
               />
               {searchQuery && (
                 <button
+                  type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white cursor-pointer"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
 
-            <div className="flex items-center gap-0.5 p-0.5 rounded-[2px] bg-[#141519] border border-white/[0.09] text-xs font-sans">
+            <div className="hidden md:flex items-center bg-[#12141a] p-0.5 rounded-[2px] border border-white/[0.08] text-[11px] font-mono">
               <button
+                type="button"
                 onClick={() => {
                   playClickSound();
                   setStatusFilter('all');
                 }}
-                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1 ${
-                  statusFilter === 'all'
-                    ? 'bg-zinc-100 text-black font-bold'
-                    : 'text-zinc-400 hover:text-zinc-100'
+                className={`h-7 px-2 rounded-[1px] cursor-pointer ${
+                  statusFilter === 'all' ? 'bg-white/[0.1] text-white font-bold' : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
-                <span>전체</span>
-                <span className="font-mono text-[10.5px] opacity-75">{storyRegistry.length}</span>
+                전체 {storyRegistry.length}
               </button>
               <button
+                type="button"
                 onClick={() => {
                   playClickSound();
-                  setStatusFilter('available');
+                  setStatusFilter(statusFilter === 'available' ? 'all' : 'available');
                 }}
-                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1 ${
+                className={`h-7 px-2 rounded-[1px] cursor-pointer flex items-center gap-1 ${
                   statusFilter === 'available'
-                    ? 'bg-[#f5dd1b] text-black font-bold'
-                    : 'text-zinc-400 hover:text-zinc-100'
+                    ? 'bg-[#f5dd1b]/18 text-[#f5dd1b] font-bold'
+                    : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
-                <span>요약본</span>
-                <span className="font-mono text-[10.5px] opacity-75">{availableCount}</span>
+                <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" />
+                <span>전문 {availableCount}</span>
               </button>
               <button
+                type="button"
                 onClick={() => {
                   playClickSound();
-                  setStatusFilter('overview_only');
+                  setStatusFilter(statusFilter === 'overview_only' ? 'all' : 'overview_only');
                 }}
-                className={`h-7 px-2.5 rounded-[1px] transition-colors cursor-pointer flex items-center gap-1 ${
+                className={`h-7 px-2 rounded-[1px] cursor-pointer ${
                   statusFilter === 'overview_only'
-                    ? 'bg-zinc-200 text-black font-bold'
-                    : 'text-zinc-400 hover:text-zinc-100'
+                    ? 'bg-white/[0.12] text-white font-bold'
+                    : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
-                <span>개요</span>
-                <span className="font-mono text-[10.5px] opacity-75">{overviewOnlyCount}</span>
+                개요 {overviewOnlyCount}
               </button>
             </div>
 
             {onToggleHeaderCollapse && (
               <button
+                type="button"
                 onClick={() => {
                   playClickSound();
                   onToggleHeaderCollapse();
                 }}
-                className="h-8 px-2.5 rounded-[2px] bg-[#141519] hover:bg-[#1c1e24] text-zinc-300 hover:text-white border border-white/[0.09] hover:border-white/25 transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium whitespace-nowrap"
-                title="상단 메뉴 숨기기 (넓은 화면 보기)"
-              >
-                <PanelTopClose className="w-3.5 h-3.5" />
-                <span className="hidden lg:inline">상단 숨김</span>
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* =========================================================================
-          1-C. FULLSCREEN IMMERSIVE MINIMAL FLOATING HUD BAR (When isHeaderCollapsed)
-      ========================================================================= */}
-      {isHeaderCollapsed && (
-        <div className="absolute top-3 right-3 sm:right-6 z-40 flex items-center gap-2 pointer-events-auto animate-fadeIn select-none">
-          {/* Mode Segmented Bar */}
-          <div className="flex items-center gap-0.5 p-1 rounded-[2px] bg-[#0e0f12]/95 backdrop-blur-md border border-white/15 shadow-2xl text-xs font-sans">
-            <button
-              onClick={() => {
-                playTabSwitchSound();
-                setBrowseMode('chronological');
-              }}
-              className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
-                browseMode === 'chronological'
-                  ? 'bg-zinc-100 text-black font-bold'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-              title="시간순 (연대기 노선도)"
-            >
-              <Clock className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">시간순</span>
-            </button>
-            <button
-              onClick={() => {
-                playTabSwitchSound();
-                setBrowseMode('story_line');
-              }}
-              className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
-                browseMode === 'story_line'
-                  ? 'bg-zinc-100 text-black font-bold'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-              title="서사별 (시리즈 분류)"
-            >
-              <GitBranch className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">서사별</span>
-            </button>
-            <button
-              onClick={() => {
-                playTabSwitchSound();
-                setBrowseMode('release');
-              }}
-              className={`h-7 px-2.5 rounded-[1px] flex items-center gap-1.5 transition-colors cursor-pointer ${
-                browseMode === 'release'
-                  ? 'bg-zinc-100 text-black font-bold'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-              title="출시순 (연도별)"
-            >
-              <Calendar className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">출시순</span>
-            </button>
-          </div>
-
-          {/* Search Toggle / Compact Field */}
-          <div className="relative flex items-center">
-            {isMobileSearchOpen ? (
-              <div className="flex items-center gap-1 bg-[#0e0f12]/95 backdrop-blur-md border border-white/20 rounded-[2px] px-2.5 py-1 shadow-2xl">
-                <Search className="w-3 h-3 text-zinc-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="스토리 검색..."
-                  autoFocus
-                  className="w-28 sm:w-40 h-5 bg-transparent text-xs text-white placeholder:text-zinc-500 outline-none"
-                />
-                <button
-                  onClick={() => {
-                    setIsMobileSearchOpen(false);
-                    setSearchQuery('');
-                  }}
-                  className="text-zinc-400 hover:text-white cursor-pointer"
-                >
-                  <X className="w-3 h-3" />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setIsMobileSearchOpen(true);
-                }}
-                className={`h-7 w-7 rounded-[2px] flex items-center justify-center cursor-pointer transition-colors shadow-xl ${
-                  searchQuery
-                    ? 'bg-[#f5dd1b] text-black font-bold'
-                    : 'bg-[#0e0f12]/95 backdrop-blur-md border border-white/15 text-zinc-300 hover:text-white hover:border-white/30'
+                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 숨기기'}
+                className={`h-8 px-2.5 rounded-[2px] border flex items-center gap-1 text-xs cursor-pointer transition-colors ${
+                  isHeaderCollapsed
+                    ? 'bg-[#f5dd1b]/15 border-[#f5dd1b]/50 text-[#f5dd1b]'
+                    : 'bg-[#12141a] hover:bg-[#191b23] border-white/[0.08] text-zinc-400 hover:text-white'
                 }`}
-                title="스토리 검색"
               >
-                <Search className="w-3.5 h-3.5" />
+                {isHeaderCollapsed ? <PanelTopOpen className="w-3.5 h-3.5" /> : <PanelTopClose className="w-3.5 h-3.5" />}
               </button>
             )}
           </div>
-
-          {/* Fullscreen Restore Button */}
-          {onToggleHeaderCollapse && (
-            <button
-              onClick={() => {
-                playClickSound();
-                onToggleHeaderCollapse();
-              }}
-              className="h-7 px-3 rounded-[2px] bg-[#f5dd1b] hover:bg-zinc-100 text-black font-sans font-bold text-xs flex items-center gap-1.5 shadow-lg cursor-pointer transition-colors"
-              title="상단 메뉴 다시 열기"
-            >
-              <PanelTopOpen className="w-3.5 h-3.5" />
-              <span>상단 복원</span>
-            </button>
-          )}
         </div>
-      )}
+      </div>
 
-      {/* =========================================================================
-          2. MAIN WORKSPACE AREA (LEFT/CENTER VIEWPORT + RIGHT BRIEFING DOCK)
-      ========================================================================= */}
+      {/* 2. MAIN WORKSPACE */}
       <div className="relative flex-1 flex min-h-0 overflow-hidden">
-        {/* -----------------------------------------------------------------------
-            MODE A-1: MOBILE NATIVE VERTICAL ERA TIMELINE STREAM (모바일 기본 시간순 뷰)
-        ----------------------------------------------------------------------- */}
-        {browseMode === 'chronological' && isMobile && !mobileChronoCanvas && (
-          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-5 bg-[#0c0c0e] prts-scrollbar">
-            {/* 상단 권역/시리즈 필터 칩 바 */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setFocusedLineId(null);
-                }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex-shrink-0 cursor-pointer transition-colors ${
-                  focusedLineId === null
-                    ? 'bg-zinc-100 text-black border-zinc-100 font-bold'
-                    : 'bg-[#141519] text-zinc-400 border-white/[0.08] hover:text-zinc-200'
-                }`}
-              >
-                전체 노선
-              </button>
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setFocusedLineId(focusedLineId === 'MAIN_ALL' ? null : 'MAIN_ALL');
-                }}
-                className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 cursor-pointer transition-colors ${
-                  focusedLineId === 'MAIN_ALL'
-                    ? 'bg-[#f5dd1b]/15 text-[#f5dd1b] border-[#f5dd1b] font-bold'
-                    : 'bg-[#141519] text-zinc-300 border-white/[0.08] hover:text-white'
-                }`}
-              >
-                <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" />
-                <span>메인 테마</span>
-              </button>
-              {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_') && l.id !== 'SL_COLLAB').map((line) => {
-                const isFocused = focusedLineId === line.id;
+        {/* VIEW 1 (DEFAULT): CINEMATIC SINGLE-AXIS EDITORIAL ERA STREAM */}
+        {browseMode === 'stream' && (
+          <ChronicleEraStream
+            stories={filteredStories}
+            allConnections={allConnections}
+            storyMap={storyMap}
+            lineMetaMap={lineMetaMap}
+            inspectedStoryId={inspectedStory?.id || null}
+            focusedLineId={focusedLineId}
+            activeThreadStoryId={activeThreadStoryId}
+            onChangeFocusedLine={setFocusedLineId}
+            onSelectCausalThread={setActiveThreadStoryId}
+            onInspectStory={setInspectedStory}
+            onOpenStory={onSelectStory}
+            onNavigateToMapRegion={onNavigateToMapRegion}
+          />
+        )}
+
+        {/* VIEW 2: UPGRADED SAGA HUB WITH FULL-BLEED HERO BANNER */}
+        {browseMode === 'story_line' && (
+          <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden bg-[#0b0c0f]">
+            {/* Mobile Compact Saga Selector */}
+            <div className="md:hidden border-b border-white/[0.08] bg-[#101116] px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-shrink-0">
+              {STORY_LINES.map((line) => {
+                const isSelected = activeStoryLineHubId === line.id;
                 return (
                   <button
-                    key={line.id}
+                    key={`mhub-${line.id}`}
+                    type="button"
                     onClick={() => {
                       playClickSound();
-                      setFocusedLineId(isFocused ? null : line.id);
+                      setActiveStoryLineHubId(line.id);
                     }}
-                    className={`h-6.5 px-2.5 text-[11px] rounded-[2px] border flex items-center gap-1.5 flex-shrink-0 cursor-pointer transition-colors ${
-                      isFocused
-                        ? 'text-white font-bold'
-                        : 'bg-[#141519] text-zinc-300 border-white/[0.08] hover:text-white'
+                    className={`px-2.5 py-1 rounded-[2px] border text-[11px] font-medium whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#1a1c24] border-[#f5dd1b] text-white font-bold'
+                        : 'bg-[#13141a] border-white/[0.07] text-zinc-400'
                     }`}
-                    style={
-                      isFocused
-                        ? {
-                            backgroundColor: `${line.themeColor}22`,
-                            borderColor: line.themeColor,
-                          }
-                        : undefined
-                    }
                   >
                     <span className="w-1.5 h-1.5 rounded-[1px]" style={{ backgroundColor: line.themeColor }} />
-                    <span>{line.titleKo}</span>
+                    <span>{line.titleKo.replace('내일을 위하여 · ', '')}</span>
                   </button>
                 );
               })}
             </div>
 
-            {/* 5대 시대별 세로 타임라인 스트림 */}
-            {TIMELINE_ERAS.map((era) => {
-              const eraStories = applyFilters(
-                storyRegistry
-                  .filter(
-                    (s) =>
-                      s.chronologicalOrder >= era.minOrder &&
-                      s.chronologicalOrder <= era.maxOrder &&
-                      (!focusedLineId ||
-                        s.storyLineId === focusedLineId ||
-                        (focusedLineId === 'MAIN_ALL' && s.storyLineId.startsWith('MAIN_')))
-                  )
-                  .sort((a, b) => a.chronologicalOrder - b.chronologicalOrder)
-              );
-
-              if (eraStories.length === 0) return null;
-
-              return (
-                <section key={era.id} id={`mobile-era-${era.id}`} className="space-y-2.5 scroll-mt-2">
-                  {/* Sticky Era Header Banner */}
-                  <div
-                    className="sticky top-0 z-20 rounded-[2px] bg-[#121316]/96 backdrop-blur-md border border-white/[0.1] p-3"
-                    style={{ borderLeftWidth: '3px', borderLeftColor: era.color }}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className="px-2 py-0.5 text-[10.5px] font-mono font-black text-black rounded-[2px]"
-                          style={{ backgroundColor: era.color }}
-                        >
-                          {era.code}
-                        </span>
-                        <span className="text-[11px] font-mono font-bold text-[#f5dd1b]">
-                          {era.periodKo}
-                        </span>
-                      </div>
-                      <span className="text-[10.5px] font-mono text-zinc-400 bg-white/[0.05] px-2 py-0.5 rounded-[2px]">
-                        {eraStories.length}개 작전
-                      </span>
-                    </div>
-                    <h2 className="text-sm font-extrabold text-white mt-1 tracking-tight">
-                      {era.titleKo}
-                    </h2>
-                    <p className="text-[11px] text-zinc-400 mt-0.5 leading-snug">{era.description}</p>
-                  </div>
-
-                  {/* Era Stories Vertical Rail */}
-                  <div
-                    className="ml-2 pl-3 border-l-2 space-y-2.5"
-                    style={{ borderLeftColor: `${era.color}40` }}
-                  >
-                    {eraStories.map((story) => {
-                      const accessState = getStoryAccessState(story);
-                      const isRestored = accessState === 'available';
-                      const isSelected = inspectedStory?.id === story.id;
-                      const lineMeta = lineMetaMap.get(story.storyLineId);
-                      const accentColor = lineMeta?.themeColor || era.color;
-                      const cleanTimeline = story.timeline
-                        .replace(/^테라력\s*/, '')
-                        .replace(/\s*\([^)]*\)/g, '')
-                        .trim();
-
-                      return (
-                        <div
-                          key={story.id}
-                          onClick={() => {
-                            playClickSound();
-                            setInspectedStory(story);
-                          }}
-                          style={{ borderLeftColor: accentColor, borderLeftWidth: '3px' }}
-                          className={`relative rounded-[2px] border p-3 transition-colors cursor-pointer overflow-hidden ${
-                            isSelected
-                              ? 'bg-[#181a20] border-[#f5dd1b]'
-                              : isRestored
-                              ? 'bg-[#121316] border-[#f5dd1b]/35 hover:border-[#f5dd1b]/70'
-                              : 'bg-[#101114] border-white/[0.08] hover:border-white/25'
-                          }`}
-                        >
-                          {/* Background Visual */}
-                          {story.splashVisualUrl && (
-                            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                              <img
-                                src={resolveAssetUrl(story.splashVisualUrl)}
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                                className="w-full h-full object-cover opacity-35 select-none"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-r from-[#101114] via-[#101114]/85 to-[#101114]/55" />
-                            </div>
-                          )}
-
-                          <div className="relative z-10 flex items-center justify-between gap-2 text-[10.5px] font-mono">
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <span
-                                className={`px-1.5 py-0.5 font-black rounded-[2px] flex-shrink-0 ${
-                                  isRestored
-                                    ? 'bg-[#f5dd1b] text-black'
-                                    : 'bg-black/80 text-white border border-white/20'
-                                }`}
-                              >
-                                {story.code}
-                              </span>
-                              <span className="text-zinc-300 truncate">{cleanTimeline}</span>
-                            </div>
-
-                            <div className="flex items-center gap-1.5 flex-shrink-0">
-                              {isRestored && (
-                                <span className="px-1.5 py-0.5 bg-[#f5dd1b]/15 border border-[#f5dd1b]/50 text-[#f5dd1b] text-[9.5px] font-bold rounded-[2px]">
-                                  요약본
-                                </span>
-                              )}
-                              <span
-                                className="px-1.5 py-0.5 text-[10px] rounded-[2px] bg-black/70 border border-white/10 font-bold"
-                                style={{ color: accentColor }}
-                              >
-                                {lineMeta?.titleKo.replace('내일을 위하여 · ', '')}
-                              </span>
-                            </div>
+            {/* Desktop Left 17-Line Directory */}
+            <div className="hidden md:block w-64 lg:w-72 flex-shrink-0 border-r border-white/[0.08] bg-[#0e0f14] overflow-y-auto p-3 space-y-4 prts-scrollbar">
+              <div>
+                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between">
+                  <span>메인 테마 (내일을 위하여)</span>
+                  <span>3개 부</span>
+                </div>
+                <div className="space-y-1">
+                  {STORY_LINES.filter((l) => l.id.startsWith('MAIN_')).map((line) => {
+                    const count = storyRegistry.filter((s) => s.storyLineId === line.id).length;
+                    const isSelected = activeStoryLineHubId === line.id;
+                    return (
+                      <button
+                        key={line.id}
+                        type="button"
+                        onClick={() => {
+                          playClickSound();
+                          setActiveStoryLineHubId(line.id);
+                        }}
+                        className={`w-full px-3 py-2 rounded-[2px] border text-left transition-colors cursor-pointer flex items-center justify-between ${
+                          isSelected
+                            ? 'bg-[#171922] border-[#f5dd1b] text-white'
+                            : 'bg-[#121319] border-white/[0.06] text-zinc-300 hover:bg-[#171922]'
+                        }`}
+                      >
+                        <div className="min-w-0 pr-2">
+                          <div className="text-[10px] font-mono font-bold" style={{ color: line.themeColor }}>
+                            {line.code}
                           </div>
-
-                          <div className="relative z-10 mt-1.5 flex items-center justify-between gap-2">
-                            <div className="min-w-0">
-                              <h3 className="text-sm font-bold text-white leading-snug truncate">
-                                {story.titleKo}
-                              </h3>
-                              <p className="text-[11px] text-zinc-300 line-clamp-2 mt-0.5 leading-relaxed">
-                                {story.officialSynopsis}
-                              </p>
-                            </div>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                playOpenSound();
-                                onSelectStory(story.id);
-                              }}
-                              className={`flex-shrink-0 h-8 px-2.5 rounded-[2px] text-[11px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
-                                isRestored
-                                  ? 'bg-zinc-100 hover:bg-[#f5dd1b] text-black'
-                                  : 'bg-[#1a1c22] hover:bg-[#23262e] text-zinc-200 border border-white/15'
-                              }`}
-                            >
-                              <BookOpen className="w-3 h-3" />
-                              <span>{isRestored ? '열람' : '개요'}</span>
-                            </button>
+                          <div className="text-xs font-bold truncate">
+                            {line.titleKo.replace('내일을 위하여 · ', '')}
                           </div>
                         </div>
-                      );
-                    })}
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#0b0c0f] text-zinc-400">
+                          {count}편
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between">
+                  <span>이벤트 서사 연작</span>
+                  <span>14개 연작</span>
+                </div>
+                <div className="space-y-1">
+                  {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_')).map((line) => {
+                    const lineStories = storyRegistry.filter((s) => s.storyLineId === line.id);
+                    const hasRestored = lineStories.some((s) => getStoryAccessState(s) === 'available');
+                    const isSelected = activeStoryLineHubId === line.id;
+                    return (
+                      <button
+                        key={line.id}
+                        type="button"
+                        onClick={() => {
+                          playClickSound();
+                          setActiveStoryLineHubId(line.id);
+                        }}
+                        className={`w-full px-3 py-2 rounded-[2px] border text-left transition-colors cursor-pointer flex items-center justify-between ${
+                          isSelected
+                            ? 'bg-[#171922] border-[#f5dd1b] text-white'
+                            : 'bg-[#121319] border-white/[0.06] text-zinc-300 hover:bg-[#171922]'
+                        }`}
+                        style={isSelected ? { borderLeftWidth: '3px', borderLeftColor: line.themeColor } : undefined}
+                      >
+                        <div className="flex items-center gap-2 min-w-0 pr-2">
+                          <span className="w-2 h-2 rounded-[1px] flex-shrink-0" style={{ backgroundColor: line.themeColor }} />
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold truncate">{line.titleKo}</span>
+                              <span className="text-[10px] font-mono text-zinc-500">{line.code}</span>
+                            </div>
+                            <div className="text-[10px] font-mono text-zinc-500 truncate">{line.titleEn}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                          {hasRestored && <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" title="전문 수록 포함" />}
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#0b0c0f] text-zinc-400">
+                            {lineStories.length}편
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Flagship Saga Details */}
+            <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 lg:p-8 prts-scrollbar">
+              {(() => {
+                const activeLine = STORY_LINES.find((l) => l.id === activeStoryLineHubId) || STORY_LINES[0];
+                const lineStories = filteredStories
+                  .filter((s) => s.storyLineId === activeLine.id)
+                  .sort((a, b) => a.seriesOrder - b.seriesOrder);
+                const heroCover = lineStories.find((s) => s.splashVisualUrl)?.splashVisualUrl;
+                const restoredCount = lineStories.filter((s) => getStoryAccessState(s) === 'available').length;
+                const lineIds = new Set(lineStories.map((s) => s.id));
+                const crossLinksForLine = allConnections.filter(
+                  (c) =>
+                    c.type === 'cross' &&
+                    ((lineIds.has(c.fromId) && !lineIds.has(c.toId)) ||
+                      (!lineIds.has(c.fromId) && lineIds.has(c.toId)))
+                );
+
+                return (
+                  <div className="max-w-5xl mx-auto space-y-6">
+                    {/* Flagship Hero Cover Banner */}
+                    <div
+                      className="rounded-[2px] bg-[#111217] border border-white/[0.1] p-5 sm:p-7 relative overflow-hidden"
+                      style={{ borderLeftWidth: '4px', borderLeftColor: activeLine.themeColor }}
+                    >
+                      {heroCover && (
+                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                          <img
+                            src={resolveAssetUrl(heroCover)}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover opacity-35"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-r from-[#0e1015] via-[#0e1015]/88 to-[#0e1015]/50" />
+                        </div>
+                      )}
+
+                      <div className="relative z-10 flex flex-wrap items-start justify-between gap-4">
+                        <div className="space-y-2 max-w-3xl">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span
+                              className="px-2 py-0.5 text-xs font-mono font-black text-black rounded-[2px]"
+                              style={{ backgroundColor: activeLine.themeColor }}
+                            >
+                              {activeLine.code}
+                            </span>
+                            <span className="px-2 py-0.5 text-[11px] font-mono bg-black/60 border border-white/15 text-zinc-200 rounded-[2px]">
+                              총 {lineStories.length}편 · 전문 복원 {restoredCount}편
+                            </span>
+                          </div>
+                          <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight">
+                            {activeLine.titleKo}
+                            <span className="block sm:inline text-xs sm:text-sm font-mono text-zinc-400 font-normal sm:ml-2">
+                              / {activeLine.titleEn}
+                            </span>
+                          </h2>
+                          <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed break-keep">
+                            {activeLine.description}
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            playClickSound();
+                            setFocusedLineId(activeLine.id);
+                            setActiveThreadStoryId(null);
+                            setBrowseMode('stream');
+                          }}
+                          className="h-9 px-3.5 rounded-[2px] bg-[#161820]/90 hover:bg-zinc-100 hover:text-black text-zinc-100 border border-white/15 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5"
+                        >
+                          <Clock className="w-3.5 h-3.5" />
+                          <span>연대기 스트림에서 보기</span>
+                        </button>
+                      </div>
+
+                      {crossLinksForLine.length > 0 && (
+                        <div className="relative z-10 mt-5 pt-4 border-t border-white/[0.08]">
+                          <div className="text-[11px] font-mono text-zinc-300 font-bold mb-2 flex items-center gap-1.5">
+                            <Link2 className="w-3.5 h-3.5 text-[#f5dd1b]" />
+                            <span>타 시리즈와의 교차 인과 ({crossLinksForLine.length}건)</span>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {crossLinksForLine.map((cl) => {
+                              const fromS = storyMap.get(cl.fromId);
+                              const toS = storyMap.get(cl.toId);
+                              if (!fromS || !toS) return null;
+                              const other = lineIds.has(fromS.id) ? toS : fromS;
+                              return (
+                                <div
+                                  key={`${cl.fromId}-${cl.toId}`}
+                                  onClick={() => {
+                                    playClickSound();
+                                    setInspectedStory(other);
+                                    setActiveStoryLineHubId(other.storyLineId);
+                                  }}
+                                  className="px-3 py-2 rounded-[2px] bg-black/55 border border-white/[0.09] hover:border-[#f5dd1b]/55 cursor-pointer transition-colors flex items-center justify-between gap-2 text-xs"
+                                >
+                                  <div className="min-w-0">
+                                    <div className="font-mono text-[11px] text-white font-bold truncate">
+                                      {fromS.titleKo} ({fromS.code}) → {toS.titleKo} ({toS.code})
+                                    </div>
+                                    <div className="text-[11px] text-zinc-400 truncate mt-0.5">{cl.reasonKo}</div>
+                                  </div>
+                                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Sequential Reading Track */}
+                    <div className="space-y-3.5">
+                      {lineStories.map((story, idx) => {
+                        const accessState = getStoryAccessState(story);
+                        const isRestored = accessState === 'available';
+                        const isSelected = inspectedStory?.id === story.id;
+                        const progress = getStoryProgress(story.id);
+                        const progressPct = progress ? Math.round(progress.scrollRatio * 100) : 0;
+
+                        return (
+                          <div key={story.id} className="relative">
+                            {idx > 0 && (
+                              <div className="flex items-center gap-2 py-1 pl-5 text-zinc-500 font-mono text-[10px]">
+                                <div className="w-0.5 h-4" style={{ backgroundColor: activeLine.themeColor }} />
+                                <span>STEP 0{idx + 1}</span>
+                              </div>
+                            )}
+
+                            <div
+                              onClick={() => {
+                                playClickSound();
+                                setInspectedStory(story);
+                              }}
+                              className={`relative group rounded-[2px] border p-4 transition-colors cursor-pointer flex flex-col sm:flex-row gap-4 items-stretch overflow-hidden ${
+                                isSelected
+                                  ? 'bg-[#171923] border-[#f5dd1b]'
+                                  : 'bg-[#111217] border-white/[0.08] hover:border-white/25'
+                              }`}
+                            >
+                              <div
+                                onContextMenu={(e) => e.preventDefault()}
+                                className="w-full sm:w-52 h-36 sm:h-auto flex-shrink-0 rounded-[2px] bg-black overflow-hidden relative border border-white/10"
+                              >
+                                {story.splashVisualUrl ? (
+                                  <>
+                                    <img
+                                      src={resolveAssetUrl(story.splashVisualUrl)}
+                                      alt={story.titleKo}
+                                      loading="lazy"
+                                      decoding="async"
+                                      draggable={false}
+                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none"
+                                    />
+                                    <CopyrightBadge />
+                                  </>
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-zinc-600 font-mono text-xs">
+                                    NO VISUAL
+                                  </div>
+                                )}
+                                <div className="absolute top-2 left-2 px-2 py-0.5 text-[11px] font-mono font-black bg-black/85 text-white border border-white/20">
+                                  {story.code}
+                                </div>
+                              </div>
+
+                              <div className="flex-1 flex flex-col justify-between min-w-0">
+                                <div>
+                                  <div className="flex flex-wrap items-center justify-between gap-2">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#f5dd1b] transition-colors">
+                                        {story.titleKo}
+                                      </h3>
+                                      <span className="text-xs font-mono text-zinc-400">{story.titleEn}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="text-[11px] font-mono text-[#f5dd1b] bg-[#f5dd1b]/10 px-2 py-0.5 rounded-[2px] border border-[#f5dd1b]/30">
+                                        {story.timeline}
+                                      </span>
+                                      <span
+                                        className={`px-2 py-0.5 text-[10px] font-mono font-bold rounded-[2px] ${
+                                          isRestored ? 'bg-[#f5dd1b] text-black' : 'bg-white/[0.08] text-zinc-300'
+                                        }`}
+                                      >
+                                        {isRestored ? '전문 복원' : '공식 개요'}
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <p className="text-xs sm:text-sm text-zinc-300 mt-2 leading-relaxed break-keep">
+                                    {story.officialSynopsis}
+                                  </p>
+                                </div>
+
+                                <div className="mt-4 pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2">
+                                  <div className="flex items-center gap-3 text-[11px] font-mono text-zinc-400">
+                                    <span>YEAR 0{story.releaseYear ?? 1} (#{story.releaseOrder})</span>
+                                    {progressPct > 0 && <span className="text-[#f5dd1b]">진행 {progressPct}%</span>}
+                                  </div>
+                                  <div className="flex items-center gap-1.5">
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        playClickSound();
+                                        setActiveThreadStoryId(story.id);
+                                        setBrowseMode('stream');
+                                      }}
+                                      className="h-8 px-2.5 rounded-[2px] bg-[#171922] hover:bg-[#232632] text-zinc-300 hover:text-[#f5dd1b] border border-white/10 text-xs font-mono flex items-center gap-1 cursor-pointer transition-colors"
+                                    >
+                                      <GitBranch className="w-3.5 h-3.5" />
+                                      <span>인과 추적</span>
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        playOpenSound();
+                                        onSelectStory(story.id);
+                                      }}
+                                      className="h-8 px-3 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold text-xs font-mono flex items-center gap-1.5 cursor-pointer transition-colors"
+                                    >
+                                      <BookOpen className="w-3.5 h-3.5" />
+                                      <span>{isRestored ? '요약본 열람' : '개요 열람'}</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {progressPct > 0 && (
+                                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/[0.05]">
+                                  <div className="h-full bg-[#f5dd1b]" style={{ width: `${progressPct}%` }} />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </section>
-              );
-            })}
+                );
+              })()}
+            </div>
           </div>
         )}
 
-        {/* -----------------------------------------------------------------------
-            MODE A-2: CHRONOLOGICAL MULTI-LANE 2D MATRIX CANVAS
-        ----------------------------------------------------------------------- */}
-        {browseMode === 'chronological' && (!isMobile || mobileChronoCanvas) && (
+        {/* VIEW 3: COMPACTED INTERACTIVE 2D CAUSAL MATRIX (Power-User Bird's-Eye Overview) */}
+        {browseMode === 'matrix' && (
           <div className="relative flex-1 flex flex-col min-h-0 overflow-hidden bg-[#0c0c0e]">
             {/* Sticky Synchronized Time Ruler */}
             <div className="h-8 flex-shrink-0 bg-[#0e0f13]/95 border-b border-white/[0.08] px-3 flex items-center justify-between gap-2 z-30 select-none">
@@ -2424,7 +1320,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     <button
                       key={`ruler-${era.id}`}
                       type="button"
-                      onClick={() => scrollToEra(era.id)}
+                      onClick={() => scrollMatrixToEra(era.id)}
                       className={`px-2 py-0.5 rounded-[2px] text-[10px] font-mono flex items-center gap-1.5 whitespace-nowrap transition-colors cursor-pointer ${
                         isActive
                           ? 'bg-white/[0.09] text-white border border-white/25 font-bold'
@@ -2455,16 +1351,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               }`}
               style={{ touchAction: 'none' }}
             >
-              {/* Tactical Wargame Grid Background */}
               <div
                 ref={gridBgRef}
                 className="absolute inset-0 pointer-events-none opacity-35 bg-[linear-gradient(to_right,#1c1e24_1px,transparent_1px),linear-gradient(to_bottom,#1c1e24_1px,transparent_1px)] bg-[size:48px_48px]"
-                style={{
-                  backgroundPosition: '36px 24px',
-                }}
+                style={{ backgroundPosition: '36px 24px' }}
               />
 
-              {/* 2D Transform Stage */}
               <div
                 ref={stageRef}
                 className="absolute left-0 top-0 origin-top-left will-change-transform"
@@ -2476,1050 +1368,452 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   } as React.CSSProperties
                 }
               >
-                {/* SVG CONSTELLATION OVERLAY (서사 직계 및 교차 인과 연결선 - z-30 반투명 상단 오버레이 + 행간 통로 우회 라우팅) */}
-                <svg
-                  className="absolute inset-0 pointer-events-none z-30 overflow-visible"
-                  style={{ width: '100%', height: '100%' }}
-                >
+                <svg className="absolute inset-0 pointer-events-none z-30 overflow-visible" style={{ width: '100%', height: '100%' }}>
+                  {allConnections
+                    .filter((c) => c.type === 'series')
+                    .map((conn) => {
+                      const from = nodeCoords[conn.fromId];
+                      const to = nodeCoords[conn.toId];
+                      if (!from || !to) return null;
+                      const { d, startX, startY, endX, endY } = buildSmartConnectionPath(from, to, false);
+                      const isAnyHighlighted = highlightedStoryIds.size > 0;
+                      return (
+                        <g key={`bg-${conn.fromId}-${conn.toId}`}>
+                          <path
+                            d={d}
+                            fill="none"
+                            stroke={conn.color}
+                            strokeWidth={1.75}
+                            strokeOpacity={isAnyHighlighted ? 0.12 : 0.48}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          {!isAnyHighlighted && (
+                            <>
+                              <circle cx={startX} cy={startY} r={2.2} fill={conn.color} fillOpacity={0.6} />
+                              <circle cx={endX} cy={endY} r={2.6} fill={conn.color} fillOpacity={0.75} />
+                            </>
+                          )}
+                        </g>
+                      );
+                    })}
 
-                {/* 1) 기본 배경 연작 연결선 (반투명 상단 오버레이 + 줄바꿈 통로 라우팅) */}
-                {allConnections
-                  .filter((c) => c.type === 'series')
-                  .map((conn) => {
+                  {activeConnections.map((conn) => {
                     const from = nodeCoords[conn.fromId];
                     const to = nodeCoords[conn.toId];
                     if (!from || !to) return null;
-
-                    const { d, startX, startY, endX, endY } = buildSmartConnectionPath(from, to, false);
-                    const isAnyHighlighted = highlightedStoryIds.size > 0;
-
+                    const isCross = conn.type === 'cross';
+                    const { d, startX, startY, endX, endY } = buildSmartConnectionPath(from, to, isCross);
+                    const strokeColor = isCross ? '#f5dd1b' : conn.color;
                     return (
-                      <g key={`bg-${conn.fromId}-${conn.toId}`}>
+                      <g key={`active-${conn.fromId}-${conn.toId}`}>
                         <path
                           d={d}
                           fill="none"
-                          stroke={conn.color}
-                          strokeWidth={1.75}
-                          strokeOpacity={isAnyHighlighted ? 0.12 : 0.48}
+                          stroke={strokeColor}
+                          strokeWidth={isCross ? 4.5 : 5}
+                          strokeOpacity={0.2}
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
-                        {!isAnyHighlighted && (
-                          <>
-                            <circle
-                              cx={startX}
-                              cy={startY}
-                              r={2.2}
-                              fill={conn.color}
-                              fillOpacity={0.6}
-                            />
-                            <circle
-                              cx={endX}
-                              cy={endY}
-                              r={2.6}
-                              fill={conn.color}
-                              fillOpacity={0.75}
-                            />
-                          </>
-                        )}
+                        <path
+                          d={d}
+                          fill="none"
+                          stroke={strokeColor}
+                          strokeWidth={isCross ? 1.8 : 2.2}
+                          strokeDasharray={isCross ? '6 4' : '10 6'}
+                          strokeOpacity={0.92}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="prts-causal-flow"
+                        />
+                        <circle cx={startX} cy={startY} r={3.2} fill={strokeColor} fillOpacity={0.9} />
+                        <circle cx={endX} cy={endY} r={4} fill={strokeColor} fillOpacity={0.95} />
                       </g>
                     );
                   })}
+                </svg>
 
-                {/* 2) 포커스/호버 시 활성화되는 하이라이트 궤적 (직계 실선 + 교차 점선, 반투명 네온 발광) */}
-                {activeConnections.map((conn) => {
-                  const from = nodeCoords[conn.fromId];
-                  const to = nodeCoords[conn.toId];
-                  if (!from || !to) return null;
-
-                  const isCross = conn.type === 'cross';
-                  const { d, startX, startY, endX, endY } = buildSmartConnectionPath(from, to, isCross);
-                  const strokeColor = isCross ? '#f5dd1b' : conn.color;
-
-                  return (
-                    <g key={`active-${conn.fromId}-${conn.toId}`}>
-                      {/* 외곽 반투명 코어 광원 */}
-                      <path
-                        d={d}
-                        fill="none"
-                        stroke={strokeColor}
-                        strokeWidth={isCross ? 4.5 : 5}
-                        strokeOpacity={0.22}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      {/* 메인 궤적 선 (선명한 1.5px 코어 + PRTS 전술 펄스 흐름) */}
-                      <path
-                        d={d}
-                        fill="none"
-                        stroke={strokeColor}
-                        strokeWidth={isCross ? 1.8 : 2.2}
-                        strokeDasharray={isCross ? '6 4' : '10 6'}
-                        strokeOpacity={0.92}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="prts-causal-flow"
-                      />
-                      <circle cx={startX} cy={startY} r={3.2} fill={strokeColor} fillOpacity={0.9} />
-                      <circle cx={endX} cy={endY} r={4} fill={strokeColor} fillOpacity={0.95} />
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {/* MATRIX TABLE STRUCTURE: LEFT LANE HEADERS + 5 ERA COLUMNS */}
-              <div className="inline-flex flex-col p-6 gap-0 min-w-max">
-                {/* TOP ROW: ERA HEADERS */}
-                <div className="flex items-stretch gap-5 mb-4">
-                  {/* Top-Left Corner Legend */}
-                  <div className="w-56 flex-shrink-0 bg-[#121316] border border-white/[0.09] rounded-[2px] p-3.5 flex flex-col justify-between">
-                    <div className="text-[10px] font-mono text-[#f5dd1b] font-bold tracking-widest uppercase">
-                      STRATEGIC THEATERS
+                <div className="inline-flex flex-col p-6 gap-0 min-w-max">
+                  {/* Top Row: Era Headers */}
+                  <div className="flex items-stretch gap-5 mb-4">
+                    <div className="w-56 flex-shrink-0 bg-[#121316] border border-white/[0.09] rounded-[2px] p-3.5 flex flex-col justify-between">
+                      <div className="text-[10px] font-mono text-[#f5dd1b] font-bold tracking-widest uppercase">
+                        STRATEGIC THEATERS
+                      </div>
+                      <div className="text-xs font-bold text-white mt-0.5">6대 서사 노선 × 5대 시대</div>
+                      <div className="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-zinc-400">
+                        <span className="flex items-center gap-1">
+                          <span className="w-3 h-0.5 bg-zinc-400 inline-block" /> 직계 연작
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="w-3 h-0.5 border-b border-dashed border-[#f5dd1b] inline-block" /> 교차 인과
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-xs font-bold text-white mt-0.5">
-                      6대 서사 노선 × 5대 시대
-                    </div>
-                    <div className="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-zinc-400">
-                      <span className="flex items-center gap-1">
-                        <span className="w-3 h-0.5 bg-zinc-400 inline-block" /> 직계 연작
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <span className="w-3 h-0.5 border-b border-dashed border-[#f5dd1b] inline-block" /> 교차 인과
-                      </span>
-                    </div>
+
+                    {TIMELINE_ERAS.map((era) => {
+                      const eraCount = filteredStories.filter(
+                        (s) => s.chronologicalOrder >= era.minOrder && s.chronologicalOrder <= era.maxOrder
+                      ).length;
+                      return (
+                        <div
+                          key={era.id}
+                          id={`matrix-era-${era.id}`}
+                          style={{
+                            minWidth: era.id === 'era_03' ? '960px' : era.id === 'era_02' ? '740px' : '520px',
+                            borderTopColor: era.color,
+                          }}
+                          className="flex-1 bg-[#121316]/96 border border-white/[0.09] border-t-2 rounded-[2px] p-3.5 flex flex-col justify-between"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="px-2 py-0.5 text-[11px] font-mono font-black text-black rounded-[1px]" style={{ backgroundColor: era.color }}>
+                                {era.code}
+                              </span>
+                              <span className="text-xs font-mono font-bold text-zinc-300">{era.periodKo}</span>
+                            </div>
+                            <span className="text-[11px] font-mono text-zinc-400 bg-white/[0.05] px-2 py-0.5 rounded-[2px]">
+                              {eraCount}개 작전
+                            </span>
+                          </div>
+                          <div className="mt-1.5">
+                            <h2 className="text-sm font-bold text-white tracking-tight">
+                              {era.titleKo}
+                              <span className="text-xs font-mono text-zinc-500 font-normal ml-2">/ {era.titleEn}</span>
+                            </h2>
+                            <p className="text-[11px] text-zinc-400 mt-0.5">{era.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
 
-                  {/* 5 Era Column Headers */}
-                  {TIMELINE_ERAS.map((era) => {
-                    const eraStories = applyFilters(
-                      storyRegistry.filter(
-                        (s) => s.chronologicalOrder >= era.minOrder && s.chronologicalOrder <= era.maxOrder
-                      )
-                    );
-                    return (
-                      <div
-                        key={era.id}
-                        id={`matrix-era-${era.id}`}
-                        style={{
-                          minWidth: era.id === 'era_03' ? '980px' : era.id === 'era_02' ? '760px' : '540px',
-                          borderTopColor: era.color,
-                        }}
-                        className="flex-1 bg-[#121316]/96 border border-white/[0.09] border-t-2 rounded-[2px] p-3.5 flex flex-col justify-between"
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-2">
-                            <span
-                              className="px-2 py-0.5 text-[11px] font-mono font-black text-black rounded-[1px]"
-                              style={{ backgroundColor: era.color }}
-                            >
-                              {era.code}
-                            </span>
-                            <span className="text-xs font-mono font-bold text-zinc-300">
-                              {era.periodKo}
-                            </span>
+                  {/* 6 Strategic Lanes Rows (Compacted Empty Row Height) */}
+                  <div className="space-y-2.5">
+                    {STRATEGIC_LANES.map((lane) => {
+                      const isCore = lane.id === 'LANE_CORE';
+                      return (
+                        <div key={lane.id} className="flex items-stretch gap-5">
+                          <div
+                            className={`w-56 flex-shrink-0 rounded-[2px] border p-3 flex flex-col justify-center relative overflow-hidden ${
+                              isCore ? 'bg-[#15161b] border-[#f5dd1b]/35' : 'bg-[#111215] border-white/[0.08]'
+                            }`}
+                            style={{ borderLeftWidth: '3px', borderLeftColor: lane.color }}
+                          >
+                            <div className="text-[10px] font-mono font-bold tracking-wider uppercase" style={{ color: lane.color }}>
+                              {lane.code}
+                            </div>
+                            <div className="text-xs font-bold text-white mt-0.5 leading-snug">{lane.titleKo}</div>
+                            <div className="text-[10px] text-zinc-400 mt-0.5 leading-relaxed line-clamp-2">{lane.subtitleKo}</div>
                           </div>
-                          <span className="text-[11px] font-mono text-zinc-400 bg-white/[0.05] px-2 py-0.5 rounded-[2px]">
-                            {eraStories.length}개 작전
-                          </span>
-                        </div>
-                        <div className="mt-1.5">
-                          <h2 className="text-sm font-bold text-white tracking-tight">
-                            {era.titleKo}
-                            <span className="text-xs font-mono text-zinc-500 font-normal ml-2">
-                              / {era.titleEn}
-                            </span>
-                          </h2>
-                          <p className="text-[11px] text-zinc-400 mt-0.5">{era.description}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
 
-                {/* 6 STRATEGIC LANES ROWS */}
-                <div className="space-y-3">
-                  {STRATEGIC_LANES.map((lane) => {
-                    const isCore = lane.id === 'LANE_CORE';
-                    return (
-                      <div key={lane.id} className="flex items-stretch gap-5">
-                        {/* Left Lane Header Station */}
-                        <div
-                          className={`w-56 flex-shrink-0 rounded-[2px] border p-3.5 flex flex-col justify-center relative overflow-hidden ${
-                            isCore
-                              ? 'bg-[#15161b] border-[#f5dd1b]/35'
-                              : 'bg-[#111215] border-white/[0.08]'
-                          }`}
-                          style={{ borderLeftWidth: '3px', borderLeftColor: lane.color }}
-                        >
-                          <div className="text-[10px] font-mono font-bold tracking-wider uppercase" style={{ color: lane.color }}>
-                            {lane.code}
-                          </div>
-                          <div className="text-xs font-bold text-white mt-0.5 leading-snug">
-                            {lane.titleKo}
-                          </div>
-                          <div className="text-[10px] text-zinc-400 mt-1 leading-relaxed">
-                            {lane.subtitleKo}
-                          </div>
-                        </div>
-
-                        {/* 5 Era Cells for this Lane */}
-                        {TIMELINE_ERAS.map((era) => {
-                          const cellStories = applyFilters(
-                            storyRegistry
+                          {TIMELINE_ERAS.map((era) => {
+                            const cellStories = filteredStories
                               .filter(
                                 (s) =>
                                   lane.storyLineIds.includes(s.storyLineId) &&
                                   s.chronologicalOrder >= era.minOrder &&
                                   s.chronologicalOrder <= era.maxOrder
                               )
-                              .sort((a, b) => a.chronologicalOrder - b.chronologicalOrder)
-                          );
+                              .sort((a, b) => a.chronologicalOrder - b.chronologicalOrder);
 
-                          return (
-                            <div
-                              key={`${lane.id}-${era.id}`}
-                              style={{
-                                minWidth: era.id === 'era_03' ? '980px' : era.id === 'era_02' ? '760px' : '540px',
-                              }}
-                              className={`flex-1 rounded-[2px] border p-3.5 flex items-center relative ${
-                                isCore
-                                  ? 'bg-[#121317]/90 border-white/[0.09]'
-                                  : 'bg-[#0f1013]/85 border-white/[0.05]'
-                              }`}
-                            >
-                              {/* 가로 배경 트랙 레일 선 */}
+                            return (
                               <div
-                                className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] pointer-events-none"
+                                key={`${lane.id}-${era.id}`}
                                 style={{
-                                  backgroundColor: isCore ? 'rgba(245,221,27,0.14)' : 'rgba(255,255,255,0.05)',
+                                  minWidth: era.id === 'era_03' ? '960px' : era.id === 'era_02' ? '740px' : '520px',
                                 }}
-                              />
-
-                              {cellStories.length === 0 ? (
-                                <div className="w-full text-center text-[10px] font-mono text-zinc-700 select-none">
-                                  —
-                                </div>
-                              ) : (
-                                <div className="relative z-20 flex flex-wrap items-center gap-x-4 gap-y-5 py-1 w-full">
-                                  {cellStories.map((story) => {
-                                    const accessState = getStoryAccessState(story);
-                                    const isRestored = accessState === 'available';
-                                    const isLocked = accessState === 'locked';
-                                    const isSelected = inspectedStory?.id === story.id;
-                                    const isHovered = hoveredStoryId === story.id;
-                                    const isDimmed =
-                                      highlightedStoryIds.size > 0 && !highlightedStoryIds.has(story.id);
-                                    const lineMeta = lineMetaMap.get(story.storyLineId);
-                                    const accentColor = lineMeta?.themeColor || lane.color;
-                                    const cleanTimeline = story.timeline
-                                      .replace(/^테라력\s*/, '')
-                                      .replace(/\s*\([^)]*\)/g, '')
-                                      .trim();
-                                    const shortLineTitle = story.storyLineId.startsWith('MAIN_ACT_')
-                                      ? lineMeta?.code || lineMeta?.titleKo
-                                      : lineMeta?.titleKo;
-
-                                    return (
-                                      <div
-                                        key={story.id}
-                                        ref={(el) => {
-                                          if (el) nodeRefs.current.set(story.id, el);
-                                          else nodeRefs.current.delete(story.id);
-                                        }}
-                                        onMouseEnter={() => setHoveredStoryId(story.id)}
-                                        onMouseLeave={() => setHoveredStoryId(null)}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          if (
-                                            dragTrackingRef.current.hasMoved ||
-                                            dragTrackingRef.current.moveDistance > 5
-                                          ) {
-                                            return;
-                                          }
-                                          playClickSound();
-                                          setInspectedStory(story);
-                                        }}
-                                        onDoubleClick={(e) => {
-                                          e.stopPropagation();
-                                          if (!isLocked) {
-                                            playOpenSound();
-                                            onSelectStory(story.id);
-                                          }
-                                        }}
-                                        style={{
-                                          borderLeftColor: accentColor,
-                                          borderLeftWidth: '3px',
-                                        }}
-                                        className={`group relative rounded-[2px] border transition-[background-color,border-color,opacity,transform,filter] duration-200 cursor-pointer overflow-hidden flex flex-col justify-between ${
-                                          lane.isCompactLane || story.isOmnibus
-                                            ? 'w-48 h-[96px] p-2.5'
-                                            : isCore
-                                            ? 'w-56 h-[118px] p-3'
-                                            : 'w-52 h-[110px] p-3'
-                                        } ${
-                                          isDimmed
-                                            ? 'opacity-20 saturate-50 hover:opacity-90 hover:saturate-100'
-                                            : 'opacity-100'
-                                        } ${
-                                          isSelected
-                                            ? 'bg-[#191b22] border-[#f5dd1b] ring-1 ring-[#f5dd1b] -translate-y-0.5'
-                                            : isHovered
-                                            ? 'bg-[#16181e] border-white/45 -translate-y-0.5'
-                                            : isRestored
-                                            ? 'bg-[#131419] border-white/[0.16] hover:border-[#f5dd1b]/70'
-                                            : isLocked
-                                            ? 'bg-[#101012] border-white/[0.05]'
-                                            : 'bg-[#111215] border-white/[0.08] hover:border-white/25'
-                                        }`}
-                                      >
-                                        {/* 배경 스플래시 이미지 (연속 광학 페이드 — 줌아웃 시 부드럽게 디졸브) */}
-                                        {story.splashVisualUrl && !isLocked && (
-                                          <div
-                                            style={{ opacity: 'var(--prts-splash-fade, 1)' }}
-                                            className="absolute inset-0 overflow-hidden pointer-events-none"
-                                          >
-                                            <img
-                                              src={resolveAssetUrl(story.splashVisualUrl)}
-                                              alt=""
-                                              loading="lazy"
-                                              decoding="async"
-                                              draggable={false}
-                                              onContextMenu={(e) => e.preventDefault()}
-                                              className="w-full h-full object-cover object-center opacity-45 group-hover:opacity-75 group-hover:scale-105 transition-all duration-300 select-none"
-                                              onError={(e) => {
-                                                (e.currentTarget as HTMLImageElement).style.display = 'none';
-                                              }}
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#101114] via-[#101114]/75 to-[#101114]/30" />
-                                          </div>
-                                        )}
-
-                                        {/* 상단: 작전 코드 + 수록/옴니버스 배지 */}
-                                        <div className="relative z-10 flex items-center justify-between gap-1 text-[10px] font-mono">
-                                          <span
-                                            className={`px-1.5 py-0.5 font-black tracking-wider rounded-[1px] ${
-                                              isRestored
-                                                ? 'bg-[#f5dd1b] text-black'
-                                                : isLocked
-                                                ? 'bg-zinc-900 text-zinc-500 border border-white/10'
-                                                : 'bg-black/80 text-zinc-200 border border-white/15'
-                                            }`}
-                                          >
-                                            {story.code}
-                                          </span>
-
-                                          <div className="flex items-center gap-1">
-                                            {story.isOmnibus && (
-                                              <span style={{ opacity: 'var(--prts-meta-fade, 1)' }}>
-                                                <FilmReelIcon
-                                                  className="w-3.5 h-3.5 text-zinc-300"
-                                                  title="옴니버스 단편"
-                                                />
-                                              </span>
-                                            )}
-                                            {isRestored && (
-                                              <span
-                                                className="px-1 py-0.2 bg-[#f5dd1b]/15 border border-[#f5dd1b]/50 text-[#f5dd1b] text-[9px] font-bold rounded-[1px]"
-                                                title="전문 복원 완료"
-                                              >
-                                                전문
-                                              </span>
-                                            )}
-                                          </div>
-                                        </div>
-
-                                        {/* 중단: 한글 타이틀 & 영문 서브타이틀 */}
-                                        <div className="relative z-10 my-auto py-0.5">
-                                          <div className="text-xs sm:text-[13px] font-bold text-white group-hover:text-[#f5dd1b] transition-colors leading-snug truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
-                                            {story.titleKo}
-                                          </div>
-                                          <div
-                                            style={{ opacity: 'var(--prts-meta-fade, 1)' }}
-                                            className="text-[10px] font-mono text-zinc-400 truncate mt-0.5"
-                                          >
-                                            {story.titleEn}
-                                          </div>
-                                        </div>
-
-                                        {/* 하단: 타임라인 연도 및 서사 소속 */}
-                                        <div
-                                          style={{ opacity: 'var(--prts-meta-fade, 1)' }}
-                                          className="relative z-10 pt-1 border-t border-white/[0.08] flex items-center justify-between gap-1.5 text-[10px] font-mono"
-                                        >
-                                          <span className="text-zinc-300 truncate">{cleanTimeline}</span>
-                                          <span
-                                            className="text-[9.5px] font-bold flex-shrink-0"
-                                            style={{ color: accentColor }}
-                                          >
-                                            {shortLineTitle}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom-Left Floating Controls Dock (Zoom, Fit, Reset) */}
-            <div className="absolute bottom-4 left-4 z-30 flex items-center gap-1.5 p-1.5 rounded-[2px] bg-[#121316]/95 backdrop-blur-md border border-white/[0.12] shadow-xl font-mono text-xs">
-              <div
-                className="hidden sm:flex items-center gap-1.5 px-2 text-[10px] text-zinc-400 border-r border-white/10 select-none"
-                title="WASD / 방향키 (Shift 가속), 좌클릭 드래그 이동, 휠 줌, 더블클릭 스토리 열람"
-              >
-                <Move className="w-3 h-3 text-zinc-400" />
-                <span>드래그 이동 · 휠 줌 · 더블클릭 열람</span>
-              </div>
-
-              <button
-                onClick={() => handleZoomStep(-0.12)}
-                className="w-7 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
-                title="축소"
-              >
-                <ZoomOut className="w-3.5 h-3.5" />
-              </button>
-
-              <span
-                ref={zoomTextRef}
-                className="px-2 text-[11px] font-bold text-zinc-100 min-w-[44px] text-center tabular-nums"
-              >
-                88%
-              </span>
-
-              <button
-                onClick={() => handleZoomStep(0.12)}
-                className="w-7 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
-                title="확대"
-              >
-                <ZoomIn className="w-3.5 h-3.5" />
-              </button>
-
-              <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
-
-              <button
-                onClick={handleFitAll}
-                className="px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-[10.5px] cursor-pointer"
-                title="전체 노선도 한눈에 맞춤"
-              >
-                <Maximize2 className="w-3 h-3 text-zinc-300" />
-                <span className="hidden md:inline">전체 조망</span>
-              </button>
-
-              <button
-                onClick={handleResetView}
-                className="w-7 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
-                title="기본 배율 복귀"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            {/* Bottom-Right Interactive Radar Minimap */}
-            <div
-              className={`hidden md:block absolute bottom-4 z-30 rounded-[2px] bg-[#101114]/92 backdrop-blur-md border border-white/[0.14] shadow-2xl overflow-hidden transition-[right] duration-300 ${
-                inspectedStory ? 'right-[25rem]' : 'right-4'
-              }`}
-            >
-              <div
-                onPointerDown={(e) => {
-                  e.stopPropagation();
-                  e.currentTarget.setPointerCapture(e.pointerId);
-                  isMinimapScrubbingRef.current = true;
-                  jumpToMinimapPoint(e.clientX, e.clientY, e.currentTarget.getBoundingClientRect());
-                }}
-                onPointerMove={(e) => {
-                  if (!isMinimapScrubbingRef.current) return;
-                  e.stopPropagation();
-                  jumpToMinimapPoint(e.clientX, e.clientY, e.currentTarget.getBoundingClientRect());
-                }}
-                onPointerUp={(e) => {
-                  if (!isMinimapScrubbingRef.current) return;
-                  isMinimapScrubbingRef.current = false;
-                  e.stopPropagation();
-                }}
-                onPointerCancel={() => {
-                  isMinimapScrubbingRef.current = false;
-                }}
-                className="relative cursor-crosshair bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:26px_27px]"
-                style={{ width: MINIMAP_W, height: MINIMAP_H }}
-                title="레이더 미니맵 클릭/드래그로 시점 즉시 이동"
-              >
-                <div className="absolute top-1 left-1.5 text-[8.5px] font-mono tracking-widest text-zinc-500 uppercase pointer-events-none z-10">
-                  RADAR // SYNOPSIS
-                </div>
-
-                {Object.entries(nodeCoords).map(([id, box]) => {
-                  const st = storyMap.get(id);
-                  const isSel = inspectedStory?.id === id || hoveredStoryId === id;
-                  const isRestoredNode = st ? getStoryAccessState(st) === 'available' : false;
-                  const x = (box.left / stageSize.width) * MINIMAP_W;
-                  const y = (box.top / stageSize.height) * MINIMAP_H;
-                  const w = Math.max(3, ((box.right - box.left) / stageSize.width) * MINIMAP_W);
-                  const h = Math.max(2.5, ((box.bottom - box.top) / stageSize.height) * MINIMAP_H);
-                  return (
-                    <div
-                      key={`mm-${id}`}
-                      style={{
-                        left: `${x}px`,
-                        top: `${y}px`,
-                        width: `${w}px`,
-                        height: `${h}px`,
-                      }}
-                      className={`absolute rounded-[0.5px] pointer-events-none ${
-                        isSel
-                          ? 'bg-[#f5dd1b] z-10'
-                          : isRestoredNode
-                          ? 'bg-zinc-300/80'
-                          : 'bg-zinc-600/45'
-                      }`}
-                    />
-                  );
-                })}
-
-                <div
-                  ref={minimapViewportRef}
-                  className="absolute top-0 left-0 border border-[#f5dd1b]/85 bg-[#f5dd1b]/[0.08] pointer-events-none will-change-transform"
-                  style={{ width: '64px', height: '40px' }}
-                />
-              </div>
-            </div>
-            </div>
-          </div>
-        )}
-
-        {/* -----------------------------------------------------------------------
-            MODE B: STORY LINES HUB (서사별 마스터-디테일 계통도 뷰)
-        ----------------------------------------------------------------------- */}
-        {browseMode === 'story_line' && (
-          <div className="flex-1 flex min-h-0 overflow-hidden bg-[#0c0c0e]">
-            {/* 좌측 17개 서사 라인 디렉토리 탭 (모바일에서는 상단 2행 가로 스크롤 칩 바로 대체하여 본문 100% 폭 확보) */}
-            <div className="hidden md:block w-60 lg:w-72 flex-shrink-0 border-r border-white/[0.08] bg-[#101114] overflow-y-auto p-3 space-y-4 prts-scrollbar">
-              {/* 메인 테마 섹션 */}
-              <div>
-                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between">
-                  <span>메인 테마 (내일을 위하여)</span>
-                  <span>3개 부</span>
-                </div>
-                <div className="space-y-1">
-                  {STORY_LINES.filter((l) => l.id.startsWith('MAIN_')).map((line) => {
-                    const count = storyRegistry.filter((s) => s.storyLineId === line.id).length;
-                    const isSelected = activeStoryLineHubId === line.id;
-                    return (
-                      <button
-                        key={line.id}
-                        onClick={() => {
-                          playClickSound();
-                          setActiveStoryLineHubId(line.id);
-                        }}
-                        className={`w-full px-3 py-2 rounded-[2px] border text-left transition-colors cursor-pointer flex items-center justify-between ${
-                          isSelected
-                            ? 'bg-[#191b20] border-[#f5dd1b] text-white'
-                            : 'bg-[#141519] border-white/[0.06] text-zinc-300 hover:bg-[#191b20]'
-                        }`}
-                      >
-                        <div className="min-w-0 pr-2">
-                          <div className="text-[10px] font-mono font-bold" style={{ color: line.themeColor }}>
-                            {line.code}
-                          </div>
-                          <div className="text-xs font-bold truncate">
-                            {line.titleKo.replace('내일을 위하여 · ', '')}
-                          </div>
-                        </div>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#0e0f12] text-zinc-400">
-                          {count}편
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 14대 이벤트 서사 연작 섹션 */}
-              <div>
-                <div className="px-2 pb-1.5 text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between">
-                  <span>이벤트 서사 연작</span>
-                  <span>14개 연작</span>
-                </div>
-                <div className="space-y-1">
-                  {STORY_LINES.filter((l) => !l.id.startsWith('MAIN_')).map((line) => {
-                    const lineStories = storyRegistry.filter((s) => s.storyLineId === line.id);
-                    const restoredInLine = lineStories.some((s) => getStoryAccessState(s) === 'available');
-                    const isSelected = activeStoryLineHubId === line.id;
-
-                    return (
-                      <button
-                        key={line.id}
-                        onClick={() => {
-                          playClickSound();
-                          setActiveStoryLineHubId(line.id);
-                        }}
-                        className={`w-full px-3 py-2 rounded-[2px] border text-left transition-colors cursor-pointer flex items-center justify-between ${
-                          isSelected
-                            ? 'bg-[#191b20] border-[#f5dd1b] text-white'
-                            : 'bg-[#141519] border-white/[0.06] text-zinc-300 hover:bg-[#191b20]'
-                        }`}
-                        style={
-                          isSelected ? { borderLeftWidth: '3px', borderLeftColor: line.themeColor } : undefined
-                        }
-                      >
-                        <div className="flex items-center gap-2 min-w-0 pr-2">
-                          <span
-                            className="w-2 h-2 rounded-[1px] flex-shrink-0"
-                            style={{ backgroundColor: line.themeColor }}
-                          />
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-xs font-bold truncate">{line.titleKo}</span>
-                              <span className="text-[10px] font-mono text-zinc-500">{line.code}</span>
-                            </div>
-                            <div className="text-[10px] font-mono text-zinc-500 truncate">{line.titleEn}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-1.5 flex-shrink-0">
-                          {restoredInLine && (
-                            <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" title="전문 수록 포함" />
-                          )}
-                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#0e0f12] text-zinc-400">
-                            {lineStories.length}편
-                          </span>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* 우측 선택된 서사 라인의 상세 계통도 & 연작 카드 */}
-            <div className="flex-1 overflow-y-auto p-3.5 sm:p-5 lg:p-8 prts-scrollbar">
-              {(() => {
-                const activeLine =
-                  STORY_LINES.find((l) => l.id === activeStoryLineHubId) || STORY_LINES[0];
-                const lineStories = applyFilters(
-                  storyRegistry
-                    .filter((s) => s.storyLineId === activeLine.id)
-                    .sort((a, b) => a.seriesOrder - b.seriesOrder)
-                );
-
-                // 이 서사 라인과 타 서사 라인 간의 교차 연결 추출
-                const lineStoryIds = new Set(lineStories.map((s) => s.id));
-                const crossLinksForLine = allConnections.filter(
-                  (c) =>
-                    c.type === 'cross' &&
-                    ((lineStoryIds.has(c.fromId) && !lineStoryIds.has(c.toId)) ||
-                      (!lineStoryIds.has(c.fromId) && lineStoryIds.has(c.toId)))
-                );
-
-                return (
-                  <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
-                    {/* 서사 라인 헤더 배너 */}
-                    <div
-                      className="rounded-[2px] bg-[#121316] border border-white/[0.08] p-4 sm:p-6 relative overflow-hidden"
-                      style={{ borderLeftWidth: '4px', borderLeftColor: activeLine.themeColor }}
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span
-                              className="px-2 py-0.5 text-[11px] sm:text-xs font-mono font-black text-black rounded-[2px]"
-                              style={{ backgroundColor: activeLine.themeColor }}
-                            >
-                              {activeLine.code}
-                            </span>
-                            <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight break-keep">
-                              {activeLine.titleKo}
-                            </h2>
-                            <span className="text-xs sm:text-sm font-mono text-zinc-400">/ {activeLine.titleEn}</span>
-                          </div>
-                          <p className="text-xs sm:text-sm text-zinc-300 mt-2 max-w-3xl leading-relaxed break-keep">
-                            {activeLine.description}
-                          </p>
-                        </div>
-
-                        <button
-                          onClick={() => {
-                            playClickSound();
-                            setFocusedLineId(activeLine.id);
-                            setBrowseMode('chronological');
-                          }}
-                          className="px-3 py-1.5 sm:py-2 rounded-[2px] bg-[#1a1c22] hover:bg-zinc-100 hover:text-black text-zinc-200 border border-white/15 text-[11px] sm:text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5"
-                        >
-                          <Clock className="w-3.5 h-3.5" />
-                          <span>연대기에서 이 시리즈 보기</span>
-                        </button>
-                      </div>
-
-                      {/* 타 서사 교차 인과 요약 */}
-                      {crossLinksForLine.length > 0 && (
-                        <div className="mt-4 pt-3.5 border-t border-white/[0.08]">
-                          <div className="text-[11px] font-mono text-zinc-300 font-bold mb-2 flex items-center gap-1.5">
-                            <Link2 className="w-3.5 h-3.5 text-[#f5dd1b]" />
-                            <span>타 시리즈와의 교차 연결 ({crossLinksForLine.length}건)</span>
-                          </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            {crossLinksForLine.map((cl) => {
-                              const fromS = storyMap.get(cl.fromId);
-                              const toS = storyMap.get(cl.toId);
-                              if (!fromS || !toS) return null;
-                              const otherStory = lineStoryIds.has(fromS.id) ? toS : fromS;
-                              return (
-                                <div
-                                  key={`${cl.fromId}-${cl.toId}`}
-                                  onClick={() => {
-                                    playClickSound();
-                                    setInspectedStory(otherStory);
-                                    setActiveStoryLineHubId(otherStory.storyLineId);
-                                  }}
-                                  className="px-3 py-2 rounded-[2px] bg-[#16181d] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors flex items-center justify-between gap-2 text-xs"
-                                >
-                                  <div className="min-w-0">
-                                    <div className="font-mono text-[11px] text-white font-bold truncate">
-                                      {fromS.titleKo} ({fromS.code}) → {toS.titleKo} ({toS.code})
-                                    </div>
-                                    <div className="text-[11px] text-zinc-400 truncate mt-0.5">
-                                      {cl.reasonKo}
-                                    </div>
-                                  </div>
-                                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* 연작 순서 플로우차트 */}
-                    <div className="space-y-3.5 sm:space-y-4">
-                      {lineStories.map((story, idx) => {
-                        const accessState = getStoryAccessState(story);
-                        const isRestored = accessState === 'available';
-                        const isSelected = inspectedStory?.id === story.id;
-
-                        return (
-                          <div key={story.id} className="relative">
-                            {/* 단계 연결 화살표 */}
-                            {idx > 0 && (
-                              <div className="flex items-center gap-2 py-1 pl-5 text-zinc-500 font-mono text-[10px]">
-                                <div
-                                  className="w-0.5 h-4 sm:h-5"
-                                  style={{ backgroundColor: activeLine.themeColor }}
-                                />
-                                <span>STEP 0{idx + 1}</span>
-                              </div>
-                            )}
-
-                            <div
-                              onClick={() => {
-                                playClickSound();
-                                setInspectedStory(story);
-                              }}
-                              className={`group rounded-[2px] border p-3.5 sm:p-5 transition-colors cursor-pointer flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch ${
-                                isSelected
-                                  ? 'bg-[#181a20] border-[#f5dd1b]'
-                                  : 'bg-[#121316] border-white/[0.08] hover:border-white/25'
-                              }`}
-                            >
-                              {/* 썸네일 영역 */}
-                              <div
-                                onContextMenu={(e) => e.preventDefault()}
-                                className="w-full sm:w-52 h-36 sm:h-auto flex-shrink-0 rounded-[2px] bg-black overflow-hidden relative border border-white/10"
-                              >
-                                {story.splashVisualUrl ? (
-                                  <>
-                                    <img
-                                      src={resolveAssetUrl(story.splashVisualUrl)}
-                                      alt={story.titleKo}
-                                      loading="lazy"
-                                      decoding="async"
-                                      draggable={false}
-                                      onContextMenu={(e) => e.preventDefault()}
-                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none"
-                                    />
-                                    <CopyrightBadge />
-                                  </>
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-zinc-600 font-mono text-xs">
-                                    NO VISUAL
-                                  </div>
-                                )}
-                                <div className="absolute top-2 left-2 px-2 py-0.5 text-[11px] font-mono font-black bg-black/85 text-white border border-white/20">
-                                  {story.code}
-                                </div>
-                              </div>
-
-                              {/* 본문 설명 영역 */}
-                              <div className="flex-1 flex flex-col justify-between min-w-0">
-                                <div>
-                                  <div className="flex flex-wrap items-center justify-between gap-2">
-                                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#f5dd1b] transition-colors">
-                                        {story.titleKo}
-                                      </h3>
-                                      <span className="text-xs font-mono text-zinc-400">
-                                        {story.titleEn}
-                                      </span>
-                                      {story.isOmnibus && (
-                                        <span className="px-1.5 py-0.5 text-[10px] font-mono bg-white/[0.07] text-zinc-200 border border-white/15 rounded-[2px] flex items-center gap-1">
-                                          <FilmReelIcon className="w-3 h-3" /> 옴니버스
-                                        </span>
-                                      )}
-                                    </div>
-
-                                    <div className="flex items-center gap-1.5 sm:gap-2">
-                                      <span className="text-[11px] sm:text-xs font-mono text-[#f5dd1b] bg-[#f5dd1b]/10 px-2 py-0.5 rounded-[2px] border border-[#f5dd1b]/30">
-                                        {story.timeline}
-                                      </span>
-                                      <span
-                                        className={`px-2 py-0.5 text-[10px] font-mono font-bold rounded-[2px] ${
-                                          isRestored
-                                            ? 'bg-[#f5dd1b] text-black'
-                                            : 'bg-white/[0.08] text-zinc-300'
-                                        }`}
-                                      >
-                                        {isRestored ? '요약본 수록' : '개요 수록'}
-                                      </span>
-                                    </div>
-                                  </div>
-
-                                  <p className="text-xs sm:text-sm text-zinc-300 mt-2 leading-relaxed break-keep">
-                                    {story.officialSynopsis}
-                                  </p>
-                                </div>
-
-                                <div className="mt-3.5 sm:mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between">
-                                  <div className="text-[11px] font-mono text-zinc-400">
-                                    출시 연차: YEAR 0{story.releaseYear ?? 1} (#{story.releaseOrder})
-                                  </div>
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      playOpenSound();
-                                      onSelectStory(story.id);
-                                    }}
-                                    className="px-3 py-1.5 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold text-xs font-mono flex items-center gap-1.5 cursor-pointer transition-colors"
-                                  >
-                                    <BookOpen className="w-3.5 h-3.5" />
-                                    <span>{isRestored ? '요약본 열람' : '개요 열람'}</span>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })()}
-            </div>
-          </div>
-        )}
-
-        {/* -----------------------------------------------------------------------
-            MODE C: RELEASE TIMELINE (연차별 출시 로드맵 뷰)
-        ----------------------------------------------------------------------- */}
-        {browseMode === 'release' && (
-          <div className="flex-1 overflow-y-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-5 sm:space-y-6 prts-scrollbar bg-[#0c0c0e]">
-            {/* 연차 빠른 선택 탭 바 (데스크톱 전용, 모바일은 상단 2행 가로 칩 사용) */}
-            <div className="hidden md:flex flex-wrap items-center gap-1.5 bg-[#121316] p-1 rounded-[2px] border border-white/[0.08] font-sans">
-              <span className="text-xs font-semibold text-zinc-400 px-2.5">서비스 연차</span>
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setSelectedReleaseYear('all');
-                }}
-                className={`relative h-7.5 px-3 rounded-[2px] text-xs cursor-pointer transition-colors flex items-center gap-1.5 ${
-                  selectedReleaseYear === 'all'
-                    ? 'bg-white/[0.08] text-white font-bold'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
-                }`}
-              >
-                <span>전체 연차</span>
-                <span className="font-mono text-[10.5px] text-zinc-400">Y1~Y6</span>
-                {selectedReleaseYear === 'all' && (
-                  <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
-                )}
-              </button>
-              {RELEASE_YEARS_META.map((ym) => (
-                <button
-                  key={ym.year}
-                  onClick={() => {
-                    playClickSound();
-                    setSelectedReleaseYear(ym.year);
-                  }}
-                  className={`relative h-7.5 px-3 rounded-[2px] text-xs cursor-pointer transition-colors flex items-center gap-1.5 ${
-                    selectedReleaseYear === ym.year
-                      ? 'bg-white/[0.08] text-white font-bold'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
-                  }`}
-                >
-                  <span className={`font-mono font-bold ${selectedReleaseYear === ym.year ? 'text-[#f5dd1b]' : 'text-zinc-200'}`}>{ym.label}</span>
-                  <span className="font-mono text-[11px] text-zinc-400">{ym.period}</span>
-                  {selectedReleaseYear === ym.year && (
-                    <span className="absolute bottom-0 inset-x-1 h-[2px] bg-[#f5dd1b]" />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {RELEASE_YEARS_META.filter(
-              (ym) => selectedReleaseYear === 'all' || selectedReleaseYear === ym.year
-            ).map((yearMeta) => {
-              const yearStories = applyFilters(
-                storyRegistry
-                  .filter((s) => (s.releaseYear ?? 1) === yearMeta.year)
-                  .sort((a, b) => a.releaseOrder - b.releaseOrder)
-              );
-
-              if (yearStories.length === 0) return null;
-
-              return (
-                <div
-                  key={yearMeta.year}
-                  className="border border-white/[0.08] bg-[#121316] p-3.5 sm:p-5 rounded-[2px] space-y-3.5 sm:space-y-4"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 border-b border-white/[0.07] pb-3">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3">
-                      <div className="flex items-center justify-between sm:justify-start gap-2">
-                        <span
-                          className="px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs font-mono font-black text-black rounded-[2px] flex-shrink-0"
-                          style={{ backgroundColor: yearMeta.color }}
-                        >
-                          {yearMeta.label} · {yearMeta.period}
-                        </span>
-                        <span className="sm:hidden text-[11px] font-mono text-zinc-400">
-                          {yearStories.length}개 작전 출시
-                        </span>
-                      </div>
-                      <h2 className="text-sm sm:text-lg font-bold text-white leading-snug break-keep">
-                        {yearMeta.subtitle}
-                      </h2>
-                    </div>
-                    <span className="hidden sm:inline-block text-xs font-mono text-zinc-400 flex-shrink-0">
-                      {yearStories.length}개 작전 출시
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-3.5">
-                    {yearStories.map((story, idx) => {
-                      const accessState = getStoryAccessState(story);
-                      const isRestored = accessState === 'available';
-                      const isSelected = inspectedStory?.id === story.id;
-                      const lineMeta = lineMetaMap.get(story.storyLineId);
-
-                      return (
-                        <div
-                          key={story.id}
-                          onClick={() => {
-                            playClickSound();
-                            setInspectedStory(story);
-                          }}
-                          className={`group relative rounded-[2px] border p-3.5 transition-colors cursor-pointer flex flex-col justify-between min-h-[132px] sm:min-h-[148px] overflow-hidden ${
-                            isSelected
-                              ? 'bg-[#181a20] border-[#f5dd1b] ring-1 ring-[#f5dd1b]'
-                              : isRestored
-                              ? 'bg-[#121316] border-[#f5dd1b]/35 hover:border-[#f5dd1b]'
-                              : 'bg-[#101114] border-white/[0.08] hover:border-white/30'
-                          }`}
-                        >
-                          {story.splashVisualUrl && (
-                            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                              <img
-                                src={resolveAssetUrl(story.splashVisualUrl)}
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                                className="w-full h-full object-cover opacity-40 group-hover:opacity-65 transition-opacity select-none"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#101114] via-[#101114]/75 to-transparent" />
-                            </div>
-                          )}
-
-                          <div className="relative z-10 flex items-center justify-between text-[11px] font-mono">
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-zinc-400 font-bold">#{idx + 1}</span>
-                              <span
-                                className={`px-1.5 py-0.5 font-black rounded-[1px] ${
-                                  isRestored ? 'bg-[#f5dd1b] text-black' : 'bg-black/80 text-white border border-white/20'
+                                className={`flex-1 rounded-[2px] border transition-colors ${
+                                  cellStories.length === 0
+                                    ? 'bg-[#0e0f12]/35 border-white/[0.03] p-2 min-h-[56px] flex items-center justify-center'
+                                    : isCore
+                                    ? 'bg-[#131418]/85 border-white/[0.08] p-3 flex flex-col justify-center'
+                                    : 'bg-[#101114]/75 border-white/[0.06] p-3 flex flex-col justify-center'
                                 }`}
                               >
-                                {story.code}
-                              </span>
-                            </div>
-                            <span
-                              className="px-1.5 py-0.5 text-[10px] rounded-[2px] bg-black/75 border border-white/10 font-bold"
-                              style={{ color: lineMeta?.themeColor || '#f5dd1b' }}
-                            >
-                              {lineMeta?.titleKo.replace('내일을 위하여 · ', '')}
-                            </span>
-                          </div>
+                                {cellStories.length === 0 ? (
+                                  <span className="text-[10px] font-mono text-zinc-800 select-none">·</span>
+                                ) : (
+                                  <div className="flex flex-wrap items-center gap-3.5">
+                                    {cellStories.map((story) => {
+                                      const accessState = getStoryAccessState(story);
+                                      const isRestored = accessState === 'available';
+                                      const isLocked = accessState === 'locked';
+                                      const isSelected = inspectedStory?.id === story.id;
+                                      const isHovered = hoveredStoryId === story.id;
+                                      const isDimmed =
+                                        highlightedStoryIds.size > 0 && !highlightedStoryIds.has(story.id);
+                                      const lineMeta = lineMetaMap.get(story.storyLineId);
+                                      const accentColor = lineMeta?.themeColor || '#71717a';
+                                      const cleanTimeline = story.timeline
+                                        .replace(/^테라력\s*/, '')
+                                        .replace(/\s*\([^)]*\)/g, '')
+                                        .trim();
 
-                          <div className="relative z-10 my-auto py-2">
-                            <h3 className="text-sm font-bold text-white group-hover:text-[#f5dd1b] transition-colors truncate">
-                              {story.titleKo}
-                            </h3>
-                            <div className="text-[10px] font-mono text-zinc-400 truncate">{story.titleEn}</div>
-                          </div>
+                                      return (
+                                        <div
+                                          key={story.id}
+                                          ref={(el) => {
+                                            if (el) nodeRefs.current.set(story.id, el);
+                                            else nodeRefs.current.delete(story.id);
+                                          }}
+                                          onMouseEnter={() => setHoveredStoryId(story.id)}
+                                          onMouseLeave={() => setHoveredStoryId(null)}
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (dragTrackingRef.current.hasMoved || dragTrackingRef.current.moveDistance > 5) {
+                                              return;
+                                            }
+                                            playClickSound();
+                                            setInspectedStory(story);
+                                          }}
+                                          onDoubleClick={(e) => {
+                                            e.stopPropagation();
+                                            if (!isLocked) {
+                                              playOpenSound();
+                                              onSelectStory(story.id);
+                                            }
+                                          }}
+                                          style={{ borderLeftColor: accentColor, borderLeftWidth: '3px' }}
+                                          className={`group relative rounded-[2px] border transition-[background-color,border-color,opacity,transform,filter] duration-200 cursor-pointer overflow-hidden flex flex-col justify-between ${
+                                            lane.isCompactLane || story.isOmnibus
+                                              ? 'w-48 h-[96px] p-2.5'
+                                              : isCore
+                                              ? 'w-56 h-[118px] p-3'
+                                              : 'w-52 h-[110px] p-3'
+                                          } ${
+                                            isDimmed ? 'opacity-20 saturate-50 hover:opacity-90 hover:saturate-100' : 'opacity-100'
+                                          } ${
+                                            isSelected
+                                              ? 'bg-[#191b22] border-[#f5dd1b] ring-1 ring-[#f5dd1b] -translate-y-0.5'
+                                              : isHovered
+                                              ? 'bg-[#16181e] border-white/45 -translate-y-0.5'
+                                              : isRestored
+                                              ? 'bg-[#131419] border-white/[0.16] hover:border-[#f5dd1b]/70'
+                                              : isLocked
+                                              ? 'bg-[#101012] border-white/[0.05]'
+                                              : 'bg-[#111215] border-white/[0.08] hover:border-white/25'
+                                          }`}
+                                        >
+                                          {story.splashVisualUrl && !isLocked && (
+                                            <div
+                                              style={{ opacity: 'var(--prts-splash-fade, 1)' }}
+                                              className="absolute inset-0 overflow-hidden pointer-events-none"
+                                            >
+                                              <img
+                                                src={resolveAssetUrl(story.splashVisualUrl)}
+                                                alt=""
+                                                loading="lazy"
+                                                decoding="async"
+                                                draggable={false}
+                                                className="w-full h-full object-cover opacity-45 group-hover:opacity-75 group-hover:scale-105 transition-all duration-300 select-none"
+                                                onError={(e) => {
+                                                  (e.currentTarget as HTMLImageElement).style.display = 'none';
+                                                }}
+                                              />
+                                              <div className="absolute inset-0 bg-gradient-to-t from-[#101114] via-[#101114]/75 to-[#101114]/30" />
+                                            </div>
+                                          )}
 
-                          <div className="relative z-10 pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono">
-                            <span className="text-zinc-300 truncate">배경: {story.timeline}</span>
-                            <span className="text-zinc-400 group-hover:text-[#f5dd1b] transition-colors font-bold flex-shrink-0 ml-1">브리핑 →</span>
-                          </div>
+                                          <div className="relative z-10 flex items-center justify-between gap-1 text-[10px] font-mono">
+                                            <span
+                                              className={`px-1.5 py-0.5 font-black tracking-wider rounded-[1px] ${
+                                                isRestored
+                                                  ? 'bg-[#f5dd1b] text-black'
+                                                  : isLocked
+                                                  ? 'bg-zinc-900 text-zinc-500 border border-white/10'
+                                                  : 'bg-black/80 text-zinc-200 border border-white/15'
+                                              }`}
+                                            >
+                                              {story.code}
+                                            </span>
+                                            <div className="flex items-center gap-1">
+                                              {story.isOmnibus && (
+                                                <span style={{ opacity: 'var(--prts-meta-fade, 1)' }}>
+                                                  <FilmReelIcon className="w-3.5 h-3.5 text-zinc-300" title="옴니버스 단편" />
+                                                </span>
+                                              )}
+                                              {isRestored && (
+                                                <span className="px-1 py-0.2 bg-[#f5dd1b]/15 border border-[#f5dd1b]/50 text-[#f5dd1b] text-[9px] font-bold rounded-[1px]">
+                                                  전문
+                                                </span>
+                                              )}
+                                            </div>
+                                          </div>
+
+                                          <div className="relative z-10 my-auto py-0.5">
+                                            <div className="text-xs sm:text-[13px] font-bold text-white group-hover:text-[#f5dd1b] transition-colors leading-snug truncate">
+                                              {story.titleKo}
+                                            </div>
+                                            <div
+                                              style={{ opacity: 'var(--prts-meta-fade, 1)' }}
+                                              className="text-[10px] font-mono text-zinc-400 truncate mt-0.5"
+                                            >
+                                              {story.titleEn}
+                                            </div>
+                                          </div>
+
+                                          <div
+                                            style={{ opacity: 'var(--prts-meta-fade, 1)' }}
+                                            className="relative z-10 pt-1 border-t border-white/[0.08] flex items-center justify-between gap-1.5 text-[10px] font-mono"
+                                          >
+                                            <span className="text-zinc-300 truncate">{cleanTimeline}</span>
+                                            <span className="text-[9.5px] font-bold flex-shrink-0" style={{ color: accentColor }}>
+                                              {lineMeta?.titleKo.replace('내일을 위하여 · ', '')}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       );
                     })}
                   </div>
                 </div>
-              );
-            })}
+              </div>
+
+              {/* Bottom-Left Controls Dock */}
+              <div className="absolute bottom-4 left-4 z-30 flex items-center gap-1.5 p-1.5 rounded-[2px] bg-[#121316]/95 backdrop-blur-md border border-white/[0.12] shadow-xl font-mono text-xs">
+                <div className="hidden sm:flex items-center gap-1.5 px-2 text-[10px] text-zinc-400 border-r border-white/10 select-none">
+                  <Move className="w-3 h-3 text-zinc-400" />
+                  <span>드래그 이동 · 휠 줌 · 더블클릭 열람</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleZoomStep(-0.12)}
+                  className="w-7 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
+                  title="축소"
+                >
+                  <ZoomOut className="w-3.5 h-3.5" />
+                </button>
+                <span ref={zoomTextRef} className="px-2 text-[11px] font-bold text-zinc-100 min-w-[44px] text-center tabular-nums">
+                  88%
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleZoomStep(0.12)}
+                  className="w-7 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
+                  title="확대"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" />
+                </button>
+                <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
+                <button
+                  type="button"
+                  onClick={handleFitAll}
+                  className="px-2 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center gap-1 text-[10.5px] cursor-pointer"
+                >
+                  <Maximize2 className="w-3 h-3 text-zinc-300" />
+                  <span className="hidden md:inline">전체 조망</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetView}
+                  className="w-7 h-7 rounded-[2px] bg-white/[0.05] hover:bg-white/[0.12] text-zinc-300 hover:text-white flex items-center justify-center cursor-pointer"
+                  title="기본 배율 복귀"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Bottom-Right Interactive Radar Minimap */}
+              <div
+                className={`hidden md:block absolute bottom-4 z-30 rounded-[2px] bg-[#101114]/92 backdrop-blur-md border border-white/[0.14] shadow-2xl overflow-hidden transition-[right] duration-300 ${
+                  inspectedStory ? 'right-[25rem]' : 'right-4'
+                }`}
+              >
+                <div
+                  onPointerDown={(e) => {
+                    e.stopPropagation();
+                    e.currentTarget.setPointerCapture(e.pointerId);
+                    isMinimapScrubbingRef.current = true;
+                    jumpToMinimapPoint(e.clientX, e.clientY, e.currentTarget.getBoundingClientRect());
+                  }}
+                  onPointerMove={(e) => {
+                    if (!isMinimapScrubbingRef.current) return;
+                    e.stopPropagation();
+                    jumpToMinimapPoint(e.clientX, e.clientY, e.currentTarget.getBoundingClientRect());
+                  }}
+                  onPointerUp={(e) => {
+                    if (!isMinimapScrubbingRef.current) return;
+                    isMinimapScrubbingRef.current = false;
+                    e.stopPropagation();
+                  }}
+                  onPointerCancel={() => {
+                    isMinimapScrubbingRef.current = false;
+                  }}
+                  className="relative cursor-crosshair bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:26px_27px]"
+                  style={{ width: MINIMAP_W, height: MINIMAP_H }}
+                  title="레이더 미니맵 클릭/드래그로 시점 즉시 이동"
+                >
+                  <div className="absolute top-1 left-1.5 text-[8.5px] font-mono tracking-widest text-zinc-500 uppercase pointer-events-none z-10">
+                    RADAR // MATRIX
+                  </div>
+                  {filteredIdSet.size > 0 &&
+                    Object.entries(nodeCoords).map(([id, box]) => {
+                      const st = storyMap.get(id);
+                      const isSel = inspectedStory?.id === id || hoveredStoryId === id;
+                      const isRestoredNode = st ? getStoryAccessState(st) === 'available' : false;
+                      return (
+                        <div
+                          key={`mm-${id}`}
+                          style={{
+                            left: `${(box.left / stageSize.width) * MINIMAP_W}px`,
+                            top: `${(box.top / stageSize.height) * MINIMAP_H}px`,
+                            width: `${Math.max(3, ((box.right - box.left) / stageSize.width) * MINIMAP_W)}px`,
+                            height: `${Math.max(2.5, ((box.bottom - box.top) / stageSize.height) * MINIMAP_H)}px`,
+                          }}
+                          className={`absolute rounded-[0.5px] pointer-events-none ${
+                            isSel ? 'bg-[#f5dd1b] z-10' : isRestoredNode ? 'bg-zinc-300/80' : 'bg-zinc-600/45'
+                          }`}
+                        />
+                      );
+                    })}
+                  <div
+                    ref={minimapViewportRef}
+                    className="absolute top-0 left-0 border border-[#f5dd1b]/85 bg-[#f5dd1b]/[0.08] pointer-events-none will-change-transform"
+                    style={{ width: '64px', height: '40px' }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
-        {/* =========================================================================
-            3. TACTICAL BRIEFING DOCK (PC: 우측 사이드 도크 / 모바일: 하단 바텀 시트)
-        ========================================================================= */}
+        {/* RIGHT INSPECTED STORY DOSSIER DRAWER */}
         {inspectedStory && (
           <>
-            {/* 모바일 전용 배경 딤드 오버레이 */}
             <div
               onClick={() => {
                 playCloseSound();
                 setInspectedStory(null);
               }}
-              className="md:hidden fixed inset-0 z-40 bg-black/65 backdrop-blur-xs animate-fadeIn"
+              className="fixed inset-0 bg-black/55 backdrop-blur-xs z-30 lg:hidden animate-fadeIn"
             />
-
             <aside
               style={
-                isMobile && sheetDragY > 0
+                sheetDragY > 0
                   ? { transform: `translateY(${sheetDragY}px)`, transition: 'none' }
                   : undefined
               }
-              className="fixed md:static inset-x-0 bottom-0 md:inset-auto w-full md:w-80 lg:w-96 max-h-[82dvh] md:max-h-none md:h-full flex-shrink-0 bg-[#111215]/98 border-t md:border-t-0 md:border-l border-white/20 md:border-white/[0.1] rounded-t-[4px] md:rounded-none flex flex-col z-50 md:z-30 shadow-2xl overflow-hidden animate-fadeIn"
+              className="fixed inset-x-0 bottom-0 h-[76vh] max-h-[82vh] rounded-t-[6px] lg:rounded-none lg:static lg:inset-auto lg:h-auto lg:max-h-none lg:w-96 flex-shrink-0 border-t lg:border-t-0 lg:border-l border-white/[0.12] bg-[#101116] flex flex-col z-40 shadow-2xl overflow-hidden transition-transform"
             >
-              {/* 모바일 바텀 시트 핸들 바 */}
               <div
                 onTouchStart={(e) => {
                   sheetTouchStartY.current = e.touches[0].clientY;
                 }}
                 onTouchMove={(e) => {
                   if (sheetTouchStartY.current === null) return;
-                  const dy = Math.max(0, e.touches[0].clientY - sheetTouchStartY.current);
-                  setSheetDragY(dy);
+                  setSheetDragY(Math.max(0, e.touches[0].clientY - sheetTouchStartY.current));
                 }}
                 onTouchEnd={() => {
-                  if (sheetDragY > 60) {
+                  if (sheetDragY > 70) {
                     playCloseSound();
                     setInspectedStory(null);
                   }
@@ -3530,49 +1824,41 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   playCloseSound();
                   setInspectedStory(null);
                 }}
-                className="md:hidden flex items-center justify-center py-2.5 bg-[#0e0f12] border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none active:bg-white/[0.08]"
-                title="잡아서 아래로 당겨 닫기"
+                className="lg:hidden flex items-center justify-center py-2.5 bg-black/40 border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none"
               >
                 <div className="w-10 h-1 rounded-[1px] bg-zinc-600" />
               </div>
 
-              {/* 상단 커버 비주얼 헤더 */}
-              <div
-                onContextMenu={(e) => e.preventDefault()}
-                className="relative h-36 sm:h-44 bg-[#0c0d10] border-b border-white/[0.08] flex-shrink-0 overflow-hidden"
-              >
+              <div className="relative h-44 bg-black border-b border-white/[0.08] overflow-hidden flex-shrink-0">
                 {inspectedStory.splashVisualUrl ? (
                   <>
                     <img
                       src={resolveAssetUrl(inspectedStory.splashVisualUrl)}
                       alt={inspectedStory.titleKo}
-                      decoding="async"
+                      className="w-full h-full object-cover select-none"
                       draggable={false}
-                      onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover object-center opacity-80 select-none"
                     />
-                    <CopyrightBadge />
+                    <CopyrightBadge style={{ zIndex: 10, top: '12px', left: '12px', right: 'auto', bottom: 'auto' }} />
                   </>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-[#121316]">
                     <Layers className="w-12 h-12 text-zinc-700" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111215] via-[#111215]/45 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-[#101116]/45 to-transparent pointer-events-none" />
 
-                {/* 닫기 버튼 */}
                 <button
+                  type="button"
                   onClick={() => {
                     playCloseSound();
                     setInspectedStory(null);
                   }}
-                  className="absolute top-3 right-3 w-7 h-7 rounded-[2px] bg-[#141519]/90 hover:bg-[#1f2228] text-zinc-300 hover:text-white border border-white/15 flex items-center justify-center cursor-pointer z-10 transition-colors"
+                  className="absolute top-3 right-3 w-7 h-7 rounded-[2px] bg-[#141519]/90 hover:bg-[#1f2228] text-zinc-300 hover:text-white border border-white/15 flex items-center justify-center cursor-pointer z-10"
                   title="브리핑 닫기"
                 >
                   <X className="w-4 h-4" />
                 </button>
 
-                {/* 하단 오버레이 타이틀 */}
                 <div className="absolute bottom-3 inset-x-4 flex flex-col gap-1">
                   <div className="flex items-center gap-1.5">
                     <span className="px-2 py-0.5 text-[11px] font-mono font-black bg-zinc-100 text-black rounded-[1px]">
@@ -3581,11 +1867,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     <span className="px-2 py-0.5 text-[10px] font-mono bg-[#141519]/90 text-zinc-200 border border-white/15 rounded-[1px]">
                       {lineMetaMap.get(inspectedStory.storyLineId)?.titleKo || inspectedStory.categoryLabel}
                     </span>
-                    {inspectedStory.isOmnibus && (
-                      <span className="px-1.5 py-0.5 text-[10px] font-mono bg-[#141519]/90 text-zinc-200 border border-white/15 rounded-[1px] flex items-center gap-1">
-                        <FilmReelIcon className="w-3 h-3" /> 옴니버스
-                      </span>
-                    )}
                   </div>
                   <h2 className="text-base sm:text-lg font-black text-white leading-tight drop-shadow">
                     {inspectedStory.titleKo}
@@ -3594,9 +1875,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 </div>
               </div>
 
-              {/* 주요 액션 버튼 바 */}
-              <div className="p-3 sm:p-3.5 bg-[#15161a] border-b border-white/[0.08] flex items-center gap-2">
+              <div className="p-3 bg-[#14161c] border-b border-white/[0.08] flex items-center gap-1.5">
                 <button
+                  type="button"
                   disabled={getStoryAccessState(inspectedStory) === 'locked'}
                   onClick={() => {
                     playOpenSound();
@@ -3605,33 +1886,39 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   className="flex-1 h-9 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] disabled:bg-zinc-800 disabled:text-zinc-500 text-black font-bold text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
                   <BookOpen className="w-4 h-4" />
-                  <span>
-                    {getStoryAccessState(inspectedStory) === 'available'
-                      ? '요약본 열람'
-                      : getStoryAccessState(inspectedStory) === 'overview_only'
-                      ? '스토리 개요 열람'
-                      : '열람 불가'}
-                  </span>
+                  <span>{getStoryAccessState(inspectedStory) === 'available' ? '요약본 열람' : '개요 열람'}</span>
                 </button>
 
                 <button
+                  type="button"
+                  onClick={() => {
+                    playClickSound();
+                    setActiveThreadStoryId(inspectedStory.id);
+                    setBrowseMode('stream');
+                  }}
+                  className="h-9 px-2.5 rounded-[2px] bg-[#1a1c24] hover:bg-[#232632] text-[#f5dd1b] border border-[#f5dd1b]/35 text-xs font-mono flex items-center gap-1 cursor-pointer transition-colors"
+                  title="이 작전의 인과 체인 집중 보기"
+                >
+                  <GitBranch className="w-3.5 h-3.5" />
+                  <span>연결 추적</span>
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => {
                     playOpenSound();
                     setSelectedModalStory(inspectedStory);
                     setIsModalOpen(true);
                   }}
-                  className="h-9 px-3 rounded-[2px] bg-[#1a1c22] hover:bg-[#23262e] text-zinc-200 border border-white/15 text-xs font-mono flex items-center gap-1 cursor-pointer transition-colors"
-                  title="크게 보기 모달"
+                  className="h-9 px-2.5 rounded-[2px] bg-[#1a1c24] hover:bg-[#232632] text-zinc-200 border border-white/15 text-xs font-mono flex items-center justify-center cursor-pointer transition-colors"
+                  title="상세 스플래시"
                 >
                   <Eye className="w-3.5 h-3.5" />
-                  <span>확대</span>
                 </button>
               </div>
 
-              {/* 도크 스크롤 본문: 시놉시스 + 세부 파트 + 선행/후속/교차 서사 체인 */}
-              <div className="flex-1 overflow-y-auto p-4 pb-6 space-y-4 sm:space-y-5 prts-scrollbar text-xs">
-                {/* 시계열 메타데이터 */}
-                <div className="grid grid-cols-2 gap-2 bg-[#16181d] p-3 rounded-[2px] border border-white/[0.06] font-mono">
+              <div className="flex-1 overflow-y-auto overscroll-contain prts-modal-scroll p-4 pb-6 space-y-4 prts-scrollbar text-xs">
+                <div className="grid grid-cols-2 gap-2 bg-[#15171e] p-3 rounded-[2px] border border-white/[0.06] font-mono">
                   <div>
                     <div className="text-[10px] text-zinc-500">작전 시점</div>
                     <div className="text-xs text-[#f5dd1b] font-bold mt-0.5">{inspectedStory.timeline}</div>
@@ -3648,18 +1935,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   </div>
                 </div>
 
-                {/* 공식 작전 개요 */}
                 <div>
                   <div className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                     <Sparkles className="w-3 h-3 text-zinc-400" />
                     <span>스토리 개요</span>
                   </div>
-                  <p className="text-zinc-300 leading-relaxed bg-[#15161a] p-3 rounded-[2px] border border-white/[0.06] break-keep">
+                  <p className="text-zinc-300 leading-relaxed bg-[#15171e] p-3 rounded-[2px] border border-white/[0.06] break-keep">
                     {inspectedStory.officialSynopsis}
                   </p>
                 </div>
 
-                {/* 멀티 파트 / 옴니버스 하위 에피소드 목록 */}
                 {inspectedStory.subPages && inspectedStory.subPages.length > 0 && (
                   <div>
                     <div className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider mb-1.5">
@@ -3673,7 +1958,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                             playOpenSound();
                             onSelectStory(inspectedStory.id);
                           }}
-                          className="px-2.5 py-1.5 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.07] hover:border-white/25 cursor-pointer flex items-center justify-between text-[11px] transition-colors"
+                          className="px-2.5 py-1.5 rounded-[2px] bg-[#15171e] hover:bg-[#1e212b] border border-white/[0.07] hover:border-white/25 cursor-pointer flex items-center justify-between text-[11px] transition-colors"
                         >
                           <span className="text-zinc-200 font-medium truncate">{sp.label}</span>
                         </div>
@@ -3682,42 +1967,36 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                   </div>
                 )}
 
-                {/* 서사 연결망 (선행 작전 & 후속/교차 작전) */}
                 <div className="space-y-3 pt-2 border-t border-white/[0.08]">
                   <div className="text-[10px] font-mono font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
                     <GitBranch className="w-3.5 h-3.5 text-[#f5dd1b]" />
                     <span>연관 스토리</span>
                   </div>
 
-                  {/* 선행 작전 */}
                   <div>
                     <div className="text-[10px] font-mono text-zinc-400 mb-1">
                       ◀ 이전 / 배경 스토리 ({inspectedConnections.incoming.length})
                     </div>
                     {inspectedConnections.incoming.length === 0 ? (
-                      <div className="text-[11px] text-zinc-600 font-mono py-1">
-                        이 시리즈의 시작점입니다.
-                      </div>
+                      <div className="text-[11px] text-zinc-600 font-mono py-1">이 시리즈의 시작점입니다.</div>
                     ) : (
                       <div className="space-y-1.5">
                         {inspectedConnections.incoming.map((inc) => (
                           <div
                             key={`in-${inc.fromId}`}
                             onClick={() => focusOnStoryNode(inc.fromId)}
-                            className="p-2.5 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors"
+                            className="p-2.5 rounded-[2px] bg-[#15171e] hover:bg-[#1e212b] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
-                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-[#101114] text-zinc-200 border border-white/15 rounded-[1px]">
+                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-[#0f1014] text-zinc-200 border border-white/15 rounded-[1px]">
                                   {inc.story.code}
                                 </span>
                                 <span className="font-bold text-white">{inc.story.titleKo}</span>
                               </div>
                               <span
                                 className={`text-[9.5px] font-mono px-1.5 py-0.2 rounded-[2px] ${
-                                  inc.type === 'cross'
-                                    ? 'bg-[#f5dd1b]/15 text-[#f5dd1b]'
-                                    : 'bg-white/[0.07] text-zinc-300'
+                                  inc.type === 'cross' ? 'bg-[#f5dd1b]/15 text-[#f5dd1b]' : 'bg-white/[0.07] text-zinc-300'
                                 }`}
                               >
                                 {inc.type === 'cross' ? '교차 연결' : '이전 편'}
@@ -3730,35 +2009,30 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     )}
                   </div>
 
-                  {/* 후속 / 파생 작전 */}
                   <div>
                     <div className="text-[10px] font-mono text-zinc-400 mb-1">
                       ▶ 다음 / 파생 스토리 ({inspectedConnections.outgoing.length})
                     </div>
                     {inspectedConnections.outgoing.length === 0 ? (
-                      <div className="text-[11px] text-zinc-600 font-mono py-1">
-                        현재 시리즈의 최신 챕터이거나 독립 결말입니다.
-                      </div>
+                      <div className="text-[11px] text-zinc-600 font-mono py-1">최신 챕터이거나 독립 결말입니다.</div>
                     ) : (
                       <div className="space-y-1.5">
                         {inspectedConnections.outgoing.map((out) => (
                           <div
                             key={`out-${out.toId}`}
                             onClick={() => focusOnStoryNode(out.toId)}
-                            className="p-2.5 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors"
+                            className="p-2.5 rounded-[2px] bg-[#15171e] hover:bg-[#1e212b] border border-white/[0.07] hover:border-[#f5dd1b]/50 cursor-pointer transition-colors"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
-                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-[#101114] text-zinc-200 border border-white/15 rounded-[1px]">
+                                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-[#0f1014] text-zinc-200 border border-white/15 rounded-[1px]">
                                   {out.story.code}
                                 </span>
                                 <span className="font-bold text-white">{out.story.titleKo}</span>
                               </div>
                               <span
                                 className={`text-[9.5px] font-mono px-1.5 py-0.2 rounded-[2px] ${
-                                  out.type === 'cross'
-                                    ? 'bg-[#f5dd1b]/15 text-[#f5dd1b]'
-                                    : 'bg-white/[0.07] text-zinc-300'
+                                  out.type === 'cross' ? 'bg-[#f5dd1b]/15 text-[#f5dd1b]' : 'bg-white/[0.07] text-zinc-300'
                                 }`}
                               >
                                 {out.type === 'cross' ? '교차 연결' : '다음 편'}
@@ -3771,7 +2045,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                     )}
                   </div>
 
-                  {/* 관련 테라 권역 (3D 지도로 즉시 교차 이동) */}
                   {inspectedRegions.length > 0 && (
                     <div className="pt-2 border-t border-white/[0.06]">
                       <div className="text-[10px] font-mono text-zinc-400 mb-1.5 flex items-center gap-1">
@@ -3787,12 +2060,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                               playClickSound();
                               onNavigateToMapRegion?.(reg.id);
                             }}
-                            className="px-2 py-1 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.08] hover:border-[#f5dd1b]/55 text-[11px] font-medium text-zinc-200 hover:text-white transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                            className="px-2 py-1 rounded-[2px] bg-[#15171e] hover:bg-[#1f222c] border border-white/[0.08] hover:border-[#f5dd1b]/55 text-[11px] font-medium text-zinc-200 hover:text-white transition-colors inline-flex items-center gap-1.5 cursor-pointer"
                           >
-                            <span
-                              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                              style={{ backgroundColor: reg.badgeColor }}
-                            />
+                            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: reg.badgeColor }} />
                             <span>{reg.nameKo}</span>
                             <ChevronRight className="w-3 h-3 text-zinc-500" />
                           </button>
@@ -3807,13 +2077,15 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         )}
       </div>
 
-      {/* Story Splash Preview Modal */}
       {selectedModalStory && (
         <StorySplashModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           story={selectedModalStory}
-          onEnterStory={(storyId) => onSelectStory(storyId)}
+          onEnterStory={(id) => {
+            setIsModalOpen(false);
+            onSelectStory(id);
+          }}
         />
       )}
     </div>

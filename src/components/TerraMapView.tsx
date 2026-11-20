@@ -1,17 +1,29 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
-import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { terraRegions, terraCities, type TerraRegion } from '../data/terraRegions';
 import { storyRegistry, getStoryAccessState, type StoryListItem } from '../data/storyRegistry';
-import {
-  terraHexCells,
-  cellIndex,
-  HEX_RADIUS,
-  neighborKeys,
-  type HexCell,
-  type CellType
-} from '../data/terraHexGrid';
 import { StorySplashModal } from './StorySplashModal';
+import {
+  TACTICAL_ROUTES,
+  MAP_ERAS,
+  solveLabelCollisions,
+  type RouteCategory,
+  type ScreenLabelCandidate,
+} from './map/terraRoutesData';
+import {
+  MAP_CENTER_X,
+  MAP_CENTER_Y,
+  buildTerraTerrainAssets,
+  createTerrainShaderMaterial,
+  createWaterShaderMaterial,
+  findNearestHexCell,
+  getRegionPaletteIndex,
+  type TerraMapLens,
+} from './map/terraTerrainEngine';
 import {
   ZoomIn,
   ZoomOut,
@@ -31,7 +43,11 @@ import {
   HelpCircle,
   Keyboard,
   PanelTopClose,
-  PanelTopOpen
+  PanelTopOpen,
+  Play,
+  Pause,
+  Clock,
+  Hexagon,
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
@@ -44,542 +60,6 @@ interface TerraMapViewProps {
   isHeaderCollapsed?: boolean;
   onToggleHeaderCollapse?: () => void;
 }
-
-// Refined Tactical Mineral & Biome Palette (Balanced Chroma over Bathymetric Slate Ocean)
-const CELL_COLORS: Record<CellType, string> = {
-  // Bathymetry & Anomalies
-  deep: '#080a0f',
-  shallow: '#172534',
-  void: '#06070a',
-  crater: '#10151d',
-
-  // Neutral Continental Landmass & Extreme Environments
-  land: '#282c34',
-  frontier: '#20242c',
-  icefield: '#7d90a6',
-  foehn_hotlands: '#663826',
-
-  // 18 Major Nations & Factions (Clear Chromatic Separation without Neon Glare)
-  ursus: '#7f2f3c',
-  kazimierz: '#2c6b4d',
-  columbia: '#2c5385',
-  bolivar: '#256173',
-  yan: '#85652c',
-  sargon: '#755426',
-  minos: '#7d462d',
-  victoria: '#5c3c8a',
-  leithanien: '#495673',
-  higashi: '#454b82',
-  sami: '#5b3f80',
-  siracusa: '#734a28',
-  laterano: '#85783d',
-  rim_billiton: '#78365b',
-  iberia: '#4d692c',
-  kazdel: '#6d307d',
-  siesta: '#246680',
-  kjerag: '#4f82a3',
-};
-
-// Baseline Regional Elevation (World Units) — recessed bathymetry below 2.05u water surface, sculpted landmass relief
-const ELEVATION_MAP: Record<CellType, number> = {
-  kjerag: 18.5,
-  foehn_hotlands: 13.8,
-  icefield: 12.6,
-  sami: 11.4,
-  ursus: 11.2,
-  leithanien: 10.6,
-  yan: 10.2,
-  victoria: 9.6,
-  columbia: 9.2,
-  laterano: 9.2,
-  kazdel: 9.2,
-  kazimierz: 8.8,
-  siracusa: 8.8,
-  sargon: 8.8,
-  higashi: 8.8,
-  minos: 8.4,
-  rim_billiton: 8.4,
-  bolivar: 7.4,
-  iberia: 7.4,
-  siesta: 7.4,
-  frontier: 6.4,
-  land: 5.6,
-  shallow: 1.25,
-  crater: 0.7,
-  deep: 0.18,
-  void: 0.12,
-};
-
-const MAP_CENTER_X = 410.5;
-const MAP_CENTER_Y = 512.0;
-
-// Smooth coherent multi-octave ridge function (deterministic, zero random spikes)
-function coherentRidge(x: number, y: number): number {
-  const n1 = Math.sin(x * 0.045 + y * 0.032) * Math.cos(x * 0.028 - y * 0.048);
-  const n2 = Math.sin(x * 0.095 - y * 0.075 + 1.4) * 0.5;
-  const n3 = Math.cos(x * 0.16 + y * 0.14 + 0.7) * 0.25;
-  const ridge = 1.0 - Math.abs(Math.sin(x * 0.038 - y * 0.042 + n1 * 0.9));
-  return (n1 * 0.45 + n2 * 0.3 + n3 * 0.15 + (ridge - 0.5) * 0.85);
-}
-
-// Precompute natural intra-region topographical height for every hex cell
-const CELL_TERRAIN_HEIGHTS = new Float32Array(terraHexCells.length);
-const CELL_INDEX_LOOKUP = new Map<string, number>();
-terraHexCells.forEach((c, idx) => {
-  CELL_INDEX_LOOKUP.set(`${c.row},${c.col}`, idx);
-});
-
-(() => {
-  terraHexCells.forEach((cell, idx) => {
-    const isWater =
-      cell.type === 'deep' ||
-      cell.type === 'shallow' ||
-      cell.type === 'void' ||
-      cell.type === 'crater';
-
-    if (isWater) {
-      CELL_TERRAIN_HEIGHTS[idx] = ELEVATION_MAP[cell.type] ?? 0.6;
-      return;
-    }
-
-    // Count neighboring water cells and same-region cells to create natural coastal slopes & interior plateaus
-    const nKeys = neighborKeys(cell.row, cell.col);
-    let waterNeighbors = 0;
-    let sameRegionNeighbors = 0;
-    for (let i = 0; i < 6; i++) {
-      const nc = cellIndex.get(nKeys[i]);
-      if (!nc || nc.type === 'deep' || nc.type === 'shallow' || nc.type === 'void') {
-        waterNeighbors++;
-      }
-      if (nc && nc.regionId === cell.regionId) {
-        sameRegionNeighbors++;
-      }
-    }
-
-    const base = ELEVATION_MAP[cell.type] ?? 4.8;
-    const wave = coherentRidge(cell.x, cell.y);
-    const interiorFactor = sameRegionNeighbors / 6; // 0 at tips, 1 deep inside region
-    const coastalSlope = waterNeighbors > 0 ? Math.max(0.55, 1 - waterNeighbors * 0.12) : 1.0;
-
-    // Distance to Mount Karlan (Kjerag sacred peak at 318, 510)
-    const distKjerag = Math.hypot(cell.x - 318, cell.y - 510);
-    // Distance to Foehn Hotlands volcanic core (225, 744)
-    const distFoehn = Math.hypot(cell.x - 225, cell.y - 744);
-    // Distance to Western Yan Sui mountain chain (595, 445)
-    const distYanMountains = Math.hypot(cell.x - 595, cell.y - 445);
-    // Distance to Central Ursus mountain range (455, 390)
-    const distUrsusRidge = Math.hypot(cell.x - 455, cell.y - 390);
-
-    let h = base;
-
-    if (cell.type === 'kjerag') {
-      // Towering alpine peak of Mount Karlan (peaking cleanly above northern plateaus)
-      const peakBoost = Math.max(0, 1 - distKjerag / 28) * 3.8;
-      h = (base - 1.0 + peakBoost + wave * 1.15);
-    } else if (cell.type === 'foehn_hotlands') {
-      // High volcanic plateau with crater wave
-      const rimWave = Math.sin(distFoehn * 0.14) * 1.8;
-      h = (base + interiorFactor * 2.1 + wave * 1.5 + rimWave) * coastalSlope;
-    } else if (cell.type === 'icefield' || cell.type === 'sami') {
-      // Northern glacial ridges
-      const northBoost = Math.max(0, (410 - cell.y) * 0.025);
-      h = (base + northBoost + interiorFactor * 1.8 + wave * 1.4) * coastalSlope;
-    } else if (cell.type === 'ursus') {
-      // Vast northern empire with central Ural-like mountain chain & lower border steppes
-      const ridgeBoost = Math.max(0, 1 - distUrsusRidge / 85) * 2.6;
-      h = (base - 0.3 + interiorFactor * 1.7 + ridgeBoost + wave * 1.3) * coastalSlope;
-    } else if (cell.type === 'yan') {
-      // Western mountains (Sui peaks) tapering to eastern plains
-      const suiBoost = Math.max(0, 1 - distYanMountains / 75) * 2.4;
-      const eastSlope = Math.max(-1.2, (620 - cell.x) * 0.024);
-      h = (base - 0.2 + interiorFactor * 1.5 + suiBoost + eastSlope + wave * 1.2) * coastalSlope;
-    } else if (cell.type === 'iberia' || cell.type === 'siesta' || cell.type === 'bolivar') {
-      // Low coastal shelves gently rising inland
-      h = (base - 0.2 + interiorFactor * 1.2 + wave * 0.9) * coastalSlope;
-    } else if (cell.regionId) {
-      // Other major nations: natural rolling relief
-      const foothillKjerag = distKjerag < 52 ? (1 - distKjerag / 52) * 3.2 : 0;
-      h = (base - 0.2 + interiorFactor * 1.4 + foothillKjerag + wave * 1.1) * coastalSlope;
-    } else {
-      // Neutral continental land & frontier: continuous mountain foothills and basins
-      const foothillKjerag = distKjerag < 58 ? (1 - distKjerag / 58) * 4.5 : 0;
-      const foothillFoehn = distFoehn < 95 ? (1 - distFoehn / 95) * 2.4 : 0;
-      const northGlacier = cell.y < 340 ? (340 - cell.y) * 0.02 : 0;
-      h = (base + foothillKjerag + foothillFoehn + northGlacier + wave * 1.0) * coastalSlope;
-    }
-
-    CELL_TERRAIN_HEIGHTS[idx] = Math.max(3.6, h);
-  });
-})();
-
-function sampleTerrainHeightAtPixel(px: number, py: number): number {
-  let bestDist = Infinity;
-  let bestH = 6.0;
-  for (let i = 0; i < terraHexCells.length; i++) {
-    const c = terraHexCells[i];
-    const d = Math.hypot(c.x - px, c.y - py);
-    if (d < bestDist) {
-      bestDist = d;
-      bestH = CELL_TERRAIN_HEIGHTS[i];
-    }
-  }
-  return bestH;
-}
-
-// Canonical Operational 3D Trajectory Routes linked with Accurate Hex Coordinates & Story Registry
-type RouteCategory = 'main' | 'series' | 'expedition';
-
-interface TacticalRouteArc {
-  id: string;
-  code: string;
-  category: RouteCategory;
-  shortLabel: string;
-  fullLabel: string;
-  fromPixel: { x: number; y: number };
-  toPixel: { x: number; y: number };
-  color: string;
-  storyId: string;
-  regionIds: string[];
-  labelT?: number;
-  arcHeightOffset?: number;
-}
-
-const TACTICAL_ROUTES: TacticalRouteArc[] = [
-  // =========================================================================
-  // 1. 메인 스토리 대서사 기동 (Main Theme Trajectories — 5개)
-  // =========================================================================
-  {
-    id: 'route_act1_cher_lung',
-    code: 'EP.00~03',
-    category: 'main',
-    shortLabel: '체르노보그 → 용문',
-    fullLabel: 'Act I: 체르노보그 박사 구출 및 이동도시 용문 합류 기동',
-    fromPixel: { x: 534, y: 424 },
-    toPixel: { x: 583, y: 450 },
-    color: '#f5dd1b',
-    storyId: 'ep00',
-    regionIds: ['ursus', 'yan'],
-    labelT: 0.42,
-    arcHeightOffset: 4
-  },
-  {
-    id: 'route_act1_lung_core',
-    code: 'EP.06~08',
-    category: 'main',
-    shortLabel: '용문 → 체르노보그 핵심부',
-    fullLabel: 'Act I: 부분 괴사 ~ 울부짖는 광명 (핵심부 충돌 저지 결전)',
-    fromPixel: { x: 583, y: 450 },
-    toPixel: { x: 519, y: 415 },
-    color: '#eab308',
-    storyId: 'ep08',
-    regionIds: ['yan', 'ursus'],
-    labelT: 0.58,
-    arcHeightOffset: 12
-  },
-  {
-    id: 'route_act2_hillock',
-    code: 'EP.09',
-    category: 'main',
-    shortLabel: '힐록 카운티 → 런디니움',
-    fullLabel: 'Act II 스톰워치: 더블린 봉기 및 힐록 카운티 사태 진상 규명',
-    fromPixel: { x: 356, y: 537 },
-    toPixel: { x: 386, y: 554 },
-    color: '#e87d45',
-    storyId: 'ep09',
-    regionIds: ['victoria'],
-    labelT: 0.46,
-    arcHeightOffset: 2
-  },
-  {
-    id: 'route_act2_victoria',
-    code: 'EP.10~14',
-    category: 'main',
-    shortLabel: '카즈델 → 런디니움',
-    fullLabel: 'Act II: 살카즈 군사위원회 런디니움 점령 및 로도스 탈환 작전',
-    fromPixel: { x: 543, y: 502 },
-    toPixel: { x: 386, y: 554 },
-    color: '#f59e0b',
-    storyId: 'ep14',
-    regionIds: ['kazdel', 'victoria'],
-    labelT: 0.48,
-    arcHeightOffset: 8
-  },
-  {
-    id: 'route_act3_ep17',
-    code: 'EP.16~17',
-    category: 'main',
-    shortLabel: '디에티 그라이퍼부르크 → 북부 빙원',
-    fullLabel: 'Act III: 비정상 스펙트럼 ~ 임계 상전이 (우르수스 북방 빙원 전선)',
-    fromPixel: { x: 455, y: 398 },
-    toPixel: { x: 419, y: 280 },
-    color: '#b57ce8',
-    storyId: 'ep17',
-    regionIds: ['ursus', 'infy_icefield', 'sami'],
-    labelT: 0.5,
-    arcHeightOffset: 6
-  },
-
-  // =========================================================================
-  // 2. 국가·세력별 메이저 스토리 라인 기동 (Major Story Line Arcs — 9개)
-  // =========================================================================
-  {
-    id: 'route_babel_excavation',
-    code: 'RL-04',
-    category: 'series',
-    shortLabel: '림 빌리턴 → 카즈델',
-    fullLabel: '바벨(Babel): 림 빌리턴 본함 발굴 및 카즈델 귀환 대원정',
-    fromPixel: { x: 548, y: 597 },
-    toPixel: { x: 543, y: 502 },
-    color: '#54c5d0',
-    storyId: 'sid_babel',
-    regionIds: ['rim_billiton', 'kazdel'],
-    labelT: 0.52,
-    arcHeightOffset: 4
-  },
-  {
-    id: 'route_darknights',
-    code: 'RL-01',
-    category: 'series',
-    shortLabel: '카즈델 → 체르노보그',
-    fullLabel: '흑야의 회고록: 바벨 붕괴 후 박사 석관 이송 및 W 소대 추적',
-    fromPixel: { x: 543, y: 502 },
-    toPixel: { x: 534, y: 424 },
-    color: '#56b4e9',
-    storyId: 'sid_darknights_memoir',
-    regionIds: ['kazdel', 'ursus'],
-    labelT: 0.5,
-    arcHeightOffset: 2
-  },
-  {
-    id: 'route_kazimierz_major',
-    code: 'KA-01~03',
-    category: 'series',
-    shortLabel: '물방울 마을 → 카발레리에키',
-    fullLabel: '니어 라이트 연작: 카시미어 변경에서 대기사령 결전까지의 여정',
-    fromPixel: { x: 376, y: 476 },
-    toPixel: { x: 356, y: 450 },
-    color: '#d4a62a',
-    storyId: 'sid_near_light',
-    regionIds: ['kazimierz'],
-    labelT: 0.5,
-    arcHeightOffset: 3
-  },
-  {
-    id: 'route_sui_shangshu',
-    code: 'SU-01~03',
-    category: 'series',
-    shortLabel: '용문 → 상촉 · 백조',
-    fullLabel: '쉐이(Sui) 연대기: 삼자매(니엔·더스크·링) 합류 및 사세대(司岁台) 및 염국 관원들과의 상촉·백조 행 (에인션트 포지 ~ 장진주)',
-    fromPixel: { x: 583, y: 450 },
-    toPixel: { x: 622, y: 493 },
-    color: '#48b5d6',
-    storyId: 'sid_invitation_to_wine',
-    regionIds: ['yan'],
-    labelT: 0.54,
-    arcHeightOffset: 3
-  },
-  {
-    id: 'route_sui_yumen',
-    code: 'SU-04~06',
-    category: 'series',
-    shortLabel: '옥문 → 백조 → 대황성',
-    fullLabel: "쉐이(Sui) 연대기: 옥문에서 쉐이 맏형 '총웨(종사)'와 함께 둘째 '왕'의 음모를 분쇄한 뒤, 천자의 황성 백조를 거쳐 동방의 곡창도시 대황성(회서리)에서 여섯째 '슈'와 함께 대재앙에 맞서는 대장정",
-    fromPixel: { x: 602, y: 424 },
-    toPixel: { x: 686, y: 441 },
-    color: '#ddb33a',
-    storyId: 'sid_vernal_winds',
-    regionIds: ['yan'],
-    labelT: 0.5,
-    arcHeightOffset: 6
-  },
-  {
-    id: 'route_rhine_pioneer',
-    code: 'RH-01~02',
-    category: 'series',
-    shortLabel: '맨스필드 · 359호 기지 → 트리마운츠',
-    fullLabel: '맨스필드 브레이크 ~ 도로시의 비전: 359호 기지 실험 데이터 트리마운츠 집결',
-    fromPixel: { x: 283, y: 458 },
-    toPixel: { x: 243, y: 476 },
-    color: '#2db883',
-    storyId: 'sid_dorothys_vision',
-    regionIds: ['columbia'],
-    labelT: 0.48,
-    arcHeightOffset: 4
-  },
-  {
-    id: 'route_lonetrail',
-    code: 'RH-03',
-    category: 'series',
-    shortLabel: '트리마운츠 → 북부 궤도 (상공 투영)',
-    fullLabel: '론 트레일: 트리마운츠 외곽 지하에서 이륙한 초점 발생기(아크 1호)와 에너지 우물을 가동하여 5,000m 상공에서 스텔라리아를 발사, 6,152m 대기 차단층을 돌파 (상공 투영 궤적)',
-    fromPixel: { x: 243, y: 476 },
-    toPixel: { x: 320, y: 138 },
-    color: '#38bdf8',
-    storyId: 'sid_lone_trail',
-    regionIds: ['columbia', 'north_stargate', 'infy_icefield', 'sami'],
-    labelT: 0.45,
-    arcHeightOffset: 14
-  },
-  {
-    id: 'route_iberia_coast',
-    code: 'AE-02',
-    category: 'series',
-    shortLabel: '살비엔토 → 그란파로',
-    fullLabel: '언더 타이즈: 살비엔토 해안 어비설 헌터스 집결 및 등대 수색',
-    fromPixel: { x: 415, y: 658 },
-    toPixel: { x: 450, y: 667 },
-    color: '#3bc4b2',
-    storyId: 'sid_under_tides',
-    regionIds: ['iberia'],
-    labelT: 0.46,
-    arcHeightOffset: 2
-  },
-  {
-    id: 'route_abyss',
-    code: 'AE-03~04',
-    category: 'series',
-    shortLabel: '그란파로 → 에기르 밀리아리움',
-    fullLabel: '스툴티페라 나비스 ~ 삶의 길: 이베리아 대등대 및 에기르 심해 원정',
-    fromPixel: { x: 450, y: 667 },
-    toPixel: { x: 586, y: 867 },
-    color: '#2887c7',
-    storyId: 'sid_stultifera_navis',
-    regionIds: ['iberia', 'aegir'],
-    labelT: 0.5,
-    arcHeightOffset: 8
-  },
-
-  // =========================================================================
-  // 3. 대륙 횡단 및 다국적 장거리 원정 (Continental Expeditions — 4개)
-  // =========================================================================
-  {
-    id: 'route_leithanien_spire',
-    code: 'LE-01~03',
-    category: 'expedition',
-    shortLabel: '월루몽드 → 츠빌링슈튀르메',
-    fullLabel: '고탑의 그림자: 월루몽드의 황혼 ~ 츠빌링슈튀르메의 가을',
-    fromPixel: { x: 455, y: 519 },
-    toPixel: { x: 425, y: 502 },
-    color: '#a56be0',
-    storyId: 'sid_zwillingsturme',
-    regionIds: ['leithanien'],
-    labelT: 0.5,
-    arcHeightOffset: 3
-  },
-  {
-    id: 'route_siracusa_return',
-    code: 'SI-01',
-    category: 'expedition',
-    shortLabel: '용문 → 시라쿠사 볼시니',
-    fullLabel: "시라쿠사인: 구도시 볼시니로 귀환하여 패밀리 결전을 치르고 신생 자치 이동도시 '누오바 볼시니'를 세운 행적",
-    fromPixel: { x: 583, y: 450 },
-    toPixel: { x: 494, y: 519 },
-    color: '#d1783c',
-    storyId: 'sid_il_siracusano',
-    regionIds: ['yan', 'siracusa'],
-    labelT: 0.54,
-    arcHeightOffset: 6
-  },
-  {
-    id: 'route_kjerag_silver',
-    code: 'KJ-01~02',
-    category: 'expedition',
-    shortLabel: '런디니움 → 쉐라그 투리쿰',
-    fullLabel: '설산과 은철: 브레이크 디 아이스 ~ 은심호 열차 개통 작전',
-    fromPixel: { x: 386, y: 554 },
-    toPixel: { x: 317, y: 519 },
-    color: '#68b8de',
-    storyId: 'sid_break_the_ice',
-    regionIds: ['victoria', 'kjerag'],
-    labelT: 0.52,
-    arcHeightOffset: 5
-  },
-  {
-    id: 'route_summer_siesta',
-    code: 'ST-01~04',
-    category: 'expedition',
-    shortLabel: '시에스타 (신 시에스타) → 아카후알라',
-    fullLabel: '여름의 리듬: 파란 불꽃의 마음 ~ 가비알 리턴즈 & 아카후알라 두린 지하도시 쎄루에르차 원정',
-    fromPixel: { x: 334, y: 593 },
-    toPixel: { x: 258, y: 649 },
-    color: '#24b2cc',
-    storyId: 'sid_heart_of_surging_flame',
-    regionIds: ['siesta', 'sargon'],
-    labelT: 0.5,
-    arcHeightOffset: 5
-  }
-];
-
-// Precompute outer perimeter segments in 3D map coordinates hugging each cell's natural terrain height
-interface PerimeterSegment {
-  x1: number;
-  z1: number;
-  x2: number;
-  z2: number;
-  baseY: number;
-}
-
-const REGION_PERIMETER_SEGMENTS = new Map<string, PerimeterSegment[]>();
-(() => {
-  const r = HEX_RADIUS * 1.01;
-  terraHexCells.forEach((cell, idx) => {
-    if (!cell.regionId) return;
-    if (!REGION_PERIMETER_SEGMENTS.has(cell.regionId)) {
-      REGION_PERIMETER_SEGMENTS.set(cell.regionId, []);
-    }
-    const nKeys = neighborKeys(cell.row, cell.col);
-    const cx = cell.x - MAP_CENTER_X;
-    const cz = cell.y - MAP_CENTER_Y;
-    const baseY = CELL_TERRAIN_HEIGHTS[idx];
-
-    for (let i = 0; i < 6; i++) {
-      const nc = cellIndex.get(nKeys[i]);
-      if (!nc || nc.regionId !== cell.regionId) {
-        const rad1 = ((60 * i - 30) * Math.PI) / 180;
-        const rad2 = ((60 * ((i + 1) % 6) - 30) * Math.PI) / 180;
-        REGION_PERIMETER_SEGMENTS.get(cell.regionId)!.push({
-          x1: cx + r * Math.cos(rad1),
-          z1: cz + r * Math.sin(rad1),
-          x2: cx + r * Math.cos(rad2),
-          z2: cz + r * Math.sin(rad2),
-          baseY
-        });
-      }
-    }
-  });
-})();
-
-const COASTAL_SHORELINE_POSITIONS: Float32Array = (() => {
-  const r = HEX_RADIUS * 0.99;
-  const isWaterType = (t: CellType) =>
-    t === 'deep' || t === 'shallow' || t === 'void' || t === 'crater';
-  const coords: number[] = [];
-
-  terraHexCells.forEach((cell) => {
-    if (isWaterType(cell.type)) return;
-    const nKeys = neighborKeys(cell.row, cell.col);
-    const cx = cell.x - MAP_CENTER_X;
-    const cz = cell.y - MAP_CENTER_Y;
-
-    for (let i = 0; i < 6; i++) {
-      const nc = cellIndex.get(nKeys[i]);
-      if (!nc || isWaterType(nc.type)) {
-        const rad1 = ((60 * i - 30) * Math.PI) / 180;
-        const rad2 = ((60 * ((i + 1) % 6) - 30) * Math.PI) / 180;
-        coords.push(
-          cx + r * Math.cos(rad1),
-          0,
-          cz + r * Math.sin(rad1),
-          cx + r * Math.cos(rad2),
-          0,
-          cz + r * Math.sin(rad2)
-        );
-      }
-    }
-  });
-
-  return new Float32Array(coords);
-})();
 
 interface MobilePreviewCardData {
   type: 'city' | 'route';
@@ -605,15 +85,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const [hoveredRegionId, setHoveredRegionId] = useState<string | null>(null);
   const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
   const [splashStory, setSplashStory] = useState<StoryListItem | null>(null);
+
+  // 3 Tactical Cartography Lenses + Thin Hex Lattice Overlay Toggle
+  const [mapLens, setMapLens] = useState<TerraMapLens>('relief');
+  const [chronicleEraIdx, setChronicleEraIdx] = useState<0 | 1 | 2 | 3 | 4>(1);
+  const [isEraPlaying, setIsEraPlaying] = useState<boolean>(false);
+  const [showHexLattice, setShowHexLattice] = useState<boolean>(true);
   const [showElevation, setShowElevation] = useState<boolean>(true);
   const [showLogos, setShowLogos] = useState<boolean>(true);
   const [showCities, setShowCities] = useState<boolean>(true);
   const [showRoutes, setShowRoutes] = useState<boolean>(true);
   const [routeFilter, setRouteFilter] = useState<'all' | RouteCategory>('main');
+
   const [isSectorListOpen, setIsSectorListOpen] = useState<boolean>(false);
   const [sectorSearch, setSectorSearch] = useState<string>('');
-  const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d');
   const [isLegendOpen, setIsLegendOpen] = useState<boolean>(false);
+
   const [isTouchOrMobile, setIsTouchOrMobile] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
@@ -639,7 +126,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     return () => window.removeEventListener('resize', handleWindowMetrics);
   }, []);
 
-  // Ensure Three.js and DOM overlays immediately adapt when Fullscreen/Header Collapse changes
   useEffect(() => {
     const t = window.setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
@@ -647,7 +133,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     return () => window.clearTimeout(t);
   }, [isHeaderCollapsed]);
 
-  // Open StorySplashModal Popup for a given storyId
+  // Chronicle playback auto-advance timer
+  useEffect(() => {
+    if (mapLens !== 'chronicle' || !isEraPlaying) return;
+    const timer = window.setInterval(() => {
+      setChronicleEraIdx((prev) => ((prev + 1) % MAP_ERAS.length) as 0 | 1 | 2 | 3 | 4);
+    }, 3400);
+    return () => window.clearInterval(timer);
+  }, [mapLens, isEraPlaying]);
+
   const handleOpenStoryPopup = useCallback(
     (storyId: string) => {
       const found = storyRegistry.find((s) => s.id === storyId);
@@ -667,12 +161,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const cityPinRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const routePinRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  // Keyboard navigation & modal state refs for 60/120fps render loop
   const keysDownRef = useRef<Set<string>>(new Set());
   const legendOpenRef = useRef<boolean>(false);
   const splashStoryRef = useRef<StoryListItem | null>(null);
 
-  // Telemetry DOM Direct Refs (Zero React Re-render at 144Hz)
+  // Telemetry DOM Direct Refs (Zero React Re-render at 60/120Hz)
   const telemetryCoordRef = useRef<HTMLSpanElement>(null);
   const telemetryAngleRef = useRef<HTMLSpanElement>(null);
   const telemetryZoomRef = useRef<HTMLSpanElement>(null);
@@ -680,34 +173,31 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const telemetryYawSliderRef = useRef<HTMLInputElement>(null);
   const telemetryYawTextRef = useRef<HTMLSpanElement>(null);
 
-  // Camera State Ref (Spherical Orbit around Target)
   const camStateRef = useRef({
     targetX: 0,
-    targetZ: -20,
+    targetZ: -25,
     currentX: 0,
-    currentZ: -20,
+    currentZ: -25,
     targetRadius: 515,
     currentRadius: 515,
-    targetPolar: (50 * Math.PI) / 180, // 50 deg sculpted 3D perspective
-    currentPolar: (50 * Math.PI) / 180,
+    targetPolar: (49 * Math.PI) / 180,
+    currentPolar: (49 * Math.PI) / 180,
     targetAzimuth: 0,
     currentAzimuth: 0,
   });
 
-  // Sync state to refs for WebGL loop access
+  // Sync state to refs for WebGL render loop
   const hoveredRegionRef = useRef<string | null>(null);
   const hoveredPinRegionRef = useRef<string | null>(null);
   const pinnedRegionRef = useRef<string | null>(null);
+  const mapLensRef = useRef<TerraMapLens>(mapLens);
+  const chronicleEraRef = useRef<number>(chronicleEraIdx);
+  const showHexLatticeRef = useRef<boolean>(showHexLattice);
   const showElevationRef = useRef<boolean>(showElevation);
   const showCitiesRef = useRef<boolean>(showCities);
   const showRoutesRef = useRef<boolean>(showRoutes);
   const routeFilterRef = useRef<'all' | RouteCategory>(routeFilter);
-  const viewModeRef = useRef<'3d' | '2d'>(viewMode);
-
-  const handleSetAzimuthDegrees = (degrees: number) => {
-    if (viewModeRef.current === '2d') return; // 2D 모드에서는 각도 조절 제한
-    camStateRef.current.targetAzimuth = (degrees * Math.PI) / 180;
-  };
+  const paletteSyncRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     legendOpenRef.current = isLegendOpen;
@@ -726,6 +216,20 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   }, [pinnedRegionId]);
 
   useEffect(() => {
+    mapLensRef.current = mapLens;
+    paletteSyncRef.current?.();
+  }, [mapLens]);
+
+  useEffect(() => {
+    chronicleEraRef.current = chronicleEraIdx;
+    paletteSyncRef.current?.();
+  }, [chronicleEraIdx]);
+
+  useEffect(() => {
+    showHexLatticeRef.current = showHexLattice;
+  }, [showHexLattice]);
+
+  useEffect(() => {
     showElevationRef.current = showElevation;
   }, [showElevation]);
 
@@ -741,17 +245,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     routeFilterRef.current = routeFilter;
   }, [routeFilter]);
 
-  useEffect(() => {
-    viewModeRef.current = viewMode;
-  }, [viewMode]);
-
   const regionLookup = useMemo(() => {
     const map = new Map<string, TerraRegion>();
     terraRegions.forEach((r) => map.set(r.id, r));
     return map;
   }, []);
 
-  // Clicked/selected region opens the right-hand Dossier drawer
   const pinnedRegion = pinnedRegionId ? regionLookup.get(pinnedRegionId) || null : null;
 
   const pinnedRegionStories = useMemo<StoryListItem[]>(() => {
@@ -782,13 +281,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     );
   }, [sectorSearch]);
 
-  // Fly 3D Camera smoothly to a specific Region or City
-  const flyToPixelCoords = useCallback((px: number, py: number, zoomRadius = 340, pitchDeg = 46) => {
+  const flyToPixelCoords = useCallback((px: number, py: number, zoomRadius = 335, pitchDeg = 45) => {
     const cam = camStateRef.current;
     cam.targetX = px - MAP_CENTER_X;
     cam.targetZ = py - MAP_CENTER_Y;
     cam.targetRadius = zoomRadius;
-    cam.targetPolar = viewModeRef.current === '2d' ? 0.001 : (pitchDeg * Math.PI) / 180;
+    cam.targetPolar = mapLensRef.current === 'blueprint' ? 0.001 : (pitchDeg * Math.PI) / 180;
   }, []);
 
   const handleSelectRegion = useCallback(
@@ -806,18 +304,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         flyToPixelCoords(
           reg.emblemPixelCoords.x,
           reg.emblemPixelCoords.y,
-          340,
-          viewMode === '2d' ? 0 : 46
+          335,
+          mapLensRef.current === 'blueprint' ? 0 : 45
         );
         if (telemetrySectorRef.current) {
           telemetrySectorRef.current.textContent = `${reg.nameKo} (${reg.nameEn.toUpperCase()})`;
         }
       }
     },
-    [regionLookup, flyToPixelCoords, viewMode]
+    [regionLookup, flyToPixelCoords]
   );
 
-  // 외부 뷰(연대기/커맨드 팔레트)에서 특정 권역 포커스 요청 수신 시 1회 이동
+  // Receive external focus requests (Chronicle / Command Palette)
   useEffect(() => {
     if (!initialFocusRegionId) return;
     if (!regionLookup.has(initialFocusRegionId)) {
@@ -831,18 +329,28 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     return () => cancelAnimationFrame(raf);
   }, [initialFocusRegionId, regionLookup, handleSelectRegion, onConsumeInitialRegion]);
 
-  const handleToggleViewMode = (mode: '3d' | '2d') => {
+  const handleSwitchLens = (lens: TerraMapLens) => {
     playTabSwitchSound();
-    setViewMode(mode);
+    setMapLens(lens);
     const cam = camStateRef.current;
-    if (mode === '3d') {
-      cam.targetPolar = (50 * Math.PI) / 180;
-      cam.targetRadius = Math.min(540, cam.targetRadius);
-    } else {
+    if (lens === 'blueprint') {
+      setIsEraPlaying(false);
       cam.targetPolar = 0.001;
       cam.targetAzimuth = 0;
-      cam.targetRadius = 620;
+      cam.targetRadius = Math.max(540, Math.min(680, cam.targetRadius));
+    } else {
+      if (cam.targetPolar < 0.15) {
+        cam.targetPolar = (49 * Math.PI) / 180;
+      }
+      if (lens === 'chronicle') {
+        setShowRoutes(true);
+      }
     }
+  };
+
+  const handleSetAzimuthDegrees = (degrees: number) => {
+    if (mapLensRef.current === 'blueprint') return;
+    camStateRef.current.targetAzimuth = (degrees * Math.PI) / 180;
   };
 
   const handleResetCamera = () => {
@@ -852,14 +360,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     setSelectedCityId(null);
     const cam = camStateRef.current;
     cam.targetX = 0;
-    cam.targetZ = -20;
+    cam.targetZ = -25;
     cam.targetAzimuth = 0;
-    if (viewMode === '2d') {
-      cam.targetRadius = 620;
+    if (mapLensRef.current === 'blueprint') {
+      cam.targetRadius = 600;
       cam.targetPolar = 0.001;
     } else {
       cam.targetRadius = 515;
-      cam.targetPolar = (50 * Math.PI) / 180;
+      cam.targetPolar = (49 * Math.PI) / 180;
     }
   };
 
@@ -870,13 +378,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   };
 
   const handleRotateYaw = (deltaRad: number) => {
-    if (viewModeRef.current === '2d') return; // 2D 모드에서는 회전 제한
+    if (mapLensRef.current === 'blueprint') return;
     playClickSound();
     camStateRef.current.targetAzimuth += deltaRad;
   };
 
   // =========================================================================
-  // THREE.JS WEBGL 3D TACTICAL ENGINE INITIALIZATION & RENDER LOOP
+  // THREE.JS CONTINUOUS RELIEF + HEX LATTICE + SELECTIVE BLOOM PIPELINE
   // =========================================================================
   useEffect(() => {
     const container = mountRef.current;
@@ -885,268 +393,69 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     const width = container.clientWidth || 1200;
     const height = container.clientHeight || 800;
 
-    // 1. Scene & Atmospheric Depth Fog
+    // 1. Scene & Atmospheric Horizon Fog
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#090b10');
-    scene.fog = new THREE.FogExp2(0x090b10, 0.00105);
+    scene.background = new THREE.Color('#080a0f');
+    scene.fog = new THREE.FogExp2(0x080a0f, 0.00088);
 
     // 2. Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 5, 2600);
 
-    // 3. High-Spec WebGLRenderer (PCFSoftShadowMap + ACESFilmicToneMapping)
+    // 3. Renderer + Selective Post-Processing Composer (UnrealBloomPass + OutputPass)
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       powerPreference: 'high-performance',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.18;
+    renderer.toneMappingExposure = 1.08;
     renderer.domElement.style.touchAction = 'none';
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
-    // 4. Balanced Glare-Free Studio & Architectural Relief Lighting
-    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x0c1018, 1.15);
-    hemiLight.position.set(0, 500, 0);
-    scene.add(hemiLight);
-
-    const keyLight = new THREE.DirectionalLight(0xfffbf2, 1.68);
-    keyLight.position.set(250, 340, 240);
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
-    keyLight.shadow.camera.near = 120;
-    keyLight.shadow.camera.far = 1150;
-    const shadowBounds = 430;
-    keyLight.shadow.camera.left = -shadowBounds;
-    keyLight.shadow.camera.right = shadowBounds;
-    keyLight.shadow.camera.top = shadowBounds;
-    keyLight.shadow.camera.bottom = -shadowBounds;
-    keyLight.shadow.bias = -0.00045;
-    keyLight.shadow.normalBias = 0.02;
-    scene.add(keyLight);
-
-    const rimLight = new THREE.DirectionalLight(0x93c5fd, 0.58);
-    rimLight.position.set(-300, 220, -260);
-    scene.add(rimLight);
-
-    // 5. Matte Seabed + Elevated Translucent Bathymetric Ocean Shader Surface
-    const baseGroup = new THREE.Group();
-    scene.add(baseGroup);
-
-    const seabedGeo = new THREE.CircleGeometry(660, 64);
-    seabedGeo.rotateX(-Math.PI / 2);
-    const seabedMat = new THREE.MeshStandardMaterial({
-      color: 0x07090d,
-      roughness: 0.94,
-      metalness: 0.06,
+    const maxSamples = Math.min(4, renderer.capabilities.maxSamples || 0);
+    const composerTarget = new THREE.WebGLRenderTarget(width, height, {
+      type: THREE.HalfFloatType,
+      samples: maxSamples,
     });
-    const seabedPlane = new THREE.Mesh(seabedGeo, seabedMat);
-    seabedPlane.position.y = -0.25;
-    seabedPlane.receiveShadow = true;
-    baseGroup.add(seabedPlane);
+    const composer = new EffectComposer(renderer, composerTarget);
+    const renderPass = new RenderPass(scene, camera);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.32, 0.42, 0.82);
+    const outputPass = new OutputPass();
+    composer.addPass(renderPass);
+    composer.addPass(bloomPass);
+    composer.addPass(outputPass);
 
-    const oceanUniforms = {
-      uTime: { value: 0 },
+    // 4. Sculpted Continuous Topographical Mesh + Exact Engraved Hex Lattice Shader
+    const terrainAssets = buildTerraTerrainAssets();
+    const terrainMat = createTerrainShaderMaterial(terrainAssets);
+    const terrainMesh = new THREE.Mesh(terrainAssets.terrainGeo, terrainMat);
+    scene.add(terrainMesh);
+
+    const syncPaletteMask = () => {
+      const isChronicle = mapLensRef.current === 'chronicle';
+      const era = MAP_ERAS[chronicleEraRef.current] || MAP_ERAS[0];
+      const activeSet = new Set(era.activeRegionIds);
+      for (let i = 0; i < terraRegions.length; i++) {
+        const reg = terraRegions[i];
+        const idx = i + 1;
+        terrainAssets.paletteData[idx * 4 + 3] = !isChronicle || activeSet.has(reg.id) ? 255 : 36;
+      }
+      terrainAssets.paletteTex.needsUpdate = true;
     };
+    paletteSyncRef.current = syncPaletteMask;
+    syncPaletteMask();
 
+    // 5. Elevated Bathymetric Glass Ocean Plane
     const waterGeo = new THREE.CircleGeometry(660, 96);
     waterGeo.rotateX(-Math.PI / 2);
-    const waterMat = new THREE.ShaderMaterial({
-      uniforms: oceanUniforms,
-      transparent: true,
-      depthWrite: false,
-      vertexShader: `
-        varying vec3 vWorldPos;
-        void main() {
-          vec4 wp = modelMatrix * vec4(position, 1.0);
-          vWorldPos = wp.xyz;
-          gl_Position = projectionMatrix * viewMatrix * wp;
-        }
-      `,
-      fragmentShader: `
-        uniform float uTime;
-        varying vec3 vWorldPos;
-        void main() {
-          float r = length(vWorldPos.xz);
-          float horizonFade = 1.0 - smoothstep(420.0, 650.0, r);
+    const waterMat = createWaterShaderMaterial();
+    const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+    waterMesh.position.y = 1.65;
+    scene.add(waterMesh);
 
-          // Animated bathymetric current & architectural drafting tint
-          float swell1 = sin(vWorldPos.x * 0.018 + uTime * 0.35) * cos(vWorldPos.z * 0.018 - uTime * 0.25);
-          float swell2 = sin((vWorldPos.x + vWorldPos.z) * 0.011 - uTime * 0.22);
-          vec3 abyssTint = vec3(0.032, 0.045, 0.068);
-          vec3 shelfTint = vec3(0.056, 0.080, 0.114);
-          vec3 col = mix(abyssTint, shelfTint, 0.46 + 0.20 * swell1 + 0.10 * swell2);
-
-          // Guarded 64u minor drafting grid & 256u major datum lines
-          vec2 coordMinor = vWorldPos.xz / 64.0;
-          vec2 g1 = abs(fract(coordMinor - 0.5) - 0.5) / max(fwidth(coordMinor), vec2(0.0005));
-          float lineMinor = 1.0 - min(min(g1.x, g1.y), 1.0);
-          vec2 coordMajor = vWorldPos.xz / 256.0;
-          vec2 g2 = abs(fract(coordMajor - 0.5) - 0.5) / max(fwidth(coordMajor), vec2(0.0005));
-          float lineMajor = 1.0 - min(min(g2.x, g2.y), 1.0);
-
-          col = mix(col, vec3(0.14, 0.19, 0.26), lineMinor * 0.34 * horizonFade);
-          col = mix(col, vec3(0.22, 0.29, 0.38), lineMajor * 0.52 * horizonFade);
-
-          // Cardinal meridian crosshairs
-          float axisX = 1.0 - smoothstep(0.0, 0.75, abs(vWorldPos.z));
-          float axisZ = 1.0 - smoothstep(0.0, 0.75, abs(vWorldPos.x));
-          col = mix(col, vec3(0.28, 0.36, 0.46), max(axisX, axisZ) * 0.32 * horizonFade);
-
-          // Concentric cartography range rings (210u, 340u, 466u)
-          float ring1 = 1.0 - smoothstep(0.0, 1.2, abs(r - 210.0));
-          float ring2 = 1.0 - smoothstep(0.0, 1.3, abs(r - 340.0));
-          float outerRing = 1.0 - smoothstep(0.0, 1.8, abs(r - 466.0));
-          col = mix(col, vec3(0.24, 0.31, 0.40), (ring1 + ring2) * 0.40 * horizonFade);
-          col = mix(col, vec3(0.96, 0.86, 0.11), outerRing * 0.18 * horizonFade);
-
-          // Blend outer boundary toward atmospheric #090b10
-          vec3 horizonBg = vec3(0.035, 0.043, 0.063);
-          col = mix(horizonBg, col, horizonFade);
-
-          // Semi-translucent near coastal shelves so recessed sea hexes show bathymetry, opaque near horizon
-          float waterAlpha = mix(0.92, 0.74, horizonFade);
-          gl_FragColor = vec4(col, waterAlpha);
-        }
-      `,
-    });
-    const waterPlane = new THREE.Mesh(waterGeo, waterMat);
-    waterPlane.position.y = 2.05;
-    baseGroup.add(waterPlane);
-
-    // 6. High-Detail 2-Tier Beveled Hexagonal Prism Geometry + PBR Material
-    const hexCount = terraHexCells.length;
-    const colBody = new THREE.CylinderGeometry(HEX_RADIUS * 0.94, HEX_RADIUS * 0.96, 0.9, 6, 1, false);
-    colBody.translate(0, 0.45, 0);
-    const colBevel = new THREE.CylinderGeometry(HEX_RADIUS * 0.84, HEX_RADIUS * 0.94, 0.1, 6, 1, false);
-    colBevel.translate(0, 0.95, 0);
-    const mergedHex = mergeGeometries([colBody.toNonIndexed(), colBevel.toNonIndexed()], false);
-    const hexGeo = mergedHex || colBody.toNonIndexed();
-    hexGeo.computeVertexNormals();
-
-    const posAttr = hexGeo.attributes.position;
-    const normAttr = hexGeo.attributes.normal;
-    const vColors = new Float32Array(posAttr.count * 3);
-
-    for (let i = 0; i < posAttr.count; i++) {
-      const ny = normAttr.getY(i);
-      const py = posAttr.getY(i);
-      if (ny > 0.85) {
-        // Flat top plateau: crisp, clean tactical surface
-        const r = Math.hypot(posAttr.getX(i), posAttr.getZ(i));
-        const edgeInset = r > HEX_RADIUS * 0.75 ? 0.96 : 1.02;
-        vColors[i * 3 + 0] = edgeInset;
-        vColors[i * 3 + 1] = edgeInset;
-        vColors[i * 3 + 2] = edgeInset;
-      } else if (ny > 0.15) {
-        // 45-degree chamfered top bevel rim: subtle machined highlight frame
-        const nx = normAttr.getX(i);
-        const nz = normAttr.getZ(i);
-        const rimCatch = 1.04 + (nx * 0.08 + nz * 0.08);
-        vColors[i * 3 + 0] = rimCatch;
-        vColors[i * 3 + 1] = rimCatch;
-        vColors[i * 3 + 2] = rimCatch * 1.03;
-      } else if (ny < -0.5) {
-        // Bottom cap
-        vColors[i * 3 + 0] = 0.18;
-        vColors[i * 3 + 1] = 0.2;
-        vColors[i * 3 + 2] = 0.24;
-      } else {
-        // Vertical 6 side walls: rich ambient occlusion gradient from top rim down to valley floor
-        const nx = normAttr.getX(i);
-        const nz = normAttr.getZ(i);
-        const sideDirectional = 0.9 + (nx * 0.08 + nz * 0.1);
-        const verticalAO = py > 0.45 ? 0.76 : 0.34;
-        const shade = verticalAO * sideDirectional;
-        vColors[i * 3 + 0] = shade * 0.94;
-        vColors[i * 3 + 1] = shade * 0.97;
-        vColors[i * 3 + 2] = shade * 1.05;
-      }
-    }
-    hexGeo.setAttribute('color', new THREE.BufferAttribute(vColors, 3));
-
-    const hexMat = new THREE.MeshStandardMaterial({
-      vertexColors: true,
-      roughness: 0.68,
-      metalness: 0.12,
-    });
-
-    const instancedHex = new THREE.InstancedMesh(hexGeo, hexMat, hexCount);
-    instancedHex.castShadow = true;
-    instancedHex.receiveShadow = true;
-    instancedHex.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-    scene.add(instancedHex);
-
-    // Per-cell dynamic animation state & Hypsometric Biome Color Sculpting
-    const cellCurrentHeights = new Float32Array(hexCount);
-    const cellBaseColors = new Array<THREE.Color>(hexCount);
-    const dummy = new THREE.Object3D();
-    const tempColor = new THREE.Color();
-    const goldColor = new THREE.Color('#f5dd1b');
-    const cyanColor = new THREE.Color('#e4e4e7');
-    const dimmedColor = new THREE.Color('#13161b');
-    const snowColor = new THREE.Color('#e2e8f0');
-    const alpineRockColor = new THREE.Color('#64748b');
-    const volcanicGlowColor = new THREE.Color('#9a3412');
-
-    terraHexCells.forEach((cell: HexCell, idx: number) => {
-      const baseH = CELL_TERRAIN_HEIGHTS[idx];
-      cellCurrentHeights[idx] = baseH;
-
-      const c = new THREE.Color(CELL_COLORS[cell.type] || '#242830');
-
-      // Blend nation territory cells subtly with their signature faction hue (refined, never toy-like)
-      if (cell.regionId) {
-        const reg = regionLookup.get(cell.regionId);
-        if (reg?.badgeColor) {
-          const badgeCol = new THREE.Color(reg.badgeColor);
-          c.lerp(badgeCol, 0.25);
-        }
-      }
-
-      // Hypsometric Terrain & Biome Tint Modulation
-      if (cell.type === 'kjerag') {
-        // Kjerag: sacred alpine snow peak (Mount Karlan)
-        const snowBlend = Math.min(0.82, Math.max(0.18, (baseH - 12.2) / 4.5));
-        c.lerp(snowColor, snowBlend);
-      } else if (cell.type === 'icefield' || cell.type === 'sami') {
-        // Northern snowfields & Sami frost ridges
-        const frostBlend = Math.min(0.65, Math.max(0.08, (baseH - 8.0) / 3.8));
-        c.lerp(snowColor, frostBlend);
-      } else if (cell.type === 'foehn_hotlands') {
-        // Foehn Hotlands: scorched volcanic plateau & ember ridges
-        const lavaBlend = Math.min(0.45, Math.max(0, (baseH - 9.2) / 3.8));
-        c.lerp(volcanicGlowColor, lavaBlend);
-      } else if (baseH > 8.8) {
-        // High mountain ridges in Ursus, Yan, Leithanien, neutral ranges: rocky alpine crest + frost cap
-        const rockBlend = Math.min(0.42, (baseH - 8.8) / 3.2);
-        c.lerp(alpineRockColor, rockBlend);
-        if (baseH > 10.8) {
-          c.lerp(snowColor, Math.min(0.45, (baseH - 10.8) / 2.8));
-        }
-      } else if (baseH > 4.0) {
-        // Gentle elevation luminance contour for mid-land hills & basins
-        c.offsetHSL(0, 0.01, (baseH - 6.8) * 0.01);
-      }
-
-      cellBaseColors[idx] = c;
-
-      const wx = cell.x - MAP_CENTER_X;
-      const wz = cell.y - MAP_CENTER_Y;
-      dummy.position.set(wx, 0, wz);
-      dummy.scale.set(1, baseH, 1);
-      dummy.updateMatrix();
-      instancedHex.setMatrixAt(idx, dummy.matrix);
-      instancedHex.setColorAt(idx, c);
-    });
-    instancedHex.instanceMatrix.needsUpdate = true;
-    if (instancedHex.instanceColor) instancedHex.instanceColor.needsUpdate = true;
-
-    // 7. 3D Nation Perimeter Wireframes hugging natural terrain contours
+    // 6. Draped Nation Perimeters (Exact Hex Boundary Lines Hugging Terrain Relief)
     const borderGroup = new THREE.Group();
     scene.add(borderGroup);
     const regionBorderMeshes = new Map<
@@ -1154,69 +463,80 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       {
         line: THREE.LineSegments;
         mat: THREE.LineBasicMaterial;
-        segments: PerimeterSegment[];
         defaultColor: THREE.Color;
       }
     >();
 
-    REGION_PERIMETER_SEGMENTS.forEach((segments, regionId) => {
-      const positions = new Float32Array(segments.length * 6);
-      segments.forEach((seg, i) => {
-        positions[i * 6 + 0] = seg.x1;
-        positions[i * 6 + 1] = seg.baseY + 0.35;
-        positions[i * 6 + 2] = seg.z1;
-        positions[i * 6 + 3] = seg.x2;
-        positions[i * 6 + 4] = seg.baseY + 0.35;
-        positions[i * 6 + 5] = seg.z2;
-      });
+    terrainAssets.regionBorderData.forEach((entry, regionId) => {
       const bGeo = new THREE.BufferGeometry();
-      bGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-      const reg = regionLookup.get(regionId);
-      const defCol = new THREE.Color(reg?.badgeColor || '#7084a4').lerp(new THREE.Color('#cbd5e1'), 0.38);
-
+      bGeo.setAttribute('position', new THREE.BufferAttribute(entry.positions, 3));
       const bMat = new THREE.LineBasicMaterial({
-        color: defCol.clone(),
+        color: entry.defaultColor.clone(),
         transparent: true,
-        opacity: 0.62,
+        opacity: 0.56,
       });
       const lineSegs = new THREE.LineSegments(bGeo, bMat);
       borderGroup.add(lineSegs);
       regionBorderMeshes.set(regionId, {
         line: lineSegs,
         mat: bMat,
-        segments,
-        defaultColor: defCol,
+        defaultColor: entry.defaultColor,
       });
     });
 
-    // 7-B. Crisp Coastal Shoreline Contour Layer (Traces continent coastlines along 2.18u waterline)
-    const coastlineGeo = new THREE.BufferGeometry();
-    coastlineGeo.setAttribute('position', new THREE.BufferAttribute(COASTAL_SHORELINE_POSITIONS, 3));
-    const coastlineMat = new THREE.LineBasicMaterial({
-      color: 0x6b8299,
+    // 7. Northern Polar Anomaly Orbital Ring & High-Altitude Atmospheric Dust Motes
+    const anomalyRingGeo = new THREE.TorusGeometry(42, 0.28, 8, 96);
+    const anomalyRingMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
       transparent: true,
       opacity: 0.42,
+      depthWrite: false,
     });
-    const coastlineLine = new THREE.LineSegments(coastlineGeo, coastlineMat);
-    coastlineLine.position.y = 2.18;
-    scene.add(coastlineLine);
+    const anomalyRing = new THREE.Mesh(anomalyRingGeo, anomalyRingMat);
+    anomalyRing.position.set(320 - MAP_CENTER_X, 5.5, 138 - MAP_CENTER_Y);
+    anomalyRing.rotation.x = Math.PI / 2 - 0.12;
+    scene.add(anomalyRing);
 
-    // 8. Static Architectural City Pins (Terrain-anchored rings, hairline stems & tiered diamond caps)
+    const moteCount = 160;
+    const motePositions = new Float32Array(moteCount * 3);
+    for (let i = 0; i < moteCount; i++) {
+      const s1 = Math.sin(i * 12.9898) * 43758.5453;
+      const s2 = Math.sin(i * 78.233 + 1.5) * 29431.1234;
+      const s3 = Math.sin(i * 41.123 + 3.1) * 18374.5123;
+      const rx = s1 - Math.floor(s1);
+      const ry = s2 - Math.floor(s2);
+      const rz = s3 - Math.floor(s3);
+      motePositions[i * 3 + 0] = (rx - 0.5) * 760;
+      motePositions[i * 3 + 1] = 16 + ry * 42;
+      motePositions[i * 3 + 2] = (rz - 0.5) * 860;
+    }
+    const moteGeo = new THREE.BufferGeometry();
+    moteGeo.setAttribute('position', new THREE.BufferAttribute(motePositions, 3));
+    const moteMat = new THREE.PointsMaterial({
+      color: 0x94a3b8,
+      size: 1.5,
+      transparent: true,
+      opacity: 0.28,
+      depthWrite: false,
+    });
+    const moteCloud = new THREE.Points(moteGeo, moteMat);
+    scene.add(moteCloud);
+
+    // 8. Static Architectural City Beacons + Rhodes Flagship Telemetry Halo
     const cityGroup = new THREE.Group();
     scene.add(cityGroup);
 
     const capPlateGeo = new THREE.CylinderGeometry(1.55, 1.55, 0.35, 4);
     capPlateGeo.rotateY(Math.PI / 4);
-    const capHaloGeo = new THREE.RingGeometry(1.7, 2.1, 4);
-    capHaloGeo.rotateZ(0);
+    const capHaloGeo = new THREE.RingGeometry(1.75, 2.15, 4);
     capHaloGeo.rotateX(-Math.PI / 2);
     const majorBaseRingGeo = new THREE.RingGeometry(2.6, 3.3, 24);
     majorBaseRingGeo.rotateX(-Math.PI / 2);
     const minorBaseRingGeo = new THREE.RingGeometry(1.65, 2.1, 20);
     minorBaseRingGeo.rotateX(-Math.PI / 2);
-    const rhodesPulseGeo = new THREE.RingGeometry(3.8, 4.7, 32);
+    const rhodesPulseGeo = new THREE.RingGeometry(4.0, 5.1, 32);
     rhodesPulseGeo.rotateX(-Math.PI / 2);
+
     const rhodesBeacon: { mesh: THREE.Mesh | null; mat: THREE.MeshBasicMaterial | null } = {
       mesh: null,
       mat: null,
@@ -1225,34 +545,35 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     terraCities.forEach((city) => {
       const wx = city.pixelCoords.x - MAP_CENTER_X;
       const wz = city.pixelCoords.y - MAP_CENTER_Y;
-      const baseElev = sampleTerrainHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y);
+      const baseElev = Math.max(2.0, terrainAssets.sampleHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y));
 
       const isRhodes = city.type === 'rhodes';
       const isCapital = city.type === 'capital';
       const isMajor = isRhodes || isCapital;
-      const beaconColor = isRhodes ? 0xf4f4f5 : isCapital ? 0xf5dd1b : 0x71717a;
-      const stemHeight = isMajor ? 24 : 14;
+      // Use bright HDR-friendly tones on Rhodes & capitals for crisp UnrealBloom highlights
+      const beaconColor = isRhodes ? 0xffffff : isCapital ? 0xf5dd1b : 0x94a3b8;
+      const stemHeight = isMajor ? 22 : 12.5;
 
       const baseRingMat = new THREE.MeshBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.62 : 0.34,
+        opacity: isMajor ? 0.65 : 0.36,
         side: THREE.DoubleSide,
       });
       const baseRing = new THREE.Mesh(isMajor ? majorBaseRingGeo : minorBaseRingGeo, baseRingMat);
-      baseRing.position.set(wx, baseElev + 0.16, wz);
+      baseRing.position.set(wx, baseElev + 0.18, wz);
       cityGroup.add(baseRing);
 
       if (isRhodes) {
         const pulseMat = new THREE.MeshBasicMaterial({
           color: 0xf5dd1b,
           transparent: true,
-          opacity: 0.45,
+          opacity: 0.6,
           side: THREE.DoubleSide,
           depthWrite: false,
         });
         const pulseRing = new THREE.Mesh(rhodesPulseGeo, pulseMat);
-        pulseRing.position.set(wx, baseElev + 0.22, wz);
+        pulseRing.position.set(wx, baseElev + 0.25, wz);
         cityGroup.add(pulseRing);
         rhodesBeacon.mesh = pulseRing;
         rhodesBeacon.mat = pulseMat;
@@ -1266,14 +587,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const stemMat = new THREE.LineBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.76 : 0.42,
+        opacity: isMajor ? 0.78 : 0.42,
       });
       cityGroup.add(new THREE.Line(stemGeo, stemMat));
 
       const capMat = new THREE.MeshBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.96 : 0.74,
+        opacity: isMajor ? 0.98 : 0.75,
       });
       const capPlate = new THREE.Mesh(capPlateGeo, capMat);
       capPlate.position.set(wx, baseElev + stemHeight + 0.25, wz);
@@ -1287,24 +608,23 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       }
     });
 
-    // 9. 3D TubeGeometry Parabolic Route Ribbons + Subtle Outer Glow + Terrain Anchor Rings
+    // 9. 3D TubeGeometry Parabolic Route Ribbons + Subtle Bloom Glow + Anchors
     const routesGroup = new THREE.Group();
     scene.add(routesGroup);
     interface RouteArcEntry {
-      route: TacticalRouteArc;
+      route: (typeof TACTICAL_ROUTES)[number];
       tubeMat: THREE.MeshBasicMaterial;
       glowMat: THREE.MeshBasicMaterial;
       anchorMat: THREE.MeshBasicMaterial;
       pulseMesh: THREE.Mesh;
       pulseMat: THREE.MeshBasicMaterial;
       curve: THREE.QuadraticBezierCurve3;
-      peakY: number;
       progress: number;
       speed: number;
     }
     const routeEntries: RouteArcEntry[] = [];
-    const pulseGeo = new THREE.SphereGeometry(1.6, 10, 10);
-    const routeAnchorGeo = new THREE.RingGeometry(1.85, 2.55, 24);
+    const pulseGeo = new THREE.SphereGeometry(1.75, 10, 10);
+    const routeAnchorGeo = new THREE.RingGeometry(1.9, 2.65, 24);
     routeAnchorGeo.rotateX(-Math.PI / 2);
 
     TACTICAL_ROUTES.forEach((rt, rIdx) => {
@@ -1312,12 +632,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const z1 = rt.fromPixel.y - MAP_CENTER_Y;
       const x2 = rt.toPixel.x - MAP_CENTER_X;
       const z2 = rt.toPixel.y - MAP_CENTER_Y;
-      const y1 = sampleTerrainHeightAtPixel(rt.fromPixel.x, rt.fromPixel.y) + 2.0;
-      const y2 = sampleTerrainHeightAtPixel(rt.toPixel.x, rt.toPixel.y) + 2.0;
+      const y1 = Math.max(2.0, terrainAssets.sampleHeightAtPixel(rt.fromPixel.x, rt.fromPixel.y)) + 1.4;
+      const y2 = Math.max(2.0, terrainAssets.sampleHeightAtPixel(rt.toPixel.x, rt.toPixel.y)) + 1.4;
       const dist = Math.hypot(x2 - x1, z2 - z1);
       const midX = (x1 + x2) / 2;
       const midZ = (z1 + z2) / 2;
-      const peakY = Math.max(y1, y2) + Math.min(46, Math.max(16, dist * 0.22)) + (rt.arcHeightOffset || 0);
+      const peakY =
+        Math.max(y1, y2) + Math.min(48, Math.max(18, dist * 0.22)) + (rt.arcHeightOffset || 0);
 
       const curve = new THREE.QuadraticBezierCurve3(
         new THREE.Vector3(x1, y1, z1),
@@ -1325,39 +646,42 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         new THREE.Vector3(x2, y2, z2)
       );
 
-      const tubeGeo = new THREE.TubeGeometry(curve, 44, 0.68, 6, false);
+      // Push route color slightly into HDR range so UnrealBloom adds subtle energy glow
+      const hdrRouteCol = new THREE.Color(rt.color).multiplyScalar(1.32);
+
+      const tubeGeo = new THREE.TubeGeometry(curve, 48, 0.65, 6, false);
       const tubeMat = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(rt.color),
+        color: hdrRouteCol,
         transparent: true,
-        opacity: 0.86,
+        opacity: 0.9,
       });
       routesGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
 
-      const glowGeo = new THREE.TubeGeometry(curve, 44, 1.35, 6, false);
+      const glowGeo = new THREE.TubeGeometry(curve, 48, 1.35, 6, false);
       const glowMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(rt.color),
         transparent: true,
-        opacity: 0.18,
+        opacity: 0.16,
         depthWrite: false,
       });
       routesGroup.add(new THREE.Mesh(glowGeo, glowMat));
 
       const anchorMat = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(rt.color),
+        color: hdrRouteCol,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.65,
         side: THREE.DoubleSide,
       });
       const startAnchor = new THREE.Mesh(routeAnchorGeo, anchorMat);
-      startAnchor.position.set(x1, y1 - 1.75, z1);
+      startAnchor.position.set(x1, y1 - 1.0, z1);
       const endAnchor = new THREE.Mesh(routeAnchorGeo, anchorMat);
-      endAnchor.position.set(x2, y2 - 1.75, z2);
+      endAnchor.position.set(x2, y2 - 1.0, z2);
       routesGroup.add(startAnchor, endAnchor);
 
       const pulseMat = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(rt.color),
+        color: new THREE.Color(rt.color).multiplyScalar(1.45),
         transparent: true,
-        opacity: 0.95,
+        opacity: 0.98,
       });
       const pulseMesh = new THREE.Mesh(pulseGeo, pulseMat);
       routesGroup.add(pulseMesh);
@@ -1369,13 +693,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         pulseMesh,
         pulseMat,
         curve,
-        peakY,
         progress: (rIdx * 0.17) % 1,
-        speed: 0.0032 + (rIdx % 3) * 0.0007,
+        speed: 0.0034 + (rIdx % 3) * 0.0007,
       });
     });
 
-    // 10. Pointer & Multi-Touch Interaction (Orbit, Pan, Pinch-Zoom & Raycast Hex Selection)
+    // 10. Pointer, Multi-Touch & Raycast Hex Terrain Picking
     const raycaster = new THREE.Raycaster();
     const pointerNdc = new THREE.Vector2();
     let isPointerDown = false;
@@ -1384,7 +707,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     let lastPointerY = 0;
     let dragDistance = 0;
 
-    // Multi-touch tracking for smooth 2-finger pinch zoom, 360° twist rotation, and drag orbit
     const activeTouchPoints = new Map<number, { x: number; y: number }>();
     let lastPinchDist = 0;
     let lastPinchAngle = 0;
@@ -1396,24 +718,44 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     let initialMidY = 0;
     let multiTouchMode: 'undecided' | 'zoom' | 'tilt' | 'rotate' = 'undecided';
     let wasMultiTouchSession = false;
-
-    const updateHoveredRegion = (nextRegId: string | null) => {
-      if (nextRegId !== hoveredRegionRef.current) {
-        hoveredRegionRef.current = nextRegId;
-        setHoveredRegionId(nextRegId);
-        if (telemetrySectorRef.current) {
-          const activeId = nextRegId || pinnedRegionRef.current;
-          const rObj = activeId ? regionLookup.get(activeId) : null;
-          telemetrySectorRef.current.textContent = rObj
-            ? `${rObj.nameKo} (${rObj.nameEn.toUpperCase()})`
-            : '중립 지역';
-        }
-      }
-    };
-
     let lastTapTime = 0;
     let lastTapX = 0;
     let lastTapY = 0;
+
+    let scanProgress = 1.0;
+    let lastScanRegionId: string | null = null;
+
+    const triggerScanWave = (regionId: string | null) => {
+      if (!regionId || regionId === lastScanRegionId) return;
+      lastScanRegionId = regionId;
+      const reg = regionLookup.get(regionId);
+      if (reg) {
+        terrainMat.uniforms.uScanOrigin.value.set(
+          reg.emblemPixelCoords.x - MAP_CENTER_X,
+          reg.emblemPixelCoords.y - MAP_CENTER_Y
+        );
+        scanProgress = 0.0;
+      }
+    };
+
+    const updateHoveredRegion = (nextId: string | null) => {
+      if (hoveredRegionRef.current !== nextId) {
+        hoveredRegionRef.current = nextId;
+        setHoveredRegionId(nextId);
+        if (nextId) triggerScanWave(nextId);
+      }
+      if (telemetrySectorRef.current) {
+        if (nextId) {
+          const r = regionLookup.get(nextId);
+          if (r) telemetrySectorRef.current.textContent = `${r.nameKo} (${r.nameEn.toUpperCase()})`;
+        } else if (pinnedRegionRef.current) {
+          const r = regionLookup.get(pinnedRegionRef.current);
+          if (r) telemetrySectorRef.current.textContent = `${r.nameKo} (${r.nameEn.toUpperCase()})`;
+        } else {
+          telemetrySectorRef.current.textContent = '중립 지역';
+        }
+      }
+    };
 
     const handlePointerDown = (e: PointerEvent) => {
       if (splashStoryRef.current !== null || legendOpenRef.current) return;
@@ -1432,11 +774,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const timeDiff = now - lastTapTime;
       const distDiff = Math.hypot(e.clientX - lastTapX, e.clientY - lastTapY);
       if (timeDiff < 320 && distDiff < 28 && (e.button === 0 || e.pointerType === 'touch')) {
-        // Double-tap / double-click: one-handed quick zoom in
         lastTapTime = 0;
         playClickSound();
-        const cam = camStateRef.current;
-        cam.targetRadius = Math.max(180, cam.targetRadius - 130);
+        camStateRef.current.targetRadius = Math.max(180, camStateRef.current.targetRadius - 130);
         return;
       }
       lastTapTime = now;
@@ -1479,7 +819,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         return;
       }
 
-      // Two-finger smooth pinch zoom & 360° twist rotation / drag orbit
       if (e.pointerType === 'touch' && activeTouchPoints.has(e.pointerId)) {
         activeTouchPoints.set(e.pointerId, { x: e.clientX, y: e.clientY });
         if (activeTouchPoints.size >= 2) {
@@ -1490,16 +829,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           const midY = (pts[0].y + pts[1].y) / 2;
           const cam = camStateRef.current;
 
-          if (viewModeRef.current === '2d') {
-            // 2D 모드: 각도 조절 절대 제한 (정북 0° 및 수직 직하 0° 엄격 고정)
+          if (mapLensRef.current === 'blueprint') {
             cam.targetPolar = 0.001;
             cam.targetAzimuth = 0;
-
             if (lastPinchDist > 0) {
               const deltaDist = dist - lastPinchDist;
               cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius - deltaDist * 1.45));
-
-              // 두 손가락 이동 시 회전 대신 자연스러운 1:1 평면 이동(Pan) 지원 (미끄러짐 현상 제거)
               const deltaMidX = midX - lastMidX;
               const deltaMidY = midY - lastMidY;
               const cHeight = container.clientHeight || 600;
@@ -1510,59 +845,44 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               cam.currentZ = cam.targetZ;
             }
           } else {
-            // 3D 모드: 방안 A (제스처 우세 축 잠금 / Threshold Locking - Google Earth & Apple Maps 표준)
-            // 1. 초기 미결정 상태에서 터치 이동량(간격 변화 vs 상하 평행 이동 vs 비틀기)을 비교하여 단일 제스처로 잠금
             if (multiTouchMode === 'undecided') {
               const distDelta = Math.abs(dist - initialPinchDist);
               const midYDelta = Math.abs(midY - initialMidY);
               const midXDelta = Math.abs(midX - initialMidX);
-
               let angleDiff = currentAngle - initialPinchAngle;
               while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
               while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
-              const angleDeltaPx = Math.abs(angleDiff) * (dist * 0.5); // 원호 궤적 거리(px)
+              const angleDeltaPx = Math.abs(angleDiff) * (dist * 0.5);
 
-              // 잠금 확정 임계치: 10px
               const maxDelta = Math.max(distDelta, midYDelta, midXDelta, angleDeltaPx);
               if (maxDelta >= 10) {
                 if (distDelta >= midYDelta && distDelta >= angleDeltaPx && distDelta >= midXDelta) {
-                  // 손가락 간격 변화가 가장 크면: 줌 전용 잠금 (각도/회전 완전 동결)
                   multiTouchMode = 'zoom';
                 } else if (midYDelta > distDelta && midYDelta >= angleDeltaPx) {
-                  // 두 손가락이 나란히 위/아래로 평행 이동하면: 틸트 각도 전용 잠금 (줌/회전 완전 동결)
                   multiTouchMode = 'tilt';
                 } else {
-                  // 비틀기 또는 수평 이동이 가장 크면: 수평 회전 전용 잠금 (줌/틸트 완전 동결)
                   multiTouchMode = 'rotate';
                 }
               }
             }
 
-            // 2. 잠금된 단일 우세 제스처만 독립 수행 (다른 축 조작 완전 분리/차단)
             if (lastPinchDist > 0) {
               if (multiTouchMode === 'zoom') {
-                // 줌 전용: 오직 시점 거리만 변경 (각도 및 회전각 불변)
                 const deltaDist = dist - lastPinchDist;
                 cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius - deltaDist * 1.45));
               } else if (multiTouchMode === 'tilt') {
-                // 틸트 전용: 오직 수직 카메라 각도만 변경 (확대/축소 및 회전각 불변)
                 const deltaMidY = midY - lastMidY;
                 cam.targetPolar = Math.max(
                   (10 * Math.PI) / 180,
                   Math.min((72 * Math.PI) / 180, cam.targetPolar - deltaMidY * 0.0045)
                 );
               } else if (multiTouchMode === 'rotate') {
-                // 회전 전용: 오직 수평 방위각만 변경 (확대/축소 및 틸트 각도 불변)
                 let deltaAngle = currentAngle - lastPinchAngle;
                 while (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
                 while (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
-                if (Math.abs(deltaAngle) > 0.005) {
-                  cam.targetAzimuth -= deltaAngle * 1.35;
-                }
+                if (Math.abs(deltaAngle) > 0.005) cam.targetAzimuth -= deltaAngle * 1.35;
                 const deltaMidX = midX - lastMidX;
-                if (Math.abs(deltaMidX) > 0.5) {
-                  cam.targetAzimuth -= deltaMidX * 0.0055;
-                }
+                if (Math.abs(deltaMidX) > 0.5) cam.targetAzimuth -= deltaMidX * 0.0055;
               }
             }
           }
@@ -1594,41 +914,29 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           (e.buttons & 4) !== 0 ||
           e.shiftKey;
 
-        if (isOrbitAction) {
-          if (viewModeRef.current !== '2d') {
-            cam.targetAzimuth -= dx * 0.0055;
-            cam.targetPolar = Math.max(
-              (10 * Math.PI) / 180,
-              Math.min((72 * Math.PI) / 180, cam.targetPolar - dy * 0.0045)
-            );
-          } else {
-            cam.targetPolar = 0.001;
-            cam.targetAzimuth = 0;
-            const cHeight = container.clientHeight || 600;
-            const unitsPerPixel = (2 * cam.currentRadius * 0.36397023) / cHeight;
-            cam.targetX = Math.max(-380, Math.min(380, cam.targetX - dx * unitsPerPixel));
-            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - dy * unitsPerPixel));
-            cam.currentX = cam.targetX;
-            cam.currentZ = cam.targetZ;
-          }
+        if (isOrbitAction && mapLensRef.current !== 'blueprint') {
+          cam.targetAzimuth -= dx * 0.0055;
+          cam.targetPolar = Math.max(
+            (10 * Math.PI) / 180,
+            Math.min((72 * Math.PI) / 180, cam.targetPolar - dy * 0.0045)
+          );
+        } else if (mapLensRef.current === 'blueprint') {
+          cam.targetPolar = 0.001;
+          cam.targetAzimuth = 0;
+          const cHeight = container.clientHeight || 600;
+          const unitsPerPixel = (2 * cam.currentRadius * 0.36397023) / cHeight;
+          cam.targetX = Math.max(-380, Math.min(380, cam.targetX - dx * unitsPerPixel));
+          cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - dy * unitsPerPixel));
+          cam.currentX = cam.targetX;
+          cam.currentZ = cam.targetZ;
         } else {
-          if (viewModeRef.current === '2d') {
-            // 2D 뷰 직관적 1:1 드래그: 시점 지연(미끄러짐 현상)을 제거하고 손가락/마우스 이동과 정확히 일치
-            const cHeight = container.clientHeight || 600;
-            const unitsPerPixel = (2 * cam.currentRadius * 0.36397023) / cHeight;
-            cam.targetX = Math.max(-380, Math.min(380, cam.targetX - dx * unitsPerPixel));
-            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - dy * unitsPerPixel));
-            cam.currentX = cam.targetX;
-            cam.currentZ = cam.targetZ;
-          } else {
-            const panScale = cam.currentRadius * 0.0014;
-            const cosA = Math.cos(cam.currentAzimuth);
-            const sinA = Math.sin(cam.currentAzimuth);
-            const moveX = (-dx * cosA - dy * sinA) * panScale;
-            const moveZ = (dx * sinA - dy * cosA) * panScale;
-            cam.targetX = Math.max(-380, Math.min(380, cam.targetX + moveX));
-            cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + moveZ));
-          }
+          const panScale = cam.currentRadius * 0.0014;
+          const cosA = Math.cos(cam.currentAzimuth);
+          const sinA = Math.sin(cam.currentAzimuth);
+          const moveX = (-dx * cosA - dy * sinA) * panScale;
+          const moveZ = (dx * sinA - dy * cosA) * panScale;
+          cam.targetX = Math.max(-380, Math.min(380, cam.targetX + moveX));
+          cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + moveZ));
         }
         return;
       }
@@ -1652,21 +960,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
       const rect = container.getBoundingClientRect();
       if (rect.width <= 0 || rect.height <= 0) return;
-      const relX = e.clientX - rect.left;
-      const relY = e.clientY - rect.top;
-
-      pointerNdc.x = (relX / rect.width) * 2 - 1;
-      pointerNdc.y = -(relY / rect.height) * 2 + 1;
+      pointerNdc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointerNdc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(pointerNdc, camera);
 
-      const hits = raycaster.intersectObject(instancedHex, false);
-      if (hits.length > 0 && hits[0].instanceId !== undefined) {
-        const hitIdx = hits[0].instanceId;
-        const hitCell = terraHexCells[hitIdx];
+      const hits = raycaster.intersectObject(terrainMesh, false);
+      if (hits.length > 0) {
+        const pt = hits[0].point;
+        const px = pt.x + MAP_CENTER_X;
+        const py = pt.z + MAP_CENTER_Y;
+        const hitCell = findNearestHexCell(px, py);
         const hitRegId = hitCell?.regionId || null;
-        if (telemetryCoordRef.current && hitCell) {
-          const hVal = Math.round(CELL_TERRAIN_HEIGHTS[hitIdx] * 120);
-          telemetryCoordRef.current.textContent = `X:${Math.round(hitCell.x)} Y:${Math.round(hitCell.y)} · ${hVal}M`;
+
+        if (telemetryCoordRef.current) {
+          const hVal = Math.max(0, Math.round(terrainAssets.sampleHeightAtPixel(px, py) * 115));
+          telemetryCoordRef.current.textContent = `X:${Math.round(px)} Y:${Math.round(py)} · ${hVal}M`;
         }
         updateHoveredRegion(hitRegId);
         container.style.cursor = hitRegId ? 'pointer' : 'grab';
@@ -1708,9 +1016,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       isPointerDown = false;
       container.style.cursor = hoveredRegionRef.current ? 'pointer' : 'grab';
 
-      if (splashStoryRef.current !== null || legendOpenRef.current) {
-        return;
-      }
+      if (splashStoryRef.current !== null || legendOpenRef.current) return;
 
       const targetEl = e.target as HTMLElement | null;
       if (
@@ -1727,29 +1033,25 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         pointerNdc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         pointerNdc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.setFromCamera(pointerNdc, camera);
-        const hits = raycaster.intersectObject(instancedHex, false);
-        if (hits.length > 0 && hits[0].instanceId !== undefined) {
-          const hitCell = terraHexCells[hits[0].instanceId];
+        const hits = raycaster.intersectObject(terrainMesh, false);
+        if (hits.length > 0) {
+          const pt = hits[0].point;
+          const hitCell = findNearestHexCell(pt.x + MAP_CENTER_X, pt.z + MAP_CENTER_Y);
           if (hitCell?.regionId) {
             handleSelectRegion(hitCell.regionId);
-          } else {
-            setPinnedRegionId(null);
-            setMobilePreviewCard(null);
+            return;
           }
-        } else {
-          setPinnedRegionId(null);
-          setMobilePreviewCard(null);
         }
+        setPinnedRegionId(null);
+        setMobilePreviewCard(null);
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (legendOpenRef.current) {
-          playCloseSound();
-          setIsLegendOpen(false);
-          return;
-        }
+      if (e.key === 'Escape' && legendOpenRef.current) {
+        playCloseSound();
+        setIsLegendOpen(false);
+        return;
       }
 
       const activeEl = document.activeElement;
@@ -1784,9 +1086,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         code === 'ShiftLeft' ||
         code === 'ShiftRight'
       ) {
-        if (code.startsWith('Arrow')) {
-          e.preventDefault();
-        }
+        if (code.startsWith('Arrow')) e.preventDefault();
         keysDownRef.current.add(code);
       }
     };
@@ -1799,10 +1099,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       isPointerDown = false;
       activeTouchPoints.clear();
       wasMultiTouchSession = false;
-      lastPinchDist = 0;
-      lastPinchAngle = 0;
-      lastMidX = 0;
-      lastMidY = 0;
       multiTouchMode = 'undecided';
       container.style.cursor = 'grab';
       keysDownRef.current.clear();
@@ -1812,8 +1108,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const targetEl = e.target as HTMLElement | null;
       if (targetEl?.closest('[data-hud-panel="true"]')) return;
       e.preventDefault();
-      const cam = camStateRef.current;
-      cam.targetRadius = Math.max(180, Math.min(920, cam.targetRadius + e.deltaY * 0.42));
+      camStateRef.current.targetRadius = Math.max(
+        180,
+        Math.min(920, camStateRef.current.targetRadius + e.deltaY * 0.42)
+      );
     };
 
     const handleContextMenu = (e: MouseEvent) => e.preventDefault();
@@ -1829,11 +1127,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 
-    // 11. Real-Time 3D Animation & HUD Projection Loop
+    // 11. 60/120fps Render Loop + Collision-Free Label Projection
     let animFrameId = 0;
     const projVec = new THREE.Vector3();
-    let lastColoredPinnedId: string | null | undefined = '__init__';
-    let lastColoredHoveredId: string | null | undefined = '__init__';
+    let currentElevScale = 1.0;
 
     const animate = () => {
       animFrameId = requestAnimationFrame(animate);
@@ -1841,7 +1138,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
       const cam = camStateRef.current;
 
-      // Real-Time Keyboard Continuous Camera Pan (WASD & Arrow Keys with Shift Boost)
+      // Keyboard WASD Pan
       const activeKeys = keysDownRef.current;
       if (activeKeys.size > 0 && !splashStoryRef.current && !legendOpenRef.current) {
         const isBoost = activeKeys.has('ShiftLeft') || activeKeys.has('ShiftRight');
@@ -1851,7 +1148,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
         let forward = 0;
         let strafe = 0;
-
         if (activeKeys.has('KeyW') || activeKeys.has('ArrowUp')) forward += 1;
         if (activeKeys.has('KeyS') || activeKeys.has('ArrowDown')) forward -= 1;
         if (activeKeys.has('KeyD') || activeKeys.has('ArrowRight')) strafe += 1;
@@ -1859,25 +1155,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
         if (forward !== 0 || strafe !== 0) {
           const len = Math.hypot(forward, strafe);
-          const normForward = (forward / len) * basePanSpeed;
-          const normStrafe = (strafe / len) * basePanSpeed;
-
-          const moveX = -sinA * normForward + cosA * normStrafe;
-          const moveZ = -cosA * normForward - sinA * normStrafe;
-
-          cam.targetX = Math.max(-380, Math.min(380, cam.targetX + moveX));
-          cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ + moveZ));
+          const normF = (forward / len) * basePanSpeed;
+          const normS = (strafe / len) * basePanSpeed;
+          cam.targetX = Math.max(-380, Math.min(380, cam.targetX - sinA * normF + cosA * normS));
+          cam.targetZ = Math.max(-440, Math.min(440, cam.targetZ - cosA * normF - sinA * normS));
         }
       }
 
-      const is2D = viewModeRef.current === '2d';
-      if (is2D) {
+      const lens = mapLensRef.current;
+      const isBlueprint = lens === 'blueprint';
+      if (isBlueprint) {
         cam.targetPolar = 0.001;
         cam.targetAzimuth = 0;
       }
 
-      // 2D 모드 드래그 시 1:1 직관적 반응을 위해 damp를 1.0으로 설정(미끄러짐 즉각 제거), 관성 이동/비행 시 0.28 적용
-      const damp = is2D && isPointerDown ? 1.0 : (is2D ? 0.28 : 0.12);
+      const damp = isBlueprint && isPointerDown ? 1.0 : isBlueprint ? 0.28 : 0.12;
       cam.currentX += (cam.targetX - cam.currentX) * damp;
       cam.currentZ += (cam.targetZ - cam.currentZ) * damp;
       cam.currentRadius += (cam.targetRadius - cam.currentRadius) * damp;
@@ -1897,16 +1189,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       camera.lookAt(cam.currentX, 0, cam.currentZ);
       camera.updateMatrixWorld();
 
+      // Update Telemetry Readouts
       const rawYawDeg = Math.round((cam.currentAzimuth * 180) / Math.PI);
       const normalizedYaw = ((rawYawDeg % 360) + 360) % 360;
-
       if (telemetryAngleRef.current) {
-        const pitchDeg = Math.round((cam.currentPolar * 180) / Math.PI);
-        telemetryAngleRef.current.textContent = `${pitchDeg}° / ${normalizedYaw}°`;
+        telemetryAngleRef.current.textContent = `${Math.round((cam.currentPolar * 180) / Math.PI)}° / ${normalizedYaw}°`;
       }
       if (telemetryZoomRef.current) {
-        const zoomPct = Math.round((550 / cam.currentRadius) * 100);
-        telemetryZoomRef.current.textContent = `${zoomPct}%`;
+        telemetryZoomRef.current.textContent = `${Math.round((515 / cam.currentRadius) * 100)}%`;
       }
       if (telemetryYawSliderRef.current && document.activeElement !== telemetryYawSliderRef.current) {
         telemetryYawSliderRef.current.value = String(normalizedYaw);
@@ -1916,227 +1206,254 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       }
 
       const elapsedSec = performance.now() * 0.001;
-      oceanUniforms.uTime.value = elapsedSec;
-      waterPlane.visible = !is2D;
-      waterPlane.position.y = is2D ? 0.35 : 2.05;
-      cityGroup.visible = !is2D && (showCitiesRef.current ?? true);
-
       const pinnedId = pinnedRegionRef.current;
+      const hoveredId = hoveredRegionRef.current;
 
-      coastlineLine.position.y = is2D ? 0.66 : 2.18;
-      coastlineMat.opacity = is2D ? 0.56 : pinnedId ? 0.22 : 0.42;
+      if (scanProgress < 1.0) {
+        scanProgress = Math.min(1.0, scanProgress + 0.028);
+      }
 
+      const targetElevScale = isBlueprint ? 0.0 : showElevationRef.current ? 1.0 : 0.0;
+      currentElevScale += (targetElevScale - currentElevScale) * 0.14;
+
+      // Update Terrain Shader Uniforms
+      terrainMat.uniforms.uTime.value = elapsedSec;
+      terrainMat.uniforms.uElevScale.value = currentElevScale;
+      terrainMat.uniforms.uLensMode.value = lens === 'relief' ? 0.0 : lens === 'chronicle' ? 1.0 : 2.0;
+      terrainMat.uniforms.uGridOpacity.value = showHexLatticeRef.current
+        ? isBlueprint
+          ? 0.42
+          : 0.24
+        : 0.0;
+      terrainMat.uniforms.uHoveredRegionIdx.value = getRegionPaletteIndex(hoveredId);
+      terrainMat.uniforms.uPinnedRegionIdx.value = getRegionPaletteIndex(pinnedId);
+      terrainMat.uniforms.uScanProgress.value = scanProgress;
+
+      // Update Bathymetric Ocean Shader
+      waterMat.uniforms.uTime.value = elapsedSec;
+      waterMat.uniforms.uLensMode.value = terrainMat.uniforms.uLensMode.value;
+      waterMesh.visible = !isBlueprint;
+      waterMesh.position.y = 1.65 * Math.max(0.2, currentElevScale);
+
+      // Rotate Northern Orbital Ring + Drift Atmospheric Motes
+      anomalyRing.rotation.z = elapsedSec * 0.12;
+      anomalyRing.visible = !isBlueprint;
+      moteCloud.rotation.y = elapsedSec * 0.012;
+      moteCloud.visible = !isBlueprint;
+
+      // City Beacons Visibility + Rhodes Pulse Ring
+      cityGroup.visible = !isBlueprint && showCitiesRef.current;
+      cityGroup.scale.set(1, Math.max(0.05, currentElevScale), 1);
       if (rhodesBeacon.mesh && rhodesBeacon.mat) {
         const pulse = (elapsedSec * 0.45) % 1;
-        rhodesBeacon.mesh.scale.setScalar(1 + pulse * 1.45);
-        rhodesBeacon.mat.opacity = is2D ? 0 : (1 - pulse) * 0.48;
+        rhodesBeacon.mesh.scale.setScalar(1 + pulse * 1.55);
+        rhodesBeacon.mat.opacity = isBlueprint ? 0 : (1 - pulse) * 0.62;
       }
 
-      // Update Operational Trajectory Arcs (Context-aware filtering when a region is pinned or category filter active)
-      routesGroup.visible = showRoutesRef.current;
-      routesGroup.scale.set(1, is2D ? 0.02 : 1.0, 1);
-      routesGroup.position.y = is2D ? 0.7 : 0;
-      const activeRouteFilter = routeFilterRef.current;
-      if (showRoutesRef.current) {
-        routeEntries.forEach((re) => {
-          const matchesCategory = activeRouteFilter === 'all' || re.route.category === activeRouteFilter;
-          const isRelevant = matchesCategory && (!pinnedId || re.route.regionIds.includes(pinnedId));
-          re.tubeMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.94 : 0.86) : 0.08;
-          re.glowMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.24 : 0.16) : 0.015;
-          re.anchorMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.85 : 0.55) : 0.06;
-          re.pulseMat.opacity = !matchesCategory ? 0 : isRelevant ? 0.95 : 0.12;
-          re.pulseMesh.visible = matchesCategory;
-          if (matchesCategory) {
-            re.progress = (re.progress + re.speed) % 1;
-            re.curve.getPointAt(re.progress, re.pulseMesh.position);
-          }
-        });
-      }
-
-      // Smoothly Animate 3D Hex Extrusion (2D 모드 시 고저차를 100% 제거하여 0.6 완전 평면화)
-      const effectiveShowElevation = !is2D && showElevationRef.current;
-      const elevScale = effectiveShowElevation ? 1.0 : 0.0;
-      const currentHoveredId = hoveredRegionRef.current;
-      const shouldUpdateColors =
-        pinnedId !== lastColoredPinnedId || currentHoveredId !== lastColoredHoveredId;
-      let matrixDirty = false;
-      let colorDirty = false;
-
-      for (let i = 0; i < hexCount; i++) {
-        const cell = terraHexCells[i];
-        const isCellPinned = Boolean(pinnedId && cell.regionId === pinnedId);
-        const isCellHovered = Boolean(currentHoveredId && cell.regionId === currentHoveredId);
-
-        const baseH = effectiveShowElevation ? CELL_TERRAIN_HEIGHTS[i] : 0.6;
-        const uniformLift = is2D ? 0 : (isCellPinned ? 6.5 : isCellHovered ? 4.2 : 0);
-        const targetH = baseH + uniformLift;
-        const diff = targetH - cellCurrentHeights[i];
-
-        if (Math.abs(diff) > 0.02) {
-          cellCurrentHeights[i] += diff * 0.22;
-          dummy.position.set(cell.x - MAP_CENTER_X, 0, cell.y - MAP_CENTER_Y);
-          dummy.scale.set(1, cellCurrentHeights[i], 1);
-          dummy.updateMatrix();
-          instancedHex.setMatrixAt(i, dummy.matrix);
-          matrixDirty = true;
-        }
-
-        if (shouldUpdateColors) {
-          if (isCellPinned) {
-            tempColor.copy(cellBaseColors[i]).lerp(goldColor, 0.28);
-            instancedHex.setColorAt(i, tempColor);
-          } else if (isCellHovered) {
-            tempColor.copy(cellBaseColors[i]).lerp(cyanColor, 0.34);
-            instancedHex.setColorAt(i, tempColor);
-          } else if (pinnedId) {
-            tempColor.copy(cellBaseColors[i]).lerp(dimmedColor, 0.68);
-            instancedHex.setColorAt(i, tempColor);
-          } else {
-            instancedHex.setColorAt(i, cellBaseColors[i]);
-          }
-          colorDirty = true;
-        }
-      }
-
-      if (shouldUpdateColors) {
-        lastColoredPinnedId = pinnedId;
-        lastColoredHoveredId = currentHoveredId;
-      }
-      if (matrixDirty) instancedHex.instanceMatrix.needsUpdate = true;
-      if (colorDirty && instancedHex.instanceColor) instancedHex.instanceColor.needsUpdate = true;
-
-      // Update 3D Nation Perimeter Wireframes (2D 모드에서는 균일한 0.65 평면 위치 유지)
+      // Draped Region Perimeter Highlighting
+      const activeEra = MAP_ERAS[chronicleEraRef.current] || MAP_ERAS[0];
+      const activeEraRegions = new Set(activeEra.activeRegionIds);
       regionBorderMeshes.forEach((bObj, regId) => {
         const isPin = regId === pinnedId;
-        const isHov = regId === hoveredRegionRef.current;
-        const lift = is2D ? 0 : (isPin ? 6.5 : isHov ? 4.2 : 0);
-        bObj.line.scale.set(1, elevScale, 1);
-        bObj.line.position.y = is2D ? 0.65 : (effectiveShowElevation ? lift : 0.65 + lift);
+        const isHov = regId === hoveredId;
+        const isEraActive = lens === 'chronicle' && activeEraRegions.has(regId);
+
+        bObj.line.scale.set(1, Math.max(0.01, currentElevScale), 1);
+        bObj.line.position.y = isBlueprint ? 0.4 : 0.1;
+
         if (isPin) {
-          bObj.mat.color.setHex(0xf5dd1b);
+          bObj.mat.color.setRGB(1.45, 1.25, 0.16);
           bObj.mat.opacity = 1.0;
         } else if (isHov) {
-          bObj.mat.color.setHex(0xe4e4e7);
+          bObj.mat.color.setRGB(1.15, 1.15, 1.2);
           bObj.mat.opacity = 0.95;
+        } else if (lens === 'chronicle') {
+          bObj.mat.color.copy(bObj.defaultColor);
+          bObj.mat.opacity = isEraActive ? 0.85 : 0.14;
         } else {
           bObj.mat.color.copy(bObj.defaultColor);
-          bObj.mat.opacity = pinnedId ? 0.14 : 0.62;
+          bObj.mat.opacity = pinnedId ? 0.14 : isBlueprint ? 0.68 : 0.54;
         }
       });
 
-      renderer.render(scene, camera);
+      // Trajectory Ribbons (Filter by Category or Chronicle Era)
+      const routesOn = showRoutesRef.current || lens === 'chronicle';
+      routesGroup.visible = routesOn;
+      routesGroup.scale.set(1, isBlueprint ? 0.02 : Math.max(0.15, currentElevScale), 1);
+      routesGroup.position.y = isBlueprint ? 0.7 : 0;
+      const activeFilter = routeFilterRef.current;
 
-      // Project 3D Coordinates to Screen-Space DOM Overlays
-      // Adaptive zoom scale: gracefully scales down at distance, and scales adaptively on compact viewports (mobile landscape)
+      const routeIsActiveMap = new Map<string, boolean>();
+      routeEntries.forEach((re) => {
+        const matchesCat =
+          lens === 'chronicle'
+            ? re.route.eraIndex <= activeEra.index
+            : activeFilter === 'all' || re.route.category === activeFilter;
+        const isCurrentEra = lens === 'chronicle' ? re.route.eraIndex === activeEra.index : true;
+        const isPinMatch = !pinnedId || re.route.regionIds.includes(pinnedId);
+        const isRelevant = routesOn && matchesCat && isPinMatch;
+        routeIsActiveMap.set(re.route.id, isRelevant && isCurrentEra);
+
+        const baseOp = !routesOn || !matchesCat ? 0 : isRelevant ? (isCurrentEra ? 0.92 : 0.25) : 0.07;
+        re.tubeMat.opacity = baseOp;
+        re.glowMat.opacity = !routesOn || !matchesCat ? 0 : isRelevant && isCurrentEra ? 0.20 : 0.02;
+        re.anchorMat.opacity = baseOp * 0.72;
+        re.pulseMat.opacity = !routesOn || !matchesCat ? 0 : isRelevant && isCurrentEra ? 0.98 : 0.1;
+        re.pulseMesh.visible = routesOn && matchesCat && (isCurrentEra || !pinnedId);
+        if (routesOn && matchesCat) {
+          re.progress = (re.progress + re.speed) % 1;
+          re.curve.getPointAt(re.progress, re.pulseMesh.position);
+        }
+      });
+
+      composer.render();
+
+      // Project & Solve 2D Screen-Space Collisions for HUD Pins
       const cWidth = container.clientWidth;
       const cHeight = container.clientHeight;
       const isShortViewport = cHeight <= 520;
       const heightRatio = THREE.MathUtils.clamp(cHeight / 620, 0.52, 1.0);
-      const baseZoomScale = THREE.MathUtils.clamp(520 / cam.currentRadius, 0.65, 1.25);
+      const baseZoomScale = THREE.MathUtils.clamp(515 / cam.currentRadius, 0.68, 1.22);
       const zoomScale = baseZoomScale * heightRatio;
       const halfW = cWidth / 2;
       const halfH = cHeight / 2;
 
+      const labelCandidates: ScreenLabelCandidate[] = [];
+      const regCoords = new Map<string, { sx: number; sy: number; scale: number; dim: boolean }>();
+      const cityCoords = new Map<string, { sx: number; sy: number; scale: number }>();
+      const routeCoords = new Map<string, { sx: number; sy: number; scale: number }>();
+
       terraRegions.forEach((reg) => {
-        const pinEl = regionPinRefs.current.get(reg.id);
-        if (!pinEl) return;
         const wx = reg.emblemPixelCoords.x - MAP_CENTER_X;
         const wz = reg.emblemPixelCoords.y - MAP_CENTER_Y;
-        const localTerrainH = is2D ? 0 : sampleTerrainHeightAtPixel(reg.emblemPixelCoords.x, reg.emblemPixelCoords.y);
-        const isPin = reg.id === pinnedId;
-        const isHov = reg.id === hoveredRegionRef.current;
-        const lift = is2D ? 0 : (isPin ? 6.5 : isHov ? 4.2 : 0);
-        const wy = is2D ? 1.8 : (localTerrainH * elevScale + lift + 9.5);
+        const localH = terrainAssets.sampleHeightAtPixel(reg.emblemPixelCoords.x, reg.emblemPixelCoords.y);
+        const wy = isBlueprint ? 1.5 : localH * currentElevScale + 9.0;
 
         projVec.set(wx, wy, wz).project(camera);
-        if (projVec.z > 1) {
-          pinEl.style.opacity = '0';
-          pinEl.style.pointerEvents = 'none';
-        } else {
-          const sx = projVec.x * halfW + halfW;
-          const sy = -projVec.y * halfH + halfH;
-          const regScale = isShortViewport ? zoomScale * 0.88 : zoomScale;
-          pinEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${regScale})`;
-          pinEl.style.opacity = pinnedId ? (isPin ? '1' : isHov ? '0.88' : '0.32') : '1';
-          pinEl.style.pointerEvents = 'auto';
-        }
+        if (projVec.z > 1) return;
+
+        const sx = projVec.x * halfW + halfW;
+        const sy = -projVec.y * halfH + halfH;
+        const regScale = isShortViewport ? zoomScale * 0.88 : zoomScale;
+        const isPin = reg.id === pinnedId;
+        const isHov = reg.id === hoveredId;
+        const dimInChronicle = lens === 'chronicle' && !activeEraRegions.has(reg.id) && !isPin && !isHov;
+
+        regCoords.set(reg.id, { sx, sy, scale: regScale, dim: dimInChronicle });
+        labelCandidates.push({
+          id: `reg:${reg.id}`,
+          x: sx,
+          y: sy,
+          width: 96 * regScale,
+          height: 44 * regScale,
+          priority: isPin ? 1000 : isHov ? 920 : dimInChronicle ? 120 : 500 + reg.relatedStoryIds.length * 4,
+          forceShow: isPin || isHov,
+        });
       });
 
       terraCities.forEach((city) => {
-        const cEl = cityPinRefs.current.get(city.id);
-        if (!cEl) return;
-        const wx = city.pixelCoords.x - MAP_CENTER_X;
-        const wz = city.pixelCoords.y - MAP_CENTER_Y;
-        const localTerrainH = is2D ? 0 : sampleTerrainHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y);
         const isRhodes = city.type === 'rhodes';
         const isCapital = city.type === 'capital';
-        const isMajor = isRhodes || isCapital;
         const isPin = city.regionId === pinnedId;
-        const isHov = city.regionId === hoveredRegionRef.current;
-        const lift = is2D ? 0 : (isPin ? 6.5 : isHov ? 4.2 : 0);
-        const wy = is2D ? 2.0 : (localTerrainH * elevScale + lift + (isMajor ? 27 : 16.5));
+        const isHov = city.regionId === hoveredId;
+
+        if (pinnedId && !isPin) return;
+        const capitalLimit = isShortViewport ? 410 : 525;
+        const visibleByZoom =
+          isRhodes || isPin || isHov || (isCapital ? cam.currentRadius < capitalLimit : cam.currentRadius < 340);
+        if (!visibleByZoom) return;
+
+        const wx = city.pixelCoords.x - MAP_CENTER_X;
+        const wz = city.pixelCoords.y - MAP_CENTER_Y;
+        const localH = Math.max(2.0, terrainAssets.sampleHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y));
+        const wy = isBlueprint ? 2.0 : localH * currentElevScale + (isRhodes || isCapital ? 25 : 15);
 
         projVec.set(wx, wy, wz).project(camera);
-        if (projVec.z > 1) {
-          cEl.style.opacity = '0';
-          cEl.style.pointerEvents = 'none';
-        } else {
-          const sx = projVec.x * halfW + halfW;
-          const sy = -projVec.y * halfH + halfH;
-          const cityScale = (isMajor || isPin || isHov ? zoomScale : zoomScale * 0.92) * (isShortViewport ? 0.82 : 1.0);
-          cEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${cityScale})`;
-          if (pinnedId) {
-            cEl.style.opacity = isPin ? '1' : '0';
-            cEl.style.pointerEvents = isPin ? 'auto' : 'none';
-          } else {
-            const capitalRadiusLimit = isShortViewport ? 360 : 420;
-            const visibleAtOverview =
-              isRhodes ||
-              isHov ||
-              (isCapital ? cam.currentRadius < capitalRadiusLimit : cam.currentRadius < 320);
-            if (!visibleAtOverview) {
-              cEl.style.opacity = '0';
-              cEl.style.pointerEvents = 'none';
-            } else {
-              cEl.style.opacity = '0.96';
-              cEl.style.pointerEvents = 'auto';
-            }
-          }
-        }
+        if (projVec.z > 1) return;
+
+        const sx = projVec.x * halfW + halfW;
+        const sy = -projVec.y * halfH + halfH;
+        const cScale = (isRhodes || isCapital || isPin || isHov ? zoomScale : zoomScale * 0.92) * (isShortViewport ? 0.82 : 1.0);
+        cityCoords.set(city.id, { sx, sy, scale: cScale });
+
+        labelCandidates.push({
+          id: `city:${city.id}`,
+          x: sx,
+          y: sy,
+          width: 92 * cScale,
+          height: 22 * cScale,
+          priority: isPin ? 840 : isRhodes ? 820 : isHov ? 760 : isCapital ? 340 : 190,
+          forceShow: isPin || isRhodes,
+        });
       });
 
       routeEntries.forEach((re) => {
         const rt = re.route;
-        const rEl = routePinRefs.current.get(rt.id);
-        if (!rEl) return;
-        const matchesCategory = activeRouteFilter === 'all' || rt.category === activeRouteFilter;
-        const isRelevant = matchesCategory && (!pinnedId || rt.regionIds.includes(pinnedId));
-        if (!isRelevant) {
-          rEl.style.opacity = '0';
-          rEl.style.pointerEvents = 'none';
+        if (!routeIsActiveMap.get(rt.id)) return;
+        re.curve.getPointAt(rt.labelT ?? 0.5, projVec);
+        projVec.y = isBlueprint ? 1.0 : projVec.y * Math.max(0.15, currentElevScale) + 2.2;
+        projVec.project(camera);
+        if (projVec.z > 1) return;
+
+        const sx = projVec.x * halfW + halfW;
+        const sy = -projVec.y * halfH + halfH;
+        const rScale = zoomScale * (isShortViewport ? 0.85 : 1.0);
+        routeCoords.set(rt.id, { sx, sy, scale: rScale });
+
+        labelCandidates.push({
+          id: `route:${rt.id}`,
+          x: sx,
+          y: sy,
+          width: 78 * rScale,
+          height: 22 * rScale,
+          priority: lens === 'chronicle' || pinnedId ? 700 : 280,
+          forceShow: Boolean(pinnedId),
+        });
+      });
+
+      const acceptedIds = solveLabelCollisions(labelCandidates, cWidth, cHeight);
+
+      terraRegions.forEach((reg) => {
+        const el = regionPinRefs.current.get(reg.id);
+        if (!el) return;
+        const pos = regCoords.get(reg.id);
+        const show = pos && acceptedIds.has(`reg:${reg.id}`);
+        if (!pos || !show) {
+          el.style.opacity = '0';
+          el.style.pointerEvents = 'none';
           return;
         }
+        el.style.transform = `translate3d(${pos.sx}px, ${pos.sy}px, 0) translate(-50%, -50%) scale(${pos.scale})`;
+        el.style.opacity = pinnedId ? (reg.id === pinnedId ? '1' : reg.id === hoveredId ? '0.9' : '0.35') : pos.dim ? '0.28' : '1';
+        el.style.pointerEvents = 'auto';
+      });
 
-        // Place capsule at the route's custom labelT (default 0.5) of the 3D Bezier curve
-        re.curve.getPointAt(rt.labelT ?? 0.5, projVec);
-        if (is2D) {
-          projVec.y = 1.0;
-        } else {
-          projVec.y += 2.2;
+      terraCities.forEach((city) => {
+        const el = cityPinRefs.current.get(city.id);
+        if (!el) return;
+        const pos = cityCoords.get(city.id);
+        if (!pos || !acceptedIds.has(`city:${city.id}`)) {
+          el.style.opacity = '0';
+          el.style.pointerEvents = 'none';
+          return;
         }
+        el.style.transform = `translate3d(${pos.sx}px, ${pos.sy}px, 0) translate(-50%, -50%) scale(${pos.scale})`;
+        el.style.opacity = '0.96';
+        el.style.pointerEvents = 'auto';
+      });
 
-        projVec.project(camera);
-        if (projVec.z > 1) {
-          rEl.style.opacity = '0';
-          rEl.style.pointerEvents = 'none';
-        } else {
-          const sx = projVec.x * halfW + halfW;
-          const sy = -projVec.y * halfH + halfH;
-          const routeScale = zoomScale * (isShortViewport ? 0.85 : 1.0);
-          rEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${routeScale})`;
-          rEl.style.opacity = '1';
-          rEl.style.pointerEvents = 'auto';
+      routeEntries.forEach((re) => {
+        const el = routePinRefs.current.get(re.route.id);
+        if (!el) return;
+        const pos = routeCoords.get(re.route.id);
+        if (!pos || !acceptedIds.has(`route:${re.route.id}`)) {
+          el.style.opacity = '0';
+          el.style.pointerEvents = 'none';
+          return;
         }
+        el.style.transform = `translate3d(${pos.sx}px, ${pos.sy}px, 0) translate(-50%, -50%) scale(${pos.scale})`;
+        el.style.opacity = '1';
+        el.style.pointerEvents = 'auto';
       });
     };
 
@@ -2150,18 +1467,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       camera.aspect = nw / nh;
       camera.updateProjectionMatrix();
       renderer.setSize(nw, nh);
+      composer.setSize(nw, nh);
+      bloomPass.setSize(nw, nh);
     };
     window.addEventListener('resize', handleResize);
-
-    // ResizeObserver ensures canvas always matches container when header expands/collapses
-    const resizeObserver = new ResizeObserver(() => {
-      handleResize();
-    });
+    const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
     return () => {
       cancelAnimationFrame(animFrameId);
       resizeObserver.disconnect();
+      paletteSyncRef.current = null;
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
@@ -2172,19 +1488,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       window.removeEventListener('pointerup', handleWindowPointerUp);
       window.removeEventListener('pointercancel', handleWindowBlur);
       window.removeEventListener('blur', handleWindowBlur);
+
       scene.traverse((obj) => {
         if ('geometry' in obj && obj.geometry instanceof THREE.BufferGeometry) {
           obj.geometry.dispose();
         }
         if ('material' in obj && obj.material) {
           const mat = obj.material as THREE.Material | THREE.Material[];
-          if (Array.isArray(mat)) {
-            mat.forEach((m) => m.dispose());
-          } else {
-            mat.dispose();
-          }
+          if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
+          else mat.dispose();
         }
       });
+      terrainAssets.dispose();
+      bloomPass.dispose();
+      composer.dispose();
+      composerTarget.dispose();
       renderer.dispose();
     };
   }, [regionLookup, handleSelectRegion]);
@@ -2195,19 +1513,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         isHeaderCollapsed
           ? 'h-[100dvh] md:h-screen'
           : 'h-[calc(100dvh-6.25rem)] md:h-[calc(100vh-3.5rem)]'
-      } bg-[#0b0c0e] overflow-hidden select-none`}
+      } bg-[#080a0f] overflow-hidden select-none`}
     >
       {/* =========================================================================
-          1. WEBGL 3D CANVAS VIEWPORT & PROJECTED SCREEN-SPACE PINS
+          1. WEBGL 3D RELIEF VIEWPORT & COLLISION-FREE PINS
       ========================================================================= */}
       <div className="relative w-full h-full overflow-hidden touch-none">
-        {/* Three.js WebGL Mount Container */}
         <div ref={mountRef} className="w-full h-full touch-none" />
 
-        {/* Subtle Edge Vignette */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_64%,rgba(8,9,11,0.72)_100%)]" />
+        {/* Soft Edge Vignette */}
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_66%,rgba(6,8,12,0.72)_100%)]" />
 
-        {/* 3D Projected Region Emblem & Label Pins */}
+        {/* Projected Nation Emblem Callouts */}
         {showLogos && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {terraRegions.map((reg) => {
@@ -2242,16 +1559,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       hoveredPinRegionRef.current = null;
                     }
                   }}
-                  className={`absolute top-0 left-0 cursor-pointer flex flex-col items-center ${
+                  className={`absolute top-0 left-0 cursor-pointer flex flex-col items-center transition-opacity duration-200 ${
                     isActive ? 'z-30' : 'z-10'
                   }`}
                 >
                   {reg.logoUrl && (
                     <div
                       className={`relative ${
-                        isLandscapeMobile ? 'w-5 h-5' : 'w-7 h-7 sm:w-10 sm:h-10'
+                        isLandscapeMobile ? 'w-5 h-5' : 'w-7 h-7 sm:w-9 sm:h-9'
                       } flex items-center justify-center transition-opacity duration-150 ${
-                        isActive ? 'opacity-100' : 'opacity-85'
+                        isActive ? 'opacity-100' : 'opacity-90'
                       }`}
                     >
                       <img
@@ -2260,7 +1577,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         loading="lazy"
                         decoding="async"
                         draggable={false}
-                        className="w-full h-full object-contain filter drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]"
+                        className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
                       />
                     </div>
                   )}
@@ -2280,7 +1597,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-extrabold shadow-lg'
                         : isHovered
                         ? 'bg-zinc-100 text-black border-white font-bold shadow-md'
-                        : 'bg-[#0d0f14]/86 text-zinc-100 border-white/[0.14]'
+                        : 'bg-[#0b0e14]/88 text-zinc-100 border-white/[0.14]'
                     }`}
                   >
                     <span className="tracking-tight whitespace-nowrap font-sans font-semibold">
@@ -2304,7 +1621,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           </div>
         )}
 
-        {/* 3D Projected City Beacons */}
+        {/* Projected Architectural City Pins */}
         {showCities && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {terraCities.map((city) => {
@@ -2326,11 +1643,15 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     e.stopPropagation();
                     playClickSound();
                     setSelectedCityId(isSelected ? null : city.id);
-                    flyToPixelCoords(city.pixelCoords.x, city.pixelCoords.y, 260, viewMode === '2d' ? 0 : 42);
+                    flyToPixelCoords(
+                      city.pixelCoords.x,
+                      city.pixelCoords.y,
+                      255,
+                      mapLens === 'blueprint' ? 0 : 42
+                    );
                     if (isTouchOrMobile) {
                       setPinnedRegionId(null);
                       const reg = terraRegions.find((r) => r.id === city.regionId);
-                      const firstStoryId = reg?.relatedStoryIds?.[0];
                       setMobilePreviewCard({
                         type: 'city',
                         id: city.id,
@@ -2338,7 +1659,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         title: `${city.nameKo} (${city.nameEn})`,
                         subtitle: reg ? `소속 세력: ${reg.nameKo}` : city.regionId,
                         description: reg?.description || '핵심 이동도시 및 전략 거점입니다.',
-                        storyId: firstStoryId,
+                        storyId: reg?.relatedStoryIds?.[0],
                         regionId: city.regionId,
                         badgeColor: isRhodes ? '#e4e4e7' : '#f5dd1b',
                       });
@@ -2347,7 +1668,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       setPinnedRegionId(city.regionId);
                     }
                   }}
-                  className="absolute top-0 left-0 pointer-events-auto cursor-pointer z-20 group"
+                  className="absolute top-0 left-0 pointer-events-auto cursor-pointer z-20 group transition-opacity duration-200"
                 >
                   <div
                     className={`flex items-center gap-1 ${
@@ -2356,12 +1677,12 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                         : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'
                     } font-mono border backdrop-blur-sm transition-colors ${
                       isRhodes
-                        ? 'bg-[#181a20]/95 border-zinc-200 text-white font-bold'
+                        ? 'bg-[#14171f]/95 border-zinc-200 text-white font-bold shadow-lg'
                         : isSelected
                         ? 'bg-[#f5dd1b] border-white text-black font-bold'
                         : isCapital
-                        ? 'bg-[#121316]/92 border-[#f5dd1b]/50 text-zinc-100 hover:border-[#f5dd1b]'
-                        : 'bg-[#101114]/88 border-white/12 text-zinc-300 hover:text-white hover:border-white/30'
+                        ? 'bg-[#0e1118]/90 border-[#f5dd1b]/50 text-zinc-100 hover:border-[#f5dd1b]'
+                        : 'bg-[#0b0e14]/86 border-white/15 text-zinc-300 hover:text-white hover:border-white/35'
                     }`}
                   >
                     <span
@@ -2377,8 +1698,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           </div>
         )}
 
-        {/* 3D Projected Operational Route Compact Capsules (2-Step Preview on Mobile / Direct Splash on PC) */}
-        {showRoutes && (
+        {/* Projected 3D Trajectory Capsules */}
+        {(showRoutes || mapLens === 'chronicle') && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {TACTICAL_ROUTES.map((rt) => {
               const isRelevant = !pinnedRegionId || rt.regionIds.includes(pinnedRegionId);
@@ -2414,12 +1735,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   }}
                   title={`${rt.fullLabel} (클릭하여 스토리 정보 팝업 열기)`}
                   className={`absolute top-0 left-0 pointer-events-auto cursor-pointer group transition-opacity duration-200 ${
-                    isRelevant ? 'z-20 opacity-100' : 'z-10 opacity-20 hover:opacity-100'
+                    isRelevant ? 'z-20' : 'z-10'
                   }`}
                 >
-                  <div className={`${isLandscapeMobile ? 'px-1 py-0.2 text-[8.5px]' : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'} rounded-[2px] bg-[#121316]/94 backdrop-blur-md border border-white/15 group-hover:border-[#f5dd1b] font-mono flex items-center gap-1 sm:gap-1.5 shadow-lg transition-all`}>
+                  <div
+                    className={`${
+                      isLandscapeMobile ? 'px-1 py-0.2 text-[8.5px]' : 'px-1.5 py-0.5 text-[9.5px] sm:text-[10px]'
+                    } rounded-[2px] bg-[#0b0e14]/92 backdrop-blur-md border border-white/15 group-hover:border-[#f5dd1b] font-mono flex items-center gap-1 sm:gap-1.5 shadow-lg transition-all`}
+                  >
                     <span className="w-1.5 h-1.5 rounded-[1px] flex-shrink-0" style={{ backgroundColor: rt.color }} />
-                    <span className="text-zinc-100 group-hover:text-[#f5dd1b] font-bold tracking-tight transition-colors">{rt.code}</span>
+                    <span className="text-zinc-100 group-hover:text-[#f5dd1b] font-bold tracking-tight transition-colors">
+                      {rt.code}
+                    </span>
                     <span
                       className={`text-zinc-300 group-hover:text-white font-sans text-[10px] transition-all duration-200 overflow-hidden whitespace-nowrap ${
                         pinnedRegionId && isRelevant
@@ -2436,9 +1763,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           </div>
         )}
 
-        {/* =========================================================================
-            1.5 MOBILE 2-STEP PREVIEW MINI CARD (Prevents accidental direct entry on Tap)
-        ========================================================================= */}
+        {/* MOBILE 2-STEP PREVIEW MINI CARD */}
         {mobilePreviewCard && (
           <div
             data-hud-panel="true"
@@ -2472,27 +1797,19 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             <div className="flex items-center gap-2">
               {mobilePreviewCard.storyId && (
                 <button
-                  onClick={() => {
-                    const targetStoryId = mobilePreviewCard.storyId!;
-                    setMobilePreviewCard(null);
-                    handleOpenStoryPopup(targetStoryId);
-                  }}
-                  className="flex-1 h-8 px-3 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                  onClick={() => handleOpenStoryPopup(mobilePreviewCard.storyId!)}
+                  className="flex-1 h-8 rounded-[2px] bg-zinc-100 hover:bg-[#f5dd1b] text-black text-xs font-bold font-mono flex items-center justify-center gap-1 cursor-pointer transition-colors"
                 >
-                  <span>스토리 열람</span>
+                  <span>관련 스토리 열기</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               )}
               {mobilePreviewCard.regionId && (
                 <button
-                  onClick={() => {
-                    const targetRegId = mobilePreviewCard.regionId!;
-                    setMobilePreviewCard(null);
-                    setPinnedRegionId(targetRegId);
-                  }}
-                  className="h-8 px-3 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] text-zinc-100 border border-white/10 font-semibold text-xs flex items-center justify-center cursor-pointer transition-colors"
+                  onClick={() => handleSelectRegion(mobilePreviewCard.regionId!)}
+                  className="h-8 px-3 rounded-[2px] bg-[#17191f] hover:bg-[#22252d] border border-white/15 text-zinc-200 text-xs font-mono cursor-pointer transition-colors"
                 >
-                  <span>지역 상세</span>
+                  세력 정보
                 </button>
               )}
             </div>
@@ -2500,57 +1817,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         )}
 
         {/* =========================================================================
-            2-A. MOBILE NATIVE UNIFIED TOP HUD (md:hidden)
-            - 1행: 지역 검색·목록 토글 + 3D/2D + 범례(?) + 꽉 찬 화면
-            - 2행: 가로 스크롤 레이어 토글 (고저차 / 국가 / 거점 / 경로 + 경로 필터)
+            2-A. MOBILE TOP COMPACT DOCK (< 768px)
         ========================================================================= */}
         <div
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          className="md:hidden absolute top-2.5 left-2.5 right-2.5 z-30 flex flex-col gap-1.5 pointer-events-none"
+          className="md:hidden absolute top-2 left-2 right-2 z-30 flex flex-col gap-1.5 pointer-events-none"
         >
-          {isHeaderCollapsed ? (
-            /* Immersive Fullscreen Floating Bar */
-            <div className="pointer-events-auto self-end prts-glass rounded-[2px] px-2 py-1 shadow-2xl flex items-center gap-1.5 border border-white/15 animate-fadeIn">
-              <button
-                onClick={() => handleToggleViewMode(viewMode === '3d' ? '2d' : '3d')}
-                className="h-6 px-2 rounded-[1px] bg-zinc-100 text-black font-mono font-bold text-[10px] flex items-center gap-1 cursor-pointer"
-                title="3D / 2D 시점 전환"
-              >
-                {viewMode === '3d' ? <Box className="w-3 h-3" /> : <MapIcon className="w-3 h-3" />}
-                <span>{viewMode.toUpperCase()}</span>
-              </button>
-              <button
-                onClick={() => {
-                  playClickSound();
-                  setIsLegendOpen(true);
-                }}
-                className="w-6 h-6 rounded-[1px] bg-white/[0.08] text-zinc-200 flex items-center justify-center cursor-pointer"
-                title="지도 범례"
-              >
-                <HelpCircle className="w-3.5 h-3.5" />
-              </button>
-              {onToggleHeaderCollapse && (
-                <button
-                  onClick={() => {
-                    playClickSound();
-                    onToggleHeaderCollapse();
-                  }}
-                  className="h-6 px-2.5 rounded-[1px] bg-[#f5dd1b] text-black font-sans font-bold text-[10.5px] flex items-center gap-1 cursor-pointer"
-                  title="상단 메뉴 복원"
-                >
-                  <PanelTopOpen className="w-3 h-3" />
-                  <span>상단 복원</span>
-                </button>
-              )}
-            </div>
-          ) : (
-            <>
-              {/* Row 1: Search & Region Directory + 3D/2D + Legend + Fullscreen */}
-              <div className="pointer-events-auto prts-glass rounded-[2px] p-1 shadow-2xl flex items-center gap-1">
-            <div className="relative flex-1 flex items-center min-w-0">
-              <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
+          <div className="flex items-center gap-1.5 pointer-events-auto">
+            <div className="flex-1 prts-glass rounded-[2px] p-1 flex items-center gap-1">
+              <Search className="w-3.5 h-3.5 text-zinc-400 ml-1 flex-shrink-0" />
               <input
                 type="text"
                 value={sectorSearch}
@@ -2559,88 +1836,71 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setSectorSearch(e.target.value);
                   if (!isSectorListOpen) setIsSectorListOpen(true);
                 }}
-                placeholder="지역 · 국가 검색..."
-                className="w-full h-7 bg-[#15161a] focus:bg-[#0c0c0e] border border-transparent focus:border-white/30 rounded-[2px] text-xs text-zinc-100 placeholder:text-zinc-500 pl-7 pr-5 outline-none"
+                placeholder="지역 · 수도 검색..."
+                className="w-full h-6 bg-transparent text-xs text-white placeholder:text-zinc-500 outline-none"
               />
               {sectorSearch && (
                 <button
                   onClick={() => setSectorSearch('')}
-                  className="absolute right-1.5 p-0.5 text-zinc-400 hover:text-white cursor-pointer"
+                  className="p-0.5 text-zinc-400 hover:text-white cursor-pointer"
                 >
                   <X className="w-3 h-3" />
                 </button>
               )}
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setIsSectorListOpen(!isSectorListOpen);
+                }}
+                className="h-6 px-1.5 rounded-[2px] bg-white/[0.06] text-[10px] font-mono text-zinc-200 flex items-center gap-0.5 cursor-pointer flex-shrink-0"
+              >
+                <span>{filteredRegions.length}</span>
+                {isSectorListOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              </button>
+            </div>
+
+            <div className="prts-glass rounded-[2px] p-1 flex items-center gap-0.5 text-[10.5px] font-mono">
+              <button
+                onClick={() => handleSwitchLens('relief')}
+                className={`h-6 px-1.5 rounded-[1px] font-bold cursor-pointer ${
+                  mapLens === 'relief' ? 'bg-zinc-100 text-black' : 'text-zinc-400'
+                }`}
+              >
+                지형
+              </button>
+              <button
+                onClick={() => handleSwitchLens('chronicle')}
+                className={`h-6 px-1.5 rounded-[1px] font-bold cursor-pointer ${
+                  mapLens === 'chronicle' ? 'bg-[#f5dd1b] text-black' : 'text-zinc-400'
+                }`}
+              >
+                연대기
+              </button>
+              <button
+                onClick={() => handleSwitchLens('blueprint')}
+                className={`h-6 px-1.5 rounded-[1px] font-bold cursor-pointer ${
+                  mapLens === 'blueprint' ? 'bg-zinc-100 text-black' : 'text-zinc-400'
+                }`}
+              >
+                2D
+              </button>
             </div>
 
             <button
               onClick={() => {
-                playClickSound();
-                setIsSectorListOpen(!isSectorListOpen);
-              }}
-              className={`h-7 px-2 rounded-[2px] flex items-center gap-1 text-[11px] font-mono transition-colors cursor-pointer flex-shrink-0 ${
-                isSectorListOpen
-                  ? 'bg-white/[0.1] text-white border border-[#f5dd1b]/70 font-bold'
-                  : 'bg-[#16181d] text-zinc-200'
-              }`}
-            >
-              <Compass className="w-3.5 h-3.5 text-zinc-400" />
-              <span>{filteredRegions.length}</span>
-              {isSectorListOpen ? (
-                <ChevronUp className="w-3 h-3" />
-              ) : (
-                <ChevronDown className="w-3 h-3" />
-              )}
-            </button>
-
-            {/* 3D / 2D Single Toggle on Mobile */}
-            <button
-              onClick={() => handleToggleViewMode(viewMode === '3d' ? '2d' : '3d')}
-              className="h-7 px-2 rounded-[2px] bg-zinc-100 text-black font-mono font-bold text-[11px] flex items-center gap-1 flex-shrink-0 cursor-pointer"
-              title="3D / 2D 시점 전환"
-            >
-              {viewMode === '3d' ? <Box className="w-3 h-3" /> : <MapIcon className="w-3 h-3" />}
-              <span>{viewMode.toUpperCase()}</span>
-            </button>
-
-            {/* Legend Button */}
-            <button
-              onClick={() => {
-                playClickSound();
+                playOpenSound();
                 setIsLegendOpen(true);
               }}
-              className="w-7 h-7 rounded-[2px] bg-[#16181d] text-zinc-300 flex items-center justify-center flex-shrink-0 cursor-pointer"
-              title="지도 범례 및 조작 안내"
+              aria-label="범례 및 조작"
+              className="prts-glass w-8 h-8 rounded-[2px] flex items-center justify-center text-zinc-300 cursor-pointer flex-shrink-0"
             >
-              <HelpCircle className="w-3.5 h-3.5" />
+              <HelpCircle className="w-4 h-4" />
             </button>
-
-            {/* Collapse Top Bar Button */}
-            {onToggleHeaderCollapse && (
-              <button
-                onClick={() => {
-                  playClickSound();
-                  onToggleHeaderCollapse();
-                }}
-                className={`w-7 h-7 rounded-[2px] flex items-center justify-center flex-shrink-0 cursor-pointer ${
-                  isHeaderCollapsed
-                    ? 'bg-[#f5dd1b] text-black font-bold'
-                    : 'bg-[#16181d] text-zinc-300'
-                }`}
-                title={isHeaderCollapsed ? '상단 메뉴 복원' : '상단 메뉴 숨기기'}
-              >
-                {isHeaderCollapsed ? (
-                  <PanelTopOpen className="w-3.5 h-3.5" />
-                ) : (
-                  <PanelTopClose className="w-3.5 h-3.5" />
-                )}
-              </button>
-            )}
           </div>
 
-          {/* Mobile Collapsible 22-Region Directory Dropdown */}
           {isSectorListOpen && (
             <div className="pointer-events-auto prts-glass rounded-[2px] overflow-hidden shadow-2xl animate-fadeIn">
-              <div className="overflow-y-auto divide-y divide-white/[0.05] max-h-56">
+              <div className="overflow-y-auto divide-y divide-white/[0.05] max-h-52">
                 {filteredRegions.map((reg) => {
                   const isPinned = pinnedRegionId === reg.id;
                   return (
@@ -2654,15 +1914,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span
-                          className="w-2 h-2 rounded-[1px] flex-shrink-0"
-                          style={{ backgroundColor: reg.badgeColor }}
-                        />
+                        <span className="w-2 h-2 rounded-[1px] flex-shrink-0" style={{ backgroundColor: reg.badgeColor }} />
                         <div className="truncate">
                           <span className="text-xs font-bold">{reg.nameKo}</span>
-                          <span className="text-[10px] font-mono text-zinc-400 uppercase ml-1.5">
-                            {reg.nameEn}
-                          </span>
+                          <span className="text-[10px] font-mono text-zinc-400 uppercase ml-1.5">{reg.nameEn}</span>
                         </div>
                       </div>
                       {reg.relatedStoryIds.length > 0 && (
@@ -2677,25 +1932,36 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             </div>
           )}
 
-          {/* Row 2: Single-Line Horizontal Scroll Layer Toggles + Route Filter */}
           <div className="pointer-events-auto flex items-center gap-1 overflow-x-auto no-scrollbar">
             <div className="prts-glass rounded-[2px] p-1 flex items-center gap-1 text-[11px] flex-shrink-0">
               <button
                 onClick={() => {
                   playClickSound();
-                  if (viewMode === '2d') {
-                    handleToggleViewMode('3d');
+                  setShowHexLattice(!showHexLattice);
+                }}
+                className={`h-6 px-2 rounded-[1px] flex items-center gap-1 cursor-pointer ${
+                  showHexLattice ? 'bg-white/[0.1] text-white font-bold' : 'text-zinc-500'
+                }`}
+              >
+                <Hexagon className="w-3 h-3" />
+                <span>헥스</span>
+              </button>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  if (mapLens === 'blueprint') {
+                    handleSwitchLens('relief');
                     setShowElevation(true);
                   } else {
                     setShowElevation(!showElevation);
                   }
                 }}
-                className={`h-6 px-2 rounded-[1px] flex items-center gap-1 cursor-pointer transition-colors ${
-                  viewMode !== '2d' && showElevation ? 'bg-white/[0.1] text-white font-bold' : 'text-zinc-500 hover:text-zinc-300'
+                className={`h-6 px-2 rounded-[1px] flex items-center gap-1 cursor-pointer ${
+                  mapLens !== 'blueprint' && showElevation ? 'bg-white/[0.1] text-white font-bold' : 'text-zinc-500'
                 }`}
               >
                 <Layers className="w-3 h-3" />
-                <span>고저차</span>
+                <span>기복</span>
               </button>
               <button
                 onClick={() => {
@@ -2706,7 +1972,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   showLogos ? 'bg-white/[0.1] text-white font-bold' : 'text-zinc-500'
                 }`}
               >
-                <span>국가</span>
+                국가
               </button>
               <button
                 onClick={() => {
@@ -2726,61 +1992,27 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setShowRoutes(!showRoutes);
                 }}
                 className={`h-6 px-2 rounded-[1px] flex items-center gap-1 cursor-pointer ${
-                  showRoutes ? 'bg-white/[0.1] text-[#f5dd1b] font-bold' : 'text-zinc-500'
+                  showRoutes || mapLens === 'chronicle' ? 'bg-white/[0.1] text-[#f5dd1b] font-bold' : 'text-zinc-500'
                 }`}
               >
                 <Route className="w-3 h-3" />
                 <span>경로</span>
               </button>
             </div>
-
-            {showRoutes && (
-              <div className="prts-glass rounded-[2px] p-1 flex items-center gap-1 text-[10.5px] flex-shrink-0">
-                {(
-                  [
-                    { id: 'all', label: '전체' },
-                    { id: 'main', label: '메인' },
-                    { id: 'series', label: '연작' },
-                    { id: 'expedition', label: '원정' },
-                  ] as const
-                ).map((tab) => {
-                  const isActive = routeFilter === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => {
-                        playClickSound();
-                        setRouteFilter(tab.id);
-                      }}
-                      className={`h-6 px-2 rounded-[1px] cursor-pointer transition-colors ${
-                        isActive
-                          ? 'bg-white/[0.1] border border-[#f5dd1b]/70 text-white font-bold'
-                          : 'text-zinc-400'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
           </div>
-            </>
-          )}
         </div>
 
         {/* =========================================================================
-            2-B. DESKTOP TOP-LEFT REGION SEARCH & DIRECTORY DOCK (hidden md:flex)
+            2-B. DESKTOP TOP-LEFT REGION SEARCH & DIRECTORY (hidden md:flex)
         ========================================================================= */}
         <div
           data-hud-panel="true"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
           className={`hidden md:flex absolute ${
-            isLandscapeMobile ? 'top-2 left-2 w-44' : 'top-4 left-4 w-68 sm:w-76'
+            isLandscapeMobile ? 'top-2 left-2 w-48' : 'top-4 left-4 w-68 sm:w-76'
           } z-30 flex-col pointer-events-none`}
         >
-          {/* Unified Search + Collapse Toggle Bar */}
           <div className="pointer-events-auto prts-glass rounded-[2px] p-1.5 shadow-xl flex items-center gap-1.5">
             <div className="relative flex-1 flex items-center">
               <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
@@ -2792,10 +2024,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   setSectorSearch(e.target.value);
                   if (!isSectorListOpen) setIsSectorListOpen(true);
                 }}
-                placeholder={isLandscapeMobile ? "지역 · 국가 검색..." : "지역 · 국가 · 수도 검색..."}
+                placeholder={isLandscapeMobile ? '지역 · 국가 검색...' : '테라 22개 권역 · 수도 검색...'}
                 className={`w-full ${
                   isLandscapeMobile ? 'h-6 text-[11px] pl-7 pr-5' : 'h-7 text-xs pl-8 pr-6'
-                } bg-[#15161a] hover:bg-[#191b20] focus:bg-[#0c0d10] border border-transparent focus:border-[#f5dd1b]/60 rounded-[2px] text-zinc-100 placeholder:text-zinc-500 outline-none transition-colors`}
+                } bg-[#10131a] hover:bg-[#151922] focus:bg-[#090b10] border border-transparent focus:border-[#f5dd1b]/60 rounded-[2px] text-zinc-100 placeholder:text-zinc-500 outline-none transition-colors`}
               />
               {sectorSearch && (
                 <button
@@ -2815,19 +2047,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               title={isSectorListOpen ? '지역 목록 접기' : '지역 목록 펼치기'}
               className={`${
                 isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-[11px]'
-              } rounded-[2px] bg-[#15161a] hover:bg-[#1f2228] text-zinc-300 hover:text-white border border-white/[0.06] flex items-center gap-1 font-mono transition-colors cursor-pointer flex-shrink-0`}
+              } rounded-[2px] bg-[#10131a] hover:bg-[#1a1e28] text-zinc-300 hover:text-white border border-white/[0.08] flex items-center gap-1 font-mono transition-colors cursor-pointer flex-shrink-0`}
             >
-              <Compass className={isLandscapeMobile ? "w-3 h-3 text-zinc-300" : "w-3.5 h-3.5 text-zinc-300"} />
+              <Compass className={isLandscapeMobile ? 'w-3 h-3 text-zinc-300' : 'w-3.5 h-3.5 text-zinc-300'} />
               <span>{filteredRegions.length}</span>
-              {isSectorListOpen ? (
-                <ChevronUp className="w-3 h-3 text-zinc-400" />
-              ) : (
-                <ChevronDown className="w-3 h-3 text-zinc-400" />
-              )}
+              {isSectorListOpen ? <ChevronUp className="w-3 h-3 text-zinc-400" /> : <ChevronDown className="w-3 h-3 text-zinc-400" />}
             </button>
           </div>
 
-          {/* Collapsible 22-Region Directory */}
           {isSectorListOpen && (
             <div className="pointer-events-auto mt-1.5 prts-glass rounded-[2px] overflow-hidden shadow-xl animate-fadeIn">
               <div className="overflow-y-auto divide-y divide-white/[0.05] max-h-68">
@@ -2852,19 +2079,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span
-                          className="w-2 h-2 rounded-[1px] flex-shrink-0"
-                          style={{ backgroundColor: reg.badgeColor }}
-                        />
+                        <span className="w-2 h-2 rounded-[1px] flex-shrink-0" style={{ backgroundColor: reg.badgeColor }} />
                         <div className="truncate">
                           <div className="text-xs font-semibold truncate">{reg.nameKo}</div>
-                          <div className="text-[10px] font-mono text-zinc-500 uppercase truncate">
-                            {reg.nameEn}
-                          </div>
+                          <div className="text-[10px] font-mono text-zinc-500 uppercase truncate">{reg.nameEn}</div>
                         </div>
                       </div>
                       {reg.relatedStoryIds.length > 0 && (
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#15161a] text-zinc-400">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#10131a] text-zinc-400">
                           {reg.relatedStoryIds.length}
                         </span>
                       )}
@@ -2877,7 +2099,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         </div>
 
         {/* =========================================================================
-            3. DESKTOP TOP-RIGHT UNIFIED VIEW & LAYER TOOLBAR (hidden md:flex)
+            3. DESKTOP TOP-RIGHT 3-LENS SWITCHER & LAYER CONTROLS (hidden md:flex)
         ========================================================================= */}
         <div
           data-hud-panel="true"
@@ -2888,139 +2110,142 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           } z-30 flex-col items-end pointer-events-none`}
         >
           <div className="flex flex-wrap items-center justify-end gap-1 sm:gap-1.5">
-            {/* 3D / 2D View Switcher */}
+            {/* 3 Tactical Lenses Switcher */}
             <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center gap-0.5 text-xs shadow-xl">
               <button
-                onClick={() => handleToggleViewMode('3d')}
+                onClick={() => handleSwitchLens('relief')}
                 className={`${
                   isLandscapeMobile ? 'h-6 px-2 text-[10px]' : 'h-7 px-2.5 text-xs'
                 } rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-colors ${
-                  viewMode === '3d'
-                    ? 'bg-zinc-100 text-black font-bold'
-                    : 'text-zinc-400 hover:text-white'
+                  mapLens === 'relief' ? 'bg-zinc-100 text-black font-bold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                <Box className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
-                <span>3D</span>
+                <Box className="w-3.5 h-3.5" />
+                <span>지형 · 세력</span>
               </button>
               <button
-                onClick={() => handleToggleViewMode('2d')}
+                onClick={() => handleSwitchLens('chronicle')}
                 className={`${
                   isLandscapeMobile ? 'h-6 px-2 text-[10px]' : 'h-7 px-2.5 text-xs'
                 } rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-colors ${
-                  viewMode === '2d'
-                    ? 'bg-zinc-100 text-black font-bold'
-                    : 'text-zinc-400 hover:text-white'
+                  mapLens === 'chronicle' ? 'bg-[#f5dd1b] text-black font-bold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                <MapIcon className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
-                <span>2D</span>
+                <Clock className="w-3.5 h-3.5" />
+                <span>연대기 궤적</span>
+              </button>
+              <button
+                onClick={() => handleSwitchLens('blueprint')}
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-2 text-[10px]' : 'h-7 px-2.5 text-xs'
+                } rounded-[2px] flex items-center gap-1.5 cursor-pointer transition-colors ${
+                  mapLens === 'blueprint' ? 'bg-zinc-100 text-black font-bold' : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <MapIcon className="w-3.5 h-3.5" />
+                <span>2D 도면</span>
               </button>
             </div>
 
-            {/* Layer Filter Pills */}
-            <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center gap-0.5 sm:gap-1 text-xs shadow-xl">
+            {/* Clean Layer Toggles */}
+            <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center gap-0.5 text-xs shadow-xl">
               <button
                 onClick={() => {
                   playClickSound();
-                  if (viewMode === '2d') {
-                    handleToggleViewMode('3d');
+                  setShowHexLattice(!showHexLattice);
+                }}
+                title="지형 위 3.0 헥스 격자선 오버레이 토글"
+                className={`${
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
+                } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
+                  showHexLattice ? 'bg-white/[0.12] text-white font-semibold' : 'text-zinc-500 hover:text-zinc-300'
+                }`}
+              >
+                <Hexagon className="w-3.5 h-3.5" />
+                <span>헥스</span>
+              </button>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  if (mapLens === 'blueprint') {
+                    handleSwitchLens('relief');
                     setShowElevation(true);
                   } else {
                     setShowElevation(!showElevation);
                   }
                 }}
-                title={viewMode === '2d' ? '3D 지형 고저차 켜기' : '지형 고저차 토글'}
+                title="입체 지형 기복 토글"
                 className={`${
-                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
                 } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
-                  viewMode !== '2d' && showElevation
+                  mapLens !== 'blueprint' && showElevation
                     ? 'bg-white/[0.12] text-white font-semibold'
-                    : 'text-zinc-500 hover:text-zinc-200'
+                    : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <Layers className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
-                <span>{isLandscapeMobile ? '고저' : '고저차'}</span>
+                <Layers className="w-3.5 h-3.5" />
+                <span>기복</span>
               </button>
-
               <button
                 onClick={() => {
                   playClickSound();
                   setShowLogos(!showLogos);
                 }}
-                title="국가 엠블럼 토글"
                 className={`${
-                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
                 } rounded-[2px] cursor-pointer transition-colors ${
-                  showLogos
-                    ? 'bg-white/[0.12] text-white font-semibold'
-                    : 'text-zinc-500 hover:text-zinc-200'
+                  showLogos ? 'bg-white/[0.12] text-white font-semibold' : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <span>{isLandscapeMobile ? '국가' : '국가 마크'}</span>
+                <span>국가</span>
               </button>
-
               <button
                 onClick={() => {
                   playClickSound();
                   setShowCities(!showCities);
                 }}
-                title="주요 거점 토글 (27개 핵심 거점)"
                 className={`${
-                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
                 } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
-                  showCities
-                    ? 'bg-white/[0.12] text-white font-semibold'
-                    : 'text-zinc-500 hover:text-zinc-200'
+                  showCities ? 'bg-white/[0.12] text-white font-semibold' : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <MapPin className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                <MapPin className="w-3.5 h-3.5" />
                 <span>거점</span>
               </button>
-
               <button
                 onClick={() => {
                   playClickSound();
                   setShowRoutes(!showRoutes);
                 }}
-                title="작전 이동 경로 토글 (18개 주요 기동 경로)"
                 className={`${
-                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2.5 text-xs'
+                  isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
                 } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
-                  showRoutes
-                    ? 'bg-white/[0.12] text-[#f5dd1b] font-semibold'
-                    : 'text-zinc-500 hover:text-zinc-200'
+                  showRoutes || mapLens === 'chronicle'
+                    ? 'bg-white/[0.12] text-[#f5dd1b] font-bold'
+                    : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
-                <Route className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                <Route className="w-3.5 h-3.5" />
                 <span>경로</span>
               </button>
             </div>
 
-            {/* Top-Right Icon Legend Button */}
-            <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center shadow-xl">
+            <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center gap-0.5 text-xs shadow-xl">
               <button
                 onClick={() => {
-                  playClickSound();
+                  playOpenSound();
                   setIsLegendOpen(true);
                 }}
-                title="지도 범례"
                 className={`${
                   isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 text-xs'
-                } rounded-[2px] flex items-center gap-1 cursor-pointer transition-colors ${
-                  isLegendOpen
-                    ? 'bg-zinc-100 text-black font-bold'
-                    : 'text-zinc-400 hover:text-white hover:bg-white/[0.08]'
-                }`}
+                } rounded-[2px] flex items-center gap-1 cursor-pointer text-zinc-300 hover:text-white hover:bg-white/[0.08]`}
+                title="테라 지도 범례 & 조작 가이드"
               >
-                <HelpCircle className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
-                <span className="hidden sm:inline font-semibold">범례</span>
+                <HelpCircle className="w-3.5 h-3.5" />
+                <span className="hidden lg:inline">안내</span>
               </button>
-            </div>
-
-            {/* Fullscreen / Collapse Header Toggle Button */}
-            {onToggleHeaderCollapse && (
-              <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center shadow-xl">
+              {onToggleHeaderCollapse && (
                 <button
                   onClick={() => {
                     playClickSound();
@@ -3035,43 +2260,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                       : 'text-zinc-400 hover:text-white hover:bg-white/[0.08]'
                   }`}
                 >
-                  {isHeaderCollapsed ? (
-                    <PanelTopOpen className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
-                  ) : (
-                    <PanelTopClose className={isLandscapeMobile ? "w-3 h-3" : "w-3.5 h-3.5"} />
-                  )}
-                  <span className="hidden sm:inline font-semibold">
-                    {isHeaderCollapsed ? '상단 복원' : '상단 숨김'}
-                  </span>
+                  {isHeaderCollapsed ? <PanelTopOpen className="w-3.5 h-3.5" /> : <PanelTopClose className="w-3.5 h-3.5" />}
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
-          {/* Route Category Filter Bar (Only visible when showRoutes is active) */}
-          {showRoutes && (
+          {/* Route Filter Row (in Relief/Blueprint lenses when routes active) */}
+          {showRoutes && mapLens !== 'chronicle' && (
             <div className="pointer-events-auto prts-glass rounded-[2px] p-0.5 sm:p-1 flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-[11px] shadow-xl">
-              <span className="px-1.5 text-[9.5px] font-mono text-zinc-400 hidden sm:inline">
-                경로 필터
-              </span>
+              <span className="px-1.5 text-[9.5px] font-mono text-zinc-400 hidden sm:inline">경로</span>
               {(
                 [
                   { id: 'all', label: '전체', count: TACTICAL_ROUTES.length },
-                  {
-                    id: 'main',
-                    label: isLandscapeMobile ? '메인' : '메인 스토리',
-                    count: TACTICAL_ROUTES.filter((r) => r.category === 'main').length,
-                  },
-                  {
-                    id: 'series',
-                    label: isLandscapeMobile ? '연작' : '세력 연작',
-                    count: TACTICAL_ROUTES.filter((r) => r.category === 'series').length,
-                  },
-                  {
-                    id: 'expedition',
-                    label: isLandscapeMobile ? '원정' : '대륙 원정',
-                    count: TACTICAL_ROUTES.filter((r) => r.category === 'expedition').length,
-                  },
+                  { id: 'main', label: '메인 스토리', count: TACTICAL_ROUTES.filter((r) => r.category === 'main').length },
+                  { id: 'series', label: '세력 연작', count: TACTICAL_ROUTES.filter((r) => r.category === 'series').length },
+                  { id: 'expedition', label: '대륙 원정', count: TACTICAL_ROUTES.filter((r) => r.category === 'expedition').length },
                 ] as const
               ).map((tab) => {
                 const isActive = routeFilter === tab.id;
@@ -3091,11 +2295,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     }`}
                   >
                     <span>{tab.label}</span>
-                    <span
-                      className={`font-mono text-[9px] ${
-                        isActive ? 'text-zinc-200' : 'text-zinc-500'
-                      }`}
-                    >
+                    <span className={`font-mono text-[9px] ${isActive ? 'text-zinc-200' : 'text-zinc-500'}`}>
                       {tab.count}
                     </span>
                   </button>
@@ -3106,10 +2306,73 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         </div>
 
         {/* =========================================================================
-            4. BOTTOM UNIFIED CONTROL GUIDE, STATUS READOUT & CAMERA BAR
-            - 모바일: 1글자 세로 줄바꿈을 유발하던 좌측 안내 박스를 제거하고 슬림한 360° 회전 바만 배치
-            - 모바일 가로: 세로 공간 확보를 위해 좌측 가이드 숨김 및 우측 바 컴팩트화
-            - 데스크톱: 좌측 심플 섹터 Readout 배지 + 우측 카메라 컨트롤 바
+            3.5 CHRONICLE TIMELINE SCRUBBER DOCK (Shown in 'chronicle' lens)
+        ========================================================================= */}
+        {mapLens === 'chronicle' && !pinnedRegion && (
+          <div
+            data-hud-panel="true"
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            className="absolute bottom-14 md:bottom-16 inset-x-3 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[min(680px,92vw)] z-30 prts-glass rounded-[2px] border border-[#f5dd1b]/35 p-2.5 shadow-2xl pointer-events-auto animate-fadeIn space-y-2"
+          >
+            <div className="flex items-center justify-between gap-2 text-xs">
+              <div className="flex items-center gap-2 min-w-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    playClickSound();
+                    setIsEraPlaying(!isEraPlaying);
+                  }}
+                  className="h-7 px-2.5 rounded-[2px] bg-[#f5dd1b] hover:bg-white text-black font-mono font-bold text-[11px] flex items-center gap-1 cursor-pointer transition-colors flex-shrink-0"
+                >
+                  {isEraPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+                  <span>{isEraPlaying ? '정지' : '연대기 재생'}</span>
+                </button>
+                <div className="min-w-0">
+                  <div className="text-xs font-bold text-white truncate">
+                    {MAP_ERAS[chronicleEraIdx].code} · {MAP_ERAS[chronicleEraIdx].titleKo}
+                  </div>
+                  <div className="text-[10.5px] text-zinc-400 truncate hidden sm:block">
+                    {MAP_ERAS[chronicleEraIdx].summary}
+                  </div>
+                </div>
+              </div>
+              <span className="text-[10.5px] font-mono text-[#f5dd1b] flex-shrink-0">
+                {MAP_ERAS[chronicleEraIdx].year}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-5 gap-1">
+              {MAP_ERAS.map((era) => {
+                const active = era.index === chronicleEraIdx;
+                return (
+                  <button
+                    key={era.id}
+                    type="button"
+                    onClick={() => {
+                      playClickSound();
+                      setIsEraPlaying(false);
+                      setChronicleEraIdx(era.index);
+                    }}
+                    className={`py-1 px-1.5 rounded-[2px] border text-left font-mono transition-colors cursor-pointer ${
+                      active
+                        ? 'bg-[#f5dd1b]/18 border-[#f5dd1b] text-white'
+                        : 'bg-[#10131a]/80 border-white/[0.08] text-zinc-400 hover:text-zinc-200 hover:border-white/25'
+                    }`}
+                  >
+                    <div className={`text-[9.5px] font-bold ${active ? 'text-[#f5dd1b]' : 'text-zinc-300'}`}>
+                      {era.code}
+                    </div>
+                    <div className="text-[9px] text-zinc-500 truncate hidden sm:block">{era.year}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            4. BOTTOM STATUS TELEMETRY & CAMERA BAR
         ========================================================================= */}
         <div
           data-hud-panel="true"
@@ -3125,7 +2388,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
               : 'flex'
           }`}
         >
-          {/* Left: Sleek Live Sector Telemetry Pill (Desktop Only) */}
           <div
             className={`${
               isLandscapeMobile ? 'hidden' : 'hidden md:flex'
@@ -3135,45 +2397,31 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             <span ref={telemetrySectorRef} className="text-zinc-100 font-semibold whitespace-nowrap">
               중립 지역
             </span>
-            <span ref={telemetryCoordRef} className="text-zinc-500 font-mono text-[10px] pl-2 border-l border-white/10 hidden lg:inline whitespace-nowrap">
-              X:410 Y:512 · 450M
+            <span
+              ref={telemetryCoordRef}
+              className="text-zinc-500 font-mono text-[10px] pl-2 border-l border-white/10 hidden lg:inline whitespace-nowrap"
+            >
+              X:410 Y:512 · 640M
             </span>
           </div>
 
-          {/* Right (Desktop) / Bottom Slim Bar (Mobile): 360° Rotation Slider & Camera Controls */}
           <div
             className={`pointer-events-auto ${
-              isLandscapeMobile
-                ? 'w-auto p-1 text-[10px] gap-1'
-                : 'w-full md:w-auto p-1.5 md:p-1 text-xs gap-1.5 md:gap-1'
+              isLandscapeMobile ? 'w-auto p-1 text-[10px] gap-1' : 'w-full md:w-auto p-1.5 md:p-1 text-xs gap-1.5 md:gap-1'
             } prts-glass rounded-[2px] flex items-center justify-between md:justify-end font-mono shadow-xl`}
           >
-            <span
-              ref={telemetryAngleRef}
-              className="px-2 text-[10px] text-zinc-400 hidden lg:inline border-r border-white/10 mr-0.5"
-            >
-              52° / 0°
+            <span ref={telemetryAngleRef} className="px-2 text-[10px] text-zinc-400 hidden lg:inline border-r border-white/10 mr-0.5">
+              49° / 0°
             </span>
 
-            {/* In 3D Mode: Show 360° Horizontal Rotation Slider */}
-            {viewMode === '3d' ? (
+            {mapLens !== 'blueprint' ? (
               <>
                 <div
                   className={`flex-1 md:flex-initial flex items-center ${
                     isLandscapeMobile ? 'gap-1 px-1.5 py-0.5' : 'gap-2 px-2.5 py-1 md:py-0.5'
-                  } rounded-[2px] bg-[#15161a] border border-white/[0.08]`}
-                  title="360° 수평 회전 바"
+                  } rounded-[2px] bg-[#10131a] border border-white/[0.08]`}
                 >
-                  <Compass
-                    className={`${isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} text-zinc-400 flex-shrink-0`}
-                  />
-                  <span
-                    className={`${
-                      isLandscapeMobile ? 'hidden' : 'md:hidden'
-                    } text-[10.5px] font-sans text-zinc-300 flex-shrink-0`}
-                  >
-                    회전
-                  </span>
+                  <Compass className={`${isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} text-zinc-400 flex-shrink-0`} />
                   <input
                     ref={telemetryYawSliderRef}
                     type="range"
@@ -3184,13 +2432,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     className={`flex-1 ${
                       isLandscapeMobile ? 'w-16 md:w-20' : 'md:w-24'
                     } h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#f5dd1b]`}
-                    title="지도 360도 회전 각도 조절"
+                    title="360도 회전 각도 조절"
                   />
                   <span
                     ref={telemetryYawTextRef}
-                    className={`${
-                      isLandscapeMobile ? 'text-[9.5px] w-7' : 'text-[10.5px] w-8'
-                    } text-zinc-200 md:text-zinc-300 font-mono text-right flex-shrink-0`}
+                    className={`${isLandscapeMobile ? 'text-[9.5px] w-7' : 'text-[10.5px] w-8'} text-zinc-200 font-mono text-right flex-shrink-0`}
                   >
                     0°
                   </span>
@@ -3201,7 +2447,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   title="좌측 22.5° 회전"
                   className={`${
                     isLandscapeMobile ? 'w-6 h-6 text-xs' : 'w-7 h-7'
-                  } rounded-[2px] text-zinc-300 hover:text-white bg-[#15161a] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0`}
+                  } rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0`}
                 >
                   ↺
                 </button>
@@ -3210,110 +2456,49 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   title="우측 22.5° 회전"
                   className={`${
                     isLandscapeMobile ? 'w-6 h-6 text-xs' : 'w-7 h-7'
-                  } rounded-[2px] text-zinc-300 hover:text-white bg-[#15161a] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0`}
+                  } rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0`}
                 >
                   ↻
                 </button>
               </>
             ) : (
-              /* In 2D Mode: Angle is restricted/locked to North 0°, show 2D Status Badge */
-              <div
-                className={`flex items-center ${
-                  isLandscapeMobile ? 'gap-1 px-1.5 py-0.5 text-[10px]' : 'gap-1.5 px-2.5 py-1 md:py-0.5 text-[11px]'
-                } rounded-[2px] bg-[#15161a] border border-white/[0.08] font-mono text-zinc-300 select-none`}
-                title="2D 모드에서는 시점이 정북(0°)과 수직 평면(0°)으로 고정되어 각도 조절이 제한됩니다."
-              >
-                <Compass className={`${isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} text-zinc-400`} />
-                <span className={`font-sans font-bold text-white ${isLandscapeMobile ? 'text-[10px]' : 'text-[11px]'}`}>
-                  2D 정북 고정
-                </span>
-                <span className="text-[10px] text-zinc-500 font-mono hidden sm:inline">(각도 조절 제한)</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 md:py-0.5 rounded-[2px] bg-[#10131a] border border-white/[0.08] font-mono text-[11px] text-zinc-300 select-none">
+                <Compass className="w-3.5 h-3.5 text-zinc-400" />
+                <span className="font-sans font-bold text-white">2D 도면 고정</span>
               </div>
             )}
 
-            {/* Zoom Buttons: Always visible on both Mobile and Desktop */}
             <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
             <button
               onClick={() => handleZoom(90)}
-              title="[-] 축소"
-              className={`${
-                isLandscapeMobile ? 'w-6 h-6' : 'w-7 h-7'
-              } rounded-[2px] text-zinc-300 hover:text-white bg-[#15161a] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0`}
+              title="축소"
+              className="w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
             >
-              <ZoomOut className={isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
+              <ZoomOut className="w-3.5 h-3.5" />
             </button>
-            <span
-              ref={telemetryZoomRef}
-              className={`inline-block px-1 ${
-                isLandscapeMobile ? 'text-[10px] min-w-[32px]' : 'text-[11px] min-w-[36px] md:min-w-[42px]'
-              } text-zinc-100 font-bold text-center select-none`}
-            >
+            <span ref={telemetryZoomRef} className="inline-block px-1 text-[11px] min-w-[40px] text-zinc-100 font-bold text-center select-none">
               100%
             </span>
             <button
               onClick={() => handleZoom(-90)}
-              title="[+] 확대"
-              className={`${
-                isLandscapeMobile ? 'w-6 h-6' : 'w-7 h-7'
-              } rounded-[2px] text-zinc-300 hover:text-white bg-[#15161a] md:bg-transparent hover:bg-white/10 flex items-center justify-center cursor-pointer active:scale-95 transition-all flex-shrink-0`}
+              title="확대"
+              className="w-7 h-7 rounded-[2px] text-zinc-300 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer flex-shrink-0"
             >
-              <ZoomIn className={isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
+              <ZoomIn className="w-3.5 h-3.5" />
             </button>
-
             <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
             <button
               onClick={handleResetCamera}
-              title="지도 시점 초기화"
-              className={`${
-                isLandscapeMobile ? 'h-6 px-1.5 text-[10px]' : 'h-7 px-2 md:w-7 md:px-0 text-xs'
-              } rounded-[2px] text-zinc-200 hover:text-black bg-[#15161a] md:bg-transparent hover:bg-zinc-100 flex items-center justify-center gap-1 transition-colors cursor-pointer flex-shrink-0`}
-            >
-              <RotateCcw className={isLandscapeMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
-              <span
-                className={`${isLandscapeMobile ? 'hidden' : 'md:hidden'} text-[10.5px] font-sans font-semibold`}
-              >
-                초기화
-              </span>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Dedicated One-Handed Zoom Widget (Right Side Thumb Zone - Hidden in Landscape to Prevent Map Occlusion) */}
-        {!pinnedRegion && !mobilePreviewCard && !isLandscapeMobile && (
-          <div className="md:hidden fixed right-3 bottom-18 z-30 flex flex-col items-center gap-0.5 pointer-events-auto prts-glass rounded-[2px] p-1 border border-white/15 shadow-xl animate-fadeIn">
-            <button
-              onClick={() => handleZoom(-90)}
-              title="지도 한 손 확대"
-              aria-label="지도 확대"
-              className="w-8 h-8 rounded-[2px] bg-[#15161a] active:bg-zinc-100 text-zinc-200 active:text-black flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <ZoomIn className="w-4 h-4" />
-            </button>
-            <div className="w-5 h-[1px] bg-white/15 my-0.5" />
-            <button
-              onClick={() => handleZoom(90)}
-              title="지도 한 손 축소"
-              aria-label="지도 축소"
-              className="w-8 h-8 rounded-[2px] bg-[#15161a] active:bg-zinc-100 text-zinc-200 active:text-black flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <ZoomOut className="w-4 h-4" />
-            </button>
-            <div className="w-5 h-[1px] bg-white/15 my-0.5" />
-            <button
-              onClick={handleResetCamera}
-              title="지도 시점 초기화"
-              aria-label="시점 초기화"
-              className="w-8 h-8 rounded-[2px] bg-[#15161a] active:bg-zinc-100 text-zinc-200 active:text-black flex items-center justify-center transition-colors cursor-pointer"
+              title="시점 초기화"
+              className="h-7 px-2 md:w-7 md:px-0 rounded-[2px] text-zinc-200 hover:text-black hover:bg-zinc-100 flex items-center justify-center transition-colors cursor-pointer flex-shrink-0"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
           </div>
-        )}
+        </div>
 
         {/* =========================================================================
-            5. REGION DETAILS & ASSOCIATED STORIES DRAWER
-            - 모바일: 상단 44%의 3D 지도를 가리지 않는 하단 바텀 시트 (max-h-[56dvh])
-            - 데스크톱: 우측 플로팅 글래스 서랍 패널
+            5. REGION DOSSIER DRAWER
         ========================================================================= */}
         {pinnedRegion && (
           <aside
@@ -3328,20 +2513,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
             className={`absolute inset-x-0 bottom-0 max-h-[56dvh] md:max-h-none md:inset-x-auto ${
               isLandscapeMobile
                 ? 'md:top-10 md:bottom-3 md:right-2 md:w-76'
-                : showRoutes
+                : showRoutes && mapLens !== 'chronicle'
                 ? 'md:top-24 md:bottom-16 md:right-4 md:w-84 lg:w-92'
                 : 'md:top-16 md:bottom-16 md:right-4 md:w-84 lg:w-92'
-            } prts-glass rounded-t-[4px] md:rounded-[2px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] md:shadow-[0_12px_40px_rgba(0,0,0,0.75)] overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
+            } prts-glass rounded-t-[4px] md:rounded-[2px] border-t border-white/20 md:border-t-0 flex flex-col z-40 shadow-2xl overflow-hidden animate-fadeIn md:animate-slideInRight transition-all`}
           >
-            {/* Mobile Drag Handle Bar with touch gesture */}
             <div
               onTouchStart={(e) => {
                 sheetTouchStartY.current = e.touches[0].clientY;
               }}
               onTouchMove={(e) => {
                 if (sheetTouchStartY.current === null) return;
-                const dy = Math.max(0, e.touches[0].clientY - sheetTouchStartY.current);
-                setSheetDragY(dy);
+                setSheetDragY(Math.max(0, e.touches[0].clientY - sheetTouchStartY.current));
               }}
               onTouchEnd={() => {
                 if (sheetDragY > 60) {
@@ -3355,13 +2538,11 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 playCloseSound();
                 setPinnedRegionId(null);
               }}
-              className="md:hidden flex items-center justify-center py-2.5 bg-black/50 border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none active:bg-white/[0.08]"
-              title="잡아서 아래로 당겨 닫기"
+              className="md:hidden flex items-center justify-center py-2.5 bg-black/50 border-b border-white/[0.06] cursor-pointer flex-shrink-0 touch-none"
             >
               <div className="w-10 h-1 rounded-[1px] bg-zinc-600" />
             </div>
 
-            {/* Dossier Header */}
             <div className={`${isLandscapeMobile ? 'px-3 py-2' : 'px-4 py-3 sm:p-5'} border-b border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.04] to-transparent flex-shrink-0`}>
               {pinnedRegion.logoUrl && (
                 <img
@@ -3375,61 +2556,41 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
               <div className="flex items-center justify-between mb-1.5 sm:mb-2.5">
                 <div className="flex items-center gap-2">
-                  <span
-                    className="w-2.5 h-2.5 rounded-[1px]"
-                    style={{ backgroundColor: pinnedRegion.badgeColor }}
-                  />
+                  <span className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: pinnedRegion.badgeColor }} />
                   <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
                     {pinnedRegion.nameEn}
                   </span>
                 </div>
-
                 <button
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onPointerUp={(e) => e.stopPropagation()}
                   onClick={(e) => {
                     e.stopPropagation();
                     setPinnedRegionId(null);
                   }}
                   title="패널 닫기"
-                  className="w-6 h-6 rounded-[2px] bg-white/[0.06] hover:bg-white/[0.15] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                  className="w-6 h-6 rounded-[2px] bg-white/[0.06] hover:bg-white/[0.15] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              <div className="flex items-baseline justify-between gap-2">
-                <h2 className="text-lg sm:text-xl font-black text-white tracking-tight">
-                  {pinnedRegion.nameKo}
-                </h2>
-                {pinnedRegion.capital && (
-                  <span className="md:hidden text-[11px] text-[#f5dd1b] font-semibold truncate">
-                    수도: {pinnedRegion.capital}
-                  </span>
-                )}
-              </div>
+              <h2 className="text-lg sm:text-xl font-black text-white tracking-tight">{pinnedRegion.nameKo}</h2>
 
               {pinnedRegion.capital && (
-                <div className="hidden md:flex mt-3 pt-2.5 border-t border-white/8 items-center justify-between text-xs">
+                <div className="mt-2.5 pt-2.5 border-t border-white/8 flex items-center justify-between text-xs">
                   <span className="text-zinc-400">수도 / 거점</span>
                   <span className="text-[#f5dd1b] font-semibold">{pinnedRegion.capital}</span>
                 </div>
               )}
             </div>
 
-            {/* Geopolitical Summary & Associated Operations */}
-            <div className="flex-1 overflow-y-auto p-3.5 sm:p-5 space-y-4 sm:space-y-5">
-              {/* Geopolitical Overview */}
+            <div className="flex-1 overflow-y-auto overscroll-contain prts-modal-scroll p-3.5 sm:p-5 space-y-4 sm:space-y-5">
               <div className="space-y-1.5">
-                <div className="text-[11px] font-bold text-zinc-400">
-                  지역 소개
-                </div>
-                <p className="text-xs sm:text-[13px] text-zinc-200 leading-relaxed bg-[#15161a] border border-white/[0.06] rounded-[2px] p-3 break-keep">
+                <div className="text-[11px] font-bold text-zinc-400">지역 소개</div>
+                <p className="text-xs sm:text-[13px] text-zinc-200 leading-relaxed bg-[#111319] border border-white/[0.06] rounded-[2px] p-3 break-keep">
                   {pinnedRegion.description}
                 </p>
               </div>
 
-              {/* Key Cities & Landmarks in Sector */}
               {pinnedRegionCities.length > 0 && (
                 <div className="space-y-2">
                   <div className="text-[11px] font-bold text-zinc-400 flex items-center justify-between">
@@ -3440,26 +2601,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     {pinnedRegionCities.map((c) => (
                       <button
                         key={c.id}
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onPointerUp={(e) => e.stopPropagation()}
                         onClick={(e) => {
                           e.stopPropagation();
                           playClickSound();
                           setSelectedCityId(c.id);
-                          flyToPixelCoords(c.pixelCoords.x, c.pixelCoords.y, 240, viewMode === '2d' ? 0 : 40);
+                          flyToPixelCoords(c.pixelCoords.x, c.pixelCoords.y, 240, mapLens === 'blueprint' ? 0 : 40);
                         }}
                         className={`p-2 rounded-[2px] text-left border text-xs transition-colors cursor-pointer ${
                           selectedCityId === c.id
                             ? 'bg-[#f5dd1b]/15 border-[#f5dd1b] text-[#f5dd1b]'
-                            : 'bg-[#15161a] border-white/[0.07] text-zinc-200 hover:bg-[#1c1e24]'
+                            : 'bg-[#111319] border-white/[0.07] text-zinc-200 hover:bg-[#191c25]'
                         }`}
                       >
                         <div className="flex items-center gap-1">
                           <span
                             className={`w-1.5 h-1.5 rotate-45 flex-shrink-0 ${
-                              c.type === 'capital' || c.type === 'rhodes'
-                                ? 'bg-[#f5dd1b]'
-                                : 'bg-zinc-400'
+                              c.type === 'capital' || c.type === 'rhodes' ? 'bg-[#f5dd1b]' : 'bg-zinc-400'
                             }`}
                           />
                           <div className="font-semibold truncate">{c.nameKo}</div>
@@ -3471,7 +2628,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 </div>
               )}
 
-              {/* Connected Tactical Routes */}
               {pinnedRegionRoutes.length > 0 && (
                 <div className="space-y-2">
                   <div className="text-[11px] font-bold text-zinc-400 flex items-center justify-between">
@@ -3482,30 +2638,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     {pinnedRegionRoutes.map((rt) => (
                       <button
                         key={rt.id}
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onPointerUp={(e) => e.stopPropagation()}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleOpenStoryPopup(rt.storyId);
                         }}
-                        className="w-full p-2.5 rounded-[2px] text-left bg-[#15161a] hover:bg-[#1c1e24] border border-white/[0.07] hover:border-[#f5dd1b]/50 transition-colors cursor-pointer flex items-center justify-between gap-2 group"
+                        className="w-full p-2.5 rounded-[2px] text-left bg-[#111319] hover:bg-[#191c25] border border-white/[0.07] hover:border-[#f5dd1b]/50 transition-colors cursor-pointer flex items-center justify-between gap-2 group"
                       >
                         <div className="min-w-0 space-y-0.5">
                           <div className="flex items-center gap-1.5">
-                            <span
-                              className="w-1.5 h-1.5 rounded-[1px] flex-shrink-0"
-                              style={{ backgroundColor: rt.color }}
-                            />
-                            <span className="font-mono text-[10px] font-bold text-[#f5dd1b]">
-                              {rt.code}
-                            </span>
+                            <span className="w-1.5 h-1.5 rounded-[1px] flex-shrink-0" style={{ backgroundColor: rt.color }} />
+                            <span className="font-mono text-[10px] font-bold text-[#f5dd1b]">{rt.code}</span>
                             <span className="text-[11px] font-semibold text-zinc-200 group-hover:text-white truncate">
                               {rt.shortLabel}
                             </span>
                           </div>
-                          <div className="text-[11px] text-zinc-400 pl-3 truncate">
-                            {rt.fullLabel}
-                          </div>
+                          <div className="text-[11px] text-zinc-400 pl-3 truncate">{rt.fullLabel}</div>
                         </div>
                         <ChevronRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-[#f5dd1b] flex-shrink-0" />
                       </button>
@@ -3514,7 +2661,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 </div>
               )}
 
-              {/* Associated Story Operations */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[11px] font-bold text-zinc-400">
                   <span>관련 스토리</span>
@@ -3522,7 +2668,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                 </div>
 
                 {pinnedRegionStories.length === 0 ? (
-                  <div className="p-4 text-center text-xs text-zinc-500 border border-white/[0.06] rounded-[2px] bg-[#141519]">
+                  <div className="p-4 text-center text-xs text-zinc-500 border border-white/[0.06] rounded-[2px] bg-[#111319]">
                     관련 스토리가 없습니다.
                   </div>
                 ) : (
@@ -3530,20 +2676,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     {pinnedRegionStories.map((st) => {
                       const state = getStoryAccessState(st);
                       const isRestored = state === 'available';
-
                       return (
                         <div
                           key={st.id}
-                          onPointerDown={(e) => e.stopPropagation()}
-                          onPointerUp={(e) => e.stopPropagation()}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleOpenStoryPopup(st.id);
                           }}
                           className={`group relative p-2.5 rounded-[2px] border transition-colors cursor-pointer flex items-center justify-between gap-2.5 ${
                             isRestored
-                              ? 'bg-[#16181d] border-[#f5dd1b]/35 hover:border-[#f5dd1b] hover:bg-[#1c1e24]'
-                              : 'bg-[#141519] border-white/[0.07] hover:border-white/25 hover:bg-[#191b20]'
+                              ? 'bg-[#13161e] border-[#f5dd1b]/35 hover:border-[#f5dd1b] hover:bg-[#1a1d28]'
+                              : 'bg-[#111319] border-white/[0.07] hover:border-white/25 hover:bg-[#181b24]'
                           }`}
                         >
                           <div className="flex items-center gap-2.5 min-w-0 flex-1">
@@ -3555,7 +2698,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                                   loading="lazy"
                                   decoding="async"
                                   draggable={false}
-                                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                                  className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
                                   onError={(e) => {
                                     const wrap = e.currentTarget.parentElement;
                                     if (wrap) wrap.style.display = 'none';
@@ -3578,9 +2721,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                               <div className="text-sm font-bold text-white group-hover:text-[#f5dd1b] transition-colors truncate">
                                 {st.titleKo}
                               </div>
-                              <div className="text-[10px] font-mono text-zinc-500 truncate">
-                                {st.titleEn}
-                              </div>
+                              <div className="text-[10px] font-mono text-zinc-500 truncate">{st.titleEn}</div>
                             </div>
                           </div>
 
@@ -3588,15 +2729,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                             {onNavigateToChronicleStory && (
                               <button
                                 type="button"
-                                onPointerDown={(e) => e.stopPropagation()}
-                                onPointerUp={(e) => e.stopPropagation()}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   playClickSound();
                                   onNavigateToChronicleStory(st.id);
                                 }}
-                                className="h-6 px-1.5 rounded-[2px] bg-[#101114] hover:bg-[#f5dd1b] border border-white/[0.1] hover:border-[#f5dd1b] text-[10px] font-mono text-zinc-400 hover:text-black inline-flex items-center gap-1 transition-colors cursor-pointer"
-                                title="연대기 캔버스에서 위치 보기"
+                                className="h-6 px-1.5 rounded-[2px] bg-[#0b0e14] hover:bg-[#f5dd1b] border border-white/[0.1] hover:border-[#f5dd1b] text-[10px] font-mono text-zinc-400 hover:text-black inline-flex items-center gap-1 transition-colors cursor-pointer"
+                                title="연대기에서 위치 보기"
                               >
                                 <GitBranch className="w-2.5 h-2.5" />
                                 <span>연대기</span>
@@ -3614,9 +2753,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           </aside>
         )}
 
-        {/* =========================================================================
-            6. IN-MAP STORY SPLASH PREVIEW MODAL
-        ========================================================================= */}
         <StorySplashModal
           story={splashStory}
           isOpen={Boolean(splashStory)}
@@ -3628,30 +2764,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           onSelectStoryInModal={(nextStory) => setSplashStory(nextStory)}
         />
 
-        {/* =========================================================================
-            7. IN-MAP TACTICAL LEGEND & CONTROLS MODAL (아이콘 설명도)
-        ========================================================================= */}
-        <TacticalMapLegendModal
-          isOpen={isLegendOpen}
-          onClose={() => setIsLegendOpen(false)}
-        />
+        <TacticalMapLegendModal isOpen={isLegendOpen} onClose={() => setIsLegendOpen(false)} />
       </div>
     </div>
   );
 };
 
-// =========================================================================
-// TACTICAL MAP LEGEND & CONTROL SCHEME MODAL (아이콘 설명도)
-// =========================================================================
 interface TacticalMapLegendModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
-  isOpen,
-  onClose,
-}) => {
+export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -3680,277 +2804,63 @@ export const TacticalMapLegendModal: React.FC<TacticalMapLegendModalProps> = ({
       }}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="테라 지도 안내 & 범례"
         className="relative w-full max-w-3xl max-h-[88vh] bg-[#121316] border border-white/15 rounded-[2px] shadow-2xl flex flex-col overflow-hidden animate-scaleUp text-zinc-100"
         onPointerDown={(e) => e.stopPropagation()}
         onPointerUp={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top Accent Strip */}
         <div className="h-[2px] w-full bg-zinc-200" />
-
-        {/* Modal Header */}
         <div className="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between bg-[#16181d]">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-[1px] bg-[#f5dd1b]" />
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-black tracking-tight text-white">
-                  테라 지도 안내 & 범례
-                </h3>
-                <span className="px-1.5 py-0.5 rounded-[2px] bg-white/[0.07] text-zinc-300 text-[10px] font-mono font-bold">
-                  안내
-                </span>
-              </div>
-              <p className="text-[11px] font-mono text-zinc-400 mt-0.5">
-                TERRA MAP GUIDE & CONTROLS
+              <h3 className="text-base sm:text-lg font-black tracking-tight text-white">테라 지도 안내 & 범례</h3>
+              <p className="text-[11px] font-mono text-zinc-400 mt-0.5">TERRA TOPOGRAPHICAL ATLAS</p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              playCloseSound();
+              onClose();
+            }}
+            className="w-7 h-7 rounded-[2px] bg-[#1c1e24] hover:bg-[#252830] text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto overscroll-contain prts-modal-scroll p-5 space-y-5 text-xs sm:text-[13px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1">
+              <div className="font-bold text-white text-xs">연속 조각 지형 + 3.0 헥스 격자</div>
+              <p className="text-zinc-300 text-[11px] leading-relaxed">
+                공식 테라 3.0 헥스 데이터를 고해상도 연속 산악·빙하·칼데라 지형으로 조각하고, 그 위에 정확한 세력 경계와 얇은 헥스 격자선을 겹쳐 표시합니다.
+              </p>
+            </div>
+            <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1">
+              <div className="font-bold text-white text-xs">3가지 전술 렌즈 (지형 · 연대기 · 2D 도면)</div>
+              <p className="text-zinc-300 text-[11px] leading-relaxed">
+                '연대기 궤적' 렌즈에서는 ERA 00~04 시대 스크러버로 시기별 작전 지역과 이동 경로를 순서대로 추적할 수 있습니다.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] text-zinc-400 text-[10px] font-mono">
-              ESC
-            </kbd>
-            <button
-              onClick={() => {
-                playCloseSound();
-                onClose();
-              }}
-              title="닫기"
-              className="w-7 h-7 rounded-[2px] bg-[#1c1e24] hover:bg-[#252830] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-            </button>
+          <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-2">
+            <div className="flex items-center gap-2 font-bold text-white text-xs">
+              <Keyboard className="w-4 h-4 text-zinc-400" />
+              <span>기본 조작법</span>
+            </div>
+            <p className="text-zinc-300 text-[11px] leading-relaxed">
+              좌클릭 드래그 이동 · 우클릭 드래그(Shift+드래그) 360° 회전 및 각도 조절 · 휠 줌(더블클릭 확대) · WASD/방향키 이동.
+            </p>
           </div>
         </div>
 
-        {/* Modal Body (Scrollable) */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-6 divide-y divide-white/[0.08] text-xs sm:text-[13px]">
-          {/* Section 1: 지도 심볼 및 마커 */}
-          <div>
-            <div className="flex items-center justify-between mb-3.5">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-zinc-400" />
-                <h4 className="text-sm font-bold text-white tracking-wide">
-                  지도 심볼 및 마커 안내
-                </h4>
-              </div>
-              <span className="text-[11px] font-mono text-zinc-500">MAP SYMBOLS</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {/* 1. 수도 및 로도스 본함 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] flex gap-3">
-                <div className="flex-shrink-0 flex flex-col items-center justify-center gap-1.5 w-12 h-12 rounded-[2px] bg-[#101114] border border-white/15">
-                  <div className="flex items-center gap-1">
-                    <span className="w-2.5 h-2.5 rotate-45 bg-[#f5dd1b]" />
-                    <span className="w-2.5 h-2.5 rotate-45 bg-zinc-200" />
-                  </div>
-                  <span className="text-[8px] font-mono text-zinc-400">CORE</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <span>수도 및 로도스 본함</span>
-                    <span className="text-[9px] font-mono text-[#f5dd1b]">CAPITAL</span>
-                  </div>
-                  <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    각 국가의 수도 이동도시와 로도스 아일랜드 본함 위치입니다. 클릭하면 해당 거점으로 이동하며 우측 패널에서 상세 정보를 확인할 수 있습니다.
-                  </p>
-                </div>
-              </div>
-
-              {/* 2. 일반 이동도시 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] flex gap-3">
-                <div className="flex-shrink-0 flex flex-col items-center justify-center gap-1 w-12 h-12 rounded-[2px] bg-[#101114] border border-white/15">
-                  <span className="w-2.5 h-2.5 rotate-45 bg-zinc-300" />
-                  <span className="text-[8px] font-mono text-zinc-400">CITY</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <span>주요 도시 및 거점 (27곳)</span>
-                    <span className="text-[9px] font-mono text-zinc-400">OUTPOST</span>
-                  </div>
-                  <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    체르노보그, 용문, 트리마운츠, 볼시니 등 스토리의 주 무대가 되는 27개 핵심 도시입니다. 클릭 시 해당 위치로 시점이 이동합니다.
-                  </p>
-                </div>
-              </div>
-
-              {/* 3. 국가 엠블럼 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] flex gap-3">
-                <div className="flex-shrink-0 flex flex-col items-center justify-center gap-1 w-12 h-12 rounded-[2px] bg-[#101114] border border-white/15">
-                  <div className="flex items-center gap-1">
-                    <span className="w-3.5 h-3.5 rounded-[2px] border border-zinc-400 flex items-center justify-center text-[7px] font-mono text-zinc-200">
-                      PR
-                    </span>
-                    <span className="text-[8px] px-1 py-0.2 rounded-[1px] bg-white/[0.08] text-zinc-200 font-mono">
-                      4
-                    </span>
-                  </div>
-                  <span className="text-[8px] font-mono text-zinc-400">CREST</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <span>국가 마크 (세력 엠블럼)</span>
-                    <span className="text-[9px] font-mono text-zinc-400">18 NATIONS</span>
-                  </div>
-                  <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    18개 국가 및 세력의 중심 마크입니다. 클릭 시 우측 서랍 패널에서 지역 소개와 소속 거점, 관련 스토리를 열람할 수 있습니다.
-                  </p>
-                </div>
-              </div>
-
-              {/* 4. 작전 기동 경로 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] flex gap-3">
-                <div className="flex-shrink-0 flex flex-col items-center justify-center gap-1 w-12 h-12 rounded-[2px] bg-[#101114] border border-white/15">
-                  <div className="relative w-8 h-4 flex items-center justify-center">
-                    <div className="w-full h-0.5 bg-[#f5dd1b]/55" />
-                    <span className="w-1.5 h-1.5 rounded-[1px] bg-[#f5dd1b]" />
-                  </div>
-                  <span className="text-[8px] font-mono text-zinc-300">ROUTE</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <span>스토리 이동 경로 (18개)</span>
-                    <span className="text-[9px] font-mono text-zinc-400">TRAJECTORY</span>
-                  </div>
-                  <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    도시나 국가 간 장거리 이동이 일어난 18개 주요 경로입니다. 상단 필터로 분류해 볼 수 있으며, 클릭 시 스토리 요약 팝업이 열립니다.
-                  </p>
-                </div>
-              </div>
-
-              {/* 5. 지형 고저차 및 국경 구획 (전체 너비) */}
-              <div className="md:col-span-2 p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] flex gap-3">
-                <div className="flex-shrink-0 flex flex-col items-center justify-center gap-1 w-12 h-12 rounded-[2px] bg-[#101114] border border-white/15">
-                  <Layers className="w-5 h-5 text-zinc-300" />
-                  <span className="text-[8px] font-mono text-zinc-400">3D HEX</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <span>지형 고저차 및 국경망</span>
-                    <span className="text-[9px] font-mono text-zinc-400">ELEVATION & BORDERS</span>
-                  </div>
-                  <p className="mt-1 text-zinc-300 text-[11px] leading-relaxed">
-                    테라 대륙의 해양·평원·고원 지형 릴리프와 세력권 경계망입니다. 상단 툴바의 '고저차' 버튼으로 평면과 입체 지형을 전환할 수 있습니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Section 2: 조작 가이드 */}
-          <div className="pt-5">
-            <div className="flex items-center justify-between mb-3.5">
-              <div className="flex items-center gap-2">
-                <Keyboard className="w-4 h-4 text-zinc-400" />
-                <h4 className="text-sm font-bold text-white tracking-wide">
-                  지도 조작 가이드
-                </h4>
-              </div>
-              <span className="text-[11px] font-mono text-zinc-500">CONTROLS</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {/* 1. 키보드 이동 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-xs">키보드 이동 (WASD & 방향키)</span>
-                  <div className="flex items-center gap-1">
-                    <kbd className="px-1.5 py-0.5 bg-white/[0.08] rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      W A S D
-                    </kbd>
-                    <span className="text-zinc-500">/</span>
-                    <kbd className="px-1.5 py-0.5 bg-white/[0.08] rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      ↑ ↓ ← →
-                    </kbd>
-                  </div>
-                </div>
-                <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  바라보는 방향을 기준으로 지도를 상·하·좌·우로 부드럽게 이동합니다.
-                </p>
-                <div className="pt-1 flex items-center gap-1.5 text-[10px] text-zinc-400 font-mono">
-                  <kbd className="px-1 py-0.2 bg-white/[0.08] rounded-[2px] text-zinc-100 font-bold">
-                    SHIFT
-                  </kbd>
-                  <span>동시 입력 시 고속 부스트 이동</span>
-                </div>
-              </div>
-
-              {/* 2. 마우스 / 터치 이동 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-xs">지도 이동</span>
-                  <span className="px-1.5 py-0.5 bg-white/[0.08] rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                    드래그 (1손가락)
-                  </span>
-                </div>
-                <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  지도를 마우스 좌클릭 또는 1손가락으로 드래그하여 자유롭게 이동합니다.
-                </p>
-              </div>
-
-              {/* 3. 3D 회전 및 각도 조절 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-xs">360° 회전 및 시점 각도 (3D 전용)</span>
-                  <div className="flex items-center gap-1">
-                    <kbd className="px-1.5 py-0.5 bg-white/[0.08] rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      우클릭 드래그
-                    </kbd>
-                    <span className="text-zinc-500">/</span>
-                    <span className="px-1.5 py-0.5 bg-white/[0.08] rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      2손가락 회전
-                    </span>
-                  </div>
-                </div>
-                <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  우클릭 드래그나 하단 360° 바, 모바일 2손가락 비틀기 제스처로 지도를 360도 회전하고 시점 각도를 조절할 수 있습니다. (2D 평면 모드에서는 시점이 정북 0°로 고정되어 각도 조절이 자동 제한됩니다)
-                </p>
-              </div>
-
-              {/* 4. 확대 및 축소 */}
-              <div className="p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-xs">확대 및 축소 (Zoom)</span>
-                  <div className="flex items-center gap-1">
-                    <kbd className="px-1.5 py-0.5 bg-white/[0.08] rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      +/- 키
-                    </kbd>
-                    <span className="text-zinc-500">/</span>
-                    <span className="px-1.5 py-0.5 bg-white/[0.08] rounded-[2px] font-mono text-[10px] text-zinc-200 font-bold">
-                      우측 줌 버튼 / 더블 탭
-                    </span>
-                  </div>
-                </div>
-                <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  마우스 휠, 키보드 +/- 및 Q/E 키, 화면 내 +/- 줌 버튼, 더블 클릭(더블 탭)으로 두 손을 쓰지 않고도 한 손으로 편리하게 확대·축소할 수 있습니다.
-                </p>
-              </div>
-
-              {/* 5. 뷰 모드 및 레이어 필터 */}
-              <div className="md:col-span-2 p-3 rounded-[2px] bg-[#16181d] border border-white/[0.08] flex flex-wrap items-center justify-between gap-2">
-                <div className="space-y-0.5">
-                  <div className="font-bold text-white text-xs">시점 모드 & 레이어 필터</div>
-                  <div className="text-zinc-300 text-[11px]">
-                    3D 입체 시점(52°)과 2D 평면도(0° 완전 평면) 전환 및 지형 고저차·국가 마크·거점·경로를 개별 표시할 수 있습니다.
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 font-mono text-[10px]">
-                  <span className="px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] text-white font-bold">3D/2D</span>
-                  <span className="px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] text-zinc-300">고저차</span>
-                  <span className="px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] text-zinc-300">국가 마크</span>
-                  <span className="px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] text-zinc-300">거점</span>
-                  <span className="px-1.5 py-0.5 rounded-[2px] bg-white/[0.08] text-zinc-300">경로</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Modal Footer */}
         <div className="px-5 py-3 border-t border-white/[0.08] bg-[#101114] flex items-center justify-between text-xs font-mono">
-          <span className="text-zinc-500">PRTS TACTICAL MAP</span>
+          <span className="text-zinc-500">PRTS TACTICAL ATLAS</span>
           <button
             onClick={() => {
               playCloseSound();
