@@ -45,13 +45,13 @@ interface TerraMapViewProps {
   onToggleHeaderCollapse?: () => void;
 }
 
-// Refined Tactical Mineral & Biome Palette (Balanced Chroma over Achromatic Charcoal Ocean)
+// Refined Tactical Mineral & Biome Palette (Balanced Chroma over Bathymetric Slate Ocean)
 const CELL_COLORS: Record<CellType, string> = {
-  // Bathymetry & Anomalies (Aligned with #0b0c0e UI charcoal tone)
-  deep: '#101216',
-  shallow: '#181c23',
-  void: '#090a0c',
-  crater: '#13161d',
+  // Bathymetry & Anomalies
+  deep: '#080a0f',
+  shallow: '#172534',
+  void: '#06070a',
+  crater: '#10151d',
 
   // Neutral Continental Landmass & Extreme Environments
   land: '#282c34',
@@ -80,34 +80,34 @@ const CELL_COLORS: Record<CellType, string> = {
   kjerag: '#4f82a3',
 };
 
-// Baseline Regional Elevation (World Units) before intra-region topographical sculpting
+// Baseline Regional Elevation (World Units) — recessed bathymetry below 2.05u water surface, sculpted landmass relief
 const ELEVATION_MAP: Record<CellType, number> = {
-  kjerag: 14.5,
-  foehn_hotlands: 10.5,
-  ursus: 8.4,
-  sami: 8.6,
-  leithanien: 8.0,
-  yan: 7.6,
-  victoria: 7.2,
-  kazimierz: 6.8,
-  columbia: 7.0,
-  bolivar: 5.8,
-  siracusa: 6.8,
-  minos: 6.6,
-  laterano: 7.0,
-  rim_billiton: 6.4,
-  sargon: 6.8,
-  iberia: 5.6,
-  kazdel: 7.0,
-  siesta: 5.6,
-  higashi: 6.8,
-  icefield: 9.8,
-  frontier: 5.0,
-  land: 4.4,
-  shallow: 1.4,
-  crater: 0.9,
-  deep: 0.6,
-  void: 0.4,
+  kjerag: 18.5,
+  foehn_hotlands: 13.8,
+  icefield: 12.6,
+  sami: 11.4,
+  ursus: 11.2,
+  leithanien: 10.6,
+  yan: 10.2,
+  victoria: 9.6,
+  columbia: 9.2,
+  laterano: 9.2,
+  kazdel: 9.2,
+  kazimierz: 8.8,
+  siracusa: 8.8,
+  sargon: 8.8,
+  higashi: 8.8,
+  minos: 8.4,
+  rim_billiton: 8.4,
+  bolivar: 7.4,
+  iberia: 7.4,
+  siesta: 7.4,
+  frontier: 6.4,
+  land: 5.6,
+  shallow: 1.25,
+  crater: 0.7,
+  deep: 0.18,
+  void: 0.12,
 };
 
 const MAP_CENTER_X = 410.5;
@@ -173,42 +173,42 @@ terraHexCells.forEach((c, idx) => {
     let h = base;
 
     if (cell.type === 'kjerag') {
-      // Towering alpine peak of Mount Karlan (peaking at ~16.8 with smooth tapering)
-      const peakBoost = Math.max(0, 1 - distKjerag / 28) * 3.2;
-      h = (13.8 + peakBoost + wave * 1.0);
+      // Towering alpine peak of Mount Karlan (peaking cleanly above northern plateaus)
+      const peakBoost = Math.max(0, 1 - distKjerag / 28) * 3.8;
+      h = (base - 1.0 + peakBoost + wave * 1.15);
     } else if (cell.type === 'foehn_hotlands') {
       // High volcanic plateau with crater wave
-      const rimWave = Math.sin(distFoehn * 0.14) * 1.6;
-      h = (base + interiorFactor * 1.8 + wave * 1.4 + rimWave) * coastalSlope;
+      const rimWave = Math.sin(distFoehn * 0.14) * 1.8;
+      h = (base + interiorFactor * 2.1 + wave * 1.5 + rimWave) * coastalSlope;
     } else if (cell.type === 'icefield' || cell.type === 'sami') {
       // Northern glacial ridges
-      const northBoost = Math.max(0, (410 - cell.y) * 0.022);
-      h = (base + northBoost + interiorFactor * 1.6 + wave * 1.3) * coastalSlope;
+      const northBoost = Math.max(0, (410 - cell.y) * 0.025);
+      h = (base + northBoost + interiorFactor * 1.8 + wave * 1.4) * coastalSlope;
     } else if (cell.type === 'ursus') {
       // Vast northern empire with central Ural-like mountain chain & lower border steppes
-      const ridgeBoost = Math.max(0, 1 - distUrsusRidge / 85) * 2.4;
-      h = (base - 0.4 + interiorFactor * 1.5 + ridgeBoost + wave * 1.2) * coastalSlope;
+      const ridgeBoost = Math.max(0, 1 - distUrsusRidge / 85) * 2.6;
+      h = (base - 0.3 + interiorFactor * 1.7 + ridgeBoost + wave * 1.3) * coastalSlope;
     } else if (cell.type === 'yan') {
       // Western mountains (Sui peaks) tapering to eastern plains
-      const suiBoost = Math.max(0, 1 - distYanMountains / 75) * 2.2;
-      const eastSlope = Math.max(-1.2, (620 - cell.x) * 0.022);
-      h = (base - 0.3 + interiorFactor * 1.4 + suiBoost + eastSlope + wave * 1.1) * coastalSlope;
+      const suiBoost = Math.max(0, 1 - distYanMountains / 75) * 2.4;
+      const eastSlope = Math.max(-1.2, (620 - cell.x) * 0.024);
+      h = (base - 0.2 + interiorFactor * 1.5 + suiBoost + eastSlope + wave * 1.2) * coastalSlope;
     } else if (cell.type === 'iberia' || cell.type === 'siesta' || cell.type === 'bolivar') {
       // Low coastal shelves gently rising inland
-      h = (base - 0.3 + interiorFactor * 1.1 + wave * 0.8) * coastalSlope;
+      h = (base - 0.2 + interiorFactor * 1.2 + wave * 0.9) * coastalSlope;
     } else if (cell.regionId) {
       // Other major nations: natural rolling relief
-      const foothillKjerag = distKjerag < 52 ? (1 - distKjerag / 52) * 2.8 : 0;
-      h = (base - 0.3 + interiorFactor * 1.3 + foothillKjerag + wave * 1.0) * coastalSlope;
+      const foothillKjerag = distKjerag < 52 ? (1 - distKjerag / 52) * 3.2 : 0;
+      h = (base - 0.2 + interiorFactor * 1.4 + foothillKjerag + wave * 1.1) * coastalSlope;
     } else {
       // Neutral continental land & frontier: continuous mountain foothills and basins
-      const foothillKjerag = distKjerag < 58 ? (1 - distKjerag / 58) * 4.2 : 0;
-      const foothillFoehn = distFoehn < 95 ? (1 - distFoehn / 95) * 2.2 : 0;
-      const northGlacier = cell.y < 340 ? (340 - cell.y) * 0.018 : 0;
-      h = (base + foothillKjerag + foothillFoehn + northGlacier + wave * 0.9) * coastalSlope;
+      const foothillKjerag = distKjerag < 58 ? (1 - distKjerag / 58) * 4.5 : 0;
+      const foothillFoehn = distFoehn < 95 ? (1 - distFoehn / 95) * 2.4 : 0;
+      const northGlacier = cell.y < 340 ? (340 - cell.y) * 0.02 : 0;
+      h = (base + foothillKjerag + foothillFoehn + northGlacier + wave * 1.0) * coastalSlope;
     }
 
-    CELL_TERRAIN_HEIGHTS[idx] = Math.max(3.2, h);
+    CELL_TERRAIN_HEIGHTS[idx] = Math.max(3.6, h);
   });
 })();
 
@@ -549,6 +549,38 @@ const REGION_PERIMETER_SEGMENTS = new Map<string, PerimeterSegment[]>();
   });
 })();
 
+const COASTAL_SHORELINE_POSITIONS: Float32Array = (() => {
+  const r = HEX_RADIUS * 0.99;
+  const isWaterType = (t: CellType) =>
+    t === 'deep' || t === 'shallow' || t === 'void' || t === 'crater';
+  const coords: number[] = [];
+
+  terraHexCells.forEach((cell) => {
+    if (isWaterType(cell.type)) return;
+    const nKeys = neighborKeys(cell.row, cell.col);
+    const cx = cell.x - MAP_CENTER_X;
+    const cz = cell.y - MAP_CENTER_Y;
+
+    for (let i = 0; i < 6; i++) {
+      const nc = cellIndex.get(nKeys[i]);
+      if (!nc || isWaterType(nc.type)) {
+        const rad1 = ((60 * i - 30) * Math.PI) / 180;
+        const rad2 = ((60 * ((i + 1) % 6) - 30) * Math.PI) / 180;
+        coords.push(
+          cx + r * Math.cos(rad1),
+          0,
+          cz + r * Math.sin(rad1),
+          cx + r * Math.cos(rad2),
+          0,
+          cz + r * Math.sin(rad2)
+        );
+      }
+    }
+  });
+
+  return new Float32Array(coords);
+})();
+
 interface MobilePreviewCardData {
   type: 'city' | 'route';
   id: string;
@@ -576,8 +608,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
   const [showElevation, setShowElevation] = useState<boolean>(true);
   const [showLogos, setShowLogos] = useState<boolean>(true);
   const [showCities, setShowCities] = useState<boolean>(true);
-  const [showRoutes, setShowRoutes] = useState<boolean>(false);
-  const [routeFilter, setRouteFilter] = useState<'all' | RouteCategory>('all');
+  const [showRoutes, setShowRoutes] = useState<boolean>(true);
+  const [routeFilter, setRouteFilter] = useState<'all' | RouteCategory>('main');
   const [isSectorListOpen, setIsSectorListOpen] = useState<boolean>(false);
   const [sectorSearch, setSectorSearch] = useState<string>('');
   const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d');
@@ -654,10 +686,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     targetZ: -20,
     currentX: 0,
     currentZ: -20,
-    targetRadius: 550,
-    currentRadius: 550,
-    targetPolar: (52 * Math.PI) / 180, // 52 deg default 3D perspective
-    currentPolar: (52 * Math.PI) / 180,
+    targetRadius: 515,
+    currentRadius: 515,
+    targetPolar: (50 * Math.PI) / 180, // 50 deg sculpted 3D perspective
+    currentPolar: (50 * Math.PI) / 180,
     targetAzimuth: 0,
     currentAzimuth: 0,
   });
@@ -804,8 +836,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     setViewMode(mode);
     const cam = camStateRef.current;
     if (mode === '3d') {
-      cam.targetPolar = (52 * Math.PI) / 180;
-      cam.targetRadius = Math.min(560, cam.targetRadius);
+      cam.targetPolar = (50 * Math.PI) / 180;
+      cam.targetRadius = Math.min(540, cam.targetRadius);
     } else {
       cam.targetPolar = 0.001;
       cam.targetAzimuth = 0;
@@ -826,8 +858,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       cam.targetRadius = 620;
       cam.targetPolar = 0.001;
     } else {
-      cam.targetRadius = 550;
-      cam.targetPolar = (52 * Math.PI) / 180;
+      cam.targetRadius = 515;
+      cam.targetPolar = (50 * Math.PI) / 180;
     }
   };
 
@@ -855,8 +887,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
     // 1. Scene & Atmospheric Depth Fog
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#0a0b0e');
-    scene.fog = new THREE.FogExp2(0x0a0b0e, 0.00068);
+    scene.background = new THREE.Color('#090b10');
+    scene.fog = new THREE.FogExp2(0x090b10, 0.00105);
 
     // 2. Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 5, 2600);
@@ -871,18 +903,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.18;
     renderer.domElement.style.touchAction = 'none';
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
     // 4. Balanced Glare-Free Studio & Architectural Relief Lighting
-    const hemiLight = new THREE.HemisphereLight(0xe4e4e7, 0x0d0f14, 1.38);
+    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x0c1018, 1.15);
     hemiLight.position.set(0, 500, 0);
     scene.add(hemiLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfafaf9, 1.44);
-    keyLight.position.set(145, 540, 185);
+    const keyLight = new THREE.DirectionalLight(0xfffbf2, 1.68);
+    keyLight.position.set(250, 340, 240);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 2048;
     keyLight.shadow.mapSize.height = 2048;
@@ -897,22 +929,36 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     keyLight.shadow.normalBias = 0.02;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0x94a3b8, 0.42);
-    rimLight.position.set(-280, 260, -240);
+    const rimLight = new THREE.DirectionalLight(0x93c5fd, 0.58);
+    rimLight.position.set(-300, 220, -260);
     scene.add(rimLight);
 
-    // 5. Matte Bathymetric Drafting Ocean Shader & Tactical Range Rings
+    // 5. Matte Seabed + Elevated Translucent Bathymetric Ocean Shader Surface
     const baseGroup = new THREE.Group();
     scene.add(baseGroup);
+
+    const seabedGeo = new THREE.CircleGeometry(660, 64);
+    seabedGeo.rotateX(-Math.PI / 2);
+    const seabedMat = new THREE.MeshStandardMaterial({
+      color: 0x07090d,
+      roughness: 0.94,
+      metalness: 0.06,
+    });
+    const seabedPlane = new THREE.Mesh(seabedGeo, seabedMat);
+    seabedPlane.position.y = -0.25;
+    seabedPlane.receiveShadow = true;
+    baseGroup.add(seabedPlane);
 
     const oceanUniforms = {
       uTime: { value: 0 },
     };
 
-    const seaFloorGeo = new THREE.CircleGeometry(660, 96);
-    seaFloorGeo.rotateX(-Math.PI / 2);
-    const seaFloorMat = new THREE.ShaderMaterial({
+    const waterGeo = new THREE.CircleGeometry(660, 96);
+    waterGeo.rotateX(-Math.PI / 2);
+    const waterMat = new THREE.ShaderMaterial({
       uniforms: oceanUniforms,
+      transparent: true,
+      depthWrite: false,
       vertexShader: `
         varying vec3 vWorldPos;
         void main() {
@@ -926,15 +972,16 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         varying vec3 vWorldPos;
         void main() {
           float r = length(vWorldPos.xz);
-          float fade = 1.0 - smoothstep(420.0, 650.0, r);
+          float horizonFade = 1.0 - smoothstep(420.0, 650.0, r);
 
-          // Subtle matte bathymetric drift
-          float swell = sin(vWorldPos.x * 0.018 + uTime * 0.35) * cos(vWorldPos.z * 0.018 - uTime * 0.25);
-          vec3 abyss = vec3(0.038, 0.041, 0.050);
-          vec3 shelf = vec3(0.056, 0.062, 0.075);
-          vec3 col = mix(abyss, shelf, 0.42 + 0.22 * swell);
+          // Animated bathymetric current & architectural drafting tint
+          float swell1 = sin(vWorldPos.x * 0.018 + uTime * 0.35) * cos(vWorldPos.z * 0.018 - uTime * 0.25);
+          float swell2 = sin((vWorldPos.x + vWorldPos.z) * 0.011 - uTime * 0.22);
+          vec3 abyssTint = vec3(0.032, 0.045, 0.068);
+          vec3 shelfTint = vec3(0.056, 0.080, 0.114);
+          vec3 col = mix(abyssTint, shelfTint, 0.46 + 0.20 * swell1 + 0.10 * swell2);
 
-          // Fine 64u drafting grid + 256u major datum lines (guarded against zero fwidth)
+          // Guarded 64u minor drafting grid & 256u major datum lines
           vec2 coordMinor = vWorldPos.xz / 64.0;
           vec2 g1 = abs(fract(coordMinor - 0.5) - 0.5) / max(fwidth(coordMinor), vec2(0.0005));
           float lineMinor = 1.0 - min(min(g1.x, g1.y), 1.0);
@@ -942,27 +989,34 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           vec2 g2 = abs(fract(coordMajor - 0.5) - 0.5) / max(fwidth(coordMajor), vec2(0.0005));
           float lineMajor = 1.0 - min(min(g2.x, g2.y), 1.0);
 
-          col = mix(col, vec3(0.11, 0.125, 0.155), lineMinor * 0.26 * fade);
-          col = mix(col, vec3(0.16, 0.18, 0.22), lineMajor * 0.42 * fade);
+          col = mix(col, vec3(0.14, 0.19, 0.26), lineMinor * 0.34 * horizonFade);
+          col = mix(col, vec3(0.22, 0.29, 0.38), lineMajor * 0.52 * horizonFade);
 
-          // Concentric cartography range rings
-          float ring1 = 1.0 - smoothstep(0.0, 1.3, abs(r - 240.0));
-          float ring2 = 1.0 - smoothstep(0.0, 1.4, abs(r - 365.0));
+          // Cardinal meridian crosshairs
+          float axisX = 1.0 - smoothstep(0.0, 0.75, abs(vWorldPos.z));
+          float axisZ = 1.0 - smoothstep(0.0, 0.75, abs(vWorldPos.x));
+          col = mix(col, vec3(0.28, 0.36, 0.46), max(axisX, axisZ) * 0.32 * horizonFade);
+
+          // Concentric cartography range rings (210u, 340u, 466u)
+          float ring1 = 1.0 - smoothstep(0.0, 1.2, abs(r - 210.0));
+          float ring2 = 1.0 - smoothstep(0.0, 1.3, abs(r - 340.0));
           float outerRing = 1.0 - smoothstep(0.0, 1.8, abs(r - 466.0));
-          col = mix(col, vec3(0.19, 0.21, 0.25), (ring1 + ring2) * 0.32 * fade);
-          col = mix(col, vec3(0.96, 0.86, 0.11), outerRing * 0.14 * fade);
+          col = mix(col, vec3(0.24, 0.31, 0.40), (ring1 + ring2) * 0.40 * horizonFade);
+          col = mix(col, vec3(0.96, 0.86, 0.11), outerRing * 0.18 * horizonFade);
 
-          // Blend periphery cleanly into fog background (#0a0b0e)
-          vec3 bg = vec3(0.039, 0.043, 0.055);
-          col = mix(bg, col, fade);
-          gl_FragColor = vec4(col, 1.0);
+          // Blend outer boundary toward atmospheric #090b10
+          vec3 horizonBg = vec3(0.035, 0.043, 0.063);
+          col = mix(horizonBg, col, horizonFade);
+
+          // Semi-translucent near coastal shelves so recessed sea hexes show bathymetry, opaque near horizon
+          float waterAlpha = mix(0.92, 0.74, horizonFade);
+          gl_FragColor = vec4(col, waterAlpha);
         }
       `,
-      depthWrite: true,
     });
-    const seaFloor = new THREE.Mesh(seaFloorGeo, seaFloorMat);
-    seaFloor.position.y = -0.25;
-    baseGroup.add(seaFloor);
+    const waterPlane = new THREE.Mesh(waterGeo, waterMat);
+    waterPlane.position.y = 2.05;
+    baseGroup.add(waterPlane);
 
     // 6. High-Detail 2-Tier Beveled Hexagonal Prism Geometry + PBR Material
     const hexCount = terraHexCells.length;
@@ -1136,16 +1190,37 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       });
     });
 
-    // 8. Static Architectural City Pins (Terrain-anchored rings, hairline stems & flat diamond cap plates)
+    // 7-B. Crisp Coastal Shoreline Contour Layer (Traces continent coastlines along 2.18u waterline)
+    const coastlineGeo = new THREE.BufferGeometry();
+    coastlineGeo.setAttribute('position', new THREE.BufferAttribute(COASTAL_SHORELINE_POSITIONS, 3));
+    const coastlineMat = new THREE.LineBasicMaterial({
+      color: 0x6b8299,
+      transparent: true,
+      opacity: 0.42,
+    });
+    const coastlineLine = new THREE.LineSegments(coastlineGeo, coastlineMat);
+    coastlineLine.position.y = 2.18;
+    scene.add(coastlineLine);
+
+    // 8. Static Architectural City Pins (Terrain-anchored rings, hairline stems & tiered diamond caps)
     const cityGroup = new THREE.Group();
     scene.add(cityGroup);
 
-    const capPlateGeo = new THREE.CylinderGeometry(1.45, 1.45, 0.35, 4);
+    const capPlateGeo = new THREE.CylinderGeometry(1.55, 1.55, 0.35, 4);
     capPlateGeo.rotateY(Math.PI / 4);
-    const majorBaseRingGeo = new THREE.RingGeometry(2.5, 3.15, 24);
+    const capHaloGeo = new THREE.RingGeometry(1.7, 2.1, 4);
+    capHaloGeo.rotateZ(0);
+    capHaloGeo.rotateX(-Math.PI / 2);
+    const majorBaseRingGeo = new THREE.RingGeometry(2.6, 3.3, 24);
     majorBaseRingGeo.rotateX(-Math.PI / 2);
-    const minorBaseRingGeo = new THREE.RingGeometry(1.6, 2.05, 20);
+    const minorBaseRingGeo = new THREE.RingGeometry(1.65, 2.1, 20);
     minorBaseRingGeo.rotateX(-Math.PI / 2);
+    const rhodesPulseGeo = new THREE.RingGeometry(3.8, 4.7, 32);
+    rhodesPulseGeo.rotateX(-Math.PI / 2);
+    const rhodesBeacon: { mesh: THREE.Mesh | null; mat: THREE.MeshBasicMaterial | null } = {
+      mesh: null,
+      mat: null,
+    };
 
     terraCities.forEach((city) => {
       const wx = city.pixelCoords.x - MAP_CENTER_X;
@@ -1156,17 +1231,32 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const isCapital = city.type === 'capital';
       const isMajor = isRhodes || isCapital;
       const beaconColor = isRhodes ? 0xf4f4f5 : isCapital ? 0xf5dd1b : 0x71717a;
-      const stemHeight = isMajor ? 18 : 11.5;
+      const stemHeight = isMajor ? 24 : 14;
 
       const baseRingMat = new THREE.MeshBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.55 : 0.32,
+        opacity: isMajor ? 0.62 : 0.34,
         side: THREE.DoubleSide,
       });
       const baseRing = new THREE.Mesh(isMajor ? majorBaseRingGeo : minorBaseRingGeo, baseRingMat);
       baseRing.position.set(wx, baseElev + 0.16, wz);
       cityGroup.add(baseRing);
+
+      if (isRhodes) {
+        const pulseMat = new THREE.MeshBasicMaterial({
+          color: 0xf5dd1b,
+          transparent: true,
+          opacity: 0.45,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+        });
+        const pulseRing = new THREE.Mesh(rhodesPulseGeo, pulseMat);
+        pulseRing.position.set(wx, baseElev + 0.22, wz);
+        cityGroup.add(pulseRing);
+        rhodesBeacon.mesh = pulseRing;
+        rhodesBeacon.mat = pulseMat;
+      }
 
       const stemPts = [
         new THREE.Vector3(wx, baseElev, wz),
@@ -1176,27 +1266,34 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       const stemMat = new THREE.LineBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.68 : 0.4,
+        opacity: isMajor ? 0.76 : 0.42,
       });
       cityGroup.add(new THREE.Line(stemGeo, stemMat));
 
       const capMat = new THREE.MeshBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isMajor ? 0.92 : 0.72,
+        opacity: isMajor ? 0.96 : 0.74,
       });
       const capPlate = new THREE.Mesh(capPlateGeo, capMat);
       capPlate.position.set(wx, baseElev + stemHeight + 0.25, wz);
       if (!isMajor) capPlate.scale.setScalar(0.72);
       cityGroup.add(capPlate);
+
+      if (isMajor) {
+        const capHalo = new THREE.Mesh(capHaloGeo, baseRingMat);
+        capHalo.position.set(wx, baseElev + stemHeight - 1.4, wz);
+        cityGroup.add(capHalo);
+      }
     });
 
-    // 9. 3D TubeGeometry Parabolic Route Ribbons + Terrain Anchor Rings
+    // 9. 3D TubeGeometry Parabolic Route Ribbons + Subtle Outer Glow + Terrain Anchor Rings
     const routesGroup = new THREE.Group();
     scene.add(routesGroup);
     interface RouteArcEntry {
       route: TacticalRouteArc;
       tubeMat: THREE.MeshBasicMaterial;
+      glowMat: THREE.MeshBasicMaterial;
       anchorMat: THREE.MeshBasicMaterial;
       pulseMesh: THREE.Mesh;
       pulseMat: THREE.MeshBasicMaterial;
@@ -1206,7 +1303,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       speed: number;
     }
     const routeEntries: RouteArcEntry[] = [];
-    const pulseGeo = new THREE.SphereGeometry(1.35, 10, 10);
+    const pulseGeo = new THREE.SphereGeometry(1.6, 10, 10);
     const routeAnchorGeo = new THREE.RingGeometry(1.85, 2.55, 24);
     routeAnchorGeo.rotateX(-Math.PI / 2);
 
@@ -1228,13 +1325,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         new THREE.Vector3(x2, y2, z2)
       );
 
-      const tubeGeo = new THREE.TubeGeometry(curve, 44, 0.55, 6, false);
+      const tubeGeo = new THREE.TubeGeometry(curve, 44, 0.68, 6, false);
       const tubeMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(rt.color),
         transparent: true,
-        opacity: 0.68,
+        opacity: 0.86,
       });
       routesGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
+
+      const glowGeo = new THREE.TubeGeometry(curve, 44, 1.35, 6, false);
+      const glowMat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(rt.color),
+        transparent: true,
+        opacity: 0.18,
+        depthWrite: false,
+      });
+      routesGroup.add(new THREE.Mesh(glowGeo, glowMat));
 
       const anchorMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(rt.color),
@@ -1258,6 +1364,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       routeEntries.push({
         route: rt,
         tubeMat,
+        glowMat,
         anchorMat,
         pulseMesh,
         pulseMat,
@@ -1808,10 +1915,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         telemetryYawTextRef.current.textContent = `${normalizedYaw}°`;
       }
 
-      oceanUniforms.uTime.value = performance.now() * 0.001;
+      const elapsedSec = performance.now() * 0.001;
+      oceanUniforms.uTime.value = elapsedSec;
+      waterPlane.visible = !is2D;
+      waterPlane.position.y = is2D ? 0.35 : 2.05;
       cityGroup.visible = !is2D && (showCitiesRef.current ?? true);
 
       const pinnedId = pinnedRegionRef.current;
+
+      coastlineLine.position.y = is2D ? 0.66 : 2.18;
+      coastlineMat.opacity = is2D ? 0.56 : pinnedId ? 0.22 : 0.42;
+
+      if (rhodesBeacon.mesh && rhodesBeacon.mat) {
+        const pulse = (elapsedSec * 0.45) % 1;
+        rhodesBeacon.mesh.scale.setScalar(1 + pulse * 1.45);
+        rhodesBeacon.mat.opacity = is2D ? 0 : (1 - pulse) * 0.48;
+      }
 
       // Update Operational Trajectory Arcs (Context-aware filtering when a region is pinned or category filter active)
       routesGroup.visible = showRoutesRef.current;
@@ -1822,7 +1941,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         routeEntries.forEach((re) => {
           const matchesCategory = activeRouteFilter === 'all' || re.route.category === activeRouteFilter;
           const isRelevant = matchesCategory && (!pinnedId || re.route.regionIds.includes(pinnedId));
-          re.tubeMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.92 : 0.68) : 0.08;
+          re.tubeMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.94 : 0.86) : 0.08;
+          re.glowMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.24 : 0.16) : 0.015;
           re.anchorMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.85 : 0.55) : 0.06;
           re.pulseMat.opacity = !matchesCategory ? 0 : isRelevant ? 0.95 : 0.12;
           re.pulseMesh.visible = matchesCategory;
@@ -1948,11 +2068,13 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         const wx = city.pixelCoords.x - MAP_CENTER_X;
         const wz = city.pixelCoords.y - MAP_CENTER_Y;
         const localTerrainH = is2D ? 0 : sampleTerrainHeightAtPixel(city.pixelCoords.x, city.pixelCoords.y);
-        const isCapitalOrRhodes = city.type === 'capital' || city.type === 'rhodes';
+        const isRhodes = city.type === 'rhodes';
+        const isCapital = city.type === 'capital';
+        const isMajor = isRhodes || isCapital;
         const isPin = city.regionId === pinnedId;
         const isHov = city.regionId === hoveredRegionRef.current;
         const lift = is2D ? 0 : (isPin ? 6.5 : isHov ? 4.2 : 0);
-        const wy = is2D ? 2.0 : (localTerrainH * elevScale + lift + (isCapitalOrRhodes ? 21 : 14));
+        const wy = is2D ? 2.0 : (localTerrainH * elevScale + lift + (isMajor ? 27 : 16.5));
 
         projVec.set(wx, wy, wz).project(camera);
         if (projVec.z > 1) {
@@ -1961,18 +2083,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         } else {
           const sx = projVec.x * halfW + halfW;
           const sy = -projVec.y * halfH + halfH;
-          const cityScale = (isCapitalOrRhodes || isPin || isHov ? zoomScale : zoomScale * 0.92) * (isShortViewport ? 0.82 : 1.0);
+          const cityScale = (isMajor || isPin || isHov ? zoomScale : zoomScale * 0.92) * (isShortViewport ? 0.82 : 1.0);
           cEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${cityScale})`;
           if (pinnedId) {
-            cEl.style.opacity = isPin ? '1' : '0.12';
+            cEl.style.opacity = isPin ? '1' : '0';
             cEl.style.pointerEvents = isPin ? 'auto' : 'none';
           } else {
-            const hideMinorAtOverview = !isCapitalOrRhodes && !isHov && (cam.currentRadius > 590 || (isShortViewport && cam.currentRadius > 430));
-            if (hideMinorAtOverview) {
+            const capitalRadiusLimit = isShortViewport ? 360 : 420;
+            const visibleAtOverview =
+              isRhodes ||
+              isHov ||
+              (isCapital ? cam.currentRadius < capitalRadiusLimit : cam.currentRadius < 320);
+            if (!visibleAtOverview) {
               cEl.style.opacity = '0';
               cEl.style.pointerEvents = 'none';
             } else {
-              cEl.style.opacity = isCapitalOrRhodes || isHov || cam.currentRadius < 510 ? '0.96' : '0.78';
+              cEl.style.opacity = '0.96';
               cEl.style.pointerEvents = 'auto';
             }
           }
@@ -2140,16 +2266,21 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                   )}
 
                   <div
+                    style={
+                      !isPinned && !isHovered && reg.badgeColor
+                        ? { borderLeftColor: reg.badgeColor, borderLeftWidth: '2.5px' }
+                        : undefined
+                    }
                     className={`mt-0.5 ${
                       isLandscapeMobile
                         ? 'px-1 py-0 text-[8.5px]'
                         : 'px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px]'
-                    } rounded-[2px] border font-mono transition-colors duration-150 flex items-center gap-1 sm:gap-1.5 backdrop-blur-md ${
+                    } rounded-[2px] border font-mono transition-colors duration-150 flex items-center gap-1 sm:gap-1.5 backdrop-blur-md shadow-md ${
                       isPinned
                         ? 'bg-[#f5dd1b] text-black border-[#f5dd1b] font-extrabold shadow-lg'
                         : isHovered
                         ? 'bg-zinc-100 text-black border-white font-bold shadow-md'
-                        : 'bg-[#121316]/92 text-zinc-100 border-white/15'
+                        : 'bg-[#0d0f14]/86 text-zinc-100 border-white/[0.14]'
                     }`}
                   >
                     <span className="tracking-tight whitespace-nowrap font-sans font-semibold">

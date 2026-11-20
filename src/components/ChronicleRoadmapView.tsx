@@ -532,6 +532,10 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     const cam = cameraRef.current;
     if (stageRef.current) {
       stageRef.current.style.transform = `translate3d(${cam.x}px, ${cam.y}px, 0) scale(${cam.zoom})`;
+      const splashFade = Math.max(0, Math.min(1, (cam.zoom - 0.44) / 0.34));
+      const metaFade = Math.max(0, Math.min(1, (cam.zoom - 0.54) / 0.24));
+      stageRef.current.style.setProperty('--prts-splash-fade', splashFade.toFixed(3));
+      stageRef.current.style.setProperty('--prts-meta-fade', metaFade.toFixed(3));
     }
     if (gridBgRef.current) {
       gridBgRef.current.style.backgroundPosition = `${cam.x % 48}px ${cam.y % 48}px`;
@@ -790,7 +794,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     return { highlightedStoryIds: ids, activeConnections: conns };
   }, [focusedLineId, activeTargetId, allConnections, storyMap]);
 
-  // 스테이지 내 모든 노드의 로컬 좌표(스케일 무관 offset 기준) & 시대 구간 측정
+  // 스테이지 내 모든 노드의 로컬 좌표(고정 카드 크기 기준) & 시대 구간 측정
   const measureNodePositions = useCallback(() => {
     const stageEl = stageRef.current;
     if (!stageEl) return;
@@ -798,7 +802,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     const coords: Record<string, NodeBox> = {};
 
     nodeRefs.current.forEach((el, id) => {
-      if (!el) return;
+      if (!el || !el.isConnected) return;
       let x = 0;
       let y = 0;
       let curr: HTMLElement | null = el;
@@ -844,13 +848,27 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
   useEffect(() => {
     if (browseMode !== 'chronological') return;
-    const timer = window.setTimeout(measureNodePositions, 60);
+    let raf1 = 0;
+    let raf2 = 0;
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(measureNodePositions);
+    });
+
+    const stageEl = stageRef.current;
+    const ro =
+      typeof ResizeObserver !== 'undefined' && stageEl
+        ? new ResizeObserver(() => measureNodePositions())
+        : null;
+    if (ro && stageEl) ro.observe(stageEl);
+
     window.addEventListener('resize', measureNodePositions);
     return () => {
-      window.clearTimeout(timer);
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      ro?.disconnect();
       window.removeEventListener('resize', measureNodePositions);
     };
-  }, [browseMode, searchQuery, statusFilter, zoomTier, inspectedStory, measureNodePositions]);
+  }, [browseMode, searchQuery, statusFilter, mobileChronoCanvas, measureNodePositions]);
 
   // 마우스 드래그 캔버스 이동 (GPU 직접 제어 + 관성 감속 물리)
   useEffect(() => {
@@ -1429,9 +1447,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     if (!inspectedStory) return [];
     return terraRegions.filter((r) => r.relatedStoryIds.includes(inspectedStory.id));
   }, [inspectedStory]);
-
-  const isSemanticMacro = zoomTier === 'macro';
-  const isSemanticCompact = zoomTier !== 'detail';
 
   const cycleMobileStatusFilter = () => {
     playClickSound();
@@ -2453,9 +2468,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               <div
                 ref={stageRef}
                 className="absolute left-0 top-0 origin-top-left will-change-transform"
-                style={{
-                  transform: 'translate3d(36px, 24px, 0) scale(0.88)',
-                }}
+                style={
+                  {
+                    transform: 'translate3d(36px, 24px, 0) scale(0.88)',
+                    '--prts-splash-fade': '1',
+                    '--prts-meta-fade': '1',
+                  } as React.CSSProperties
+                }
               >
                 {/* SVG CONSTELLATION OVERLAY (서사 직계 및 교차 인과 연결선 - z-30 반투명 상단 오버레이 + 행간 통로 우회 라우팅) */}
                 <svg
@@ -2731,16 +2750,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           borderLeftColor: accentColor,
                                           borderLeftWidth: '3px',
                                         }}
-                                        className={`group relative rounded-[2px] border transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between ${
-                                          isSemanticMacro
-                                            ? 'w-40 min-h-[48px] p-2'
-                                            : isSemanticCompact
-                                            ? 'w-44 min-h-[68px] p-2.5'
-                                            : lane.isCompactLane || story.isOmnibus
-                                            ? 'w-48 min-h-[96px] p-2.5'
+                                        className={`group relative rounded-[2px] border transition-[background-color,border-color,opacity,transform,filter] duration-200 cursor-pointer overflow-hidden flex flex-col justify-between ${
+                                          lane.isCompactLane || story.isOmnibus
+                                            ? 'w-48 h-[96px] p-2.5'
                                             : isCore
-                                            ? 'w-56 min-h-[118px] p-3'
-                                            : 'w-52 min-h-[110px] p-3'
+                                            ? 'w-56 h-[118px] p-3'
+                                            : 'w-52 h-[110px] p-3'
                                         } ${
                                           isDimmed
                                             ? 'opacity-20 saturate-50 hover:opacity-90 hover:saturate-100'
@@ -2757,9 +2772,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                             : 'bg-[#111215] border-white/[0.08] hover:border-white/25'
                                         }`}
                                       >
-                                        {/* 배경 스플래시 이미지 (시맨틱 상세 모드일 때만 표시) */}
-                                        {!isSemanticCompact && story.splashVisualUrl && !isLocked && (
-                                          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                        {/* 배경 스플래시 이미지 (연속 광학 페이드 — 줌아웃 시 부드럽게 디졸브) */}
+                                        {story.splashVisualUrl && !isLocked && (
+                                          <div
+                                            style={{ opacity: 'var(--prts-splash-fade, 1)' }}
+                                            className="absolute inset-0 overflow-hidden pointer-events-none"
+                                          >
                                             <img
                                               src={resolveAssetUrl(story.splashVisualUrl)}
                                               alt=""
@@ -2791,11 +2809,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           </span>
 
                                           <div className="flex items-center gap-1">
-                                            {!isSemanticMacro && story.isOmnibus && (
-                                              <FilmReelIcon
-                                                className="w-3.5 h-3.5 text-zinc-300"
-                                                title="옴니버스 단편"
-                                              />
+                                            {story.isOmnibus && (
+                                              <span style={{ opacity: 'var(--prts-meta-fade, 1)' }}>
+                                                <FilmReelIcon
+                                                  className="w-3.5 h-3.5 text-zinc-300"
+                                                  title="옴니버스 단편"
+                                                />
+                                              </span>
                                             )}
                                             {isRestored && (
                                               <span
@@ -2810,32 +2830,30 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
                                         {/* 중단: 한글 타이틀 & 영문 서브타이틀 */}
                                         <div className="relative z-10 my-auto py-0.5">
-                                          <div
-                                            className={`${
-                                              isSemanticMacro ? 'text-[11px]' : 'text-xs sm:text-[13px]'
-                                            } font-bold text-white group-hover:text-[#f5dd1b] transition-colors leading-snug truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]`}
-                                          >
+                                          <div className="text-xs sm:text-[13px] font-bold text-white group-hover:text-[#f5dd1b] transition-colors leading-snug truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
                                             {story.titleKo}
                                           </div>
-                                          {!isSemanticCompact && (
-                                            <div className="text-[10px] font-mono text-zinc-400 truncate mt-0.5">
-                                              {story.titleEn}
-                                            </div>
-                                          )}
+                                          <div
+                                            style={{ opacity: 'var(--prts-meta-fade, 1)' }}
+                                            className="text-[10px] font-mono text-zinc-400 truncate mt-0.5"
+                                          >
+                                            {story.titleEn}
+                                          </div>
                                         </div>
 
                                         {/* 하단: 타임라인 연도 및 서사 소속 */}
-                                        {!isSemanticCompact && (
-                                          <div className="relative z-10 pt-1 border-t border-white/[0.08] flex items-center justify-between gap-1.5 text-[10px] font-mono">
-                                            <span className="text-zinc-300 truncate">{cleanTimeline}</span>
-                                            <span
-                                              className="text-[9.5px] font-bold flex-shrink-0"
-                                              style={{ color: accentColor }}
-                                            >
-                                              {shortLineTitle}
-                                            </span>
-                                          </div>
-                                        )}
+                                        <div
+                                          style={{ opacity: 'var(--prts-meta-fade, 1)' }}
+                                          className="relative z-10 pt-1 border-t border-white/[0.08] flex items-center justify-between gap-1.5 text-[10px] font-mono"
+                                        >
+                                          <span className="text-zinc-300 truncate">{cleanTimeline}</span>
+                                          <span
+                                            className="text-[9.5px] font-bold flex-shrink-0"
+                                            style={{ color: accentColor }}
+                                          >
+                                            {shortLineTitle}
+                                          </span>
+                                        </div>
                                       </div>
                                     );
                                   })}
