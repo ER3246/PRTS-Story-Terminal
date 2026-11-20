@@ -361,116 +361,115 @@ export const ChronicleEraStream: React.FC<ChronicleEraStreamProps> = ({
   // EDITORIAL SINGLE-AXIS TIMELINE STREAM (Default View)
   // =========================================================================
   return (
-    <div className="flex-1 flex min-h-0 overflow-hidden bg-[#0b0c0f] relative">
-      {/* Left Fixed Chronology Rail (Desktop >= lg — Always stays locked during scroll) */}
-      <aside className="hidden lg:flex w-64 xl:w-72 flex-shrink-0 border-r border-white/[0.08] bg-[#0d0f14]/90 overflow-y-auto overscroll-contain prts-scrollbar p-5 flex-col gap-5 select-none">
-        <div className="rounded-[2px] bg-[#101217] border border-white/[0.08] p-3.5 space-y-2.5">
-          <div className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase flex items-center justify-between">
-            <span>EPOCH SPINE</span>
-            <span className="text-[#f5dd1b]">{stories.length}편</span>
-          </div>
+    <div
+      ref={scrollContainerRef}
+      className="flex-1 min-h-0 overflow-y-auto overscroll-contain bg-[#0b0c0f] prts-scrollbar relative"
+    >
+      {/* Mobile Compact Era Jump Strip (< lg) */}
+      <div className="lg:hidden sticky top-0 z-20 bg-[#0d0e13]/95 backdrop-blur-md border-b border-white/[0.08] px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+        {visibleEras.map((era) => {
+          const active = activeEraId === era.id;
+          return (
+            <button
+              key={`mob-era-${era.id}`}
+              type="button"
+              onClick={() => scrollToEra(era.id)}
+              className={`px-2.5 py-1 rounded-[2px] border text-[10.5px] font-mono flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                active
+                  ? 'bg-[#1a1c24] border-[#f5dd1b] text-white font-bold'
+                  : 'bg-[#12141a] border-white/[0.08] text-zinc-400'
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: era.color }} />
+              <span>{era.code}</span>
+              <span className="text-zinc-500">{era.yearMark}</span>
+            </button>
+          );
+        })}
+      </div>
 
-          <div className="relative pl-3 space-y-1 border-l border-white/[0.12]">
-            {visibleEras.map((era) => {
-              const count = storiesByEra.get(era.id)?.length ?? 0;
-              const active = activeEraId === era.id;
-              return (
-                <button
-                  key={`spine-${era.id}`}
-                  type="button"
-                  onClick={() => scrollToEra(era.id)}
-                  className={`w-full text-left px-2.5 py-2 rounded-[2px] transition-colors cursor-pointer relative group ${
-                    active
-                      ? 'bg-white/[0.07] text-white'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.03]'
-                  }`}
-                >
-                  <span
-                    className={`absolute -left-[16.5px] top-3 w-2 h-2 rounded-full border transition-transform ${
-                      active ? 'scale-125 border-white' : 'border-[#0b0c0f]'
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-7 flex items-start gap-8">
+        {/* Left Sticky Chronology Spine (Desktop >= lg — nestled next to story list & follows scroll) */}
+        <aside className="hidden lg:flex w-56 xl:w-60 flex-shrink-0 sticky top-5 self-start max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain prts-scrollbar flex-col gap-5 select-none">
+          <div className="rounded-[2px] bg-[#101217] border border-white/[0.08] p-3.5 space-y-2.5">
+            <div className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase flex items-center justify-between">
+              <span>EPOCH SPINE</span>
+              <span className="text-[#f5dd1b]">{stories.length}편</span>
+            </div>
+
+            <div className="relative pl-3 space-y-1 border-l border-white/[0.12]">
+              {visibleEras.map((era) => {
+                const count = storiesByEra.get(era.id)?.length ?? 0;
+                const active = activeEraId === era.id;
+                return (
+                  <button
+                    key={`spine-${era.id}`}
+                    type="button"
+                    onClick={() => scrollToEra(era.id)}
+                    className={`w-full text-left px-2.5 py-2 rounded-[2px] transition-colors cursor-pointer relative group ${
+                      active
+                        ? 'bg-white/[0.07] text-white'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.03]'
                     }`}
-                    style={{ backgroundColor: era.color }}
-                  />
-                  <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className={active ? 'text-[#f5dd1b] font-bold' : 'text-zinc-400'}>
-                      {era.yearMark} · {era.code}
-                    </span>
-                    <span className="text-zinc-500">{count}</span>
-                  </div>
-                  <div className="text-xs font-semibold truncate mt-0.5">
-                    {era.titleKo}
-                  </div>
-                </button>
-              );
-            })}
+                  >
+                    <span
+                      className={`absolute -left-[16.5px] top-3 w-2 h-2 rounded-full border transition-transform ${
+                        active ? 'scale-125 border-white' : 'border-[#0b0c0f]'
+                      }`}
+                      style={{ backgroundColor: era.color }}
+                    />
+                    <div className="flex items-center justify-between text-[10px] font-mono">
+                      <span className={active ? 'text-[#f5dd1b] font-bold' : 'text-zinc-400'}>
+                        {era.yearMark} · {era.code}
+                      </span>
+                      <span className="text-zinc-500">{count}</span>
+                    </div>
+                    <div className="text-xs font-semibold truncate mt-0.5">
+                      {era.titleKo}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Series Quick Filter Shortcuts */}
-        <div className="rounded-[2px] bg-[#101217] border border-white/[0.08] p-3.5 space-y-2">
-          <div className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase flex items-center gap-1.5">
-            <Compass className="w-3 h-3 text-[#f5dd1b]" />
-            <span>핵심 서사 계보</span>
+          {/* Series Quick Filter Shortcuts */}
+          <div className="rounded-[2px] bg-[#101217] border border-white/[0.08] p-3.5 space-y-2">
+            <div className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase flex items-center gap-1.5">
+              <Compass className="w-3 h-3 text-[#f5dd1b]" />
+              <span>핵심 서사 계보</span>
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {STREAM_SHORTCUT_LINES.map((sc) => {
+                const isSelected = focusedLineId === sc.id;
+                return (
+                  <button
+                    key={`sc-${sc.id || 'all'}`}
+                    type="button"
+                    onClick={() => {
+                      playClickSound();
+                      onChangeFocusedLine(isSelected && sc.id !== null ? null : sc.id);
+                    }}
+                    className={`px-2 py-1 rounded-[2px] border text-[11px] font-medium flex items-center gap-1.5 transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'bg-zinc-100 text-black border-zinc-100 font-bold'
+                        : 'bg-[#15171e] border-white/[0.07] text-zinc-300 hover:border-white/25 hover:text-white'
+                    }`}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-[1px]"
+                      style={{ backgroundColor: isSelected ? '#0b0c0f' : sc.color }}
+                    />
+                    <span>{sc.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-1">
-            {STREAM_SHORTCUT_LINES.map((sc) => {
-              const isSelected = focusedLineId === sc.id;
-              return (
-                <button
-                  key={`sc-${sc.id || 'all'}`}
-                  type="button"
-                  onClick={() => {
-                    playClickSound();
-                    onChangeFocusedLine(isSelected && sc.id !== null ? null : sc.id);
-                  }}
-                  className={`px-2 py-1 rounded-[2px] border text-[11px] font-medium flex items-center gap-1.5 transition-colors cursor-pointer ${
-                    isSelected
-                      ? 'bg-zinc-100 text-black border-zinc-100 font-bold'
-                      : 'bg-[#15171e] border-white/[0.07] text-zinc-300 hover:border-white/25 hover:text-white'
-                  }`}
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-[1px]"
-                    style={{ backgroundColor: isSelected ? '#0b0c0f' : sc.color }}
-                  />
-                  <span>{sc.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </aside>
-
-      {/* Right Independent Scroll Viewport */}
-      <div
-        ref={scrollContainerRef}
-        className="flex-1 min-w-0 overflow-y-auto overscroll-contain prts-scrollbar relative"
-      >
-        {/* Mobile Compact Era Jump Strip (< lg) */}
-        <div className="lg:hidden sticky top-0 z-20 bg-[#0d0e13]/95 backdrop-blur-md border-b border-white/[0.08] px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          {visibleEras.map((era) => {
-            const active = activeEraId === era.id;
-            return (
-              <button
-                key={`mob-era-${era.id}`}
-                type="button"
-                onClick={() => scrollToEra(era.id)}
-                className={`px-2.5 py-1 rounded-[2px] border text-[10.5px] font-mono flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
-                  active
-                    ? 'bg-[#1a1c24] border-[#f5dd1b] text-white font-bold'
-                    : 'bg-[#12141a] border-white/[0.08] text-zinc-400'
-                }`}
-              >
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: era.color }} />
-                <span>{era.code}</span>
-                <span className="text-zinc-500">{era.yearMark}</span>
-              </button>
-            );
-          })}
-        </div>
+        </aside>
 
         {/* Right Editorial Era Stream Chapters */}
-        <div className="max-w-5xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-7 space-y-12 pb-16">
+        <div className="flex-1 min-w-0 space-y-12 pb-16">
           {visibleEras.length === 0 ? (
             <div className="rounded-[2px] border border-white/[0.08] bg-[#111217] p-12 text-center space-y-2">
               <Sparkles className="w-6 h-6 text-zinc-500 mx-auto" />
