@@ -18,6 +18,7 @@ import {
   RotateCcw,
   X,
   Compass,
+  GitBranch,
   ChevronRight,
   ChevronUp,
   ChevronDown,
@@ -37,6 +38,9 @@ import { resolveAssetUrl } from '../utils/assetUrl';
 
 interface TerraMapViewProps {
   onSelectStory: (id: string) => void;
+  initialFocusRegionId?: string | null;
+  onConsumeInitialRegion?: () => void;
+  onNavigateToChronicleStory?: (storyId: string) => void;
   isHeaderCollapsed?: boolean;
   onToggleHeaderCollapse?: () => void;
 }
@@ -559,6 +563,9 @@ interface MobilePreviewCardData {
 
 export const TerraMapView: React.FC<TerraMapViewProps> = ({
   onSelectStory,
+  initialFocusRegionId,
+  onConsumeInitialRegion,
+  onNavigateToChronicleStory,
   isHeaderCollapsed,
   onToggleHeaderCollapse,
 }) => {
@@ -778,6 +785,20 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     [regionLookup, flyToPixelCoords, viewMode]
   );
 
+  // 외부 뷰(연대기/커맨드 팔레트)에서 특정 권역 포커스 요청 수신 시 1회 이동
+  useEffect(() => {
+    if (!initialFocusRegionId) return;
+    if (!regionLookup.has(initialFocusRegionId)) {
+      onConsumeInitialRegion?.();
+      return;
+    }
+    const raf = requestAnimationFrame(() => {
+      handleSelectRegion(initialFocusRegionId);
+      onConsumeInitialRegion?.();
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [initialFocusRegionId, regionLookup, handleSelectRegion, onConsumeInitialRegion]);
+
   const handleToggleViewMode = (mode: '3d' | '2d') => {
     playTabSwitchSound();
     setViewMode(mode);
@@ -832,9 +853,10 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     const width = container.clientWidth || 1200;
     const height = container.clientHeight || 800;
 
-    // 1. Scene
+    // 1. Scene & Atmospheric Depth Fog
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#0b0c0e');
+    scene.background = new THREE.Color('#0a0b0e');
+    scene.fog = new THREE.FogExp2(0x0a0b0e, 0.00068);
 
     // 2. Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 5, 2600);
@@ -849,19 +871,18 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.12;
+    renderer.toneMappingExposure = 1.1;
     renderer.domElement.style.touchAction = 'none';
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
-    // 4. Balanced Glare-Free Studio & Tactical Lighting
-    // High-altitude neutral key light casts soft topographic shadows without harsh angled glare
-    const hemiLight = new THREE.HemisphereLight(0xe4e4e7, 0x111215, 1.42);
+    // 4. Balanced Glare-Free Studio & Architectural Relief Lighting
+    const hemiLight = new THREE.HemisphereLight(0xe4e4e7, 0x0d0f14, 1.38);
     hemiLight.position.set(0, 500, 0);
     scene.add(hemiLight);
 
-    const keyLight = new THREE.DirectionalLight(0xf8fafc, 1.38);
-    keyLight.position.set(145, 520, 185);
+    const keyLight = new THREE.DirectionalLight(0xfafaf9, 1.44);
+    keyLight.position.set(145, 540, 185);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 2048;
     keyLight.shadow.mapSize.height = 2048;
@@ -876,54 +897,72 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     keyLight.shadow.normalBias = 0.02;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xa1a1aa, 0.35);
+    const rimLight = new THREE.DirectionalLight(0x94a3b8, 0.42);
     rimLight.position.set(-280, 260, -240);
     scene.add(rimLight);
 
-    // 5. Sub-Continental Tactical Hologram Base Grid & Polar Rings
+    // 5. Matte Bathymetric Drafting Ocean Shader & Tactical Range Rings
     const baseGroup = new THREE.Group();
     scene.add(baseGroup);
 
-    const seaFloorGeo = new THREE.CircleGeometry(525, 64);
+    const oceanUniforms = {
+      uTime: { value: 0 },
+    };
+
+    const seaFloorGeo = new THREE.CircleGeometry(660, 96);
     seaFloorGeo.rotateX(-Math.PI / 2);
-    const seaFloorMat = new THREE.MeshStandardMaterial({
-      color: 0x090a0c,
-      roughness: 0.9,
-      metalness: 0.1,
+    const seaFloorMat = new THREE.ShaderMaterial({
+      uniforms: oceanUniforms,
+      vertexShader: `
+        varying vec3 vWorldPos;
+        void main() {
+          vec4 wp = modelMatrix * vec4(position, 1.0);
+          vWorldPos = wp.xyz;
+          gl_Position = projectionMatrix * viewMatrix * wp;
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        varying vec3 vWorldPos;
+        void main() {
+          float r = length(vWorldPos.xz);
+          float fade = 1.0 - smoothstep(420.0, 650.0, r);
+
+          // Subtle matte bathymetric drift
+          float swell = sin(vWorldPos.x * 0.018 + uTime * 0.35) * cos(vWorldPos.z * 0.018 - uTime * 0.25);
+          vec3 abyss = vec3(0.038, 0.041, 0.050);
+          vec3 shelf = vec3(0.056, 0.062, 0.075);
+          vec3 col = mix(abyss, shelf, 0.42 + 0.22 * swell);
+
+          // Fine 64u drafting grid + 256u major datum lines (guarded against zero fwidth)
+          vec2 coordMinor = vWorldPos.xz / 64.0;
+          vec2 g1 = abs(fract(coordMinor - 0.5) - 0.5) / max(fwidth(coordMinor), vec2(0.0005));
+          float lineMinor = 1.0 - min(min(g1.x, g1.y), 1.0);
+          vec2 coordMajor = vWorldPos.xz / 256.0;
+          vec2 g2 = abs(fract(coordMajor - 0.5) - 0.5) / max(fwidth(coordMajor), vec2(0.0005));
+          float lineMajor = 1.0 - min(min(g2.x, g2.y), 1.0);
+
+          col = mix(col, vec3(0.11, 0.125, 0.155), lineMinor * 0.26 * fade);
+          col = mix(col, vec3(0.16, 0.18, 0.22), lineMajor * 0.42 * fade);
+
+          // Concentric cartography range rings
+          float ring1 = 1.0 - smoothstep(0.0, 1.3, abs(r - 240.0));
+          float ring2 = 1.0 - smoothstep(0.0, 1.4, abs(r - 365.0));
+          float outerRing = 1.0 - smoothstep(0.0, 1.8, abs(r - 466.0));
+          col = mix(col, vec3(0.19, 0.21, 0.25), (ring1 + ring2) * 0.32 * fade);
+          col = mix(col, vec3(0.96, 0.86, 0.11), outerRing * 0.14 * fade);
+
+          // Blend periphery cleanly into fog background (#0a0b0e)
+          vec3 bg = vec3(0.039, 0.043, 0.055);
+          col = mix(bg, col, fade);
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `,
+      depthWrite: true,
     });
     const seaFloor = new THREE.Mesh(seaFloorGeo, seaFloorMat);
-    seaFloor.position.y = -0.2;
-    seaFloor.receiveShadow = true;
+    seaFloor.position.y = -0.25;
     baseGroup.add(seaFloor);
-
-    const polarGrid = new THREE.PolarGridHelper(520, 16, 8, 96, 0x22252c, 0x15171c);
-    polarGrid.position.set(0, -0.1, 0);
-    baseGroup.add(polarGrid);
-
-    const ringGeo = new THREE.RingGeometry(465, 467.5, 128);
-    ringGeo.rotateX(-Math.PI / 2);
-    const ringMat = new THREE.MeshBasicMaterial({
-      color: 0xf5dd1b,
-      transparent: true,
-      opacity: 0.12,
-      side: THREE.DoubleSide,
-    });
-    const outerRing = new THREE.Mesh(ringGeo, ringMat);
-    outerRing.position.y = 0.05;
-    baseGroup.add(outerRing);
-
-    const sweepGeo = new THREE.CircleGeometry(464, 48, 0, Math.PI / 5);
-    sweepGeo.rotateX(-Math.PI / 2);
-    const sweepMat = new THREE.MeshBasicMaterial({
-      color: 0xd4d4d8,
-      transparent: true,
-      opacity: 0.018,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-    });
-    const radarSweep = new THREE.Mesh(sweepGeo, sweepMat);
-    radarSweep.position.y = 0.1;
-    baseGroup.add(radarSweep);
 
     // 6. High-Detail 2-Tier Beveled Hexagonal Prism Geometry + PBR Material
     const hexCount = terraHexCells.length;
@@ -978,8 +1017,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
     const hexMat = new THREE.MeshStandardMaterial({
       vertexColors: true,
-      roughness: 0.62,
-      metalness: 0.16,
+      roughness: 0.68,
+      metalness: 0.12,
     });
 
     const instancedHex = new THREE.InstancedMesh(hexGeo, hexMat, hexCount);
@@ -995,6 +1034,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
     const tempColor = new THREE.Color();
     const goldColor = new THREE.Color('#f5dd1b');
     const cyanColor = new THREE.Color('#e4e4e7');
+    const dimmedColor = new THREE.Color('#13161b');
     const snowColor = new THREE.Color('#e2e8f0');
     const alpineRockColor = new THREE.Color('#64748b');
     const volcanicGlowColor = new THREE.Color('#9a3412');
@@ -1096,12 +1136,17 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       });
     });
 
-    // 8. 3D City Beacons (Vertical Laser Beams + Floating Octahedrons anchored to exact terrain height)
+    // 8. Static Architectural City Pins (Terrain-anchored rings, hairline stems & flat diamond cap plates)
     const cityGroup = new THREE.Group();
     scene.add(cityGroup);
-    const cityCrystals: THREE.Mesh[] = [];
 
-    const crystalGeo = new THREE.OctahedronGeometry(2.2, 0);
+    const capPlateGeo = new THREE.CylinderGeometry(1.45, 1.45, 0.35, 4);
+    capPlateGeo.rotateY(Math.PI / 4);
+    const majorBaseRingGeo = new THREE.RingGeometry(2.5, 3.15, 24);
+    majorBaseRingGeo.rotateX(-Math.PI / 2);
+    const minorBaseRingGeo = new THREE.RingGeometry(1.6, 2.05, 20);
+    minorBaseRingGeo.rotateX(-Math.PI / 2);
+
     terraCities.forEach((city) => {
       const wx = city.pixelCoords.x - MAP_CENTER_X;
       const wz = city.pixelCoords.y - MAP_CENTER_Y;
@@ -1109,37 +1154,50 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
 
       const isRhodes = city.type === 'rhodes';
       const isCapital = city.type === 'capital';
+      const isMajor = isRhodes || isCapital;
       const beaconColor = isRhodes ? 0xf4f4f5 : isCapital ? 0xf5dd1b : 0x71717a;
+      const stemHeight = isMajor ? 18 : 11.5;
 
-      const beamPts = [
-        new THREE.Vector3(wx, baseElev, wz),
-        new THREE.Vector3(wx, baseElev + (isCapital || isRhodes ? 19 : 12), wz),
-      ];
-      const beamGeo = new THREE.BufferGeometry().setFromPoints(beamPts);
-      const beamMat = new THREE.LineBasicMaterial({
+      const baseRingMat = new THREE.MeshBasicMaterial({
         color: beaconColor,
         transparent: true,
-        opacity: isCapital || isRhodes ? 0.72 : 0.42,
+        opacity: isMajor ? 0.55 : 0.32,
+        side: THREE.DoubleSide,
       });
-      cityGroup.add(new THREE.Line(beamGeo, beamMat));
+      const baseRing = new THREE.Mesh(isMajor ? majorBaseRingGeo : minorBaseRingGeo, baseRingMat);
+      baseRing.position.set(wx, baseElev + 0.16, wz);
+      cityGroup.add(baseRing);
 
-      const cMat = new THREE.MeshBasicMaterial({
+      const stemPts = [
+        new THREE.Vector3(wx, baseElev, wz),
+        new THREE.Vector3(wx, baseElev + stemHeight, wz),
+      ];
+      const stemGeo = new THREE.BufferGeometry().setFromPoints(stemPts);
+      const stemMat = new THREE.LineBasicMaterial({
         color: beaconColor,
-        wireframe: !isRhodes && !isCapital,
+        transparent: true,
+        opacity: isMajor ? 0.68 : 0.4,
       });
-      const crystal = new THREE.Mesh(crystalGeo, cMat);
-      crystal.position.set(wx, baseElev + (isCapital || isRhodes ? 20.5 : 13.5), wz);
-      if (!isCapital && !isRhodes) crystal.scale.setScalar(0.68);
-      cityGroup.add(crystal);
-      cityCrystals.push(crystal);
+      cityGroup.add(new THREE.Line(stemGeo, stemMat));
+
+      const capMat = new THREE.MeshBasicMaterial({
+        color: beaconColor,
+        transparent: true,
+        opacity: isMajor ? 0.92 : 0.72,
+      });
+      const capPlate = new THREE.Mesh(capPlateGeo, capMat);
+      capPlate.position.set(wx, baseElev + stemHeight + 0.25, wz);
+      if (!isMajor) capPlate.scale.setScalar(0.72);
+      cityGroup.add(capPlate);
     });
 
-    // 9. 3D Parabolic Operational Route Arcs (QuadraticBezierCurve3 anchored to terrain height)
+    // 9. 3D TubeGeometry Parabolic Route Ribbons + Terrain Anchor Rings
     const routesGroup = new THREE.Group();
     scene.add(routesGroup);
     interface RouteArcEntry {
       route: TacticalRouteArc;
-      lineMat: THREE.LineBasicMaterial;
+      tubeMat: THREE.MeshBasicMaterial;
+      anchorMat: THREE.MeshBasicMaterial;
       pulseMesh: THREE.Mesh;
       pulseMat: THREE.MeshBasicMaterial;
       curve: THREE.QuadraticBezierCurve3;
@@ -1148,7 +1206,9 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       speed: number;
     }
     const routeEntries: RouteArcEntry[] = [];
-    const pulseGeo = new THREE.SphereGeometry(1.8, 10, 10);
+    const pulseGeo = new THREE.SphereGeometry(1.35, 10, 10);
+    const routeAnchorGeo = new THREE.RingGeometry(1.85, 2.55, 24);
+    routeAnchorGeo.rotateX(-Math.PI / 2);
 
     TACTICAL_ROUTES.forEach((rt, rIdx) => {
       const x1 = rt.fromPixel.x - MAP_CENTER_X;
@@ -1168,14 +1228,25 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         new THREE.Vector3(x2, y2, z2)
       );
 
-      const points = curve.getPoints(44);
-      const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
-      const lineMat = new THREE.LineBasicMaterial({
+      const tubeGeo = new THREE.TubeGeometry(curve, 44, 0.55, 6, false);
+      const tubeMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(rt.color),
         transparent: true,
-        opacity: 0.72,
+        opacity: 0.68,
       });
-      routesGroup.add(new THREE.Line(arcGeo, lineMat));
+      routesGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
+
+      const anchorMat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(rt.color),
+        transparent: true,
+        opacity: 0.55,
+        side: THREE.DoubleSide,
+      });
+      const startAnchor = new THREE.Mesh(routeAnchorGeo, anchorMat);
+      startAnchor.position.set(x1, y1 - 1.75, z1);
+      const endAnchor = new THREE.Mesh(routeAnchorGeo, anchorMat);
+      endAnchor.position.set(x2, y2 - 1.75, z2);
+      routesGroup.add(startAnchor, endAnchor);
 
       const pulseMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(rt.color),
@@ -1186,7 +1257,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       routesGroup.add(pulseMesh);
       routeEntries.push({
         route: rt,
-        lineMat,
+        tubeMat,
+        anchorMat,
         pulseMesh,
         pulseMat,
         curve,
@@ -1736,10 +1808,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         telemetryYawTextRef.current.textContent = `${normalizedYaw}°`;
       }
 
-      radarSweep.rotation.y -= 0.008;
-      cityCrystals.forEach((cr) => {
-        cr.rotation.y += 0.025;
-      });
+      oceanUniforms.uTime.value = performance.now() * 0.001;
       cityGroup.visible = !is2D && (showCitiesRef.current ?? true);
 
       const pinnedId = pinnedRegionRef.current;
@@ -1753,7 +1822,8 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         routeEntries.forEach((re) => {
           const matchesCategory = activeRouteFilter === 'all' || re.route.category === activeRouteFilter;
           const isRelevant = matchesCategory && (!pinnedId || re.route.regionIds.includes(pinnedId));
-          re.lineMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.92 : 0.72) : 0.1;
+          re.tubeMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.92 : 0.68) : 0.08;
+          re.anchorMat.opacity = !matchesCategory ? 0 : isRelevant ? (pinnedId ? 0.85 : 0.55) : 0.06;
           re.pulseMat.opacity = !matchesCategory ? 0 : isRelevant ? 0.95 : 0.12;
           re.pulseMesh.visible = matchesCategory;
           if (matchesCategory) {
@@ -1776,7 +1846,6 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         const cell = terraHexCells[i];
         const isCellPinned = Boolean(pinnedId && cell.regionId === pinnedId);
         const isCellHovered = Boolean(currentHoveredId && cell.regionId === currentHoveredId);
-        const isCellActive = isCellPinned || isCellHovered;
 
         const baseH = effectiveShowElevation ? CELL_TERRAIN_HEIGHTS[i] : 0.6;
         const uniformLift = is2D ? 0 : (isCellPinned ? 6.5 : isCellHovered ? 4.2 : 0);
@@ -1793,8 +1862,14 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         }
 
         if (shouldUpdateColors) {
-          if (isCellActive) {
-            tempColor.copy(cellBaseColors[i]).lerp(isCellPinned ? goldColor : cyanColor, 0.38);
+          if (isCellPinned) {
+            tempColor.copy(cellBaseColors[i]).lerp(goldColor, 0.28);
+            instancedHex.setColorAt(i, tempColor);
+          } else if (isCellHovered) {
+            tempColor.copy(cellBaseColors[i]).lerp(cyanColor, 0.34);
+            instancedHex.setColorAt(i, tempColor);
+          } else if (pinnedId) {
+            tempColor.copy(cellBaseColors[i]).lerp(dimmedColor, 0.68);
             instancedHex.setColorAt(i, tempColor);
           } else {
             instancedHex.setColorAt(i, cellBaseColors[i]);
@@ -1825,7 +1900,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           bObj.mat.opacity = 0.95;
         } else {
           bObj.mat.color.copy(bObj.defaultColor);
-          bObj.mat.opacity = 0.62;
+          bObj.mat.opacity = pinnedId ? 0.14 : 0.62;
         }
       });
 
@@ -1862,7 +1937,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
           const sy = -projVec.y * halfH + halfH;
           const regScale = isShortViewport ? zoomScale * 0.88 : zoomScale;
           pinEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${regScale})`;
-          pinEl.style.opacity = '1';
+          pinEl.style.opacity = pinnedId ? (isPin ? '1' : isHov ? '0.88' : '0.32') : '1';
           pinEl.style.pointerEvents = 'auto';
         }
       });
@@ -1882,20 +1957,22 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
         projVec.set(wx, wy, wz).project(camera);
         if (projVec.z > 1) {
           cEl.style.opacity = '0';
+          cEl.style.pointerEvents = 'none';
         } else {
           const sx = projVec.x * halfW + halfW;
           const sy = -projVec.y * halfH + halfH;
           const cityScale = (isCapitalOrRhodes || isPin || isHov ? zoomScale : zoomScale * 0.92) * (isShortViewport ? 0.82 : 1.0);
           cEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%) scale(${cityScale})`;
           if (pinnedId) {
-            cEl.style.opacity = isPin ? '1' : '0.18';
+            cEl.style.opacity = isPin ? '1' : '0.12';
+            cEl.style.pointerEvents = isPin ? 'auto' : 'none';
           } else {
-            // When in compact landscape and camera is zoomed out, hide non-capital minor cities to prevent text soup
-            if (isShortViewport && cam.currentRadius > 430 && !isCapitalOrRhodes && !isHov) {
+            const hideMinorAtOverview = !isCapitalOrRhodes && !isHov && (cam.currentRadius > 590 || (isShortViewport && cam.currentRadius > 430));
+            if (hideMinorAtOverview) {
               cEl.style.opacity = '0';
               cEl.style.pointerEvents = 'none';
             } else {
-              cEl.style.opacity = isCapitalOrRhodes || isHov || cam.currentRadius < 510 ? '1' : '0.78';
+              cEl.style.opacity = isCapitalOrRhodes || isHov || cam.currentRadius < 510 ? '0.96' : '0.78';
               cEl.style.pointerEvents = 'auto';
             }
           }
@@ -1969,6 +2046,19 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
       window.removeEventListener('pointerup', handleWindowPointerUp);
       window.removeEventListener('pointercancel', handleWindowBlur);
       window.removeEventListener('blur', handleWindowBlur);
+      scene.traverse((obj) => {
+        if ('geometry' in obj && obj.geometry instanceof THREE.BufferGeometry) {
+          obj.geometry.dispose();
+        }
+        if ('material' in obj && obj.material) {
+          const mat = obj.material as THREE.Material | THREE.Material[];
+          if (Array.isArray(mat)) {
+            mat.forEach((m) => m.dispose());
+          } else {
+            mat.dispose();
+          }
+        }
+      });
       renderer.dispose();
     };
   }, [regionLookup, handleSelectRegion]);
@@ -3305,7 +3395,7 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                     관련 스토리가 없습니다.
                   </div>
                 ) : (
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     {pinnedRegionStories.map((st) => {
                       const state = getStoryAccessState(st);
                       const isRestored = state === 'available';
@@ -3319,32 +3409,70 @@ export const TerraMapView: React.FC<TerraMapViewProps> = ({
                             e.stopPropagation();
                             handleOpenStoryPopup(st.id);
                           }}
-                          className={`group relative p-3 rounded-[2px] border transition-colors cursor-pointer flex items-center justify-between gap-3 ${
+                          className={`group relative p-2.5 rounded-[2px] border transition-colors cursor-pointer flex items-center justify-between gap-2.5 ${
                             isRestored
                               ? 'bg-[#16181d] border-[#f5dd1b]/35 hover:border-[#f5dd1b] hover:bg-[#1c1e24]'
                               : 'bg-[#141519] border-white/[0.07] hover:border-white/25 hover:bg-[#191b20]'
                           }`}
                         >
-                          <div className="min-w-0 space-y-0.5">
-                            <div className="flex items-center gap-2 font-mono text-[10px]">
-                              <span
-                                className={`px-1.5 py-0.2 rounded-[1px] font-bold ${
-                                  isRestored ? 'bg-[#f5dd1b] text-black' : 'bg-white/[0.08] text-zinc-300'
-                                }`}
-                              >
-                                {st.code}
-                              </span>
-                              <span className="text-zinc-500 truncate">{st.timeline}</span>
-                            </div>
-                            <div className="text-sm font-bold text-white group-hover:text-[#f5dd1b] transition-colors truncate">
-                              {st.titleKo}
-                            </div>
-                            <div className="text-[10px] font-mono text-zinc-500 truncate">
-                              {st.titleEn}
+                          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                            {st.splashVisualUrl && (
+                              <div className="w-16 h-11 rounded-[1px] overflow-hidden border border-white/10 bg-black flex-shrink-0">
+                                <img
+                                  src={resolveAssetUrl(st.splashVisualUrl)}
+                                  alt=""
+                                  loading="lazy"
+                                  decoding="async"
+                                  draggable={false}
+                                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                                  onError={(e) => {
+                                    const wrap = e.currentTarget.parentElement;
+                                    if (wrap) wrap.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+
+                            <div className="min-w-0 flex-1 space-y-0.5">
+                              <div className="flex items-center gap-1.5 font-mono text-[10px]">
+                                <span
+                                  className={`px-1.5 py-0.2 rounded-[1px] font-bold flex-shrink-0 ${
+                                    isRestored ? 'bg-[#f5dd1b] text-black' : 'bg-white/[0.08] text-zinc-300'
+                                  }`}
+                                >
+                                  {st.code}
+                                </span>
+                                <span className="text-zinc-500 truncate">{st.timeline}</span>
+                              </div>
+                              <div className="text-sm font-bold text-white group-hover:text-[#f5dd1b] transition-colors truncate">
+                                {st.titleKo}
+                              </div>
+                              <div className="text-[10px] font-mono text-zinc-500 truncate">
+                                {st.titleEn}
+                              </div>
                             </div>
                           </div>
 
-                          <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-[#f5dd1b] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            {onNavigateToChronicleStory && (
+                              <button
+                                type="button"
+                                onPointerDown={(e) => e.stopPropagation()}
+                                onPointerUp={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  playClickSound();
+                                  onNavigateToChronicleStory(st.id);
+                                }}
+                                className="h-6 px-1.5 rounded-[2px] bg-[#101114] hover:bg-[#f5dd1b] border border-white/[0.1] hover:border-[#f5dd1b] text-[10px] font-mono text-zinc-400 hover:text-black inline-flex items-center gap-1 transition-colors cursor-pointer"
+                                title="연대기 캔버스에서 위치 보기"
+                              >
+                                <GitBranch className="w-2.5 h-2.5" />
+                                <span>연대기</span>
+                              </button>
+                            )}
+                            <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-[#f5dd1b] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                          </div>
                         </div>
                       );
                     })}

@@ -33,6 +33,7 @@ import {
   X
 } from 'lucide-react';
 import { playTabSwitchSound, playClickSound, playOpenSound } from '../utils/soundEffects';
+import { saveReadingProgress } from '../utils/readingProgress';
 import { generateStoryMarkdown, downloadFile } from '../utils/exportMarkdown';
 import { AnimatePresence, motion } from 'framer-motion';
 import { PRTS_ACCORDION_CONTENT, PRTS_SPRING_SNAPPY } from '../utils/motion';
@@ -230,20 +231,125 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   };
 
   // =========================================================================
-  // 통합 하단 플로팅 네비게이션 독 (Floating Navigation Dock) 상태 및 연산
+  // 통합 하단 플로팅 네비게이션 독, 독서 진행도 저장 & Scroll-Spy 레일 상태
   // =========================================================================
   const [isPartDropupOpen, setIsPartDropupOpen] = useState<boolean>(false);
   const [showFloatingDock, setShowFloatingDock] = useState<boolean>(false);
+  const [activeTocId, setActiveTocId] = useState<string>('');
   const dropupRef = useRef<HTMLDivElement>(null);
+  const railPctRef = useRef<HTMLSpanElement>(null);
+  const readingBarRef = useRef<HTMLDivElement>(null);
+
+  const tocItems = useMemo(() => {
+    if (isMultiPart && !isOverview && currentArc?.stages && currentArc.stages.length > 0) {
+      return currentArc.stages.map((st) => ({
+        id: `stage-section-${st.stageCode}`,
+        code: st.stageCode,
+        label: st.title,
+        onJump: () => {
+          playClickSound();
+          setExpandedStages((prev) => ({ ...prev, [st.stageCode]: true }));
+          requestAnimationFrame(() => {
+            document.getElementById(`stage-section-${st.stageCode}`)?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          });
+        },
+      }));
+    }
+    if (!isOmnibus && !isMultiPart && activeTab === 'timeline' && story.content.acts.length > 0) {
+      return story.content.acts.map((act) => ({
+        id: `act-section-${act.step}`,
+        code: `0${act.step}`,
+        label: `${act.phase} · ${act.title}`,
+        onJump: () => {
+          playClickSound();
+          setExpandedActs((prev) => ({ ...prev, [act.step]: true }));
+          requestAnimationFrame(() => {
+            document.getElementById(`act-section-${act.step}`)?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          });
+        },
+      }));
+    }
+    return [];
+  }, [isMultiPart, isOmnibus, isOverview, activeTab, currentArc, story.content.acts]);
+
+  const effectiveActiveTocId =
+    activeTocId && tocItems.some((item) => item.id === activeTocId)
+      ? activeTocId
+      : tocItems[0]?.id ?? '';
 
   useEffect(() => {
-    const onScroll = () => {
+    let lastSavedAt = 0;
+    let latestRatio = 0;
+
+    const updateScrollAndProgress = (forceSave: boolean) => {
       setShowFloatingDock(window.scrollY > 260);
+      const docH = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const ratio = Math.min(1, Math.max(0, window.scrollY / docH));
+      latestRatio = ratio;
+      const pctStr = `${Math.round(ratio * 100)}%`;
+
+      if (railPctRef.current) railPctRef.current.textContent = pctStr;
+      if (readingBarRef.current) readingBarRef.current.style.width = pctStr;
+
+      const now = Date.now();
+      if (forceSave || now - lastSavedAt >= 600) {
+        lastSavedAt = now;
+        saveReadingProgress({
+          storyId: story.id,
+          subPageId: currentSubPageId,
+          scrollRatio: ratio,
+        });
+      }
     };
+
+    const onScroll = () => updateScrollAndProgress(false);
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [story.id, activeSubPageId]);
+    updateScrollAndProgress(true);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      saveReadingProgress({
+        storyId: story.id,
+        subPageId: currentSubPageId,
+        scrollRatio: latestRatio,
+      });
+    };
+  }, [story.id, currentSubPageId]);
+
+  useEffect(() => {
+    if (tocItems.length <= 1 || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) {
+          setActiveTocId(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-18% 0px -65% 0px', threshold: 0.05 }
+    );
+
+    const els: HTMLElement[] = [];
+    for (const item of tocItems) {
+      const el = document.getElementById(item.id);
+      if (el) {
+        observer.observe(el);
+        els.push(el);
+      }
+    }
+
+    return () => {
+      for (const el of els) observer.unobserve(el);
+      observer.disconnect();
+    };
+  }, [tocItems]);
 
   // 드롭업 팝오버 외부 클릭 및 ESC 키 감지 시 닫기
   useEffect(() => {
@@ -924,13 +1030,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
           {/* Official Scene CG (If available) */}
           {currentEpisode.cgUrl && currentEpisode.cgUrl.trim() !== '' && (
-            <div className="group relative rounded-[2px] border border-white/[0.09] bg-black overflow-hidden">
+            <div className="group relative rounded-[2px] border border-white/[0.11] bg-[#08090b] overflow-hidden shadow-lg">
               <CopyrightedImage
                 src={currentEpisode.cgUrl}
                 alt={currentEpisode.titleKo}
                 className="w-full h-auto object-cover max-h-[500px] transition-transform duration-500 group-hover:scale-[1.01]"
               />
-              <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs">
+              <div className="flex items-center justify-between px-4 py-2.5 bg-[#0d0e11] border-t border-white/[0.08] text-xs">
                 {currentEpisode.cgCaption ? (
                   <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
@@ -955,7 +1061,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
           {/* Episode Narrative Body */}
           <div className="p-6 sm:p-8 rounded-[2px] border border-white/[0.08] bg-[#121316] space-y-6">
-            <div className="text-[15px] sm:text-[15.5px] text-zinc-200 leading-[1.85] font-sans space-y-4.5 [word-break:keep-all] break-words">
+            <div className="max-w-[74ch] text-[15px] sm:text-[15.5px] text-zinc-200 leading-[1.88] font-sans space-y-5 [word-break:keep-all] break-words">
               {(currentEpisode.narrativeText || currentEpisode.synopsis).split('\n\n').map((para, pIdx) => (
                 <p key={pIdx}>
                   <HighlightedText
@@ -1357,13 +1463,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       {st.visuals && st.visuals.length > 0 ? (
                         <div className="space-y-4">
                           {st.visuals.map((vis, vIdx) => (
-                            <div key={vIdx} className="group relative rounded-[2px] border border-white/[0.09] bg-black overflow-hidden">
+                            <div key={vIdx} className="group relative rounded-[2px] border border-white/[0.11] bg-[#08090b] overflow-hidden shadow-lg">
                               <CopyrightedImage
                                 src={vis.url}
                                 alt={vis.caption}
                                 className="w-full h-auto object-cover max-h-[460px] transition-transform duration-500 group-hover:scale-[1.01]"
                               />
-                              <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs">
+                              <div className="flex items-center justify-between px-4 py-2.5 bg-[#0d0e11] border-t border-white/[0.08] text-xs">
                                 <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
                                   <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                                   <span>{vis.caption}</span>
@@ -1389,13 +1495,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                           ))}
                         </div>
                       ) : st.cgUrl && st.cgUrl.trim() !== '' ? (
-                        <div className="group relative rounded-[2px] border border-white/[0.09] bg-black overflow-hidden">
+                        <div className="group relative rounded-[2px] border border-white/[0.11] bg-[#08090b] overflow-hidden shadow-lg">
                           <CopyrightedImage
                             src={st.cgUrl}
                             alt={st.title}
                             className="w-full h-auto object-cover max-h-[460px] transition-transform duration-500 group-hover:scale-[1.01]"
                           />
-                          <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs">
+                          <div className="flex items-center justify-between px-4 py-2.5 bg-[#0d0e11] border-t border-white/[0.08] text-xs">
                             <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
                               <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
                               <span>{st.cgCaption || st.title}</span>
@@ -1415,7 +1521,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                       ) : null}
 
                       {/* Main Narrative Body */}
-                      <div className="text-[15px] sm:text-[15.5px] text-zinc-200 leading-[1.85] [word-break:keep-all] break-words font-sans space-y-4.5">
+                      <div className="max-w-[74ch] text-[15px] sm:text-[15.5px] text-zinc-200 leading-[1.88] [word-break:keep-all] break-words font-sans space-y-5">
                         {st.narrativeText.split('\n\n').map((paragraph, pIdx) => (
                           <p key={pIdx}>
                             <HighlightedText
@@ -2136,13 +2242,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
                                 {/* Official CG Image Frame */}
                                 {act.cgUrl && act.cgUrl.trim() !== '' && (
-                                  <div className="group relative rounded-[2px] border border-white/[0.08] bg-black overflow-hidden">
+                                  <div className="group relative rounded-[2px] border border-white/[0.11] bg-[#08090b] overflow-hidden shadow-lg">
                                     <CopyrightedImage
                                       src={act.cgUrl}
                                       alt={act.title}
                                       className="w-full h-auto object-cover max-h-[480px] transition-transform duration-300 group-hover:scale-[1.01]"
                                     />
-                                    <div className="flex items-center justify-between px-4 py-2.5 bg-[#101114] border-t border-white/[0.07] text-xs font-sans">
+                                    <div className="flex items-center justify-between px-4 py-2.5 bg-[#0d0e11] border-t border-white/[0.08] text-xs font-sans">
                                       {act.cgCaption && act.cgCaption.trim() !== '' ? (
                                         <span className="text-zinc-300 truncate pr-4 flex items-center gap-2">
                                           <span className="w-1.5 h-1.5 bg-[#f5dd1b]" />
@@ -2168,7 +2274,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
                                 )}
 
                                 {/* Narrative Body Text */}
-                                <div className="text-[15px] sm:text-[15.5px] text-zinc-200 leading-[1.85] [word-break:keep-all] break-words font-sans space-y-4">
+                                <div className="max-w-[74ch] text-[15px] sm:text-[15.5px] text-zinc-200 leading-[1.88] [word-break:keep-all] break-words font-sans space-y-5">
                                   {act.narrativeText.split('\n\n').map((paragraph, pIdx) => (
                                     <p key={pIdx} className="leading-[1.85]">
                                       <HighlightedText
@@ -2751,6 +2857,59 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
       {/* Scroll Safe Bottom Spacing to ensure the floating dock never collides with footer buttons */}
       <div className="h-20 sm:h-24 md:h-28 pointer-events-none" aria-hidden="true" />
+
+      {/* Desktop Sticky Right Scroll-Spy Reading Rail (Visible on 2XL viewports) */}
+      {tocItems.length > 1 &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <aside
+            aria-label="문서 목차 내비게이션"
+            className="hidden 2xl:flex fixed right-5 top-1/2 -translate-y-1/2 z-30 w-44 flex-col rounded-[2px] bg-[#101114]/92 backdrop-blur-md border border-white/[0.1] p-3 shadow-2xl space-y-2.5 select-none"
+          >
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400 font-bold tracking-wider truncate">{story.code}</span>
+              <span ref={railPctRef} className="text-[#f5dd1b] font-bold tabular-nums">
+                0%
+              </span>
+            </div>
+
+            <div className="h-[2px] w-full bg-white/[0.07] rounded-full overflow-hidden">
+              <div
+                ref={readingBarRef}
+                className="h-full bg-[#f5dd1b] transition-[width] duration-150"
+                style={{ width: '0%' }}
+              />
+            </div>
+
+            <div className="max-h-[54vh] overflow-y-auto prts-scrollbar space-y-0.5 pr-0.5">
+              {tocItems.map((item) => {
+                const isActive = effectiveActiveTocId === item.id;
+                return (
+                  <button
+                    key={`rail-${item.id}`}
+                    type="button"
+                    onClick={item.onJump}
+                    className={`w-full text-left px-2 py-1.5 rounded-[1px] text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-white/[0.06] text-white font-semibold border-l-2 border-[#f5dd1b]'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.03] border-l-2 border-transparent'
+                    }`}
+                  >
+                    <span
+                      className={`font-mono text-[10px] flex-shrink-0 ${
+                        isActive ? 'text-[#f5dd1b]' : 'text-zinc-500'
+                      }`}
+                    >
+                      {item.code}
+                    </span>
+                    <span className="truncate">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </aside>,
+          document.body
+        )}
 
       {/* Floating Bottom Navigation Dock (Mounted to document.body via Portal to guarantee true fixed tracking) */}
       {typeof document !== 'undefined'

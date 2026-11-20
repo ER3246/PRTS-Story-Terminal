@@ -55,6 +55,9 @@ const ServiceNoticeModal = lazy(() =>
 const FullscreenPwaGuideModal = lazy(() =>
   import('./components/FullscreenPwaGuideModal').then((m) => ({ default: m.FullscreenPwaGuideModal }))
 );
+const CommandPaletteModal = lazy(() =>
+  import('./components/CommandPaletteModal').then((m) => ({ default: m.CommandPaletteModal }))
+);
 
 const DEFAULT_STORY_ID = 'ep00';
 const BASE_TITLE = 'PRTS Archive // 명일방주 스토리 아카이브';
@@ -214,21 +217,35 @@ export function App() {
     }
   }, [currentView, currentStory.code, currentStory.titleKo]);
 
-  // 페이지 최초 접속 / 새로고침 시 1회 PRTS 부트 연출 재생 (스튜디오 및 모션 축소 환경 제외)
+  // 세션 최초 1회 PRTS 부트 연출 재생 (스튜디오, 딥링크 직행, 모션 축소 환경 제외)
   const [isBooting, setIsBooting] = useState<boolean>(() => {
     if (route.view === 'studio') return false;
+    if (route.view === 'report' && Boolean(route.storyId)) return false;
     if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       return false;
+    }
+    try {
+      if (sessionStorage.getItem('prts_boot_seen') === '1') return false;
+    } catch {
+      // ignore sessionStorage block
     }
     return true;
   });
   const handleBootComplete = useCallback(() => {
     setIsBooting(false);
+    try {
+      sessionStorage.setItem('prts_boot_seen', '1');
+    } catch {
+      // ignore sessionStorage block
+    }
   }, []);
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState<boolean>(false);
   const [isSoundOn, setIsSoundOn] = useState<boolean>(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
+  const [pendingMapRegionId, setPendingMapRegionId] = useState<string | null>(null);
+  const [pendingChronicleStoryId, setPendingChronicleStoryId] = useState<string | null>(null);
   const [isReviewExportOpen, setIsReviewExportOpen] = useState<boolean>(false);
   const [isInfoLicenseOpen, setIsInfoLicenseOpen] = useState<boolean>(false);
   const [infoModalTab, setInfoModalTab] = useState<InfoModalTab>('license');
@@ -320,17 +337,47 @@ export function App() {
     }
   }, [routeHash, navType, getSavedScroll]);
 
-  // 전역 키보드 단축키 (ESC로 모달 닫기, 좌우 화살표로 스토리 이전/다음 이동)
+  // 전역 키보드 단축키 (Ctrl+K 또는 / 통합 색인, ESC 모달 닫기, 좌우 화살표 스토리 이동)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // 폼 입력 중일 때는 단축키 비활성화
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => {
+          const next = !prev;
+          if (next) playOpenSound();
+          else playCloseSound();
+          return next;
+        });
+        return;
+      }
+
+      // 폼 입력 중일 때는 나머지 단축키 비활성화
       const target = e.target as HTMLElement | null;
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
         return;
       }
 
+      if (
+        e.key === '/' &&
+        !isCommandPaletteOpen &&
+        !isLightboxOpen &&
+        !isPwaGuideOpen &&
+        !isServiceNoticeOpen &&
+        !isDrawerOpen &&
+        !isReviewExportOpen &&
+        !isInfoLicenseOpen
+      ) {
+        e.preventDefault();
+        setIsCommandPaletteOpen(true);
+        playOpenSound();
+        return;
+      }
+
       if (e.key === 'Escape') {
-        if (isLightboxOpen) {
+        if (isCommandPaletteOpen) {
+          setIsCommandPaletteOpen(false);
+          playCloseSound();
+        } else if (isLightboxOpen) {
           setIsLightboxOpen(false);
           playCloseSound();
         } else if (isPwaGuideOpen) {
@@ -352,7 +399,7 @@ export function App() {
           setIsSidebarOpenMobile(false);
           playCloseSound();
         }
-      } else if (currentView === 'report' && !isLightboxOpen && !isPwaGuideOpen && !isServiceNoticeOpen && !isDrawerOpen && !isSidebarOpenMobile && !isReviewExportOpen && !isInfoLicenseOpen) {
+      } else if (currentView === 'report' && !isCommandPaletteOpen && !isLightboxOpen && !isPwaGuideOpen && !isServiceNoticeOpen && !isDrawerOpen && !isSidebarOpenMobile && !isReviewExportOpen && !isInfoLicenseOpen) {
         if (e.key === 'ArrowLeft' && previousStory) {
           goToStory(previousStory.id);
           playClickSound();
@@ -365,7 +412,7 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentView, isLightboxOpen, isPwaGuideOpen, isServiceNoticeOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory, goToStory]);
+  }, [currentView, isCommandPaletteOpen, isLightboxOpen, isPwaGuideOpen, isServiceNoticeOpen, isDrawerOpen, isSidebarOpenMobile, isReviewExportOpen, isInfoLicenseOpen, previousStory, nextStory, goToStory]);
 
   const handleSelectStoryFromMapOrChronicle = (id: string) => {
     goToStory(id);
@@ -451,6 +498,10 @@ export function App() {
         <Header
           currentView={currentView}
           onChangeView={(view) => goToView(view)}
+          onOpenCommandPalette={() => {
+            setIsCommandPaletteOpen(true);
+            playOpenSound();
+          }}
           isSoundOn={isSoundOn}
           onToggleSound={handleToggleSound}
           onOpenReviewExport={() => {
@@ -545,8 +596,12 @@ export function App() {
               {/* View 0: PRTS Archive Home Dashboard */}
               {currentView === 'home' && (
                 <HomeDashboard
-                  onNavigateToStory={(id) => goToStory(id)}
+                  onNavigateToStory={(id, subPageId) => goToStory(id, subPageId)}
                   onNavigateToView={(view) => goToView(view)}
+                  onOpenCommandPalette={() => {
+                    setIsCommandPaletteOpen(true);
+                    playOpenSound();
+                  }}
                   onOpenReviewExport={() => {
                     setIsReviewExportOpen(true);
                     playOpenSound();
@@ -590,6 +645,12 @@ export function App() {
                 <Suspense fallback={<ViewLoadingFallback label="CHRONICLE TIMELINE" />}>
                   <ChronicleRoadmapView
                     onSelectStory={handleSelectStoryFromMapOrChronicle}
+                    initialFocusStoryId={pendingChronicleStoryId}
+                    onConsumeInitialStory={() => setPendingChronicleStoryId(null)}
+                    onNavigateToMapRegion={(regionId) => {
+                      setPendingMapRegionId(regionId);
+                      goToView('map');
+                    }}
                     isHeaderCollapsed={isHeaderCollapsed}
                     onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
                   />
@@ -601,6 +662,12 @@ export function App() {
                 <Suspense fallback={<ViewLoadingFallback label="TERRA 3D CARTOGRAPHY" />}>
                   <TerraMapView
                     onSelectStory={handleSelectStoryFromMapOrChronicle}
+                    initialFocusRegionId={pendingMapRegionId}
+                    onConsumeInitialRegion={() => setPendingMapRegionId(null)}
+                    onNavigateToChronicleStory={(storyId) => {
+                      setPendingChronicleStoryId(storyId);
+                      goToView('chronicle');
+                    }}
                     isHeaderCollapsed={isHeaderCollapsed}
                     onToggleHeaderCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
                   />
@@ -613,7 +680,7 @@ export function App() {
 
       {/* Global Bottom Footer Bar (Shown on scrollable document views, padded above mobile bottom nav) */}
       {!isHeaderCollapsed && (currentView === 'home' || currentView === 'report') && (
-        <footer className="z-30 bg-[#07090e] border-t border-white/[0.08] px-4 lg:px-8 pt-2.5 pb-16 md:pb-2.5 text-[11px] text-zinc-400 select-none">
+        <footer className="z-30 bg-[#0b0c0e] border-t border-white/[0.08] px-4 lg:px-8 pt-2.5 pb-16 md:pb-2.5 text-[11px] text-zinc-400 select-none">
           <div className="w-full max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="font-mono font-bold text-zinc-300">© HYPERGRYPH / STUDIO MONTAGNE / YOSTAR</span>
@@ -626,11 +693,11 @@ export function App() {
                   setIsInfoLicenseOpen(true);
                   playOpenSound();
                 }}
-                className="font-mono text-[11px] text-zinc-400 hover:text-[#ffe600] flex items-center gap-1.5 transition-colors cursor-pointer group"
+                className="font-mono text-[11px] text-zinc-400 hover:text-[#f5dd1b] flex items-center gap-1.5 transition-colors cursor-pointer group"
                 title="버전 연혁 및 변경점 보기"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00d8ff] group-hover:bg-[#ffe600] transition-colors shrink-0" />
-                <span className="whitespace-nowrap">PRTS Archive <strong className="text-zinc-200 group-hover:text-[#ffe600] transition-colors">{APP_VERSION_CODE}</strong> ({APP_RELEASE_STAGE})</span>
+                <span className="w-1.5 h-1.5 bg-[#f5dd1b] shrink-0" />
+                <span className="whitespace-nowrap">PRTS Archive <strong className="text-zinc-200 group-hover:text-[#f5dd1b] transition-colors">{APP_VERSION_CODE}</strong> ({APP_RELEASE_STAGE})</span>
               </button>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -639,7 +706,7 @@ export function App() {
                   setIsPwaGuideOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-400 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-400 hover:text-white border border-white/[0.08] hover:border-white/25 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
                 title="전체 화면 및 웹 앱(PWA) 설치 안내 열기"
               >
                 <span>APP / FULLSCREEN</span>
@@ -649,7 +716,7 @@ export function App() {
                   setIsServiceNoticeOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#ffe600]/20 text-zinc-400 hover:text-[#ffe600] border border-white/[0.08] hover:border-[#ffe600]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-400 hover:text-white border border-white/[0.08] hover:border-white/25 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
                 title="서비스 이용 안내 및 권장 환경 열기"
               >
                 <span>NOTICE</span>
@@ -660,7 +727,7 @@ export function App() {
                   setIsInfoLicenseOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-[#00d8ff]/20 text-zinc-300 hover:text-[#00d8ff] border border-white/[0.08] hover:border-[#00d8ff]/40 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border border-white/[0.08] hover:border-white/25 font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
                 title="버전 연혁 (Changelog) 열기"
               >
                 <span>CHANGELOG</span>
@@ -671,9 +738,9 @@ export function App() {
                   setIsInfoLicenseOpen(true);
                   playOpenSound();
                 }}
-                className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#ffe600] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#ffe600] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer group whitespace-nowrap"
+                className="h-6 px-2.5 rounded-[2px] bg-white/[0.05] hover:bg-[#f5dd1b] text-zinc-200 hover:text-black border border-white/[0.1] hover:border-[#f5dd1b] font-mono text-[10.5px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer group whitespace-nowrap"
               >
-                <Info className="w-3 h-3 text-[#ffe600] group-hover:text-black shrink-0" />
+                <Info className="w-3 h-3 text-[#f5dd1b] group-hover:text-black shrink-0" />
                 <span>INFO / LICENSE</span>
               </button>
             </div>
@@ -689,6 +756,10 @@ export function App() {
         selectedGlossary={selectedGlossary}
         initialVariantId={selectedVariantId}
         onOpenLightbox={handleOpenLightbox}
+        onSelectStory={(storyId) => {
+          handleCloseDrawer();
+          goToStory(storyId);
+        }}
       />
 
       {/* CG Lightbox */}
@@ -700,8 +771,22 @@ export function App() {
         title={lightboxData.title}
       />
 
-      {/* Review & Export Hub Modal */}
+      {/* Global Command Palette & Modals */}
       <Suspense fallback={null}>
+        {isCommandPaletteOpen && (
+          <CommandPaletteModal
+            isOpen={isCommandPaletteOpen}
+            onClose={() => setIsCommandPaletteOpen(false)}
+            onSelectStory={(storyId) => goToStory(storyId)}
+            onSelectCharacter={(char) => handleSelectCharacter(char)}
+            onSelectRegion={(regionId) => {
+              setPendingMapRegionId(regionId);
+              goToView('map');
+            }}
+            onNavigateView={(view) => goToView(view)}
+          />
+        )}
+
         {isReviewExportOpen && (
           <ReviewExportModal
             isOpen={isReviewExportOpen}

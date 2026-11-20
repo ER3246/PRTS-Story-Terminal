@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { storyRegistry, STORY_LINES, getStoryAccessState } from '../data/storyRegistry';
 import type { StoryListItem, StoryLineMeta } from '../data/storyRegistry';
+import { terraRegions } from '../data/terraRegions';
 import { StorySplashModal, FilmReelIcon } from './StorySplashModal';
 import {
   Search,
@@ -24,7 +25,9 @@ import {
   Eye,
   Filter,
   ChevronDown,
-  Check
+  ChevronRight,
+  Check,
+  MapPin,
 } from 'lucide-react';
 import { playClickSound, playTabSwitchSound, playOpenSound, playCloseSound } from '../utils/soundEffects';
 import { resolveAssetUrl } from '../utils/assetUrl';
@@ -33,6 +36,9 @@ import { useViewport } from '../hooks/useViewport';
 
 interface ChronicleRoadmapViewProps {
   onSelectStory: (id: string) => void;
+  initialFocusStoryId?: string | null;
+  onConsumeInitialStory?: () => void;
+  onNavigateToMapRegion?: (regionId: string) => void;
   isHeaderCollapsed?: boolean;
   onToggleHeaderCollapse?: () => void;
 }
@@ -384,13 +390,35 @@ function buildSmartConnectionPath(
   return { d, startX, startY, endX, endY };
 }
 
+export type ZoomTier = 'macro' | 'compact' | 'detail';
+const MIN_CHRONICLE_ZOOM = 0.38;
+const MAX_CHRONICLE_ZOOM = 1.6;
+const MINIMAP_W = 208;
+const MINIMAP_H = 108;
+
+function getZoomTierForScale(z: number): ZoomTier {
+  if (z < 0.56) return 'macro';
+  if (z < 0.78) return 'compact';
+  return 'detail';
+}
+
 export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   onSelectStory,
+  initialFocusStoryId,
+  onConsumeInitialStory,
+  onNavigateToMapRegion,
   isHeaderCollapsed,
   onToggleHeaderCollapse
 }) => {
   const { isMobile } = useViewport();
   const [browseMode, setBrowseMode] = useState<ChronicleBrowseMode>('chronological');
+  const [prevFocusStoryReq, setPrevFocusStoryReq] = useState<string | null | undefined>(null);
+  if (initialFocusStoryId && initialFocusStoryId !== prevFocusStoryReq) {
+    setPrevFocusStoryReq(initialFocusStoryId);
+    if (browseMode !== 'chronological') {
+      setBrowseMode('chronological');
+    }
+  }
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'available' | 'overview_only'>('all');
   const [focusedLineId, setFocusedLineId] = useState<string | null>(null);
@@ -431,30 +459,42 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
   const [selectedModalStory, setSelectedModalStory] = useState<StoryListItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // 2D 캔버스 상태 (Pan & Zoom)
-  const [zoomLevel, setZoomLevel] = useState<number>(0.88);
-  const [panPos, setPanPos] = useState<{ x: number; y: number }>({ x: 36, y: 24 });
+  // 2D 물리 캔버스 상태 (GPU transform 직접 제어 + 관성 패닝 + 3단계 시맨틱 줌)
+  const [zoomTier, setZoomTier] = useState<ZoomTier>('detail');
+  const [activeRulerEraId, setActiveRulerEraId] = useState<string>('era_00');
   const [isDraggingCanvas, setIsDraggingCanvas] = useState<boolean>(false);
-  const [isKeyPanning, setIsKeyPanning] = useState<boolean>(false);
+  const [stageSize, setStageSize] = useState<{ width: number; height: number }>({
+    width: 3200,
+    height: 1080,
+  });
 
-  const zoomLevelRef = useRef<number>(zoomLevel);
-  useEffect(() => {
-    zoomLevelRef.current = zoomLevel;
-  }, [zoomLevel]);
+  const cameraRef = useRef({
+    x: 36,
+    y: 24,
+    zoom: 0.88,
+    vx: 0,
+    vy: 0,
+    targetX: 36,
+    targetY: 24,
+    targetZoom: 0.88,
+    isAnimating: false,
+  });
 
-  const panPosRef = useRef<{ x: number; y: number }>(panPos);
-  useEffect(() => {
-    panPosRef.current = panPos;
-  }, [panPos]);
+  const zoomTierRef = useRef<ZoomTier>('detail');
+  const activeRulerEraRef = useRef<string>('era_00');
+  const eraBoundsRef = useRef<{ id: string; left: number; right: number }[]>([]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const gridBgRef = useRef<HTMLDivElement>(null);
+  const zoomTextRef = useRef<HTMLSpanElement>(null);
+  const minimapViewportRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  // 키보드(WASD / 방향키) 실시간 이동 조작 상태
+  // 키보드(WASD / 방향키) 및 물리 관성 애니메이션 루프 상태
   const keysDownRef = useRef<Set<string>>(new Set());
-  const isKeyPanningRef = useRef<boolean>(false);
   const rafIdRef = useRef<number | null>(null);
+  const physicsRafRef = useRef<number | null>(null);
   const isModalOpenRef = useRef<boolean>(isModalOpen);
 
   useEffect(() => {
@@ -465,6 +505,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     isDown: boolean;
     startX: number;
     startY: number;
+    lastX: number;
+    lastY: number;
+    lastMoveAt: number;
     initialPanX: number;
     initialPanY: number;
     hasMoved: boolean;
@@ -473,14 +516,134 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     isDown: false,
     startX: 0,
     startY: 0,
+    lastX: 0,
+    lastY: 0,
+    lastMoveAt: 0,
     initialPanX: 36,
     initialPanY: 24,
     hasMoved: false,
     moveDistance: 0,
   });
 
-  // 노드 좌표 측정 캐시 (SVG 성좌 연결선 렌더링용)
+  // 노드 좌표 측정 캐시 (SVG 성좌 연결선 & 미니맵 렌더링용)
   const [nodeCoords, setNodeCoords] = useState<Record<string, NodeBox>>({});
+
+  const applyCameraToDom = useCallback(() => {
+    const cam = cameraRef.current;
+    if (stageRef.current) {
+      stageRef.current.style.transform = `translate3d(${cam.x}px, ${cam.y}px, 0) scale(${cam.zoom})`;
+    }
+    if (gridBgRef.current) {
+      gridBgRef.current.style.backgroundPosition = `${cam.x % 48}px ${cam.y % 48}px`;
+    }
+    if (zoomTextRef.current) {
+      zoomTextRef.current.textContent = `${Math.round(cam.zoom * 100)}%`;
+    }
+
+    const nextTier = getZoomTierForScale(cam.zoom);
+    if (nextTier !== zoomTierRef.current) {
+      zoomTierRef.current = nextTier;
+      setZoomTier(nextTier);
+    }
+
+    const container = containerRef.current;
+    const stageEl = stageRef.current;
+    if (container) {
+      const cWidth = container.clientWidth || 1200;
+      const cHeight = container.clientHeight || 700;
+      const centerWorldX = (cWidth / 2 - cam.x) / cam.zoom;
+      const bounds = eraBoundsRef.current;
+      if (bounds.length > 0) {
+        let matched = bounds[0].id;
+        for (const b of bounds) {
+          if (centerWorldX >= b.left && centerWorldX <= b.right) {
+            matched = b.id;
+            break;
+          }
+          if (centerWorldX > b.right) matched = b.id;
+        }
+        if (matched !== activeRulerEraRef.current) {
+          activeRulerEraRef.current = matched;
+          setActiveRulerEraId(matched);
+        }
+      }
+
+      if (minimapViewportRef.current && stageEl) {
+        const sw = stageEl.scrollWidth || 3200;
+        const sh = stageEl.scrollHeight || 1080;
+        const viewWorldX = -cam.x / cam.zoom;
+        const viewWorldY = -cam.y / cam.zoom;
+        const viewWorldW = cWidth / cam.zoom;
+        const viewWorldH = cHeight / cam.zoom;
+
+        const mx = (viewWorldX / sw) * MINIMAP_W;
+        const my = (viewWorldY / sh) * MINIMAP_H;
+        const mw = Math.max(14, (viewWorldW / sw) * MINIMAP_W);
+        const mh = Math.max(10, (viewWorldH / sh) * MINIMAP_H);
+        minimapViewportRef.current.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+        minimapViewportRef.current.style.width = `${mw}px`;
+        minimapViewportRef.current.style.height = `${mh}px`;
+      }
+    }
+  }, []);
+
+  const schedulePhysicsTick = useCallback(() => {
+    if (physicsRafRef.current !== null) return;
+
+    const step = () => {
+      const cam = cameraRef.current;
+      let keepGoing = false;
+
+      if (cam.isAnimating) {
+        const dx = cam.targetX - cam.x;
+        const dy = cam.targetY - cam.y;
+        const dz = cam.targetZoom - cam.zoom;
+        cam.x += dx * 0.22;
+        cam.y += dy * 0.22;
+        cam.zoom += dz * 0.22;
+        if (Math.abs(dx) < 0.25 && Math.abs(dy) < 0.25 && Math.abs(dz) < 0.001) {
+          cam.x = cam.targetX;
+          cam.y = cam.targetY;
+          cam.zoom = cam.targetZoom;
+          cam.isAnimating = false;
+        } else {
+          keepGoing = true;
+        }
+      } else if (!dragTrackingRef.current.isDown && Math.hypot(cam.vx, cam.vy) >= 0.25) {
+        cam.x += cam.vx;
+        cam.y += cam.vy;
+        cam.targetX = cam.x;
+        cam.targetY = cam.y;
+        cam.vx *= 0.89;
+        cam.vy *= 0.89;
+        if (Math.hypot(cam.vx, cam.vy) >= 0.25) {
+          keepGoing = true;
+        } else {
+          cam.vx = 0;
+          cam.vy = 0;
+        }
+      }
+
+      applyCameraToDom();
+
+      if (keepGoing) {
+        physicsRafRef.current = requestAnimationFrame(step);
+      } else {
+        physicsRafRef.current = null;
+      }
+    };
+
+    physicsRafRef.current = requestAnimationFrame(step);
+  }, [applyCameraToDom]);
+
+  useEffect(() => {
+    return () => {
+      if (physicsRafRef.current !== null) {
+        cancelAnimationFrame(physicsRafRef.current);
+        physicsRafRef.current = null;
+      }
+    };
+  }, []);
 
   const storyMap = useMemo(() => {
     const map = new Map<string, StoryListItem>();
@@ -627,7 +790,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     return { highlightedStoryIds: ids, activeConnections: conns };
   }, [focusedLineId, activeTargetId, allConnections, storyMap]);
 
-  // 스테이지 내 모든 노드의 로컬 좌표(스케일 무관 offset 기준) 계산
+  // 스테이지 내 모든 노드의 로컬 좌표(스케일 무관 offset 기준) & 시대 구간 측정
   const measureNodePositions = useCallback(() => {
     const stageEl = stageRef.current;
     if (!stageEl) return;
@@ -656,8 +819,28 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       };
     });
 
+    const sw = stageEl.scrollWidth || 3200;
+    const sh = stageEl.scrollHeight || 1080;
+    setStageSize((prev) => (prev.width === sw && prev.height === sh ? prev : { width: sw, height: sh }));
+
+    const nextBounds: { id: string; left: number; right: number }[] = [];
+    for (const era of TIMELINE_ERAS) {
+      const eraEl = document.getElementById(`matrix-era-${era.id}`);
+      if (eraEl) {
+        let ex = 0;
+        let curr: HTMLElement | null = eraEl;
+        while (curr && curr !== stageEl) {
+          ex += curr.offsetLeft;
+          curr = curr.offsetParent as HTMLElement | null;
+        }
+        nextBounds.push({ id: era.id, left: ex, right: ex + eraEl.offsetWidth });
+      }
+    }
+    eraBoundsRef.current = nextBounds;
+
     setNodeCoords(coords);
-  }, []);
+    applyCameraToDom();
+  }, [applyCameraToDom]);
 
   useEffect(() => {
     if (browseMode !== 'chronological') return;
@@ -667,9 +850,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       window.clearTimeout(timer);
       window.removeEventListener('resize', measureNodePositions);
     };
-  }, [browseMode, searchQuery, statusFilter, zoomLevel, inspectedStory, measureNodePositions]);
+  }, [browseMode, searchQuery, statusFilter, zoomTier, inspectedStory, measureNodePositions]);
 
-  // 마우스 드래그 캔버스 이동
+  // 마우스 드래그 캔버스 이동 (GPU 직접 제어 + 관성 감속 물리)
   useEffect(() => {
     if (browseMode !== 'chronological') return;
 
@@ -684,16 +867,39 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         dragTrackingRef.current.hasMoved = true;
       }
 
-      setPanPos({
-        x: dragTrackingRef.current.initialPanX + dx,
-        y: dragTrackingRef.current.initialPanY + dy,
-      });
+      const now = performance.now();
+      const frameDx = e.clientX - dragTrackingRef.current.lastX;
+      const frameDy = e.clientY - dragTrackingRef.current.lastY;
+      dragTrackingRef.current.lastX = e.clientX;
+      dragTrackingRef.current.lastY = e.clientY;
+      dragTrackingRef.current.lastMoveAt = now;
+
+      const cam = cameraRef.current;
+      cam.vx = cam.vx * 0.45 + frameDx * 0.55;
+      cam.vy = cam.vy * 0.45 + frameDy * 0.55;
+      cam.x = dragTrackingRef.current.initialPanX + dx;
+      cam.y = dragTrackingRef.current.initialPanY + dy;
+      cam.targetX = cam.x;
+      cam.targetY = cam.y;
+      cam.isAnimating = false;
+      applyCameraToDom();
     };
 
     const onPointerUp = () => {
       if (!dragTrackingRef.current.isDown) return;
       dragTrackingRef.current.isDown = false;
       setIsDraggingCanvas(false);
+
+      const elapsed = performance.now() - dragTrackingRef.current.lastMoveAt;
+      const cam = cameraRef.current;
+      if (elapsed > 80) {
+        cam.vx = 0;
+        cam.vy = 0;
+      } else if (Math.hypot(cam.vx, cam.vy) >= 0.4) {
+        cam.vx = Math.max(-42, Math.min(42, cam.vx));
+        cam.vy = Math.max(-42, Math.min(42, cam.vy));
+        schedulePhysicsTick();
+      }
     };
 
     window.addEventListener('pointermove', onPointerMove);
@@ -705,9 +911,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('pointercancel', onPointerUp);
     };
-  }, [browseMode]);
+  }, [browseMode, applyCameraToDom, schedulePhysicsTick]);
 
-  // 마우스 휠 줌 (커서 중심)
+  // 마우스 휠 줌 (커서 위치 고정 스무스 줌)
   useEffect(() => {
     if (browseMode !== 'chronological') return;
     const container = containerRef.current;
@@ -719,26 +925,30 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      // 마우스 휠 스크롤은 커서 중심 확대/축소(줌 인/아웃)로 동작하며 캔버스 이동은 드래그로만 수행
-      const zoomFactor = Math.exp(-e.deltaY * 0.002);
-      setZoomLevel((prevScale) => {
-        const nextScale = Math.min(1.6, Math.max(0.45, Number((prevScale * zoomFactor).toFixed(2))));
-        if (nextScale !== prevScale) {
-          const ratio = nextScale / prevScale;
-          setPanPos((prevPan) => ({
-            x: mouseX - (mouseX - prevPan.x) * ratio,
-            y: mouseY - (mouseY - prevPan.y) * ratio,
-          }));
-        }
-        return nextScale;
-      });
+      const cam = cameraRef.current;
+      cam.vx = 0;
+      cam.vy = 0;
+      const prevZoom = cam.isAnimating ? cam.targetZoom : cam.zoom;
+      const prevX = cam.isAnimating ? cam.targetX : cam.x;
+      const prevY = cam.isAnimating ? cam.targetY : cam.y;
+
+      const zoomFactor = Math.exp(-e.deltaY * 0.0018);
+      const nextScale = Math.min(MAX_CHRONICLE_ZOOM, Math.max(MIN_CHRONICLE_ZOOM, Number((prevZoom * zoomFactor).toFixed(3))));
+      if (nextScale === prevZoom) return;
+
+      const ratio = nextScale / prevZoom;
+      cam.targetZoom = nextScale;
+      cam.targetX = mouseX - (mouseX - prevX) * ratio;
+      cam.targetY = mouseY - (mouseY - prevY) * ratio;
+      cam.isAnimating = true;
+      schedulePhysicsTick();
     };
 
     container.addEventListener('wheel', onWheel, { passive: false });
     return () => {
       container.removeEventListener('wheel', onWheel);
     };
-  }, [browseMode]);
+  }, [browseMode, schedulePhysicsTick]);
 
   // 모바일 두 손가락 핀치 줌 (Pinch-to-Zoom) 및 핀치 중심 캔버스 이동
   useEffect(() => {
@@ -757,11 +967,14 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         const t0 = e.touches[0];
         const t1 = e.touches[1];
         initialPinchDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
-        initialZoom = zoomLevelRef.current;
+        initialZoom = cameraRef.current.zoom;
         const rect = container.getBoundingClientRect();
         lastMidX = (t0.clientX + t1.clientX) / 2 - rect.left;
         lastMidY = (t0.clientY + t1.clientY) / 2 - rect.top;
         isPinching = true;
+        cameraRef.current.isAnimating = false;
+        cameraRef.current.vx = 0;
+        cameraRef.current.vy = 0;
         dragTrackingRef.current.isDown = false;
         dragTrackingRef.current.hasMoved = true;
         dragTrackingRef.current.moveDistance = 999;
@@ -777,7 +990,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         const currentDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
         if (initialPinchDist <= 0) {
           initialPinchDist = currentDist;
-          initialZoom = zoomLevelRef.current;
+          initialZoom = cameraRef.current.zoom;
           return;
         }
 
@@ -790,24 +1003,24 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         lastMidX = currentMidX;
         lastMidY = currentMidY;
 
+        const cam = cameraRef.current;
         const scaleMultiplier = currentDist / initialPinchDist;
-        const targetScale = Math.min(1.6, Math.max(0.45, Number((initialZoom * scaleMultiplier).toFixed(2))));
+        const targetScale = Math.min(MAX_CHRONICLE_ZOOM, Math.max(MIN_CHRONICLE_ZOOM, Number((initialZoom * scaleMultiplier).toFixed(3))));
+        const prevScale = cam.zoom;
 
-        setZoomLevel((prevScale) => {
-          if (targetScale === prevScale) {
-            setPanPos((prevPan) => ({
-              x: prevPan.x + deltaMidX,
-              y: prevPan.y + deltaMidY,
-            }));
-            return prevScale;
-          }
+        if (targetScale === prevScale) {
+          cam.x += deltaMidX;
+          cam.y += deltaMidY;
+        } else {
           const ratio = targetScale / prevScale;
-          setPanPos((prevPan) => ({
-            x: currentMidX - (currentMidX - prevPan.x) * ratio + deltaMidX,
-            y: currentMidY - (currentMidY - prevPan.y) * ratio + deltaMidY,
-          }));
-          return targetScale;
-        });
+          cam.x = currentMidX - (currentMidX - cam.x) * ratio + deltaMidX;
+          cam.y = currentMidY - (currentMidY - cam.y) * ratio + deltaMidY;
+          cam.zoom = targetScale;
+        }
+        cam.targetX = cam.x;
+        cam.targetY = cam.y;
+        cam.targetZoom = cam.zoom;
+        applyCameraToDom();
       }
     };
 
@@ -817,12 +1030,16 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         initialPinchDist = 0;
         if (e.touches.length === 1) {
           const t = e.touches[0];
+          const cam = cameraRef.current;
           dragTrackingRef.current = {
             isDown: true,
             startX: t.clientX,
             startY: t.clientY,
-            initialPanX: panPosRef.current.x,
-            initialPanY: panPosRef.current.y,
+            lastX: t.clientX,
+            lastY: t.clientY,
+            lastMoveAt: performance.now(),
+            initialPanX: cam.x,
+            initialPanY: cam.y,
             hasMoved: true,
             moveDistance: 999,
           };
@@ -842,7 +1059,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       container.removeEventListener('touchend', onTouchEnd);
       container.removeEventListener('touchcancel', onTouchEnd);
     };
-  }, [browseMode]);
+  }, [browseMode, applyCameraToDom]);
 
   // 키보드(WASD 및 방향키) 실시간 캔버스 이동 (Shift 가속)
   useEffect(() => {
@@ -883,10 +1100,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         cancelAnimationFrame(rafIdRef.current);
         rafIdRef.current = null;
       }
-      if (isKeyPanningRef.current) {
-        isKeyPanningRef.current = false;
-        setIsKeyPanning(false);
-      }
     };
 
     const updatePan = () => {
@@ -909,11 +1122,6 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       let moveX = 0;
       let moveY = 0;
 
-      // 카메라 이동 방향:
-      // W / ↑: 카메라 상향 이동 -> 캔버스 내용물 하향 이동 (panPos.y 증가)
-      // S / ↓: 카메라 하향 이동 -> 캔버스 내용물 상향 이동 (panPos.y 감소)
-      // A / ←: 카메라 좌향 이동 -> 캔버스 내용물 우향 이동 (panPos.x 증가)
-      // D / →: 카메라 우향 이동 -> 캔버스 내용물 좌향 이동 (panPos.x 감소)
       if (activeKeys.has('KeyW') || activeKeys.has('ArrowUp')) moveY += baseSpeed;
       if (activeKeys.has('KeyS') || activeKeys.has('ArrowDown')) moveY -= baseSpeed;
       if (activeKeys.has('KeyA') || activeKeys.has('ArrowLeft')) moveX += baseSpeed;
@@ -926,10 +1134,15 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       }
 
       if (moveX !== 0 || moveY !== 0) {
-        setPanPos((prev) => ({
-          x: prev.x + moveX,
-          y: prev.y + moveY,
-        }));
+        const cam = cameraRef.current;
+        cam.isAnimating = false;
+        cam.vx = 0;
+        cam.vy = 0;
+        cam.x += moveX;
+        cam.y += moveY;
+        cam.targetX = cam.x;
+        cam.targetY = cam.y;
+        applyCameraToDom();
       }
 
       rafIdRef.current = requestAnimationFrame(updatePan);
@@ -968,14 +1181,8 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
 
       keysDownRef.current.add(matchedCode);
 
-      if (hasActiveMovementKey()) {
-        if (!isKeyPanningRef.current) {
-          isKeyPanningRef.current = true;
-          setIsKeyPanning(true);
-        }
-        if (rafIdRef.current === null) {
-          rafIdRef.current = requestAnimationFrame(updatePan);
-        }
+      if (hasActiveMovementKey() && rafIdRef.current === null) {
+        rafIdRef.current = requestAnimationFrame(updatePan);
       }
     };
 
@@ -1012,27 +1219,31 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
       stopLoop();
       keysDown.clear();
     };
-  }, [browseMode]);
+  }, [browseMode, applyCameraToDom]);
 
   const handleCanvasPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
     if (e.pointerType === 'touch' && !e.isPrimary) return;
-    // 마우스 드래그 시작 시 키보드 이동 루프 정리
+    // 마우스 드래그 시작 시 키보드 및 관성 루프 정리
     keysDownRef.current.clear();
     if (rafIdRef.current !== null) {
       cancelAnimationFrame(rafIdRef.current);
       rafIdRef.current = null;
     }
-    if (isKeyPanningRef.current) {
-      isKeyPanningRef.current = false;
-      setIsKeyPanning(false);
-    }
+    const cam = cameraRef.current;
+    cam.vx = 0;
+    cam.vy = 0;
+    cam.isAnimating = false;
+
     dragTrackingRef.current = {
       isDown: true,
       startX: e.clientX,
       startY: e.clientY,
-      initialPanX: panPos.x,
-      initialPanY: panPos.y,
+      lastX: e.clientX,
+      lastY: e.clientY,
+      lastMoveAt: performance.now(),
+      initialPanX: cam.x,
+      initialPanY: cam.y,
       hasMoved: false,
       moveDistance: 0,
     };
@@ -1051,14 +1262,40 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
         const coord = nodeCoords[storyId];
         const container = containerRef.current;
         if (coord && container) {
-          const targetX = container.clientWidth * 0.42 - coord.centerX * zoomLevel;
-          const targetY = container.clientHeight * 0.48 - coord.centerY * zoomLevel;
-          setPanPos({ x: targetX, y: targetY });
+          const cam = cameraRef.current;
+          const activeZoom = cam.isAnimating ? cam.targetZoom : cam.zoom;
+          cam.vx = 0;
+          cam.vy = 0;
+          cam.targetZoom = activeZoom;
+          cam.targetX = container.clientWidth * 0.42 - coord.centerX * activeZoom;
+          cam.targetY = container.clientHeight * 0.48 - coord.centerY * activeZoom;
+          cam.isAnimating = true;
+          schedulePhysicsTick();
         }
       }
     },
-    [browseMode, nodeCoords, storyMap, zoomLevel]
+    [browseMode, nodeCoords, storyMap, schedulePhysicsTick]
   );
+
+  // 외부 뷰(홈/커맨드 팔레트/테라 지도)에서 특정 스토리 포커스 요청 수신 시 1회 이동
+  useEffect(() => {
+    if (!initialFocusStoryId || browseMode !== 'chronological') return;
+    if (!nodeCoords[initialFocusStoryId]) return;
+    const raf = requestAnimationFrame(() => {
+      focusOnStoryNode(initialFocusStoryId);
+      onConsumeInitialStory?.();
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [initialFocusStoryId, browseMode, nodeCoords, focusOnStoryNode, onConsumeInitialStory]);
+
+  // 연대기 2D 캔버스 재마운트/전환 시 ref 기반 카메라 위치 즉시 동기화
+  useEffect(() => {
+    if (browseMode !== 'chronological') return;
+    const raf = requestAnimationFrame(() => {
+      applyCameraToDom();
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [browseMode, mobileChronoCanvas, applyCameraToDom]);
 
   // 특정 시대로 카메라 이동 (모바일 세로 타임라인 & 데스크톱 2D 캔버스 겸용)
   const scrollToEra = (eraId: string) => {
@@ -1072,10 +1309,15 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     }
     const target = document.getElementById(`matrix-era-${eraId}`);
     if (target) {
-      setPanPos((prev) => ({
-        x: 48 - target.offsetLeft * zoomLevel,
-        y: prev.y,
-      }));
+      const cam = cameraRef.current;
+      const activeZoom = cam.isAnimating ? cam.targetZoom : cam.zoom;
+      cam.vx = 0;
+      cam.vy = 0;
+      cam.targetZoom = activeZoom;
+      cam.targetX = 48 - target.offsetLeft * activeZoom;
+      cam.targetY = cam.y;
+      cam.isAnimating = true;
+      schedulePhysicsTick();
     }
   };
 
@@ -1083,24 +1325,37 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     playClickSound();
     const container = containerRef.current;
     if (!container) return;
-    const nextScale = Math.min(1.6, Math.max(0.45, Number((zoomLevel + delta).toFixed(2))));
-    if (nextScale === zoomLevel) return;
+    const cam = cameraRef.current;
+    const prevZoom = cam.isAnimating ? cam.targetZoom : cam.zoom;
+    const prevX = cam.isAnimating ? cam.targetX : cam.x;
+    const prevY = cam.isAnimating ? cam.targetY : cam.y;
+
+    const nextScale = Math.min(MAX_CHRONICLE_ZOOM, Math.max(MIN_CHRONICLE_ZOOM, Number((prevZoom + delta).toFixed(2))));
+    if (nextScale === prevZoom) return;
 
     const centerX = container.clientWidth / 2;
     const centerY = container.clientHeight / 2;
-    const ratio = nextScale / zoomLevel;
+    const ratio = nextScale / prevZoom;
 
-    setPanPos((prev) => ({
-      x: centerX - (centerX - prev.x) * ratio,
-      y: centerY - (centerY - prev.y) * ratio,
-    }));
-    setZoomLevel(nextScale);
+    cam.vx = 0;
+    cam.vy = 0;
+    cam.targetZoom = nextScale;
+    cam.targetX = centerX - (centerX - prevX) * ratio;
+    cam.targetY = centerY - (centerY - prevY) * ratio;
+    cam.isAnimating = true;
+    schedulePhysicsTick();
   };
 
   const handleResetView = () => {
     playClickSound();
-    setZoomLevel(0.88);
-    setPanPos({ x: 36, y: 24 });
+    const cam = cameraRef.current;
+    cam.vx = 0;
+    cam.vy = 0;
+    cam.targetZoom = 0.88;
+    cam.targetX = 36;
+    cam.targetY = 24;
+    cam.isAnimating = true;
+    schedulePhysicsTick();
   };
 
   const handleFitAll = () => {
@@ -1109,11 +1364,43 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     const stage = stageRef.current;
     if (!container || !stage) return;
     const scaleX = (container.clientWidth - 60) / (stage.scrollWidth || 3200);
-    const scaleY = (container.clientHeight - 60) / (stage.scrollHeight || 1100);
-    const fitScale = Math.min(1.0, Math.max(0.45, Number(Math.min(scaleX, scaleY).toFixed(2))));
-    setZoomLevel(fitScale);
-    setPanPos({ x: 28, y: 20 });
+    const scaleY = (container.clientHeight - 80) / (stage.scrollHeight || 1100);
+    const fitScale = Math.min(1.0, Math.max(MIN_CHRONICLE_ZOOM, Number(Math.min(scaleX, scaleY).toFixed(2))));
+
+    const cam = cameraRef.current;
+    cam.vx = 0;
+    cam.vy = 0;
+    cam.targetZoom = fitScale;
+    cam.targetX = 28;
+    cam.targetY = 20;
+    cam.isAnimating = true;
+    schedulePhysicsTick();
   };
+
+  // 미니맵 클릭/드래그 점프
+  const isMinimapScrubbingRef = useRef<boolean>(false);
+  const jumpToMinimapPoint = useCallback(
+    (clientX: number, clientY: number, rect: DOMRect) => {
+      const container = containerRef.current;
+      if (!container) return;
+      const fracX = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      const fracY = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+      const worldX = fracX * stageSize.width;
+      const worldY = fracY * stageSize.height;
+
+      const cam = cameraRef.current;
+      const z = cam.isAnimating ? cam.targetZoom : cam.zoom;
+      cam.vx = 0;
+      cam.vy = 0;
+      cam.x = container.clientWidth / 2 - worldX * z;
+      cam.y = container.clientHeight / 2 - worldY * z;
+      cam.targetX = cam.x;
+      cam.targetY = cam.y;
+      cam.isAnimating = false;
+      applyCameraToDom();
+    },
+    [stageSize.width, stageSize.height, applyCameraToDom]
+  );
 
   const availableCount = useMemo(
     () => storyRegistry.filter((s) => getStoryAccessState(s) === 'available').length,
@@ -1138,7 +1425,13 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
     return { incoming, outgoing };
   }, [inspectedStory, allConnections, storyMap]);
 
-  const isSemanticCompact = zoomLevel < 0.7;
+  const inspectedRegions = useMemo(() => {
+    if (!inspectedStory) return [];
+    return terraRegions.filter((r) => r.relatedStoryIds.includes(inspectedStory.id));
+  }, [inspectedStory]);
+
+  const isSemanticMacro = zoomTier === 'macro';
+  const isSemanticCompact = zoomTier !== 'detail';
 
   const cycleMobileStatusFilter = () => {
     playClickSound();
@@ -2103,42 +2396,72 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
             MODE A-2: CHRONOLOGICAL MULTI-LANE 2D MATRIX CANVAS
         ----------------------------------------------------------------------- */}
         {browseMode === 'chronological' && (!isMobile || mobileChronoCanvas) && (
-          <div
-            ref={containerRef}
-            onPointerDown={handleCanvasPointerDown}
-            className={`relative flex-1 h-full overflow-hidden bg-[#0c0c0e] select-none ${
-              isDraggingCanvas ? 'cursor-grabbing' : 'cursor-grab'
-            }`}
-            style={{ touchAction: 'none' }}
-          >
-            {/* Tactical Wargame Grid Background */}
-            <div
-              className="absolute inset-0 pointer-events-none opacity-35 bg-[linear-gradient(to_right,#1c1e24_1px,transparent_1px),linear-gradient(to_bottom,#1c1e24_1px,transparent_1px)] bg-[size:48px_48px]"
-              style={{
-                backgroundPosition: `${panPos.x % 48}px ${panPos.y % 48}px`,
-              }}
-            />
+          <div className="relative flex-1 flex flex-col min-h-0 overflow-hidden bg-[#0c0c0e]">
+            {/* Sticky Synchronized Time Ruler */}
+            <div className="h-8 flex-shrink-0 bg-[#0e0f13]/95 border-b border-white/[0.08] px-3 flex items-center justify-between gap-2 z-30 select-none">
+              <div className="flex items-center gap-1 overflow-x-auto no-scrollbar min-w-0">
+                <span className="hidden lg:inline text-[9.5px] font-mono tracking-widest text-zinc-500 uppercase mr-1.5 flex-shrink-0">
+                  EPOCH RULER //
+                </span>
+                {TIMELINE_ERAS.map((era) => {
+                  const isActive = activeRulerEraId === era.id;
+                  return (
+                    <button
+                      key={`ruler-${era.id}`}
+                      type="button"
+                      onClick={() => scrollToEra(era.id)}
+                      className={`px-2 py-0.5 rounded-[2px] text-[10px] font-mono flex items-center gap-1.5 whitespace-nowrap transition-colors cursor-pointer ${
+                        isActive
+                          ? 'bg-white/[0.09] text-white border border-white/25 font-bold'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] border border-transparent'
+                      }`}
+                    >
+                      <span
+                        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: era.color, opacity: isActive ? 1 : 0.55 }}
+                      />
+                      <span>{era.code}</span>
+                      <span className="hidden md:inline text-zinc-500">{era.periodKo}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-mono text-zinc-500 flex-shrink-0">
+                <span>TIER:</span>
+                <span className="text-zinc-200 font-bold uppercase">{zoomTier}</span>
+              </div>
+            </div>
 
-            {/* 2D Transform Stage */}
             <div
-              ref={stageRef}
-              className="absolute left-0 top-0 origin-top-left will-change-transform"
-              style={{
-                transform: `translate3d(${panPos.x}px, ${panPos.y}px, 0) scale(${zoomLevel})`,
-                transition: isDraggingCanvas || isKeyPanning ? 'none' : 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
+              ref={containerRef}
+              onPointerDown={handleCanvasPointerDown}
+              className={`relative flex-1 min-h-0 overflow-hidden bg-[#0c0c0e] select-none ${
+                isDraggingCanvas ? 'cursor-grabbing' : 'cursor-grab'
+              }`}
+              style={{ touchAction: 'none' }}
             >
-              {/* SVG CONSTELLATION OVERLAY (서사 직계 및 교차 인과 연결선 - z-30 반투명 상단 오버레이 + 행간 통로 우회 라우팅) */}
-              <svg
-                className="absolute inset-0 pointer-events-none z-30 overflow-visible"
-                style={{ width: '100%', height: '100%' }}
+              {/* Tactical Wargame Grid Background */}
+              <div
+                ref={gridBgRef}
+                className="absolute inset-0 pointer-events-none opacity-35 bg-[linear-gradient(to_right,#1c1e24_1px,transparent_1px),linear-gradient(to_bottom,#1c1e24_1px,transparent_1px)] bg-[size:48px_48px]"
+                style={{
+                  backgroundPosition: '36px 24px',
+                }}
+              />
+
+              {/* 2D Transform Stage */}
+              <div
+                ref={stageRef}
+                className="absolute left-0 top-0 origin-top-left will-change-transform"
+                style={{
+                  transform: 'translate3d(36px, 24px, 0) scale(0.88)',
+                }}
               >
-                <defs>
-                  <filter id="glow-line" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="2.5" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
+                {/* SVG CONSTELLATION OVERLAY (서사 직계 및 교차 인과 연결선 - z-30 반투명 상단 오버레이 + 행간 통로 우회 라우팅) */}
+                <svg
+                  className="absolute inset-0 pointer-events-none z-30 overflow-visible"
+                  style={{ width: '100%', height: '100%' }}
+                >
 
                 {/* 1) 기본 배경 연작 연결선 (반투명 상단 오버레이 + 줄바꿈 통로 라우팅) */}
                 {allConnections
@@ -2206,17 +2529,17 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
-                      {/* 메인 궤적 선 (반투명 처리로 카드 텍스트 가독성 유지) */}
+                      {/* 메인 궤적 선 (선명한 1.5px 코어 + PRTS 전술 펄스 흐름) */}
                       <path
                         d={d}
                         fill="none"
                         stroke={strokeColor}
-                        strokeWidth={isCross ? 2.2 : 2.6}
-                        strokeDasharray={isCross ? '6 4' : undefined}
-                        strokeOpacity={0.82}
+                        strokeWidth={isCross ? 1.8 : 2.2}
+                        strokeDasharray={isCross ? '6 4' : '10 6'}
+                        strokeOpacity={0.92}
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        filter="url(#glow-line)"
+                        className="prts-causal-flow"
                       />
                       <circle cx={startX} cy={startY} r={3.2} fill={strokeColor} fillOpacity={0.9} />
                       <circle cx={endX} cy={endY} r={4} fill={strokeColor} fillOpacity={0.95} />
@@ -2409,7 +2732,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           borderLeftWidth: '3px',
                                         }}
                                         className={`group relative rounded-[2px] border transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between ${
-                                          isSemanticCompact
+                                          isSemanticMacro
+                                            ? 'w-40 min-h-[48px] p-2'
+                                            : isSemanticCompact
                                             ? 'w-44 min-h-[68px] p-2.5'
                                             : lane.isCompactLane || story.isOmnibus
                                             ? 'w-48 min-h-[96px] p-2.5'
@@ -2417,7 +2742,9 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                             ? 'w-56 min-h-[118px] p-3'
                                             : 'w-52 min-h-[110px] p-3'
                                         } ${
-                                          isDimmed ? 'opacity-25 hover:opacity-90' : 'opacity-100'
+                                          isDimmed
+                                            ? 'opacity-20 saturate-50 hover:opacity-90 hover:saturate-100'
+                                            : 'opacity-100'
                                         } ${
                                           isSelected
                                             ? 'bg-[#191b22] border-[#f5dd1b] ring-1 ring-[#f5dd1b] -translate-y-0.5'
@@ -2430,7 +2757,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                             : 'bg-[#111215] border-white/[0.08] hover:border-white/25'
                                         }`}
                                       >
-                                        {/* 배경 스플래시 이미지 (시맨틱 축소 모드가 아닐 때 표시) */}
+                                        {/* 배경 스플래시 이미지 (시맨틱 상세 모드일 때만 표시) */}
                                         {!isSemanticCompact && story.splashVisualUrl && !isLocked && (
                                           <div className="absolute inset-0 overflow-hidden pointer-events-none">
                                             <img
@@ -2464,7 +2791,7 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                           </span>
 
                                           <div className="flex items-center gap-1">
-                                            {story.isOmnibus && (
+                                            {!isSemanticMacro && story.isOmnibus && (
                                               <FilmReelIcon
                                                 className="w-3.5 h-3.5 text-zinc-300"
                                                 title="옴니버스 단편"
@@ -2482,8 +2809,12 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                                         </div>
 
                                         {/* 중단: 한글 타이틀 & 영문 서브타이틀 */}
-                                        <div className="relative z-10 my-auto py-1">
-                                          <div className="text-xs sm:text-[13px] font-bold text-white group-hover:text-[#f5dd1b] transition-colors leading-snug truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+                                        <div className="relative z-10 my-auto py-0.5">
+                                          <div
+                                            className={`${
+                                              isSemanticMacro ? 'text-[11px]' : 'text-xs sm:text-[13px]'
+                                            } font-bold text-white group-hover:text-[#f5dd1b] transition-colors leading-snug truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]`}
+                                          >
                                             {story.titleKo}
                                           </div>
                                           {!isSemanticCompact && (
@@ -2538,8 +2869,11 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                 <ZoomOut className="w-3.5 h-3.5" />
               </button>
 
-              <span className="px-2 text-[11px] font-bold text-zinc-100 min-w-[44px] text-center">
-                {Math.round(zoomLevel * 100)}%
+              <span
+                ref={zoomTextRef}
+                className="px-2 text-[11px] font-bold text-zinc-100 min-w-[44px] text-center tabular-nums"
+              >
+                88%
               </span>
 
               <button
@@ -2568,6 +2902,77 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
+            </div>
+
+            {/* Bottom-Right Interactive Radar Minimap */}
+            <div
+              className={`hidden md:block absolute bottom-4 z-30 rounded-[2px] bg-[#101114]/92 backdrop-blur-md border border-white/[0.14] shadow-2xl overflow-hidden transition-[right] duration-300 ${
+                inspectedStory ? 'right-[25rem]' : 'right-4'
+              }`}
+            >
+              <div
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                  isMinimapScrubbingRef.current = true;
+                  jumpToMinimapPoint(e.clientX, e.clientY, e.currentTarget.getBoundingClientRect());
+                }}
+                onPointerMove={(e) => {
+                  if (!isMinimapScrubbingRef.current) return;
+                  e.stopPropagation();
+                  jumpToMinimapPoint(e.clientX, e.clientY, e.currentTarget.getBoundingClientRect());
+                }}
+                onPointerUp={(e) => {
+                  if (!isMinimapScrubbingRef.current) return;
+                  isMinimapScrubbingRef.current = false;
+                  e.stopPropagation();
+                }}
+                onPointerCancel={() => {
+                  isMinimapScrubbingRef.current = false;
+                }}
+                className="relative cursor-crosshair bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:26px_27px]"
+                style={{ width: MINIMAP_W, height: MINIMAP_H }}
+                title="레이더 미니맵 클릭/드래그로 시점 즉시 이동"
+              >
+                <div className="absolute top-1 left-1.5 text-[8.5px] font-mono tracking-widest text-zinc-500 uppercase pointer-events-none z-10">
+                  RADAR // SYNOPSIS
+                </div>
+
+                {Object.entries(nodeCoords).map(([id, box]) => {
+                  const st = storyMap.get(id);
+                  const isSel = inspectedStory?.id === id || hoveredStoryId === id;
+                  const isRestoredNode = st ? getStoryAccessState(st) === 'available' : false;
+                  const x = (box.left / stageSize.width) * MINIMAP_W;
+                  const y = (box.top / stageSize.height) * MINIMAP_H;
+                  const w = Math.max(3, ((box.right - box.left) / stageSize.width) * MINIMAP_W);
+                  const h = Math.max(2.5, ((box.bottom - box.top) / stageSize.height) * MINIMAP_H);
+                  return (
+                    <div
+                      key={`mm-${id}`}
+                      style={{
+                        left: `${x}px`,
+                        top: `${y}px`,
+                        width: `${w}px`,
+                        height: `${h}px`,
+                      }}
+                      className={`absolute rounded-[0.5px] pointer-events-none ${
+                        isSel
+                          ? 'bg-[#f5dd1b] z-10'
+                          : isRestoredNode
+                          ? 'bg-zinc-300/80'
+                          : 'bg-zinc-600/45'
+                      }`}
+                    />
+                  );
+                })}
+
+                <div
+                  ref={minimapViewportRef}
+                  className="absolute top-0 left-0 border border-[#f5dd1b]/85 bg-[#f5dd1b]/[0.08] pointer-events-none will-change-transform"
+                  style={{ width: '64px', height: '40px' }}
+                />
+              </div>
+            </div>
             </div>
           </div>
         )}
@@ -3347,6 +3752,36 @@ export const ChronicleRoadmapView: React.FC<ChronicleRoadmapViewProps> = ({
                       </div>
                     )}
                   </div>
+
+                  {/* 관련 테라 권역 (3D 지도로 즉시 교차 이동) */}
+                  {inspectedRegions.length > 0 && (
+                    <div className="pt-2 border-t border-white/[0.06]">
+                      <div className="text-[10px] font-mono text-zinc-400 mb-1.5 flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-[#f5dd1b]" />
+                        <span>관련 테라 권역 ({inspectedRegions.length})</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {inspectedRegions.map((reg) => (
+                          <button
+                            key={`reg-chip-${reg.id}`}
+                            type="button"
+                            onClick={() => {
+                              playClickSound();
+                              onNavigateToMapRegion?.(reg.id);
+                            }}
+                            className="px-2 py-1 rounded-[2px] bg-[#16181d] hover:bg-[#1f2228] border border-white/[0.08] hover:border-[#f5dd1b]/55 text-[11px] font-medium text-zinc-200 hover:text-white transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              style={{ backgroundColor: reg.badgeColor }}
+                            />
+                            <span>{reg.nameKo}</span>
+                            <ChevronRight className="w-3 h-3 text-zinc-500" />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </aside>

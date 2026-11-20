@@ -8,17 +8,32 @@
 
 @layer base {
   :root {
-    --prts-bg: #0c0c0e;
-    --prts-surface: #121316;
-    --prts-panel: #17191d;
-    --prts-panel-light: #1f2228;
+    color-scheme: dark;
+    --prts-bg: #0b0c0e;
+    --prts-surface-0: #0b0c0e;
+    --prts-surface-1: #111215;
+    --prts-surface-2: #16181d;
+    --prts-surface-3: #1d2027;
+    --prts-surface: #111215;
+    --prts-panel: #16181d;
+    --prts-panel-light: #1d2027;
     --prts-border: rgba(255, 255, 255, 0.085);
     --prts-border-subtle: rgba(255, 255, 255, 0.05);
+    --prts-hairline: rgba(255, 255, 255, 0.085);
     --prts-yellow: #f5dd1b;
+    --prts-signal: #f5dd1b;
     --prts-cyan: #d4d4d8;
-    --prts-text-main: #f4f4f5;
-    --prts-text-muted: #a1a1aa;
-    --prts-text-dim: #71717a;
+    --prts-ink-1: #f2f2ef;
+    --prts-ink-2: #b4b5bd;
+    --prts-ink-3: #7c7e88;
+    --prts-text-main: #f2f2ef;
+    --prts-text-muted: #b4b5bd;
+    --prts-text-dim: #7c7e88;
+  }
+
+  :where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--prts-signal);
+    outline-offset: 2px;
   }
 
   html {
@@ -67,11 +82,32 @@
 @layer components {
   /* Swiss Structural Grid & Technical Surface */
   .prts-grid-subtle {
-    background-color: #0c0c0e;
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.014) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.014) 1px, transparent 1px);
-    background-size: 64px 64px;
+    background-color: var(--prts-surface-0);
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+      linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 320px 320px, 320px 320px, 64px 64px, 64px 64px;
+  }
+
+  /* Subtle Tactile Analog Editorial Grain */
+  .prts-grain {
+    position: relative;
+  }
+  .prts-grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Modal Scroll Chaining Containment (Progressive Enhancement) */
+  .prts-modal-scroll {
+    overscroll-behavior: contain;
   }
 
   /* Matte Architectural Surface */
@@ -311,6 +347,16 @@
 @media (prefers-reduced-motion: no-preference) {
   button:not(:disabled):active {
     scale: 0.98;
+  }
+
+  .prts-causal-flow {
+    animation: prts-dash-flow 1.4s linear infinite;
+  }
+}
+
+@keyframes prts-dash-flow {
+  to {
+    stroke-dashoffset: -28;
   }
 }
 

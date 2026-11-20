@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { CharacterRef, CharacterVisualVariant, GlossaryTerm } from '../types/story';
-import { X, Maximize2 } from 'lucide-react';
+import { X, Maximize2, BookOpen, ChevronRight } from 'lucide-react';
 import { resolveAssetUrl } from '../utils/assetUrl';
 import { getCharacterAvatarUrl, getCharacterIllustUrl, getGlobalAvatarCacheBuster } from '../utils/characterAssetHelper';
-import { resolveCharacterMaster } from '../data/db/characterResolver';
+import { resolveCharacterMaster, getMasterCharacter } from '../data/db/characterResolver';
+import { storyRegistry } from '../data/storyRegistry';
 import { CopyrightBadge } from './CopyrightedImage';
 import { TacticalAvatar } from './TacticalAvatar';
 import { PrtsNeuralEmblem } from './ui/TacticalIcons';
@@ -17,6 +18,7 @@ interface SideDrawerProps {
   selectedGlossary: GlossaryTerm | null;
   initialVariantId?: string | null;
   onOpenLightbox?: (imgUrl: string, caption?: string, title?: string) => void;
+  onSelectStory?: (storyId: string) => void;
 }
 
 export const SideDrawer: React.FC<SideDrawerProps> = ({
@@ -26,12 +28,30 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   selectedGlossary,
   initialVariantId,
   onOpenLightbox,
+  onSelectStory,
 }) => {
   // 단일 진실 공급원(SSOT): 마스터 DB 및 최신 CG 자산 레지스트리와 실시간 정합
   const selectedCharacter = useMemo(() => {
     if (!incomingCharacter) return null;
     return resolveCharacterMaster(incomingCharacter.id, incomingCharacter);
   }, [incomingCharacter]);
+
+  // 마스터 DB 기반 등장 스토리 역추적 목록 (연대기 순 정렬)
+  const appearanceStories = useMemo(() => {
+    if (!selectedCharacter) return [];
+    const master = getMasterCharacter(selectedCharacter.id);
+    if (!master?.states?.length) return [];
+    const seen = new Set<string>();
+    for (const st of master.states) {
+      for (const appId of st.appearances || []) {
+        if (appId) seen.add(appId);
+      }
+    }
+    return Array.from(seen)
+      .map((id) => storyRegistry.find((s) => s.id === id))
+      .filter((s): s is NonNullable<typeof s> => Boolean(s))
+      .sort((a, b) => a.chronologicalOrder - b.chronologicalOrder);
+  }, [selectedCharacter]);
 
   const findVariantIndex = (char: CharacterRef | null, targetVariantId?: string | null): number => {
     if (!char?.variants || char.variants.length === 0 || !targetVariantId) return 0;
@@ -88,6 +108,15 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
           {/* Drawer Panel */}
           <motion.div
             key="side-drawer-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-label={
+              selectedCharacter
+                ? `${selectedCharacter.nameKo} 인물 프로필`
+                : selectedGlossary
+                ? `${selectedGlossary.term} 용어 해설`
+                : '상세 정보'
+            }
             variants={PRTS_DRAWER_PANEL}
             initial="hidden"
             animate="visible"
@@ -106,6 +135,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="상세 패널 닫기"
             className="w-7 h-7 rounded-[2px] bg-[#16181d] hover:bg-[#1e2026] border border-white/[0.08] text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
@@ -113,7 +143,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         </div>
 
         {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto overscroll-contain prts-modal-scroll p-5 sm:p-6 space-y-6">
           {/* Character Profile */}
           {selectedCharacter && (() => {
             const activeVariant = selectedCharacter.variants && selectedCharacter.variants[activeVariantIndex]
@@ -129,12 +159,21 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             const rawAvatarUrl = activeVariant?.avatarUrl || getCharacterAvatarUrl(selectedCharacter);
             const resolvedAvatarUrl = rawAvatarUrl ? resolveAssetUrl(rawAvatarUrl) : '';
             const hasValidIllust = Boolean(finalIllustUrl && finalIllustUrl.trim() !== '' && !illustError);
+            const watermarkText = (selectedCharacter.nameEn || selectedCharacter.id).replace(/_/g, ' ');
 
             return (
               <div className="space-y-5">
                 {/* Full-Body Standing CG Showcase / Matte Studio Placeholder */}
                 {hasValidIllust ? (
                   <div className="relative w-full h-[360px] sm:h-[400px] rounded-[2px] overflow-hidden bg-[#0c0d10] border border-white/[0.08] flex items-center justify-center p-3 group">
+                    {/* Oversized Codename Watermark */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none select-none absolute inset-x-0 bottom-4 text-center text-[44px] sm:text-[56px] leading-none font-black font-mono tracking-tighter text-white/[0.045] uppercase whitespace-nowrap overflow-hidden z-0"
+                    >
+                      {watermarkText}
+                    </div>
+
                     {/* Minimal Spec Label */}
                     <div className="absolute top-2.5 left-3 z-10 pointer-events-none">
                       <span className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase">
@@ -158,20 +197,23 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                       </button>
                     )}
 
-                    {/* Standing CG Image */}
-                    <motion.img
-                      key={finalIllustUrl}
-                      src={finalIllustUrl}
-                      alt={selectedCharacter.nameKo}
-                      decoding="async"
-                      onError={() => setIllustError(true)}
-                      draggable={false}
-                      onContextMenu={(e) => e.preventDefault()}
-                      initial={{ opacity: 0, scale: 0.985 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.28, ease: PRTS_EASE }}
-                      className="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] select-none transition-transform duration-300 group-hover:scale-[1.02]"
-                    />
+                    {/* Standing CG Image with Variant Crossfade */}
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={finalIllustUrl}
+                        src={finalIllustUrl}
+                        alt={selectedCharacter.nameKo}
+                        decoding="async"
+                        onError={() => setIllustError(true)}
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        initial={{ opacity: 0, scale: 0.985 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.985 }}
+                        transition={{ duration: 0.24, ease: PRTS_EASE }}
+                        className="relative z-[1] max-h-full max-w-full object-contain filter drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] select-none transition-transform duration-300 group-hover:scale-[1.02]"
+                      />
+                    </AnimatePresence>
 
                     {/* Copyright License Badge */}
                     <CopyrightBadge style={{ zIndex: 10, bottom: '8px', right: '10px' }} />
@@ -313,6 +355,42 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   {selectedCharacter.description}
                 </p>
               </div>
+
+              {/* Appearance Stories Reverse Lookup */}
+              {appearanceStories.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-[11px] font-bold text-zinc-400 flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-2">
+                      <span className="w-1 h-3 bg-[#f5dd1b]" />
+                      <span>등장 스토리 기록</span>
+                    </span>
+                    <span className="font-mono text-[10px] text-zinc-500">
+                      {appearanceStories.length}편
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {appearanceStories.map((st) => (
+                      <button
+                        key={`app-${st.id}`}
+                        type="button"
+                        onClick={() => onSelectStory?.(st.id)}
+                        className="w-full text-left px-3 py-2 rounded-[2px] bg-[#15161a] hover:bg-[#1c1e24] border border-white/[0.07] hover:border-[#f5dd1b]/55 transition-colors flex items-center justify-between gap-2 group cursor-pointer"
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <BookOpen className="w-3.5 h-3.5 text-zinc-500 group-hover:text-[#f5dd1b] flex-shrink-0" />
+                          <span className="px-1.5 py-0.2 rounded-[1px] bg-white/[0.06] text-[10px] font-mono font-bold text-zinc-300 flex-shrink-0">
+                            {st.code}
+                          </span>
+                          <span className="text-xs font-semibold text-zinc-200 group-hover:text-white truncate">
+                            {st.titleKo}
+                          </span>
+                        </div>
+                        <ChevronRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-[#f5dd1b] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           );
         })()}

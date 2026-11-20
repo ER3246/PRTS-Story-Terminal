@@ -13,6 +13,7 @@ import {
   Minimize2,
   MonitorDown,
   Wrench,
+  Search,
 } from 'lucide-react';
 import { playTabSwitchSound, playClickSound } from '../utils/soundEffects';
 import { APP_VERSION_CODE } from '../version';
@@ -24,6 +25,7 @@ export type MainViewMode = 'home' | 'report' | 'chronicle' | 'map' | 'studio';
 interface HeaderProps {
   currentView: MainViewMode;
   onChangeView: (view: MainViewMode) => void;
+  onOpenCommandPalette?: () => void;
   onToggleSound?: () => void;
   isSoundOn?: boolean;
   onOpenReviewExport?: () => void;
@@ -45,6 +47,7 @@ const NAV_ITEMS: { mode: MainViewMode; label: string; icon: React.ComponentType<
 export const Header: React.FC<HeaderProps> = ({
   currentView,
   onChangeView,
+  onOpenCommandPalette,
   onToggleSound,
   isSoundOn = false,
   onOpenReviewExport,
@@ -137,6 +140,24 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right: Quiet Monochrome Utility Actions */}
           <div className="flex items-center gap-1.5 flex-shrink-0">
+            {onOpenCommandPalette && (
+              <button
+                type="button"
+                onClick={() => {
+                  playClickSound();
+                  onOpenCommandPalette();
+                }}
+                title="통합 색인 검색 (Ctrl+K 또는 /)"
+                className="h-7 md:h-8 px-2 md:px-2.5 rounded-[2px] bg-[#141519] hover:bg-[#1d1f26] text-zinc-300 hover:text-white border border-white/[0.11] hover:border-white/25 transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium whitespace-nowrap group"
+              >
+                <Search className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#f5dd1b] shrink-0" />
+                <span className="hidden lg:inline text-zinc-300 group-hover:text-white">검색</span>
+                <kbd className="hidden lg:inline-flex px-1 py-0.5 text-[9.5px] font-mono text-zinc-500 group-hover:text-zinc-300 bg-[#0b0c0e] border border-white/[0.1] rounded-[1px]">
+                  Ctrl K
+                </kbd>
+              </button>
+            )}
+
             {/* 로컬 개발 환경 전용 STUDIO 편집기 진입 버튼 */}
             {import.meta.env.DEV && (
               <button
